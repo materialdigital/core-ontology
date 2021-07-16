@@ -1,0 +1,831 @@
+@prefix : <https://material-digital.de/pmdco/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://material-digital.de/pmdco/> .
+
+<https://material-digital.de/pmdco/> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://wikiba.se/ontology#quantityUnit
+<http://wikiba.se/ontology#quantityUnit> rdf:type owl:ObjectProperty ;
+                                         rdfs:domain <http://wikiba.se/ontology#QuantityValue> ;
+                                         rdfs:range <http://wikiba.se/ontology#Item> ;
+                                         rdfs:comment "Unit of measurement." ;
+                                         rdfs:label "quantityUnit" .
+
+
+###  https://material-digital.de/pmdco/compose
+:compose rdf:type owl:ObjectProperty ;
+         owl:inverseOf :composedBy ;
+         rdfs:domain [ rdf:type owl:Class ;
+                       owl:unionOf ( :Material
+                                     :Voxel
+                                   )
+                     ] ;
+         rdfs:range :Object ;
+         rdfs:comment "This property is used to describe which objects a voxel or a material contributes to compose."@en ;
+         rdfs:label "compose"@en .
+
+
+###  https://material-digital.de/pmdco/composedBy
+:composedBy rdf:type owl:ObjectProperty ;
+            rdfs:domain :Object ;
+            rdfs:range [ rdf:type owl:Class ;
+                         owl:unionOf ( :Material
+                                       :Voxel
+                                     )
+                       ] ;
+            rdfs:comment "This property is used to describe which voxels and materials an object is composed of."@en ;
+            rdfs:label "composed by"@en .
+
+
+###  https://material-digital.de/pmdco/execute
+:execute rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         rdfs:domain :ProcessNode ;
+         rdfs:range :Process ;
+         rdfs:comment "This property represents which process node executes a process"@en ;
+         rdfs:label "execute"@en .
+
+
+###  https://material-digital.de/pmdco/hasDataResource
+:hasDataResource rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Process ;
+                 rdfs:range :DataResource ;
+                 rdfs:comment "This property is used to connect a Process to the Data Resource that describe the parameters and measurements produced during the process."@en ;
+                 rdfs:label "has data resource"@en .
+
+
+###  https://material-digital.de/pmdco/hasHeaderField
+:hasHeaderField rdf:type owl:ObjectProperty ;
+                rdfs:domain :DataResource ;
+                rdfs:range :HeaderField ;
+                rdfs:comment "A description for each header field included in the blob represented by the data resource"@en ;
+                rdfs:label "has header field"@en .
+
+
+###  https://material-digital.de/pmdco/hasInputObject
+:hasInputObject rdf:type owl:ObjectProperty ;
+                rdfs:domain :Process ;
+                rdfs:range :Object ;
+                rdfs:comment "This property is used to link the processes to their input objects"@en ;
+                rdfs:label "has input object"@en .
+
+
+###  https://material-digital.de/pmdco/hasMaterialStructure
+:hasMaterialStructure rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Voxel ;
+                      rdfs:range :MaterialStructure ;
+                      rdfs:comment "This property is used to indicate which material structures a voxel has."@en ;
+                      rdfs:label "has material structure"@en .
+
+
+###  https://material-digital.de/pmdco/hasNextProcess
+:hasNextProcess rdf:type owl:ObjectProperty ;
+                rdfs:domain :Process ;
+                rdfs:range :Process ;
+                rdfs:comment "This property is used to indicate the process that was run after the current process."@en ;
+                rdfs:label "has next process"@en .
+
+
+###  https://material-digital.de/pmdco/hasOutputObject
+:hasOutputObject rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Process ;
+                 rdfs:range :Object ;
+                 rdfs:comment "This property is used to link the processes to their output objects"@en ;
+                 rdfs:label "has output object"@en .
+
+
+###  https://material-digital.de/pmdco/hasPmdUnit
+:hasPmdUnit rdf:type owl:ObjectProperty ;
+            rdfs:domain [ rdf:type owl:Class ;
+                          owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                        :HeaderField
+                                      )
+                        ] ;
+            rdfs:range :PmdSiUnit ;
+            rdfs:comment "The association of a higher concept with a unit of measurement from Wikidata"@en ;
+            rdfs:label "has pmd quantity unit"@en .
+
+
+###  https://material-digital.de/pmdco/hasPreviousProcess
+:hasPreviousProcess rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Process ;
+                    rdfs:range :Process ;
+                    rdfs:comment "This property is used to indicate that which process was previously run."@en ;
+                    rdfs:label "has previous process"@en .
+
+
+###  https://material-digital.de/pmdco/hasProcessNodeComponent
+:hasProcessNodeComponent rdf:type owl:ObjectProperty ;
+                         rdfs:domain :ProcessNode ;
+                         rdfs:range :ProcessNodeComponent ;
+                         rdfs:comment "An object property associating a process node with its (potentially modular) components, e.g. the chambers of a heat treatment furnace."@en ;
+                         rdfs:label "has process node component"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativeMeasurement
+:hasQuantitativeMeasurement rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf :hasQuantitativeParameter ;
+                            rdfs:domain [ rdf:type owl:Class ;
+                                          owl:unionOf ( :Object
+                                                        :Process
+                                                      )
+                                        ] ;
+                            rdfs:range [ rdf:type owl:Class ;
+                                         owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                       :HeaderField
+                                                     )
+                                       ] ;
+                            rdfs:comment "This property is used to describe a quantity value that has been measured during the execution of a process."@en ;
+                            rdfs:label "has quantitative measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativeMetadataMeasurement
+:hasQuantitativeMetadataMeasurement rdf:type owl:ObjectProperty ;
+                                    rdfs:subPropertyOf :hasQuantitativeMeasurement ;
+                                    rdfs:domain [ rdf:type owl:Class ;
+                                                  owl:unionOf ( :Object
+                                                                :Process
+                                                              )
+                                                ] ;
+                                    rdfs:range [ rdf:type owl:Class ;
+                                                 owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                               :HeaderField
+                                                             )
+                                               ] ;
+                                    rdfs:label "has quantitative metadata measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativeNominalMetadataParameter
+:hasQuantitativeNominalMetadataParameter rdf:type owl:ObjectProperty ;
+                                         rdfs:subPropertyOf :hasQuantitativeNominalParameter ;
+                                         rdfs:domain [ rdf:type owl:Class ;
+                                                       owl:unionOf ( :Object
+                                                                     :Process
+                                                                   )
+                                                     ] ;
+                                         rdfs:range [ rdf:type owl:Class ;
+                                                      owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                                    :HeaderField
+                                                                  )
+                                                    ] ;
+                                         rdfs:comment "This property is used to describe a quantity value that is input of a process describing a metadata process parameter."@en ;
+                                         rdfs:label "has quantitative nominal metadata parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativeNominalParameter
+:hasQuantitativeNominalParameter rdf:type owl:ObjectProperty ;
+                                 rdfs:subPropertyOf :hasQuantitativeParameter ;
+                                 rdfs:domain [ rdf:type owl:Class ;
+                                               owl:unionOf ( :Object
+                                                             :Process
+                                                           )
+                                             ] ;
+                                 rdfs:range [ rdf:type owl:Class ;
+                                              owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                            :HeaderField
+                                                          )
+                                            ] ;
+                                 rdfs:comment "This property is used to describe a quantity value that was input of process."@en ;
+                                 rdfs:label "has quantitative nominal parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativeNominalPrimaryParameter
+:hasQuantitativeNominalPrimaryParameter rdf:type owl:ObjectProperty ;
+                                        rdfs:subPropertyOf :hasQuantitativeNominalParameter ;
+                                        rdfs:domain [ rdf:type owl:Class ;
+                                                      owl:unionOf ( :Object
+                                                                    :Process
+                                                                  )
+                                                    ] ;
+                                        rdfs:range [ rdf:type owl:Class ;
+                                                     owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                                   :HeaderField
+                                                                 )
+                                                   ] ;
+                                        rdfs:comment "This property is used to describe a quantity value that is input of a process describing a primary process parameter."@en ;
+                                        rdfs:label "has quantitative nominal primary parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativeNominalSecondaryParameter
+:hasQuantitativeNominalSecondaryParameter rdf:type owl:ObjectProperty ;
+                                          rdfs:subPropertyOf :hasQuantitativeNominalParameter ;
+                                          rdfs:domain [ rdf:type owl:Class ;
+                                                        owl:unionOf ( :Object
+                                                                      :Process
+                                                                    )
+                                                      ] ;
+                                          rdfs:range [ rdf:type owl:Class ;
+                                                       owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                                     :HeaderField
+                                                                   )
+                                                     ] ;
+                                          rdfs:comment "This property is used to describe a quantity value that was input of process describing a secondary process parameter."@en ;
+                                          rdfs:label "has quantitative nominal secondary parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativeParameter
+:hasQuantitativeParameter rdf:type owl:ObjectProperty ;
+                          rdfs:domain [ rdf:type owl:Class ;
+                                        owl:unionOf ( :Object
+                                                      :Process
+                                                    )
+                                      ] ;
+                          rdfs:range [ rdf:type owl:Class ;
+                                       owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                     :HeaderField
+                                                   )
+                                     ] ;
+                          rdfs:comment "This property is used to relate values with units to process measurements and paramaeters."@en ;
+                          rdfs:label "has quantitative parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativePrimaryDataSeriesMeasurement
+:hasQuantitativePrimaryDataSeriesMeasurement rdf:type owl:ObjectProperty ;
+                                             rdfs:subPropertyOf :hasQuantitativePrimaryMetadata ;
+                                             rdfs:domain :Process ;
+                                             rdfs:range :HeaderField ;
+                                             rdfs:label "has quantitative primary data series measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativePrimaryMetadata
+:hasQuantitativePrimaryMetadata rdf:type owl:ObjectProperty ;
+                                rdfs:subPropertyOf :hasQuantitativeMeasurement ;
+                                rdfs:domain [ rdf:type owl:Class ;
+                                              owl:unionOf ( :Object
+                                                            :Process
+                                                          )
+                                            ] ;
+                                rdfs:range [ rdf:type owl:Class ;
+                                             owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                           :HeaderField
+                                                         )
+                                           ] ;
+                                rdfs:label "has quantitative primary measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasQuantitativeSecondaryMeasurement
+:hasQuantitativeSecondaryMeasurement rdf:type owl:ObjectProperty ;
+                                     rdfs:subPropertyOf :hasQuantitativeMeasurement ;
+                                     rdfs:domain [ rdf:type owl:Class ;
+                                                   owl:unionOf ( :Object
+                                                                 :Process
+                                                               )
+                                                 ] ;
+                                     rdfs:range [ rdf:type owl:Class ;
+                                                  owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
+                                                                :HeaderField
+                                                              )
+                                                ] ;
+                                     rdfs:label "has quantitative secondary measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasSubordinateProcess
+:hasSubordinateProcess rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Process ;
+                       rdfs:range :Process ;
+                       rdfs:comment "This property is used to link a process to its subordinate processes."@en ;
+                       rdfs:label "has subordinate process"@en .
+
+
+###  https://material-digital.de/pmdco/measuredProcessDuration
+:measuredProcessDuration rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf :hasQuantitativePrimaryMetadata ;
+                         rdfs:domain :Process ;
+                         rdfs:range <http://wikiba.se/ontology#QuantityValue> ;
+                         rdfs:label "measured process duration"@en .
+
+
+###  https://material-digital.de/pmdco/nominalProcessDuration
+:nominalProcessDuration rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf :hasQuantitativeNominalPrimaryParameter ;
+                        rdfs:domain :Process ;
+                        rdfs:range <http://wikiba.se/ontology#QuantityValue> ;
+                        rdfs:label "nominal process duration"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://wikiba.se/ontology#quantityAmount
+<http://wikiba.se/ontology#quantityAmount> rdf:type owl:DatatypeProperty ;
+                                           rdfs:domain <http://wikiba.se/ontology#QuantityValue> ;
+                                           rdfs:range xsd:decimal ;
+                                           rdfs:comment "Amount of quantity."@en ;
+                                           rdfs:label "quantityAmount"@en .
+
+
+###  https://material-digital.de/pmdco/dataResourceCharacteristic
+:dataResourceCharacteristic rdf:type owl:DatatypeProperty ;
+                            rdfs:domain :DataResource ;
+                            rdfs:range rdfs:Literal ;
+                            rdfs:label "has data resource characteristic"@en .
+
+
+###  https://material-digital.de/pmdco/generatedObjectIdentifier
+:generatedObjectIdentifier rdf:type owl:DatatypeProperty ;
+                           rdfs:subPropertyOf :objectCharacteristics ;
+                           rdfs:domain :Object ;
+                           rdfs:range xsd:string ;
+                           rdfs:comment "A machine-readable identifier associated with a discernable, tangible or simulated entity that is intended to be unique in a given scope. Examples for scope include: a database storing object data or a supply chain principal creating its own identifiers for the reports it generates"@en ;
+                           rdfs:label "generated object identifier"@en ,
+                                      "has generated object identifier"@en .
+
+
+###  https://material-digital.de/pmdco/hasAcquisitionDate
+:hasAcquisitionDate rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
+                    rdfs:domain :ProcessNode ;
+                    rdfs:range xsd:positiveInteger ;
+                    rdfs:comment "The point in time a process node was commissioned (e.g. the purchase date, first day of use), represented in IEEE 1003 'Seconds since Epoch'."@en ;
+                    rdfs:label "has acquisition date"@en .
+
+
+###  https://material-digital.de/pmdco/hasCollectionInterfaceHint
+:hasCollectionInterfaceHint rdf:type owl:DatatypeProperty ;
+                            rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
+                            rdfs:domain :ProcessNode ;
+                            rdfs:range xsd:string ;
+                            rdfs:comment "A label in support of identifying a network interface and/or address used by a process node to provide primary data stored in ontologies"@en ;
+                            rdfs:label "has collection interface hint"@en .
+
+
+###  https://material-digital.de/pmdco/hasDataResourceLocation
+:hasDataResourceLocation rdf:type owl:DatatypeProperty ;
+                         rdfs:subPropertyOf :dataResourceCharacteristic ;
+                         rdfs:domain :DataResource ;
+                         rdfs:range xsd:anyURI ;
+                         rdfs:comment "This property indicates that a file can be retrieved or downloaded from a specific address."@en ;
+                         rdfs:label "has data resource location"^^xsd:string .
+
+
+###  https://material-digital.de/pmdco/hasDataResourceSerialization
+:hasDataResourceSerialization rdf:type owl:DatatypeProperty ;
+                              rdfs:subPropertyOf :dataResourceCharacteristic ;
+                              rdfs:domain :DataResource ;
+                              rdfs:range [ rdf:type rdfs:Datatype ;
+                                           owl:oneOf [ rdf:type rdf:List ;
+                                                       rdf:first "CBOR" ;
+                                                       rdf:rest [ rdf:type rdf:List ;
+                                                                  rdf:first "JSON" ;
+                                                                  rdf:rest rdf:nil
+                                                                ]
+                                                     ]
+                                         ] ;
+                              rdfs:comment ""@en ;
+                              rdfs:label "has data resource serialization"@en .
+
+
+###  https://material-digital.de/pmdco/hasGeneratedIdentifier
+:hasGeneratedIdentifier rdf:type owl:DatatypeProperty ;
+                        rdfs:subPropertyOf :hasNominalMetadataParameter ;
+                        rdfs:domain [ rdf:type owl:Class ;
+                                      owl:unionOf ( :Object
+                                                    :Process
+                                                    :ProcessNode
+                                                  )
+                                    ] ;
+                        rdfs:range xsd:string ;
+                        rdfs:comment "A machine-readable identifier that is intended to be unique in a given scope."@en ;
+                        rdfs:label "has generated identifier"@en .
+
+
+###  https://material-digital.de/pmdco/hasHeaderFieldDescription
+:hasHeaderFieldDescription rdf:type owl:DatatypeProperty ;
+                           rdfs:subPropertyOf :headerFieldCharacteristic ;
+                           rdfs:domain :HeaderField ;
+                           rdfs:range xsd:string ;
+                           rdfs:comment "A data property representing an optional human-readable description of the header field's intent."@en ;
+                           rdfs:label "has header field description"@en .
+
+
+###  https://material-digital.de/pmdco/hasHeaderFieldSequenceNumber
+:hasHeaderFieldSequenceNumber rdf:type owl:DatatypeProperty ;
+                              rdfs:subPropertyOf :headerFieldCharacteristic ;
+                              rdfs:domain :HeaderField ;
+                              rdfs:range xsd:positiveInteger ;
+                              rdfs:comment "A mandatory numbering representing the index of the columns in sequence"@en ;
+                              rdfs:label "has header field sequence number"@en .
+
+
+###  https://material-digital.de/pmdco/hasMeasurement
+:hasMeasurement rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf :hasParameter ;
+                rdfs:domain :Process ;
+                rdfs:range rdfs:Literal ;
+                rdfs:comment "This property is used to describe parameters that are created by measurements of a process but that do not represent a quantity and are not associate to units."@en ;
+                rdfs:label "has measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasMetadataMeasurement
+:hasMetadataMeasurement rdf:type owl:DatatypeProperty ;
+                        rdfs:subPropertyOf :hasMeasurement ;
+                        rdfs:domain :Process ;
+                        rdfs:range rdfs:Literal ;
+                        rdfs:label "has metadata measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasModel
+:hasModel rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
+          rdfs:domain :ProcessNode ;
+          rdfs:range xsd:string ;
+          rdfs:comment "Process Node short description, e.g. \"Vacuum Furnace\""@en ;
+          rdfs:label "has model"@en .
+
+
+###  https://material-digital.de/pmdco/hasNominalEndPosixTimestap
+:hasNominalEndPosixTimestap rdf:type owl:DatatypeProperty ;
+                            rdfs:subPropertyOf :hasNominalMetadataParameter ;
+                            rdfs:domain :Process ;
+                            rdfs:range xsd:float ;
+                            rdfs:comment "The point in time a process node finished to conduct a process, represented in IEEE 1003 'Seconds since Epoch'"@en ;
+                            rdfs:label "has nominal end posix timestamp"@en .
+
+
+###  https://material-digital.de/pmdco/hasNominalMetadataParameter
+:hasNominalMetadataParameter rdf:type owl:DatatypeProperty ;
+                             rdfs:subPropertyOf :hasNominalParameter ;
+                             rdfs:domain :Process ;
+                             rdfs:range rdfs:Literal ;
+                             rdfs:label "has nominal metadata parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasNominalParameter
+:hasNominalParameter rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf :hasParameter ;
+                     rdfs:domain :Process ;
+                     rdfs:range rdfs:Literal ;
+                     rdfs:comment "This property is used to describe nominal parameters that are not associated to a quantity value."@en ;
+                     rdfs:label "has nominal parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasNominalPrimaryParameter
+:hasNominalPrimaryParameter rdf:type owl:DatatypeProperty ;
+                            rdfs:subPropertyOf :hasNominalParameter ;
+                            rdfs:domain :Process ;
+                            rdfs:range rdfs:Literal ;
+                            rdfs:label "has nominal primary parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasNominalSecondaryParameter
+:hasNominalSecondaryParameter rdf:type owl:DatatypeProperty ;
+                              rdfs:subPropertyOf :hasNominalParameter ;
+                              rdfs:domain :Process ;
+                              rdfs:range rdfs:Literal ;
+                              rdfs:label "has nominal secondary parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasNominalStartPosixTimestamp
+:hasNominalStartPosixTimestamp rdf:type owl:DatatypeProperty ;
+                               rdfs:subPropertyOf :hasNominalMetadataParameter ;
+                               rdfs:comment "The point in time a process node began to conduct a process, represented in IEEE 1003 'Seconds since Epoch'"@en ;
+                               rdfs:label "has nominal start posix timestamp"@en .
+
+
+###  https://material-digital.de/pmdco/hasParameter
+:hasParameter rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Process ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "This Property is used to describe the process parameters that are not associated to quantitative values."@en ;
+              rdfs:label "has parameter"@en .
+
+
+###  https://material-digital.de/pmdco/hasPrimaryMeasurement
+:hasPrimaryMeasurement rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf :hasMeasurement ;
+                       rdfs:domain :Process ;
+                       rdfs:range rdfs:Literal ;
+                       rdfs:label "has primary measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasProcessNodeCharacteristic
+:hasProcessNodeCharacteristic rdf:type owl:DatatypeProperty ;
+                              rdfs:domain :ProcessNode ;
+                              rdfs:range rdfs:Literal ;
+                              rdfs:comment "The point in time a process node was commissioned (e.g. the purchase date, first day of use), represented in IEEE 1003 'Seconds since Epoch'."@en ;
+                              rdfs:label "has process node characteristic"@en .
+
+
+###  https://material-digital.de/pmdco/hasProcessNodeIdentifier
+:hasProcessNodeIdentifier rdf:type owl:DatatypeProperty ;
+                          rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
+                          rdfs:comment "A string intended to uniquely identify a process node in a given scope, e.g. global scope: serial number, organization scope, asset management identifier."@en ;
+                          rdfs:label "has process node identifier"@en .
+
+
+###  https://material-digital.de/pmdco/hasProcessNodeName
+:hasProcessNodeName rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
+                    rdfs:domain :ProcessNode ;
+                    rdfs:range xsd:string ;
+                    rdfs:comment "A human-generated identifier associated with a discernible, tangible or simulated entity intended to be unique in a given scope"@en ;
+                    rdfs:label "has process node name"@en .
+
+
+###  https://material-digital.de/pmdco/hasProcessNodeType
+:hasProcessNodeType rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
+                    rdfs:domain :ProcessNode ;
+                    rdfs:range xsd:string ;
+                    rdfs:comment "Process Node typename, e.g. \"ProTherm500\""@en ;
+                    rdfs:label "has process node type"@en .
+
+
+###  https://material-digital.de/pmdco/hasProcessNodeVersion
+:hasProcessNodeVersion rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
+                       rdfs:domain :ProcessNode ;
+                       rdfs:range xsd:string ;
+                       rdfs:comment "Process Node Version Number, e.g. \"2.24\""@en ;
+                       rdfs:label "has process node version"@en .
+
+
+###  https://material-digital.de/pmdco/hasSecondaryMeasurement
+:hasSecondaryMeasurement rdf:type owl:DatatypeProperty ;
+                         rdfs:subPropertyOf :hasMeasurement ;
+                         rdfs:domain :Process ;
+                         rdfs:range rdfs:Literal ;
+                         rdfs:label "has secondary measurement"@en .
+
+
+###  https://material-digital.de/pmdco/hasSequenceNumber
+:hasSequenceNumber rdf:type owl:DatatypeProperty ;
+                   rdfs:subPropertyOf :hasNominalMetadataParameter ;
+                   rdfs:domain :Process ;
+                   rdfs:range xsd:positiveInteger ;
+                   rdfs:label "has sequence number"@en .
+
+
+###  https://material-digital.de/pmdco/hasStartingTime
+:hasStartingTime rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Process ;
+                 rdfs:range rdfs:Literal ;
+                 rdfs:label "has starting time"@en .
+
+
+###  https://material-digital.de/pmdco/hasSuppliedIdentifier
+:hasSuppliedIdentifier rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf :hasNominalMetadataParameter ;
+                       rdfs:domain [ rdf:type owl:Class ;
+                                     owl:unionOf ( :Object
+                                                   :Process
+                                                   :ProcessNode
+                                                 )
+                                   ] ;
+                       rdfs:range xsd:string ;
+                       rdfs:comment "A colloquial, human-generated, descriptive text qualifying the nature of a process instance used as an identifier that is not strictly intended to be unique, e.g. \"1050°C30 840°C10/ÖL\"."@en ;
+                       rdfs:label "has supplied identifier"@en .
+
+
+###  https://material-digital.de/pmdco/hasTypeDescription
+:hasTypeDescription rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
+                    rdfs:domain :ProcessNode ;
+                    rdfs:range xsd:string ;
+                    rdfs:comment "Description for Process Node's utility, e.g. \"Rear Vacuum Furnace Oil Quenching\""@en ;
+                    rdfs:label "has type description"@en .
+
+
+###  https://material-digital.de/pmdco/hasUcumCode
+:hasUcumCode rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf owl:topDataProperty ;
+             rdfs:domain :PmdSiUnit ;
+             rdfs:range rdfs:Literal ;
+             rdfs:comment "This property is used the enrich a unit with its common used label within the UCUM vocabulary"@en ;
+             rdfs:label "has ucum code"@en .
+
+
+###  https://material-digital.de/pmdco/hasUnitLabel
+:hasUnitLabel rdf:type owl:DatatypeProperty ;
+              rdfs:domain :PmdSiUnit ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "This property is used the enrich a unit with its common used label."@en ;
+              rdfs:label "has unit label"@en .
+
+
+###  https://material-digital.de/pmdco/headerFieldCharacteristic
+:headerFieldCharacteristic rdf:type owl:DatatypeProperty ;
+                           rdfs:domain :HeaderField ;
+                           rdfs:range rdfs:Literal ;
+                           rdfs:label "has header field characteristic"@en .
+
+
+###  https://material-digital.de/pmdco/isFinalProcessNode
+:isFinalProcessNode rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf :hasNominalMetadataParameter ;
+                    rdfs:domain :Process ;
+                    rdfs:range xsd:boolean ;
+                    rdfs:comment "This property is used to indicate the last process conducted by a process node in a series of processes conducted by the same process node."@en ;
+                    rdfs:label "is final process node"@en .
+
+
+###  https://material-digital.de/pmdco/isInitialProcessNode
+:isInitialProcessNode rdf:type owl:DatatypeProperty ;
+                      rdfs:subPropertyOf :hasNominalMetadataParameter ;
+                      rdfs:domain :Process ;
+                      rdfs:range xsd:boolean ;
+                      rdfs:comment "This property is used to indicate the first process conducted by a process node in a series of processes conducted by the same process node."@en ;
+                      rdfs:label "is initial process node"@en .
+
+
+###  https://material-digital.de/pmdco/objectCharacteristics
+:objectCharacteristics rdf:type owl:DatatypeProperty ;
+                       rdfs:label "has object characteristic"@en .
+
+
+###  https://material-digital.de/pmdco/suppliedObjectIdentifier
+:suppliedObjectIdentifier rdf:type owl:DatatypeProperty ;
+                          rdfs:subPropertyOf :objectCharacteristics ;
+                          rdfs:domain :Object ;
+                          rdfs:range xsd:string ;
+                          rdfs:comment "A human-generated identifier associated with a discernable, tangible or simulated entity"@en ;
+                          rdfs:label "supplied object identifier"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://wikiba.se/ontology#Item
+<http://wikiba.se/ontology#Item> rdf:type owl:Class .
+
+
+###  http://wikiba.se/ontology#QuantityValue
+<http://wikiba.se/ontology#QuantityValue> rdf:type owl:Class ;
+                                          rdfs:subClassOf <http://wikiba.se/ontology#Value> ;
+                                          rdfs:comment "Wikibase extended value representing quantity." ;
+                                          rdfs:label "QuantityValue" .
+
+
+###  http://wikiba.se/ontology#Value
+<http://wikiba.se/ontology#Value> rdf:type owl:Class .
+
+
+###  https://material-digital.de/pmdco/AnalysisProcess
+:AnalysisProcess rdf:type owl:Class ;
+                 rdfs:subClassOf :Process ;
+                 rdfs:comment """A process that is driven by the primary intent to gain new measurements
+An analysis process is either a transformative process or a non-transformative process."""@en ;
+                 rdfs:label "Analysis Process"@en .
+
+
+###  https://material-digital.de/pmdco/AtomisticLevelMaterialStructure
+:AtomisticLevelMaterialStructure rdf:type owl:Class ;
+                                 rdfs:subClassOf :MaterialStructure ;
+                                 rdfs:comment "It is a material length scale. Includes individual atoms and their spatial arrangement, information on the chemical elements, information on the lattice and crystal structure, 0-dimensional crystal defects"@en ;
+                                 rdfs:label "Atomistic Level Material Structure"@en .
+
+
+###  https://material-digital.de/pmdco/Component
+:Component rdf:type owl:Class ;
+           rdfs:subClassOf :Object ;
+           rdfs:comment "An object that serves a specific technical application. Constituent part of a compound of parts that builds a technical application"@en ;
+           rdfs:label "Component"@en .
+
+
+###  https://material-digital.de/pmdco/ContinuumLevelMaterialStructure
+:ContinuumLevelMaterialStructure rdf:type owl:Class ;
+                                 rdfs:subClassOf :MaterialStructure ;
+                                 rdfs:comment "A material structure that is at the length level of the the entire geometry."@en ;
+                                 rdfs:label "Continuum Level Material Structure"@en .
+
+
+###  https://material-digital.de/pmdco/DataResource
+:DataResource rdf:type owl:Class ;
+              rdfs:comment "A data resource is file which contains parameters and measurements of a process."@en ;
+              rdfs:label "Data Resource"@en .
+
+
+###  https://material-digital.de/pmdco/HeaderField
+:HeaderField rdf:type owl:Class ;
+             rdfs:comment "A class bundling the semantics for a specific column in a table inside a (multidimensional) blob. Includes column number, pointer to concept, pointer to unit, and human readable description."@en ;
+             rdfs:label "Header Field"@en .
+
+
+###  https://material-digital.de/pmdco/ManufactureNode
+:ManufactureNode rdf:type owl:Class ;
+                 rdfs:subClassOf :ProcessNode ;
+                 rdfs:comment """A process node that implements transformative processes as well as consumes and creates tangible objects and typically requires inputs
+In general but not necessarily, a manufacture node includes intrinsic analysis nodes that create corresponding measurements with respect to the process implemented by the manufacture node."""@en ;
+                 rdfs:label "Manufacture Node"@en .
+
+
+###  https://material-digital.de/pmdco/ManufactureProcess
+:ManufactureProcess rdf:type owl:Class ;
+                    rdfs:subClassOf :Process ;
+                    rdfs:comment """A process that is driven by the primary intent to transform objects
+A manufacture process is always a transformative process."""@en ;
+                    rdfs:label "Manufacture Process"@en .
+
+
+###  https://material-digital.de/pmdco/Material
+:Material rdf:type owl:Class ;
+          rdfs:comment """It is a substance or mixture of substances that constitutes an object.
+represented by the sum of material properties and material structure"""@en ;
+          rdfs:label "Material"@en .
+
+
+###  https://material-digital.de/pmdco/MaterialProperty
+:MaterialProperty rdf:type owl:Class ;
+                  rdfs:comment "Physical property of a material"@en ;
+                  rdfs:label "Material Property"@en .
+
+
+###  https://material-digital.de/pmdco/MaterialStructure
+:MaterialStructure rdf:type owl:Class ;
+                   rdfs:comment "Structural and compositional information on a material within the regarded material level, includes 0,1,2,3 dimensional descriptions involves all material levels."@en ;
+                   rdfs:label "Material Structure"@en .
+
+
+###  https://material-digital.de/pmdco/MesoscopicLevelMaterialStructure
+:MesoscopicLevelMaterialStructure rdf:type owl:Class ;
+                                  rdfs:subClassOf :MaterialStructure ;
+                                  rdfs:comment "A material structure that covers multiple grains or phases of the material"@en ;
+                                  rdfs:label "Mesoscopic Level Material Structure"@en .
+
+
+###  https://material-digital.de/pmdco/MicroscopicLevelMaterialStructure
+:MicroscopicLevelMaterialStructure rdf:type owl:Class ;
+                                   rdfs:subClassOf :MaterialStructure ;
+                                   rdfs:comment "A material structure on a single grain level"@en ;
+                                   rdfs:label "Microscopic Level Material Structure"@en .
+
+
+###  https://material-digital.de/pmdco/NanoLevelMaterialStructure
+:NanoLevelMaterialStructure rdf:type owl:Class ;
+                            rdfs:subClassOf :MaterialStructure ;
+                            rdfs:comment "A Material Structure that involves individual features within one single grain or phase like dislocations or precipitates."@en ;
+                            rdfs:label "Nano Level Material Structure"@en .
+
+
+###  https://material-digital.de/pmdco/NonTransformativeAnalysisProcess
+:NonTransformativeAnalysisProcess rdf:type owl:Class ;
+                                rdfs:subClassOf :AnalysisProcess ;
+                                rdfs:comment "An analysis process that is also a non-transformative process"@en ;
+                                rdfs:label "Non Transformative Analysis Process"@en .
+
+
+###  https://material-digital.de/pmdco/Object
+:Object rdf:type owl:Class ;
+        rdfs:comment "A discernable, tangible or simulated entity that is processed in a process by a process node. An Object is composed of Voxels."@en ;
+        rdfs:label "Object"@en .
+
+
+###  https://material-digital.de/pmdco/PmdSiUnit
+:PmdSiUnit rdf:type owl:Class ;
+           rdfs:comment "Equivalent to the definition found at https://www.wikidata.org/wiki/Q61610698. Instances of this class represent a tuple of prefix and SI unit"@en ;
+           rdfs:label "PmdSiUnit"@en .
+
+
+###  https://material-digital.de/pmdco/Process
+:Process rdf:type owl:Class ;
+         rdfs:comment """A series of actions or operations conducing to an end
+In PMD, a process is conducted via process nodes and has a discernable duration as part of a workflow. A process consumes objects and parameters. A process potentially generates new objects and measurements. A process is either a transformative process or a non-transformative process with respect to objects processed via a process node. There are primarily two types of distinguishable processes: manufacture process, analysis process. A process is a series of operations that are subordinate processes."""@en ;
+         rdfs:label "Process"@en .
+
+
+###  https://material-digital.de/pmdco/ProcessNode
+:ProcessNode rdf:type owl:Class ;
+             rdfs:comment "A constituent that consumes and creates the objects in a process. The enabler of manufacture process steps, analysis process steps or simulation process steps. A process node realizes transformative processes and/or non-transformative processes."@en ;
+             rdfs:label "ProcessNode"@en .
+
+
+###  https://material-digital.de/pmdco/ProcessNodeComponent
+:ProcessNodeComponent rdf:type owl:Class ;
+                      rdfs:label "Process Node Component"@en .
+
+
+###  https://material-digital.de/pmdco/SimulationNode
+:SimulationNode rdf:type owl:Class ;
+                rdfs:subClassOf :ProcessNode ;
+                rdfs:comment "A process node that implements foo as well as consumes and creates simulation objects and parameters."@en ;
+                rdfs:label "Simulation Node"@en .
+
+
+###  https://material-digital.de/pmdco/TranformativeAnalysisProcess
+:TranformativeAnalysisProcess rdf:type owl:Class ;
+                              rdfs:subClassOf :AnalysisProcess ;
+                              rdfs:comment "An analysis process that is also a transformative process"@en ;
+                              rdfs:label "Tranformative Analysis Process"@en .
+
+
+###  https://material-digital.de/pmdco/Voxel
+:Voxel rdf:type owl:Class ;
+       rdfs:comment """An element representing a value on a grid in three dimensional space.
+In PMD, an infinitesimal part of an object which is made of a homogenuous material. Size depends on the observed material level. For now, geometrically, a cubus is assumed.
+Made of a material
+Different Voxels can have different material properties and material structure
+A (partial) logical object that describes (a part of) a physical object"""@en ;
+       rdfs:label "Voxel"@en .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
