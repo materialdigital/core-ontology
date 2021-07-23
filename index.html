@@ -1,0 +1,3095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{no title found}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC40lEQVRYhe2UT0hUQRzHp6Iss1B3VZKIDbbdfW9mnoi4f3zzjkJQeOgS0SEIb1EWBGGlLLu460zQPQM1unUIIjA6rfpm6ZAhHjoIRVQUFUlEbG+euTsdXG1d3VL3bVD4g+9h+L35fT/8fvN7ADgY9aHY5fpIvK82HO9ysu66wxWOzbkjcekKx0a2ALYA/n2AGi3a6ArFezcidziecQygNhhrcUficjP6PwBqtGijKxy/thnVBePHywYoDsFhl53GV8SEcsTx4usCMLUewTVpc23BNvEzm6Neyf1+KcG2vwqwUjgrOJq2JmHftwmkVBRGTvncFodnbI7vChO/FRznCmHsNM7aHM9Yk7Df5iqsLMw9sMNOK2g+jS4IEz0UJv4iuJZb2RltWnB4UZqH6ioGAgAAGe5vtiZhtzDx7OoRadLmeM7m6IRjhnLMW2Vx1bA5GhAmnhIcz6/xNj4Ujsky8UspwfayjDPjsF2Y6L7N8Vzx/BfP+KPg6LbgSqd8DnfJW2CnbaLhfH5ephpqygJYvQU4Z3P82TLRsDDhUTnmrSq+Y3N0Mg+Xldy/zwEAnLMWZ3pHpNExmfLs/t0dOdVcbT0JeKxUwFP2VljjqiE47Jp53LTXNxhsUZjerTByXWX6VZWRs/4bIQ2ACv+UAomgDzLCISNZxAxZKMhIDjLy1JfsaK+I+eGBUBNk5E2x8RogX/PdcDZUqieWTSh5D6nOVKqfhoycUmlHFFIyu5RXqf7AcQDISCpv/tqbMBqK883RtmpISRoxQyJKPgGn3wNk5NEigDFa6hslqV/Kj+FdBQD0bshIDlKSLlVcoWQo36UhR80BAMB73lulMn0EMpJTqD6qJiOt3mho/8GbkT2BZNgDB/V+RI0fkOrT3kRIVQbaDizJm2hdNbINBxwk5xAj3yEjuV9rZ1iIkgxixkLBA83mz8uCjLwoGwAx0vOnFSy5mtR4VTaAQvVORMnwZgSpzkrV/QmdE2tKe46+MQAAAABJRU5ErkJggg==">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABhklEQVQ4jbWPzStEURjG3yQLirlGKUnKFO45Z+SjmXvnnmthQcpCoVhYmD/AwmJiI3OvZuZc2U3UlKU0/gAslMw9JgvhHxAr2fko7r0jHSsl+TgbTz2Lt5731/MASEiJW9ONml2QyX6rsGalmnT74v8BDf12hxJfpV8d1uwNKUBYszabdFv84L8B9X0rESVmmUup2fme0cVhJWaZHw4NWL1Sew
+EAfDe6H3Dy6Ll456WEJsRZS630MwCAOI20ei5OBpxse5zcBZw8eS4uPpfIuDiCainIg9umBCU0GZzgLZ9Hn31OgoATL+CkLDGB5H1OKj4nFd/FBxUXJ0UZNb4edw/6nLyJXaj5FeCVyPLNIVmYK8TG1IwWb16L1gEACAFV90ftoT8bdOX0EeyY99gxBXZMgRz6qGb1KantAACI0UvE6F5XJqEjpsdURouI0Vt5gGOUkUNnPu7ObGIIMfNaGqDmjDRi9FZldF1lRgYzeqUyeoiY4ag5Iy3RgOYRM8+/M2bG8efsO4hGrpmJseyMAAAAAElFTkSuQmCC">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    
+    <style>
+        #pylode {
+            position: fixed;
+            top: 130px;
+            left: -60px;
+            font-size: small;
+            transform: rotate(-90deg);
+            color: grey;
+        }
+        #pylode a {
+            font-size: 2em;
+            font-weight: bold;
+            text-decoration: none;
+            color: #005A9C;
+        }
+        #pylode a:hover {
+            color: #333;
+        }
+
+        .cardinality {
+            font-style: italic;
+            color: #aa00aa;
+        }
+
+        dt {
+            font-weight: bold;
+            padding: 5px 0 5px 0;
+        }
+
+        ul.hlist {
+            list-style-type: none;
+            border: 1px solid navy;
+            padding:5px;
+            background-color: #F4FFFF;
+        }
+
+        ul.hierarchy {
+            border: 1px solid navy;
+            padding: 5px 25px 5px 25px;
+            background-color: #F4FFFF;
+        }
+
+
+        ul.hlist li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        .entity {
+            border: 1px solid navy;
+            margin:5px 0 5px 0;
+            padding: 5px;
+        }
+
+        .entity th {
+            width: 150px;
+            vertical-align: top;
+        }
+
+        .entity th,
+        .entity td {
+            padding-bottom: 20px;
+        }
+
+        .entity table th {
+            text-align: left;
+        }
+
+        section#overview img {
+            max-width: 1000px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            text-align: left
+        }
+        h1, h2, h3 {
+            color: #005A9C; background: white
+        }
+        h1 {
+            font: 170% sans-serif;
+            line-height: 110%;
+        }
+        h2 {
+            font: 140% sans-serif;
+            margin-top:40px;
+        }
+        h3 {
+            font: 120% sans-serif;
+            margin-top: 3px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid navy;
+        }
+        h4 { font: bold 100% sans-serif }
+        h5 { font: italic 100% sans-serif }
+        h6 { font: small-caps 100% sans-serif }
+
+
+        body {
+            padding: 2em 70px 2em 70px;
+            margin: 0;
+            font-family: sans-serif;
+            color: black;
+            background: white;
+            background-position: top left;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            text-align: justify;
+        }
+
+        section {
+            max-width: 1500px;
+        }
+
+        .figure {
+            margin-bottom: 20px;
+        }
+
+        :link { color: #00C; background: transparent }
+        :visited { color: #609; background: transparent }
+        a:active { color: #C00; background: transparent }
+
+        .sup-c,
+        .sup-op,
+        .sup-fp,
+        .sup-dp,
+        .sup-ap,
+        .sup-p,
+        .sup-ni,
+        .sup-con,
+        .sup-col {
+            cursor:help;
+            margin-left: 3px;
+        }
+
+        .sup-c {
+            color:orange;
+        }
+
+        .sup-op {
+            color:navy;
+        }
+
+        .sup-fp {
+            color:lightskyblue;
+        }
+
+        .sup-dp {
+            color:green;
+        }
+
+        .sup-ap {
+            color:darkred;
+        }
+
+        .sup-p {
+            color:black;
+        }
+
+        .sup-ni {
+            color:brown;
+        }
+
+        .sup-con {
+            color:orange;
+        }
+
+        .sup-col {
+            color:darkred;
+        }
+
+        code {
+            font-size: large;
+            color: darkred;
+        }
+
+        /* less prominent links for properties */
+        .proplink {
+            color: #336;
+            text-decoration: none;
+        }
+    </style>
+    
+    <script type="application/ld+json">
+      [
+  {
+    "@id": "https://material-digital.de/pmdco/",
+    "@type": [
+      "https://schema.org/DefinedTermSet"
+    ],
+    "https://schema.org/name": [
+      {
+        "@value": "{no title found}"
+      }
+    ]
+  }
+]
+    </script>
+</head>
+<body>
+  <div id="pylode">made by <a href="http://github.com/rdflib/pyLODE">
+    <span style="color:#329545;">p</span><span style="color:#f9cb33;">y</span>LODE</a>
+    <span style="font-size:smaller;">2.10.0</span>
+  </div>
+  <h1>{no title found}</h1>
+<section id="metadata">
+    <h2 style="display:none;">Metadata</h2>
+    <dl>
+        <dt>URI</dt>
+        <dd><code>https://material-digital.de/pmdco/</code></dd>
+        <dt>Ontology RDF</dt>
+        <dd><a href="pmdco_core.ttl">RDF (turtle)</a></dd>
+    </dl>
+</section>
+<section id="toc">
+    <h2>Table of Contents</h2>
+    <ol>
+        <li><a href="#classes">Classes</a></li>
+        <li><a href="#objectproperties">Object Properties</a></li>
+        <li><a href="#datatypeproperties">Datatype Properties</a></li>
+        <li><a href="#namespaces">Namespaces</a></li>
+        <li><a href="#legend">Legend</a></li>
+    </ol>
+</section>
+<section id="overview">
+    <h2>Overview</h2>
+    <div class="figure">
+        <div style="width:500px; height:50px; background-color: lightgrey; border:solid 2px grey; padding:10px;margin-bottom:5px; text-align:center;">Pictures say 1,000 words</div>
+        <div class="caption"><strong>Figure 1:</strong> Ontology overview</div>
+    </div>
+</section>
+  <section id="classes">
+    <h2>Classes <span style="float:right; font-size:smaller;"><a href="">&uparrow;</a></span></h2>
+    <ul class="hlist">
+      <li><a href="http://wikiba.se/ontology#Item">wikibase:Item</a></li>
+      <li><a href="http://wikiba.se/ontology#QuantityValue">wikibase:QuantityValue</a></li>
+      <li><a href="http://wikiba.se/ontology#Value">wikibase:Value</a></li>
+      <li><a href="#AnalysisProcess">Analysis Process</a></li>
+      <li><a href="#AtomisticLevelMaterialStructure">Atomistic Level Material Structure</a></li>
+      <li><a href="#Component">Component</a></li>
+      <li><a href="#ContinuumLevelMaterialStructure">Continuum Level Material Structure</a></li>
+      <li><a href="#DataResource">Data Resource</a></li>
+      <li><a href="#HeaderField">Header Field</a></li>
+      <li><a href="#ManufactureNode">Manufacture Node</a></li>
+      <li><a href="#ManufactureProcess">Manufacture Process</a></li>
+      <li><a href="#Material">Material</a></li>
+      <li><a href="#MaterialProperty">Material Property</a></li>
+      <li><a href="#MaterialStructure">Material Structure</a></li>
+      <li><a href="#MesoscopicLevelMaterialStructure">Mesoscopic Level Material Structure</a></li>
+      <li><a href="#MicroscopicLevelMaterialStructure">Microscopic Level Material Structure</a></li>
+      <li><a href="#NanoLevelMaterialStructure">Nano Level Material Structure</a></li>
+      <li><a href="#NonTransformativeAnalysisProcess">Non Transformative Analysis Process</a></li>
+      <li><a href="#Object">Object</a></li>
+      <li><a href="#PmdSiUnit">PmdSiUnit</a></li>
+      <li><a href="#Process">Process</a></li>
+      <li><a href="#ProcessNode">ProcessNode</a></li>
+      <li><a href="#ProcessNodeComponent">Process Node Component</a></li>
+      <li><a href="#SimulationNode">Simulation Node</a></li>
+      <li><a href="#TranformativeAnalysisProcess">Tranformative Analysis Process</a></li>
+      <li><a href="#Voxel">Voxel</a></li>
+    </ul>
+    <div class="entity class" id="Item">
+        <h3>
+          Item<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#Item" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>http://wikiba.se/ontology#Item</code></td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#quantityUnit">wikibase:quantityUnit</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="QuantityValue">
+        <h3>
+          QuantityValue<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#QuantityValue" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>http://wikiba.se/ontology#QuantityValue</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Wikibase extended value representing quantity.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#Value">wikibase:Value</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In domain of</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#quantityAmount">wikibase:quantityAmount</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="http://wikiba.se/ontology#quantityUnit">wikibase:quantityUnit</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="#nominalprocessduration">nominal process duration</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#measuredprocessduration">measured process duration</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="Value">
+        <h3>
+          Value<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#Value" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>http://wikiba.se/ontology#Value</code></td>
+            </tr>
+            <tr>
+                <th>Sub-classes</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#QuantityValue">wikibase:QuantityValue</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="AnalysisProcess">
+        <h3>
+          Analysis Process<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#AnalysisProcess" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/AnalysisProcess</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A process that is driven by the primary intent to gain new measurements
+An analysis process is either a transformative process or a non-transformative process.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>Sub-classes</th>
+                <td>
+                    <a href="#NonTransformativeAnalysisProcess">Non Transformative Analysis Process</a><sup class="sup-c" title="class">c</sup><br/>
+                    <a href="#TranformativeAnalysisProcess">Tranformative Analysis Process</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="AtomisticLevelMaterialStructure">
+        <h3>
+          Atomistic Level Material Structure<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#AtomisticLevelMaterialStructure" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/AtomisticLevelMaterialStructure</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>It is a material length scale. Includes individual atoms and their spatial arrangement, information on the chemical elements, information on the lattice and crystal structure, 0-dimensional crystal defects</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#MaterialStructure">Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="Component">
+        <h3>
+          Component<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#Component" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/Component</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>An object that serves a specific technical application. Constituent part of a compound of parts that builds a technical application</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#Object">Object</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="ContinuumLevelMaterialStructure">
+        <h3>
+          Continuum Level Material Structure<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#ContinuumLevelMaterialStructure" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/ContinuumLevelMaterialStructure</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A material structure that is at the length level of the the entire geometry.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#MaterialStructure">Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="DataResource">
+        <h3>
+          Data Resource<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#DataResource" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/DataResource</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A data resource is file which contains parameters and measurements of a process.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>In domain of</th>
+                <td>
+                    <a href="#hasdataresourceserialization">has data resource serialization</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasheaderfield">has header field</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasdataresourcelocation">has data resource location</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasdataresourcecharacteristic">has data resource characteristic</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="#hasdataresource">has data resource</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="HeaderField">
+        <h3>
+          Header Field<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#HeaderField" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/HeaderField</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A class bundling the semantics for a specific column in a table inside a (multidimensional) blob. Includes column number, pointer to concept, pointer to unit, and human readable description.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>In domain of</th>
+                <td>
+                    <a href="#hasheaderfieldsequencenumber">has header field sequence number</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasheaderfieldcharacteristic">has header field characteristic</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasheaderfielddescription">has header field description</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="#hasquantitativeprimarydataseriesmeasurement">has quantitative primary data series measurement</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasheaderfield">has header field</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="ManufactureNode">
+        <h3>
+          Manufacture Node<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#ManufactureNode" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/ManufactureNode</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A process node that implements transformative processes as well as consumes and creates tangible objects and typically requires inputs
+In general but not necessarily, a manufacture node includes intrinsic analysis nodes that create corresponding measurements with respect to the process implemented by the manufacture node.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="ManufactureProcess">
+        <h3>
+          Manufacture Process<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#ManufactureProcess" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/ManufactureProcess</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A process that is driven by the primary intent to transform objects
+A manufacture process is always a transformative process.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="Material">
+        <h3>
+          Material<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#Material" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/Material</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>It is a substance or mixture of substances that constitutes an object.
+represented by the sum of material properties and material structure</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="MaterialProperty">
+        <h3>
+          Material Property<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#MaterialProperty" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/MaterialProperty</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Physical property of a material</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="MaterialStructure">
+        <h3>
+          Material Structure<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#MaterialStructure" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/MaterialStructure</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Structural and compositional information on a material within the regarded material level, includes 0,1,2,3 dimensional descriptions involves all material levels.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Sub-classes</th>
+                <td>
+                    <a href="#ContinuumLevelMaterialStructure">Continuum Level Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                    <a href="#NanoLevelMaterialStructure">Nano Level Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                    <a href="#MicroscopicLevelMaterialStructure">Microscopic Level Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                    <a href="#AtomisticLevelMaterialStructure">Atomistic Level Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                    <a href="#MesoscopicLevelMaterialStructure">Mesoscopic Level Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="#hasmaterialstructure">has material structure</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="MesoscopicLevelMaterialStructure">
+        <h3>
+          Mesoscopic Level Material Structure<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#MesoscopicLevelMaterialStructure" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/MesoscopicLevelMaterialStructure</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A material structure that covers multiple grains or phases of the material</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#MaterialStructure">Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="MicroscopicLevelMaterialStructure">
+        <h3>
+          Microscopic Level Material Structure<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#MicroscopicLevelMaterialStructure" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/MicroscopicLevelMaterialStructure</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A material structure on a single grain level</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#MaterialStructure">Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="NanoLevelMaterialStructure">
+        <h3>
+          Nano Level Material Structure<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#NanoLevelMaterialStructure" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/NanoLevelMaterialStructure</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A Material Structure that involves individual features within one single grain or phase like dislocations or precipitates.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#MaterialStructure">Material Structure</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="NonTransformativeAnalysisProcess">
+        <h3>
+          Non Transformative Analysis Process<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#NonTransformativeAnalysisProcess" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/NonTransformativeAnalysisProcess</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>An analysis process that is also a non-transformative process</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#AnalysisProcess">Analysis Process</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="Object">
+        <h3>
+          Object<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#Object" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/Object</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A discernable, tangible or simulated entity that is processed in a process by a process node. An Object is composed of Voxels.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Sub-classes</th>
+                <td>
+                    <a href="#Component">Component</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In domain of</th>
+                <td>
+                    <a href="#suppliedobjectidentifier">supplied object identifier</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#generatedobjectidentifier">generated object identifier</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#composedby">composed by</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="#compose">compose</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasoutputobject">has output object</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasinputobject">has input object</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="PmdSiUnit">
+        <h3>
+          PmdSiUnit<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#PmdSiUnit" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/PmdSiUnit</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Equivalent to the definition found at https://www.wikidata.org/wiki/Q61610698. Instances of this class represent a tuple of prefix and SI unit</p>
+                </td>
+            </tr>
+            <tr>
+                <th>In domain of</th>
+                <td>
+                    <a href="#hasucumcode">has ucum code</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasunitlabel">has unit label</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="#haspmdquantityunit">has pmd quantity unit</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="Process">
+        <h3>
+          Process<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#Process" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/Process</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A series of actions or operations conducing to an end
+In PMD, a process is conducted via process nodes and has a discernable duration as part of a workflow. A process consumes objects and parameters. A process potentially generates new objects and measurements. A process is either a transformative process or a non-transformative process with respect to objects processed via a process node. There are primarily two types of distinguishable processes: manufacture process, analysis process. A process is a series of operations that are subordinate processes.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Sub-classes</th>
+                <td>
+                    <a href="#AnalysisProcess">Analysis Process</a><sup class="sup-c" title="class">c</sup><br/>
+                    <a href="#ManufactureProcess">Manufacture Process</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In domain of</th>
+                <td>
+                    <a href="#hasoutputobject">has output object</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#isfinalprocessnode">is final process node</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasparameter">has parameter</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasnominalprimaryparameter">has nominal primary parameter</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hassecondarymeasurement">has secondary measurement</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#isinitialprocessnode">is initial process node</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasprimarymeasurement">has primary measurement</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasdataresource">has data resource</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#measuredprocessduration">measured process duration</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasstartingtime">has starting time</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#nominalprocessduration">nominal process duration</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hassequencenumber">has sequence number</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasnominalmetadataparameter">has nominal metadata parameter</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hassubordinateprocess">has subordinate process</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasnominalendposixtimestamp">has nominal end posix timestamp</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasnominalparameter">has nominal parameter</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasmeasurement">has measurement</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasnextprocess">has next process</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasmetadatameasurement">has metadata measurement</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#haspreviousprocess">has previous process</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasnominalsecondaryparameter">has nominal secondary parameter</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasquantitativeprimarydataseriesmeasurement">has quantitative primary data series measurement</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasinputobject">has input object</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="#execute">execute</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hassubordinateprocess">has subordinate process</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#haspreviousprocess">has previous process</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasnextprocess">has next process</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="ProcessNode">
+        <h3>
+          ProcessNode<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#ProcessNode" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/ProcessNode</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A constituent that consumes and creates the objects in a process. The enabler of manufacture process steps, analysis process steps or simulation process steps. A process node realizes transformative processes and/or non-transformative processes.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Sub-classes</th>
+                <td>
+                    <a href="#SimulationNode">Simulation Node</a><sup class="sup-c" title="class">c</sup><br/>
+                    <a href="#ManufactureNode">Manufacture Node</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+            <tr>
+                <th>In domain of</th>
+                <td>
+                    <a href="#hasprocessnodeversion">has process node version</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasprocessnodetype">has process node type</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasprocessnodecomponent">has process node component</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasmodel">has model</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hastypedescription">has type description</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#execute">execute</a><sup class="sup-op" title="object property">op</sup><br/>
+                    <a href="#hasprocessnodename">has process node name</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hasacquisitiondate">has acquisition date</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                    <a href="#hascollectioninterfacehint">has collection interface hint</a><sup class="sup-dp" title="datatype property">dp</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="ProcessNodeComponent">
+        <h3>
+          Process Node Component<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#ProcessNodeComponent" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/ProcessNodeComponent</code></td>
+            </tr>
+            <tr>
+                <th>In range of</th>
+                <td>
+                    <a href="#hasprocessnodecomponent">has process node component</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="SimulationNode">
+        <h3>
+          Simulation Node<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#SimulationNode" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/SimulationNode</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A process node that implements foo as well as consumes and creates simulation objects and parameters.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="TranformativeAnalysisProcess">
+        <h3>
+          Tranformative Analysis Process<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#TranformativeAnalysisProcess" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/TranformativeAnalysisProcess</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>An analysis process that is also a transformative process</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-classes</th>
+                <td>
+                    <a href="#AnalysisProcess">Analysis Process</a><sup class="sup-c" title="class">c</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity class" id="Voxel">
+        <h3>
+          Voxel<sup title="class" class="sup-c">c</sup>
+          <span style="float:right; margin-right:10px; font-size:smaller;"><a href="#Voxel" title="fragment link to here">#</a> <a href="#classes" title="Classes Index">Classes</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/Voxel</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>An element representing a value on a grid in three dimensional space.
+In PMD, an infinitesimal part of an object which is made of a homogenuous material. Size depends on the observed material level. For now, geometrically, a cubus is assumed.
+Made of a material
+Different Voxels can have different material properties and material structure
+A (partial) logical object that describes (a part of) a physical object</p>
+                </td>
+            </tr>
+            <tr>
+                <th>In domain of</th>
+                <td>
+                    <a href="#hasmaterialstructure">has material structure</a><sup class="sup-op" title="object property">op</sup><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
+<section id="objectproperties">
+    <h2>Object Properties <span style="float:right; font-size:smaller;"><a href="">&uparrow;</a></span></h2>
+    <ul class="hlist">
+        <li><a href="#quantityUnit">quantityUnit</a></li>
+        <li><a href="#compose">compose</a></li>
+        <li><a href="#composedby">composed by</a></li>
+        <li><a href="#execute">execute</a></li>
+        <li><a href="#hasdataresource">has data resource</a></li>
+        <li><a href="#hasheaderfield">has header field</a></li>
+        <li><a href="#hasinputobject">has input object</a></li>
+        <li><a href="#hasmaterialstructure">has material structure</a></li>
+        <li><a href="#hasnextprocess">has next process</a></li>
+        <li><a href="#hasoutputobject">has output object</a></li>
+        <li><a href="#haspmdquantityunit">has pmd quantity unit</a></li>
+        <li><a href="#haspreviousprocess">has previous process</a></li>
+        <li><a href="#hasprocessnodecomponent">has process node component</a></li>
+        <li><a href="#hasquantitativemeasurement">has quantitative measurement</a></li>
+        <li><a href="#hasquantitativemetadatameasurement">has quantitative metadata measurement</a></li>
+        <li><a href="#hasquantitativenominalmetadataparameter">has quantitative nominal metadata parameter</a></li>
+        <li><a href="#hasquantitativenominalparameter">has quantitative nominal parameter</a></li>
+        <li><a href="#hasquantitativenominalprimaryparameter">has quantitative nominal primary parameter</a></li>
+        <li><a href="#hasquantitativenominalsecondaryparameter">has quantitative nominal secondary parameter</a></li>
+        <li><a href="#hasquantitativeparameter">has quantitative parameter</a></li>
+        <li><a href="#hasquantitativeprimarydataseriesmeasurement">has quantitative primary data series measurement</a></li>
+        <li><a href="#hasquantitativeprimarymeasurement">has quantitative primary measurement</a></li>
+        <li><a href="#hasquantitativesecondarymeasurement">has quantitative secondary measurement</a></li>
+        <li><a href="#hassubordinateprocess">has subordinate process</a></li>
+        <li><a href="#measuredprocessduration">measured process duration</a></li>
+        <li><a href="#nominalprocessduration">nominal process duration</a></li>
+    </ul>
+    <div class="entity property" id="quantityUnit">
+        <h3>quantityUnit<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#quantityUnit" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>http://wikiba.se/ontology#quantityUnit</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Unit of measurement.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#QuantityValue">wikibase:QuantityValue</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#Item">wikibase:Item</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="compose">
+        <h3>compose<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#compose" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/compose</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe which objects a voxel or a material contributes to compose.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Inverse properties</th>
+                <td>
+                    <a href="#composedby">composed by</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Material">Material</a><sup class="sup-c" title="class">c</sup> or <a href="#Voxel">Voxel</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/Object">Object</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="composedby">
+        <h3>composed by<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#composedby" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/composedBy</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe which voxels and materials an object is composed of.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Object">Object</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    https://material-digital.de/pmdco/Material
+                    https://material-digital.de/pmdco/Voxel
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="execute">
+        <h3>execute<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#execute" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/execute</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property represents which process node executes a process</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="http://www.w3.org/2002/07/owl#topObjectProperty">owl:topObjectProperty</a>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasdataresource">
+        <h3>has data resource<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasdataresource" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasDataResource</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to connect a Process to the Data Resource that describe the parameters and measurements produced during the process.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/DataResource">DataResource</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasheaderfield">
+        <h3>has header field<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasheaderfield" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasHeaderField</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A description for each header field included in the blob represented by the data resource</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#DataResource">Data Resource</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/HeaderField">HeaderField</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasinputobject">
+        <h3>has input object<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasinputobject" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasInputObject</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to link the processes to their input objects</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/Object">Object</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasmaterialstructure">
+        <h3>has material structure<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasmaterialstructure" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasMaterialStructure</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to indicate which material structures a voxel has.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Voxel">Voxel</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/MaterialStructure">MaterialStructure</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasnextprocess">
+        <h3>has next process<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasnextprocess" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasNextProcess</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to indicate the process that was run after the current process.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasoutputobject">
+        <h3>has output object<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasoutputobject" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasOutputObject</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to link the processes to their output objects</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/Object">Object</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="haspmdquantityunit">
+        <h3>has pmd quantity unit<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#haspmdquantityunit" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasPmdUnit</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>The association of a higher concept with a unit of measurement from Wikidata</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="http://wikiba.se/ontology#QuantityValue">wikibase:QuantityValue</a><sup class="sup-c" title="class">c</sup> or <a href="#HeaderField">Header Field</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/PmdSiUnit">PmdSiUnit</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="haspreviousprocess">
+        <h3>has previous process<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#haspreviousprocess" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasPreviousProcess</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to indicate that which process was previously run.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasprocessnodecomponent">
+        <h3>has process node component<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasprocessnodecomponent" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasProcessNodeComponent</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>An object property associating a process node with its (potentially modular) components, e.g. the chambers of a heat treatment furnace.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/ProcessNodeComponent">ProcessNodeComponent</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativemeasurement">
+        <h3>has quantitative measurement<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativemeasurement" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativeMeasurement</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe a quantity value that has been measured during the execution of a process.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativeparameter">has quantitative parameter</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativemetadatameasurement">
+        <h3>has quantitative metadata measurement<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativemetadatameasurement" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativeMetadataMeasurement</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativemeasurement">has quantitative measurement</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativenominalmetadataparameter">
+        <h3>has quantitative nominal metadata parameter<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativenominalmetadataparameter" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativeNominalMetadataParameter</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe a quantity value that is input of a process describing a metadata process parameter.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativenominalparameter">has quantitative nominal parameter</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativenominalparameter">
+        <h3>has quantitative nominal parameter<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativenominalparameter" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativeNominalParameter</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe a quantity value that was input of process.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativeparameter">has quantitative parameter</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativenominalprimaryparameter">
+        <h3>has quantitative nominal primary parameter<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativenominalprimaryparameter" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativeNominalPrimaryParameter</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe a quantity value that is input of a process describing a primary process parameter.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativenominalparameter">has quantitative nominal parameter</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativenominalsecondaryparameter">
+        <h3>has quantitative nominal secondary parameter<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativenominalsecondaryparameter" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativeNominalSecondaryParameter</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe a quantity value that was input of process describing a secondary process parameter.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativenominalparameter">has quantitative nominal parameter</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativeparameter">
+        <h3>has quantitative parameter<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativeparameter" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativeParameter</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to relate values with units to process measurements and paramaeters.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativeprimarydataseriesmeasurement">
+        <h3>has quantitative primary data series measurement<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativeprimarydataseriesmeasurement" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativePrimaryDataSeriesMeasurement</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativeprimarymeasurement">has quantitative primary measurement</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/HeaderField">HeaderField</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativeprimarymeasurement">
+        <h3>has quantitative primary measurement<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativeprimarymeasurement" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativePrimaryMetadata</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativemeasurement">has quantitative measurement</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasquantitativesecondarymeasurement">
+        <h3>has quantitative secondary measurement<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasquantitativesecondarymeasurement" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasQuantitativeSecondaryMeasurement</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativemeasurement">has quantitative measurement</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    http://wikiba.se/ontology#QuantityValue
+                    https://material-digital.de/pmdco/HeaderField
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hassubordinateprocess">
+        <h3>has subordinate process<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hassubordinateprocess" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasSubordinateProcess</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to link a process to its subordinate processes.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="https://material-digital.de/pmdco/Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="measuredprocessduration">
+        <h3>measured process duration<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#measuredprocessduration" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/measuredProcessDuration</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativeprimarymeasurement">has quantitative primary measurement</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#QuantityValue">wikibase:QuantityValue</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="nominalprocessduration">
+        <h3>nominal process duration<sup title="object property" class="sup-op">op</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#nominalprocessduration" title="fragment link to here">#</a>&nbsp;<a href="#objectproperties" title="Object Properties Index">OPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/nominalProcessDuration</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasquantitativenominalprimaryparameter">has quantitative nominal primary parameter</a><sup class="sup-op" title="object property">op</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#QuantityValue">wikibase:QuantityValue</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section id="datatypeproperties">
+    <h2>Datatype Properties <span style="float:right; font-size:smaller;"><a href="">&uparrow;</a></span></h2>
+    <ul class="hlist">
+        <li><a href="#quantityAmount">quantityAmount</a></li>
+        <li><a href="#hasdataresourcecharacteristic">has data resource characteristic</a></li>
+        <li><a href="#generatedobjectidentifier">generated object identifier</a></li>
+        <li><a href="#hasacquisitiondate">has acquisition date</a></li>
+        <li><a href="#hascollectioninterfacehint">has collection interface hint</a></li>
+        <li><a href="#hasdataresourcelocation">has data resource location</a></li>
+        <li><a href="#hasdataresourceserialization">has data resource serialization</a></li>
+        <li><a href="#hasgeneratedidentifier">has generated identifier</a></li>
+        <li><a href="#hasheaderfielddescription">has header field description</a></li>
+        <li><a href="#hasheaderfieldsequencenumber">has header field sequence number</a></li>
+        <li><a href="#hasmeasurement">has measurement</a></li>
+        <li><a href="#hasmetadatameasurement">has metadata measurement</a></li>
+        <li><a href="#hasmodel">has model</a></li>
+        <li><a href="#hasnominalendposixtimestamp">has nominal end posix timestamp</a></li>
+        <li><a href="#hasnominalmetadataparameter">has nominal metadata parameter</a></li>
+        <li><a href="#hasnominalparameter">has nominal parameter</a></li>
+        <li><a href="#hasnominalprimaryparameter">has nominal primary parameter</a></li>
+        <li><a href="#hasnominalsecondaryparameter">has nominal secondary parameter</a></li>
+        <li><a href="#hasnominalstartposixtimestamp">has nominal start posix timestamp</a></li>
+        <li><a href="#hasparameter">has parameter</a></li>
+        <li><a href="#hasprimarymeasurement">has primary measurement</a></li>
+        <li><a href="#hasprocessnodecharacteristic">has process node characteristic</a></li>
+        <li><a href="#hasprocessnodeidentifier">has process node identifier</a></li>
+        <li><a href="#hasprocessnodename">has process node name</a></li>
+        <li><a href="#hasprocessnodetype">has process node type</a></li>
+        <li><a href="#hasprocessnodeversion">has process node version</a></li>
+        <li><a href="#hassecondarymeasurement">has secondary measurement</a></li>
+        <li><a href="#hassequencenumber">has sequence number</a></li>
+        <li><a href="#hasstartingtime">has starting time</a></li>
+        <li><a href="#hassuppliedidentifier">has supplied identifier</a></li>
+        <li><a href="#hastypedescription">has type description</a></li>
+        <li><a href="#hasucumcode">has ucum code</a></li>
+        <li><a href="#hasunitlabel">has unit label</a></li>
+        <li><a href="#hasheaderfieldcharacteristic">has header field characteristic</a></li>
+        <li><a href="#isfinalprocessnode">is final process node</a></li>
+        <li><a href="#isinitialprocessnode">is initial process node</a></li>
+        <li><a href="#hasobjectcharacteristic">has object characteristic</a></li>
+        <li><a href="#suppliedobjectidentifier">supplied object identifier</a></li>
+    </ul>
+    <div class="entity property" id="quantityAmount">
+        <h3>quantityAmount<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#quantityAmount" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>http://wikiba.se/ontology#quantityAmount</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Amount of quantity.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="http://wikiba.se/ontology#QuantityValue">wikibase:QuantityValue</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#decimal">xsd:decimal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasdataresourcecharacteristic">
+        <h3>has data resource characteristic<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasdataresourcecharacteristic" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/dataResourceCharacteristic</code></td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#DataResource">Data Resource</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="generatedobjectidentifier">
+        <h3>generated object identifier<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#generatedobjectidentifier" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/generatedObjectIdentifier</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A machine-readable identifier associated with a discernable, tangible or simulated entity that is intended to be unique in a given scope. Examples for scope include: a database storing object data or a supply chain principal creating its own identifiers for the reports it generates</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasobjectcharacteristic">has object characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Object">Object</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasacquisitiondate">
+        <h3>has acquisition date<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasacquisitiondate" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasAcquisitionDate</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>The point in time a process node was commissioned (e.g. the purchase date, first day of use), represented in IEEE 1003 'Seconds since Epoch'.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#positiveInteger">xsd:positiveInteger</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hascollectioninterfacehint">
+        <h3>has collection interface hint<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hascollectioninterfacehint" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasCollectionInterfaceHint</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A label in support of identifying a network interface and/or address used by a process node to provide primary data stored in ontologies</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasdataresourcelocation">
+        <h3>has data resource location<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasdataresourcelocation" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasDataResourceLocation</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property indicates that a file can be retrieved or downloaded from a specific address.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasdataresourcecharacteristic">has data resource characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#DataResource">Data Resource</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#anyURI">xsd:anyURI</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasdataresourceserialization">
+        <h3>has data resource serialization<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasdataresourceserialization" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasDataResourceSerialization</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasdataresourcecharacteristic">has data resource characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#DataResource">Data Resource</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasgeneratedidentifier">
+        <h3>has generated identifier<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasgeneratedidentifier" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasGeneratedIdentifier</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A machine-readable identifier that is intended to be unique in a given scope.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalmetadataparameter">has nominal metadata parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup> or <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasheaderfielddescription">
+        <h3>has header field description<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasheaderfielddescription" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasHeaderFieldDescription</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A data property representing an optional human-readable description of the header field's intent.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasheaderfieldcharacteristic">has header field characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#HeaderField">Header Field</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasheaderfieldsequencenumber">
+        <h3>has header field sequence number<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasheaderfieldsequencenumber" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasHeaderFieldSequenceNumber</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A mandatory numbering representing the index of the columns in sequence</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasheaderfieldcharacteristic">has header field characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#HeaderField">Header Field</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#positiveInteger">xsd:positiveInteger</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasmeasurement">
+        <h3>has measurement<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasmeasurement" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasMeasurement</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe parameters that are created by measurements of a process but that do not represent a quantity and are not associate to units.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasparameter">has parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasmetadatameasurement">
+        <h3>has metadata measurement<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasmetadatameasurement" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasMetadataMeasurement</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasmeasurement">has measurement</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasmodel">
+        <h3>has model<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasmodel" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasModel</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Process Node short description, e.g. "Vacuum Furnace"</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasnominalendposixtimestamp">
+        <h3>has nominal end posix timestamp<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasnominalendposixtimestamp" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasNominalEndPosixTimestap</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>The point in time a process node finished to conduct a process, represented in IEEE 1003 'Seconds since Epoch'</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalmetadataparameter">has nominal metadata parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#float">xsd:float</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasnominalmetadataparameter">
+        <h3>has nominal metadata parameter<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasnominalmetadataparameter" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasNominalMetadataParameter</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalparameter">has nominal parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasnominalparameter">
+        <h3>has nominal parameter<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasnominalparameter" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasNominalParameter</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to describe nominal parameters that are not associated to a quantity value.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasparameter">has parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasnominalprimaryparameter">
+        <h3>has nominal primary parameter<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasnominalprimaryparameter" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasNominalPrimaryParameter</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalparameter">has nominal parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasnominalsecondaryparameter">
+        <h3>has nominal secondary parameter<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasnominalsecondaryparameter" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasNominalSecondaryParameter</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalparameter">has nominal parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasnominalstartposixtimestamp">
+        <h3>has nominal start posix timestamp<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasnominalstartposixtimestamp" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasNominalStartPosixTimestamp</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>The point in time a process node began to conduct a process, represented in IEEE 1003 'Seconds since Epoch'</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalmetadataparameter">has nominal metadata parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasparameter">
+        <h3>has parameter<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasparameter" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasParameter</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This Property is used to describe the process parameters that are not associated to quantitative values.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasprimarymeasurement">
+        <h3>has primary measurement<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasprimarymeasurement" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasPrimaryMeasurement</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasmeasurement">has measurement</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasprocessnodecharacteristic">
+        <h3>has process node characteristic<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasprocessnodecharacteristic" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasProcessNodeCharacteristic</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>The point in time a process node was commissioned (e.g. the purchase date, first day of use), represented in IEEE 1003 'Seconds since Epoch'.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasprocessnodeidentifier">
+        <h3>has process node identifier<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasprocessnodeidentifier" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasProcessNodeIdentifier</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A string intended to uniquely identify a process node in a given scope, e.g. global scope: serial number, organization scope, asset management identifier.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasprocessnodename">
+        <h3>has process node name<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasprocessnodename" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasProcessNodeName</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A human-generated identifier associated with a discernible, tangible or simulated entity intended to be unique in a given scope</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasprocessnodetype">
+        <h3>has process node type<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasprocessnodetype" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasProcessNodeType</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Process Node typename, e.g. "ProTherm500"</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasprocessnodeversion">
+        <h3>has process node version<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasprocessnodeversion" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasProcessNodeVersion</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Process Node Version Number, e.g. "2.24"</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hassecondarymeasurement">
+        <h3>has secondary measurement<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hassecondarymeasurement" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasSecondaryMeasurement</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasmeasurement">has measurement</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hassequencenumber">
+        <h3>has sequence number<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hassequencenumber" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasSequenceNumber</code></td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalmetadataparameter">has nominal metadata parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#positiveInteger">xsd:positiveInteger</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasstartingtime">
+        <h3>has starting time<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasstartingtime" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasStartingTime</code></td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hassuppliedidentifier">
+        <h3>has supplied identifier<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hassuppliedidentifier" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasSuppliedIdentifier</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A colloquial, human-generated, descriptive text qualifying the nature of a process instance used as an identifier that is not strictly intended to be unique, e.g. "1050°C30 840°C10/ÖL".</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalmetadataparameter">has nominal metadata parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    (<a href="#Object">Object</a><sup class="sup-c" title="class">c</sup> or <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup> or <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>)
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hastypedescription">
+        <h3>has type description<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hastypedescription" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasTypeDescription</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>Description for Process Node's utility, e.g. "Rear Vacuum Furnace Oil Quenching"</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasprocessnodecharacteristic">has process node characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#ProcessNode">ProcessNode</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasucumcode">
+        <h3>has ucum code<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasucumcode" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasUcumCode</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used the enrich a unit with its common used label within the UCUM vocabulary</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="http://www.w3.org/2002/07/owl#topDataProperty">owl:topDataProperty</a>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#PmdSiUnit">PmdSiUnit</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasunitlabel">
+        <h3>has unit label<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasunitlabel" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/hasUnitLabel</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used the enrich a unit with its common used label.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#PmdSiUnit">PmdSiUnit</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasheaderfieldcharacteristic">
+        <h3>has header field characteristic<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasheaderfieldcharacteristic" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/headerFieldCharacteristic</code></td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#HeaderField">Header Field</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2000/01/rdf-schema#Literal">rdfs:Literal</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="isfinalprocessnode">
+        <h3>is final process node<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#isfinalprocessnode" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/isFinalProcessNode</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to indicate the last process conducted by a process node in a series of processes conducted by the same process node.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalmetadataparameter">has nominal metadata parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="isinitialprocessnode">
+        <h3>is initial process node<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#isinitialprocessnode" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/isInitialProcessNode</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>This property is used to indicate the first process conducted by a process node in a series of processes conducted by the same process node.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasnominalmetadataparameter">has nominal metadata parameter</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Process">Process</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#boolean">xsd:boolean</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="hasobjectcharacteristic">
+        <h3>has object characteristic<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#hasobjectcharacteristic" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/objectCharacteristics</code></td>
+            </tr>
+        </table>
+    </div>
+    <div class="entity property" id="suppliedobjectidentifier">
+        <h3>supplied object identifier<sup title="datatype property" class="sup-dp">dp</sup><span style="float:right; margin-right:10px; font-size:smaller;">
+            <a href="#suppliedobjectidentifier" title="fragment link to here">#</a>&nbsp;<a href="#datatypeproperties" title="Datatype Properties Index">DPs</a></span>
+        </h3>
+        <table>
+            <tr>
+                <th>URI</th>
+                <td><code>https://material-digital.de/pmdco/suppliedObjectIdentifier</code></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>A human-generated identifier associated with a discernable, tangible or simulated entity</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Super-properties</th>
+                <td>
+                    <a href="#hasobjectcharacteristic">has object characteristic</a><sup class="sup-dp" title="datatype property">dp</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Domain(s)</th>
+                <td>
+                    <a href="#Object">Object</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+            <tr>
+                <th>Range(s)</th>
+                <td>
+                    <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a><sup class="sup-c" title="class">c</sup>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+  
+  <section id="namespaces">
+    <h2>Namespaces <span style="float:right; font-size:smaller;"><a href="">&uparrow;</a></span></h2>
+    <dl>
+        <dt>default (:)</dt>
+        <dd><code>https://material-digital.de/pmdco/</code></dd>
+        <dt>dct</dt>
+        <dd><code>http://purl.org/dc/terms/</code></dd>
+        <dt>owl</dt>
+        <dd><code>http://www.w3.org/2002/07/owl#</code></dd>
+        <dt>prov</dt>
+        <dd><code>http://www.w3.org/ns/prov#</code></dd>
+        <dt>rdf</dt>
+        <dd><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code></dd>
+        <dt>rdfs</dt>
+        <dd><code>http://www.w3.org/2000/01/rdf-schema#</code></dd>
+        <dt>sdo</dt>
+        <dd><code>https://schema.org/</code></dd>
+        <dt>skos</dt>
+        <dd><code>http://www.w3.org/2004/02/skos/core#</code></dd>
+        <dt>wikibase</dt>
+        <dd><code>http://wikiba.se/ontology#</code></dd>
+        <dt>xsd</dt>
+        <dd><code>http://www.w3.org/2001/XMLSchema#</code></dd>
+    </dl>
+</section>
+  <section id="legend">
+      <h2>Legend</h2>
+      <table class="entity">
+          <tr><td><sup class="sup-c" title="Classes">c</sup></td><td>Classes</td></tr>
+          <tr><td><sup class="sup-op" title="Object Properties">op</sup></td><td>Object Properties</td></tr>
+          <tr><td><sup class="sup-fp" title="Functional Properties">fp</sup></td><td>Functional Properties</td></tr>
+          <tr><td><sup class="sup-dp" title="Data Properties">dp</sup></td><td>Data Properties</td></tr>
+          <tr><td><sup class="sup-ap" title="Annotation Properties">dp</sup></td><td>Annotation Properties</td></tr>
+          <tr><td><sup class="sup-p" title="Properties">p</sup></td><td>Properties</td></tr>
+          <tr><td><sup class="sup-ni" title="Named Individuals">ni</sup></td><td>Named Individuals</td></tr>
+      </table>
+  </section>
+</body>
+</html>
