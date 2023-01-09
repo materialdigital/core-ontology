@@ -1,120 +1,189 @@
-@prefix : <https://material-digital.de/pmdco/> .
+@prefix : <http://material-digital.de/pmdco/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <https://material-digital.de/pmdco/> .
+@base <http://material-digital.de/pmdco/> .
 
-<https://material-digital.de/pmdco/> rdf:type owl:Ontology .
+<http://material-digital.de/pmdco/> rdf:type owl:Ontology ;
+                                     <http://purl.org/dc/elements/1.1/creator> "Bernd Bayerlein" ,
+                                                                               "Henk Birkholz" ,
+                                                                               "Jannis Grundmann" ,
+                                                                               "Jörg Waitelonis" ,
+                                                                               "Markus Schilling" ;
+                                     <http://purl.org/dc/elements/1.1/title> "Platform Material Digital Core Ontology (pmdco)"@en ;
+                                     owl:versionInfo "2.0.0-a.1"^^xsd:string .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+<http://purl.org/dc/elements/1.1/creator> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/title
+<http://purl.org/dc/elements/1.1/title> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#example
+<http://www.w3.org/2004/02/skos/core#example> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#category
+<http://www.w3.org/ns/prov#category> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#component
+<http://www.w3.org/ns/prov#component> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#constraints
+<http://www.w3.org/ns/prov#constraints> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#definition
+<http://www.w3.org/ns/prov#definition> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#dm
+<http://www.w3.org/ns/prov#dm> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#editorialNote
+<http://www.w3.org/ns/prov#editorialNote> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#inverse
+<http://www.w3.org/ns/prov#inverse> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#n
+<http://www.w3.org/ns/prov#n> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#qualifiedForm
+<http://www.w3.org/ns/prov#qualifiedForm> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#sharesDefinitionWith
+<http://www.w3.org/ns/prov#sharesDefinitionWith> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#float
+xsd:float rdf:type rdfs:Datatype .
+
 
 #################################################################
 #    Object Properties
 #################################################################
 
-###  http://wikiba.se/ontology#quantityUnit
-<http://wikiba.se/ontology#quantityUnit> rdf:type owl:ObjectProperty ;
-                                         rdfs:domain <http://wikiba.se/ontology#QuantityValue> ;
-                                         rdfs:range <http://wikiba.se/ontology#Item> ;
-                                         rdfs:comment "Unit of measurement." ;
-                                         rdfs:label "quantityUnit" .
-
-
-###  https://material-digital.de/pmdco/compose
+###  http://material-digital.de/pmdco/compose
 :compose rdf:type owl:ObjectProperty ;
          owl:inverseOf :composedBy ;
-         rdfs:domain [ rdf:type owl:Class ;
-                       owl:unionOf ( :Material
-                                     :Voxel
-                                   )
-                     ] ;
          rdfs:range :Object ;
          rdfs:comment "This property is used to describe which objects a voxel or a material contributes to compose."@en ;
          rdfs:label "compose"@en .
 
 
-###  https://material-digital.de/pmdco/composedBy
+###  http://material-digital.de/pmdco/composedBy
 :composedBy rdf:type owl:ObjectProperty ;
             rdfs:domain :Object ;
-            rdfs:range [ rdf:type owl:Class ;
-                         owl:unionOf ( :Material
-                                       :Voxel
-                                     )
-                       ] ;
             rdfs:comment "This property is used to describe which voxels and materials an object is composed of."@en ;
             rdfs:label "composed by"@en .
 
 
-###  https://material-digital.de/pmdco/execute
-:execute rdf:type owl:ObjectProperty ;
-         rdfs:subPropertyOf owl:topObjectProperty ;
-         rdfs:domain :ProcessNode ;
-         rdfs:range :Process ;
-         rdfs:comment "This property represents which process node executes a process"@en ;
-         rdfs:label "execute"@en .
+###  http://material-digital.de/pmdco/executedBy
+:executedBy rdf:type owl:ObjectProperty ;
+            owl:inverseOf :executes ;
+            rdfs:domain :Process ;
+            rdfs:range :ProcessingNode ;
+            rdfs:comment "This property represents which process is executed by which process node."@en ;
+            rdfs:label "executed by"@en .
 
 
-###  https://material-digital.de/pmdco/hasDataResource
-:hasDataResource rdf:type owl:ObjectProperty ;
-                 rdfs:domain :Process ;
-                 rdfs:range :DataResource ;
-                 rdfs:comment "This property is used to connect a Process to the Data Resource that describe the parameters and measurements produced during the process."@en ;
-                 rdfs:label "has data resource"@en .
+###  http://material-digital.de/pmdco/executes
+:executes rdf:type owl:ObjectProperty ;
+          rdfs:domain :ProcessingNode ;
+          rdfs:range :Process ;
+          rdfs:comment "This property represents which process node executes a process"@en ;
+          rdfs:label "execute"@en .
 
 
-###  https://material-digital.de/pmdco/hasHeaderField
-:hasHeaderField rdf:type owl:ObjectProperty ;
-                rdfs:domain :DataResource ;
-                rdfs:range :HeaderField ;
-                rdfs:comment "A description for each header field included in the blob represented by the data resource"@en ;
-                rdfs:label "has header field"@en .
+###  http://material-digital.de/pmdco/hasCharacteristic
+:hasCharacteristic rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :hasParticipant ;
+                   owl:inverseOf :isCharacteristicOf ;
+                   rdfs:domain [ rdf:type owl:Class ;
+                                 owl:unionOf ( :Object
+                                               :Process
+                                               :ProcessingNode
+                                             )
+                               ] ;
+                   rdfs:range :ValueObject ;
+                   rdfs:label "has characteristic"@en .
 
 
-###  https://material-digital.de/pmdco/hasInputObject
-:hasInputObject rdf:type owl:ObjectProperty ;
-                rdfs:domain :Process ;
-                rdfs:range :Object ;
-                rdfs:comment "This property is used to link the processes to their input objects"@en ;
-                rdfs:label "has input object"@en .
+###  http://material-digital.de/pmdco/hasComponent
+:hasComponent rdf:type owl:ObjectProperty ;
+              rdfs:domain :ProcessingNode ;
+              rdfs:range :ProcessingNode ;
+              rdfs:comment "An object property associating a process node with its (potentially modular) components, e.g. the chambers of a heat treatment furnace."@en ;
+              rdfs:label "has component"@en .
 
 
-###  https://material-digital.de/pmdco/hasMaterialStructure
-:hasMaterialStructure rdf:type owl:ObjectProperty ;
-                      rdfs:domain :Voxel ;
-                      rdfs:range :MaterialStructure ;
-                      rdfs:comment "This property is used to indicate which material structures a voxel has."@en ;
-                      rdfs:label "has material structure"@en .
+###  http://material-digital.de/pmdco/hasInput
+:hasInput rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :hasParticipant ;
+          rdfs:domain [ rdf:type owl:Class ;
+                        owl:unionOf ( :Process
+                                      :ProcessingNode
+                                    )
+                      ] ;
+          rdfs:range :Object ;
+          rdfs:comment "This property is used to link the processes to their input objects"@en ;
+          rdfs:label "has input"@en .
 
 
-###  https://material-digital.de/pmdco/hasNextProcess
+###  http://material-digital.de/pmdco/hasNextProcess
 :hasNextProcess rdf:type owl:ObjectProperty ;
+                owl:inverseOf :hasPreviousProcess ;
                 rdfs:domain :Process ;
                 rdfs:range :Process ;
                 rdfs:comment "This property is used to indicate the process that was run after the current process."@en ;
                 rdfs:label "has next process"@en .
 
 
-###  https://material-digital.de/pmdco/hasOutputObject
-:hasOutputObject rdf:type owl:ObjectProperty ;
-                 rdfs:domain :Process ;
-                 rdfs:range :Object ;
-                 rdfs:comment "This property is used to link the processes to their output objects"@en ;
-                 rdfs:label "has output object"@en .
+###  http://material-digital.de/pmdco/hasOutput
+:hasOutput rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :hasParticipant ;
+           owl:inverseOf :isOutputOf ;
+           rdfs:domain [ rdf:type owl:Class ;
+                         owl:unionOf ( :Process
+                                       :ProcessingNode
+                                     )
+                       ] ;
+           rdfs:range :Object ;
+           rdfs:comment "This property is used to link the processes to their output objects"@en ;
+           rdfs:label "has output"@en .
 
 
-###  https://material-digital.de/pmdco/hasPmdUnit
-:hasPmdUnit rdf:type owl:ObjectProperty ;
-            rdfs:domain [ rdf:type owl:Class ;
-                          owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                        :HeaderField
-                                      )
-                        ] ;
-            rdfs:range :PmdSiUnit ;
-            rdfs:comment "The association of a higher concept with a unit of measurement from Wikidata"@en ;
-            rdfs:label "has pmd quantity unit"@en .
+###  http://material-digital.de/pmdco/hasParticipant
+:hasParticipant rdf:type owl:ObjectProperty ;
+                owl:equivalentProperty <http://purl.obolibrary.org/obo/RO_0000057> ;
+                owl:inverseOf :isParticipantOf ;
+                rdfs:comment """A similar idea of the BFOs hasParticipant 
+
+... to be refined"""@en ;
+                rdfs:label "has participant"@en .
 
 
-###  https://material-digital.de/pmdco/hasPreviousProcess
+###  http://material-digital.de/pmdco/hasPreviousProcess
 :hasPreviousProcess rdf:type owl:ObjectProperty ;
                     rdfs:domain :Process ;
                     rdfs:range :Process ;
@@ -122,172 +191,29 @@
                     rdfs:label "has previous process"@en .
 
 
-###  https://material-digital.de/pmdco/hasProcessNodeComponent
-:hasProcessNodeComponent rdf:type owl:ObjectProperty ;
-                         rdfs:domain :ProcessNode ;
-                         rdfs:range :ProcessNodeComponent ;
-                         rdfs:comment "An object property associating a process node with its (potentially modular) components, e.g. the chambers of a heat treatment furnace."@en ;
-                         rdfs:label "has process node component"@en .
+###  http://material-digital.de/pmdco/hasProcess
+:hasProcess rdf:type owl:ObjectProperty ;
+            rdfs:domain :Project ;
+            rdfs:range :Process .
 
 
-###  https://material-digital.de/pmdco/hasQuantitativeMeasurement
-:hasQuantitativeMeasurement rdf:type owl:ObjectProperty ;
-                            rdfs:subPropertyOf :hasQuantitativeParameter ;
-                            rdfs:domain [ rdf:type owl:Class ;
-                                          owl:unionOf ( :Object
-                                                        :Process
-                                                      )
-                                        ] ;
-                            rdfs:range [ rdf:type owl:Class ;
-                                         owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                       :HeaderField
-                                                     )
-                                       ] ;
-                            rdfs:comment "This property is used to describe a quantity value that has been measured during the execution of a process."@en ;
-                            rdfs:label "has quantitative measurement"@en .
+###  http://material-digital.de/pmdco/hasResource
+:hasResource rdf:type owl:ObjectProperty ;
+             rdfs:domain :ValueObject ;
+             rdfs:label "has resource"@en .
 
 
-###  https://material-digital.de/pmdco/hasQuantitativeMetadataMeasurement
-:hasQuantitativeMetadataMeasurement rdf:type owl:ObjectProperty ;
-                                    rdfs:subPropertyOf :hasQuantitativeMeasurement ;
-                                    rdfs:domain [ rdf:type owl:Class ;
-                                                  owl:unionOf ( :Object
-                                                                :Process
-                                                              )
-                                                ] ;
-                                    rdfs:range [ rdf:type owl:Class ;
-                                                 owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                               :HeaderField
-                                                             )
-                                               ] ;
-                                    rdfs:label "has quantitative metadata measurement"@en .
+###  http://material-digital.de/pmdco/hasState
+:hasState rdf:type owl:ObjectProperty ;
+          rdfs:domain [ rdf:type owl:Class ;
+                        owl:unionOf ( :Specimen
+                                      :TestPiece
+                                    )
+                      ] ;
+          rdfs:label "has state"@en .
 
 
-###  https://material-digital.de/pmdco/hasQuantitativeNominalMetadataParameter
-:hasQuantitativeNominalMetadataParameter rdf:type owl:ObjectProperty ;
-                                         rdfs:subPropertyOf :hasQuantitativeNominalParameter ;
-                                         rdfs:domain [ rdf:type owl:Class ;
-                                                       owl:unionOf ( :Object
-                                                                     :Process
-                                                                   )
-                                                     ] ;
-                                         rdfs:range [ rdf:type owl:Class ;
-                                                      owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                                    :HeaderField
-                                                                  )
-                                                    ] ;
-                                         rdfs:comment "This property is used to describe a quantity value that is input of a process describing a metadata process parameter."@en ;
-                                         rdfs:label "has quantitative nominal metadata parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasQuantitativeNominalParameter
-:hasQuantitativeNominalParameter rdf:type owl:ObjectProperty ;
-                                 rdfs:subPropertyOf :hasQuantitativeParameter ;
-                                 rdfs:domain [ rdf:type owl:Class ;
-                                               owl:unionOf ( :Object
-                                                             :Process
-                                                           )
-                                             ] ;
-                                 rdfs:range [ rdf:type owl:Class ;
-                                              owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                            :HeaderField
-                                                          )
-                                            ] ;
-                                 rdfs:comment "This property is used to describe a quantity value that was input of process."@en ;
-                                 rdfs:label "has quantitative nominal parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasQuantitativeNominalPrimaryParameter
-:hasQuantitativeNominalPrimaryParameter rdf:type owl:ObjectProperty ;
-                                        rdfs:subPropertyOf :hasQuantitativeNominalParameter ;
-                                        rdfs:domain [ rdf:type owl:Class ;
-                                                      owl:unionOf ( :Object
-                                                                    :Process
-                                                                  )
-                                                    ] ;
-                                        rdfs:range [ rdf:type owl:Class ;
-                                                     owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                                   :HeaderField
-                                                                 )
-                                                   ] ;
-                                        rdfs:comment "This property is used to describe a quantity value that is input of a process describing a primary process parameter."@en ;
-                                        rdfs:label "has quantitative nominal primary parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasQuantitativeNominalSecondaryParameter
-:hasQuantitativeNominalSecondaryParameter rdf:type owl:ObjectProperty ;
-                                          rdfs:subPropertyOf :hasQuantitativeNominalParameter ;
-                                          rdfs:domain [ rdf:type owl:Class ;
-                                                        owl:unionOf ( :Object
-                                                                      :Process
-                                                                    )
-                                                      ] ;
-                                          rdfs:range [ rdf:type owl:Class ;
-                                                       owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                                     :HeaderField
-                                                                   )
-                                                     ] ;
-                                          rdfs:comment "This property is used to describe a quantity value that was input of process describing a secondary process parameter."@en ;
-                                          rdfs:label "has quantitative nominal secondary parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasQuantitativeParameter
-:hasQuantitativeParameter rdf:type owl:ObjectProperty ;
-                          rdfs:domain [ rdf:type owl:Class ;
-                                        owl:unionOf ( :Object
-                                                      :Process
-                                                    )
-                                      ] ;
-                          rdfs:range [ rdf:type owl:Class ;
-                                       owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                     :HeaderField
-                                                   )
-                                     ] ;
-                          rdfs:comment "This property is used to relate values with units to process measurements and paramaeters."@en ;
-                          rdfs:label "has quantitative parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasQuantitativePrimaryDataSeriesMeasurement
-:hasQuantitativePrimaryDataSeriesMeasurement rdf:type owl:ObjectProperty ;
-                                             rdfs:subPropertyOf :hasQuantitativePrimaryMetadata ;
-                                             rdfs:domain :Process ;
-                                             rdfs:range :HeaderField ;
-                                             rdfs:label "has quantitative primary data series measurement"@en .
-
-
-###  https://material-digital.de/pmdco/hasQuantitativePrimaryMetadata
-:hasQuantitativePrimaryMetadata rdf:type owl:ObjectProperty ;
-                                rdfs:subPropertyOf :hasQuantitativeMeasurement ;
-                                rdfs:domain [ rdf:type owl:Class ;
-                                              owl:unionOf ( :Object
-                                                            :Process
-                                                          )
-                                            ] ;
-                                rdfs:range [ rdf:type owl:Class ;
-                                             owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                           :HeaderField
-                                                         )
-                                           ] ;
-                                rdfs:label "has quantitative primary measurement"@en .
-
-
-###  https://material-digital.de/pmdco/hasQuantitativeSecondaryMeasurement
-:hasQuantitativeSecondaryMeasurement rdf:type owl:ObjectProperty ;
-                                     rdfs:subPropertyOf :hasQuantitativeMeasurement ;
-                                     rdfs:domain [ rdf:type owl:Class ;
-                                                   owl:unionOf ( :Object
-                                                                 :Process
-                                                               )
-                                                 ] ;
-                                     rdfs:range [ rdf:type owl:Class ;
-                                                  owl:unionOf ( <http://wikiba.se/ontology#QuantityValue>
-                                                                :HeaderField
-                                                              )
-                                                ] ;
-                                     rdfs:label "has quantitative secondary measurement"@en .
-
-
-###  https://material-digital.de/pmdco/hasSubordinateProcess
+###  http://material-digital.de/pmdco/hasSubordinateProcess
 :hasSubordinateProcess rdf:type owl:ObjectProperty ;
                        rdfs:domain :Process ;
                        rdfs:range :Process ;
@@ -295,537 +221,2383 @@
                        rdfs:label "has subordinate process"@en .
 
 
-###  https://material-digital.de/pmdco/measuredProcessDuration
-:measuredProcessDuration rdf:type owl:ObjectProperty ;
-                         rdfs:subPropertyOf :hasQuantitativePrimaryMetadata ;
-                         rdfs:domain :Process ;
-                         rdfs:range <http://wikiba.se/ontology#QuantityValue> ;
-                         rdfs:label "measured process duration"@en .
+###  http://material-digital.de/pmdco/hasUnit
+:hasUnit rdf:type owl:ObjectProperty ;
+         rdfs:domain :ValueObject ;
+         rdfs:comment """Unit of measurement.
+Examples for rdsf:range are units from qudt or wikidata or own defindes units."""@en ;
+         rdfs:label "has unit"@en .
 
 
-###  https://material-digital.de/pmdco/nominalProcessDuration
-:nominalProcessDuration rdf:type owl:ObjectProperty ;
-                        rdfs:subPropertyOf :hasQuantitativeNominalPrimaryParameter ;
-                        rdfs:domain :Process ;
-                        rdfs:range <http://wikiba.se/ontology#QuantityValue> ;
-                        rdfs:label "nominal process duration"@en .
+###  http://material-digital.de/pmdco/isCharacteristicOf
+:isCharacteristicOf rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf :isParticipantOf .
+
+
+###  http://material-digital.de/pmdco/isInputOf
+:isInputOf rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :isParticipantOf ;
+           owl:inverseOf :isInputOf .
+
+
+###  http://material-digital.de/pmdco/isOutputOf
+:isOutputOf rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :isParticipantOf .
+
+
+###  http://material-digital.de/pmdco/isParticipantOf
+:isParticipantOf rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://material-digital.de/pmdco/relatesTo
+:relatesTo rdf:type owl:ObjectProperty ;
+           rdfs:domain :ValueObject ;
+           rdfs:label "relates to"@en .
+
+
+###  http://material-digital.de/pmdco/relatesToElement
+:relatesToElement rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf :relatesTo ;
+                  rdfs:domain :ChemicalElement ;
+                  rdfs:range <http://purl.obolibrary.org/obo/CHEBI_24431> ;
+                  rdfs:label "relates to element"@en .
+
+
+###  http://material-digital.de/pmdco/relatesToExtension
+:relatesToExtension rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf :relatesTo ;
+                    rdfs:domain :ProofStrengthPlasticExtension ;
+                    rdfs:range :PercentageExtension ;
+                    rdfs:label "relates to extension"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0000057
+<http://purl.obolibrary.org/obo/RO_0000057> rdf:type owl:ObjectProperty ;
+                                            rdfs:label "has participant"@en .
+
+
+###  http://www.w3.org/ns/prov#actedOnBehalfOf
+<http://www.w3.org/ns/prov#actedOnBehalfOf> rdf:type owl:ObjectProperty ;
+                                            rdfs:domain <http://www.w3.org/ns/prov#Agent> ;
+                                            rdfs:range <http://www.w3.org/ns/prov#Agent> .
+
+
+###  http://www.w3.org/ns/prov#wasAssociatedWith
+<http://www.w3.org/ns/prov#wasAssociatedWith> rdf:type owl:ObjectProperty ;
+                                              rdfs:domain <http://www.w3.org/ns/prov#Activity> ;
+                                              rdfs:range <http://www.w3.org/ns/prov#Agent> ;
+                                              rdfs:comment "An prov:Agent that had some (unspecified) responsibility for the occurrence of this prov:Activity."@en ;
+                                              rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                              rdfs:label "wasAssociatedWith" .
+
+
+###  http://www.w3.org/ns/prov#wasAttributedTo
+<http://www.w3.org/ns/prov#wasAttributedTo> rdf:type owl:ObjectProperty ;
+                                            rdfs:domain <http://www.w3.org/ns/prov#Entity> ;
+                                            rdfs:range <http://www.w3.org/ns/prov#Agent> ;
+                                            rdfs:comment "Attribution is the ascribing of an entity to an agent."@en ;
+                                            rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                            rdfs:label "wasAttributedTo" .
 
 
 #################################################################
 #    Data properties
 #################################################################
 
-###  http://wikiba.se/ontology#quantityAmount
-<http://wikiba.se/ontology#quantityAmount> rdf:type owl:DatatypeProperty ;
-                                           rdfs:domain <http://wikiba.se/ontology#QuantityValue> ;
-                                           rdfs:range xsd:decimal ;
-                                           rdfs:comment "Amount of quantity."@en ;
-                                           rdfs:label "quantityAmount"@en .
-
-
-###  https://material-digital.de/pmdco/dataResourceCharacteristic
-:dataResourceCharacteristic rdf:type owl:DatatypeProperty ;
-                            rdfs:domain :DataResource ;
-                            rdfs:range rdfs:Literal ;
-                            rdfs:label "has data resource characteristic"@en .
-
-
-###  https://material-digital.de/pmdco/generatedObjectIdentifier
-:generatedObjectIdentifier rdf:type owl:DatatypeProperty ;
-                           rdfs:subPropertyOf :objectCharacteristics ;
-                           rdfs:domain :Object ;
-                           rdfs:range xsd:string ;
-                           rdfs:comment "A machine-readable identifier associated with a discernable, tangible or simulated entity that is intended to be unique in a given scope. Examples for scope include: a database storing object data or a supply chain principal creating its own identifiers for the reports it generates"@en ;
-                           rdfs:label "generated object identifier"@en ,
-                                      "has generated object identifier"@en .
-
-
-###  https://material-digital.de/pmdco/hasAcquisitionDate
-:hasAcquisitionDate rdf:type owl:DatatypeProperty ;
-                    rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
-                    rdfs:domain :ProcessNode ;
-                    rdfs:range xsd:positiveInteger ;
-                    rdfs:comment "The point in time a process node was commissioned (e.g. the purchase date, first day of use), represented in IEEE 1003 'Seconds since Epoch'."@en ;
-                    rdfs:label "has acquisition date"@en .
-
-
-###  https://material-digital.de/pmdco/hasCollectionInterfaceHint
-:hasCollectionInterfaceHint rdf:type owl:DatatypeProperty ;
-                            rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
-                            rdfs:domain :ProcessNode ;
-                            rdfs:range xsd:string ;
-                            rdfs:comment "A label in support of identifying a network interface and/or address used by a process node to provide primary data stored in ontologies"@en ;
-                            rdfs:label "has collection interface hint"@en .
-
-
-###  https://material-digital.de/pmdco/hasDataResourceLocation
-:hasDataResourceLocation rdf:type owl:DatatypeProperty ;
-                         rdfs:subPropertyOf :dataResourceCharacteristic ;
-                         rdfs:domain :DataResource ;
-                         rdfs:range xsd:anyURI ;
-                         rdfs:comment "This property indicates that a file can be retrieved or downloaded from a specific address."@en ;
-                         rdfs:label "has data resource location"^^xsd:string .
-
-
-###  https://material-digital.de/pmdco/hasDataResourceSerialization
-:hasDataResourceSerialization rdf:type owl:DatatypeProperty ;
-                              rdfs:subPropertyOf :dataResourceCharacteristic ;
-                              rdfs:domain :DataResource ;
-                              rdfs:range [ rdf:type rdfs:Datatype ;
-                                           owl:oneOf [ rdf:type rdf:List ;
-                                                       rdf:first "CBOR" ;
-                                                       rdf:rest [ rdf:type rdf:List ;
-                                                                  rdf:first "JSON" ;
-                                                                  rdf:rest rdf:nil
-                                                                ]
-                                                     ]
-                                         ] ;
-                              rdfs:comment ""@en ;
-                              rdfs:label "has data resource serialization"@en .
-
-
-###  https://material-digital.de/pmdco/hasGeneratedIdentifier
-:hasGeneratedIdentifier rdf:type owl:DatatypeProperty ;
-                        rdfs:subPropertyOf :hasNominalMetadataParameter ;
-                        rdfs:domain [ rdf:type owl:Class ;
-                                      owl:unionOf ( :Object
-                                                    :Process
-                                                    :ProcessNode
-                                                  )
-                                    ] ;
-                        rdfs:range xsd:string ;
-                        rdfs:comment "A machine-readable identifier that is intended to be unique in a given scope."@en ;
-                        rdfs:label "has generated identifier"@en .
-
-
-###  https://material-digital.de/pmdco/hasHeaderFieldDescription
-:hasHeaderFieldDescription rdf:type owl:DatatypeProperty ;
-                           rdfs:subPropertyOf :headerFieldCharacteristic ;
-                           rdfs:domain :HeaderField ;
-                           rdfs:range xsd:string ;
-                           rdfs:comment "A data property representing an optional human-readable description of the header field's intent."@en ;
-                           rdfs:label "has header field description"@en .
-
-
-###  https://material-digital.de/pmdco/hasHeaderFieldSequenceNumber
-:hasHeaderFieldSequenceNumber rdf:type owl:DatatypeProperty ;
-                              rdfs:subPropertyOf :headerFieldCharacteristic ;
-                              rdfs:domain :HeaderField ;
-                              rdfs:range xsd:positiveInteger ;
-                              rdfs:comment "A mandatory numbering representing the index of the columns in sequence"@en ;
-                              rdfs:label "has header field sequence number"@en .
-
-
-###  https://material-digital.de/pmdco/hasMeasurement
-:hasMeasurement rdf:type owl:DatatypeProperty ;
-                rdfs:subPropertyOf :hasParameter ;
-                rdfs:domain :Process ;
-                rdfs:range rdfs:Literal ;
-                rdfs:comment "This property is used to describe parameters that are created by measurements of a process but that do not represent a quantity and are not associate to units."@en ;
-                rdfs:label "has measurement"@en .
-
-
-###  https://material-digital.de/pmdco/hasMetadataMeasurement
-:hasMetadataMeasurement rdf:type owl:DatatypeProperty ;
-                        rdfs:subPropertyOf :hasMeasurement ;
-                        rdfs:domain :Process ;
-                        rdfs:range rdfs:Literal ;
-                        rdfs:label "has metadata measurement"@en .
-
-
-###  https://material-digital.de/pmdco/hasModel
-:hasModel rdf:type owl:DatatypeProperty ;
-          rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
-          rdfs:domain :ProcessNode ;
-          rdfs:range xsd:string ;
-          rdfs:comment "Process Node short description, e.g. \"Vacuum Furnace\""@en ;
-          rdfs:label "has model"@en .
-
-
-###  https://material-digital.de/pmdco/hasNominalEndPosixTimestap
-:hasNominalEndPosixTimestap rdf:type owl:DatatypeProperty ;
-                            rdfs:subPropertyOf :hasNominalMetadataParameter ;
-                            rdfs:domain :Process ;
-                            rdfs:range xsd:float ;
-                            rdfs:comment "The point in time a process node finished to conduct a process, represented in IEEE 1003 'Seconds since Epoch'"@en ;
-                            rdfs:label "has nominal end posix timestamp"@en .
-
-
-###  https://material-digital.de/pmdco/hasNominalMetadataParameter
-:hasNominalMetadataParameter rdf:type owl:DatatypeProperty ;
-                             rdfs:subPropertyOf :hasNominalParameter ;
-                             rdfs:domain :Process ;
-                             rdfs:range rdfs:Literal ;
-                             rdfs:label "has nominal metadata parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasNominalParameter
-:hasNominalParameter rdf:type owl:DatatypeProperty ;
-                     rdfs:subPropertyOf :hasParameter ;
-                     rdfs:domain :Process ;
-                     rdfs:range rdfs:Literal ;
-                     rdfs:comment "This property is used to describe nominal parameters that are not associated to a quantity value."@en ;
-                     rdfs:label "has nominal parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasNominalPrimaryParameter
-:hasNominalPrimaryParameter rdf:type owl:DatatypeProperty ;
-                            rdfs:subPropertyOf :hasNominalParameter ;
-                            rdfs:domain :Process ;
-                            rdfs:range rdfs:Literal ;
-                            rdfs:label "has nominal primary parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasNominalSecondaryParameter
-:hasNominalSecondaryParameter rdf:type owl:DatatypeProperty ;
-                              rdfs:subPropertyOf :hasNominalParameter ;
-                              rdfs:domain :Process ;
-                              rdfs:range rdfs:Literal ;
-                              rdfs:label "has nominal secondary parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasNominalStartPosixTimestamp
-:hasNominalStartPosixTimestamp rdf:type owl:DatatypeProperty ;
-                               rdfs:subPropertyOf :hasNominalMetadataParameter ;
-                               rdfs:comment "The point in time a process node began to conduct a process, represented in IEEE 1003 'Seconds since Epoch'"@en ;
-                               rdfs:label "has nominal start posix timestamp"@en .
-
-
-###  https://material-digital.de/pmdco/hasParameter
-:hasParameter rdf:type owl:DatatypeProperty ;
-              rdfs:domain :Process ;
-              rdfs:range rdfs:Literal ;
-              rdfs:comment "This Property is used to describe the process parameters that are not associated to quantitative values."@en ;
-              rdfs:label "has parameter"@en .
-
-
-###  https://material-digital.de/pmdco/hasPrimaryMeasurement
-:hasPrimaryMeasurement rdf:type owl:DatatypeProperty ;
-                       rdfs:subPropertyOf :hasMeasurement ;
-                       rdfs:domain :Process ;
-                       rdfs:range rdfs:Literal ;
-                       rdfs:label "has primary measurement"@en .
-
-
-###  https://material-digital.de/pmdco/hasProcessNodeCharacteristic
-:hasProcessNodeCharacteristic rdf:type owl:DatatypeProperty ;
-                              rdfs:domain :ProcessNode ;
-                              rdfs:range rdfs:Literal ;
-                              rdfs:comment "The point in time a process node was commissioned (e.g. the purchase date, first day of use), represented in IEEE 1003 'Seconds since Epoch'."@en ;
-                              rdfs:label "has process node characteristic"@en .
-
-
-###  https://material-digital.de/pmdco/hasProcessNodeIdentifier
-:hasProcessNodeIdentifier rdf:type owl:DatatypeProperty ;
-                          rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
-                          rdfs:comment "A string intended to uniquely identify a process node in a given scope, e.g. global scope: serial number, organization scope, asset management identifier."@en ;
-                          rdfs:label "has process node identifier"@en .
-
-
-###  https://material-digital.de/pmdco/hasProcessNodeName
-:hasProcessNodeName rdf:type owl:DatatypeProperty ;
-                    rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
-                    rdfs:domain :ProcessNode ;
-                    rdfs:range xsd:string ;
-                    rdfs:comment "A human-generated identifier associated with a discernible, tangible or simulated entity intended to be unique in a given scope"@en ;
-                    rdfs:label "has process node name"@en .
-
-
-###  https://material-digital.de/pmdco/hasProcessNodeType
-:hasProcessNodeType rdf:type owl:DatatypeProperty ;
-                    rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
-                    rdfs:domain :ProcessNode ;
-                    rdfs:range xsd:string ;
-                    rdfs:comment "Process Node typename, e.g. \"ProTherm500\""@en ;
-                    rdfs:label "has process node type"@en .
-
-
-###  https://material-digital.de/pmdco/hasProcessNodeVersion
-:hasProcessNodeVersion rdf:type owl:DatatypeProperty ;
-                       rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
-                       rdfs:domain :ProcessNode ;
-                       rdfs:range xsd:string ;
-                       rdfs:comment "Process Node Version Number, e.g. \"2.24\""@en ;
-                       rdfs:label "has process node version"@en .
-
-
-###  https://material-digital.de/pmdco/hasSecondaryMeasurement
-:hasSecondaryMeasurement rdf:type owl:DatatypeProperty ;
-                         rdfs:subPropertyOf :hasMeasurement ;
-                         rdfs:domain :Process ;
-                         rdfs:range rdfs:Literal ;
-                         rdfs:label "has secondary measurement"@en .
-
-
-###  https://material-digital.de/pmdco/hasSequenceNumber
-:hasSequenceNumber rdf:type owl:DatatypeProperty ;
-                   rdfs:subPropertyOf :hasNominalMetadataParameter ;
-                   rdfs:domain :Process ;
-                   rdfs:range xsd:positiveInteger ;
-                   rdfs:label "has sequence number"@en .
-
-
-###  https://material-digital.de/pmdco/hasStartingTime
-:hasStartingTime rdf:type owl:DatatypeProperty ;
-                 rdfs:domain :Process ;
-                 rdfs:range rdfs:Literal ;
-                 rdfs:label "has starting time"@en .
-
-
-###  https://material-digital.de/pmdco/hasSuppliedIdentifier
-:hasSuppliedIdentifier rdf:type owl:DatatypeProperty ;
-                       rdfs:subPropertyOf :hasNominalMetadataParameter ;
-                       rdfs:domain [ rdf:type owl:Class ;
-                                     owl:unionOf ( :Object
-                                                   :Process
-                                                   :ProcessNode
-                                                 )
-                                   ] ;
-                       rdfs:range xsd:string ;
-                       rdfs:comment "A colloquial, human-generated, descriptive text qualifying the nature of a process instance used as an identifier that is not strictly intended to be unique, e.g. \"1050°C30 840°C10/ÖL\"."@en ;
-                       rdfs:label "has supplied identifier"@en .
-
-
-###  https://material-digital.de/pmdco/hasTypeDescription
-:hasTypeDescription rdf:type owl:DatatypeProperty ;
-                    rdfs:subPropertyOf :hasProcessNodeCharacteristic ;
-                    rdfs:domain :ProcessNode ;
-                    rdfs:range xsd:string ;
-                    rdfs:comment "Description for Process Node's utility, e.g. \"Rear Vacuum Furnace Oil Quenching\""@en ;
-                    rdfs:label "has type description"@en .
-
-
-###  https://material-digital.de/pmdco/hasUcumCode
-:hasUcumCode rdf:type owl:DatatypeProperty ;
-             rdfs:subPropertyOf owl:topDataProperty ;
-             rdfs:domain :PmdSiUnit ;
-             rdfs:range rdfs:Literal ;
-             rdfs:comment "This property is used the enrich a unit with its common used label within the UCUM vocabulary"@en ;
-             rdfs:label "has ucum code"@en .
-
-
-###  https://material-digital.de/pmdco/hasUnitLabel
-:hasUnitLabel rdf:type owl:DatatypeProperty ;
-              rdfs:domain :PmdSiUnit ;
-              rdfs:range rdfs:Literal ;
-              rdfs:comment "This property is used the enrich a unit with its common used label."@en ;
-              rdfs:label "has unit label"@en .
-
-
-###  https://material-digital.de/pmdco/headerFieldCharacteristic
-:headerFieldCharacteristic rdf:type owl:DatatypeProperty ;
-                           rdfs:domain :HeaderField ;
-                           rdfs:range rdfs:Literal ;
-                           rdfs:label "has header field characteristic"@en .
-
-
-###  https://material-digital.de/pmdco/isFinalProcessNode
-:isFinalProcessNode rdf:type owl:DatatypeProperty ;
-                    rdfs:subPropertyOf :hasNominalMetadataParameter ;
-                    rdfs:domain :Process ;
-                    rdfs:range xsd:boolean ;
-                    rdfs:comment "This property is used to indicate the last process conducted by a process node in a series of processes conducted by the same process node."@en ;
-                    rdfs:label "is final process node"@en .
-
-
-###  https://material-digital.de/pmdco/isInitialProcessNode
-:isInitialProcessNode rdf:type owl:DatatypeProperty ;
-                      rdfs:subPropertyOf :hasNominalMetadataParameter ;
-                      rdfs:domain :Process ;
-                      rdfs:range xsd:boolean ;
-                      rdfs:comment "This property is used to indicate the first process conducted by a process node in a series of processes conducted by the same process node."@en ;
-                      rdfs:label "is initial process node"@en .
-
-
-###  https://material-digital.de/pmdco/objectCharacteristics
-:objectCharacteristics rdf:type owl:DatatypeProperty ;
-                       rdfs:label "has object characteristic"@en .
-
-
-###  https://material-digital.de/pmdco/suppliedObjectIdentifier
-:suppliedObjectIdentifier rdf:type owl:DatatypeProperty ;
-                          rdfs:subPropertyOf :objectCharacteristics ;
-                          rdfs:domain :Object ;
-                          rdfs:range xsd:string ;
-                          rdfs:comment "A human-generated identifier associated with a discernable, tangible or simulated entity"@en ;
-                          rdfs:label "supplied object identifier"@en .
+###  http://material-digital.de/pmdco/hasValue
+:hasValue rdf:type owl:DatatypeProperty ;
+          rdfs:domain :ValueObject ;
+          rdfs:range rdfs:Literal ;
+          rdfs:label "has value"@en .
+
+
+###  http://www.w3.org/ns/prov#endedAtTime
+<http://www.w3.org/ns/prov#endedAtTime> rdf:type owl:DatatypeProperty ;
+                                        rdfs:domain <http://www.w3.org/ns/prov#Activity> ;
+                                        rdfs:range xsd:dateTime ;
+                                        rdfs:comment "The time at which an activity ended. See also prov:startedAtTime."@en ;
+                                        rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                        rdfs:label "endedAtTime" ;
+                                        <http://www.w3.org/ns/prov#category> "starting-point" ;
+                                        <http://www.w3.org/ns/prov#component> "entities-activities" ;
+                                        <http://www.w3.org/ns/prov#editorialNote> "It is the intent that the property chain holds: (prov:qualifiedEnd o prov:atTime) rdfs:subPropertyOf prov:endedAtTime."@en ;
+                                        <http://www.w3.org/ns/prov#qualifiedForm> <http://www.w3.org/ns/prov#End> ,
+                                                                                  <http://www.w3.org/ns/prov#atTime> .
+
+
+###  http://www.w3.org/ns/prov#generatedAtTime
+<http://www.w3.org/ns/prov#generatedAtTime> rdf:type owl:DatatypeProperty ;
+                                            rdfs:domain <http://www.w3.org/ns/prov#Entity> .
+
+
+###  http://www.w3.org/ns/prov#invalidatedAtTime
+<http://www.w3.org/ns/prov#invalidatedAtTime> rdf:type owl:DatatypeProperty ;
+                                              rdfs:domain <http://www.w3.org/ns/prov#Entity> .
+
+
+###  http://www.w3.org/ns/prov#startedAtTime
+<http://www.w3.org/ns/prov#startedAtTime> rdf:type owl:DatatypeProperty ;
+                                          rdfs:domain <http://www.w3.org/ns/prov#Activity> ;
+                                          rdfs:range xsd:dateTime ;
+                                          rdfs:comment "The time at which an activity started. See also prov:endedAtTime."@en ;
+                                          rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                          rdfs:label "startedAtTime" ;
+                                          <http://www.w3.org/ns/prov#category> "starting-point" ;
+                                          <http://www.w3.org/ns/prov#component> "entities-activities" ;
+                                          <http://www.w3.org/ns/prov#editorialNote> "It is the intent that the property chain holds: (prov:qualifiedStart o prov:atTime) rdfs:subPropertyOf prov:startedAtTime."@en ;
+                                          <http://www.w3.org/ns/prov#qualifiedForm> <http://www.w3.org/ns/prov#Start> ,
+                                                                                    <http://www.w3.org/ns/prov#atTime> .
 
 
 #################################################################
 #    Classes
 #################################################################
 
-###  http://wikiba.se/ontology#Item
-<http://wikiba.se/ontology#Item> rdf:type owl:Class .
+###  http://material-digital.de/pmdco/AccreditationDocument
+:AccreditationDocument rdf:type owl:Class ;
+                       rdfs:subClassOf :Document .
 
 
-###  http://wikiba.se/ontology#QuantityValue
-<http://wikiba.se/ontology#QuantityValue> rdf:type owl:Class ;
-                                          rdfs:subClassOf <http://wikiba.se/ontology#Value> ;
-                                          rdfs:comment "Wikibase extended value representing quantity." ;
-                                          rdfs:label "QuantityValue" .
+###  http://material-digital.de/pmdco/Acoustical
+:Acoustical rdf:type owl:Class ;
+            rdfs:subClassOf :MaterialProperty .
 
 
-###  http://wikiba.se/ontology#Value
-<http://wikiba.se/ontology#Value> rdf:type owl:Class .
+###  http://material-digital.de/pmdco/Address
+:Address rdf:type owl:Class ;
+         rdfs:subClassOf :ValueObject .
 
 
-###  https://material-digital.de/pmdco/AnalysisProcess
-:AnalysisProcess rdf:type owl:Class ;
-                 rdfs:subClassOf :Process ;
-                 rdfs:comment """A process that is driven by the primary intent to gain new measurements
+###  http://material-digital.de/pmdco/AgingInterval
+:AgingInterval rdf:type owl:Class ;
+               rdfs:subClassOf :AgingTime ;
+               rdfs:comment "Timespan a Temperature during  an Aging Process is hold."@en ;
+               rdfs:label "Aging Interval"@en .
+
+
+###  http://material-digital.de/pmdco/AgingProcess
+:AgingProcess rdf:type owl:Class ;
+              rdfs:subClassOf :Process ;
+              rdfs:comment "Das Aging oder Auslagern ist ein Anlassvorgang, der den Martensit (Härtungsgefüge) wieder duktil und verformbar macht. Dabei wird ein Agingvorgang genutzt, nämlich die Bildung von Ausscheidungen in Form von FeXCY - Carbiden"@de ,
+                           "The process of hardening an alloy by a method that causes a constituent to precipitate from solid solution."@en ;
+              rdfs:label "Aging Process"@en ;
+              <http://www.w3.org/2004/02/skos/core#example> "The Process of austenitizing and quenching a steel alloy to achieve a martensitic microstructure for hardness increase."@en .
+
+
+###  http://material-digital.de/pmdco/AgingTemperature
+:AgingTemperature rdf:type owl:Class ;
+                  rdfs:subClassOf :Temperature ;
+                  rdfs:comment "Variable Temperature during an Aging Process depending on the desired deposition formations."@en ;
+                  rdfs:label "Aging Temperature"@en .
+
+
+###  http://material-digital.de/pmdco/AgingTime
+:AgingTime rdf:type owl:Class ;
+           rdfs:subClassOf :Time ;
+           rdfs:comment "The timespan that an Aging Process executes to completion."@en ;
+           rdfs:label "Aging Time"@en .
+
+
+###  http://material-digital.de/pmdco/Algorithm
+:Algorithm rdf:type owl:Class ;
+           rdfs:subClassOf :Method ;
+           rdfs:comment "A procedure for solving a mathematical problem (as of finding the greatest common divisor) in a finite number of steps that frequently involves repetition of an operation."@en ;
+           rdfs:isDefinedBy "“Algorithm.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/algorithm. Accessed 24 Nov. 2022."@en ;
+           rdfs:label "Algorithm"@en .
+
+
+###  http://material-digital.de/pmdco/AmorphousStructure
+:AmorphousStructure rdf:type owl:Class ;
+                    rdfs:subClassOf :MaterialStructure .
+
+
+###  http://material-digital.de/pmdco/AnalysingProcess
+:AnalysingProcess rdf:type owl:Class ;
+                  rdfs:subClassOf :Process ;
+                  rdfs:comment """A process that is driven by the primary intent to gain new measurements
 An analysis process is either a transformative process or a non-transformative process."""@en ;
-                 rdfs:label "Analysis Process"@en .
+                  rdfs:label "Analysing Process"@en .
 
 
-###  https://material-digital.de/pmdco/AtomisticLevelMaterialStructure
-:AtomisticLevelMaterialStructure rdf:type owl:Class ;
-                                 rdfs:subClassOf :MaterialStructure ;
-                                 rdfs:comment "It is a material length scale. Includes individual atoms and their spatial arrangement, information on the chemical elements, information on the lattice and crystal structure, 0-dimensional crystal defects"@en ;
-                                 rdfs:label "Atomistic Level Material Structure"@en .
+###  http://material-digital.de/pmdco/Area
+:Area rdf:type owl:Class ;
+      rdfs:subClassOf :ValueObject ;
+      rdfs:comment "The extent or measurement of a surface."@en ;
+      rdfs:label "Area"@en ,
+                 "Fläche"@de .
 
 
-###  https://material-digital.de/pmdco/Component
+###  http://material-digital.de/pmdco/AssemblingProcess
+:AssemblingProcess rdf:type owl:Class ;
+                   rdfs:subClassOf :Process .
+
+
+###  http://material-digital.de/pmdco/Biological
+:Biological rdf:type owl:Class ;
+            rdfs:subClassOf :MaterialProperty .
+
+
+###  http://material-digital.de/pmdco/Blank
+:Blank rdf:type owl:Class ;
+       rdfs:subClassOf :Object ;
+       rdfs:comment "A piece of material prepared to be made into something by a further operation."@en ;
+       rdfs:isDefinedBy "“Blank.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/blank. Accessed 25 Nov. 2022."@en ;
+       rdfs:label "Blank"@en .
+
+
+###  http://material-digital.de/pmdco/BondingType
+:BondingType rdf:type owl:Class ;
+             rdfs:subClassOf :Material .
+
+
+###  http://material-digital.de/pmdco/BrinellHardnessTest
+:BrinellHardnessTest rdf:type owl:Class ;
+                     rdfs:subClassOf :HardnessTest ;
+                     rdfs:comment "Testing the hardness of a metal or alloy measured by hydraulically pressing a hard ball under a standard load into the specimen."@en ;
+                     rdfs:isDefinedBy "“Brinell hardness.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/Brinell%20hardness. Accessed 24 Nov. 2022."@en ;
+                     rdfs:label "Brinell Hardness Test"@en .
+
+
+###  http://material-digital.de/pmdco/CalibrationDocument
+:CalibrationDocument rdf:type owl:Class ;
+                     rdfs:subClassOf :Document .
+
+
+###  http://material-digital.de/pmdco/CalibrationRange
+:CalibrationRange rdf:type owl:Class ;
+                  rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/Caliper
+:Caliper rdf:type owl:Class ;
+         rdfs:subClassOf :MeasuringDevice .
+
+
+###  http://material-digital.de/pmdco/ChangeInTransversalDimension
+:ChangeInTransversalDimension rdf:type owl:Class ;
+                              rdfs:subClassOf :Length .
+
+
+###  http://material-digital.de/pmdco/Chemical
+:Chemical rdf:type owl:Class ;
+          rdfs:subClassOf :MaterialProperty .
+
+
+###  http://material-digital.de/pmdco/ChemicalElement
+:ChemicalElement rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :ValueObject
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :relatesTo ;
+                                                              owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI_24431>
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :ValueObject ;
+                 rdfs:comment "Value object that describes the quantity (e.g. mass fraction) of a specific chemical element."@en ;
+                 rdfs:label "Chemical Element"@en .
+
+
+###  http://material-digital.de/pmdco/Circular
+:Circular rdf:type owl:Class ;
+          rdfs:subClassOf :Shape .
+
+
+###  http://material-digital.de/pmdco/ClampingPressure
+:ClampingPressure rdf:type owl:Class ;
+                  rdfs:subClassOf :Stress .
+
+
+###  http://material-digital.de/pmdco/ClassificationDocument
+:ClassificationDocument rdf:type owl:Class ;
+                        rdfs:subClassOf :Document .
+
+
+###  http://material-digital.de/pmdco/CoatingDesignation
+:CoatingDesignation rdf:type owl:Class ;
+                    rdfs:subClassOf :Material .
+
+
+###  http://material-digital.de/pmdco/CollectionInterfaceHint
+:CollectionInterfaceHint rdf:type owl:Class ;
+                         rdfs:subClassOf :NodeInfo ;
+                         rdfs:comment "A label in support of identifying a network interface and/or address used by a process node to provide primary data stored in ontologies"@en ;
+                         rdfs:label "Collection Interface Hint"@en .
+
+
+###  http://material-digital.de/pmdco/CommissionTime
+:CommissionTime rdf:type owl:Class ;
+                rdfs:subClassOf :Time ;
+                rdfs:comment "Date and time an order or plan has been dispatched at."@en ;
+                rdfs:label "Commission Time"@en .
+
+
+###  http://material-digital.de/pmdco/Component
 :Component rdf:type owl:Class ;
            rdfs:subClassOf :Object ;
            rdfs:comment "An object that serves a specific technical application. Constituent part of a compound of parts that builds a technical application"@en ;
            rdfs:label "Component"@en .
 
 
-###  https://material-digital.de/pmdco/ContinuumLevelMaterialStructure
-:ContinuumLevelMaterialStructure rdf:type owl:Class ;
-                                 rdfs:subClassOf :MaterialStructure ;
-                                 rdfs:comment "A material structure that is at the length level of the the entire geometry."@en ;
-                                 rdfs:label "Continuum Level Material Structure"@en .
+###  http://material-digital.de/pmdco/CompressionTest
+:CompressionTest rdf:type owl:Class ;
+                 rdfs:subClassOf :MechanicalTestingProcess ;
+                 rdfs:label "Compression Test"@en .
 
 
-###  https://material-digital.de/pmdco/DataResource
-:DataResource rdf:type owl:Class ;
-              rdfs:comment "A data resource is file which contains parameters and measurements of a process."@en ;
-              rdfs:label "Data Resource"@en .
+###  http://material-digital.de/pmdco/ComputingNode
+:ComputingNode rdf:type owl:Class ;
+               rdfs:subClassOf :ProcessingNode .
 
 
-###  https://material-digital.de/pmdco/HeaderField
-:HeaderField rdf:type owl:Class ;
-             rdfs:comment "A class bundling the semantics for a specific column in a table inside a (multidimensional) blob. Includes column number, pointer to concept, pointer to unit, and human readable description."@en ;
-             rdfs:label "Header Field"@en .
+###  http://material-digital.de/pmdco/ConditioningProcess
+:ConditioningProcess rdf:type owl:Class ;
+                     rdfs:subClassOf :Process .
 
 
-###  https://material-digital.de/pmdco/ManufactureNode
-:ManufactureNode rdf:type owl:Class ;
-                 rdfs:subClassOf :ProcessNode ;
-                 rdfs:comment """A process node that implements transformative processes as well as consumes and creates tangible objects and typically requires inputs
+###  http://material-digital.de/pmdco/Coordinates
+:Coordinates rdf:type owl:Class ;
+             rdfs:subClassOf :ValueObject ;
+             rdfs:comment "Any of a set of numbers used in specifying the location of a point on a line, on a surface, or in space."@en ;
+             rdfs:isDefinedBy "“Coordinate.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/coordinate. Accessed 5 Dec. 2022."@en ;
+             rdfs:label "Coordinates"@en .
+
+
+###  http://material-digital.de/pmdco/CovalentBond
+:CovalentBond rdf:type owl:Class ;
+              rdfs:subClassOf :BondingType .
+
+
+###  http://material-digital.de/pmdco/CreepStress
+:CreepStress rdf:type owl:Class ;
+             rdfs:subClassOf :Stress ;
+             rdfs:comment "Is the strain occuring with time, when a constant force is applied to a physical body."@en ;
+             rdfs:label "Creep Stress"@en .
+
+
+###  http://material-digital.de/pmdco/CrossSectionArea
+:CrossSectionArea rdf:type owl:Class ;
+                  rdfs:subClassOf :Area .
+
+
+###  http://material-digital.de/pmdco/CrossSectionDetermination
+:CrossSectionDetermination rdf:type owl:Class ;
+                           rdfs:subClassOf :Method ;
+                           rdfs:comment """Cross section is a cutting or piece of something cut off at right angles to an axis
+also : a representation of such a cutting."""@en ;
+                           rdfs:isDefinedBy "“Cross section.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/cross%20section. Accessed 24 Nov. 2022."@en ;
+                           rdfs:label "Cross Section Determination"@en ;
+                           <http://www.w3.org/2004/02/skos/core#example> "Using the density of the test piece."@en .
+
+
+###  http://material-digital.de/pmdco/CrossheadSeparation
+:CrossheadSeparation rdf:type owl:Class ;
+                     rdfs:subClassOf :ValueObject ;
+                     rdfs:comment """Dimensional analysis: L
+Unit (e.g. SI): mm"""@en ;
+                     rdfs:label "Crosshead Separation"@en .
+
+
+###  http://material-digital.de/pmdco/CrossheadSeparationRate
+:CrossheadSeparationRate rdf:type owl:Class ;
+                         rdfs:subClassOf :TestingRate ;
+                         rdfs:comment "Symbol: v_c"@en ,
+                                      """Traversenweg je Zeiteinheit
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                      """displacement of the crossheads per time
+
+Source: ISO 6892-1:2019"""@en ;
+                         rdfs:label "Crosshead Separation Rate"@en ,
+                                    "Traversengeschwindigkeit"@de .
+
+
+###  http://material-digital.de/pmdco/CrystallineStructure
+:CrystallineStructure rdf:type owl:Class ;
+                      rdfs:subClassOf :MaterialStructure .
+
+
+###  http://material-digital.de/pmdco/DataAcquisitionRate
+:DataAcquisitionRate rdf:type owl:Class ;
+                     rdfs:subClassOf :Distance .
+
+
+###  http://material-digital.de/pmdco/DataCiteObject
+:DataCiteObject rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( :ValueObject
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :relatesTo ;
+                                                             owl:someValuesFrom <http://purl.org/spar/datacite/Identifier>
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/DataScope
+:DataScope rdf:type owl:Class ;
+           rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+           rdfs:comment "This property is used to categorize data with respect to their intended usage in accordance with a regarded object or process."@en ;
+           rdfs:label "Data Scope"@en .
+
+
+###  http://material-digital.de/pmdco/Date
+:Date rdf:type owl:Class ;
+      rdfs:subClassOf :Time .
+
+
+###  http://material-digital.de/pmdco/DemountingProcess
+:DemountingProcess rdf:type owl:Class ;
+                   rdfs:subClassOf :AssemblingProcess ;
+                   rdfs:comment "This property is used to describe the process of removing or disassembling a test piece or specimen from a test machine. This may include the usage of other process nodes (e.g. grips)."@en ;
+                   rdfs:label "Demounting Process"@en .
+
+
+###  http://material-digital.de/pmdco/Department
+:Department rdf:type owl:Class ;
+            rdfs:subClassOf <http://www.w3.org/ns/prov#Organization> ;
+            rdfs:comment "A sub section of an organization [FIXME]"@en ;
+            rdfs:label "Department"@en .
+
+
+###  http://material-digital.de/pmdco/Description
+:Description rdf:type owl:Class ;
+             rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/Diameter
+:Diameter rdf:type owl:Class ;
+          rdfs:subClassOf :ValueObject ;
+          rdfs:comment "The length of a straight line through the center of an object or space."@en ;
+          rdfs:isDefinedBy "“Diameter.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/diameter. Accessed 5 Dec. 2022."@en ;
+          rdfs:label "Diameter"@en .
+
+
+###  http://material-digital.de/pmdco/DiameterAfterFracture
+:DiameterAfterFracture rdf:type owl:Class ;
+                       rdfs:subClassOf :Diameter .
+
+
+###  http://material-digital.de/pmdco/DigitalMaterialIdentifier
+:DigitalMaterialIdentifier rdf:type owl:Class ;
+                           owl:equivalentClass [ owl:intersectionOf ( :Identifier
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty :hasResource ;
+                                                                        owl:someValuesFrom <http://w3id.org/DMI/DigitalMaterialIdentifier>
+                                                                      ]
+                                                                    ) ;
+                                                 rdf:type owl:Class
+                                               ] ;
+                           rdfs:subClassOf :Identifier ;
+                           rdfs:comment """The DigitalMaterialIdentifier value object refers to a dmi:DigitalMaterialIdentifier.
+
+A dmi:DigitalMaterialIdentifier is a resource identifier (IRI) that represents the specification of a material (in the sense of a material class) described in a specification document. The specification document can be, e.g., a standard, a datasheet, or any other citable document. Typically, a specification document requires some qualities that a material (in the sense of a portion of matter) has to comply with. Typical requirements include chemical compositions or physical properties."""@en ;
+                           rdfs:label "Digital Material Identifier"@en .
+
+
+###  http://material-digital.de/pmdco/DimensionMeasuringDevice
+:DimensionMeasuringDevice rdf:type owl:Class ;
+                          rdfs:subClassOf :MeasuringDevice .
+
+
+###  http://material-digital.de/pmdco/Distance
+:Distance rdf:type owl:Class ;
+          rdfs:subClassOf :ValueObject ;
+          rdfs:comment "Spatial remoteness."@en ;
+          rdfs:isDefinedBy "“Distance.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/distance. Accessed 5 Dec. 2022."@en ;
+          rdfs:label "Distance"@en .
+
+
+###  http://material-digital.de/pmdco/Document
+:Document rdf:type owl:Class ;
+          rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/Duration
+:Duration rdf:type owl:Class ;
+          rdfs:subClassOf :Time .
+
+
+###  http://material-digital.de/pmdco/Electrical
+:Electrical rdf:type owl:Class ;
+            rdfs:subClassOf :MaterialProperty .
+
+
+###  http://material-digital.de/pmdco/ElectronMicroscope
+:ElectronMicroscope rdf:type owl:Class ;
+                    rdfs:subClassOf :Micropscope ;
+                    rdfs:comment "An electron-optical instrument in which a beam of electrons is used to produce an enlarged image of a minute object."@en ;
+                    rdfs:isDefinedBy "“Electron microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/electron%20microscope. Accessed 24 Nov. 2022."@en ;
+                    rdfs:label "Electron Microscope"@en .
+
+
+###  http://material-digital.de/pmdco/ElectronMicroscopy
+:ElectronMicroscopy rdf:type owl:Class ;
+                    rdfs:subClassOf :MicroscopyProcess ;
+                    rdfs:label "Electron Microscopy"@en .
+
+
+###  http://material-digital.de/pmdco/ElementalComposition
+:ElementalComposition rdf:type owl:Class ;
+                      rdfs:subClassOf :Material .
+
+
+###  http://material-digital.de/pmdco/Elliptical
+:Elliptical rdf:type owl:Class ;
+            rdfs:subClassOf :Shape .
+
+
+###  http://material-digital.de/pmdco/Elongation
+:Elongation rdf:type owl:Class ;
+            rdfs:subClassOf :ValueObject ;
+            rdfs:comment """Zunahme der Anfangsmesslänge zu einem beliebigen Zeitpunkt während des Versuchs
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                         """increase in the original gauge length at any moment during the test
+
+Source: ISO 6892-1:2019"""@en ;
+            rdfs:label "Elongation"@en ,
+                       "Verlängerung"@de .
+
+
+###  http://material-digital.de/pmdco/EndTime
+:EndTime rdf:type owl:Class ;
+         rdfs:subClassOf :Time ;
+         rdfs:comment "The date and time when the plan/recipe is supposed to have been finished"@en ;
+         rdfs:label "End Time"@en .
+
+
+###  http://material-digital.de/pmdco/EngineeringStrain
+:EngineeringStrain rdf:type owl:Class ;
+                   owl:equivalentClass :PercentageExtension ;
+                   rdfs:subClassOf :ValueObject ;
+                   rdfs:label "Engineering Strain"@en ,
+                              "technische Dehnung"@de .
+
+
+###  http://material-digital.de/pmdco/EnvironmentalTemperature
+:EnvironmentalTemperature rdf:type owl:Class ;
+                          rdfs:subClassOf :Temperature .
+
+
+###  http://material-digital.de/pmdco/ErrorReportDocument
+:ErrorReportDocument rdf:type owl:Class ;
+                     rdfs:subClassOf :Document .
+
+
+###  http://material-digital.de/pmdco/EstimatedStrainRateOverTheParallelLength
+:EstimatedStrainRateOverTheParallelLength rdf:type owl:Class ;
+                                          rdfs:subClassOf :TestingRate ;
+                                          rdfs:comment "Symbol: e^._L_c"@en ,
+                                                       """Zunahme der Dehnung über die parallele Länge der Probe je Zeiteinheit, basierend auf der Traversengeschwindigkeit und der parallelen Länge der Probe
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                                       """value of the increase of strain over the parallel length of the test piece per time based on the crosshead separation rate and the parallel length of the test piece
+
+Source: ISO 6892-1:2019"""@en ;
+                                          rdfs:label "Abgeschätzte Dehngeschwindigkeit Über Die Parallele Länge"@de ,
+                                                     "Estimated Strain Rate Over The Parallel Length"@en .
+
+
+###  http://material-digital.de/pmdco/Extension
+:Extension rdf:type owl:Class ;
+           rdfs:subClassOf :ValueObject ;
+           rdfs:comment """Dimensional analysis: L
+Unit (e.g. SI): mm"""@en ,
+                        """Increase in the extensometer gauge length at any moment during the test
+
+Source: ISO 6892-1:2019"""@en ,
+                        """Note: The extension might be measured using different channels (e.g. when using one or two extensometer channels); usually, the mean average value of involved channels is given as extension value, if applicable.
+
+Note: Optical extensometry may require a specific data storage method."""@en ,
+                        """Zunahme der Extensometer-Messlänge zu einem beliebigen Zeitpunkt des Versuchs
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ;
+           rdfs:label "Extension"@en ,
+                      "Verlängerung (der Extensometer-Messlänge)"@de .
+
+
+###  http://material-digital.de/pmdco/Extensometer
+:Extensometer rdf:type owl:Class ;
+              rdfs:subClassOf :MeasuringDevice ;
+              rdfs:comment "An instrument for measuring minute deformations of test specimens caused by tension, compression, bending, or twisting."@en ;
+              rdfs:isDefinedBy "“Extensometer.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/extensometer. Accessed 5 Dec. 2022."@en ;
+              rdfs:label "Extensometer"@en .
+
+
+###  http://material-digital.de/pmdco/ExtensometerGaugeLength
+:ExtensometerGaugeLength rdf:type owl:Class ;
+                         rdfs:subClassOf :GaugeLength ;
+                         rdfs:comment """Anfangsmesslänge des Dehnungsaufnehmers (Extensometer), die zum Messen der Verlängerung benutzt wird
+
+Anmerkung: Für die Bestimmung mehrerer Eigenschaften, die (teilweise oder vollständig) von der Verlängerung abhängig sind, z. B. R_p, A_e oder A_g, ist die Verwendung eines Extensometers zwingend erforderlich.
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                      "Symbol: L_e"@en ,
+                                      """initial gauge length of the extensometer used for measurement of extension
+
+Note: For the determination of several properties which are based (partly or complete) on extension, e. g. R_p, A_e or A_g, the use of an extensometer is mandatory.
+
+Source: ISO 6892-1:2019"""@en ;
+                         rdfs:label "Extensometer Gauge Length"@en ,
+                                    "Extensometer-Messlänge"@de .
+
+
+###  http://material-digital.de/pmdco/FeretDiameter
+:FeretDiameter rdf:type owl:Class ;
+               rdfs:subClassOf :Diameter ;
+               rdfs:comment """The Feret diameter or Feret's diameter is a measure of an object size along a specified direction. In general, it can be defined as the distance between the two parallel planes restricting the object perpendicular to that direction.
+(cf. Wikipedia: https://en.wikipedia.org/wiki/Feret_diameter)"""@en ;
+               rdfs:label "Feret diameter"@en .
+
+
+###  http://material-digital.de/pmdco/Filter
+:Filter rdf:type owl:Class ;
+        rdfs:subClassOf :Algorithm ;
+        rdfs:comment "A filter is a computer program or subroutine to process a stream, producing another stream. While a single filter can be used individually, they are frequently strung together to form a pipeline."@en ;
+        rdfs:isDefinedBy "https://en.wikipedia.org/wiki/Filter_%28software%29"@en ;
+        rdfs:label "Filter"@en ;
+        <http://www.w3.org/2004/02/skos/core#example> "Smoothing algorithm"@en .
+
+
+###  http://material-digital.de/pmdco/FinalGaugeLengthAfterFracture
+:FinalGaugeLengthAfterFracture rdf:type owl:Class ;
+                               rdfs:subClassOf :GaugeLength ;
+                               rdfs:comment """Länge zwischen den Marken zur Kennzeichnung der Messlänge auf der Probe, die nach dem Bruch bei Raumtemperatur gemessen wird, nachdem die beiden Probenbruchstücke sorgfältig so zusammengefügt wurden, dass ihre Achsen in einer Geraden liegen
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                            """length between gauge length marks on the test piece measured after rupture, at room temperature, the two pieces having been carefully fitted back together so that their axes lie in a straight line
+
+Source: ISO 6892-1:2019"""@en ;
+                               rdfs:label "Final Gauge Length After Fracture"@en ,
+                                          "Messlänge nach dem Bruch"@de ,
+                                          "Symbol: L_u"@en .
+
+
+###  http://material-digital.de/pmdco/FinalProcess
+:FinalProcess rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( :Process
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :hasNextProcess ;
+                                                           owl:maxQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                                           owl:onClass :Process
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:subClassOf :Process .
+
+
+###  http://material-digital.de/pmdco/Force
+:Force rdf:type owl:Class ;
+       rdfs:subClassOf :ValueObject ;
+       rdfs:comment "Strength or energy exerted or brought to bear : cause of motion or change : active power."@en ;
+       rdfs:isDefinedBy "“Force.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/force. Accessed 5 Dec. 2022."@en ;
+       rdfs:label "Force"@en .
+
+
+###  http://material-digital.de/pmdco/Furnace
+:Furnace rdf:type owl:Class ;
+         rdfs:subClassOf :ProcessingNode ;
+         rdfs:label "Furnace"@en .
+
+
+###  http://material-digital.de/pmdco/FurnaceCharacteristic
+:FurnaceCharacteristic rdf:type owl:Class ;
+                       rdfs:subClassOf :ValueObject ;
+                       rdfs:comment "Properties that describe the functions and capabilities of a heat treatment process node."@en ;
+                       rdfs:label "Furnace Characteristic"@en .
+
+
+###  http://material-digital.de/pmdco/GaugeLength
+:GaugeLength rdf:type owl:Class ;
+             rdfs:subClassOf :Length ;
+             rdfs:comment """Länge des parallelen Teils der Probe, an dem zu einem beliebigen Zeitpunkt während des Versuchs die Verlängerung gemessen wird
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                          "Symbol: L"@en ,
+                          """length of the parallel portion of the test piece on which elongation is measured at any moment during the test
+
+Source: ISO 6892-1:2019"""@en ;
+             rdfs:label "Gauge Length"@en ,
+                        "Messlänge"@de .
+
+
+###  http://material-digital.de/pmdco/GeometryShape
+:GeometryShape rdf:type owl:Class ;
+               rdfs:subClassOf :TestPieceInfo .
+
+
+###  http://material-digital.de/pmdco/Grips
+:Grips rdf:type owl:Class ;
+       rdfs:subClassOf :ProcessingNode ;
+       rdfs:label "Grips"@en .
+
+
+###  http://material-digital.de/pmdco/GripsAlignment
+:GripsAlignment rdf:type owl:Class ;
+                rdfs:subClassOf :QualifyingNodeAnnotation .
+
+
+###  http://material-digital.de/pmdco/HardnessTest
+:HardnessTest rdf:type owl:Class ;
+              rdfs:subClassOf :MechanicalTestingProcess ;
+              rdfs:comment "Indentation hardness tests measure the resistance of a sample to material deformation due to a constant compression load from a sharp object. There are several of such tests, wherein the examined material is indented until an impression is formed; these tests can be performed on a macroscopic or microscopic scale."@en ;
+              rdfs:label "Hardness Test"@en ,
+                         "Härteprüfung"@de .
+
+
+###  http://material-digital.de/pmdco/HeatCapacity
+:HeatCapacity rdf:type owl:Class ;
+              rdfs:subClassOf :FurnaceCharacteristic ;
+              rdfs:comment "Heat capacity or thermal capacity is a physical property of matter, defined as the amount of heat to be supplied to an object to produce a unit change in its temperature."@en ;
+              rdfs:isDefinedBy "https://en.wikipedia.org/wiki/Heat_capacity"@en ;
+              rdfs:label "Heat Capacity"@en .
+
+
+###  http://material-digital.de/pmdco/HeatTreatmentProcess
+:HeatTreatmentProcess rdf:type owl:Class ;
+                      rdfs:subClassOf :ConditioningProcess ;
+                      rdfs:comment "The process of heat treatment means a defined temperature change and a holding to achieve a change in the microstructure, residual stresses, defect distribution or local chemical composition of a material."@en ,
+                                   "To treat (a material, such as metal) by heating and cooling in a way that will produce desired properties."@en ;
+                      rdfs:isDefinedBy "“Heat-treat.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/heat-treat. Accessed 24 Nov. 2022."@en ;
+                      rdfs:label "Heat Treatment Process"@en .
+
+
+###  http://material-digital.de/pmdco/HydrogenBond
+:HydrogenBond rdf:type owl:Class ;
+              rdfs:subClassOf :BondingType .
+
+
+###  http://material-digital.de/pmdco/Identifier
+:Identifier rdf:type owl:Class ;
+            rdfs:subClassOf :ValueObject ;
+            rdfs:comment "A named value intended to distinguish between entities."@en ;
+            rdfs:label "Identifier"@en .
+
+
+###  http://material-digital.de/pmdco/Image
+:Image rdf:type owl:Class ;
+       rdfs:subClassOf :Object ;
+       rdfs:comment "A visual representation of something"@en ;
+       rdfs:isDefinedBy "“Image.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/image. Accessed 25 Nov. 2022."@en ;
+       rdfs:label "Image"@en .
+
+
+###  http://material-digital.de/pmdco/Index
+:Index rdf:type owl:Class ;
+       rdfs:subClassOf :ValueObject ;
+       rdfs:comment "Some running number."@en ;
+       rdfs:label "Index"@de ,
+                  "Index"@en .
+
+
+###  http://material-digital.de/pmdco/Initiator
+:Initiator rdf:type owl:Class ;
+           rdfs:subClassOf <http://www.w3.org/ns/prov#Person> ;
+           rdfs:comment "The Person that commisioned the process."@en ;
+           rdfs:label "Initiator"@en .
+
+
+###  http://material-digital.de/pmdco/InsertSurface
+:InsertSurface rdf:type owl:Class ;
+               rdfs:subClassOf :QualifyingNodeAnnotation .
+
+
+###  http://material-digital.de/pmdco/InspectionDocument
+:InspectionDocument rdf:type owl:Class ;
+                    rdfs:subClassOf :Document .
+
+
+###  http://material-digital.de/pmdco/IonicBond
+:IonicBond rdf:type owl:Class ;
+           rdfs:subClassOf :BondingType .
+
+
+###  http://material-digital.de/pmdco/Laboratory
+:Laboratory rdf:type owl:Class ;
+            rdfs:subClassOf <http://www.w3.org/ns/prov#Organization> ;
+            rdfs:comment "A place equipped for experimental study in a science or for testing and analysis."@en ;
+            rdfs:isDefinedBy "“Laboratory.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/laboratory. Accessed 24 Nov. 2022."@en ;
+            rdfs:label "Laboratory"@en .
+
+
+###  http://material-digital.de/pmdco/Length
+:Length rdf:type owl:Class ;
+        rdfs:subClassOf :ValueObject ;
+        rdfs:label "Length"@en .
+
+
+###  http://material-digital.de/pmdco/LightMicroscopy
+:LightMicroscopy rdf:type owl:Class ;
+                 rdfs:subClassOf :OpticalMicroscopy ;
+                 rdfs:comment "A microscopy done with an ordinary microscope that uses light as distinguished from an electron microscope."@en ;
+                 rdfs:isDefinedBy "“Light microscope.” Merriam-Webster.com Medical Dictionary, Merriam-Webster, https://www.merriam-webster.com/medical/light%20microscope. Accessed 24 Nov. 2022."@en ;
+                 rdfs:label "Light Microscopy"@en .
+
+
+###  http://material-digital.de/pmdco/LoadCell
+:LoadCell rdf:type owl:Class ;
+          rdfs:subClassOf :ProcessingNode ;
+          rdfs:comment "A load cell converts a force such as tension, compression, pressure, or torque into an electrical signal that can be measured and standardized. It is a force transducer. As the force applied to the load cell increases, the electrical signal changes proportionally. The most common types of load cell are pneumatic, hydraulic, and strain gauges."@en ;
+          rdfs:isDefinedBy "https://en.wikipedia.org/wiki/Load_cell"@en ;
+          rdfs:label "Load Cell"@en .
+
+
+###  http://material-digital.de/pmdco/Location
+:Location rdf:type owl:Class ;
+          rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/LowerYieldStrength
+:LowerYieldStrength rdf:type owl:Class ;
+                    rdfs:subClassOf :YieldStrength ;
+                    rdfs:comment "Symbol: R_eL"@en ,
+                                 """kleinste Spannung während des plastischen Fließens, wobei Einschwingerscheinungen nicht berücksichtigt werden
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                 """lowest value of stress during plastic yielding, ignoring any initial transient effects
+
+Source: ISO 6892-1:2019"""@en ;
+                    rdfs:label "Lower Yield Strength"@en ,
+                               "untere Streckgrenze"@de .
+
+
+###  http://material-digital.de/pmdco/Magnetic
+:Magnetic rdf:type owl:Class ;
+          rdfs:subClassOf :MaterialProperty .
+
+
+###  http://material-digital.de/pmdco/MajorAxisDiameter
+:MajorAxisDiameter rdf:type owl:Class ;
+                   rdfs:subClassOf :Diameter ;
+                   rdfs:comment "The shortest diameter of an ellipse."@en ;
+                   rdfs:label "Minor axis diameter"@en .
+
+
+###  http://material-digital.de/pmdco/Manufacturer
+:Manufacturer rdf:type owl:Class ;
+              rdfs:subClassOf <http://www.w3.org/ns/prov#Organization> ;
+              rdfs:comment "Process Node's manufacturer name, e.g.: \"Ipsen\", \"UPC\" or \"Bosch\""@en ;
+              rdfs:label "Manufacturer"@en .
+
+
+###  http://material-digital.de/pmdco/ManufacturingNode
+:ManufacturingNode rdf:type owl:Class ;
+                   rdfs:subClassOf :ProcessingNode ;
+                   rdfs:comment """A process node that implements transformative processes as well as consumes and creates tangible objects and typically requires inputs
 In general but not necessarily, a manufacture node includes intrinsic analysis nodes that create corresponding measurements with respect to the process implemented by the manufacture node."""@en ;
-                 rdfs:label "Manufacture Node"@en .
+                   rdfs:label "Manufacturing Node"@en .
 
 
-###  https://material-digital.de/pmdco/ManufactureProcess
-:ManufactureProcess rdf:type owl:Class ;
-                    rdfs:subClassOf :Process ;
-                    rdfs:comment """A process that is driven by the primary intent to transform objects
+###  http://material-digital.de/pmdco/ManufacturingProcess
+:ManufacturingProcess rdf:type owl:Class ;
+                      rdfs:subClassOf :Process ;
+                      rdfs:comment """A process that is driven by the primary intent to transform objects
 A manufacture process is always a transformative process."""@en ;
-                    rdfs:label "Manufacture Process"@en .
+                      rdfs:label "Manufacture Process"@en .
 
 
-###  https://material-digital.de/pmdco/Material
+###  http://material-digital.de/pmdco/Material
 :Material rdf:type owl:Class ;
-          rdfs:comment """It is a substance or mixture of substances that constitutes an object.
-represented by the sum of material properties and material structure"""@en ;
-          rdfs:label "Material"@en .
+          rdfs:subClassOf :ValueObject .
 
 
-###  https://material-digital.de/pmdco/MaterialProperty
+###  http://material-digital.de/pmdco/MaterialDesignation
+:MaterialDesignation rdf:type owl:Class ;
+                     rdfs:subClassOf :Material ;
+                     rdfs:comment """It is a name or identifier of a material type. It designates a material. 
+E.g. \"steel\", \"aluminium\", \"wood\", \"plastic\", \"rubber\".""" ;
+                     rdfs:label "Material Designation"@en ;
+                     <http://www.w3.org/ns/prov#editorialNote> "former \"Material\" : \"It is a substance or mixture of substances that constitutes an object. represented by the sum of material properties and material structure\"" .
+
+
+###  http://material-digital.de/pmdco/MaterialProperty
 :MaterialProperty rdf:type owl:Class ;
-                  rdfs:comment "Physical property of a material"@en ;
-                  rdfs:label "Material Property"@en .
+                  rdfs:subClassOf :Material .
 
 
-###  https://material-digital.de/pmdco/MaterialStructure
+###  http://material-digital.de/pmdco/MaterialQuality
+:MaterialQuality rdf:type owl:Class ;
+                 rdfs:subClassOf :Material ;
+                 rdfs:comment "i.e. Materialgüte"@de ;
+                 rdfs:label "Material Quality"@en .
+
+
+###  http://material-digital.de/pmdco/MaterialStructure
 :MaterialStructure rdf:type owl:Class ;
-                   rdfs:comment "Structural and compositional information on a material within the regarded material level, includes 0,1,2,3 dimensional descriptions involves all material levels."@en ;
-                   rdfs:label "Material Structure"@en .
+                   rdfs:subClassOf :Material .
 
 
-###  https://material-digital.de/pmdco/MesoscopicLevelMaterialStructure
-:MesoscopicLevelMaterialStructure rdf:type owl:Class ;
-                                  rdfs:subClassOf :MaterialStructure ;
-                                  rdfs:comment "A material structure that covers multiple grains or phases of the material"@en ;
-                                  rdfs:label "Mesoscopic Level Material Structure"@en .
+###  http://material-digital.de/pmdco/MaximumForce
+:MaximumForce rdf:type owl:Class ;
+              rdfs:subClassOf :Force ;
+              rdfs:comment """Bei Werkstoffen, die kein diskontinuierliches Fließen zeigen: größte Kraft, der die Probe während des Versuchs standhält
+
+Bei Werkstoffen, die ein diskontinuierliches Fließen zeigen: größte Kraft, der die Probe während des Versuchs nach dem Beginn der Verfestigung standhält
+
+Anmerkung: Für Werkstoffe, die ein diskontinuierliches Fließen zeigen, aber keine Verfestigung erzielt werden kann, ist die Höchstkraft nicht definiert
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                           """For materials displaying no discontinuous yielding: highest force that the test piece withstands during the test
+
+For materials displaying discontinuous yielding: highest force that the test piece withstands during the test after the beginning of work-hardening
+
+Note: For materials which display discontinuous yielding, but where no work-hardening can be established, the maximum force is not defined.
+
+Source: ISO 6892-1:2019"""@en ;
+              rdfs:label "Höchstkraft"@de ,
+                         "Maximum Force"@en ,
+                         "Symbol: F_m"@en .
 
 
-###  https://material-digital.de/pmdco/MicroscopicLevelMaterialStructure
-:MicroscopicLevelMaterialStructure rdf:type owl:Class ;
-                                   rdfs:subClassOf :MaterialStructure ;
-                                   rdfs:comment "A material structure on a single grain level"@en ;
-                                   rdfs:label "Microscopic Level Material Structure"@en .
+###  http://material-digital.de/pmdco/Measurement
+:Measurement rdf:type owl:Class ;
+             rdfs:subClassOf :ValueScope ;
+             owl:disjointWith :SetPoint ;
+             rdfs:comment "Measurement is the quantification of attributes of an object or event, which can be used to compare with other objects or events."@en ;
+             rdfs:isDefinedBy "https://en.wikipedia.org/wiki/Measurement"@en ;
+             rdfs:label "Measurement"@en .
 
 
-###  https://material-digital.de/pmdco/NanoLevelMaterialStructure
-:NanoLevelMaterialStructure rdf:type owl:Class ;
-                            rdfs:subClassOf :MaterialStructure ;
-                            rdfs:comment "A Material Structure that involves individual features within one single grain or phase like dislocations or precipitates."@en ;
-                            rdfs:label "Nano Level Material Structure"@en .
+###  http://material-digital.de/pmdco/MeasuringDevice
+:MeasuringDevice rdf:type owl:Class ;
+                 rdfs:subClassOf :ProcessingNode ;
+                 rdfs:comment "A process node capable of determining a specific quality." ;
+                 rdfs:label "Measuring Device"@en .
 
 
-###  https://material-digital.de/pmdco/NonTransformativeAnalysisProcess
+###  http://material-digital.de/pmdco/MeasuringProcess
+:MeasuringProcess rdf:type owl:Class ;
+                  rdfs:subClassOf :AnalysingProcess ;
+                  rdfs:comment "A measurement process acquires data (usually expressed in numbers) by using tools."@en ;
+                  rdfs:label "Measuring Process"@en .
+
+
+###  http://material-digital.de/pmdco/Mechanical
+:Mechanical rdf:type owl:Class ;
+            rdfs:subClassOf :MaterialProperty .
+
+
+###  http://material-digital.de/pmdco/MechanicalTestingProcess
+:MechanicalTestingProcess rdf:type owl:Class ;
+                          rdfs:subClassOf :AnalysingProcess ;
+                          rdfs:comment "Determinization of a mechanical property."@en ;
+                          rdfs:isDefinedBy "“Mechanical test.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/mechanical%20test. Accessed 24 Nov. 2022."@en ;
+                          rdfs:label "Mechanical Testing Process"@en .
+
+
+###  http://material-digital.de/pmdco/MediaMovement
+:MediaMovement rdf:type owl:Class ;
+               rdfs:subClassOf :FurnaceCharacteristic ;
+               rdfs:comment "Displacement of media surrounding objects inside the system boundaries of a process node."@en ;
+               rdfs:label "Media Movement"@en ;
+               <http://www.w3.org/2004/02/skos/core#example> "Circulation of a gaseous media within the systems boundaries."@en .
+
+
+###  http://material-digital.de/pmdco/Medium
+:Medium rdf:type owl:Class ;
+        rdfs:subClassOf :Object ;
+        rdfs:comment "Substance that surrounds an object inside the system boundaries of a process node."@en ;
+        rdfs:label "Medium"@en .
+
+
+###  http://material-digital.de/pmdco/Metadata
+:Metadata rdf:type owl:Class ;
+          rdfs:subClassOf :DataScope ,
+                          :ValueObject ;
+          owl:disjointWith :PrimaryData ,
+                           :SecondaryData ;
+          rdfs:comment "Attributes and additional data (provenance) concerning the factory, laboratory, the process system and the objects which allow the evaluation of the quality / reliability of the measurements and a systematic search task of a database."@en ;
+          rdfs:label "Metadata"@en .
+
+
+###  http://material-digital.de/pmdco/MetallicBond
+:MetallicBond rdf:type owl:Class ;
+              rdfs:subClassOf :BondingType .
+
+
+###  http://material-digital.de/pmdco/Method
+:Method rdf:type owl:Class ;
+        rdfs:subClassOf :ValueObject ;
+        owl:disjointWith :Process ;
+        rdfs:comment "A way, technique, or process of or for doing something"@en ;
+        rdfs:isDefinedBy "“Method.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/method. Accessed 5 Dec. 2022."@en ;
+        rdfs:label "Method"@en .
+
+
+###  http://material-digital.de/pmdco/MicrometerGauge
+:MicrometerGauge rdf:type owl:Class ;
+                 rdfs:subClassOf :MeasuringDevice .
+
+
+###  http://material-digital.de/pmdco/Micropscope
+:Micropscope rdf:type owl:Class ;
+             rdfs:subClassOf :ProcessingNode ;
+             rdfs:comment "An optical instrument consisting of a lens or combination of lenses for making enlarged images of minute objects."@en ;
+             rdfs:isDefinedBy "“Microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/microscope. Accessed 5 Dec. 2022."@en ;
+             rdfs:label "Microscope"@en .
+
+
+###  http://material-digital.de/pmdco/MicroscopyProcess
+:MicroscopyProcess rdf:type owl:Class ;
+                   rdfs:subClassOf :AnalysingProcess ;
+                   rdfs:comment "The use of or investigation with a microscope."@en ;
+                   rdfs:isDefinedBy "“Microscopy.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/microscopy. Accessed 24 Nov. 2022."@en ;
+                   rdfs:label "Microscopy Process"@en .
+
+
+###  http://material-digital.de/pmdco/MinorAxisDiameter
+:MinorAxisDiameter rdf:type owl:Class ;
+                   rdfs:subClassOf :Diameter ;
+                   rdfs:comment "The longest diameter of an ellipse."@en ;
+                   rdfs:label "Major axis diameter"@en .
+
+
+###  http://material-digital.de/pmdco/ModulusOfElasticity
+:ModulusOfElasticity rdf:type owl:Class ;
+                     rdfs:subClassOf :ValueObject ;
+                     rdfs:comment """Quotient der Änderung der Spannung ΔR und Änderung der prozentualen Dehnung Δe in dem untersuchten Bereich multipliziert mit 100 % 
+
+Anmerkung: Es wird empfohlen, den Wert in GPa, gerundet auf 0,1 GPa, und nach ISO 80000-1 anzugeben.
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                  "Symbol: E"@en ,
+                                  """quotient of change of stress ΔR and change of percentage extension Δe in the range of evaluation, multiplied by 100 %
+
+Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GPa and according to ISO 80000-1.
+
+Source: ISO 6892-1:2019"""@en ;
+                     rdfs:label "Elastizitätsmodul"@de ,
+                                "Modulus Of Elasticity"@en .
+
+
+###  http://material-digital.de/pmdco/MountingProcess
+:MountingProcess rdf:type owl:Class ;
+                 rdfs:subClassOf :AssemblingProcess ;
+                 owl:disjointWith :TemperatureChangingProcess ;
+                 rdfs:comment "This property is used to describe the process of installing, assembling oder otherwise incorporating a test piece or specimen into a test machine. This may include the usage of other process nodes (e.g. grips)."@en ;
+                 rdfs:label "Mounting Process"@en .
+
+
+###  http://material-digital.de/pmdco/NodeInfo
+:NodeInfo rdf:type owl:Class ;
+          rdfs:subClassOf :ValueObject ;
+          rdfs:comment "Descriptive values to specify a process node."@en ;
+          rdfs:label "Node Info"@en .
+
+
+###  http://material-digital.de/pmdco/NodeModel
+:NodeModel rdf:type owl:Class ;
+           rdfs:subClassOf :NodeInfo ;
+           rdfs:comment "Process Node short description, e.g. \"Vacuum Furnace\""@en ;
+           rdfs:label "Node Model"@en .
+
+
+###  http://material-digital.de/pmdco/NodeName
+:NodeName rdf:type owl:Class ;
+          rdfs:subClassOf :NodeInfo ;
+          rdfs:comment "A human-generated identifier associated with a discernible, tangible or simulated entity intended to be unique in a given scope"@en ;
+          rdfs:label "Node Name"@en .
+
+
+###  http://material-digital.de/pmdco/NodeSerialNumber
+:NodeSerialNumber rdf:type owl:Class ;
+                  rdfs:subClassOf :NodeInfo .
+
+
+###  http://material-digital.de/pmdco/NodeType
+:NodeType rdf:type owl:Class ;
+          rdfs:subClassOf :NodeInfo ;
+          rdfs:comment "Process Node typename, e.g. \"ProTherm500\""@en ;
+          rdfs:label "Node Type"@en .
+
+
+###  http://material-digital.de/pmdco/NodeVersion
+:NodeVersion rdf:type owl:Class ;
+             rdfs:subClassOf :NodeInfo ;
+             rdfs:comment "Process Node Version Number, e.g. \"2.24\""@en ;
+             rdfs:label "Node Version"@en .
+
+
+###  http://material-digital.de/pmdco/NonTransformativeAnalysisProcess
 :NonTransformativeAnalysisProcess rdf:type owl:Class ;
-                                rdfs:subClassOf :AnalysisProcess ;
-                                rdfs:comment "An analysis process that is also a non-transformative process"@en ;
-                                rdfs:label "Non Transformative Analysis Process"@en .
+                                  rdfs:subClassOf :AnalysingProcess ;
+                                  owl:disjointWith :TransformativeAnalysisProcess ;
+                                  rdfs:comment "An analysis process that is also a non-transformative process"@en ;
+                                  rdfs:label "Non Transformative Analysis Process"@en .
 
 
-###  https://material-digital.de/pmdco/Object
+###  http://material-digital.de/pmdco/Norm
+:Norm rdf:type owl:Class ;
+      rdfs:subClassOf :Method ;
+      rdfs:comment "An authoritative standard."@en ;
+      rdfs:isDefinedBy "“Norm.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/norm. Accessed 24 Nov. 2022."@en ;
+      rdfs:label "Norm"@en ;
+      <http://www.w3.org/2004/02/skos/core#example> "Technical standard issued by the German Institute for Standardisation Registered Association (Deutsches Institut für Normung e.V. - DIN)"@en .
+
+
+###  http://material-digital.de/pmdco/Note
+:Note rdf:type owl:Class ;
+      rdfs:subClassOf :ValueObject ;
+      rdfs:comment "Additional information & knowledge for and by humans. Not expected to be parsable"@en ;
+      rdfs:label "Note"@en .
+
+
+###  http://material-digital.de/pmdco/Object
 :Object rdf:type owl:Class ;
-        rdfs:comment "A discernable, tangible or simulated entity that is processed in a process by a process node. An Object is composed of Voxels."@en ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+        rdfs:comment "A discernable, tangible or simulated entity that is processed in a process by a process node."@en ;
         rdfs:label "Object"@en .
 
 
-###  https://material-digital.de/pmdco/PmdSiUnit
-:PmdSiUnit rdf:type owl:Class ;
-           rdfs:comment "Equivalent to the definition found at https://www.wikidata.org/wiki/Q61610698. Instances of this class represent a tuple of prefix and SI unit"@en ;
-           rdfs:label "PmdSiUnit"@en .
+###  http://material-digital.de/pmdco/Operator
+:Operator rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.w3.org/ns/prov#Person> ;
+          rdfs:comment "A person that operates a machine or device."@en ;
+          rdfs:isDefinedBy "“Operator.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/operator. Accessed 24 Nov. 2022."@en ;
+          rdfs:label "Operator"@en .
 
 
-###  https://material-digital.de/pmdco/Process
+###  http://material-digital.de/pmdco/Optical
+:Optical rdf:type owl:Class ;
+         rdfs:subClassOf :MaterialProperty .
+
+
+###  http://material-digital.de/pmdco/OpticalMicroscopy
+:OpticalMicroscopy rdf:type owl:Class ;
+                   rdfs:subClassOf :MicroscopyProcess ;
+                   rdfs:comment "A microscopy done with a microscope in which light rays are seen directly by the observer as distinguished from one (as an electron microscope) in which some transformation or system of indirect viewing is use."@en ;
+                   rdfs:isDefinedBy "“Optical microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/optical%20microscope. Accessed 24 Nov. 2022."@en ;
+                   rdfs:label "Optical Microscopy"@en .
+
+
+###  http://material-digital.de/pmdco/OriginalDiameter
+:OriginalDiameter rdf:type owl:Class ;
+                  rdfs:subClassOf :Diameter .
+
+
+###  http://material-digital.de/pmdco/OriginalGaugeLength
+:OriginalGaugeLength rdf:type owl:Class ;
+                     rdfs:subClassOf :GaugeLength ;
+                     rdfs:comment """Länge zwischen den Marken zur Kennzeichnung der Messlänge auf der Probe, die vor dem Versuch bei Raumtemperatur gemessen wird
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                  "Symbol: L_o"@en ,
+                                  """length between gauge length marks on the test piece measured at room temperature before the test
+
+Source: ISO 6892-1:2019"""@en ;
+                     rdfs:label "Anfangsmesslänge"@de ,
+                                "Original Gauge Length"@en .
+
+
+###  http://material-digital.de/pmdco/OriginalThickness
+:OriginalThickness rdf:type owl:Class ;
+                   rdfs:subClassOf :Length .
+
+
+###  http://material-digital.de/pmdco/OriginalWidth
+:OriginalWidth rdf:type owl:Class ;
+               rdfs:subClassOf :Width .
+
+
+###  http://material-digital.de/pmdco/ParallelLength
+:ParallelLength rdf:type owl:Class ;
+                rdfs:subClassOf :Length ;
+                rdfs:comment """Länge des parallelen reduzierten Querschnitts der Probe
+
+Anmerkung: Bei unbearbeiteten Proben tritt an die Stelle der parallelen Länge der Abstand zwischen den Einspannungen.
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                             "Symbol: L_c"@en ,
+                             """length of the parallel reduced section of the test piece
+
+Note: The concept of parallel length is replaced by the concept of distance between grips for unmachined test pieces.
+
+Source: ISO 6892-1:2019"""@en ;
+                rdfs:label "Parallel Length"@en ,
+                           "Parallele Länge"@de .
+
+
+###  http://material-digital.de/pmdco/ParallelLengthOriginalWidth
+:ParallelLengthOriginalWidth rdf:type owl:Class ;
+                             rdfs:subClassOf :ValueObject ;
+                             rdfs:label "Parallel Length Original Width"@en .
+
+
+###  http://material-digital.de/pmdco/Particle
+:Particle rdf:type owl:Class ;
+          rdfs:subClassOf :Object ;
+          rdfs:comment "A particle is a small localized object to which can be ascribed several physical or chemical properties, such as volume, density, or mass."@en ;
+          rdfs:label "Particle"@en ,
+                     "Partikel"@de .
+
+
+###  http://material-digital.de/pmdco/ParticleArea
+:ParticleArea rdf:type owl:Class ;
+              rdfs:subClassOf :Area ;
+              rdfs:comment "The extent or measurement of a surface of a particle."@en ;
+              rdfs:label "Particle Area"@en ,
+                         "Partikelfläche"@de .
+
+
+###  http://material-digital.de/pmdco/ParticleNumber
+:ParticleNumber rdf:type owl:Class ;
+                rdfs:subClassOf :Index ;
+                rdfs:label "Particle Number"@en ,
+                           "Partikelnummer"@de .
+
+
+###  http://material-digital.de/pmdco/ParticleRadius
+:ParticleRadius rdf:type owl:Class ;
+                rdfs:subClassOf :Radius ;
+                rdfs:comment "The radius of a particle."@en ;
+                rdfs:label "Particle Radius"@en .
+
+
+###  http://material-digital.de/pmdco/PercentageElongation
+:PercentageElongation rdf:type owl:Class ;
+                      rdfs:subClassOf :Elongation ;
+                      rdfs:comment """Verlängerung, angegeben in Prozent, bezogen auf die Anfangsmesslänge
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                   """elongation expressed as a percentage of the original gauge length
+
+Source: ISO 6892-1:2019"""@en ;
+                      rdfs:label "Dehnung"@de ,
+                                 "Percentage Elongation"@en .
+
+
+###  http://material-digital.de/pmdco/PercentageElongationAfterFracture
+:PercentageElongationAfterFracture rdf:type owl:Class ;
+                                   rdfs:subClassOf :Elongation ;
+                                   rdfs:comment "Symbol: A"@en ,
+                                                """bleibende Verlängerung der Messlänge nach dem Bruch (L_u − L_o), angegeben in Prozent, bezogen auf die Anfangsmesslänge
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                                """permanent elongation of the gauge length after fracture (L_u − L_o), expressed as a percentage of the original gauge length
+
+Source: ISO 6892-1:2019"""@en ;
+                                   rdfs:label "Bruchdehnung"@de ,
+                                              "Percentage Elongation After Fracture"@en .
+
+
+###  http://material-digital.de/pmdco/PercentageExtension
+:PercentageExtension rdf:type owl:Class ;
+                     rdfs:subClassOf :Extension ;
+                     rdfs:comment "Synonym: (engineering) strain"@en ,
+                                  "Synonym: technische Dehnung"@de ,
+                                  """extension expressed as a percentage of the extensometer gauge length
+
+Note: The percentage extension is commonly called engineering strain.
+
+Source: ISO 6892-1:2019"""@en ,
+                                  """in Prozent angegebene Verlängerung der Extensometer-Messlänge
+
+Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bezeichnet.
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ;
+                     rdfs:label "Extensometer-Dehnung"@de ,
+                                "Percentage Extension"@en .
+
+
+###  http://material-digital.de/pmdco/PercentagePermanentElongation
+:PercentagePermanentElongation rdf:type owl:Class ;
+                               rdfs:subClassOf :Elongation ;
+                               rdfs:comment """Zunahme der Anfangsmesslänge einer Probe nach Entfernen einer festgelegten Zugspannung, angegeben in Prozent, bezogen auf die Anfangsmesslänge
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                            """increase in the original gauge length of a test piece after removal of a specified stress, expressed as a percentage of the original gauge length
+
+Source: ISO 6892-1:2019"""@en ;
+                               rdfs:label "Bleibende Dehnung"@de ,
+                                          "Percentage Permanent Elongation"@en .
+
+
+###  http://material-digital.de/pmdco/PercentagePermanentExtension
+:PercentagePermanentExtension rdf:type owl:Class ;
+                              rdfs:subClassOf :Extension ;
+                              rdfs:comment """Vergrößerung der Extensometer-Messlänge nach Entfernen einer festgelegten, auf die Probe aufgebrachten Zugspannung, angegeben in Prozent, bezogen auf die Extensometer-Messlänge
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                           """increase in the extensometer gauge length, after removal of a specified stress from the test piece, expressed as a percentage of the extensometer gauge length
+
+Source: ISO 6892-1:2019"""@en ;
+                              rdfs:label "Bleibende Extensometer-Dehnung"@de ,
+                                         "Percentage Permanent Extension"@en .
+
+
+###  http://material-digital.de/pmdco/PercentagePlasticExtensionAtMaximumForce
+:PercentagePlasticExtensionAtMaximumForce rdf:type owl:Class ;
+                                          rdfs:subClassOf :Extension ;
+                                          rdfs:comment "Symbol: A_g"@en ,
+                                                       """plastic extension at maximum force, expressed as a percentage of the extensometer gauge length
+
+Source: ISO 6892-1:2019"""@en ,
+                                                       """plastische Verlängerung der Extensometer-Messlänge bei Höchstkraft, angegeben in Prozent, bezogen auf die Extensometer-Messlänge
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ;
+                                          rdfs:label "Percentage Plastic Extension At Maximum Force"@en ,
+                                                     "Plastische Extensometer-Dehnung bei Höchstkraft"@de .
+
+
+###  http://material-digital.de/pmdco/PercentageReductionOfArea
+:PercentageReductionOfArea rdf:type owl:Class ;
+                           rdfs:subClassOf :ValueObject ;
+                           rdfs:comment "Symbol: Z"@en ,
+                                        """größte während des Versuchs aufgetretene Änderung des Querschnitts (S_o − S_u), angegeben in Prozent, bezogen auf den Anfangsquerschnitt S_o
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                        """maximum change in cross-sectional area which has occurred during the test (S_o − S_u), expressed as a percentage of the original cross-sectional area, S_o
+
+Source: ISO 6892-1:2019"""@en ;
+                           rdfs:label "Brucheinschnürung"@de ,
+                                      "Percentage Reduction Of Area"@en .
+
+
+###  http://material-digital.de/pmdco/PercentageTotalExtensionAtFracture
+:PercentageTotalExtensionAtFracture rdf:type owl:Class ;
+                                    rdfs:subClassOf :Extension ;
+                                    rdfs:comment "Symbol: A_t"@en ,
+                                                 """gesamte Verlängerung (elastische plus plastische Verlängerung) der Extensometer-Messlänge beim Bruch, angegeben in Prozent, bezogen auf die Extensometer-Messlänge
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                                 """total extension (elastic extension plus plastic extension) at the moment of fracture, expressed as a percentage of the extensometer gauge length
+
+Source: ISO 6892-1:2019"""@en ;
+                                    rdfs:label "Gesamte Extensometer-Dehnung beim Bruch"@de ,
+                                               "Percentage Total Extension At Fracture"@en .
+
+
+###  http://material-digital.de/pmdco/PercentageTotalExtensionAtMaximumForce
+:PercentageTotalExtensionAtMaximumForce rdf:type owl:Class ;
+                                        rdfs:subClassOf :Extension ;
+                                        rdfs:comment "Symbol: A_gt"@en ,
+                                                     """gesamte Verlängerung (elastische plus plastische Verlängerung) der Extensometer-Messlänge bei Höchstkraft, angegeben in Prozent, bezogen auf die Extensometer-Messlänge
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                                     """total extension (elastic extension plus plastic extension) at maximum force, expressed as a percentage of the extensometer gauge length
+
+Source: ISO 6892-1:2019"""@en ;
+                                        rdfs:label "Gesamte Extensometer-Dehnung bei Höchstkraft"@de ,
+                                                   "Percentage Total Extension At Maximum Force"@en .
+
+
+###  http://material-digital.de/pmdco/PercentageYieldPointExtension
+:PercentageYieldPointExtension rdf:type owl:Class ;
+                               rdfs:subClassOf :Extension ;
+                               rdfs:comment """Bei Werkstoffen, die ein diskontinuierliches Fließen zeigen: Verlängerung der Extensometer-Messlänge zwischen dem Beginn örtlichen Fließens und dem Einsetzen gleichmäßiger Verfestigung, angegeben in Prozent, bezogen auf die Extensometer-Messlänge
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                            """For discontinuous yielding materials: extension between the start of yielding and the start of uniform work-hardening, expressed as a percentage of the extensometer gauge length
+
+Source: ISO 6892-1:2019"""@en ,
+                                            "Symbol: A_e"@en ;
+                               rdfs:label "Percentage Yield Point Extension"@en ,
+                                          "Streckgrenzen-Extensometer-Dehnung"@de .
+
+
+###  http://material-digital.de/pmdco/Perimeter
+:Perimeter rdf:type owl:Class ;
+           rdfs:subClassOf :ValueObject ;
+           rdfs:comment "The perimeter of a two-dimensional shape is defined as the path or boundary that encloses the shape."@en ;
+           rdfs:label "Perimeter"@en ,
+                      "Umfang"@de .
+
+
+###  http://material-digital.de/pmdco/Pixel
+:Pixel rdf:type owl:Class ;
+       rdfs:subClassOf :Object ;
+       rdfs:comment "Any of the small discrete elements that together constitute an image."@en ;
+       rdfs:isDefinedBy "“Pixel.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/pixel. Accessed 1 Dec. 2022."@en ;
+       rdfs:label "Pixel"@en .
+
+
+###  http://material-digital.de/pmdco/PixelDensity
+:PixelDensity rdf:type owl:Class ;
+              rdfs:subClassOf :ValueObject ;
+              rdfs:comment "The pixel density of an electronic image device."@en ;
+              rdfs:label "Pixel density"@en .
+
+
+###  http://material-digital.de/pmdco/PixelPerNanometerUnit
+:PixelPerNanometerUnit rdf:type owl:Class ;
+                       rdfs:subClassOf <http://qudt.org/schema/qudt/Unit> .
+
+
+###  http://material-digital.de/pmdco/PixelUnit
+:PixelUnit rdf:type owl:Class ;
+           rdfs:subClassOf <http://qudt.org/schema/qudt/Unit> .
+
+
+###  http://material-digital.de/pmdco/PlanningProcess
+:PlanningProcess rdf:type owl:Class ;
+                 rdfs:subClassOf :Process .
+
+
+###  http://material-digital.de/pmdco/PrecipateDistance
+:PrecipateDistance rdf:type owl:Class ;
+                   rdfs:subClassOf :Distance ;
+                   rdfs:label "Precipate Distance"@en .
+
+
+###  http://material-digital.de/pmdco/Precision
+:Precision rdf:type owl:Class ;
+           rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/PrimaryData
+:PrimaryData rdf:type owl:Class ;
+             rdfs:subClassOf :DataScope ;
+             owl:disjointWith :SecondaryData ;
+             rdfs:comment "Data acquired before / after a process either refering to the geometry of the object (e.g. ao, bo, do, au, bu, du, Lu) or as a register of the complete setup (e.g. sketches, photos or videos)"@en ,
+                          "Data directly acquired during a process by sensors (time, force, length, temperature)"@en ;
+             rdfs:label "Primary Data"@en .
+
+
+###  http://material-digital.de/pmdco/Process
 :Process rdf:type owl:Class ;
+         rdfs:subClassOf <http://www.w3.org/ns/prov#Activity> ;
          rdfs:comment """A series of actions or operations conducing to an end
 In PMD, a process is conducted via process nodes and has a discernable duration as part of a workflow. A process consumes objects and parameters. A process potentially generates new objects and measurements. A process is either a transformative process or a non-transformative process with respect to objects processed via a process node. There are primarily two types of distinguishable processes: manufacture process, analysis process. A process is a series of operations that are subordinate processes."""@en ;
          rdfs:label "Process"@en .
 
 
-###  https://material-digital.de/pmdco/ProcessNode
-:ProcessNode rdf:type owl:Class ;
-             rdfs:comment "A constituent that consumes and creates the objects in a process. The enabler of manufacture process steps, analysis process steps or simulation process steps. A process node realizes transformative processes and/or non-transformative processes."@en ;
-             rdfs:label "ProcessNode"@en .
+###  http://material-digital.de/pmdco/ProcessDescription
+:ProcessDescription rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :Description
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :isCharacteristicOf ;
+                                                                 owl:someValuesFrom :Process
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] ;
+                    rdfs:subClassOf :Description ;
+                    rdfs:comment "A descriptive text qualifying the nature of a process instance used as an identifier that is not strictly intended to be unique, e.g. \"1050°C30 840°C10/ÖL\"."@en ,
+                                 "A human readable order of steps. Might include additional information that likes sketches and notes."@en ;
+                    rdfs:label "Process Description"@en .
 
 
-###  https://material-digital.de/pmdco/ProcessNodeComponent
-:ProcessNodeComponent rdf:type owl:Class ;
-                      rdfs:label "Process Node Component"@en .
+###  http://material-digital.de/pmdco/ProcessDuration
+:ProcessDuration rdf:type owl:Class ;
+                 rdfs:subClassOf :ValueObject ;
+                 rdfs:comment "A length of an interval of time in which a process is conducted."@en ;
+                 rdfs:label "Process Duration"@en .
 
 
-###  https://material-digital.de/pmdco/SimulationNode
+###  http://material-digital.de/pmdco/ProcessIdentifier
+:ProcessIdentifier rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( :Identifier
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :isCharacteristicOf ;
+                                                                owl:someValuesFrom :Process
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:subClassOf :Identifier .
+
+
+###  http://material-digital.de/pmdco/ProcessingNode
+:ProcessingNode rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+                rdfs:comment "A workflow constituent that facilitates process instances, e.g. a service, tool, or machine."@en ;
+                rdfs:label "Processing Node"@en .
+
+
+###  http://material-digital.de/pmdco/Project
+:Project rdf:type owl:Class ;
+         rdfs:subClassOf <http://www.w3.org/ns/prov#Activity> .
+
+
+###  http://material-digital.de/pmdco/ProjectIdentifier
+:ProjectIdentifier rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( :Identifier
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :isCharacteristicOf ;
+                                                                owl:someValuesFrom :Project
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:subClassOf :Identifier .
+
+
+###  http://material-digital.de/pmdco/ProjectReferenceIdentifier
+:ProjectReferenceIdentifier rdf:type owl:Class ;
+                            rdfs:subClassOf :Identifier .
+
+
+###  http://material-digital.de/pmdco/ProofStrength
+:ProofStrength rdf:type owl:Class ;
+               rdfs:subClassOf :Extension ;
+               rdfs:comment "Spannung, bei der ein bestimmter Dehnungswert gleich einem bestimmten Prozentsatz der Messlänge des Dehnungsmessers ist"@de ,
+                            "stress at which the a specific extension value is equal to a specified percentage of the extensometer gauge length"@en ;
+               rdfs:label "Dehngrenze"@de ,
+                          "Proof Strength"@en .
+
+
+###  http://material-digital.de/pmdco/ProofStrengthPlasticExtension
+:ProofStrengthPlasticExtension rdf:type owl:Class ;
+                               rdfs:subClassOf :ProofStrength ;
+                               rdfs:comment """Spannung, bei der die plastische Extensometer-Dehnung einem vorgegebenen Prozentanteil der Extensometer-Messlänge entspricht
+
+Anmerkung: Der Index wird durch den Zahlenwert ergänzt, der den vorgegebenen Zahlenwert der plastischen Extensometer-Dehnung in Prozent angibt, z. B. R_p_0,2."""@de ,
+                                            "Symbol: R_p"@en ,
+                                            """stress at which the plastic extension is equal to a specified percentage of the extensometer gauge length
+
+Note: A suffix is added to the subscript to indicate the prescribed percentage, e.g. R_p_0.2.
+
+Source: ISO 6892-1:2019"""@en ;
+                               rdfs:label "Dehngrenze bei plastischer Extensometer-Dehnung"@de ,
+                                          "Proof Strength Plastic Extension"@en .
+
+
+###  http://material-digital.de/pmdco/ProofStrengthTotalExtension
+:ProofStrengthTotalExtension rdf:type owl:Class ;
+                             rdfs:subClassOf :ProofStrength ;
+                             rdfs:comment """Spannung, bei der die gesamte Extensometer-Dehnung (elastische und plastische Extensometer-Dehnung) einem vorgegebenen Prozentanteil der Extensometer-Messlänge entspricht
+
+Anmerkung: Der Index wird durch den Zahlenwert ergänzt, der den vorgegebenen Zahlenwert der gesamten Extensometer-Dehnung in Prozent angibt, z. B. R_t_0,5."""@de ,
+                                          "Symbol: R_t"@en ,
+                                          """stress at which total extension (elastic extension plus plastic extension) is equal to a specified percentage of the extensometer gauge length
+
+Note: A suffix is added to the subscript to indicate the prescribed percentage, e.g. R_t_0.5."""@en ;
+                             rdfs:label "Dehngrenze bei gesamter Extensometer-Dehnung"@de ,
+                                        "Proof Strength Total Extension"@en .
+
+
+###  http://material-digital.de/pmdco/ProvidedIdentifier
+:ProvidedIdentifier rdf:type owl:Class ;
+                    rdfs:subClassOf :Identifier ;
+                    rdfs:comment "A colloquial, human-generated desrciptor."@en ;
+                    rdfs:label "Provided Identifier"@en .
+
+
+###  http://material-digital.de/pmdco/QualifyingNodeAnnotation
+:QualifyingNodeAnnotation rdf:type owl:Class ;
+                          rdfs:subClassOf :NodeInfo ;
+                          rdfs:comment "Description for Process Node's utility, e.g. \"Rear Vacuum Furnace Oil Quenching\""@en ;
+                          rdfs:label "Qualifying Node Annotation"@en .
+
+
+###  http://material-digital.de/pmdco/Radiological
+:Radiological rdf:type owl:Class ;
+              rdfs:subClassOf :MaterialProperty .
+
+
+###  http://material-digital.de/pmdco/Radius
+:Radius rdf:type owl:Class ;
+        rdfs:subClassOf :ValueObject ;
+        rdfs:comment "A line segment extending from the center of a circle or sphere to the circumference or bounding surface."@en ;
+        rdfs:isDefinedBy "“Radius.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/radius. Accessed 5 Dec. 2022."@en ;
+        rdfs:label "Radius"@en .
+
+
+###  http://material-digital.de/pmdco/Rectangular
+:Rectangular rdf:type owl:Class ;
+             rdfs:subClassOf :Shape .
+
+
+###  http://material-digital.de/pmdco/RegionOfInterest
+:RegionOfInterest rdf:type owl:Class ;
+                  rdfs:subClassOf :Object ;
+                  rdfs:comment "Some region of interest in an image."@en ;
+                  rdfs:label "ROI"@en .
+
+
+###  http://material-digital.de/pmdco/Regression
+:Regression rdf:type owl:Class ;
+            rdfs:subClassOf :Algorithm ;
+            rdfs:comment """A functional relationship between two or more correlated variables that is often empirically determined from data and is used especially to predict values of one variable when given values of the others.
+Specifically : a function that yields the mean value of a random variable under the condition that one or more independent variables have specified values."""@en ;
+            rdfs:isDefinedBy "“Regression.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/regression. Accessed 24 Nov. 2022."@en ;
+            rdfs:label "Regression"@en ;
+            <http://www.w3.org/2004/02/skos/core#example> "Regression of y on x is linear"@en .
+
+
+###  http://material-digital.de/pmdco/RetortType
+:RetortType rdf:type owl:Class ;
+            rdfs:subClassOf :FurnaceCharacteristic ;
+            rdfs:comment "Geometry and and orientation of the inner system boundaries of the heat treatment process node."@en ;
+            rdfs:label "Retort Type"@en .
+
+
+###  http://material-digital.de/pmdco/RockwellHardnessTest
+:RockwellHardnessTest rdf:type owl:Class ;
+                      rdfs:subClassOf :HardnessTest ;
+                      rdfs:comment "Determination the hardness of a metal or alloy measured by an apparatus in which a diamond-pointed cone is pressed into the metal to a standard depth to determine the relative resistance to penetration as indicated automatically by a number on a dial."@en ;
+                      rdfs:isDefinedBy "“Rockwell hardness.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/Rockwell%20hardness. Accessed 24 Nov. 2022."@en ;
+                      rdfs:label "Rockwell Hardness Test"@en .
+
+
+###  http://material-digital.de/pmdco/Roughness
+:Roughness rdf:type owl:Class ;
+           rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/Rp01
+:Rp01 rdf:type owl:Class ;
+      owl:equivalentClass [ rdf:type owl:Restriction ;
+                            owl:onProperty :relatesToExtension ;
+                            owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :hasValue ;
+                                                 owl:hasValue "0.1"^^xsd:float
+                                               ]
+                          ] ;
+      rdfs:subClassOf :ProofStrengthPlasticExtension ;
+      rdfs:comment "Spannung bei einer plastischen Extensometer-Dehnung, die 0,1 Prozent der Extensometer-Messlänge entspricht"@de ,
+                   "Symbol: R_p_0.1"@en ,
+                   "stress at which the plastic extension is equal to 0.1 percent of the extensometer gauge length"@en ;
+      rdfs:label "Dehngrenze bei plastischer Extensometer-Dehnung Rp01"@de ,
+                 "Proof Strength Plastic Extension Rp01"@en .
+
+
+###  http://material-digital.de/pmdco/Rp02
+:Rp02 rdf:type owl:Class ;
+      owl:equivalentClass [ rdf:type owl:Restriction ;
+                            owl:onProperty :relatesToExtension ;
+                            owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :hasValue ;
+                                                 owl:hasValue "0.2"^^xsd:float
+                                               ]
+                          ] ;
+      rdfs:subClassOf :ProofStrengthPlasticExtension ;
+      rdfs:comment "Spannung bei einer plastischen Extensometer-Dehnung, die 0,2 Prozent der Extensometer-Messlänge entspricht"@de ,
+                   "Symbol: R_p_0.2"@en ,
+                   "stress at which the plastic extension is equal to 0.2 percent of the extensometer gauge length"@en ;
+      rdfs:label "Dehngrenze bei plastischer Extensometer-Dehnung Rp02"@de ,
+                 "Proof Strength Plastic Extension Rp02"@en .
+
+
+###  http://material-digital.de/pmdco/Sample
+:Sample rdf:type owl:Class ;
+        rdfs:subClassOf :Object ;
+        rdfs:comment """Portion of material, usually selected from a larger quantity of material, collected and taken away for testing
+
+Source: ISO 18589-1:2019-11 (international standardization committee: ISO/TC 85/SC 2/WG 17)"""@en ;
+        rdfs:label "Probe"@de ,
+                   "Sample"@en .
+
+
+###  http://material-digital.de/pmdco/SecondaryData
+:SecondaryData rdf:type owl:Class ;
+               rdfs:subClassOf :DataScope ;
+               rdfs:comment "Characteristic values (e.g. test results) determined by equations or algorithms using primary data and metadata for a process"@en ;
+               rdfs:label "Secondary Data"@en .
+
+
+###  http://material-digital.de/pmdco/SemiCrystallineStructure
+:SemiCrystallineStructure rdf:type owl:Class ;
+                          rdfs:subClassOf :MaterialStructure .
+
+
+###  http://material-digital.de/pmdco/SequenceNumber
+:SequenceNumber rdf:type owl:Class ;
+                rdfs:subClassOf :Identifier ;
+                rdfs:comment "Strict monotonically increasing integer that indicates the position in an ordered list."@en ;
+                rdfs:label "Sequence Number"@en .
+
+
+###  http://material-digital.de/pmdco/SetPoint
+:SetPoint rdf:type owl:Class ;
+          rdfs:subClassOf :ValueScope ;
+          rdfs:comment "In cybernetics and control theory, a setpoint (SP;[1] also set point) is the desired or target value for an essential variable, or process value (PV) of a control system."@en ,
+                       "Sollwert bezeichnet allgemein den angestrebten Wert eines quantitativen Merkmales eines Systems, von dem der tatsächliche Istwert so wenig wie möglich abweichen soll. Der Sollwert wird von einem anderen System (z. B. Technik, Mensch) vorgegeben."@de ;
+          rdfs:isDefinedBy "https://de.wikipedia.org/wiki/Sollwert"@de ,
+                           "https://en.wikipedia.org/wiki/Setpoint_(control_system)"@en ;
+          rdfs:label "Set Point"@en .
+
+
+###  http://material-digital.de/pmdco/Shape
+:Shape rdf:type owl:Class ;
+       rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/SimulationNode
 :SimulationNode rdf:type owl:Class ;
-                rdfs:subClassOf :ProcessNode ;
+                rdfs:subClassOf :ComputingNode ;
                 rdfs:comment "A process node that implements foo as well as consumes and creates simulation objects and parameters."@en ;
                 rdfs:label "Simulation Node"@en .
 
 
-###  https://material-digital.de/pmdco/TranformativeAnalysisProcess
-:TranformativeAnalysisProcess rdf:type owl:Class ;
-                              rdfs:subClassOf :AnalysisProcess ;
-                              rdfs:comment "An analysis process that is also a transformative process"@en ;
-                              rdfs:label "Tranformative Analysis Process"@en .
+###  http://material-digital.de/pmdco/SimulationProcess
+:SimulationProcess rdf:type owl:Class ;
+                   rdfs:subClassOf :Process ;
+                   rdfs:comment "An analysis process that is used for a simulation" ;
+                   rdfs:label "Simulation Process"@en .
 
 
-###  https://material-digital.de/pmdco/Voxel
+###  http://material-digital.de/pmdco/Slide
+:Slide rdf:type owl:Class ;
+       rdfs:subClassOf :ProcessingNode ;
+       rdfs:comment "A moving piece that is guided by a part along its path, providing the mount for objects."@en ;
+       rdfs:label "Slide"@en .
+
+
+###  http://material-digital.de/pmdco/SlopeOfTheElasticPart
+:SlopeOfTheElasticPart rdf:type owl:Class ;
+                       rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/Specimen
+:Specimen rdf:type owl:Class ;
+          rdfs:subClassOf :Sample ;
+          owl:disjointWith :TestPiece ;
+          rdfs:comment "An object designed for a specific analysis." ;
+          rdfs:label "Specimen"@en .
+
+
+###  http://material-digital.de/pmdco/SpecimenName
+:SpecimenName rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( :Identifier
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :isCharacteristicOf ;
+                                                           owl:someValuesFrom :Specimen
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:subClassOf :Identifier ;
+              rdfs:label "Specimen Name"@en .
+
+
+###  http://material-digital.de/pmdco/Squared
+:Squared rdf:type owl:Class ;
+         rdfs:subClassOf :Shape .
+
+
+###  http://material-digital.de/pmdco/StartTime
+:StartTime rdf:type owl:Class ;
+           rdfs:subClassOf :Time ;
+           rdfs:comment "The date and time when the plan/recipe is supposed to be executed."@en ;
+           rdfs:label "Start Time"@en .
+
+
+###  http://material-digital.de/pmdco/Stiffness
+:Stiffness rdf:type owl:Class ;
+           rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/StrainRate
+:StrainRate rdf:type owl:Class ;
+            rdfs:subClassOf :TestingRate ;
+            rdfs:comment "Symbol: e^._L_e"@en ,
+                         """Zunahme der mit einem Extensometer in der Extensometer-Messlänge gemessenen Dehnung je Zeiteinheit
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                         """increase of strain, measured with an extensometer, in extensometer gauge length, per time
+
+Source: ISO 6892-1:2019"""@en ;
+            rdfs:label "Dehngeschwindigkeit"@de ,
+                       "Strain Rate"@en .
+
+
+###  http://material-digital.de/pmdco/Stress
+:Stress rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :relatesTo ;
+                                                     owl:someValuesFrom :Area
+                                                   ]
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :relatesTo ;
+                                                     owl:someValuesFrom :Force
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] ;
+        rdfs:subClassOf :ValueObject ;
+        rdfs:comment """At any moment during the test, force divided by the original cross-sectional area, S_o, of the test piece
+
+Note: Here, all references to stress are to engineering stress.
+
+Source: ISO 6892-1:2019"""@en ,
+                     """Dimensional Analysis: 
+ML*-1T*-2"""@en ,
+                     """Kraft zu einem beliebigen Zeitpunkt während des Versuchs dividiert durch den Anfangsquerschnitt (S_o) der Probe
+
+Anmerkung: Mit dem Begriff Spannung ist hier die technische Spannung ('Ingenieur-Spannung') gemeint.
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                     "Symbol: R"@en ,
+                     "Units: Pa (SI), psi"@en ;
+        rdfs:label "Spannung"@de ,
+                   "Stress"@en .
+
+
+###  http://material-digital.de/pmdco/StressRate
+:StressRate rdf:type owl:Class ;
+            rdfs:subClassOf :TestingRate ;
+            rdfs:comment "Symbol: R"@en ,
+                         """Zunahme der Spannung je Zeiteinheit
+
+Anmerkung: Die Spannungsgeschwindigkeit wird nur im elastischen Bereich des Versuchs verwendet.
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                         """increase of stress per time
+
+Note: Stress rate is only used in the elastic part of the test.
+
+Source: ISO 6892-1:2019"""@en ;
+            rdfs:label "Spannungsgeschwindigkeit"@de ,
+                       "Stress Rate"@en .
+
+
+###  http://material-digital.de/pmdco/TemperatueMeasuringDevice
+:TemperatueMeasuringDevice rdf:type owl:Class ;
+                           rdfs:subClassOf :MeasuringDevice .
+
+
+###  http://material-digital.de/pmdco/Temperature
+:Temperature rdf:type owl:Class ;
+             rdfs:subClassOf :ValueObject ;
+             rdfs:comment "The degree of hotness or coldness measured on a definite scale."@en ;
+             rdfs:isDefinedBy "“Temperature.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/temperature. Accessed 25 Nov. 2022."@en ;
+             rdfs:label "Temperature"@en .
+
+
+###  http://material-digital.de/pmdco/TemperatureChangeDevice
+:TemperatureChangeDevice rdf:type owl:Class ;
+                         rdfs:subClassOf :TemperatueMeasuringDevice .
+
+
+###  http://material-digital.de/pmdco/TemperatureChangingProcess
+:TemperatureChangingProcess rdf:type owl:Class ;
+                            rdfs:subClassOf :ConditioningProcess ;
+                            rdfs:comment "This properpy is used to describe a process which is run to increase or decrease the temperature of an object or a space. Usually, this involves heating or cooling devices such as furnaces or cooling media."@en ;
+                            rdfs:label "Temperature Changing Process"@en .
+
+
+###  http://material-digital.de/pmdco/TensileStrength
+:TensileStrength rdf:type owl:Class ;
+                 rdfs:subClassOf :ValueObject ;
+                 rdfs:comment """Spannung, die der Höchstkraft entspricht
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                              "Symbol: R_m"@en ,
+                              """stress corresponding to the maximum force
+
+Source: ISO 6892-1:2019"""@en ;
+                 rdfs:label "Tensile Strength"@en ,
+                            "Zugfestigkeit"@de .
+
+
+###  http://material-digital.de/pmdco/TensileTest
+:TensileTest rdf:type owl:Class ;
+             rdfs:subClassOf :MechanicalTestingProcess ;
+             rdfs:comment "Tensile tests (tension tests) on materials provide information on their strength, ductility as well as other characteristic values under uniaxial tensile stress."@en ,
+                          """The tensile test involves straining a test piece by tensile force, generally to fracture, for the determination of one or more mechanical properties specified by the semantically related and defined terms.
+
+Source: ISO 6892-1:2019."""@en ;
+             rdfs:label "Tensile Test"@en .
+
+
+###  http://material-digital.de/pmdco/TensileTestNode
+:TensileTestNode rdf:type owl:Class ;
+                 rdfs:subClassOf :ProcessingNode .
+
+
+###  http://material-digital.de/pmdco/TensileTestingMachine
+:TensileTestingMachine rdf:type owl:Class ;
+                       rdfs:subClassOf :TensileTestNode ,
+                                       :TestingMachine ;
+                       rdfs:comment """Maschine zur Durchführung eines Zugversuches; die Regelung und Überwachung des Versuches, die Messungen und die Datenverarbeitung werden üblicherweise mithilfe eines Computers durchgeführt.
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                    """machine to conduct a tensile test; the control and monitoring of the test, the measurements, and the data processing are usually undertaken by computer
+
+Source: ISO 6892-1:2019"""@en ;
+                       rdfs:label "Tensile Testing Machine"@en ,
+                                  "Zugprüfmaschine"@de .
+
+
+###  http://material-digital.de/pmdco/TestPiece
+:TestPiece rdf:type owl:Class ;
+           rdfs:subClassOf :Sample ;
+           rdfs:comment """Part of a sample with specified dimensions, machined or un-machined, brought to a required condition for submission to a given test.
+
+Source: EN 10021:2006-12 (European standardization committee: CEN/TC 459/SC 12/WG 4)"""@en ,
+                        "Teil einer Probe mit bestimmten Dimensionen, bearbeitet oder unbearbeitet, der in einen erforderlichen Zustand gebracht wird, um einer bestimmten Prüfung unterzogen zu werden."@de ;
+           rdfs:label "Probekörper"@de ,
+                      "Prüfkörper"@de ,
+                      "Test Piece"@en .
+
+
+###  http://material-digital.de/pmdco/TestPieceClassification
+:TestPieceClassification rdf:type owl:Class ;
+                         rdfs:subClassOf :TestPieceInfo .
+
+
+###  http://material-digital.de/pmdco/TestPieceInfo
+:TestPieceInfo rdf:type owl:Class ;
+               rdfs:subClassOf :ValueObject ;
+               rdfs:label "Test Piece Info"@en .
+
+
+###  http://material-digital.de/pmdco/TestPieceName
+:TestPieceName rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( :Identifier
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :isCharacteristicOf ;
+                                                            owl:someValuesFrom :TestPiece
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf :Identifier .
+
+
+###  http://material-digital.de/pmdco/TestingMachine
+:TestingMachine rdf:type owl:Class ;
+                rdfs:subClassOf :ProcessingNode ;
+                rdfs:label "Testing Machine" .
+
+
+###  http://material-digital.de/pmdco/TestingRate
+:TestingRate rdf:type owl:Class ;
+             rdfs:subClassOf :ValueObject ;
+             rdfs:comment """rate (resp. rates) used during the test
+
+Source: ISO 6892-1:2019"""@en ,
+                          """während des Versuchs verwendete Geschwindigkeit(en)
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ;
+             rdfs:label "Prüfgeschwindigkeit"@de ,
+                        "Testing Rate"@en .
+
+
+###  http://material-digital.de/pmdco/Thermal
+:Thermal rdf:type owl:Class ;
+         rdfs:subClassOf :MaterialProperty .
+
+
+###  http://material-digital.de/pmdco/ThermalInsulation
+:ThermalInsulation rdf:type owl:Class ;
+                   rdfs:subClassOf :FurnaceCharacteristic ;
+                   rdfs:comment "Thermal insulation is the reduction of heat transfer (i.e., the transfer of thermal energy between objects of differing temperature) between objects in thermal contact or in range of radiative influence. Thermal insulation can be achieved with specially engineered methods or processes, as well as with suitable object shapes and materials."@en ;
+                   rdfs:isDefinedBy "https://en.wikipedia.org/wiki/Thermal_insulation"@en ;
+                   rdfs:label "Thermal Insulation"@en .
+
+
+###  http://material-digital.de/pmdco/Thermocouple
+:Thermocouple rdf:type owl:Class ;
+              rdfs:subClassOf :MeasuringDevice .
+
+
+###  http://material-digital.de/pmdco/ThicknessAfterFracture
+:ThicknessAfterFracture rdf:type owl:Class ;
+                        rdfs:subClassOf :Length .
+
+
+###  http://material-digital.de/pmdco/Time
+:Time rdf:type owl:Class ;
+      rdfs:subClassOf :ValueObject ;
+      rdfs:comment "A nonspatial continuum that is measured in terms of events which succeed one another from past through present to future."@en ;
+      rdfs:isDefinedBy "“Time.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/time. Accessed 25 Nov. 2022."@en ;
+      rdfs:label "Time"@en .
+
+
+###  http://material-digital.de/pmdco/TransformativeAnalysisProcess
+:TransformativeAnalysisProcess rdf:type owl:Class ;
+                               rdfs:subClassOf :AnalysingProcess ;
+                               rdfs:comment "An analysis process that is also a transformative process"@en ;
+                               rdfs:label "Transformative Analysis Process"@en .
+
+
+###  http://material-digital.de/pmdco/TransmissionElectronMicroscope
+:TransmissionElectronMicroscope rdf:type owl:Class ;
+                                rdfs:subClassOf :ElectronMicroscope ;
+                                rdfs:comment "Transmission electron microscopes are capable of imaging at a significantly higher resolution than light microscopes, owing to the smaller de Broglie wavelength of electrons. This enables the instrument to capture fine detail—even as small as a single column of atoms, which is thousands of times smaller than a resolvable object seen in a light microscope. Transmission electron microscopy is a major analytical method in the physical, chemical and biological sciences. TEMs find application in cancer research, virology, and materials science as well as pollution, nanotechnology and semiconductor research, but also in other fields such as paleontology and palynology.  (Wikipedia, https://en.wikipedia.org/wiki/Transmission_electron_microscopy)"@en ;
+                                rdfs:isDefinedBy "Wikipedia, https://en.wikipedia.org/wiki/Transmission_electron_microscopy"@en ;
+                                rdfs:label "Transmission Electron Microscope"@en .
+
+
+###  http://material-digital.de/pmdco/TransmissionElectronMicroscopy
+:TransmissionElectronMicroscopy rdf:type owl:Class ;
+                                rdfs:subClassOf :ElectronMicroscopy ;
+                                rdfs:label "Transmission Electron Microscopy"@en .
+
+
+###  http://material-digital.de/pmdco/TypeGaugeLengthMarks
+:TypeGaugeLengthMarks rdf:type owl:Class ;
+                      rdfs:subClassOf :TestPieceInfo .
+
+
+###  http://material-digital.de/pmdco/UpperYieldStrength
+:UpperYieldStrength rdf:type owl:Class ;
+                    rdfs:subClassOf :YieldStrength ;
+                    rdfs:comment "Symbol: R_eH"@en ,
+                                 """höchste Spannung, bevor der erste Kraftabfall auftritt
+
+Quelle: DIN EN ISO 6892-1:2020-06"""@de ,
+                                 """maximum value of stress prior to the first decrease in force
+
+Source: ISO 6892-1:2019"""@en ;
+                    rdfs:label "Obere Streckgrenze"@de ,
+                               "Upper Yield Strength"@en .
+
+
+###  http://material-digital.de/pmdco/ValueObject
+:ValueObject rdf:type owl:Class ;
+             owl:equivalentClass [ rdf:type owl:Class ;
+                                   owl:unionOf ( :Metadata
+                                                 [ owl:intersectionOf ( [ rdf:type owl:Class ;
+                                                                          owl:unionOf ( :Measurement
+                                                                                        :SetPoint
+                                                                                      )
+                                                                        ]
+                                                                        [ rdf:type owl:Class ;
+                                                                          owl:unionOf ( :PrimaryData
+                                                                                        :SecondaryData
+                                                                                      )
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ]
+                                               )
+                                 ] ;
+             rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+             rdfs:comment """A :ValueObject is a simple entity which represents a specific value. This value can be a numerical, textual, or a more complex data structure. If a literal value is to be specified, the :hasValue datatype property has to be used. In cases where the value is represented by a resource (e.g. URI), the :hasResource object property has to be used.
+
+A value object, respectively its value, is always associated with an entity of type :Process, :ProcessNode, or :Object (e.g. :Specimen). The value is meant to be a charactaristic of the associated entity. To express this association it is indended to use the :hasParticipant object property.
+
+A value object might also refer to a certain unit. The :hasUnit property might be used (e.g. with QUDT ontology).
+
+Instances of a value object might be specified as a specific Parameter, namely a SetPoint (nominal value), or Measurement. With :Setpoint the intend is to express, that the value is meant to be some preset, setting or nominal value. :Measurement expresses, that the value has been measured or determined somehow (see example).
+
+Instances of a value object might also be specified in a specific DataScope (:Metadata, :PrimaryData, :SecondaryData).
+
+Example 1: 
+- the length of a specimen
+- the model number of a machine
+- a person involved in a process
+- a force on an object
+
+Example 2:
+
+The length of a specimen, which has been measured as primary data. Its actual value is 123.45 millimeters.
+
+:Length rdfs:subClass :ValueObject .
+ex:vo1 a :Length .
+ex:vo1 a :Measurement .
+ex:vo1 a :PrimaryData .
+ex:vo1 :hasUnit qudt:MilliM . 
+ex:vo1 :hasValue \"123.45\"
+ex:spec1 a :Specimen .
+ex:spec1 :hasCharacteristic ex:vo1 ."""@en ;
+             rdfs:label "Value Object"@en .
+
+
+###  http://material-digital.de/pmdco/ValueScope
+:ValueScope rdf:type owl:Class ;
+            rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+            rdfs:comment "Any of a set of physical properties whose values determine the characteristics or behavior of something."@en ;
+            rdfs:isDefinedBy "“Parameter.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/parameter. Accessed 25 Nov. 2022."@en ;
+            rdfs:label "Value Scope"@en .
+
+
+###  http://material-digital.de/pmdco/VanderwaalsBond
+:VanderwaalsBond rdf:type owl:Class ;
+                 rdfs:subClassOf :BondingType .
+
+
+###  http://material-digital.de/pmdco/VickersHardnessTest
+:VickersHardnessTest rdf:type owl:Class ;
+                     rdfs:subClassOf :HardnessTest ;
+                     rdfs:comment "An indentation hardness test for metals in which a 136-degree diamond pyramid is pressed into the surface of the metal being tested by a load of 5 to 120 kilograms."@en ;
+                     rdfs:isDefinedBy "“Vickers hardness test.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/Vickers%20hardness%20test. Accessed 24 Nov. 2022."@en ;
+                     rdfs:label "Vickers Hardness Test"@en .
+
+
+###  http://material-digital.de/pmdco/Voxel
 :Voxel rdf:type owl:Class ;
+       rdfs:subClassOf :Object ;
        rdfs:comment """An element representing a value on a grid in three dimensional space.
 In PMD, an infinitesimal part of an object which is made of a homogenuous material. Size depends on the observed material level. For now, geometrically, a cubus is assumed.
 Made of a material
 Different Voxels can have different material properties and material structure
 A (partial) logical object that describes (a part of) a physical object"""@en ;
        rdfs:label "Voxel"@en .
+
+
+###  http://material-digital.de/pmdco/Weight
+:Weight rdf:type owl:Class ;
+        rdfs:subClassOf :ValueObject ;
+        rdfs:comment "The force with which a body is attracted toward the earth or a celestial body by gravitation and which is equal to the product of the mass and the local gravitational acceleration."@en ;
+        rdfs:isDefinedBy "“Weight.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/weight. Accessed 5 Dec. 2022."@en ;
+        rdfs:label "Weight"@en .
+
+
+###  http://material-digital.de/pmdco/WeightedXCoordinate
+:WeightedXCoordinate rdf:type owl:Class ;
+                     rdfs:subClassOf :XCoordinate ;
+                     rdfs:comment "Mass center of grey values in one direction"@en ;
+                     rdfs:label "Weighted X coordinate"@en .
+
+
+###  http://material-digital.de/pmdco/WeightedYCoordinate
+:WeightedYCoordinate rdf:type owl:Class ;
+                     rdfs:subClassOf :YCoordinate ;
+                     rdfs:comment "Mass center of grey values in the other direction"@en ;
+                     rdfs:label "Weighted Y coordinate"@en .
+
+
+###  http://material-digital.de/pmdco/Width
+:Width rdf:type owl:Class ;
+       rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/WidthAfterFracture
+:WidthAfterFracture rdf:type owl:Class ;
+                    rdfs:subClassOf :Width .
+
+
+###  http://material-digital.de/pmdco/WorkingRange
+:WorkingRange rdf:type owl:Class ;
+              rdfs:subClassOf :ValueObject .
+
+
+###  http://material-digital.de/pmdco/XCoordinate
+:XCoordinate rdf:type owl:Class ;
+             rdfs:subClassOf <http://material-digital.de/pmdco/2DPixelCoordinates> ;
+             rdfs:label "X Coordinate"@en .
+
+
+###  http://material-digital.de/pmdco/YCoordinate
+:YCoordinate rdf:type owl:Class ;
+             rdfs:subClassOf <http://material-digital.de/pmdco/2DPixelCoordinates> ;
+             rdfs:label "Y Coordinate"@en .
+
+
+###  http://material-digital.de/pmdco/YieldStrength
+:YieldStrength rdf:type owl:Class ;
+               rdfs:subClassOf :ValueObject ;
+               rdfs:comment "Wenn der metallische Werkstoff diese Eigenschaft aufweist: die Spannung zu einem bestimmten Zeitpunkt während des Versuchs bei dem eine plastische Verformung ohne Zunahme der Kraft auftritt"@de ,
+                            """when the metallic material exhibits a yield phenomenon, stress corresponding to the point reached during the test at which plastic deformation occurs without any increase in the force
+
+Source: ISO 6892-1:2019"""@en ;
+               rdfs:label "Streckgrenze"@de ,
+                          "Yield Strength"@en .
+
+
+###  http://material-digital.de/pmdco/2DPixelCoordinates
+<http://material-digital.de/pmdco/2DPixelCoordinates> rdf:type owl:Class ;
+                                                      rdfs:subClassOf :Coordinates ;
+                                                      rdfs:label "2D Pixel Coordinates"@en .
+
+
+###  http://purl.obolibrary.org/obo/CHEBI_24431
+<http://purl.obolibrary.org/obo/CHEBI_24431> rdf:type owl:Class ;
+                                             rdfs:comment "A chemical entity is a physical entity of interest in chemistry including molecular entities, parts thereof, and chemical substances."@en ;
+                                             rdfs:isDefinedBy "ChEBI ontology  https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:24431#"@en ;
+                                             rdfs:label "Chemical Entity"@en .
+
+
+###  http://purl.org/spar/datacite/Identifier
+<http://purl.org/spar/datacite/Identifier> rdf:type owl:Class ;
+                                           rdfs:label "DataCite Identifier"@en .
+
+
+###  http://qudt.org/schema/qudt/Unit
+<http://qudt.org/schema/qudt/Unit> rdf:type owl:Class .
+
+
+###  http://w3id.org/DMI/DigitalMaterialIdentifier
+<http://w3id.org/DMI/DigitalMaterialIdentifier> rdf:type owl:Class ;
+                                                rdfs:comment "A dmi:DigitalMaterialIdentifier is a resource identifier (IRI) that represents the specification of a material (in the sense of a material class) described in a specification document. The specification document can be, e.g., a standard, a datasheet, or any other citable document. Typically, a specification document requires some qualities that a material (in the sense of a portion of matter) has to comply with. Typical requirements include chemical compositions or physical properties."@en ;
+                                                rdfs:label "Digital Material Identifier"@en .
+
+
+###  http://www.w3.org/ns/prov#Activity
+<http://www.w3.org/ns/prov#Activity> rdf:type owl:Class ;
+                                     owl:disjointWith <http://www.w3.org/ns/prov#Entity> ;
+                                     rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                     rdfs:label "Activity" ;
+                                     <http://www.w3.org/ns/prov#category> "starting-point" ;
+                                     <http://www.w3.org/ns/prov#component> "entities-activities" ;
+                                     <http://www.w3.org/ns/prov#constraints> "http://www.w3.org/TR/2013/REC-prov-constraints-20130430/#prov-dm-constraints-fig"^^xsd:anyURI ;
+                                     <http://www.w3.org/ns/prov#definition> "An activity is something that occurs over a period of time and acts upon or with entities; it may include consuming, processing, transforming, modifying, relocating, using, or generating entities." ;
+                                     <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-Activity"^^xsd:anyURI ;
+                                     <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-Activity"^^xsd:anyURI .
+
+
+###  http://www.w3.org/ns/prov#Agent
+<http://www.w3.org/ns/prov#Agent> rdf:type owl:Class ;
+                                  rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                  rdfs:label "Agent" ;
+                                  <http://www.w3.org/ns/prov#category> "starting-point" ;
+                                  <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
+                                  <http://www.w3.org/ns/prov#definition> "An agent is something that bears some form of responsibility for an activity taking place, for the existence of an entity, or for another agent's activity. "@en ;
+                                  <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
+                                  <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-Agent"^^xsd:anyURI .
+
+
+###  http://www.w3.org/ns/prov#Entity
+<http://www.w3.org/ns/prov#Entity> rdf:type owl:Class ;
+                                   rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                   rdfs:label "Entity" ;
+                                   <http://www.w3.org/ns/prov#category> "starting-point" ;
+                                   <http://www.w3.org/ns/prov#component> "entities-activities" ;
+                                   <http://www.w3.org/ns/prov#constraints> "http://www.w3.org/TR/2013/REC-prov-constraints-20130430/#prov-dm-constraints-fig"^^xsd:anyURI ;
+                                   <http://www.w3.org/ns/prov#definition> "An entity is a physical, digital, conceptual, or other kind of thing with some fixed aspects; entities may be real or imaginary. "@en ;
+                                   <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-entity"^^xsd:anyURI ;
+                                   <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-Entity"^^xsd:anyURI .
+
+
+###  http://www.w3.org/ns/prov#Organization
+<http://www.w3.org/ns/prov#Organization> rdf:type owl:Class ;
+                                         rdfs:subClassOf <http://www.w3.org/ns/prov#Agent> ;
+                                         rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                         rdfs:label "Organization" ;
+                                         <http://www.w3.org/ns/prov#category> "expanded" ;
+                                         <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
+                                         <http://www.w3.org/ns/prov#definition> "An organization is a social or legal institution such as a company, society, etc." ;
+                                         <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
+                                         <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-types"^^xsd:anyURI .
+
+
+###  http://www.w3.org/ns/prov#Person
+<http://www.w3.org/ns/prov#Person> rdf:type owl:Class ;
+                                   rdfs:subClassOf <http://www.w3.org/ns/prov#Agent> ;
+                                   rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                   rdfs:label "Person" ;
+                                   <http://www.w3.org/ns/prov#category> "expanded" ;
+                                   <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
+                                   <http://www.w3.org/ns/prov#definition> "Person agents are people."@en ;
+                                   <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
+                                   <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-types"^^xsd:anyURI .
+
+
+###  http://www.w3.org/ns/prov#SoftwareAgent
+<http://www.w3.org/ns/prov#SoftwareAgent> rdf:type owl:Class ;
+                                          rdfs:subClassOf <http://www.w3.org/ns/prov#Agent> ;
+                                          rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
+                                          rdfs:label "SoftwareAgent" ;
+                                          <http://www.w3.org/ns/prov#category> "expanded" ;
+                                          <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
+                                          <http://www.w3.org/ns/prov#definition> "A software agent is running software."@en ;
+                                          <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
+                                          <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-types"^^xsd:anyURI .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://material-digital.de/pmdco/area1
+:area1 rdf:type owl:NamedIndividual ,
+                :Area .
+
+
+###  http://material-digital.de/pmdco/creep1
+:creep1 rdf:type owl:NamedIndividual ,
+                 :CreepStress ;
+        :hasValue "181.0"^^xsd:float .
+
+
+###  http://material-digital.de/pmdco/exampleMetadata
+:exampleMetadata rdf:type owl:NamedIndividual ,
+                          :Metadata .
+
+
+###  http://material-digital.de/pmdco/ext1
+:ext1 rdf:type owl:NamedIndividual ,
+               :PercentageExtension ;
+      :hasValue "0.1"^^xsd:float .
+
+
+###  http://material-digital.de/pmdco/ext2
+:ext2 rdf:type owl:NamedIndividual ,
+               :PercentageExtension ;
+      :hasValue "0.2"^^xsd:float .
+
+
+###  http://material-digital.de/pmdco/force1
+:force1 rdf:type owl:NamedIndividual ,
+                 :Force .
+
+
+###  http://material-digital.de/pmdco/identifier1
+:identifier1 rdf:type owl:NamedIndividual ,
+                      :Identifier .
+
+
+###  http://material-digital.de/pmdco/length1
+:length1 rdf:type owl:NamedIndividual ,
+                  :Length .
+
+
+###  http://material-digital.de/pmdco/obj3
+:obj3 rdf:type owl:NamedIndividual ;
+      :relatesTo :area1 ,
+                 :force1 .
+
+
+###  http://material-digital.de/pmdco/plan1
+:plan1 rdf:type owl:NamedIndividual ,
+                :CrossSectionDetermination .
+
+
+###  http://material-digital.de/pmdco/process1
+:process1 rdf:type owl:NamedIndividual ,
+                   :Process ;
+          :hasCharacteristic :identifier1 .
+
+
+###  http://material-digital.de/pmdco/shape1
+:shape1 rdf:type owl:NamedIndividual ,
+                 :Rectangular .
+
+
+###  http://material-digital.de/pmdco/state1
+:state1 rdf:type owl:NamedIndividual ;
+        :relatesTo :creep1 ,
+                   :temp1 ,
+                   :time1 .
+
+
+###  http://material-digital.de/pmdco/temp1
+:temp1 rdf:type owl:NamedIndividual ,
+                :AgingTemperature ;
+       :hasValue "190.0"^^xsd:float .
+
+
+###  http://material-digital.de/pmdco/time1
+:time1 rdf:type owl:NamedIndividual ,
+                :AgingTime ;
+       :hasValue "400.0"^^xsd:float .
+
+
+###  http://material-digital.de/pmdco/valueObj1
+:valueObj1 rdf:type owl:NamedIndividual ;
+           :relatesToExtension :ext1 .
+
+
+###  http://material-digital.de/pmdco/valueObject2
+:valueObject2 rdf:type owl:NamedIndividual ;
+              :relatesToExtension :ext1 .
+
+
+###  http://material-digital.de/pmdco/width1
+:width1 rdf:type owl:NamedIndividual ,
+                 :Width .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :BrinellHardnessTest
+                :CompressionTest
+                :RockwellHardnessTest
+                :TensileTest
+                :VickersHardnessTest
+              )
+] .
 
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
