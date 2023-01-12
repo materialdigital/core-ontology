@@ -16,10 +16,8 @@ jobs:
       run: pip install wheel pylode
     - name: Install requests and argparse 
       run: pip install requests argparse
-    - name: Upload to Ontodocker
-      run: scripts/tiny-uploader/tiny-uploader.py -u https://ontodocker.material-digital.de -d GITHUB_core-ontology -t pmdco_core.ttl -j ${{ secrets.UPLOAD_SECRET }}
     - name: Build HTML
-      run: echo "TODO-validate-ttl" && mkdir -p public && pylode -i pmdco_core.ttl -o public/index.html
+      run: echo "TODO-validate-ttl" && mkdir -p public && pylode -i pmdco_core.ttl -o public/index-develop.html
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v2
