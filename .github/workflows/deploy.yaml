@@ -16,8 +16,12 @@ jobs:
       run: pip install wheel pylode
     - name: Install requests and argparse 
       run: pip install requests argparse
+    - name: Create Dir
+      run: mkdir -p public 
     - name: Build HTML
-      run: mkdir -p public && python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -v -o public/index-develop.html pmdco_core.ttl && ls public 
+      run: python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -v -o public/index-develop.html pmdco_core.ttl 
+    - name: Check Dir
+      run: ls public 
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
