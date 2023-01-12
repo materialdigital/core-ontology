@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Selective installation of rdflib-5.0.0
       run: pip install rdflib==5.0.0
     - name: Install wheel and pyLODE 
@@ -20,7 +20,7 @@ jobs:
       run: echo "TODO-validate-ttl" && mkdir -p public && python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -v -o public/index-develop.html pmdco_core.ttl 
     - name: Deploy to GitHub Pages
       if: success()
-      uses: crazy-max/ghaction-github-pages@v2
+      uses: crazy-max/ghaction-github-pages@v3
       with:
         target_branch: gh-pages
         build_dir: public
