@@ -1,4 +1,4 @@
-name: HTML-develop
+name: HTML
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
     - name: Install requests and argparse 
       run: pip install requests argparse
     - name: Build HTML
-      run: echo "TODO-validate-ttl" && mkdir -p public && pylode -i pmdco_core.ttl -o public/index-develop.html
+      run: echo "TODO-validate-ttl" && mkdir -p public && python /usr/lib/python3/dist-packages/pylode/cli.py -i pmdco_core.ttl -o public/index-develop.html
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v2
