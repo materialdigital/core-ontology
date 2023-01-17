@@ -443,6 +443,7 @@ An analysis process is either a transformative process or a non-transformative p
 ###  http://material-digital.de/pmdco/AssemblingProcess
 :AssemblingProcess rdf:type owl:Class ;
                    rdfs:subClassOf :Process ;
+                   rdfs:comment "A process to mount or demount a component."@en ;
                    rdfs:label "Assembling Process"@en .
 
 
@@ -663,18 +664,18 @@ Unit (e.g. SI): mm"""@en ,
                      rdfs:label "Data Acquisition Rate"@en .
 
 
-###  http://material-digital.de/pmdco/DataCiteObject
-:DataCiteObject rdf:type owl:Class ;
-                owl:equivalentClass [ owl:intersectionOf ( :ValueObject
-                                                           [ rdf:type owl:Restriction ;
-                                                             owl:onProperty :relatesTo ;
-                                                             owl:someValuesFrom <http://purl.org/spar/datacite/Identifier>
-                                                           ]
-                                                         ) ;
-                                      rdf:type owl:Class
-                                    ] ;
-                rdfs:subClassOf :ValueObject ;
-                rdfs:label "DataCite Object"@en .
+###  http://material-digital.de/pmdco/DataCiteMetadata
+:DataCiteMetadata rdf:type owl:Class ;
+                  owl:equivalentClass [ owl:intersectionOf ( :ValueObject
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty :relatesTo ;
+                                                               owl:someValuesFrom <http://purl.org/spar/datacite/Identifier>
+                                                             ]
+                                                           ) ;
+                                        rdf:type owl:Class
+                                      ] ;
+                  rdfs:subClassOf :ValueObject ;
+                  rdfs:label "DataCite Metadata"@en .
 
 
 ###  http://material-digital.de/pmdco/DataScope
@@ -718,7 +719,8 @@ Unit (e.g. SI): mm"""@en ,
           rdfs:subClassOf :ValueObject ;
           rdfs:comment "The length of a straight line through the center of an object or space."@en ;
           rdfs:isDefinedBy "“Diameter.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/diameter. Accessed 5 Dec. 2022."@en ;
-          rdfs:label "Diameter"@en .
+          rdfs:label "Diameter"@en ;
+          <http://www.w3.org/ns/prov#constraints> "TesileTest" .
 
 
 ###  http://material-digital.de/pmdco/DiameterAfterFracture
@@ -825,6 +827,7 @@ A dmi:DigitalMaterialIdentifier is a resource identifier (IRI) that represents t
 ###  http://material-digital.de/pmdco/EngineeringMaterial
 :EngineeringMaterial rdf:type owl:Class ;
                      rdfs:subClassOf :Object ;
+                     rdfs:comment "Something to touch! A physically existent object!" ;
                      rdfs:label "Engineering Material"@en .
 
 
@@ -1156,18 +1159,6 @@ A manufacture process is always a transformative process."""@en ;
                       rdfs:label "Manufacture Process"@en .
 
 
-###  http://material-digital.de/pmdco/MaterialAfterHardening
-:MaterialAfterHardening rdf:type owl:Class ;
-                        rdfs:subClassOf :EngineeringMaterial ;
-                        rdfs:label "Material After Hardening"@en .
-
-
-###  http://material-digital.de/pmdco/MaterialAfterMelting
-:MaterialAfterMelting rdf:type owl:Class ;
-                      rdfs:subClassOf :EngineeringMaterial ;
-                      rdfs:label "Material After Melting"@en .
-
-
 ###  http://material-digital.de/pmdco/MaterialDesignation
 :MaterialDesignation rdf:type owl:Class ;
                      rdfs:subClassOf :MaterialRelated ;
@@ -1377,6 +1368,7 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
 ###  http://material-digital.de/pmdco/NodeSerialNumber
 :NodeSerialNumber rdf:type owl:Class ;
                   rdfs:subClassOf :NodeInfo ;
+                  rdfs:comment "A unique identifier of a process node, typically provided by the manufacturer (manufacturer serial number,  s/n)."@en ;
                   rdfs:label "Node Serial Number"@en .
 
 
@@ -1760,7 +1752,7 @@ In PMD, a process is conducted via process nodes and has a discernable duration 
 ###  http://material-digital.de/pmdco/ProcessingNode
 :ProcessingNode rdf:type owl:Class ;
                 rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
-                rdfs:comment "A workflow constituent that facilitates process instances, e.g. a service, tool, or machine."@en ;
+                rdfs:comment "A workflow constituent that hosts tools in the form of software to facilitate, e.g. simulation, prediction, or machine learning."@en ;
                 rdfs:label "Processing Node"@en .
 
 
@@ -1782,12 +1774,6 @@ In PMD, a process is conducted via process nodes and has a discernable duration 
                                        ] ;
                    rdfs:subClassOf :Identifier ;
                    rdfs:label "Project Identifier"@en .
-
-
-###  http://material-digital.de/pmdco/ProjectReferenceIdentifier
-:ProjectReferenceIdentifier rdf:type owl:Class ;
-                            rdfs:subClassOf :Identifier ;
-                            rdfs:label "Project Reference Identifier"@en .
 
 
 ###  http://material-digital.de/pmdco/ProofStrength
@@ -1868,7 +1854,7 @@ Note: A suffix is added to the subscript to indicate the prescribed percentage, 
 ###  http://material-digital.de/pmdco/RegionOfInterest
 :RegionOfInterest rdf:type owl:Class ;
                   rdfs:subClassOf :Object ;
-                  rdfs:comment "Some region of interest in an image."@en ;
+                  rdfs:comment "Some region of interest in an image. You might refer to some resource of an annotation ontology."@en ;
                   rdfs:label "ROI"@en .
 
 
@@ -1880,6 +1866,12 @@ Specifically : a function that yields the mean value of a random variable under 
             rdfs:isDefinedBy "“Regression.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/regression. Accessed 24 Nov. 2022."@en ;
             rdfs:label "Regression"@en ;
             <http://www.w3.org/2004/02/skos/core#example> "Regression of y on x is linear"@en .
+
+
+###  http://material-digital.de/pmdco/RelatedProjectIdentifier
+:RelatedProjectIdentifier rdf:type owl:Class ;
+                          rdfs:subClassOf :Identifier ;
+                          rdfs:label "Related Project Identifier"@en .
 
 
 ###  http://material-digital.de/pmdco/RetortType
