@@ -18,10 +18,16 @@ jobs:
       run: pip install requests argparse
     - name: Create Dir
       run: mkdir -p public 
-    - name: Build HTML
-      run: python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -o public/index.html pmdco_core.ttl 
+    - name: Build HTML for dev
+      run: python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -o public/index-dev.html pmdco_core.ttl 
     - name: Check Dir
       run: ls public
+    - uses: actions/checkout@v3
+      with:
+        ref: main
+    - name: Build HTML for dev
+      run: python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -o public/index.html pmdco_core.ttl       
+      
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
