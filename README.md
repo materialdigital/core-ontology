@@ -1,5 +1,5 @@
 # The PMD Core Ontology development version
-[![HTML](https://github.com/materialdigital/core-ontology/actions/workflows/deploy.yaml/badge.svg?branch=main)](https://github.com/materialdigital/core-ontology/actions/workflows/deploy.yaml)
+
 
 This is the current work-in-progress for the PMD core ontology. If you would like to contribute, please feel free to add any issues or participate in discussions here on Github.
 
