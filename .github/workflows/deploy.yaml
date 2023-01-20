@@ -26,14 +26,14 @@ jobs:
       with:
         ref: main
         path: main
-    - name: Build HTML for dev
+    - name: Build HTML for main
       run: python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -o public/index.html main/pmdco_core.ttl       
       
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
       with:
-        target_branch: gh-pages-dev
+        target_branch: gh-pages
         build_dir: public
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
