@@ -1015,6 +1015,10 @@ A dmi:DigitalMaterialIdentifier is a resource identifier (IRI) that represents t
 
 ###  http://material-digital.de/pmdco/Extension
 :Extension rdf:type owl:Class ;
+           owl:equivalentClass [ rdf:type owl:Restriction ;
+                                 owl:onProperty :relatesTo ;
+                                 owl:someValuesFrom :ExtensometerGaugeLength
+                               ] ;
            rdfs:subClassOf :ValueObject ;
            rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
            rdfs:label "Extension"@en ,
@@ -1119,6 +1123,10 @@ Note: For the determination of several properties which are based (partly or com
 
 ###  http://material-digital.de/pmdco/FurnaceCharacteristic
 :FurnaceCharacteristic rdf:type owl:Class ;
+                       owl:equivalentClass [ rdf:type owl:Restriction ;
+                                             owl:onProperty :hasParticipant ;
+                                             owl:someValuesFrom :Furnace
+                                           ] ;
                        rdfs:subClassOf :ValueObject ;
                        rdfs:label "Furnace Characteristic"@en ,
                                   "Ofencharakteristik"@de ;
@@ -1347,6 +1355,10 @@ Note: For the determination of several properties which are based (partly or com
 
 ###  http://material-digital.de/pmdco/LowerYieldStrength
 :LowerYieldStrength rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty :relatesTo ;
+                                          owl:someValuesFrom :Stress
+                                        ] ;
                     rdfs:subClassOf :YieldStrength ;
                     rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                     rdfs:label "Lower Yield Strength"@en ,
@@ -1796,6 +1808,10 @@ Note: The concept of parallel length is replaced by the concept of distance betw
 
 ###  http://material-digital.de/pmdco/ParticleArea
 :ParticleArea rdf:type owl:Class ;
+              owl:equivalentClass [ rdf:type owl:Restriction ;
+                                    owl:onProperty :hasParticipant ;
+                                    owl:someValuesFrom :Particle
+                                  ] ;
               rdfs:subClassOf :Area ;
               rdfs:label "Particle Area"@en ,
                          "Partikelfläche"@de ;
@@ -1813,6 +1829,10 @@ Note: The concept of parallel length is replaced by the concept of distance betw
 
 ###  http://material-digital.de/pmdco/ParticleRadius
 :ParticleRadius rdf:type owl:Class ;
+                owl:equivalentClass [ rdf:type owl:Restriction ;
+                                      owl:onProperty :hasParticipant ;
+                                      owl:someValuesFrom :Particle
+                                    ] ;
                 rdfs:subClassOf :Radius ;
                 rdfs:label "Particle Radius"@en ,
                            "Partikelradius"@de ;
@@ -1884,6 +1904,10 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  http://material-digital.de/pmdco/PercentagePermanentExtension
 :PercentagePermanentExtension rdf:type owl:Class ;
+                              owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                    owl:onProperty :relatesTo ;
+                                                    owl:someValuesFrom :ExtensometerGaugeLength
+                                                  ] ;
                               rdfs:subClassOf :Extension ;
                               rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                               rdfs:label "Bleibende Extensometer-Dehnung"@de ,
@@ -1894,6 +1918,17 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  http://material-digital.de/pmdco/PercentagePlasticExtensionAtMaximumForce
 :PercentagePlasticExtensionAtMaximumForce rdf:type owl:Class ;
+                                          owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                       owl:onProperty :relatesTo ;
+                                                                                       owl:someValuesFrom :ExtensometerGaugeLength
+                                                                                     ]
+                                                                                     [ rdf:type owl:Restriction ;
+                                                                                       owl:onProperty :relatesTo ;
+                                                                                       owl:someValuesFrom :MaximumForce
+                                                                                     ]
+                                                                                   ) ;
+                                                                rdf:type owl:Class
+                                                              ] ;
                                           rdfs:subClassOf :Extension ;
                                           rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                                           rdfs:label "Percentage Plastic Extension At Maximum Force"@en ,
@@ -1905,6 +1940,24 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  http://material-digital.de/pmdco/PercentageReductionOfArea
 :PercentageReductionOfArea rdf:type owl:Class ;
+                           owl:equivalentClass [ rdf:type owl:Class ;
+                                                 owl:unionOf ( [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                        owl:onProperty :relatesTo ;
+                                                                                        owl:someValuesFrom :OriginalThickness
+                                                                                      ]
+                                                                                      [ rdf:type owl:Restriction ;
+                                                                                        owl:onProperty :relatesTo ;
+                                                                                        owl:someValuesFrom :OriginalWidth
+                                                                                      ]
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ]
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :relatesTo ;
+                                                                 owl:someValuesFrom :OriginalDiameter
+                                                               ]
+                                                             )
+                                               ] ;
                            rdfs:subClassOf :ValueObject ;
                            rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                            rdfs:label "Brucheinschnürung"@de ,
@@ -1916,6 +1969,10 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  http://material-digital.de/pmdco/PercentageTotalExtensionAtFracture
 :PercentageTotalExtensionAtFracture rdf:type owl:Class ;
+                                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :relatesTo ;
+                                                          owl:someValuesFrom :ExtensometerGaugeLength
+                                                        ] ;
                                     rdfs:subClassOf :Extension ;
                                     rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                                     rdfs:label "Gesamte Extensometer-Dehnung beim Bruch"@de ,
@@ -1927,6 +1984,17 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  http://material-digital.de/pmdco/PercentageTotalExtensionAtMaximumForce
 :PercentageTotalExtensionAtMaximumForce rdf:type owl:Class ;
+                                        owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                     owl:onProperty :relatesTo ;
+                                                                                     owl:someValuesFrom :ExtensometerGaugeLength
+                                                                                   ]
+                                                                                   [ rdf:type owl:Restriction ;
+                                                                                     owl:onProperty :relatesTo ;
+                                                                                     owl:someValuesFrom :MaximumForce
+                                                                                   ]
+                                                                                 ) ;
+                                                              rdf:type owl:Class
+                                                            ] ;
                                         rdfs:subClassOf :Extension ;
                                         rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                                         rdfs:label "Gesamte Extensometer-Dehnung bei Höchstkraft"@de ,
@@ -1967,6 +2035,10 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  http://material-digital.de/pmdco/PixelDensity
 :PixelDensity rdf:type owl:Class ;
+              owl:equivalentClass [ rdf:type owl:Restriction ;
+                                    owl:onProperty :hasParticipant ;
+                                    owl:someValuesFrom :Pixel
+                                  ] ;
               rdfs:subClassOf :ValueObject ;
               rdfs:label "Pixel density"@en ,
                          "Pixeldichte"@de ;
@@ -2520,6 +2592,17 @@ Note: Stress rate is only used in the elastic part of the test."""@en .
 
 ###  http://material-digital.de/pmdco/TensileStrength
 :TensileStrength rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :relatesTo ;
+                                                              owl:someValuesFrom :MaximumForce
+                                                            ]
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :relatesTo ;
+                                                              owl:someValuesFrom :Stress
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
                  rdfs:subClassOf :ValueObject ;
                  rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                  rdfs:label "Tensile Strength"@en ,
@@ -2698,6 +2781,10 @@ Note: Stress rate is only used in the elastic part of the test."""@en .
 
 ###  http://material-digital.de/pmdco/TransmissionElectronMicroscopy
 :TransmissionElectronMicroscopy rdf:type owl:Class ;
+                                owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :hasParticipant ;
+                                                      owl:someValuesFrom :TransmissionElectronMicroscope
+                                                    ] ;
                                 rdfs:subClassOf :ElectronMicroscopy ;
                                 rdfs:isDefinedBy "“Transmission electron microscopy” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Transmission_electron_microscopy. Accessed 13 Jan. 2023."@en ;
                                 rdfs:label "Transmission Electron Microscopy"@en ,
@@ -2717,6 +2804,10 @@ Note: Stress rate is only used in the elastic part of the test."""@en .
 
 ###  http://material-digital.de/pmdco/UpperYieldStrength
 :UpperYieldStrength rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty :relatesTo ;
+                                          owl:someValuesFrom :Stress
+                                        ] ;
                     rdfs:subClassOf :YieldStrength ;
                     rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                     rdfs:label "Obere Streckgrenze"@de ,
@@ -2886,6 +2977,10 @@ A (partial) logical object that describes (a part of) a physical object"""@en .
 
 ###  http://material-digital.de/pmdco/YieldStrength
 :YieldStrength rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Restriction ;
+                                     owl:onProperty :relatesTo ;
+                                     owl:someValuesFrom :Stress
+                                   ] ;
                rdfs:subClassOf :ValueObject ;
                rdfs:isDefinedBy "DIN EN ISO 6892-1:2019"@en ;
                rdfs:label "Streckgrenze"@de ,
@@ -2896,6 +2991,10 @@ A (partial) logical object that describes (a part of) a physical object"""@en .
 
 ###  http://material-digital.de/pmdco/2DPixelCoordinates
 <http://material-digital.de/pmdco/2DPixelCoordinates> rdf:type owl:Class ;
+                                                      owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                                            owl:onProperty :relatesTo ;
+                                                                            owl:someValuesFrom :Pixel
+                                                                          ] ;
                                                       rdfs:subClassOf :Coordinates ;
                                                       rdfs:label "2D Pixel Coordinates"@en ,
                                                                  "2D Pixel Koordinaten"@de ;
