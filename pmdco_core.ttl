@@ -272,7 +272,7 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 ###  http://material-digital.de/pmdco/relatesToElement
 :relatesToElement rdf:type owl:ObjectProperty ;
                   rdfs:subPropertyOf :relatesTo ;
-                  rdfs:domain :ChemicalElement ;
+                  rdfs:domain :ChemicalObject ;
                   rdfs:range <http://purl.obolibrary.org/obo/CHEBI_24431> ;
                   rdfs:label "relates to element"@en .
 
@@ -288,6 +288,11 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 ###  http://purl.obolibrary.org/obo/RO_0000057
 <http://purl.obolibrary.org/obo/RO_0000057> rdf:type owl:ObjectProperty ;
                                             rdfs:label "has participant"@en .
+
+
+###  http://purl.org/dc/terms/isPartOf
+<http://purl.org/dc/terms/isPartOf> rdf:type owl:ObjectProperty ;
+                                    rdfs:subPropertyOf owl:topObjectProperty .
 
 
 ###  http://www.w3.org/ns/prov#actedOnBehalfOf
@@ -323,6 +328,14 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
           rdfs:domain :ValueObject ;
           rdfs:range rdfs:Literal ;
           rdfs:label "has value"@en .
+
+
+###  http://qudt.org/schema/qudt/lowerBound
+<http://qudt.org/schema/qudt/lowerBound> rdf:type owl:DatatypeProperty .
+
+
+###  http://qudt.org/schema/qudt/upperBound
+<http://qudt.org/schema/qudt/upperBound> rdf:type owl:DatatypeProperty .
 
 
 ###  http://www.w3.org/ns/prov#endedAtTime
@@ -478,7 +491,8 @@ An analysis process is either a transformative process or a non-transformative p
 ###  http://material-digital.de/pmdco/BaseMaterial
 :BaseMaterial rdf:type owl:Class ;
               rdfs:subClassOf :EngineeredMaterial ;
-              rdfs:label "Base Material"@en .
+              rdfs:label "Ausgangsmaterial"@de ,
+                         "Base Material"@en .
 
 
 ###  http://material-digital.de/pmdco/Biological
@@ -495,7 +509,8 @@ An analysis process is either a transformative process or a non-transformative p
 :Blank rdf:type owl:Class ;
        rdfs:subClassOf :EngineeredMaterial ;
        rdfs:isDefinedBy "“Blank.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/blank. Accessed 25 Nov. 2022."@en ;
-       rdfs:label "Blank"@en ;
+       rdfs:label "Blank"@en ,
+                  "Rohling"@de ;
        <http://www.w3.org/2004/02/skos/core#definition> "A piece of material prepared to be made into something by a further operation."@en .
 
 
@@ -551,7 +566,8 @@ An analysis process is either a transformative process or a non-transformative p
 ###  http://material-digital.de/pmdco/ChangeOfTransverseDimension
 :ChangeOfTransverseDimension rdf:type owl:Class ;
                              rdfs:subClassOf :Length ;
-                             rdfs:label "Change Of Transverse Dimension"@en .
+                             rdfs:label "Change Of Transverse Dimension"@en ,
+                                        "Änderung der transversalen Dimension"@de .
 
 
 ###  http://material-digital.de/pmdco/Chemical
@@ -564,20 +580,54 @@ An analysis process is either a transformative process or a non-transformative p
                                                            "Chemisch ist ein Begriff, der sich auf die Chemie oder die chemischen Phänomene bezieht, in der Chemie verwendet wird oder durch sie erzeugt wird. Hier geht es speziell um die chemischen Eigenschaften eines Materials."@de .
 
 
-###  http://material-digital.de/pmdco/ChemicalElement
-:ChemicalElement rdf:type owl:Class ;
-                 owl:equivalentClass [ owl:intersectionOf ( :ValueObject
-                                                            [ rdf:type owl:Restriction ;
-                                                              owl:onProperty :relatesTo ;
-                                                              owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI_24431>
-                                                            ]
-                                                          ) ;
-                                       rdf:type owl:Class
-                                     ] ;
-                 rdfs:subClassOf :ValueObject ;
-                 rdfs:label "Chemical Element"@en ,
-                            "Chemisches Element"@de ;
-                 <http://www.w3.org/2004/02/skos/core#definition> "Value object that describes the quantity (e.g. mass fraction) of a specific chemical element."@en .
+###  http://material-digital.de/pmdco/ChemicalComposition
+:ChemicalComposition rdf:type owl:Class ;
+                     owl:equivalentClass [ rdf:type owl:Restriction ;
+                                           owl:onProperty [ owl:inverseOf <http://purl.org/dc/terms/isPartOf>
+                                                          ] ;
+                                           owl:someValuesFrom :ChemicalObject
+                                         ] ;
+                     rdfs:subClassOf :ValueObject ;
+                     rdfs:isDefinedBy "https://chem.libretexts.org/Courses/College_of_Marin/CHEM_114%3A_Introductory_Chemistry/06%3A_Chemical_Composition" ;
+                     rdfs:label "Chemical Composition"@en ,
+                                "Chemische Zusammensetzung"@de ;
+                     <http://www.w3.org/2004/02/skos/core#definition> "Chemical composition refers to the arrangement, type, and ratio of atoms in molecules of chemical substances. Chemical composition varies when chemicals are added or subtracted from a substance, when the ratio of substances changes, or when other chemical changes occur in chemicals."@en ;
+                     <http://www.w3.org/2004/02/skos/core#example> """ex:proc1 a pmd:Process .
+ex:proc1 pmd:hasChacteristic ex:vo1 .
+
+ex:vo1 a ValueObject .
+ex:vo1 hasResource ex:chemComp1 .
+ex:chemComp1 a pmd:ChemicalComposition .
+
+ex:vo2 dcterm:partOf ex:chemComp1 .
+ex:vo2 a pmd:ChemicalElement .
+ex:vo2 pmd:relatesToElement CHEBI:28984 .
+ex:vo2 pmd:relatesTo ex:vo3 .
+
+pmd:MassFraction rdf:subClassOf ValueObject .
+ex:vo3 a pmd:MassFraction .
+ex:vo3 qudt:upperBound \"0.3\" .
+ex:vo3 qudt:lowerBound \"0\" .
+ex:vo3 qudt:hasUnit qudt:PERCENT .
+
+ex:vo4 a pmd:MassFraction .
+ex:vo4 pmd:hasResource pmd:NotDetected .""" .
+
+
+###  http://material-digital.de/pmdco/ChemicalObject
+:ChemicalObject rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( :ValueObject
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :relatesTo ;
+                                                             owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI_24431>
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf :ValueObject ;
+                rdfs:label "Chemical Object"@en ,
+                           "Chemisches Objekt"@de ;
+                <http://www.w3.org/2004/02/skos/core#definition> "Value object that describes the quantity (e.g. mass fraction) of a specific chemical object."@en .
 
 
 ###  http://material-digital.de/pmdco/Circular
@@ -620,7 +670,8 @@ An analysis process is either a transformative process or a non-transformative p
 ###  http://material-digital.de/pmdco/CollectionInterfaceHint
 :CollectionInterfaceHint rdf:type owl:Class ;
                          rdfs:subClassOf :NodeInfo ;
-                         rdfs:label "Collection Interface Hint"@en ;
+                         rdfs:label "Collection Interface Hint"@en ,
+                                    "Datenschnittstellenhinweis"@de ;
                          <http://www.w3.org/2004/02/skos/core#definition> "A label in support of identifying a network interface and/or address used by a process node to provide primary data stored in ontologies"@en .
 
 
@@ -767,7 +818,8 @@ Unit (e.g. SI): mm"""@en ,
                                         rdf:type owl:Class
                                       ] ;
                   rdfs:subClassOf :ValueObject ;
-                  rdfs:label "DataCite Metadata"@en ;
+                  rdfs:label "Data Cite Metadaten"@de ,
+                             "DataCite Metadata"@en ;
                   <http://www.w3.org/2004/02/skos/core#definition> "This value object refers to metadata which can be provided as DataCite element."@en ;
                   <http://www.w3.org/2004/02/skos/core#example> """For example, to refer to a ISBN number, following triples might be created:
 
@@ -1413,6 +1465,34 @@ In general but not necessarily, a manufacture node includes intrinsic analysis n
 A manufacture process is always a transformative process."""@en .
 
 
+###  http://material-digital.de/pmdco/MassFraction
+:MassFraction rdf:type owl:Class ;
+              rdfs:subClassOf :ValueObject ;
+              rdfs:label "Mass Fraction"@en ,
+                         "Masse Anteil"@de ;
+              <http://www.w3.org/2004/02/skos/core#definition> "This value object describes one of several portions of the property of a body that is a measure of the amount of material it contains and causes it to have weight in a gravitational field."@en ;
+              <http://www.w3.org/2004/02/skos/core#example> """ex:proc1 a pmd:Process .
+ex:proc1 pmd:hasChacteristic ex:vo1 .
+
+ex:vo1 a ValueObject .
+ex:vo1 hasResource ex:chemComp1 .
+ex:chemComp1 a pmd:ChemicalComposition .
+
+ex:vo2 dcterm:partOf ex:chemComp1 .
+ex:vo2 a pmd:ChemicalElement .
+ex:vo2 pmd:relatesToElement CHEBI:28984 .
+ex:vo2 pmd:relatesTo ex:vo3 .
+
+pmd:MassFraction rdf:subClassOf ValueObject .
+ex:vo3 a pmd:MassFraction .
+ex:vo3 qudt:upperBound \"0.3\" .
+ex:vo3 qudt:lowerBound \"0\" .
+ex:vo3 qudt:hasUnit qudt:PERCENT .
+
+ex:vo4 a pmd:MassFraction .
+ex:vo4 pmd:hasResource pmd:NotDetected .""" .
+
+
 ###  http://material-digital.de/pmdco/MaterialDesignation
 :MaterialDesignation rdf:type owl:Class ;
                      rdfs:subClassOf :MaterialRelated ;
@@ -1698,6 +1778,16 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
                  "Norm"@en ;
       <http://www.w3.org/2004/02/skos/core#definition> "An authoritative standard."@en ;
       <http://www.w3.org/2004/02/skos/core#example> "Technical standard issued by the German Institute for Standardisation Registered Association (Deutsches Institut für Normung e.V. - DIN)"@en .
+
+
+###  http://material-digital.de/pmdco/NotDetected
+:NotDetected rdf:type owl:Class ;
+             rdfs:subClassOf :MassFraction ;
+             rdfs:label "Nicht Nachweisbar"@de ,
+                        "Not Detected"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Indicates that an chemical element has not been detected in a corresponding experiment."@en ;
+             <http://www.w3.org/2004/02/skos/core#example> """ex:vo4 a MassFraction .
+ex:vo4 pmd:hasResource pmd:notDetected .""" .
 
 
 ###  http://material-digital.de/pmdco/Note
@@ -2301,7 +2391,8 @@ Specifically : a function that yields the mean value of a random variable under 
 ###  http://material-digital.de/pmdco/RetortType
 :RetortType rdf:type owl:Class ;
             rdfs:subClassOf :FurnaceCharacteristic ;
-            rdfs:label "Retort Type"@en ;
+            rdfs:label "Retort Type"@en ,
+                       "Retortentyp"@de ;
             <http://www.w3.org/2004/02/skos/core#definition> "Geometry and and orientation of the inner system boundaries of the heat treatment process node."@en .
 
 
@@ -2453,7 +2544,8 @@ Specifically : a function that yields the mean value of a random variable under 
 :Specimen rdf:type owl:Class ;
           rdfs:subClassOf :Sample ;
           owl:disjointWith :TestPiece ;
-          rdfs:label "Specimen"@en ;
+          rdfs:label "Prüfling"@de ,
+                     "Specimen"@en ;
           <http://www.w3.org/2004/02/skos/core#definition> "An object designed for a specific analysis." .
 
 
@@ -2655,8 +2747,7 @@ Note: Stress rate is only used in the elastic part of the test."""@en .
 :TestPiece rdf:type owl:Class ;
            rdfs:subClassOf :Sample ;
            rdfs:isDefinedBy "EN 10021:2006-12 (European standardization committee: CEN/TC 459/SC 12/WG 4)"@en ;
-           rdfs:label "Probekörper"@de ,
-                      "Prüfkörper"@de ,
+           rdfs:label "Prüfkörper"@de ,
                       "Test Piece"@en ;
            <http://www.w3.org/2004/02/skos/core#definition> "Part of a sample with specified dimensions, machined or un-machined, brought to a required condition for submission to a given test."@en ,
                                                             "Teil einer Probe mit bestimmten Dimensionen, bearbeitet oder unbearbeitet, der in einen erforderlichen Zustand gebracht wird, um einer bestimmten Prüfung unterzogen zu werden."@de .
@@ -2838,7 +2929,8 @@ Note: Stress rate is only used in the elastic part of the test."""@en .
                                                )
                                  ] ;
              rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
-             rdfs:label "Value Object"@en ;
+             rdfs:label "Value Object"@en ,
+                        "Wertobjekt"@de ;
              <http://www.w3.org/2004/02/skos/core#definition> """A :ValueObject is a simple entity which represents a specific value. This value can be a numerical, textual, or a more complex data structure. If a literal value is to be specified, the :hasValue datatype property has to be used. In cases where the value is represented by a resource (e.g. URI), the :hasResource object property has to be used.
 
 A value object, respectively its value, is always associated with an entity of type :Process, :ProcessNode, or :Object (e.g. :Specimen). The value is meant to be a charactaristic of the associated entity. To express this association it is indended to use the :hasParticipant object property.
@@ -3021,7 +3113,8 @@ A (partial) logical object that describes (a part of) a physical object"""@en .
 
 ###  http://w3id.org/DMI/DigitalMaterialIdentifier
 <http://w3id.org/DMI/DigitalMaterialIdentifier> rdf:type owl:Class ;
-                                                rdfs:label "Digital Material Identifier"@en ;
+                                                rdfs:label "Digital Material Identifier"@de ,
+                                                           "Digital Material Identifier"@en ;
                                                 <http://www.w3.org/2004/02/skos/core#definition> "A dmi:DigitalMaterialIdentifier is a resource identifier (IRI) that represents the specification of a material (in the sense of a material class) described in a specification document. The specification document can be, e.g., a standard, a datasheet, or any other citable document. Typically, a specification document requires some qualities that a material (in the sense of a portion of matter) has to comply with. Typical requirements include chemical compositions or physical properties."@en .
 
 
