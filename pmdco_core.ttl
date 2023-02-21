@@ -1171,6 +1171,11 @@ Note: For the determination of several properties which are based (partly or com
        <http://www.w3.org/2004/02/skos/core#definition> "Strength or energy exerted or brought to bear : cause of motion or change : active power."@en .
 
 
+###  http://material-digital.de/pmdco/Fraction
+:Fraction rdf:type owl:Class ;
+          rdfs:subClassOf :ValueObject .
+
+
 ###  http://material-digital.de/pmdco/Furnace
 :Furnace rdf:type owl:Class ;
          rdfs:subClassOf :ProcessingNode ;
@@ -1474,30 +1479,10 @@ A manufacture process is always a transformative process."""@en .
 
 ###  http://material-digital.de/pmdco/MassFraction
 :MassFraction rdf:type owl:Class ;
-              rdfs:subClassOf :ValueObject ;
+              rdfs:subClassOf :Fraction ;
               rdfs:label "Mass Fraction"@en ,
                          "Masse Anteil"@de ;
-              <http://www.w3.org/2004/02/skos/core#definition> "This value object describes one of several portions of the property of a body that is a measure of the amount of material it contains and causes it to have weight in a gravitational field."@en ;
-              <http://www.w3.org/2004/02/skos/core#example> """ex:proc1 a pmd:Process .
-ex:proc1 pmd:hasChacteristic ex:vo1 .
-
-ex:vo1 a ValueObject .
-ex:vo1 hasResource ex:chemComp1 .
-ex:chemComp1 a pmd:ChemicalComposition .
-
-ex:vo2 dcterm:partOf ex:chemComp1 .
-ex:vo2 a pmd:ChemicalElement .
-ex:vo2 pmd:relatesToElement CHEBI:28984 .
-ex:vo2 pmd:relatesTo ex:vo3 .
-
-pmd:MassFraction rdf:subClassOf ValueObject .
-ex:vo3 a pmd:MassFraction .
-ex:vo3 qudt:upperBound \"0.3\" .
-ex:vo3 qudt:lowerBound \"0\" .
-ex:vo3 qudt:hasUnit qudt:PERCENT .
-
-ex:vo4 a pmd:MassFraction .
-ex:vo4 pmd:hasResource pmd:NotDetected .""" .
+              <http://www.w3.org/2004/02/skos/core#definition> "This value object describes one of several portions of the property of a body that is a measure of the amount of material it contains and causes it to have weight in a gravitational field."@en .
 
 
 ###  http://material-digital.de/pmdco/MaterialDesignation
@@ -1788,12 +1773,10 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
 
 ###  http://material-digital.de/pmdco/NotDetected
 :NotDetected rdf:type owl:Class ;
-             rdfs:subClassOf :MassFraction ;
+             rdfs:subClassOf :Fraction ;
              rdfs:label "Nicht Nachweisbar"@de ,
                         "Not Detected"@en ;
-             <http://www.w3.org/2004/02/skos/core#definition> "Indicates that an chemical element has not been detected in a corresponding experiment."@en ;
-             <http://www.w3.org/2004/02/skos/core#example> """ex:vo4 a MassFraction .
-ex:vo4 pmd:hasResource pmd:notDetected .""" .
+             <http://www.w3.org/2004/02/skos/core#definition> "Indicates that an chemical element has not been detected in a corresponding experiment."@en .
 
 
 ###  http://material-digital.de/pmdco/Note
@@ -2987,6 +2970,14 @@ ex:spec1 :hasCharacteristic ex:vo1 ."""@en ,
                      rdfs:label "Härteprüfung nach Vickers"@de ,
                                 "Vickers Hardness Test"@en ;
                      <http://www.w3.org/2004/02/skos/core#definition> "An indentation hardness test for metals in which a 136-degree diamond pyramid is pressed into the surface of the metal being tested by a load of 5 to 120 kilograms."@en .
+
+
+###  http://material-digital.de/pmdco/VolumeFraction
+:VolumeFraction rdf:type owl:Class ;
+                rdfs:subClassOf :Fraction ;
+                rdfs:label "Volume Fraction"@en ,
+                           "Volumen Anteil"@de ;
+                <http://www.w3.org/2004/02/skos/core#definition> "This value object describes one of several portions of the property of a body that is a measure of the amount of material it contains and causes it to have volume."@en .
 
 
 ###  http://material-digital.de/pmdco/Voxel
