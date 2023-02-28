@@ -212,7 +212,8 @@ xsd:float rdf:type rdfs:Datatype .
 
 
 ###  http://material-digital.de/pmdco/hasResource
-:hasResource rdf:type owl:ObjectProperty ;
+:hasResource rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ;
              rdfs:domain :ValueObject ;
              rdfs:label "has resource"@en .
 
@@ -300,6 +301,18 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
                                     rdfs:subPropertyOf owl:topObjectProperty .
 
 
+###  http://www.w3.org/ns/oa#hasSelector
+<http://www.w3.org/ns/oa#hasSelector> rdf:type owl:ObjectProperty ;
+                                      rdfs:subPropertyOf owl:topObjectProperty ;
+                                      rdfs:isDefinedBy <http://www.w3.org/ns/oa#> .
+
+
+###  http://www.w3.org/ns/oa#hasSource
+<http://www.w3.org/ns/oa#hasSource> rdf:type owl:ObjectProperty ;
+                                    rdfs:subPropertyOf owl:topObjectProperty ;
+                                    rdfs:isDefinedBy <http://www.w3.org/ns/oa#> .
+
+
 ###  http://www.w3.org/ns/prov#actedOnBehalfOf
 <http://www.w3.org/ns/prov#actedOnBehalfOf> rdf:type owl:ObjectProperty ;
                                             rdfs:domain <http://www.w3.org/ns/prov#Agent> ;
@@ -328,19 +341,25 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 #    Data properties
 #################################################################
 
+###  http://material-digital.de/pmdco/hasMaxValue
+:hasMaxValue rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf :hasValue ;
+             rdfs:label "has max value"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "refers to all values equal or smaller than the given one"@en .
+
+
+###  http://material-digital.de/pmdco/hasMinValue
+:hasMinValue rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf :hasValue ;
+             rdfs:label "has min value"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "refers to all values equal or larger than the given one"@en .
+
+
 ###  http://material-digital.de/pmdco/hasValue
 :hasValue rdf:type owl:DatatypeProperty ;
           rdfs:domain :ValueObject ;
           rdfs:range rdfs:Literal ;
           rdfs:label "has value"@en .
-
-
-###  http://qudt.org/schema/qudt/lowerBound
-<http://qudt.org/schema/qudt/lowerBound> rdf:type owl:DatatypeProperty .
-
-
-###  http://qudt.org/schema/qudt/upperBound
-<http://qudt.org/schema/qudt/upperBound> rdf:type owl:DatatypeProperty .
 
 
 ###  http://www.w3.org/ns/prov#endedAtTime
@@ -2126,8 +2145,7 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 
 ###  http://material-digital.de/pmdco/PixelPerNanometerUnit
-:PixelPerNanometerUnit rdf:type owl:Class ;
-                       rdfs:subClassOf <http://qudt.org/schema/qudt/Unit> ;
+:PixelPerNanometerUnit a <http://qudt.org/schema/qudt/Unit> ;
                        rdfs:label "Pixel Per Nanometer"@en ,
                                   "Pixel pro Nanometer"@de ;
                        <http://www.w3.org/2004/02/skos/core#definition> "Einheit der gezählten Pixel pro Nanometer. (Es handelt sich nicht um eine offizielle Einheit.)"@de ,
@@ -2135,8 +2153,7 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 
 ###  http://material-digital.de/pmdco/PixelUnit
-:PixelUnit rdf:type owl:Class ;
-           rdfs:subClassOf <http://qudt.org/schema/qudt/Unit> ;
+:PixelUnit a <http://qudt.org/schema/qudt/Unit> ;
            :definitionSource "“Pixel” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Pixel. Accessed 13 Jan. 2023."@en ;
            rdfs:label "Pixel Unit"@en ,
                       "Pixeleinheit"@de ;
@@ -2351,10 +2368,30 @@ Note: A suffix is added to the subscript to indicate the prescribed percentage, 
 
 ###  http://material-digital.de/pmdco/RegionOfInterest
 :RegionOfInterest rdf:type owl:Class ;
+                  owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                               owl:onProperty <http://www.w3.org/ns/oa#hasSelector> ;
+                                                               owl:someValuesFrom <http://www.w3.org/ns/oa#FragmentSelector>
+                                                             ]
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty <http://www.w3.org/ns/oa#hasSource> ;
+                                                               owl:someValuesFrom :Image
+                                                             ]
+                                                           ) ;
+                                        rdf:type owl:Class
+                                      ] ;
                   rdfs:subClassOf :Object ;
                   rdfs:label "Betrachteter Bereich"@de ,
                              "Region of Interest"@en ;
-                  <http://www.w3.org/2004/02/skos/core#definition> "Some region of interest in an image. You might refer to some resource of an annotation ontology."@en .
+                  <http://www.w3.org/2004/02/skos/core#definition> """Some region of interest (ROI) in an image. Describe the ROI by use of Web Annotation Vocabulary (https://www.w3.org/TR/annotation-vocab/). The ROI is understood as the target of a (body-less) annotation. 
+
+The web annotation model suggests the use of different fragment specifications (https://www.w3.org/TR/annotation-model/#fragment-selector), however we suggest to prefer media fragments (https://www.w3.org/TR/media-frags/)."""@en ;
+                  <http://www.w3.org/2004/02/skos/core#example> """:image1  a pmd:Image
+:roi1 a pmd:RegionOfInterest .
+:roi1 oa:hasSource :image1 ;
+         oa:hasSelector [
+            a oa:FragmentSelector ;
+            dcterms:conformsTo <http://www.w3.org/TR/media-frags/> ;
+            rdf:value \"xywh=160,120,320,240\" ] ] .""" .
 
 
 ###  http://material-digital.de/pmdco/Regression
@@ -3113,6 +3150,12 @@ A (partial) logical object that describes (a part of) a physical object"""@en .
                                                 rdfs:label "Digital Material Identifier"@de ,
                                                            "Digital Material Identifier"@en ;
                                                 <http://www.w3.org/2004/02/skos/core#definition> "A dmi:DigitalMaterialIdentifier is a resource identifier (IRI) that represents the specification of a material (in the sense of a material class) described in a specification document. The specification document can be, e.g., a standard, a datasheet, or any other citable document. Typically, a specification document requires some qualities that a material (in the sense of a portion of matter) has to comply with. Typical requirements include chemical compositions or physical properties."@en .
+
+
+###  http://www.w3.org/ns/oa#FragmentSelector
+<http://www.w3.org/ns/oa#FragmentSelector> rdf:type owl:Class ;
+                                           rdfs:label "Fragment Selector"@en ;
+                                           <http://www.w3.org/2004/02/skos/core#example> <http://www.w3.org/ns/oa#> .
 
 
 ###  http://www.w3.org/ns/prov#Activity
