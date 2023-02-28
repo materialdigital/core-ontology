@@ -136,6 +136,7 @@ xsd:float rdf:type rdfs:Datatype .
                                  owl:unionOf ( :Object
                                                :Process
                                                :ProcessingNode
+                                               :Project
                                              )
                                ] ;
                    rdfs:range :ValueObject ;
@@ -153,6 +154,7 @@ xsd:float rdf:type rdfs:Datatype .
 ###  http://material-digital.de/pmdco/hasInput
 :hasInput rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf :hasParticipant ;
+          owl:inverseOf :isInputOf ;
           rdfs:domain [ rdf:type owl:Class ;
                         owl:unionOf ( :Process
                                       :ProcessingNode
@@ -253,7 +255,6 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 ###  http://material-digital.de/pmdco/isInputOf
 :isInputOf rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf :isParticipantOf ;
-           owl:inverseOf :isInputOf ;
            rdfs:label "is input of"@en .
 
 
@@ -2144,24 +2145,6 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
               <http://www.w3.org/2004/02/skos/core#definition> "The pixel density of an electronic image device."@en .
 
 
-###  http://material-digital.de/pmdco/PixelPerNanometerUnit
-:PixelPerNanometerUnit a <http://qudt.org/schema/qudt/Unit> ;
-                       rdfs:label "Pixel Per Nanometer"@en ,
-                                  "Pixel pro Nanometer"@de ;
-                       <http://www.w3.org/2004/02/skos/core#definition> "Einheit der gezählten Pixel pro Nanometer. (Es handelt sich nicht um eine offizielle Einheit.)"@de ,
-                                                                        "Unit of counted pixels per nanometer. (It is not an official unit.)"@en .
-
-
-###  http://material-digital.de/pmdco/PixelUnit
-:PixelUnit a <http://qudt.org/schema/qudt/Unit> ;
-           :definitionSource "“Pixel” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Pixel. Accessed 13 Jan. 2023."@en ;
-           rdfs:label "Pixel Unit"@en ,
-                      "Pixeleinheit"@de ;
-           <http://www.w3.org/2004/02/skos/core#definition> """In der digitalen Bildgebung ist ein Pixel (abgekürzt px), ein Pel oder ein Bildelement das kleinste adressierbare Element in einem Rasterbild oder der kleinste Punkt in einem alle Punkte adressierbaren Anzeigegerät. Bei den meisten digitalen Anzeigegeräten sind Pixel das kleinste Element, das durch Software manipuliert werden kann.
-Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich nicht um eine offiziell anerkannte Einheit.)"""@de ,
-                                                            "In digital imaging, a pixel (abbreviated px), pel, or picture element is the smallest addressable element in a raster image, or the smallest point in an all points addressable display device. In most digital display devices, pixels are the smallest element that can be manipulated through software. Here it is referred to as a unit of counted pixels. (It is not an officially recognized unit)."@en .
-
-
 ###  http://material-digital.de/pmdco/PrecipitateDistance
 :PrecipitateDistance rdf:type owl:Class ;
                      rdfs:subClassOf :Distance ;
@@ -3233,6 +3216,30 @@ A (partial) logical object that describes (a part of) a physical object"""@en .
                                           <http://www.w3.org/ns/prov#definition> "A software agent is running software."@en ;
                                           <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
                                           <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-types"^^xsd:anyURI .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://material-digital.de/pmdco/PixelPerNanometerUnit
+:PixelPerNanometerUnit rdf:type owl:NamedIndividual ,
+                                <http://qudt.org/schema/qudt/Unit> ;
+                       rdfs:label "Pixel Per Nanometer"@en ,
+                                  "Pixel pro Nanometer"@de ;
+                       <http://www.w3.org/2004/02/skos/core#definition> "Einheit der gezählten Pixel pro Nanometer. (Es handelt sich nicht um eine offizielle Einheit.)"@de ,
+                                                                        "Unit of counted pixels per nanometer. (It is not an official unit.)"@en .
+
+
+###  http://material-digital.de/pmdco/PixelUnit
+:PixelUnit rdf:type owl:NamedIndividual ,
+                    <http://qudt.org/schema/qudt/Unit> ;
+           :definitionSource "“Pixel” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Pixel. Accessed 13 Jan. 2023."@en ;
+           rdfs:label "Pixel Unit"@en ,
+                      "Pixeleinheit"@de ;
+           <http://www.w3.org/2004/02/skos/core#definition> """In der digitalen Bildgebung ist ein Pixel (abgekürzt px), ein Pel oder ein Bildelement das kleinste adressierbare Element in einem Rasterbild oder der kleinste Punkt in einem alle Punkte adressierbaren Anzeigegerät. Bei den meisten digitalen Anzeigegeräten sind Pixel das kleinste Element, das durch Software manipuliert werden kann.
+Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich nicht um eine offiziell anerkannte Einheit.)"""@de ,
+                                                            "In digital imaging, a pixel (abbreviated px), pel, or picture element is the smallest addressable element in a raster image, or the smallest point in an all points addressable display device. In most digital display devices, pixels are the smallest element that can be manipulated through software. Here it is referred to as a unit of counted pixels. (It is not an officially recognized unit)."@en .
 
 
 #################################################################
