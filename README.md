@@ -1,4 +1,4 @@
-# The PMD Core Ontology development version
+# The PMD Core Ontology (PMDco) development version
 
 
 This is the current work-in-progress for the PMD core ontology. If you would like to contribute, please feel free to add any issues or participate in discussions here on Github.
