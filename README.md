@@ -1,4 +1,4 @@
-# The PMD Core Ontology official release repository 
+# The PMD Core Ontology (PMDco) official release repository 
 
 An HTML documentation auto-generated via pylode can be found at the gh-pages:
 [OWL Documentation in HTML](https://materialdigital.github.io/core-ontology/)
