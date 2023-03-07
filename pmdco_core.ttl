@@ -23,9 +23,19 @@ The PMDco provides basic conceptualizations valid for the broad field of materia
 #    Annotation properties
 #################################################################
 
+###  http://material-digital.de/pmdco/abbreviation
+:abbreviation rdf:type owl:AnnotationProperty ;
+              rdfs:subPropertyOf <http://www.w3.org/2004/02/skos/core#altLabel> .
+
+
 ###  http://material-digital.de/pmdco/definitionSource
 :definitionSource rdf:type owl:AnnotationProperty ;
                   <http://www.w3.org/2004/02/skos/core#definition> "Indicates the source of the definition."@en .
+
+
+###  http://material-digital.de/pmdco/symbol
+:symbol rdf:type owl:AnnotationProperty ;
+        rdfs:subPropertyOf <http://www.w3.org/2004/02/skos/core#altLabel> .
 
 
 ###  http://purl.org/dc/elements/1.1/creator
@@ -36,12 +46,20 @@ The PMDco provides basic conceptualizations valid for the broad field of materia
 <http://purl.org/dc/elements/1.1/title> rdf:type owl:AnnotationProperty .
 
 
+###  http://www.w3.org/2004/02/skos/core#altLabel
+<http://www.w3.org/2004/02/skos/core#altLabel> rdf:type owl:AnnotationProperty .
+
+
 ###  http://www.w3.org/2004/02/skos/core#definition
 <http://www.w3.org/2004/02/skos/core#definition> rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.w3.org/2004/02/skos/core#example
 <http://www.w3.org/2004/02/skos/core#example> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#prefLabel
+<http://www.w3.org/2004/02/skos/core#prefLabel> rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.w3.org/ns/prov#category
@@ -138,7 +156,7 @@ xsd:float rdf:type rdfs:Datatype .
 
 ###  http://material-digital.de/pmdco/hasCharacteristic
 :hasCharacteristic rdf:type owl:ObjectProperty ;
-                   rdfs:subPropertyOf :hasParticipant ;
+                   rdfs:subPropertyOf owl:topObjectProperty ;
                    owl:inverseOf :isCharacteristicOf ;
                    rdfs:domain [ rdf:type owl:Class ;
                                  owl:unionOf ( :Object
@@ -164,12 +182,6 @@ xsd:float rdf:type rdfs:Datatype .
 :hasInput rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf :hasParticipant ;
           owl:inverseOf :isInputOf ;
-          rdfs:domain [ rdf:type owl:Class ;
-                        owl:unionOf ( :Process
-                                      :ProcessingNode
-                                    )
-                      ] ;
-          rdfs:range :Object ;
           rdfs:label "has input"@en ;
           <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link the processes to their input objects"@en .
 
@@ -187,24 +199,17 @@ xsd:float rdf:type rdfs:Datatype .
 :hasOutput rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf :hasParticipant ;
            owl:inverseOf :isOutputOf ;
-           rdfs:domain [ rdf:type owl:Class ;
-                         owl:unionOf ( :Process
-                                       :ProcessingNode
-                                     )
-                       ] ;
-           rdfs:range :Object ;
            rdfs:label "has output"@en ;
            <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link the processes to their output objects"@en .
 
 
 ###  http://material-digital.de/pmdco/hasParticipant
 :hasParticipant rdf:type owl:ObjectProperty ;
-                owl:equivalentProperty <http://purl.obolibrary.org/obo/RO_0000057> ;
                 owl:inverseOf :isParticipantOf ;
+                rdfs:domain :Process ;
+                rdfs:range :Object ;
                 rdfs:label "has participant"@en ;
-                <http://www.w3.org/2004/02/skos/core#definition> """A similar idea of the BFOs hasParticipant 
-
-... to be refined"""@en .
+                <http://www.w3.org/2004/02/skos/core#definition> "A relation between a process and an object, in which the objects is somehow involved in the process."@en .
 
 
 ###  http://material-digital.de/pmdco/hasPreviousProcess
@@ -257,7 +262,7 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 
 ###  http://material-digital.de/pmdco/isCharacteristicOf
 :isCharacteristicOf rdf:type owl:ObjectProperty ;
-                    rdfs:subPropertyOf :isParticipantOf ;
+                    rdfs:subPropertyOf owl:topObjectProperty ;
                     rdfs:label "is characteristic of"@en .
 
 
@@ -299,11 +304,6 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
                     rdfs:domain :ProofStrengthPlasticExtension ;
                     rdfs:range :PercentageExtension ;
                     rdfs:label "relates to extension"@en .
-
-
-###  http://purl.obolibrary.org/obo/RO_0000057
-<http://purl.obolibrary.org/obo/RO_0000057> rdf:type owl:ObjectProperty ;
-                                            rdfs:label "has participant"@en .
 
 
 ###  http://purl.org/dc/terms/isPartOf
@@ -367,9 +367,11 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 
 ###  http://material-digital.de/pmdco/hasValue
 :hasValue rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf owl:topDataProperty ;
           rdfs:domain :ValueObject ;
           rdfs:range rdfs:Literal ;
-          rdfs:label "has value"@en .
+          rdfs:label "has value"@en ,
+                     "hat Wert"@de .
 
 
 ###  http://www.w3.org/ns/prov#endedAtTime
@@ -413,6 +415,28 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 #################################################################
 #    Classes
 #################################################################
+
+###  http://edu.yovisto.com/ontology/LoadCellCapacity
+<http://edu.yovisto.com/ontology/LoadCellCapacity> rdf:type owl:Class ;
+                                                   rdfs:subClassOf :ValueObject ,
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :isCharacteristicOf ;
+                                                                     owl:someValuesFrom :LoadCell
+                                                                   ] .
+
+
+###  http://edu.yovisto.com/ontology/LoadCellCapacity_kN
+<http://edu.yovisto.com/ontology/LoadCellCapacity_kN> rdf:type owl:Class ;
+                                                      owl:equivalentClass [ owl:intersectionOf ( <http://edu.yovisto.com/ontology/LoadCellCapacity>
+                                                                                                 [ rdf:type owl:Restriction ;
+                                                                                                   owl:onProperty :hasUnit ;
+                                                                                                   owl:hasValue <http://qudt.org/vocab/unit/KiloN>
+                                                                                                 ]
+                                                                                               ) ;
+                                                                            rdf:type owl:Class
+                                                                          ] ;
+                                                      rdfs:subClassOf <http://edu.yovisto.com/ontology/LoadCellCapacity> .
+
 
 ###  http://material-digital.de/pmdco/AccreditationDocument
 :AccreditationDocument rdf:type owl:Class ;
@@ -1234,7 +1258,7 @@ Note: For the determination of several properties which are based (partly or com
 ###  http://material-digital.de/pmdco/FurnaceCharacteristic
 :FurnaceCharacteristic rdf:type owl:Class ;
                        owl:equivalentClass [ rdf:type owl:Restriction ;
-                                             owl:onProperty :hasParticipant ;
+                                             owl:onProperty :isCharacteristicOf ;
                                              owl:someValuesFrom :Furnace
                                            ] ;
                        rdfs:subClassOf :ValueObject ;
@@ -1729,12 +1753,13 @@ Note: For materials which display discontinuous yielding, but where no work-hard
 :ModulusOfElasticity rdf:type owl:Class ;
                      rdfs:subClassOf :ValueObject ;
                      :definitionSource "DIN EN ISO 6892-1:2019"@en ;
+                     :symbol "E" ;
                      rdfs:label "Elastizitätsmodul"@de ,
                                 "Modulus Of Elasticity"@en ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "E-Modul"@de ;
                      <http://www.w3.org/2004/02/skos/core#definition> """Quotient der Änderung der Spannung ΔR und Änderung der prozentualen Dehnung Δe in dem untersuchten Bereich multipliziert mit 100 % 
 
 Anmerkung: Es wird empfohlen, den Wert in GPa, gerundet auf 0,1 GPa, und nach ISO 80000-1 anzugeben."""@de ,
-                                                                      "Symbol: E"@en ,
                                                                       """quotient of change of stress ΔR and change of percentage extension Δe in the range of evaluation, multiplied by 100 %
 
 Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GPa and according to ISO 80000-1."""@en .
@@ -1934,7 +1959,7 @@ Note: The concept of parallel length is replaced by the concept of distance betw
 ###  http://material-digital.de/pmdco/ParticleArea
 :ParticleArea rdf:type owl:Class ;
               owl:equivalentClass [ rdf:type owl:Restriction ;
-                                    owl:onProperty :hasParticipant ;
+                                    owl:onProperty :isCharacteristicOf ;
                                     owl:someValuesFrom :Particle
                                   ] ;
               rdfs:subClassOf :Area ;
@@ -1955,7 +1980,7 @@ Note: The concept of parallel length is replaced by the concept of distance betw
 ###  http://material-digital.de/pmdco/ParticleRadius
 :ParticleRadius rdf:type owl:Class ;
                 owl:equivalentClass [ rdf:type owl:Restriction ;
-                                      owl:onProperty :hasParticipant ;
+                                      owl:onProperty :isCharacteristicOf ;
                                       owl:someValuesFrom :Particle
                                     ] ;
                 rdfs:subClassOf :Radius ;
@@ -2003,9 +2028,9 @@ Note: The concept of parallel length is replaced by the concept of distance betw
                      :definitionSource "DIN EN ISO 6892-1:2019"@en ;
                      rdfs:label "Extensometer-Dehnung"@de ,
                                 "Percentage Extension"@en ;
-                     <http://www.w3.org/2004/02/skos/core#definition> "Synonym: (engineering) strain"@en ,
-                                                                      "Synonym: technische Dehnung"@de ,
-                                                                      """extension expressed as a percentage of the extensometer gauge length
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "(engineering) strain"@en ,
+                                                                    "technische Dehnung"@de ;
+                     <http://www.w3.org/2004/02/skos/core#definition> """extension expressed as a percentage of the extensometer gauge length
 
 Note: The percentage extension is commonly called engineering strain."""@en ,
                                                                       """in Prozent angegebene Verlängerung der Extensometer-Messlänge
@@ -2085,10 +2110,10 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
                                                ] ;
                            rdfs:subClassOf :ValueObject ;
                            :definitionSource "DIN EN ISO 6892-1:2019"@en ;
+                           :symbol "Z" ;
                            rdfs:label "Brucheinschnürung"@de ,
                                       "Percentage Reduction Of Area"@en ;
-                           <http://www.w3.org/2004/02/skos/core#definition> "Symbol: Z"@en ,
-                                                                            "größte während des Versuchs aufgetretene Änderung des Querschnitts (S_o − S_u), angegeben in Prozent, bezogen auf den Anfangsquerschnitt S_o"@de ,
+                           <http://www.w3.org/2004/02/skos/core#definition> "größte während des Versuchs aufgetretene Änderung des Querschnitts (S_o − S_u), angegeben in Prozent, bezogen auf den Anfangsquerschnitt S_o"@de ,
                                                                             "maximum change in cross-sectional area which has occurred during the test (S_o − S_u), expressed as a percentage of the original cross-sectional area, S_o"@en .
 
 
@@ -2160,10 +2185,6 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  http://material-digital.de/pmdco/PixelDensity
 :PixelDensity rdf:type owl:Class ;
-              owl:equivalentClass [ rdf:type owl:Restriction ;
-                                    owl:onProperty :hasParticipant ;
-                                    owl:someValuesFrom :Pixel
-                                  ] ;
               rdfs:subClassOf :ValueObject ;
               rdfs:label "Pixel density"@en ,
                          "Pixeldichte"@de ;
@@ -2653,6 +2674,7 @@ Specifically : a function that yields the mean value of a random variable under 
                             ] ;
         rdfs:subClassOf :ValueObject ;
         :definitionSource "DIN EN ISO 6892-1:2019"@en ;
+        :symbol "R"@en ;
         rdfs:label "Spannung"@de ,
                    "Stress"@en ;
         <http://www.w3.org/2004/02/skos/core#definition> """At any moment during the test, force divided by the original cross-sectional area, S_o, of the test piece
@@ -2663,7 +2685,6 @@ ML*-1T*-2"""@en ,
                                                          """Kraft zu einem beliebigen Zeitpunkt während des Versuchs dividiert durch den Anfangsquerschnitt (S_o) der Probe
 
 Anmerkung: Mit dem Begriff Spannung ist hier die technische Spannung ('Ingenieur-Spannung') gemeint."""@de ,
-                                                         "Symbol: R"@en ,
                                                          "Units: Pa (SI), psi"@en .
 
 
@@ -3265,6 +3286,10 @@ A (partial) logical object that describes (a part of) a physical object"""@en .
            <http://www.w3.org/2004/02/skos/core#definition> """In der digitalen Bildgebung ist ein Pixel (abgekürzt px), ein Pel oder ein Bildelement das kleinste adressierbare Element in einem Rasterbild oder der kleinste Punkt in einem alle Punkte adressierbaren Anzeigegerät. Bei den meisten digitalen Anzeigegeräten sind Pixel das kleinste Element, das durch Software manipuliert werden kann.
 Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich nicht um eine offiziell anerkannte Einheit.)"""@de ,
                                                             "In digital imaging, a pixel (abbreviated px), pel, or picture element is the smallest addressable element in a raster image, or the smallest point in an all points addressable display device. In most digital display devices, pixels are the smallest element that can be manipulated through software. Here it is referred to as a unit of counted pixels. (It is not an officially recognized unit)."@en .
+
+
+###  http://qudt.org/vocab/unit/KiloN
+<http://qudt.org/vocab/unit/KiloN> rdf:type owl:NamedIndividual .
 
 
 #################################################################
