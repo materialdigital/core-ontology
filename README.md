@@ -1,9 +1,14 @@
 # The PMD Core Ontology (PMDco) development version
 
+This is pre-release version v2.0.0-alpha1 of the PMD Core Ontology (PMDco). 
 
-This is the current work-in-progress for the PMD Core Ontology (PMDco). If you would like to contribute, please feel free to add any issues or participate in discussions here on Github.
+If you like to contribute, please feel free to add any issues or participate in discussions here on Github.
 
-An HTML documentation auto-generated via pylode can be found at the gh-pages: [OWL Documentation in HTML](https://materialdigital.github.io/core-ontology/index-dev.html).
+* Namespace: [https://w3id.org/pmd/co](https://w3id.org/pmd/co)
+* Prefix: pmdco
+* [OWL Documentation in HTML](https://w3id.org/pmd/co) 
+* [Usage Guide Miro-Board](https://w3id.org/pmd/co) 
+
 
 To view the release of the first version of PMDco, please see [v0.1-beta](https://github.com/materialdigital/core-ontology/tree/v0.1-beta).
 
