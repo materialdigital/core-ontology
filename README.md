@@ -1,4 +1,4 @@
-# The PMD Core Ontology (PMDco) development version
+# The PMD Core Ontology (PMDco) 
 
 This is pre-release version v2.0.0-alpha1 of the PMD Core Ontology (PMDco). 
 
