@@ -7,7 +7,7 @@ If you like to contribute, please feel free to add any issues or participate in 
 * Namespace: [https://w3id.org/pmd/co](https://w3id.org/pmd/co)
 * Prefix: pmdco
 * [OWL Documentation in HTML](https://w3id.org/pmd/co) 
-* [Usage Guide Miro-Board](https://w3id.org/pmd/co) 
+
 
 
 To view the release of the first version of PMDco, please see [v0.1-beta](https://github.com/materialdigital/core-ontology/tree/v0.1-beta).
