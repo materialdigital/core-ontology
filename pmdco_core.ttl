@@ -13,6 +13,7 @@
                                                                      <https://orcid.org/0000-0002-7094-5371> ,
                                                                      <https://orcid.org/0000-0002-9014-2920> ,
                                                                      <https://orcid.org/0000-0003-1649-6832> ,
+
                                                                      "Jannis Grundmann" ,
                                                                      "Philipp von Hartrott" ,
                                                                      "Sascha Fliegener" ;
@@ -179,21 +180,21 @@ xsd:float rdf:type rdfs:Datatype .
                                             <http://www.w3.org/2004/02/skos/core#definition> "Attribution is the ascribing of an entity to an agent."@en .
 
 
-###  https://w3id.org/pmd/co/compose
-:compose rdf:type owl:ObjectProperty ;
-         owl:inverseOf :composedBy ;
-         rdfs:range :Object ;
-         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-         rdfs:label "compose"@en ;
-         <http://www.w3.org/2004/02/skos/core#definition> "This property is used to describe which objects a voxel or a material contributes to compose."@en .
-
-
-###  https://w3id.org/pmd/co/composedBy
-:composedBy rdf:type owl:ObjectProperty ;
+###  https://w3id.org/pmd/co/composedOf
+:composedOf rdf:type owl:ObjectProperty ;
+            owl:inverseOf :composes ;
             rdfs:domain :Object ;
             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-            rdfs:label "composed by"@en ;
+            rdfs:label "composed of"@en ;
             <http://www.w3.org/2004/02/skos/core#definition> "This property is used to describe which voxels and materials an object is composed of."@en .
+
+
+###  https://w3id.org/pmd/co/composes
+:composes rdf:type owl:ObjectProperty ;
+          rdfs:range :Object ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "composes"@en ;
+          <http://www.w3.org/2004/02/skos/core#definition> "This property is used to describe which objects a voxel or a material contributes to compose."@en .
 
 
 ###  https://w3id.org/pmd/co/executedBy
@@ -211,7 +212,7 @@ xsd:float rdf:type rdfs:Datatype .
           rdfs:domain :ProcessingNode ;
           rdfs:range :Process ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-          rdfs:label "execute"@en ;
+          rdfs:label "executes"@en ;
           <http://www.w3.org/2004/02/skos/core#definition> "This property represents which process node executes a process"@en .
 
 
@@ -374,7 +375,8 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 :relatesTo rdf:type owl:ObjectProperty ;
            rdfs:domain :ValueObject ;
            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-           rdfs:label "relates to"@en .
+           rdfs:label "relates to"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "Describes a general relationship between domain objects."@en .
 
 
 ###  https://w3id.org/pmd/co/relatesToElement
