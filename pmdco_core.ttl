@@ -16,8 +16,8 @@
                                                                      "Jannis Grundmann" ,
                                                                      "Philipp von Hartrott" ,
                                                                      "Sascha Fliegener" ;
-                           <http://purl.org/dc/terms/created> "2023-03-17"^^xsd:date ;
                            <http://purl.org/dc/terms/bibliographicCitation> "Bernd Bayerlein, Henk Birkholz, Sascha Fliegener, Jannis Grundmann, Thomas Hanke, Philipp von Hartrott, Markus Schilling, Jörg Waitelonis. (March 17th, 2023) PMDco: platform material digital ontology. Version 2.0.0-alpha2, https://w3id.org/pmd/co" ;
+                           <http://purl.org/dc/terms/created> "2023-03-17"^^xsd:date ;
                            <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
                            <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (pmdco)"@en ;
                            rdfs:comment "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. The design of PMDco is based on the W3C Provenance Ontology (PROV-O), which provides a standard framework for capturing the generation, derivation, and attribution of resources. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
@@ -43,12 +43,20 @@
 <http://purl.org/dc/terms/bibliographicCitation> rdf:type owl:AnnotationProperty .
 
 
+###  http://purl.org/dc/terms/created
+<http://purl.org/dc/terms/created> rdf:type owl:AnnotationProperty .
+
+
 ###  http://purl.org/dc/terms/license
 <http://purl.org/dc/terms/license> rdf:type owl:AnnotationProperty .
 
 
 ###  http://purl.org/dc/terms/title
 <http://purl.org/dc/terms/title> rdf:type owl:AnnotationProperty .
+
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+<http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.w3.org/2004/02/skos/core#altLabel
@@ -128,6 +136,10 @@
 #################################################################
 #    Datatypes
 #################################################################
+
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
 
 ###  http://www.w3.org/2001/XMLSchema#float
 xsd:float rdf:type rdfs:Datatype .
@@ -1474,6 +1486,11 @@ Note: For the determination of several properties which are based (partly or com
                                                               "Symbol: L"@en ,
                                                               "length of the parallel portion of the test piece on which elongation is measured at any moment during the test"@en ;
              :definitionSource "DIN EN ISO 6892-1:2019"@en .
+
+
+###  https://w3id.org/pmd/co/GeometryChangingProcess
+:GeometryChangingProcess rdf:type owl:Class ;
+                         rdfs:subClassOf :Process .
 
 
 ###  https://w3id.org/pmd/co/GeometryShape
@@ -3580,6 +3597,49 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
            :definitionSource "“Pixel” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Pixel. Accessed 13 Jan. 2023."@en .
 
 
+###  https://w3id.org/pmd/co/length_vo1
+:length_vo1 rdf:type owl:NamedIndividual ,
+                     :Length ;
+            :hasValue 1 .
+
+
+###  https://w3id.org/pmd/co/length_vo2
+:length_vo2 rdf:type owl:NamedIndividual ,
+                     :Length ;
+            :hasValue 2 .
+
+
+###  https://w3id.org/pmd/co/obj2
+:obj2 rdf:type owl:NamedIndividual ,
+               :Object .
+
+
+###  https://w3id.org/pmd/co/obj3
+:obj3 rdf:type owl:NamedIndividual ,
+               :Object .
+
+
+###  https://w3id.org/pmd/co/process1
+:process1 rdf:type owl:NamedIndividual ,
+                   :MeasuringProcess ;
+          :hasCharacteristic :length_vo1 ;
+          :hasOutput :obj2 .
+
+
+###  https://w3id.org/pmd/co/process2
+:process2 rdf:type owl:NamedIndividual ,
+                   :Process ;
+          :hasInput :obj2 ;
+          :hasOutput :obj3 .
+
+
+###  https://w3id.org/pmd/co/process3
+:process3 rdf:type owl:NamedIndividual ,
+                   :MeasuringProcess ;
+          :hasCharacteristic :length_vo2 ;
+          :hasInput :obj3 .
+
+
 #################################################################
 #    Annotations
 #################################################################
@@ -3612,5 +3672,147 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
               )
 ] .
 
+
+#################################################################
+#    Rules
+#################################################################
+
+:p1 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:p2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:p3 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:o2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:o3 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:l1 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:l2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:v1 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:v2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "Detect processes which changes the length of object." ;
+   rdfs:label "S1" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :Process ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :p1
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#classPredicate> :Process ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> :p2
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#classPredicate> :Process ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> :p3
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#classPredicate> :Object ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument1> :o2
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#classPredicate> :Object ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument1> :o3
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#classPredicate> :Length ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument1> :l1
+                                                                                                            ] ;
+                                                                                                  rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                             rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#classPredicate> :Length ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#argument1> :l2
+                                                                                                                       ] ;
+                                                                                                             rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                        rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasOutput ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#argument2> :o2
+                                                                                                                                  ] ;
+                                                                                                                        rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                   rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                               <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasInput ;
+                                                                                                                                               <http://www.w3.org/2003/11/swrl#argument1> :p2 ;
+                                                                                                                                               <http://www.w3.org/2003/11/swrl#argument2> :o2
+                                                                                                                                             ] ;
+                                                                                                                                   rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                              rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                                          <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasOutput ;
+                                                                                                                                                          <http://www.w3.org/2003/11/swrl#argument1> :p2 ;
+                                                                                                                                                          <http://www.w3.org/2003/11/swrl#argument2> :o3
+                                                                                                                                                        ] ;
+                                                                                                                                              rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                         rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                                                     <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasInput ;
+                                                                                                                                                                     <http://www.w3.org/2003/11/swrl#argument1> :p3 ;
+                                                                                                                                                                     <http://www.w3.org/2003/11/swrl#argument2> :o3
+                                                                                                                                                                   ] ;
+                                                                                                                                                         rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                    rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                                                                <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasCharacteristic ;
+                                                                                                                                                                                <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
+                                                                                                                                                                                <http://www.w3.org/2003/11/swrl#argument2> :l1
+                                                                                                                                                                              ] ;
+                                                                                                                                                                    rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                               rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                                                                           <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasCharacteristic ;
+                                                                                                                                                                                           <http://www.w3.org/2003/11/swrl#argument1> :p3 ;
+                                                                                                                                                                                           <http://www.w3.org/2003/11/swrl#argument2> :l2
+                                                                                                                                                                                         ] ;
+                                                                                                                                                                               rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                          rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasValue ;
+                                                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#argument1> :l1 ;
+                                                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#argument2> :v1
+                                                                                                                                                                                                    ] ;
+                                                                                                                                                                                          rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                     rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasValue ;
+                                                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#argument1> :l2 ;
+                                                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#argument2> :v2
+                                                                                                                                                                                                               ] ;
+                                                                                                                                                                                                     rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                                rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                                                                                                            <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#notEqual> ;
+                                                                                                                                                                                                                            <http://www.w3.org/2003/11/swrl#arguments> ( :v1
+                                                                                                                                                                                                                                                                         :v2
+                                                                                                                                                                                                                                                                       )
+                                                                                                                                                                                                                          ] ;
+                                                                                                                                                                                                                rdf:rest rdf:nil
+                                                                                                                                                                                                              ]
+                                                                                                                                                                                                   ]
+                                                                                                                                                                                        ]
+                                                                                                                                                                             ]
+                                                                                                                                                                  ]
+                                                                                                                                                       ]
+                                                                                                                                            ]
+                                                                                                                                 ]
+                                                                                                                      ]
+                                                                                                           ]
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :GeometryChangingProcess ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :p2
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
 
 ###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
