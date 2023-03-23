@@ -4,7 +4,7 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <https://w3id.org/pmd/co/> .
+@base <https://w3id.org/pmd/co> .
 
 <https://w3id.org/pmd/co> rdf:type owl:Ontology ;
                            owl:versionIRI <https://w3id.org/pmd/co> ;
@@ -13,15 +13,15 @@
                                                                      <https://orcid.org/0000-0002-7094-5371> ,
                                                                      <https://orcid.org/0000-0002-9014-2920> ,
                                                                      <https://orcid.org/0000-0003-1649-6832> ,
+                                                                     <https://orcid.org/0009-0000-6469-744X> ,
                                                                      "Jannis Grundmann" ,
-                                                                     "Philipp von Hartrott" ,
-                                                                     "Sascha Fliegener" ;
-                           <http://purl.org/dc/terms/created> "2023-03-17"^^xsd:date ;
-                           <http://purl.org/dc/terms/bibliographicCitation> "Bernd Bayerlein, Henk Birkholz, Sascha Fliegener, Jannis Grundmann, Thomas Hanke, Philipp von Hartrott, Markus Schilling, Jörg Waitelonis. (March 17th, 2023) PMDco: platform material digital ontology. Version 2.0.0-alpha2, https://w3id.org/pmd/co" ;
+                                                                     "Philipp von Hartrott" ;
+                           <http://purl.org/dc/terms/bibliographicCitation> "Bernd Bayerlein, Henk Birkholz, Sascha Fliegener, Jannis Grundmann, Thomas Hanke, Philipp von Hartrott, Markus Schilling, Jörg Waitelonis. (March 24th, 2023) PMDco: platform material digital ontology. Version 2.0.0-alpha3, https://w3id.org/pmd/co" ;
+                           <http://purl.org/dc/terms/created> "2023-03-24" ;
                            <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
                            <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (pmdco)"@en ;
                            rdfs:comment "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. The design of PMDco is based on the W3C Provenance Ontology (PROV-O), which provides a standard framework for capturing the generation, derivation, and attribution of resources. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
-                           owl:versionInfo "2.0.0-alpha2" .
+                           owl:versionInfo "2.0.0-alpha3" .
 
 #################################################################
 #    Annotation properties
@@ -43,12 +43,20 @@
 <http://purl.org/dc/terms/bibliographicCitation> rdf:type owl:AnnotationProperty .
 
 
+###  http://purl.org/dc/terms/created
+<http://purl.org/dc/terms/created> rdf:type owl:AnnotationProperty .
+
+
 ###  http://purl.org/dc/terms/license
 <http://purl.org/dc/terms/license> rdf:type owl:AnnotationProperty .
 
 
 ###  http://purl.org/dc/terms/title
 <http://purl.org/dc/terms/title> rdf:type owl:AnnotationProperty .
+
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+<http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.w3.org/2004/02/skos/core#altLabel
@@ -129,6 +137,10 @@
 #    Datatypes
 #################################################################
 
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+
 ###  http://www.w3.org/2001/XMLSchema#float
 xsd:float rdf:type rdfs:Datatype .
 
@@ -180,6 +192,42 @@ xsd:float rdf:type rdfs:Datatype .
                                             <http://www.w3.org/2004/02/skos/core#definition> "Attribution is the ascribing of an entity to an agent."@en .
 
 
+###  https://w3id.org/pmd/co/characteristic
+:characteristic rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf owl:topObjectProperty ;
+                owl:inverseOf :characteristicOf ;
+                rdfs:domain [ rdf:type owl:Class ;
+                              owl:unionOf ( :Object
+                                            :Process
+                                            :ProcessingNode
+                                            :Project
+                                            :ValueObject
+                                          )
+                            ] ;
+                rdfs:range :ValueObject ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                rdfs:label "characteristic"@en ;
+                <http://www.w3.org/2004/02/skos/core#altLabel> "has characteristic"@en .
+
+
+###  https://w3id.org/pmd/co/characteristicOf
+:characteristicOf rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "characteristic of"@en ;
+                  <http://www.w3.org/2004/02/skos/core#altLabel> "is characteristic of" .
+
+
+###  https://w3id.org/pmd/co/component
+:component rdf:type owl:ObjectProperty ;
+           rdfs:domain :ProcessingNode ;
+           rdfs:range :ProcessingNode ;
+           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+           rdfs:label "component"@en ;
+           <http://www.w3.org/2004/02/skos/core#altLabel> "has component"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "An object property associating a process node with its (potentially modular) components, e.g. the chambers of a heat treatment furnace."@en .
+
+
 ###  https://w3id.org/pmd/co/composedOf
 :composedOf rdf:type owl:ObjectProperty ;
             owl:inverseOf :composes ;
@@ -216,159 +264,89 @@ xsd:float rdf:type rdfs:Datatype .
           <http://www.w3.org/2004/02/skos/core#definition> "This property represents which process node executes a process"@en .
 
 
-###  https://w3id.org/pmd/co/hasCharacteristic
-:hasCharacteristic rdf:type owl:ObjectProperty ;
-                   rdfs:subPropertyOf owl:topObjectProperty ;
-                   owl:inverseOf :isCharacteristicOf ;
-                   rdfs:domain [ rdf:type owl:Class ;
-                                 owl:unionOf ( :Object
-                                               :Process
-                                               :ProcessingNode
-                                               :Project
-                                               :ValueObject
-                                             )
-                               ] ;
-                   rdfs:range :ValueObject ;
-                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                   rdfs:label "has characteristic"@en .
+###  https://w3id.org/pmd/co/input
+:input rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf :participant ;
+       owl:inverseOf :inputOf ;
+       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+       rdfs:label "input"@en ;
+       <http://www.w3.org/2004/02/skos/core#altLabel> "has input" ;
+       <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link the processes to their input objects"@en .
 
 
-###  https://w3id.org/pmd/co/hasComponent
-:hasComponent rdf:type owl:ObjectProperty ;
-              rdfs:domain :ProcessingNode ;
-              rdfs:range :ProcessingNode ;
-              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-              rdfs:label "has component"@en ;
-              <http://www.w3.org/2004/02/skos/core#definition> "An object property associating a process node with its (potentially modular) components, e.g. the chambers of a heat treatment furnace."@en .
-
-
-###  https://w3id.org/pmd/co/hasInput
-:hasInput rdf:type owl:ObjectProperty ;
-          rdfs:subPropertyOf :hasParticipant ;
-          owl:inverseOf :isInputOf ;
-          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-          rdfs:label "has input"@en ;
-          <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link the processes to their input objects"@en .
-
-
-###  https://w3id.org/pmd/co/hasNextProcess
-:hasNextProcess rdf:type owl:ObjectProperty ;
-                owl:inverseOf :hasPreviousProcess ;
-                rdfs:domain :Process ;
-                rdfs:range :Process ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                rdfs:label "has next process"@en ;
-                <http://www.w3.org/2004/02/skos/core#definition> "This property is used to indicate the process that was run after the current process."@en .
-
-
-###  https://w3id.org/pmd/co/hasOutput
-:hasOutput rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf :hasParticipant ;
-           owl:inverseOf :isOutputOf ;
-           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-           rdfs:label "has output"@en ;
-           <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link the processes to their output objects"@en .
-
-
-###  https://w3id.org/pmd/co/hasParticipant
-:hasParticipant rdf:type owl:ObjectProperty ;
-                owl:inverseOf :isParticipantOf ;
-                rdfs:domain :Process ;
-                rdfs:range :Object ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                rdfs:label "has participant"@en ;
-                <http://www.w3.org/2004/02/skos/core#definition> "A relation between a process and an object, in which the objects is somehow involved in the process."@en .
-
-
-###  https://w3id.org/pmd/co/hasPreviousProcess
-:hasPreviousProcess rdf:type owl:ObjectProperty ;
-                    rdfs:domain :Process ;
-                    rdfs:range :Process ;
-                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                    rdfs:label "has previous process"@en ;
-                    <http://www.w3.org/2004/02/skos/core#definition> "This property is used to indicate that which process was previously run."@en .
-
-
-###  https://w3id.org/pmd/co/hasProcess
-:hasProcess rdf:type owl:ObjectProperty ;
-            rdfs:domain :Project ;
-            rdfs:range :Process ;
-            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-            rdfs:label "has process"@en .
-
-
-###  https://w3id.org/pmd/co/hasResource
-:hasResource rdf:type owl:ObjectProperty ,
-                      owl:FunctionalProperty ;
-             rdfs:domain :ValueObject ;
-             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-             rdfs:label "has resource"@en .
-
-
-###  https://w3id.org/pmd/co/hasState
-:hasState rdf:type owl:ObjectProperty ;
-          rdfs:domain [ rdf:type owl:Class ;
-                        owl:unionOf ( :Specimen
-                                      :TestPiece
-                                    )
-                      ] ;
-          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-          rdfs:label "has state"@en .
-
-
-###  https://w3id.org/pmd/co/hasSubordinateProcess
-:hasSubordinateProcess rdf:type owl:ObjectProperty ;
-                       owl:inverseOf :hasSuperordinateProcess ;
-                       rdfs:domain :Process ;
-                       rdfs:range :Process ;
-                       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                       rdfs:label "has subordinate process"@en ;
-                       <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link a process to its subordinate processes."@en .
-
-
-###  https://w3id.org/pmd/co/hasSuperordinateProcess
-:hasSuperordinateProcess rdf:type owl:ObjectProperty ;
-                         rdfs:subPropertyOf owl:topObjectProperty ;
-                         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                         rdfs:label "has superordinate process"@en ;
-                         <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link a process to its super ordinated processes."@en .
-
-
-###  https://w3id.org/pmd/co/hasUnit
-:hasUnit rdf:type owl:ObjectProperty ;
-         rdfs:domain :ValueObject ;
+###  https://w3id.org/pmd/co/inputOf
+:inputOf rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf :participantOf ;
          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-         rdfs:label "has unit"@en ;
-         <http://www.w3.org/2004/02/skos/core#definition> """Unit of measurement.
-Examples for rdsf:range are units from qudt or wikidata or own defindes units."""@en .
+         rdfs:label "input of"@en ;
+         <http://www.w3.org/2004/02/skos/core#altLabel> "is input of" .
 
 
-###  https://w3id.org/pmd/co/isCharacteristicOf
-:isCharacteristicOf rdf:type owl:ObjectProperty ;
-                    rdfs:subPropertyOf owl:topObjectProperty ;
-                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                    rdfs:label "is characteristic of"@en .
+###  https://w3id.org/pmd/co/nextProcess
+:nextProcess rdf:type owl:ObjectProperty ;
+             owl:inverseOf :previousProcess ;
+             rdfs:domain :Process ;
+             rdfs:range :Process ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "next process"@en ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "has next process"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "This property is used to indicate the process that was run after the current process."@en .
 
 
-###  https://w3id.org/pmd/co/isInputOf
-:isInputOf rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf :isParticipantOf ;
-           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-           rdfs:label "is input of"@en .
+###  https://w3id.org/pmd/co/output
+:output rdf:type owl:ObjectProperty ;
+        rdfs:subPropertyOf :participant ;
+        owl:inverseOf :outputOf ;
+        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+        rdfs:label "output"@en ;
+        <http://www.w3.org/2004/02/skos/core#altLabel> "has output" ;
+        <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link the processes to their output objects"@en .
 
 
-###  https://w3id.org/pmd/co/isOutputOf
-:isOutputOf rdf:type owl:ObjectProperty ;
-            rdfs:subPropertyOf :isParticipantOf ;
-            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-            rdfs:label "is output of"@en .
+###  https://w3id.org/pmd/co/outputOf
+:outputOf rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :participantOf ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "output of"@en ;
+          <http://www.w3.org/2004/02/skos/core#altLabel> "is output of"@en .
 
 
-###  https://w3id.org/pmd/co/isParticipantOf
-:isParticipantOf rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf owl:topObjectProperty ;
+###  https://w3id.org/pmd/co/participant
+:participant rdf:type owl:ObjectProperty ;
+             owl:inverseOf :participantOf ;
+             rdfs:domain :Process ;
+             rdfs:range :Object ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "participant"@en ;
+             <http://www.w3.org/2004/02/skos/core#altLabel> "has participant" ;
+             <http://www.w3.org/2004/02/skos/core#definition> "A relation between a process and an object, in which the objects is somehow involved in the process."@en .
+
+
+###  https://w3id.org/pmd/co/participantOf
+:participantOf rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+               rdfs:label "participant of"@en ;
+               <http://www.w3.org/2004/02/skos/core#altLabel> "is participant of"@en .
+
+
+###  https://w3id.org/pmd/co/previousProcess
+:previousProcess rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Process ;
+                 rdfs:range :Process ;
                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                 rdfs:label "is participant of"@en .
+                 rdfs:label "previous process"@en ;
+                 <http://www.w3.org/2004/02/skos/core#altLabel> "has previous process" ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "This property is used to indicate that which process was previously run."@en .
+
+
+###  https://w3id.org/pmd/co/process
+:process rdf:type owl:ObjectProperty ;
+         rdfs:domain :Project ;
+         rdfs:range :Process ;
+         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+         rdfs:label "process"@en ;
+         <http://www.w3.org/2004/02/skos/core#altLabel> "has process"@en .
 
 
 ###  https://w3id.org/pmd/co/relatesTo
@@ -395,6 +373,56 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
                     rdfs:range :PercentageExtension ;
                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                     rdfs:label "relates to extension"@en .
+
+
+###  https://w3id.org/pmd/co/resource
+:resource rdf:type owl:ObjectProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :ValueObject ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "resource"@en ;
+          <http://www.w3.org/2004/02/skos/core#altLabel> "has resource"@en .
+
+
+###  https://w3id.org/pmd/co/state
+:state rdf:type owl:ObjectProperty ;
+       rdfs:domain [ rdf:type owl:Class ;
+                     owl:unionOf ( :Specimen
+                                   :TestPiece
+                                 )
+                   ] ;
+       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+       rdfs:label "state"@en .
+
+
+###  https://w3id.org/pmd/co/subordinateProcess
+:subordinateProcess rdf:type owl:ObjectProperty ;
+                    owl:inverseOf :superordinateProcess ;
+                    rdfs:domain :Process ;
+                    rdfs:range :Process ;
+                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                    rdfs:label "subordinate process"@en ;
+                    <http://www.w3.org/2004/02/skos/core#altLabel> "has subordinate process" ;
+                    <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link a process to its subordinate processes."@en .
+
+
+###  https://w3id.org/pmd/co/superordinateProcess
+:superordinateProcess rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf owl:topObjectProperty ;
+                      rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                      rdfs:label "superordinate process"@en ;
+                      <http://www.w3.org/2004/02/skos/core#altLabel> "has superordinate process"@en ;
+                      <http://www.w3.org/2004/02/skos/core#definition> "This property is used to link a process to its super ordinated processes."@en .
+
+
+###  https://w3id.org/pmd/co/unit
+:unit rdf:type owl:ObjectProperty ;
+      rdfs:domain :ValueObject ;
+      rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+      rdfs:label "unit"@en ;
+      <http://www.w3.org/2004/02/skos/core#altLabel> "has unit"@en ;
+      <http://www.w3.org/2004/02/skos/core#definition> """Unit of measurement.
+Examples for rdsf:range are units from qudt or wikidata or own defindes units."""@en .
 
 
 #################################################################
@@ -429,30 +457,30 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
                                                                                     <http://www.w3.org/ns/prov#atTime> .
 
 
-###  https://w3id.org/pmd/co/hasMaxValue
-:hasMaxValue rdf:type owl:DatatypeProperty ;
-             rdfs:subPropertyOf :hasValue ;
-             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-             rdfs:label "has max value"@en ;
-             <http://www.w3.org/2004/02/skos/core#definition> "refers to all values equal or smaller than the given one"@en .
-
-
-###  https://w3id.org/pmd/co/hasMinValue
-:hasMinValue rdf:type owl:DatatypeProperty ;
-             rdfs:subPropertyOf :hasValue ;
-             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-             rdfs:label "has min value"@en ;
-             <http://www.w3.org/2004/02/skos/core#definition> "refers to all values equal or larger than the given one"@en .
-
-
-###  https://w3id.org/pmd/co/hasValue
-:hasValue rdf:type owl:DatatypeProperty ;
-          rdfs:subPropertyOf owl:topDataProperty ;
-          rdfs:domain :ValueObject ;
-          rdfs:range rdfs:Literal ;
+###  https://w3id.org/pmd/co/maxValue
+:maxValue rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf :value ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-          rdfs:label "has value"@en ,
-                     "hat Wert"@de .
+          rdfs:label "max value"@en ;
+          <http://www.w3.org/2004/02/skos/core#definition> "refers to all values equal or smaller than the given one"@en .
+
+
+###  https://w3id.org/pmd/co/minValue
+:minValue rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf :value ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "min value"@en ;
+          <http://www.w3.org/2004/02/skos/core#definition> "refers to all values equal or larger than the given one"@en .
+
+
+###  https://w3id.org/pmd/co/value
+:value rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf owl:topDataProperty ;
+       rdfs:domain :ValueObject ;
+       rdfs:range rdfs:Literal ;
+       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+       rdfs:label "hat Wert"@de ,
+                  "value"@en .
 
 
 #################################################################
@@ -462,7 +490,6 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 ###  http://purl.obolibrary.org/obo/CHEBI_24431
 <http://purl.obolibrary.org/obo/CHEBI_24431> rdf:type owl:Class ;
                                              rdfs:label "Chemical Entity"@en ;
-                                             <http://www.w3.org/2004/02/skos/core#definition> "A chemical entity is a physical entity of interest in chemistry including molecular entities, parts thereof, and chemical substances."@en ;
                                              :definitionSource "ChEBI ontology  https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:24431#"@en .
 
 
@@ -494,8 +521,8 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 <http://www.w3.org/ns/prov#Activity> rdf:type owl:Class ;
                                      owl:disjointWith <http://www.w3.org/ns/prov#Entity> ;
                                      rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                     rdfs:label "Aktivität"@de ,
-                                                "Activity" ;
+                                     rdfs:label "Activity" ,
+                                                "Aktivität"@de ;
                                      <http://www.w3.org/ns/prov#category> "starting-point" ;
                                      <http://www.w3.org/ns/prov#component> "entities-activities" ;
                                      <http://www.w3.org/ns/prov#constraints> "http://www.w3.org/TR/2013/REC-prov-constraints-20130430/#prov-dm-constraints-fig"^^xsd:anyURI ;
@@ -507,8 +534,8 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 ###  http://www.w3.org/ns/prov#Agent
 <http://www.w3.org/ns/prov#Agent> rdf:type owl:Class ;
                                   rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                  rdfs:label "Agent"@de ,
-                                             "Agent" ;
+                                  rdfs:label "Agent" ,
+                                             "Agent"@de ;
                                   <http://www.w3.org/ns/prov#category> "starting-point" ;
                                   <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
                                   <http://www.w3.org/ns/prov#definition> "An agent is something that bears some form of responsibility for an activity taking place, for the existence of an entity, or for another agent's activity. "@en ;
@@ -545,8 +572,8 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 <http://www.w3.org/ns/prov#Person> rdf:type owl:Class ;
                                    rdfs:subClassOf <http://www.w3.org/ns/prov#Agent> ;
                                    rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                   rdfs:label "Person"@de ,
-                                              "Person" ;
+                                   rdfs:label "Person" ,
+                                              "Person"@de ;
                                    <http://www.w3.org/ns/prov#category> "expanded" ;
                                    <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
                                    <http://www.w3.org/ns/prov#definition> "Person agents are people."@en ;
@@ -815,10 +842,10 @@ An analysis process is either a transformative process or a non-transformative p
                                 "Chemische Zusammensetzung"@de ;
                      <http://www.w3.org/2004/02/skos/core#definition> "Chemical composition refers to the arrangement, type, and ratio of atoms in molecules of chemical substances. Chemical composition varies when chemicals are added or subtracted from a substance, when the ratio of substances changes, or when other chemical changes occur in chemicals."@en ;
                      <http://www.w3.org/2004/02/skos/core#example> """ex:proc1 a pmd:Process .
-ex:proc1 pmd:hasChacteristic ex:vo1 .
+ex:proc1 pmd:chacteristic ex:vo1 .
 
 ex:vo1 a ValueObject .
-ex:vo1 hasResource ex:chemComp1 .
+ex:vo1 pmd:resource ex:chemComp1 .
 ex:chemComp1 a pmd:ChemicalComposition .
 
 ex:vo2 dcterm:partOf ex:chemComp1 .
@@ -830,10 +857,10 @@ pmd:MassFraction rdf:subClassOf ValueObject .
 ex:vo3 a pmd:MassFraction .
 ex:vo3 qudt:upperBound \"0.3\" .
 ex:vo3 qudt:lowerBound \"0\" .
-ex:vo3 qudt:hasUnit qudt:PERCENT .
+ex:vo3 qudt:unit qudt:PERCENT .
 
 ex:vo4 a pmd:MassFraction .
-ex:vo4 pmd:hasResource pmd:NotDetected .""" ;
+ex:vo4 pmd:resource pmd:NotDetected .""" ;
                      :definitionSource "https://chem.libretexts.org/Courses/College_of_Marin/CHEM_114%3A_Introductory_Chemistry/06%3A_Chemical_Composition" .
 
 
@@ -1072,13 +1099,13 @@ Unit (e.g. SI): mm"""@en ,
                   <http://www.w3.org/2004/02/skos/core#example> """For example, to refer to a ISBN number, following triples might be created:
 
     :p1 a pmd:Process .
-    :p1 pmd:hasCharacteristic :doc_vo1 .
+    :p1 pmd:characteristic :doc_vo1 .
     :doc_vo1 a pmd:Document .
-    :doc_vo1 pmd:hasCharacteristic :isbn_vo1 .
-    :doc_vo1 pmd:hasResource \"http://example.org/book.pdf\" .
+    :doc_vo1 pmd:characteristic :isbn_vo1 .
+    :doc_vo1 pmd:resource \"http://example.org/book.pdf\" .
     :isbn_vo1 a pmd:DataCiteMetadata .
     :isbn_vo1 pmd:relatesTo <http://purl.org/spar/datacite/isbn> .
-    :isbn_vo1 pmd:hasValue \"9780262012423\". 
+    :isbn_vo1 pmd:value \"9780262012423\". 
 
 \"a document related to process :p1 has a ISBN number 9780262012423\""""@en .
 
@@ -1135,8 +1162,8 @@ Unit (e.g. SI): mm"""@en ,
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Beschreibung"@de ,
                         "Description"@en ;
-             <http://www.w3.org/2004/02/skos/core#definition> "Ein beschreibender Text, der die Natur / Beschaffenheit / Informationen zu einer Entität qualifiziert (z.B. Aktivitäten, Entitäten, Objekten, ...)."@de ,
-                                                              "A descriptive text qualifying the nature of a thing (e.g. agent, activity, entity, object, ...)." .
+             <http://www.w3.org/2004/02/skos/core#definition> "A descriptive text qualifying the nature of a thing (e.g. agent, activity, entity, object, ...)." ,
+                                                              "Ein beschreibender Text, der die Natur / Beschaffenheit / Informationen zu einer Entität qualifiziert (z.B. Aktivitäten, Entitäten, Objekten, ...)."@de .
 
 
 ###  https://w3id.org/pmd/co/Diameter
@@ -1164,7 +1191,7 @@ Unit (e.g. SI): mm"""@en ,
 :DigitalMaterialIdentifier rdf:type owl:Class ;
                            owl:equivalentClass [ owl:intersectionOf ( :Identifier
                                                                       [ rdf:type owl:Restriction ;
-                                                                        owl:onProperty :hasResource ;
+                                                                        owl:onProperty :resource ;
                                                                         owl:someValuesFrom <http://w3id.org/DMI/DigitalMaterialIdentifier>
                                                                       ]
                                                                     ) ;
@@ -1409,7 +1436,7 @@ Note: For the determination of several properties which are based (partly or com
 :FinalProcess rdf:type owl:Class ;
               owl:equivalentClass [ owl:intersectionOf ( :Process
                                                          [ rdf:type owl:Restriction ;
-                                                           owl:onProperty :hasNextProcess ;
+                                                           owl:onProperty :nextProcess ;
                                                            owl:maxQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
                                                            owl:onClass :Process
                                                          ]
@@ -1454,7 +1481,7 @@ Note: For the determination of several properties which are based (partly or com
 ###  https://w3id.org/pmd/co/FurnaceCharacteristic
 :FurnaceCharacteristic rdf:type owl:Class ;
                        owl:equivalentClass [ rdf:type owl:Restriction ;
-                                             owl:onProperty :isCharacteristicOf ;
+                                             owl:onProperty :characteristicOf ;
                                              owl:someValuesFrom :Furnace
                                            ] ;
                        rdfs:subClassOf :ValueObject ;
@@ -1474,6 +1501,11 @@ Note: For the determination of several properties which are based (partly or com
                                                               "Symbol: L"@en ,
                                                               "length of the parallel portion of the test piece on which elongation is measured at any moment during the test"@en ;
              :definitionSource "DIN EN ISO 6892-1:2019"@en .
+
+
+###  https://w3id.org/pmd/co/GeometryChangingProcess
+:GeometryChangingProcess rdf:type owl:Class ;
+                         rdfs:subClassOf :Process .
 
 
 ###  https://w3id.org/pmd/co/GeometryShape
@@ -1500,7 +1532,7 @@ Note: For the determination of several properties which are based (partly or com
 
 ###  https://w3id.org/pmd/co/GripsAlignment
 :GripsAlignment rdf:type owl:Class ;
-                rdfs:subClassOf :QualifyingNodeAnnotation ;
+                rdfs:subClassOf :AssemblingProcess ;
                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                 rdfs:label "Ausrichtung Der Halterungen"@de ,
                            "Grips Alignment"@en ;
@@ -1552,30 +1584,19 @@ Note: For the determination of several properties which are based (partly or com
 ###  https://w3id.org/pmd/co/ISO6892-1TensileTest
 :ISO6892-1TensileTest rdf:type owl:Class ;
                       owl:equivalentClass [ rdf:type owl:Restriction ;
-                                            owl:onProperty :hasCharacteristic ;
-                                            owl:someValuesFrom [ owl:intersectionOf ( :Norm
-                                                                                      [ rdf:type owl:Restriction ;
-                                                                                        owl:onProperty :hasValue ;
-                                                                                        owl:hasValue "ISO6892-1"
-                                                                                      ]
-                                                                                    ) ;
-                                                                 rdf:type owl:Class
-                                                               ]
-                                          ] ,
-                                          [ rdf:type owl:Restriction ;
-                                            owl:onProperty :hasParticipant ;
+                                            owl:onProperty :participant ;
                                             owl:someValuesFrom :Extensometer
                                           ] ,
                                           [ rdf:type owl:Restriction ;
-                                            owl:onProperty :hasParticipant ;
+                                            owl:onProperty :participant ;
                                             owl:someValuesFrom :LoadCell
                                           ] ,
                                           [ rdf:type owl:Restriction ;
-                                            owl:onProperty :hasParticipant ;
+                                            owl:onProperty :participant ;
                                             owl:someValuesFrom :TensileTestingMachine
                                           ] ,
                                           [ rdf:type owl:Restriction ;
-                                            owl:onProperty :hasParticipant ;
+                                            owl:onProperty :participant ;
                                             owl:someValuesFrom :TestPiece
                                           ] ;
                       rdfs:subClassOf :TensileTest ;
@@ -1698,26 +1719,11 @@ Note: For the determination of several properties which are based (partly or com
 :LoadCellCapacity rdf:type owl:Class ;
                   rdfs:subClassOf :ValueObject ,
                                   [ rdf:type owl:Restriction ;
-                                    owl:onProperty :isCharacteristicOf ;
+                                    owl:onProperty :characteristicOf ;
                                     owl:someValuesFrom :LoadCell
                                   ] ;
                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                   rdfs:label "Load cell capacity"@en .
-
-
-###  https://w3id.org/pmd/co/LoadCellCapacity_kN
-:LoadCellCapacity_kN rdf:type owl:Class ;
-                     owl:equivalentClass [ owl:intersectionOf ( :LoadCellCapacity
-                                                                [ rdf:type owl:Restriction ;
-                                                                  owl:onProperty :hasUnit ;
-                                                                  owl:hasValue <http://qudt.org/vocab/unit/KiloN>
-                                                                ]
-                                                              ) ;
-                                           rdf:type owl:Class
-                                         ] ;
-                     rdfs:subClassOf :LoadCellCapacity ;
-                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                     rdfs:label "Load cell capacity in kN"@en .
 
 
 ###  https://w3id.org/pmd/co/Location
@@ -2252,7 +2258,7 @@ Note: The concept of parallel length is replaced by the concept of distance betw
 ###  https://w3id.org/pmd/co/ParticleArea
 :ParticleArea rdf:type owl:Class ;
               owl:equivalentClass [ rdf:type owl:Restriction ;
-                                    owl:onProperty :isCharacteristicOf ;
+                                    owl:onProperty :characteristicOf ;
                                     owl:someValuesFrom :Particle
                                   ] ;
               rdfs:subClassOf :Area ;
@@ -2275,7 +2281,7 @@ Note: The concept of parallel length is replaced by the concept of distance betw
 ###  https://w3id.org/pmd/co/ParticleRadius
 :ParticleRadius rdf:type owl:Class ;
                 owl:equivalentClass [ rdf:type owl:Restriction ;
-                                      owl:onProperty :isCharacteristicOf ;
+                                      owl:onProperty :characteristicOf ;
                                       owl:someValuesFrom :Particle
                                     ] ;
                 rdfs:subClassOf :Radius ;
@@ -2546,7 +2552,7 @@ In PMD, a process is conducted via process nodes and has a discernable duration 
 :ProcessDescription rdf:type owl:Class ;
                     owl:equivalentClass [ owl:intersectionOf ( :Description
                                                                [ rdf:type owl:Restriction ;
-                                                                 owl:onProperty :isCharacteristicOf ;
+                                                                 owl:onProperty :characteristicOf ;
                                                                  owl:someValuesFrom :Process
                                                                ]
                                                              ) ;
@@ -2573,7 +2579,7 @@ In PMD, a process is conducted via process nodes and has a discernable duration 
 :ProcessIdentifier rdf:type owl:Class ;
                    owl:equivalentClass [ owl:intersectionOf ( :Identifier
                                                               [ rdf:type owl:Restriction ;
-                                                                owl:onProperty :isCharacteristicOf ;
+                                                                owl:onProperty :characteristicOf ;
                                                                 owl:someValuesFrom :Process
                                                               ]
                                                             ) ;
@@ -2610,7 +2616,7 @@ In PMD, a process is conducted via process nodes and has a discernable duration 
 :ProjectIdentifier rdf:type owl:Class ;
                    owl:equivalentClass [ owl:intersectionOf ( :Identifier
                                                               [ rdf:type owl:Restriction ;
-                                                                owl:onProperty :isCharacteristicOf ;
+                                                                owl:onProperty :characteristicOf ;
                                                                 owl:someValuesFrom :Project
                                                               ]
                                                             ) ;
@@ -2805,13 +2811,6 @@ Specifically : a function that yields the mean value of a random variable under 
 
 ###  https://w3id.org/pmd/co/Rp01
 :Rp01 rdf:type owl:Class ;
-      owl:equivalentClass [ rdf:type owl:Restriction ;
-                            owl:onProperty :relatesToExtension ;
-                            owl:someValuesFrom [ rdf:type owl:Restriction ;
-                                                 owl:onProperty :hasValue ;
-                                                 owl:hasValue "0.1"^^xsd:float
-                                               ]
-                          ] ;
       rdfs:subClassOf :ProofStrengthPlasticExtension ;
       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
       rdfs:label "Dehngrenze bei plastischer Extensometer-Dehnung Rp01"@de ,
@@ -2824,13 +2823,6 @@ Specifically : a function that yields the mean value of a random variable under 
 
 ###  https://w3id.org/pmd/co/Rp02
 :Rp02 rdf:type owl:Class ;
-      owl:equivalentClass [ rdf:type owl:Restriction ;
-                            owl:onProperty :relatesToExtension ;
-                            owl:someValuesFrom [ rdf:type owl:Restriction ;
-                                                 owl:onProperty :hasValue ;
-                                                 owl:hasValue "0.2"^^xsd:float
-                                               ]
-                          ] ;
       rdfs:subClassOf :ProofStrengthPlasticExtension ;
       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
       rdfs:label "Dehngrenze bei plastischer Extensometer-Dehnung Rp02"@de ,
@@ -2954,7 +2946,7 @@ Specifically : a function that yields the mean value of a random variable under 
 :SpecimenName rdf:type owl:Class ;
               owl:equivalentClass [ owl:intersectionOf ( :Identifier
                                                          [ rdf:type owl:Restriction ;
-                                                           owl:onProperty :isCharacteristicOf ;
+                                                           owl:onProperty :characteristicOf ;
                                                            owl:someValuesFrom :Specimen
                                                          ]
                                                        ) ;
@@ -3121,11 +3113,11 @@ Note: Stress rate is only used in the elastic part of the test."""@en ;
 ###  https://w3id.org/pmd/co/TensileTest
 :TensileTest rdf:type owl:Class ;
              owl:equivalentClass [ rdf:type owl:Restriction ;
-                                   owl:onProperty :hasParticipant ;
+                                   owl:onProperty :participant ;
                                    owl:someValuesFrom :TensileTestingMachine
                                  ] ,
                                  [ rdf:type owl:Restriction ;
-                                   owl:onProperty :hasParticipant ;
+                                   owl:onProperty :participant ;
                                    owl:someValuesFrom :TestPiece
                                  ] ;
              rdfs:subClassOf :MechanicalTestingProcess ;
@@ -3194,7 +3186,7 @@ Note: Stress rate is only used in the elastic part of the test."""@en ;
 :TestPieceName rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( :Identifier
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty :isCharacteristicOf ;
+                                                            owl:onProperty :characteristicOf ;
                                                             owl:someValuesFrom :TestPiece
                                                           ]
                                                         ) ;
@@ -3303,7 +3295,7 @@ Note: Stress rate is only used in the elastic part of the test."""@en ;
 ###  https://w3id.org/pmd/co/TransmissionElectronMicroscopy
 :TransmissionElectronMicroscopy rdf:type owl:Class ;
                                 owl:equivalentClass [ rdf:type owl:Restriction ;
-                                                      owl:onProperty :hasParticipant ;
+                                                      owl:onProperty :participant ;
                                                       owl:someValuesFrom :TransmissionElectronMicroscope
                                                     ] ;
                                 rdfs:subClassOf :ElectronMicroscopy ;
@@ -3364,11 +3356,11 @@ Note: Stress rate is only used in the elastic part of the test."""@en ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Value Object"@en ,
                         "Wertobjekt"@de ;
-             <http://www.w3.org/2004/02/skos/core#definition> """A :ValueObject is a simple entity which represents a specific value. This value can be a numerical, textual, or a more complex data structure. If a literal value is to be specified, the :hasValue datatype property has to be used. In cases where the value is represented by a resource (e.g. URI), the :hasResource object property has to be used.
+             <http://www.w3.org/2004/02/skos/core#definition> """A :ValueObject is a simple entity which represents a specific value. This value can be a numerical, textual, or a more complex data structure. If a literal value is to be specified, the :value datatype property has to be used. In cases where the value is represented by a resource (e.g. URI), the :resource object property has to be used.
 
-A value object, respectively its value, is always associated with an entity of type :Process, :ProcessNode, or :Object (e.g. :Specimen). The value is meant to be a charactaristic of the associated entity. To express this association it is indended to use the :hasParticipant object property.
+A value object, respectively its value, is always associated with an entity of type :Process, :ProcessNode, or :Object (e.g. :Specimen). The value is meant to be a charactaristic of the associated entity. To express this association it is indended to use the :participant object property.
 
-A value object might also refer to a certain unit. The :hasUnit property might be used (e.g. with QUDT ontology).
+A value object might also refer to a certain unit. The :unit property might be used (e.g. with QUDT ontology).
 
 Instances of a value object might be specified as a specific Parameter, namely a SetPoint (nominal value), or Measurement. With :Setpoint the intend is to express, that the value is meant to be some preset, setting or nominal value. :Measurement expresses, that the value has been measured or determined somehow (see example).
 
@@ -3381,10 +3373,10 @@ Instances of a value object might also be specified in a specific DataScope (:Me
 ex:vo1 a :Length .
 ex:vo1 a :Measurement .
 ex:vo1 a :PrimaryData .
-ex:vo1 :hasUnit qudt:MilliM . 
-ex:vo1 :hasValue \"123.45\"
-ex:spec1 a :Specimen .
-ex:spec1 :hasCharacteristic ex:vo1 ."""@en ,
+ex:vo1 :unit qudt:MilliM . 
+ex:vo1 :value \"123.45\"
+ex:p1 a :LengthMeasuringProcess .
+ex:p1 :characteristic ex:vo1 ."""@en ,
                                                            "The length of a specimen, which has been measured as primary data. Its actual value is 123.45 millimeters."@en .
 
 
@@ -3599,6 +3591,9 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
 <https://orcid.org/0000-0003-1649-6832> rdfs:label "Thomas Hanke" .
 
 
+<https://orcid.org/0009-0000-6469-744X> rdfs:label "Sascha Fliegener" .
+
+
 #################################################################
 #    General axioms
 #################################################################
@@ -3613,4 +3608,146 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
 ] .
 
 
-###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
+#################################################################
+#    Rules
+#################################################################
+
+:p1 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:p2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:p3 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:o2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:o3 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:l1 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:l2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:v1 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:v2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "Detect processes which changes the length of object." ;
+   rdfs:label "S1" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :Process ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :p1
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#classPredicate> :Process ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> :p2
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#classPredicate> :Process ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> :p3
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#classPredicate> :Object ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument1> :o2
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#classPredicate> :Object ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument1> :o3
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#classPredicate> :Length ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument1> :l1
+                                                                                                            ] ;
+                                                                                                  rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                             rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#classPredicate> :Length ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#argument1> :l2
+                                                                                                                       ] ;
+                                                                                                             rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                        rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#propertyPredicate> :output ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#argument2> :o2
+                                                                                                                                  ] ;
+                                                                                                                        rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                   rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                               <http://www.w3.org/2003/11/swrl#propertyPredicate> :input ;
+                                                                                                                                               <http://www.w3.org/2003/11/swrl#argument1> :p2 ;
+                                                                                                                                               <http://www.w3.org/2003/11/swrl#argument2> :o2
+                                                                                                                                             ] ;
+                                                                                                                                   rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                              rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                                          <http://www.w3.org/2003/11/swrl#propertyPredicate> :output ;
+                                                                                                                                                          <http://www.w3.org/2003/11/swrl#argument1> :p2 ;
+                                                                                                                                                          <http://www.w3.org/2003/11/swrl#argument2> :o3
+                                                                                                                                                        ] ;
+                                                                                                                                              rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                         rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                                                     <http://www.w3.org/2003/11/swrl#propertyPredicate> :input ;
+                                                                                                                                                                     <http://www.w3.org/2003/11/swrl#argument1> :p3 ;
+                                                                                                                                                                     <http://www.w3.org/2003/11/swrl#argument2> :o3
+                                                                                                                                                                   ] ;
+                                                                                                                                                         rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                    rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                                                                <http://www.w3.org/2003/11/swrl#propertyPredicate> :characteristic ;
+                                                                                                                                                                                <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
+                                                                                                                                                                                <http://www.w3.org/2003/11/swrl#argument2> :l1
+                                                                                                                                                                              ] ;
+                                                                                                                                                                    rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                               rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                                                                                                           <http://www.w3.org/2003/11/swrl#propertyPredicate> :characteristic ;
+                                                                                                                                                                                           <http://www.w3.org/2003/11/swrl#argument1> :p3 ;
+                                                                                                                                                                                           <http://www.w3.org/2003/11/swrl#argument2> :l2
+                                                                                                                                                                                         ] ;
+                                                                                                                                                                               rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                          rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#propertyPredicate> :value ;
+                                                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#argument1> :l1 ;
+                                                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#argument2> :v1
+                                                                                                                                                                                                    ] ;
+                                                                                                                                                                                          rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                     rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#propertyPredicate> :value ;
+                                                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#argument1> :l2 ;
+                                                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#argument2> :v2
+                                                                                                                                                                                                               ] ;
+                                                                                                                                                                                                     rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                                rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                                                                                                            <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#notEqual> ;
+                                                                                                                                                                                                                            <http://www.w3.org/2003/11/swrl#arguments> ( :v1
+                                                                                                                                                                                                                                                                         :v2
+                                                                                                                                                                                                                                                                       )
+                                                                                                                                                                                                                          ] ;
+                                                                                                                                                                                                                rdf:rest rdf:nil
+                                                                                                                                                                                                              ]
+                                                                                                                                                                                                   ]
+                                                                                                                                                                                        ]
+                                                                                                                                                                             ]
+                                                                                                                                                                  ]
+                                                                                                                                                       ]
+                                                                                                                                            ]
+                                                                                                                                 ]
+                                                                                                                      ]
+                                                                                                           ]
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :GeometryChangingProcess ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :p2
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
