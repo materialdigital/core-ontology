@@ -16,12 +16,12 @@
                                                                      <https://orcid.org/0009-0000-6469-744X> ,
                                                                      "Jannis Grundmann" ,
                                                                      "Philipp von Hartrott" ;
-                           <http://purl.org/dc/terms/bibliographicCitation> "Bernd Bayerlein, Henk Birkholz, Sascha Fliegener, Jannis Grundmann, Thomas Hanke, Philipp von Hartrott, Markus Schilling, Jörg Waitelonis. (March 17th, 2023) PMDco: platform material digital ontology. Version 2.0.0-alpha2, https://w3id.org/pmd/co" ;
-                           <http://purl.org/dc/terms/created> "2023-03-17"^^xsd:date ;
+                           <http://purl.org/dc/terms/bibliographicCitation> "Bernd Bayerlein, Henk Birkholz, Sascha Fliegener, Jannis Grundmann, Thomas Hanke, Philipp von Hartrott, Markus Schilling, Jörg Waitelonis. (March 24th, 2023) PMDco: platform material digital ontology. Version 2.0.0-alpha3, https://w3id.org/pmd/co" ;
+                           <http://purl.org/dc/terms/created> "2023-03-24" ;
                            <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
                            <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (pmdco)"@en ;
                            rdfs:comment "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. The design of PMDco is based on the W3C Provenance Ontology (PROV-O), which provides a standard framework for capturing the generation, derivation, and attribution of resources. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
-                           owl:versionInfo "2.0.0-alpha2" .
+                           owl:versionInfo "2.0.0-alpha3" .
 
 #################################################################
 #    Annotation properties
@@ -845,7 +845,7 @@ An analysis process is either a transformative process or a non-transformative p
 ex:proc1 pmd:chacteristic ex:vo1 .
 
 ex:vo1 a ValueObject .
-ex:vo1 hasResource ex:chemComp1 .
+ex:vo1 pmd:resource ex:chemComp1 .
 ex:chemComp1 a pmd:ChemicalComposition .
 
 ex:vo2 dcterm:partOf ex:chemComp1 .
@@ -860,7 +860,7 @@ ex:vo3 qudt:lowerBound \"0\" .
 ex:vo3 qudt:unit qudt:PERCENT .
 
 ex:vo4 a pmd:MassFraction .
-ex:vo4 pmd:hasResource pmd:NotDetected .""" ;
+ex:vo4 pmd:resource pmd:NotDetected .""" ;
                      :definitionSource "https://chem.libretexts.org/Courses/College_of_Marin/CHEM_114%3A_Introductory_Chemistry/06%3A_Chemical_Composition" .
 
 
@@ -1099,10 +1099,10 @@ Unit (e.g. SI): mm"""@en ,
                   <http://www.w3.org/2004/02/skos/core#example> """For example, to refer to a ISBN number, following triples might be created:
 
     :p1 a pmd:Process .
-    :p1 pmd:hasCharacteristic :doc_vo1 .
+    :p1 pmd:characteristic :doc_vo1 .
     :doc_vo1 a pmd:Document .
-    :doc_vo1 pmd:hasCharacteristic :isbn_vo1 .
-    :doc_vo1 pmd:hasResource \"http://example.org/book.pdf\" .
+    :doc_vo1 pmd:characteristic :isbn_vo1 .
+    :doc_vo1 pmd:resource \"http://example.org/book.pdf\" .
     :isbn_vo1 a pmd:DataCiteMetadata .
     :isbn_vo1 pmd:relatesTo <http://purl.org/spar/datacite/isbn> .
     :isbn_vo1 pmd:value \"9780262012423\". 
@@ -3356,7 +3356,7 @@ Note: Stress rate is only used in the elastic part of the test."""@en ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Value Object"@en ,
                         "Wertobjekt"@de ;
-             <http://www.w3.org/2004/02/skos/core#definition> """A :ValueObject is a simple entity which represents a specific value. This value can be a numerical, textual, or a more complex data structure. If a literal value is to be specified, the :value datatype property has to be used. In cases where the value is represented by a resource (e.g. URI), the :hasResource object property has to be used.
+             <http://www.w3.org/2004/02/skos/core#definition> """A :ValueObject is a simple entity which represents a specific value. This value can be a numerical, textual, or a more complex data structure. If a literal value is to be specified, the :value datatype property has to be used. In cases where the value is represented by a resource (e.g. URI), the :resource object property has to be used.
 
 A value object, respectively its value, is always associated with an entity of type :Process, :ProcessNode, or :Object (e.g. :Specimen). The value is meant to be a charactaristic of the associated entity. To express this association it is indended to use the :participant object property.
 
@@ -3375,8 +3375,8 @@ ex:vo1 a :Measurement .
 ex:vo1 a :PrimaryData .
 ex:vo1 :unit qudt:MilliM . 
 ex:vo1 :value \"123.45\"
-ex:spec1 a :Specimen .
-ex:spec1 :hasCharacteristic ex:vo1 ."""@en ,
+ex:p1 a :LengthMeasuringProcess .
+ex:p1 :characteristic ex:vo1 ."""@en ,
                                                            "The length of a specimen, which has been measured as primary data. Its actual value is 123.45 millimeters."@en .
 
 
@@ -3572,8 +3572,6 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
            :definitionSource "“Pixel” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Pixel. Accessed 13 Jan. 2023."@en .
 
 
-
-
 #################################################################
 #    Annotations
 #################################################################
@@ -3592,7 +3590,8 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
 
 <https://orcid.org/0000-0003-1649-6832> rdfs:label "Thomas Hanke" .
 
-<https://orcid.org/0009-0000-6469-744X>  rdfs:label "Sascha Fliegener" .
+
+<https://orcid.org/0009-0000-6469-744X> rdfs:label "Sascha Fliegener" .
 
 
 #################################################################
@@ -3672,49 +3671,49 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
                                                                                                                        ] ;
                                                                                                              rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
                                                                                                                         rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
-                                                                                                                                    <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasOutput ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#propertyPredicate> :output ;
                                                                                                                                     <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
                                                                                                                                     <http://www.w3.org/2003/11/swrl#argument2> :o2
                                                                                                                                   ] ;
                                                                                                                         rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
                                                                                                                                    rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
-                                                                                                                                               <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasInput ;
+                                                                                                                                               <http://www.w3.org/2003/11/swrl#propertyPredicate> :input ;
                                                                                                                                                <http://www.w3.org/2003/11/swrl#argument1> :p2 ;
                                                                                                                                                <http://www.w3.org/2003/11/swrl#argument2> :o2
                                                                                                                                              ] ;
                                                                                                                                    rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
                                                                                                                                               rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
-                                                                                                                                                          <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasOutput ;
+                                                                                                                                                          <http://www.w3.org/2003/11/swrl#propertyPredicate> :output ;
                                                                                                                                                           <http://www.w3.org/2003/11/swrl#argument1> :p2 ;
                                                                                                                                                           <http://www.w3.org/2003/11/swrl#argument2> :o3
                                                                                                                                                         ] ;
                                                                                                                                               rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
                                                                                                                                                          rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
-                                                                                                                                                                     <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasInput ;
+                                                                                                                                                                     <http://www.w3.org/2003/11/swrl#propertyPredicate> :input ;
                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#argument1> :p3 ;
                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#argument2> :o3
                                                                                                                                                                    ] ;
                                                                                                                                                          rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
                                                                                                                                                                     rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
-                                                                                                                                                                                <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasCharacteristic ;
+                                                                                                                                                                                <http://www.w3.org/2003/11/swrl#propertyPredicate> :characteristic ;
                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#argument2> :l1
                                                                                                                                                                               ] ;
                                                                                                                                                                     rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
                                                                                                                                                                                rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
-                                                                                                                                                                                           <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasCharacteristic ;
+                                                                                                                                                                                           <http://www.w3.org/2003/11/swrl#propertyPredicate> :characteristic ;
                                                                                                                                                                                            <http://www.w3.org/2003/11/swrl#argument1> :p3 ;
                                                                                                                                                                                            <http://www.w3.org/2003/11/swrl#argument2> :l2
                                                                                                                                                                                          ] ;
                                                                                                                                                                                rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
                                                                                                                                                                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
-                                                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasValue ;
+                                                                                                                                                                                                      <http://www.w3.org/2003/11/swrl#propertyPredicate> :value ;
                                                                                                                                                                                                       <http://www.w3.org/2003/11/swrl#argument1> :l1 ;
                                                                                                                                                                                                       <http://www.w3.org/2003/11/swrl#argument2> :v1
                                                                                                                                                                                                     ] ;
                                                                                                                                                                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
                                                                                                                                                                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
-                                                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#propertyPredicate> :hasValue ;
+                                                                                                                                                                                                                 <http://www.w3.org/2003/11/swrl#propertyPredicate> :value ;
                                                                                                                                                                                                                  <http://www.w3.org/2003/11/swrl#argument1> :l2 ;
                                                                                                                                                                                                                  <http://www.w3.org/2003/11/swrl#argument2> :v2
                                                                                                                                                                                                                ] ;
