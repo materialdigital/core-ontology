@@ -3,31 +3,24 @@ name: HTML
 on:
   push:
     branches:
-    - develop
+    - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Selective installation of rdflib-5.0.0
-      run: pip install rdflib==5.0.0
-    - name: Install wheel and pyLODE 
-      run: pip install wheel pylode
-    - name: Install requests and argparse 
-      run: pip install requests argparse
-    - name: Create Dir
-      run: mkdir -p public 
-    - name: Build HTML for dev
-      run: python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -o public/index-dev.html pmdco_core.ttl 
-    - name: Check Dir
+    - name: retrieve widoco
+      run: wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.17/widoco-1.4.17-jar-with-dependencies.jar
+
+     - name: Check Dir
       run: ls public
     - uses: actions/checkout@v3
       with:
         ref: main
         path: main
     - name: Build HTML for main
-      run: python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -o public/index.html main/pmdco_core.ttl       
+ #     run: python /home/runner/.local/lib/python3.10/site-packages/pylode/cli.py -o public/index.html main/pmdco_core.ttl       
       
     - name: Deploy to GitHub Pages
       if: success()
