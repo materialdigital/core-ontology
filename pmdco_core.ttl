@@ -8,6 +8,7 @@
 
 <https://w3id.org/pmd/co> rdf:type owl:Ontology ;
                            owl:versionIRI <https://w3id.org/pmd/co> ;
+                           owl:imports <http://www.w3.org/ns/prov-o-20130430> ;
                            <http://purl.org/dc/elements/1.1/creator> <https://orcid.org/0000-0001-7192-7143> ,
                                                                      <https://orcid.org/0000-0002-3717-7104> ,
                                                                      <https://orcid.org/0000-0002-7094-5371> ,
@@ -457,6 +458,13 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
                                                                                     <http://www.w3.org/ns/prov#atTime> .
 
 
+###  https://w3id.org/pmd/co/fromValue
+:fromValue rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf :value ;
+           rdfs:label "from value"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "defines the begin of a value range" .
+
+
 ###  https://w3id.org/pmd/co/maxValue
 :maxValue rdf:type owl:DatatypeProperty ;
           rdfs:subPropertyOf :value ;
@@ -473,6 +481,13 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
           <http://www.w3.org/2004/02/skos/core#definition> "refers to all values equal or larger than the given one"@en .
 
 
+###  https://w3id.org/pmd/co/toValue
+:toValue rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf :value ;
+         rdfs:label "to value"@en ;
+         <http://www.w3.org/2004/02/skos/core#definition> "defines the end of a value range" .
+
+
 ###  https://w3id.org/pmd/co/value
 :value rdf:type owl:DatatypeProperty ;
        rdfs:subPropertyOf owl:topDataProperty ;
@@ -480,7 +495,8 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
        rdfs:range rdfs:Literal ;
        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
        rdfs:label "hat Wert"@de ,
-                  "value"@en .
+                  "value"@en ;
+       <http://www.w3.org/2004/02/skos/core#definition> "Provides the actual value a value object is referring to."@en .
 
 
 #################################################################
@@ -2054,7 +2070,8 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
 
 ###  https://w3id.org/pmd/co/NodeName
 :NodeName rdf:type owl:Class ;
-          rdfs:subClassOf :NodeInfo ;
+          rdfs:subClassOf :NodeInfo ,
+                          :ProvidedIdentifier ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
           rdfs:label "Knotenname"@de ,
                      "Node Name"@en ;
@@ -2063,20 +2080,23 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
 
 ###  https://w3id.org/pmd/co/NodeSerialNumber
 :NodeSerialNumber rdf:type owl:Class ;
-                  rdfs:subClassOf :NodeInfo ;
+                  rdfs:subClassOf :NodeInfo ,
+                                  :ProvidedIdentifier ;
                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                   rdfs:label "Knoten-Seriennummer"@de ,
                              "Node Serial Number"@en ;
                   <http://www.w3.org/2004/02/skos/core#definition> "A unique identifier of a process node, typically provided by the manufacturer (manufacturer serial number,  s/n)."@en .
 
 
-###  https://w3id.org/pmd/co/NodeType
-:NodeType rdf:type owl:Class ;
-          rdfs:subClassOf :NodeInfo ;
-          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-          rdfs:label "Knotentyp"@de ,
-                     "Node Type"@en ;
-          <http://www.w3.org/2004/02/skos/core#definition> "Process Node typename, e.g. \"ProTherm500\""@en .
+###  https://w3id.org/pmd/co/NodeSeries
+:NodeSeries rdf:type owl:Class ;
+            rdfs:subClassOf :NodeInfo ;
+            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+            rdfs:label "Node Series"@en ,
+                       "Serie"@de ;
+            <http://www.w3.org/2004/02/skos/core#altLabel> "Knotentyp"@de ,
+                                                           "Node Type"@en ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Process Node typename, e.g. \"ProTherm500\""@en .
 
 
 ###  https://w3id.org/pmd/co/NodeVersion
@@ -2665,7 +2685,7 @@ Note: A suffix is added to the subscript to indicate the prescribed percentage, 
                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                     rdfs:label "Bereitgestellter Identifikator"@de ,
                                "Provided Identifier"@en ;
-                    <http://www.w3.org/2004/02/skos/core#definition> "A colloquial, human-generated desrciptor."@en .
+                    <http://www.w3.org/2004/02/skos/core#definition> "A colloquial, human-generated descriptor."@en .
 
 
 ###  https://w3id.org/pmd/co/QualifyingNodeAnnotation
@@ -3465,6 +3485,14 @@ A (partial) logical object that describes (a part of) a physical object"""@en .
 
 ###  https://w3id.org/pmd/co/WorkingRange
 :WorkingRange rdf:type owl:Class ;
+              owl:equivalentClass [ rdf:type owl:Restriction ;
+                                    owl:onProperty :fromValue ;
+                                    owl:someValuesFrom rdfs:Literal
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :toValue ;
+                                    owl:someValuesFrom rdfs:Literal
+                                  ] ;
               rdfs:subClassOf :ValueObject ;
               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
               rdfs:label "Arbeitsbereich"@de ,
@@ -3553,6 +3581,20 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
            :definitionSource "“Pixel” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Pixel. Accessed 13 Jan. 2023."@en .
 
 
+###  https://w3id.org/pmd/co/obj1
+:obj1 rdf:type owl:NamedIndividual .
+
+
+###  https://w3id.org/pmd/co/obj2
+:obj2 rdf:type owl:NamedIndividual .
+
+
+###  https://w3id.org/pmd/co/proc1
+:proc1 rdf:type owl:NamedIndividual ;
+       :input :obj1 ;
+       :output :obj2 .
+
+
 #################################################################
 #    Annotations
 #################################################################
@@ -3610,6 +3652,8 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
 :v1 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
 
 :v2 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:o1 rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
 
 [ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
    rdfs:comment "Detect processes which changes the length of object." ;
@@ -3726,6 +3770,41 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
                                                        <http://www.w3.org/2003/11/swrl#classPredicate> :GeometryChangingProcess ;
                                                        <http://www.w3.org/2003/11/swrl#argument1> :p2
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S2" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :Process ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :p1
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> :input ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> :o1
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> :output ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> :o2
+                                                                           ] ;
+                                                                 rdf:rest rdf:nil
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#propertyPredicate> <http://www.w3.org/ns/prov#wasDerivedFrom> ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :o2 ;
+                                                       <http://www.w3.org/2003/11/swrl#argument2> :o1
                                                      ] ;
                                            rdf:rest rdf:nil
                                          ]
