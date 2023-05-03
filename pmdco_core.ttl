@@ -76,46 +76,6 @@
 <http://www.w3.org/2004/02/skos/core#prefLabel> rdf:type owl:AnnotationProperty .
 
 
-###  http://www.w3.org/ns/prov#category
-<http://www.w3.org/ns/prov#category> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#component
-<http://www.w3.org/ns/prov#component> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#constraints
-<http://www.w3.org/ns/prov#constraints> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#definition
-<http://www.w3.org/ns/prov#definition> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#dm
-<http://www.w3.org/ns/prov#dm> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#editorialNote
-<http://www.w3.org/ns/prov#editorialNote> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#inverse
-<http://www.w3.org/ns/prov#inverse> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#n
-<http://www.w3.org/ns/prov#n> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#qualifiedForm
-<http://www.w3.org/ns/prov#qualifiedForm> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/ns/prov#sharesDefinitionWith
-<http://www.w3.org/ns/prov#sharesDefinitionWith> rdf:type owl:AnnotationProperty .
-
-
 ###  https://w3id.org/pmd/co/abbreviation
 :abbreviation rdf:type owl:AnnotationProperty ;
               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
@@ -143,6 +103,11 @@
                                     rdfs:subPropertyOf owl:topObjectProperty .
 
 
+###  http://purl.org/spar/datacite/hasIdentifier
+<http://purl.org/spar/datacite/hasIdentifier> rdf:type owl:ObjectProperty ;
+                                              rdfs:range <http://purl.org/spar/datacite/Identifier> .
+
+
 ###  http://www.w3.org/ns/oa#hasSelector
 <http://www.w3.org/ns/oa#hasSelector> rdf:type owl:ObjectProperty ;
                                       rdfs:subPropertyOf owl:topObjectProperty ;
@@ -155,30 +120,14 @@
                                     rdfs:isDefinedBy <http://www.w3.org/ns/oa#> .
 
 
-###  http://www.w3.org/ns/prov#actedOnBehalfOf
-<http://www.w3.org/ns/prov#actedOnBehalfOf> rdf:type owl:ObjectProperty ;
-                                            rdfs:domain <http://www.w3.org/ns/prov#Agent> ;
-                                            rdfs:range <http://www.w3.org/ns/prov#Agent> ;
-                                            rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                            rdfs:label "actedOnBehalfOf"@en .
-
-
-###  http://www.w3.org/ns/prov#wasAssociatedWith
-<http://www.w3.org/ns/prov#wasAssociatedWith> rdf:type owl:ObjectProperty ;
-                                              rdfs:domain <http://www.w3.org/ns/prov#Activity> ;
-                                              rdfs:range <http://www.w3.org/ns/prov#Agent> ;
-                                              rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                              rdfs:label "wasAssociatedWith" ;
-                                              <http://www.w3.org/2004/02/skos/core#definition> "An prov:Agent that had some (unspecified) responsibility for the occurrence of this prov:Activity."@en .
-
-
-###  http://www.w3.org/ns/prov#wasAttributedTo
-<http://www.w3.org/ns/prov#wasAttributedTo> rdf:type owl:ObjectProperty ;
-                                            rdfs:domain <http://www.w3.org/ns/prov#Entity> ;
-                                            rdfs:range <http://www.w3.org/ns/prov#Agent> ;
-                                            rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                            rdfs:label "wasAttributedTo" ;
-                                            <http://www.w3.org/2004/02/skos/core#definition> "Attribution is the ascribing of an entity to an agent."@en .
+###  https://w3id.org/pmd/co/belongsToProject
+:belongsToProject rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf <http://www.w3.org/ns/prov#wasInformedBy> ;
+                  owl:inverseOf :process ;
+                  rdfs:domain :Process ;
+                  rdfs:range :Project ;
+                  rdfs:comment "Association between a process and a project."@en ,
+                               "belongs to process"@en .
 
 
 ###  https://w3id.org/pmd/co/characteristic
@@ -338,6 +287,7 @@
 :process rdf:type owl:ObjectProperty ;
          rdfs:domain :Project ;
          rdfs:range :Process ;
+         rdfs:comment "Describes that a process is associated with a project."@en ;
          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
          rdfs:label "process"@en ;
          <http://www.w3.org/2004/02/skos/core#altLabel> "has process"@en .
@@ -423,32 +373,11 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 #    Data properties
 #################################################################
 
-###  http://www.w3.org/ns/prov#endedAtTime
-<http://www.w3.org/ns/prov#endedAtTime> rdf:type owl:DatatypeProperty ;
-                                        rdfs:domain <http://www.w3.org/ns/prov#Activity> ;
-                                        rdfs:range xsd:dateTime ;
-                                        rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                        rdfs:label "endedAtTime" ;
-                                        <http://www.w3.org/2004/02/skos/core#definition> "The time at which an activity ended. See also prov:startedAtTime."@en ;
-                                        <http://www.w3.org/ns/prov#category> "starting-point" ;
-                                        <http://www.w3.org/ns/prov#component> "entities-activities" ;
-                                        <http://www.w3.org/ns/prov#editorialNote> "It is the intent that the property chain holds: (prov:qualifiedEnd o prov:atTime) rdfs:subPropertyOf prov:endedAtTime."@en ;
-                                        <http://www.w3.org/ns/prov#qualifiedForm> <http://www.w3.org/ns/prov#End> ,
-                                                                                  <http://www.w3.org/ns/prov#atTime> .
-
-
-###  http://www.w3.org/ns/prov#startedAtTime
-<http://www.w3.org/ns/prov#startedAtTime> rdf:type owl:DatatypeProperty ;
-                                          rdfs:domain <http://www.w3.org/ns/prov#Activity> ;
-                                          rdfs:range xsd:dateTime ;
-                                          rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                          rdfs:label "startedAtTime" ;
-                                          <http://www.w3.org/2004/02/skos/core#definition> "The time at which an activity started. See also prov:endedAtTime."@en ;
-                                          <http://www.w3.org/ns/prov#category> "starting-point" ;
-                                          <http://www.w3.org/ns/prov#component> "entities-activities" ;
-                                          <http://www.w3.org/ns/prov#editorialNote> "It is the intent that the property chain holds: (prov:qualifiedStart o prov:atTime) rdfs:subPropertyOf prov:startedAtTime."@en ;
-                                          <http://www.w3.org/ns/prov#qualifiedForm> <http://www.w3.org/ns/prov#Start> ,
-                                                                                    <http://www.w3.org/ns/prov#atTime> .
+###  https://w3id.org/pmd/co/fragmentPath
+:fragmentPath rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdfs:label "fragment path"@en ;
+              <http://www.w3.org/2004/02/skos/core#definition> "A path expression that addresses a specific element in a document."@en .
 
 
 ###  https://w3id.org/pmd/co/fromValue
@@ -457,6 +386,13 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
            rdfs:label "from value"@en ;
            <http://www.w3.org/2004/02/skos/core#definition> "refers to the begin of a value range" .
+
+
+###  https://w3id.org/pmd/co/jsonPath
+:jsonPath rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf :fragmentPath ;
+          rdfs:label "json path"@en ;
+          <http://www.w3.org/2004/02/skos/core#definition> "A path expression that allows the elements of a JSON document to be specifically addressed."@en .
 
 
 ###  https://w3id.org/pmd/co/maxValue
@@ -494,6 +430,13 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
        <http://www.w3.org/2004/02/skos/core#definition> "Provides the actual value a value object is referring to."@en .
 
 
+###  https://w3id.org/pmd/co/xPath
+:xPath rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf :fragmentPath ;
+       rdfs:label "x path"@en ;
+       <http://www.w3.org/2004/02/skos/core#definition> "A non-XML-based path expression that allows the elements of an XML document to be specifically addressed."@en .
+
+
 #################################################################
 #    Classes
 #################################################################
@@ -506,6 +449,20 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 
 ###  http://purl.org/spar/datacite/Identifier
 <http://purl.org/spar/datacite/Identifier> rdf:type owl:Class ;
+                                           owl:equivalentClass [ owl:intersectionOf ( :DataCiteMetadata
+                                                                                      :ValueObject
+                                                                                      [ rdf:type owl:Restriction ;
+                                                                                        owl:onProperty [ owl:inverseOf <http://purl.org/spar/datacite/hasIdentifier>
+                                                                                                       ] ;
+                                                                                        owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                                             owl:unionOf ( :Project
+                                                                                                                           :ValueObject
+                                                                                                                         )
+                                                                                                           ]
+                                                                                      ]
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ;
                                            rdfs:isDefinedBy <http://purl.org/spar/datacite> ;
                                            rdfs:label "DataCite Identifier"@en .
 
@@ -526,83 +483,6 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 <http://www.w3.org/ns/oa#FragmentSelector> rdf:type owl:Class ;
                                            rdfs:label "Fragment Selector"@en ;
                                            <http://www.w3.org/2004/02/skos/core#example> <http://www.w3.org/ns/oa#> .
-
-
-###  http://www.w3.org/ns/prov#Activity
-<http://www.w3.org/ns/prov#Activity> rdf:type owl:Class ;
-                                     owl:disjointWith <http://www.w3.org/ns/prov#Entity> ;
-                                     rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                     rdfs:label "Aktivität"@de ,
-                                                "Activity" ;
-                                     <http://www.w3.org/ns/prov#category> "starting-point" ;
-                                     <http://www.w3.org/ns/prov#component> "entities-activities" ;
-                                     <http://www.w3.org/ns/prov#constraints> "http://www.w3.org/TR/2013/REC-prov-constraints-20130430/#prov-dm-constraints-fig"^^xsd:anyURI ;
-                                     <http://www.w3.org/ns/prov#definition> "An activity is something that occurs over a period of time and acts upon or with entities; it may include consuming, processing, transforming, modifying, relocating, using, or generating entities." ;
-                                     <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-Activity"^^xsd:anyURI ;
-                                     <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-Activity"^^xsd:anyURI .
-
-
-###  http://www.w3.org/ns/prov#Agent
-<http://www.w3.org/ns/prov#Agent> rdf:type owl:Class ;
-                                  rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                  rdfs:label "Agent"@de ,
-                                             "Agent" ;
-                                  <http://www.w3.org/ns/prov#category> "starting-point" ;
-                                  <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
-                                  <http://www.w3.org/ns/prov#definition> "An agent is something that bears some form of responsibility for an activity taking place, for the existence of an entity, or for another agent's activity. "@en ;
-                                  <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
-                                  <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-Agent"^^xsd:anyURI .
-
-
-###  http://www.w3.org/ns/prov#Entity
-<http://www.w3.org/ns/prov#Entity> rdf:type owl:Class ;
-                                   rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                   rdfs:label "Entity" ;
-                                   <http://www.w3.org/ns/prov#category> "starting-point" ;
-                                   <http://www.w3.org/ns/prov#component> "entities-activities" ;
-                                   <http://www.w3.org/ns/prov#constraints> "http://www.w3.org/TR/2013/REC-prov-constraints-20130430/#prov-dm-constraints-fig"^^xsd:anyURI ;
-                                   <http://www.w3.org/ns/prov#definition> "An entity is a physical, digital, conceptual, or other kind of thing with some fixed aspects; entities may be real or imaginary. "@en ;
-                                   <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-entity"^^xsd:anyURI ;
-                                   <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-Entity"^^xsd:anyURI .
-
-
-###  http://www.w3.org/ns/prov#Organization
-<http://www.w3.org/ns/prov#Organization> rdf:type owl:Class ;
-                                         rdfs:subClassOf <http://www.w3.org/ns/prov#Agent> ;
-                                         rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                         rdfs:label "Organisation"@de ,
-                                                    "Organization" ;
-                                         <http://www.w3.org/ns/prov#category> "expanded" ;
-                                         <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
-                                         <http://www.w3.org/ns/prov#definition> "An organization is a social or legal institution such as a company, society, etc." ;
-                                         <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
-                                         <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-types"^^xsd:anyURI .
-
-
-###  http://www.w3.org/ns/prov#Person
-<http://www.w3.org/ns/prov#Person> rdf:type owl:Class ;
-                                   rdfs:subClassOf <http://www.w3.org/ns/prov#Agent> ;
-                                   rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                   rdfs:label "Person"@de ,
-                                              "Person" ;
-                                   <http://www.w3.org/ns/prov#category> "expanded" ;
-                                   <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
-                                   <http://www.w3.org/ns/prov#definition> "Person agents are people."@en ;
-                                   <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
-                                   <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-types"^^xsd:anyURI .
-
-
-###  http://www.w3.org/ns/prov#SoftwareAgent
-<http://www.w3.org/ns/prov#SoftwareAgent> rdf:type owl:Class ;
-                                          rdfs:subClassOf <http://www.w3.org/ns/prov#Agent> ;
-                                          rdfs:isDefinedBy <http://www.w3.org/ns/prov#> ;
-                                          rdfs:label "Software Agent"@de ,
-                                                     "Software Agent"@en ;
-                                          <http://www.w3.org/ns/prov#category> "expanded" ;
-                                          <http://www.w3.org/ns/prov#component> "agents-responsibility" ;
-                                          <http://www.w3.org/ns/prov#definition> "A software agent is running software."@en ;
-                                          <http://www.w3.org/ns/prov#dm> "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-agent"^^xsd:anyURI ;
-                                          <http://www.w3.org/ns/prov#n> "http://www.w3.org/TR/2013/REC-prov-n-20130430/#expression-types"^^xsd:anyURI .
 
 
 ###  https://w3id.org/pmd/co/AccreditationDocument
@@ -1094,14 +974,6 @@ Unit (e.g. SI): mm"""@en ,
 
 ###  https://w3id.org/pmd/co/DataCiteMetadata
 :DataCiteMetadata rdf:type owl:Class ;
-                  owl:equivalentClass [ owl:intersectionOf ( :ValueObject
-                                                             [ rdf:type owl:Restriction ;
-                                                               owl:onProperty :relatesTo ;
-                                                               owl:someValuesFrom <http://purl.org/spar/datacite/Identifier>
-                                                             ]
-                                                           ) ;
-                                        rdf:type owl:Class
-                                      ] ;
                   rdfs:subClassOf :ValueObject ;
                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                   rdfs:label "Data Cite Metadaten"@de ,
