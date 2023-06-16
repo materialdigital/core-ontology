@@ -19,6 +19,15 @@
                                             owl:versionInfo "2.0.0" .
 
 #################################################################
+#    Data properties
+#################################################################
+
+###  https://w3id.org/pmd/examples/pythagoras/squareValue
+<https://w3id.org/pmd/examples/pythagoras/squareValue> rdf:type owl:DatatypeProperty ;
+                                                       rdfs:subPropertyOf owl:topDataProperty .
+
+
+#################################################################
 #    Classes
 #################################################################
 
@@ -121,6 +130,20 @@
 :c rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
 
 :asso rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:asqr rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:bsqr rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:csqr rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:sum rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:o rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:v rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:sqr rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
 
 [ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
    rdfs:comment "" ;
@@ -237,7 +260,51 @@
                                                                                                                                                                                                                                                                         <http://www.w3.org/2003/11/swrl#argument1> :asso ;
                                                                                                                                                                                                                                                                         <http://www.w3.org/2003/11/swrl#argument2> <https://w3id.org/pmd/examples/pythagoras/pythagoras_plan>
                                                                                                                                                                                                                                                                       ] ;
-                                                                                                                                                                                                                                                            rdf:rest rdf:nil
+                                                                                                                                                                                                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                                                                                                                                                                   <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#multiply> ;
+                                                                                                                                                                                                                                                                                   <http://www.w3.org/2003/11/swrl#arguments> ( :asqr
+                                                                                                                                                                                                                                                                                                                                :a
+                                                                                                                                                                                                                                                                                                                                :a
+                                                                                                                                                                                                                                                                                                                              )
+                                                                                                                                                                                                                                                                                 ] ;
+                                                                                                                                                                                                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                                                                                                                                                                              <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#multiply> ;
+                                                                                                                                                                                                                                                                                              <http://www.w3.org/2003/11/swrl#arguments> ( :bsqr
+                                                                                                                                                                                                                                                                                                                                           :b
+                                                                                                                                                                                                                                                                                                                                           :b
+                                                                                                                                                                                                                                                                                                                                         )
+                                                                                                                                                                                                                                                                                            ] ;
+                                                                                                                                                                                                                                                                                  rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                                                                                                             rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                                                                                                                                                                                         <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#multiply> ;
+                                                                                                                                                                                                                                                                                                         <http://www.w3.org/2003/11/swrl#arguments> ( :csqr
+                                                                                                                                                                                                                                                                                                                                                      :c
+                                                                                                                                                                                                                                                                                                                                                      :c
+                                                                                                                                                                                                                                                                                                                                                    )
+                                                                                                                                                                                                                                                                                                       ] ;
+                                                                                                                                                                                                                                                                                             rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                                                                                                                        rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                                                                                                                                                                                                    <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#add> ;
+                                                                                                                                                                                                                                                                                                                    <http://www.w3.org/2003/11/swrl#arguments> ( :sum
+                                                                                                                                                                                                                                                                                                                                                                 :asqr
+                                                                                                                                                                                                                                                                                                                                                                 :bsqr
+                                                                                                                                                                                                                                                                                                                                                               )
+                                                                                                                                                                                                                                                                                                                  ] ;
+                                                                                                                                                                                                                                                                                                        rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                                                                                                                                                                                                                   rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                                                                                                                                                                                                               <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#equal> ;
+                                                                                                                                                                                                                                                                                                                               <http://www.w3.org/2003/11/swrl#arguments> ( :csqr
+                                                                                                                                                                                                                                                                                                                                                                            :sum
+                                                                                                                                                                                                                                                                                                                                                                          )
+                                                                                                                                                                                                                                                                                                                             ] ;
+                                                                                                                                                                                                                                                                                                                   rdf:rest rdf:nil
+                                                                                                                                                                                                                                                                                                                 ]
+                                                                                                                                                                                                                                                                                                      ]
+                                                                                                                                                                                                                                                                                           ]
+                                                                                                                                                                                                                                                                                ]
+                                                                                                                                                                                                                                                                     ]
                                                                                                                                                                                                                                                           ]
                                                                                                                                                                                                                                                ]
                                                                                                                                                                                                                                     ]
@@ -263,6 +330,43 @@
                                                        <http://www.w3.org/2003/11/swrl#propertyPredicate> <http://www.w3.org/ns/prov#qualifiedAssociation> ;
                                                        <http://www.w3.org/2003/11/swrl#argument1> :p1 ;
                                                        <http://www.w3.org/2003/11/swrl#argument2> :asso
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "squareValues" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#propertyPredicate> :value ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :o ;
+                                                       <http://www.w3.org/2003/11/swrl#argument2> :v
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DataRangeAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#dataRange> xsd:decimal ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> :v
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#multiply> ;
+                                                                             <http://www.w3.org/2003/11/swrl#arguments> ( :sqr
+                                                                                                                          :v
+                                                                                                                          :v
+                                                                                                                        )
+                                                                           ] ;
+                                                                 rdf:rest rdf:nil
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#propertyPredicate> <https://w3id.org/pmd/examples/pythagoras/squareValue> ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :o ;
+                                                       <http://www.w3.org/2003/11/swrl#argument2> :sqr
                                                      ] ;
                                            rdf:rest rdf:nil
                                          ]
