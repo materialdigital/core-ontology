@@ -1,6 +1,6 @@
 # The PMD Core Ontology (PMDco) 
 
-This is release version v2.0.0 of the PMD Core Ontology (PMDco). 
+This is development version v2.0.1-a1 of the PMD Core Ontology (PMDco). 
 
 If you like to contribute, please feel free to add any issues or participate in discussions here on Github.
 
