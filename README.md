@@ -1,6 +1,6 @@
 # The PMD Core Ontology (PMDco) 
 
-This is version v2.0.2a of the PMD Core Ontology (PMDco). 
+This is version v2.0.2 of the PMD Core Ontology (PMDco). 
 
 Files: 
  - ```pmd_core.ttl```    core version of the PMD ontology
