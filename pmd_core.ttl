@@ -98,6 +98,11 @@
 #    Object Properties
 #################################################################
 
+###  http://purl.obolibrary.org/obo/RO_0000087
+<http://purl.obolibrary.org/obo/RO_0000087> rdf:type owl:ObjectProperty ;
+                                            rdfs:label "has role"@en .
+
+
 ###  http://purl.org/dc/terms/isPartOf
 <http://purl.org/dc/terms/isPartOf> rdf:type owl:ObjectProperty ;
                                     rdfs:subPropertyOf owl:topObjectProperty .
@@ -444,6 +449,16 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 <http://purl.obolibrary.org/obo/CHEBI_24431> rdf:type owl:Class ;
                                              rdfs:label "Chemical Entity"@en ;
                                              :definitionSource "ChEBI ontology  https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:24431#"@en .
+
+
+###  http://purl.obolibrary.org/obo/InitiatorRole
+<http://purl.obolibrary.org/obo/InitiatorRole> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
+
+
+###  http://purl.obolibrary.org/obo/OperatorRole
+<http://purl.obolibrary.org/obo/OperatorRole> rdf:type owl:Class ;
+                                              rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
 
 
 ###  http://purl.org/spar/datacite/Identifier
@@ -995,11 +1010,24 @@ also : a representation of such a cutting."""@en ;
 
 ###  https://w3id.org/pmd/co/Department
 :Department rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/prov#Organization>
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                         owl:someValuesFrom :DepartmentRole
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
             rdfs:subClassOf <http://www.w3.org/ns/prov#Organization> ;
             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
             rdfs:label "Abteilung"@de ,
                        "Department"@en ;
             <http://www.w3.org/2004/02/skos/core#definition> "A sub section of an organization [FIXME]"@en .
+
+
+###  https://w3id.org/pmd/co/DepartmentRole
+:DepartmentRole rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
 
 
 ###  https://w3id.org/pmd/co/Description
@@ -1349,11 +1377,18 @@ Note: Optical extensometry may require a specific data storage method."""@en ,
 
 ###  https://w3id.org/pmd/co/Initiator
 :Initiator rdf:type owl:Class ;
-           rdfs:subClassOf <http://www.w3.org/ns/prov#Person> ;
+           owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/prov#Person>
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                        owl:someValuesFrom <http://purl.obolibrary.org/obo/InitiatorRole>
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
            rdfs:label "Initiator"@de ,
                       "Initiator"@en ;
-           <http://www.w3.org/2004/02/skos/core#definition> "The Person that commisioned the process."@en .
+           <http://www.w3.org/2004/02/skos/core#definition> "The person that commisioned the process."@en .
 
 
 ###  https://w3id.org/pmd/co/InsertSurface
@@ -1390,12 +1425,25 @@ Note: Optical extensometry may require a specific data storage method."""@en ,
 
 ###  https://w3id.org/pmd/co/Laboratory
 :Laboratory rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/prov#Organization>
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                         owl:someValuesFrom :LaboratoryRole
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
             rdfs:subClassOf <http://www.w3.org/ns/prov#Organization> ;
             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
             rdfs:label "Labor"@de ,
                        "Laboratory"@en ;
             <http://www.w3.org/2004/02/skos/core#definition> "A place equipped for experimental study in a science or for testing and analysis."@en ;
             :definitionSource "“Laboratory.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/laboratory. Accessed 24 Nov. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/LaboratoryRole
+:LaboratoryRole rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
 
 
 ###  https://w3id.org/pmd/co/Length
@@ -1484,11 +1532,23 @@ An instance belongs to the class if there are two embracing processes (previous 
 
 ###  https://w3id.org/pmd/co/Manufacturer
 :Manufacturer rdf:type owl:Class ;
-              rdfs:subClassOf <http://www.w3.org/ns/prov#Organization> ;
+              owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/prov#Organization>
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                           owl:someValuesFrom :ManufacturerRole
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
               rdfs:label "Hersteller"@de ,
                          "Manufacturer"@en ;
               <http://www.w3.org/2004/02/skos/core#definition> "Processing Node's manufacturer name, e.g.: \"Ipsen\", \"UPC\" or \"Bosch\""@en .
+
+
+###  https://w3id.org/pmd/co/ManufacturerRole
+:ManufacturerRole rdf:type owl:Class ;
+                  rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
 
 
 ###  https://w3id.org/pmd/co/ManufacturingNode
@@ -1850,7 +1910,14 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
 
 ###  https://w3id.org/pmd/co/Operator
 :Operator rdf:type owl:Class ;
-          rdfs:subClassOf <http://www.w3.org/ns/prov#Person> ;
+          owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/prov#Person>
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                       owl:someValuesFrom <http://purl.obolibrary.org/obo/OperatorRole>
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
           rdfs:label "Operator"@de ,
                      "Operator"@en ;
@@ -2402,16 +2469,6 @@ Anmerkung: Mit dem Begriff Spannung ist hier die technische Spannung ('Ingenieur
         :symbol "R"@en .
 
 
-###  https://w3id.org/pmd/co/TemperatureMeasuringDevice
-:TemperatureMeasuringDevice rdf:type owl:Class ;
-                           rdfs:subClassOf :MeasuringDevice ;
-                           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                           rdfs:label "Temperature Measuring Device"@en ,
-                                      "Temperaturmesswerkzeug"@de ;
-                           <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt allgemein jedes Werkzeug, das zur Messung der Temperatur eines materiellen Objekts oder der Umgebung verwendet wird, z. B. ein Thermoelement und Thermometer."@de ,
-                                                                            "This entity generically describes any tool that is used for the measurement of the temperature of a tangible object or the environment, e.g., a thermocouple and thermometers."@en .
-
-
 ###  https://w3id.org/pmd/co/Temperature
 :Temperature rdf:type owl:Class ;
              rdfs:subClassOf :ValueObject ;
@@ -2439,6 +2496,16 @@ Anmerkung: Mit dem Begriff Spannung ist hier die technische Spannung ('Ingenieur
                             rdfs:label "Temperature Changing Process"@en ,
                                        "Temperaturänderungsprozess"@de ;
                             <http://www.w3.org/2004/02/skos/core#definition> "This properpy is used to describe a process which is run to increase or decrease the temperature of an object or a space. Usually, this involves heating or cooling devices such as furnaces or cooling media."@en .
+
+
+###  https://w3id.org/pmd/co/TemperatureMeasuringDevice
+:TemperatureMeasuringDevice rdf:type owl:Class ;
+                            rdfs:subClassOf :MeasuringDevice ;
+                            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                            rdfs:label "Temperature Measuring Device"@en ,
+                                       "Temperaturmesswerkzeug"@de ;
+                            <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt allgemein jedes Werkzeug, das zur Messung der Temperatur eines materiellen Objekts oder der Umgebung verwendet wird, z. B. ein Thermoelement und Thermometer."@de ,
+                                                                             "This entity generically describes any tool that is used for the measurement of the temperature of a tangible object or the environment, e.g., a thermocouple and thermometers."@en .
 
 
 ###  https://w3id.org/pmd/co/TestPiece
