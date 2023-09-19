@@ -4,7 +4,7 @@ This is version v2.0.3 of the PMD Core Ontology (PMDco).
 
 Files: 
  - ```pmd_core.ttl```    core version of the PMD ontology
- - ```pmd_tto.ttl```     tensile test module (imports pmd_core.ttl). 
+ - ```pmd_bfo_adapter.ttl```     mappings to information artifact ontolgy (IAO) and basic formal ontology (BFO). 
 
 If you like to contribute, please feel free to add any issues or participate in discussions here on Github.
 
@@ -13,5 +13,8 @@ If you like to contribute, please feel free to add any issues or participate in 
 * [OWL Documentation in HTML](https://w3id.org/pmd/co) 
 * [Miro Board Documentation](https://miro.com/app/board/uXjVPn5wGiA=)
 
+# Application Ontolgies 
+
+* PMDco related [modules and application ontologies](https://github.com/materialdigital/application-ontologies)
 
 
