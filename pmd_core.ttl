@@ -7,7 +7,7 @@
 @base <https://w3id.org/pmd/co/> .
 
 <https://w3id.org/pmd/co> rdf:type owl:Ontology ;
-                           owl:versionIRI <https://w3id.org/pmd/co/2.0.3> ;
+                           owl:versionIRI <https://w3id.org/pmd/co/2.0.4> ;
                            owl:imports <http://www.w3.org/ns/prov-o-inverses-20130430> ;
                            <http://purl.org/dc/elements/1.1/creator> <https://orcid.org/0000-0001-7192-7143> ,
                                                                      <https://orcid.org/0000-0002-3717-7104> ,
@@ -17,12 +17,12 @@
                                                                      <https://orcid.org/0000-0003-4971-3645> ,
                                                                      <https://orcid.org/0009-0000-6469-744X> ,
                                                                      "Jannis Grundmann" ;
-                           <http://purl.org/dc/terms/bibliographicCitation> "Bernd Bayerlein, Henk Birkholz, Sascha Fliegener, Jannis Grundmann, Thomas Hanke, Philipp von Hartrott, Markus Schilling, Jörg Waitelonis. (September 18th, 2023) PMDco: platform material digital ontology. Version 2.0.3, https://w3id.org/pmd/co/" ;
+                           <http://purl.org/dc/terms/bibliographicCitation> "Bernd Bayerlein, Henk Birkholz, Sascha Fliegener, Jannis Grundmann, Thomas Hanke, Philipp von Hartrott, Markus Schilling, Jörg Waitelonis. (September 19th, 2023) PMDco: platform material digital ontology. Version 2.0.4, https://w3id.org/pmd/co/" ;
                            <http://purl.org/dc/terms/created> "2023-09-18" ;
                            <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
                            <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (PMDco)"@en ;
                            rdfs:comment "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. The design of PMDco is based on the W3C Provenance Ontology (PROV-O), which provides a standard framework for capturing the generation, derivation, and attribution of resources. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
-                           owl:versionInfo "2.0.3" .
+                           owl:versionInfo "2.0.4" .
 
 #################################################################
 #    Annotation properties
@@ -270,7 +270,8 @@
 :participant rdf:type owl:ObjectProperty ;
              owl:inverseOf :participantOf ;
              rdfs:domain :Process ;
-             rdfs:range :Object ,
+             rdfs:range <http://purl.obolibrary.org/obo/DigitalEntity> ,
+                        :Object ,
                         :ValueObject ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "participant"@en ;
@@ -449,6 +450,13 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 <http://purl.obolibrary.org/obo/CHEBI_24431> rdf:type owl:Class ;
                                              rdfs:label "Chemical Entity"@en ;
                                              :definitionSource "ChEBI ontology  https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:24431#"@en .
+
+
+###  http://purl.obolibrary.org/obo/DigitalEntity
+<http://purl.obolibrary.org/obo/DigitalEntity> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+                                               rdfs:label "Digital Entity"@en ;
+                                               <http://www.w3.org/2004/02/skos/core#definition> "An entity with digital representation."@en .
 
 
 ###  http://purl.obolibrary.org/obo/InitiatorRole
@@ -961,7 +969,7 @@ also : a representation of such a cutting."""@en ;
 
 ###  https://w3id.org/pmd/co/Dataset
 :Dataset rdf:type owl:Class ;
-         rdfs:subClassOf :Object ;
+         rdfs:subClassOf <http://purl.obolibrary.org/obo/DigitalEntity> ;
          rdfs:comment "A collection of data published in one or more files. Usually instances of this class are also instances of DCAT dataset (see https://www.w3.org/TR/vocab-dcat-2/)."@en ;
          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
          rdfs:label "Dataset"@en ,
@@ -1906,28 +1914,6 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
                    :definitionSource "“Optical microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/optical%20microscope. Accessed 24 Nov. 2022."@en .
 
 
-###  https://w3id.org/pmd/co/Particle
-:Particle rdf:type owl:Class ;
-          rdfs:subClassOf :Object ;
-          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-          rdfs:label "Particle"@en ,
-                     "Partikel"@de ;
-          <http://www.w3.org/2004/02/skos/core#definition> "A particle is a small localized object to which can be ascribed several physical or chemical properties, such as volume, density, or mass."@en .
-
-
-###  https://w3id.org/pmd/co/ParticleArea
-:ParticleArea rdf:type owl:Class ;
-              owl:equivalentClass [ rdf:type owl:Restriction ;
-                                    owl:onProperty :characteristicOf ;
-                                    owl:someValuesFrom :Particle
-                                  ] ;
-              rdfs:subClassOf :Area ;
-              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-              rdfs:label "Particle Area"@en ,
-                         "Partikelfläche"@de ;
-              <http://www.w3.org/2004/02/skos/core#definition> "The extent or measurement of a surface of a particle."@en .
-
-
 ###  https://w3id.org/pmd/co/ParticleNumber
 :ParticleNumber rdf:type owl:Class ;
                 rdfs:subClassOf :Index ;
@@ -1936,19 +1922,6 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
                            "Partikelnummer"@de ;
                 <http://www.w3.org/2004/02/skos/core#definition> "Die Partikelnummer ermöglicht die eindeutige Zuordnung der gemessenen Eigenschaften zu einem bestimmten Partikel."@de ,
                                                                  "The particle number enables the explicit assignment of measured properties to a specific particle."@en .
-
-
-###  https://w3id.org/pmd/co/ParticleRadius
-:ParticleRadius rdf:type owl:Class ;
-                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                      owl:onProperty :characteristicOf ;
-                                      owl:someValuesFrom :Particle
-                                    ] ;
-                rdfs:subClassOf :Radius ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                rdfs:label "Particle Radius"@en ,
-                           "Partikelradius"@de ;
-                <http://www.w3.org/2004/02/skos/core#definition> "The radius of a particle."@en .
 
 
 ###  https://w3id.org/pmd/co/PercentageExtension
@@ -1980,7 +1953,7 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  https://w3id.org/pmd/co/Pixel
 :Pixel rdf:type owl:Class ;
-       rdfs:subClassOf :Object ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/DigitalEntity> ;
        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
        rdfs:label "Pixel"@de ,
                   "Pixel"@en ;
@@ -1995,16 +1968,6 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
               rdfs:label "Pixel density"@en ,
                          "Pixeldichte"@de ;
               <http://www.w3.org/2004/02/skos/core#definition> "The pixel density of an electronic image device."@en .
-
-
-###  https://w3id.org/pmd/co/PrecipitateDistance
-:PrecipitateDistance rdf:type owl:Class ;
-                     rdfs:subClassOf :Distance ;
-                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                     rdfs:label "Ausscheidungsabstand"@de ,
-                                "Precipitate Distance"@en ;
-                     <http://www.w3.org/2004/02/skos/core#definition> "Gemessener Abstand zwischen Ausscheidungen."@de ,
-                                                                      "Measured distance between precipitates."@en .
 
 
 ###  https://w3id.org/pmd/co/Precision
@@ -2185,7 +2148,7 @@ In PMD, a process is conducted via processing nodes and has a discernable durati
                                                            ) ;
                                         rdf:type owl:Class
                                       ] ;
-                  rdfs:subClassOf :Object ;
+                  rdfs:subClassOf <http://purl.obolibrary.org/obo/DigitalEntity> ;
                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                   rdfs:label "Betrachteter Bereich"@de ,
                              "Region of Interest"@en ;
@@ -2589,16 +2552,6 @@ Anmerkung: Mit dem Begriff Spannung ist hier die technische Spannung ('Ingenieur
                                <http://www.w3.org/2004/02/skos/core#definition> "An analysis process that is also a transformative process"@en .
 
 
-###  https://w3id.org/pmd/co/TransmissionElectronMicroscope
-:TransmissionElectronMicroscope rdf:type owl:Class ;
-                                rdfs:subClassOf :ElectronMicroscope ;
-                                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                                rdfs:label "Transmission Electron Microscope"@en ,
-                                           "Transmissionelektronenmikroskop"@de ;
-                                <http://www.w3.org/2004/02/skos/core#definition> "Transmission electron microscopes are capable of imaging at a significantly higher resolution than light microscopes, owing to the smaller de Broglie wavelength of electrons. This enables the instrument to capture fine detail—even as small as a single column of atoms, which is thousands of times smaller than a resolvable object seen in a light microscope. Transmission electron microscopy is a major analytical method in the physical, chemical and biological sciences. TEMs find application in cancer research, virology, and materials science as well as pollution, nanotechnology and semiconductor research, but also in other fields such as paleontology and palynology.  (Wikipedia, https://en.wikipedia.org/wiki/Transmission_electron_microscopy)"@en ;
-                                :definitionSource "Wikipedia, https://en.wikipedia.org/wiki/Transmission_electron_microscopy"@en .
-
-
 ###  https://w3id.org/pmd/co/ValueObject
 :ValueObject rdf:type owl:Class ;
              owl:equivalentClass [ rdf:type owl:Class ;
@@ -2678,7 +2631,7 @@ ex:p1 :characteristic ex:vo1 ."""@en ,
 
 ###  https://w3id.org/pmd/co/Voxel
 :Voxel rdf:type owl:Class ;
-       rdfs:subClassOf :Object ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/DigitalEntity> ;
        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
        rdfs:label "Voxel"@de ,
                   "Voxel"@en ;
