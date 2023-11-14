@@ -321,9 +321,12 @@
 :participant rdf:type owl:ObjectProperty ;
              owl:inverseOf :participantOf ;
              rdfs:domain :Process ;
-             rdfs:range :DigitalEntity ,
-                        :Object ,
-                        :ValueObject ;
+             rdfs:range [ rdf:type owl:Class ;
+                          owl:unionOf ( :DigitalEntity
+                                        :Object
+                                        :ValueObject
+                                      )
+                        ] ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "participant"@en ;
              <http://www.w3.org/2004/02/skos/core#altLabel> "has participant" ;
