@@ -1,0 +1,864 @@
+@prefix : <https://w3id.org/pmd/co/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/> .
+
+<https://w3id.org/pmd/co> rdf:type owl:Ontology ;
+                           owl:versionIRI <https://w3id.org/pmd/co/qualities/3.x.x> ;
+                           owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ,
+                                       <http://purl.obolibrary.org/obo/iao/2022-11-07/iao.owl> ,
+                                       <http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ;
+                           <http://purl.org/dc/terms/bibliographicCitation> "PMDco: platform material digital ontology. Version 3.x.x, https://w3id.org/pmd/co/" ;
+                           <http://purl.org/dc/terms/created> "2023-11-17" ;
+                           <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
+                           <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (PMDco)"@en ;
+                           rdfs:comment "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. The design of PMDco is based on the W3C Provenance Ontology (PROV-O), which provides a standard framework for capturing the generation, derivation, and attribution of resources. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
+                           owl:versionInfo "3.x.x" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/bibliographicCitation
+<http://purl.org/dc/terms/bibliographicCitation> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/created
+<http://purl.org/dc/terms/created> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/title
+<http://purl.org/dc/terms/title> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#constraints
+<http://www.w3.org/ns/prov#constraints> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#editorialNote
+<http://www.w3.org/ns/prov#editorialNote> rdf:type owl:AnnotationProperty .
+
+
+###  https://w3id.org/pmd/co/definitionSource
+:definitionSource rdf:type owl:AnnotationProperty .
+
+
+###  https://w3id.org/pmd/co/symbol
+:symbol rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://w3id.org/pmd/co/characteristicOf
+:characteristicOf rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/pmd/co/relatesTo
+:relatesTo rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://w3id.org/pmd/co/fromValue
+:fromValue rdf:type owl:DatatypeProperty .
+
+
+###  https://w3id.org/pmd/co/toValue
+:toValue rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.obolibrary.org/obo/BFO_0000019
+<http://purl.obolibrary.org/obo/BFO_0000019> rdf:type owl:Class .
+
+
+###  https://w3id.org/pmd/co/Acoustical
+:Acoustical rdf:type owl:Class ;
+            rdfs:subClassOf :MaterialProperty ;
+            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+            rdfs:label "Acoustical"@en ,
+                       "Akustisch"@de ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Acoustical is relating to the sense or organs of hearing, to sound, or to the science of sounds. Here specifically on the acoustic properties of a material."@en ,
+                                                             "Akustisch bezieht sich auf den Hörsinn oder die Hörorgane, auf Schall oder auf die Wissenschaft vom Schall. Hier spezifisch auf die akustischen Eigenschaften eines Materials."@de ;
+            :definitionSource "“Acoustic.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/acoustic. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/AgingTemperature
+:AgingTemperature rdf:type owl:Class ;
+                  rdfs:subClassOf :Temperature ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "Aging Temperature"@en ,
+                             "Alterungstemperatur"@de ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "Variable Temperature during an Aging Process depending on the desired deposition formations."@en .
+
+
+###  https://w3id.org/pmd/co/AmorphousStructure
+:AmorphousStructure rdf:type owl:Class ;
+                    rdfs:subClassOf :MaterialStructure ;
+                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                    rdfs:label "Amorphe Struktur"@de ,
+                               "Amorphous Structure"@en ;
+                    <http://www.w3.org/2004/02/skos/core#definition> "Amorphe Materialien haben eine innere Struktur, die aus miteinander verbundenen Strukturblöcken besteht, die den grundlegenden Struktureinheiten in der entsprechenden kristallinen Phase der gleichen Verbindung ähnlich sein können. Anders als bei kristallinen Materialien besteht jedoch keine langfristige Ordnung. Amorphe Materialien können daher nicht durch eine bestimmte Einheitszelle definiert werden. "@de ,
+                                                                     "Amorphous materials have an internal structure consisting of interconnected structural blocks that can be similar to the basic structural units found in the corresponding crystalline phase of the same compound. Unlike in crystalline materials, however, no long-range order exists. Amorphous materials therefore cannot be defined by a finite unit cell. "@en ;
+                    :definitionSource "“Amorphous solid - Structure.” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Amorphous_solid. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Area
+:Area rdf:type owl:Class ;
+      rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+      rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+      rdfs:label "Area"@en ,
+                 "Fläche"@de ;
+      <http://www.w3.org/2004/02/skos/core#definition> "The extent or measurement of a surface."@en .
+
+
+###  https://w3id.org/pmd/co/Biological
+:Biological rdf:type owl:Class ;
+            rdfs:subClassOf :MaterialProperty ;
+            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+            rdfs:label "Biological"@en ,
+                       "Biologisch"@de ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Biological is relating to biology or to life and living processes. Here specifically to the biological properties of a material."@en ,
+                                                             "Biologisch bezieht sich auf die Biologie oder auf das Leben und lebende Prozesse. Hier speziell auf die biologischen Eigenschaften eines Materials."@de ;
+            :definitionSource "“Biological.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/biological. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/BondingType
+:BondingType rdf:type owl:Class ;
+             rdfs:subClassOf :MaterialRelated ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "Bindungstyp"@de ,
+                        "BondingType"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Any of several forces, especially the ionic bond, covalent bond, and metallic bond, by which atoms or ions are bound in a molecule or crystal."@en ,
+                                                              "Eine von mehreren Bindungen, insbesondere die Ionenbindung, die kovalente Bindung und die Metallbindung, durch die Atome oder Ionen in einem Molekül oder Kristall gebunden sind."@de ;
+             :definitionSource "\"Bond types.” American Heritage® Dictionary of the English Language, Fifth Edition, https://www.thefreedictionary.com/Bond+Types. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/CalibrationRange
+:CalibrationRange rdf:type owl:Class ;
+                  rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "Calibration range"@en ,
+                             "Kalibrierbereich"@de ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "Diese Eigenschaft beschreibt den Bereich zwischen den Grenzen, innerhalb derer eine Größe gemessen, empfangen oder übertragen wird (typischerweise von einem Prozessknoten, z. B. einer Maschine), ausgedrückt durch die Angabe des unteren und oberen Bereichswertes."@de ,
+                                                                   "This property describes the region between the limits within which a quantity is measured, received or transmitted (typically by a process node, e.g. a machine), expressed by stating the lower and upper range values."@en .
+
+
+###  https://w3id.org/pmd/co/Chemical
+:Chemical rdf:type owl:Class ;
+          rdfs:subClassOf :MaterialProperty ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "Chemical"@en ,
+                     "Chemisch"@de ;
+          <http://www.w3.org/2004/02/skos/core#definition> "Chemical is relating to, used in, or produced by chemistry or the phenomena of chemistry Here specifically to the chemical properties of a material."@en ,
+                                                           "Chemisch ist ein Begriff, der sich auf die Chemie oder die chemischen Phänomene bezieht, in der Chemie verwendet wird oder durch sie erzeugt wird. Hier geht es speziell um die chemischen Eigenschaften eines Materials."@de ;
+          :definitionSource "“Chemical.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/chemical. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Circular
+:Circular rdf:type owl:Class ;
+          rdfs:subClassOf :Shape ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "Circular"@en ,
+                     "Kreisförmig"@de ;
+          <http://www.w3.org/2004/02/skos/core#definition> "Geformt wie ein Kreis."@de ,
+                                                           "Having the form of a circle."@en ;
+          :definitionSource "“Circular.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/circular. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/ClampingPressure
+:ClampingPressure rdf:type owl:Class ;
+                  rdfs:subClassOf :Stress ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "Clamping Pressure"@en ,
+                             "Klemmdruck"@de ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "Diese Eigenschaft beschreibt als quantitativer Wert die Kraft pro Fläche (Druck), die beim Einbau einer Probe, eines Prüfkörpers oder eines Prüfstücks aufgebracht wird. Typischerweise ist das Aufbringen eines Klemmdrucks mit einer Art von Klemm- oder Spannzubehör (Grips) oder Ähnlichem verbunden."@de ,
+                                                                   "This property describes the force per area (pressure) that is used during the mounting process of a sample, specimen, or test piece as a quantitative value. Typically, this process involves some sort of grips or the like."@en .
+
+
+###  https://w3id.org/pmd/co/CoatingDesignation
+:CoatingDesignation rdf:type owl:Class ;
+                    rdfs:subClassOf :MaterialRelated ;
+                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                    rdfs:label "Beschichtungsbezeichnung"@de ,
+                               "Coating Designation"@en ;
+                    <http://www.w3.org/2004/02/skos/core#definition> "Diese Eigenschaft ist ein Name oder Bezeichner eines Materialtyps, welcher den obersten Teil eines Bauteils (Beschichtung) bedeckt."@de ,
+                                                                     "This property is a name or identifier of a material type which designates the most upper part of a component (coating)."@en .
+
+
+###  https://w3id.org/pmd/co/Coordinates
+:Coordinates rdf:type owl:Class ;
+             rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "Coordinates"@en ,
+                        "Koordinaten"@de ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Any of a set of numbers used in specifying the location of a point on a line, on a surface, or in space."@en ;
+             :definitionSource "“Coordinate.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/coordinate. Accessed 5 Dec. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/CovalentBond
+:CovalentBond rdf:type owl:Class ;
+              rdfs:subClassOf :BondingType ;
+              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+              rdfs:label "Covalent Bond"@en ,
+                         "Kovalente Bindung"@de ;
+              <http://www.w3.org/2004/02/skos/core#definition> "Covalent bond is a chemical bond formed between atoms by the sharing of electrons."@en ,
+                                                               "Eine kovalente Bindung ist eine chemische Verbindung zwischen Atomen, die durch die gemeinsame Nutzung von Elektronen entsteht."@de ;
+              :definitionSource "\"Covalent bond.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/covalent%20bond. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/CreepStress
+:CreepStress rdf:type owl:Class ;
+             rdfs:subClassOf :Stress ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "Creep Stress"@en ,
+                        "Kriechspannung"@de ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Is the strain occuring with time, when a constant force is applied to a physical body."@en .
+
+
+###  https://w3id.org/pmd/co/CrossSectionArea
+:CrossSectionArea rdf:type owl:Class ;
+                  rdfs:subClassOf :Area ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "Cross Section Area"@en ,
+                             "Querschnittsfläche"@de ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "Diese Eigenschaft beschreibt die Fläche eines Schnittes oder eines rechtwinklig geschnittenen oder gebrochenen Stücks eines Objektes in Bezug auf eine Achse."@de ,
+                                                                   "This property describes the area of a cutting or piece of an object cut off or broken at right angles or related to an axis."@en ;
+                  :definitionSource "https://www.merriam-webster.com/dictionary/cross%20section"@en .
+
+
+###  https://w3id.org/pmd/co/CrystallineStructure
+:CrystallineStructure rdf:type owl:Class ;
+                      rdfs:subClassOf :MaterialStructure ;
+                      rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                      rdfs:label "Crystalline Structure"@en ,
+                                 "Kristalline Struktur"@de ;
+                      <http://www.w3.org/2004/02/skos/core#definition> "In crystallography, crystal structure is a description of the ordered arrangement of atoms, ions or molecules in a crystalline material. Ordered structures occur from the intrinsic nature of the constituent particles to form symmetric patterns that repeat along the principal directions of three-dimensional space in matter."@en ,
+                                                                       "In der Kristallographie ist die Kristallstruktur eine Beschreibung der geordneten Anordnung von Atomen, Ionen oder Molekülen in einem kristallinen Material. Geordnete Strukturen ergeben sich aus der intrinsischen Natur der konstituierenden Teilchen, die symmetrische Muster bilden, die sich entlang der Hauptrichtungen des dreidimensionalen Raums in der Materie wiederholen."@de ;
+                      :definitionSource "“Crystal structure.” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Crystal_structure. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/DataAcquisitionRate
+:DataAcquisitionRate rdf:type owl:Class ;
+                     rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                     rdfs:label "Data Acquisition Rate"@en ,
+                                "Datenerfassungsrate"@de ;
+                     <http://www.w3.org/2004/02/skos/core#definition> "Diese Eigenschaft bezeichnet die Anzahl der Messungen / Abfragen pro Zeiteinheit bei einer betrachteten Messung einer Messgröße (Abtast-/Abfragerate bei der Datenerfassung)."@de ,
+                                                                      "This property denotes the number of measurements / queries per time period for a considered measurement of a measurement parameter (sampling / query rate during data acquisition)."@en .
+
+
+###  https://w3id.org/pmd/co/Diameter
+:Diameter rdf:type owl:Class ;
+          rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "Diameter"@en ,
+                     "Durchmesser"@de ;
+          <http://www.w3.org/2004/02/skos/core#definition> "The length of a straight line through the center of an object or space."@en ;
+          <http://www.w3.org/ns/prov#constraints> "TesileTest" ;
+          :definitionSource "“Diameter.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/diameter. Accessed 5 Dec. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/Distance
+:Distance rdf:type owl:Class ;
+          rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "Abstand"@de ,
+                     "Distance"@en ;
+          <http://www.w3.org/2004/02/skos/core#definition> "Spatial remoteness."@en ;
+          :definitionSource "“Distance.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/distance. Accessed 5 Dec. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/Electrical
+:Electrical rdf:type owl:Class ;
+            rdfs:subClassOf :MaterialProperty ;
+            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+            rdfs:label "Electrical"@en ,
+                       "Elektrisch"@de ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Electrical is relating to electricity or something that is powered by electricity. Here specifically to the electrical properties of a material."@en ,
+                                                             "Elektrisch bezieht sich auf Elektrizität oder etwas, das mit Elektrizität betrieben wird. Hier speziell auf die elektrischen Eigenschaften eines Materials."@de ;
+            :definitionSource "“Electric.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/electric. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Elliptical
+:Elliptical rdf:type owl:Class ;
+            rdfs:subClassOf :Shape ;
+            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+            rdfs:label "Elliptical"@en ,
+                       "Elliptisch"@de ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Geformt wie eine Ellipse."@de ,
+                                                             "Shaped like an ellipse."@en ;
+            :definitionSource "“Elliptical.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/elliptical. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/EnvironmentalTemperature
+:EnvironmentalTemperature rdf:type owl:Class ;
+                          rdfs:subClassOf :Temperature ;
+                          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                          rdfs:label "Environmental Temperature"@en ,
+                                     "Umgebungstemperatur"@de ;
+                          <http://www.w3.org/2004/02/skos/core#definition> "Diese Eigenschaft beschreibt die beobachtete Temperatur in der Umgebung eines betrachteten materiellen Objekts. Dazu können die Raumtemperatur und die in Prüfkammern gemessenen Temperaturen gehören."@de ,
+                                                                           "This property describes the observed temperature surrounding a tangible object considered. This may include room temperature and temperatures measured in test chambers."@en .
+
+
+###  https://w3id.org/pmd/co/Extension
+:Extension rdf:type owl:Class ;
+           rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+           rdfs:label "Extension"@en ,
+                      "Verlängerung (der Extensometer-Messlänge)"@de ;
+           <http://www.w3.org/2004/02/skos/core#definition> """Dimensional analysis: L
+Unit (e.g. SI): mm"""@en ,
+                                                            "Increase in the extensometer gauge length at any moment during the test"@en ,
+                                                            """Note: The extension might be measured using different channels (e.g. when using one or two extensometer channels); usually, the mean average value of involved channels is given as extension value, if applicable.
+
+Note: Optical extensometry may require a specific data storage method."""@en ,
+                                                            "Zunahme der Extensometer-Messlänge zu einem beliebigen Zeitpunkt des Versuchs"@de ;
+           :definitionSource "DIN EN ISO 6892-1:2019"@en .
+
+
+###  https://w3id.org/pmd/co/FeretDiameter
+:FeretDiameter rdf:type owl:Class ;
+               rdfs:subClassOf :Diameter ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+               rdfs:label "Feret diameter"@en ,
+                          "Äquivalentdurchmesser"@de ;
+               <http://www.w3.org/2004/02/skos/core#definition> """The Feret diameter or Feret's diameter is a measure of an object size along a specified direction. In general, it can be defined as the distance between the two parallel planes restricting the object perpendicular to that direction.
+(cf. Wikipedia: https://en.wikipedia.org/wiki/Feret_diameter)"""@en .
+
+
+###  https://w3id.org/pmd/co/Force
+:Force rdf:type owl:Class ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+       rdfs:label "Force"@en ,
+                  "Kraft"@de ;
+       <http://www.w3.org/2004/02/skos/core#definition> "Strength or energy exerted or brought to bear : cause of motion or change : active power."@en ;
+       :definitionSource "“Force.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/force. Accessed 5 Dec. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/FurnaceCharacteristic
+:FurnaceCharacteristic rdf:type owl:Class ;
+                       rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+                       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                       rdfs:label "Furnace Characteristic"@en ,
+                                  "Ofencharakteristik"@de ;
+                       <http://www.w3.org/2004/02/skos/core#definition> "Properties that describe the functions and capabilities of a heat treatment process node."@en .
+
+
+###  https://w3id.org/pmd/co/HeatCapacity
+:HeatCapacity rdf:type owl:Class ;
+              rdfs:subClassOf :FurnaceCharacteristic ;
+              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+              rdfs:label "Heat Capacity"@en ,
+                         "Wärmekapazität"@de ;
+              <http://www.w3.org/2004/02/skos/core#definition> "Heat capacity or thermal capacity is a physical property of matter, defined as the amount of heat to be supplied to an object to produce a unit change in its temperature."@en ;
+              :definitionSource "https://en.wikipedia.org/wiki/Heat_capacity"@en .
+
+
+###  https://w3id.org/pmd/co/HydrogenBond
+:HydrogenBond rdf:type owl:Class ;
+              rdfs:subClassOf :BondingType ;
+              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+              rdfs:label "Hydrogen Bond"@en ,
+                         "Wasserstoffbindung"@de ;
+              <http://www.w3.org/2004/02/skos/core#definition> "Eine Wasserstoffbindung ist eine elektrostatische Anziehung zwischen einem Wasserstoffatom in einem polaren Molekül (z. B. Wasser) und einem kleinen elektronegativen Atom (z. B. Sauerstoff, Stickstoff oder Fluor) in einem anderen Molekül der gleichen oder einer anderen polaren Substanz."@de ,
+                                                               "Hydrogen bond is an electrostatic attraction between a hydrogen atom in one polar molecule (as of water) and a small electronegative atom (as of oxygen, nitrogen, or fluorine) in usually another molecule of the same or a different polar substance."@en ;
+              :definitionSource "\"Hydrogen bond.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/hydrogen%20bond. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/IonicBond
+:IonicBond rdf:type owl:Class ;
+           rdfs:subClassOf :BondingType ;
+           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+           rdfs:label "Ionic Bond"@en ,
+                      "Ionische Bindung"@de ;
+           <http://www.w3.org/2004/02/skos/core#definition> "Eine Ionenbindung ist eine chemische Bindung, die zwischen entgegengesetzt geladenen Stoffen aufgrund ihrer gegenseitigen elektrostatischen Anziehung entsteht."@de ,
+                                                            "Ionic bond is a chemical bond formed between oppositely charged species because of their mutual electrostatic attraction."@en ;
+           :definitionSource "\"Ionic bond.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/ionic%20bond. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Length
+:Length rdf:type owl:Class ;
+        rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+        rdfs:label "Length"@en ,
+                   "Länge"@de ;
+        <http://www.w3.org/2004/02/skos/core#definition> "A measured distance or dimension of an object, usually the longer or longest dimension of the object."@en ,
+                                                         "Eine gemessene Entfernung oder Abmessung eines Objekts, normalerweise die längere oder längste Abmessung des Objekts."@de ;
+        :definitionSource "https://www.merriam-webster.com/dictionary/length"@de .
+
+
+###  https://w3id.org/pmd/co/LoadCellCapacity
+:LoadCellCapacity rdf:type owl:Class ;
+                  rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "Load cell capacity"@en .
+
+
+###  https://w3id.org/pmd/co/Magnetic
+:Magnetic rdf:type owl:Class ;
+          rdfs:subClassOf :MaterialProperty ;
+          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+          rdfs:label "Magnetic"@en ,
+                     "Magnetisch"@de ;
+          <http://www.w3.org/2004/02/skos/core#definition> "Magnetic is relating relating to a magnet or to magnetism. Here specifically to the magnetic properties of a material."@en ,
+                                                           "Magnetisch bezieht sich auf einen Magneten oder auf Magnetismus. Hier speziell auf die magnetischen Eigenschaften eines Materials."@de ;
+          :definitionSource "“Magnetic.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/magnetic. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/MajorAxisDiameter
+:MajorAxisDiameter rdf:type owl:Class ;
+                   rdfs:subClassOf :Diameter ;
+                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                   rdfs:label "Halbachsendurchmesser"@de ,
+                              "Minor axis diameter"@en ;
+                   <http://www.w3.org/2004/02/skos/core#definition> "The shortest diameter of an ellipse."@en .
+
+
+###  https://w3id.org/pmd/co/MaterialDesignation
+:MaterialDesignation rdf:type owl:Class ;
+                     rdfs:subClassOf :MaterialRelated ;
+                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                     rdfs:label "Material Designation"@en ,
+                                "Materialbezeichnung"@de ;
+                     <http://www.w3.org/2004/02/skos/core#definition> """It is a name or identifier of a material type. It designates a material. 
+E.g. \"steel\", \"aluminium\", \"wood\", \"plastic\", \"rubber\".""" ;
+                     <http://www.w3.org/ns/prov#editorialNote> "former \"Material\" : \"It is a substance or mixture of substances that constitutes an object. represented by the sum of material properties and material structure\"" .
+
+
+###  https://w3id.org/pmd/co/MaterialProperty
+:MaterialProperty rdf:type owl:Class ;
+                  rdfs:subClassOf :MaterialRelated ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "Material Property"@en ,
+                             "Materialeigenschaft"@de ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "A materials property is an intensive property of a material, i.e., a physical property that does not depend on the amount of the material. These quantitative properties may be used as a metric by which the benefits of one material versus another can be compared, thereby aiding in materials selection."@en ,
+                                                                   "Eine Materialeigenschaft ist eine intensive Eigenschaft eines Materials, d. h. eine physikalische Eigenschaft, die nicht von der Menge des Materials abhängt. Diese quantitativen Eigenschaften können als Maßstab verwendet werden, um die Vorteile eines Materials mit denen eines anderen zu vergleichen und so die Materialauswahl zu erleichtern."@de ;
+                  :definitionSource "“List of materials properties.” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/List_of_materials_properties. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/MaterialQuality
+:MaterialQuality rdf:type owl:Class ;
+                 rdfs:subClassOf :MaterialRelated ;
+                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                 rdfs:label "Material Quality"@en ,
+                            "Materialqualität"@de ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "i.e. Materialgüte"@de .
+
+
+###  https://w3id.org/pmd/co/MaterialRelated
+:MaterialRelated rdf:type owl:Class ;
+                 rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                 rdfs:label "Material Related"@en ,
+                            "Materialbezug"@de ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "Diese Klasse dient der qualitativen und quantitativen Beschreibung eines Materials, indem sie Informationen über ein Material angibt, z. B. durch die Einbeziehung von Materialeigenschaften, Materialstruktur usw."@de ,
+                                                                  "This property is used to qualitatively and quantitatively describe a material by providing information on a material, e.g., by including material properties, material structure, etc."@en .
+
+
+###  https://w3id.org/pmd/co/MaterialStructure
+:MaterialStructure rdf:type owl:Class ;
+                   rdfs:subClassOf :MaterialRelated ;
+                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                   rdfs:label "Material Structure"@en ,
+                              "Materialstruktur"@de ;
+                   <http://www.w3.org/2004/02/skos/core#definition> "Die relevante Struktur von Materialien hat je nach Material eine unterschiedliche Längenskala. Die Struktur und Zusammensetzung eines Materials kann durch Mikroskopie oder Spektroskopie bestimmt werden."@de ,
+                                                                    "The relevant structure of materials has a different length scale depending on the material. The structure and composition of a material can be determined by microscopy or spectroscopy."@en ;
+                   :definitionSource "“Material - Classification by structure.” Wikipedia The Free Encyclopedia, https://en.wikipedia.org/wiki/Material#Classification_by_structure. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Mechanical
+:Mechanical rdf:type owl:Class ;
+            rdfs:subClassOf :MaterialProperty ;
+            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+            rdfs:label "Mechanical"@en ,
+                       "Mechanisch"@de ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Mechanical is relating to, governed by, or in accordance with the principles of mechanics. Here specifically to the mechanical properties of a material."@en ,
+                                                             "Mechanisch bedeutet, sich auf die Prinzipien der Mechanik zu beziehen, von ihnen beherrscht zu werden oder sie zu befolgen. Hier speziell auf die mechanischen Eigenschaften eines Materials."@de ;
+            :definitionSource "“Mechanical.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/mechanical. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/MediaMovement
+:MediaMovement rdf:type owl:Class ;
+               rdfs:subClassOf :FurnaceCharacteristic ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+               rdfs:label "Media Movement"@en ,
+                          "Medienbewegung"@de ;
+               <http://www.w3.org/2004/02/skos/core#definition> "Displacement of media surrounding objects inside the system boundaries of a processing node."@en ;
+               <http://www.w3.org/2004/02/skos/core#example> "Circulation of a gaseous media within the systems boundaries."@en .
+
+
+###  https://w3id.org/pmd/co/MetallicBond
+:MetallicBond rdf:type owl:Class ;
+              rdfs:subClassOf :BondingType ;
+              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+              rdfs:label "Metallbindung"@de ,
+                         "Metallic Bond"@en ;
+              <http://www.w3.org/2004/02/skos/core#definition> "Metallic bond is the chemical bond typical of the metallic state and characterized by mobile valence electrons that hold the atoms together usually in crystal lattices and are responsible for the good electrical and heat conductivity of metals."@en ,
+                                                               "Metallische Bindung ist die für den metallischen Zustand typische chemische Bindung, die durch bewegliche Valenzelektronen gekennzeichnet ist, die die Atome in der Regel in Kristallgittern zusammenhalten und für die gute elektrische und Wärmeleitfähigkeit von Metallen verantwortlich sind."@de ;
+              :definitionSource "\"Metallic bond.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/metallic%20bond. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/MinorAxisDiameter
+:MinorAxisDiameter rdf:type owl:Class ;
+                   rdfs:subClassOf :Diameter ;
+                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                   rdfs:label "Hauptachsendurchmesser"@de ,
+                              "Major axis diameter"@en ;
+                   <http://www.w3.org/2004/02/skos/core#definition> "The longest diameter of an ellipse."@en .
+
+
+###  https://w3id.org/pmd/co/ModulusOfElasticity
+:ModulusOfElasticity rdf:type owl:Class ;
+                     rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                     rdfs:label "Elastizitätsmodul"@de ,
+                                "Modulus Of Elasticity"@en ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "E-Modul"@de ;
+                     <http://www.w3.org/2004/02/skos/core#definition> """Quotient der Änderung der Spannung ΔR und Änderung der prozentualen Dehnung Δe in dem untersuchten Bereich multipliziert mit 100 % 
+
+Anmerkung: Es wird empfohlen, den Wert in GPa, gerundet auf 0,1 GPa, und nach ISO 80000-1 anzugeben."""@de ,
+                                                                      """quotient of change of stress ΔR and change of percentage extension Δe in the range of evaluation, multiplied by 100 %
+
+Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GPa and according to ISO 80000-1."""@en ;
+                     :definitionSource "DIN EN ISO 6892-1:2019"@en ;
+                     :symbol "E" .
+
+
+###  https://w3id.org/pmd/co/Optical
+:Optical rdf:type owl:Class ;
+         rdfs:subClassOf :MaterialProperty ;
+         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+         rdfs:label "Optical"@en ,
+                    "Optisch"@de ;
+         <http://www.w3.org/2004/02/skos/core#definition> "Optical is relating to the science of optics. Here specifically to the optical properties of a material."@en ,
+                                                          "Optisch bezieht sich auf die Wissenschaft der Optik. Hier speziell auf die optischen Eigenschaften eines Materials."@de ;
+         :definitionSource "“Optical.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/optical. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/PercentageExtension
+:PercentageExtension rdf:type owl:Class ;
+                     rdfs:subClassOf :Extension ;
+                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                     rdfs:label "Extensometer-Dehnung"@de ,
+                                "Percentage Extension"@en ;
+                     <http://www.w3.org/2004/02/skos/core#altLabel> "(engineering) strain"@en ,
+                                                                    "technische Dehnung"@de ;
+                     <http://www.w3.org/2004/02/skos/core#definition> """extension expressed as a percentage of the extensometer gauge length
+
+Note: The percentage extension is commonly called engineering strain."""@en ,
+                                                                      """in Prozent angegebene Verlängerung der Extensometer-Messlänge
+
+Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bezeichnet."""@de ;
+                     :definitionSource "DIN EN ISO 6892-1:2019"@en .
+
+
+###  https://w3id.org/pmd/co/Perimeter
+:Perimeter rdf:type owl:Class ;
+           rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+           rdfs:label "Perimeter"@en ,
+                      "Umfang"@de ;
+           <http://www.w3.org/2004/02/skos/core#definition> "Der Durchmesser einer zweidimensionalen Form."@de ,
+                                                            "The perimeter of a two-dimensional shape is defined as the path or boundary that encloses the shape."@en .
+
+
+###  https://w3id.org/pmd/co/PixelDensity
+:PixelDensity rdf:type owl:Class ;
+              rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+              rdfs:label "Pixel density"@en ,
+                         "Pixeldichte"@de ;
+              <http://www.w3.org/2004/02/skos/core#definition> "The pixel density of an electronic image device."@en .
+
+
+###  https://w3id.org/pmd/co/Precision
+:Precision rdf:type owl:Class ;
+           rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+           rdfs:label "Genauigkeit"@de ,
+                      "Precision"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "Der Grad der Verfeinerung, mit dem eine Operation durchgeführt oder eine Messung angegeben wird."@de ,
+                                                            "The degree of refinement with which an operation is performed or a measurement stated."@en ;
+           :definitionSource "“Precision.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/precision. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/ProcessDuration
+:ProcessDuration rdf:type owl:Class ;
+                 rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                 rdfs:label "Process Duration"@en ,
+                            "Prozessdauer"@de ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "A length of an interval of time in which a process is conducted."@en .
+
+
+###  https://w3id.org/pmd/co/Radiological
+:Radiological rdf:type owl:Class ;
+              rdfs:subClassOf :MaterialProperty ;
+              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+              rdfs:label "Radiological"@en ,
+                         "Radiologisch"@de ;
+              <http://www.w3.org/2004/02/skos/core#definition> "Radiological is relating to radiology. Here specifically to the radiological properties of a material."@en ,
+                                                               "Radiologisch bezieht sich auf die Radiologie. Hier speziell auf die radiologischen Eigenschaften eines Materials."@de ;
+              :definitionSource "“Radiological.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/radiological. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Radius
+:Radius rdf:type owl:Class ;
+        rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+        rdfs:label "Radius"@de ,
+                   "Radius"@en ;
+        <http://www.w3.org/2004/02/skos/core#definition> "A line segment extending from the center of a circle or sphere to the circumference or bounding surface."@en ;
+        :definitionSource "“Radius.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/radius. Accessed 5 Dec. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/Rectangular
+:Rectangular rdf:type owl:Class ;
+             rdfs:subClassOf :Shape ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "Rechteckig"@de ,
+                        "Rectangular"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Geformt wie ein Rechteck."@de ,
+                                                              "Shaped like a rectangle."@en ;
+             :definitionSource "“Rectangular.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/rectangular. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/RetortType
+:RetortType rdf:type owl:Class ;
+            rdfs:subClassOf :FurnaceCharacteristic ;
+            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+            rdfs:label "Retort Type"@en ,
+                       "Retortentyp"@de ;
+            <http://www.w3.org/2004/02/skos/core#definition> "Geometry and and orientation of the inner system boundaries of the heat treatment processing node."@en .
+
+
+###  https://w3id.org/pmd/co/Roughness
+:Roughness rdf:type owl:Class ;
+           rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+           rdfs:label "Oberflächenrauheit"@de ,
+                      "Roughness"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "Die Oberflächenrauheit, oft abgekürzt als Rauheit, ist eine Komponente zur Beschreibung der Oberflächenbeschaffenheit (Oberflächentextur). Sie wird durch die Abweichungen in der Richtung des Normalenvektors einer realen Oberfläche von ihrer idealen Form quantifiziert. Sind diese Abweichungen groß, ist die Oberfläche rau (große Rauheit), sind sie klein, ist die Oberfläche glatt (geringe Rauheit)."@de ,
+                                                            "Surface roughness, often shortened to roughness, is a component of surface finish (surface texture). It is quantified by the deviations in the direction of the normal vector of a real surface from its ideal form. If these deviations are large, the surface is rough; if they are small, the surface is smooth."@en ;
+           :definitionSource "https://en.wikipedia.org/wiki/Surface_roughness"@en .
+
+
+###  https://w3id.org/pmd/co/SemiCrystallineStructure
+:SemiCrystallineStructure rdf:type owl:Class ;
+                          rdfs:subClassOf :MaterialStructure ;
+                          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                          rdfs:label "Semi Crystalline Structure"@en ,
+                                     "Semikristalline Struktur"@de ;
+                          <http://www.w3.org/2004/02/skos/core#definition> "Feststoffe, die eine teilkristalline Struktur aufweisen, enthalten sowohl kristalline als auch amorphe Bereiche (Domänen). Kristalline Stoffe, die keine Einkristalle, sondern Polykristalle sind, werden nicht als teilkristallin bezeichnet, auch wenn sich zwischen den Kristalliten ein dünner amorpher Film befindet."@de ,
+                                                                           "Solid materials exhibiting a semi-crystalline structure contain both crystalline and amorphous sections (domains). Crystalline substances that are polycrystals rather than single crystals are not designated as semicrystalline, even if there is a thin amorphous film between the crystallites."@en .
+
+
+###  https://w3id.org/pmd/co/Shape
+:Shape rdf:type owl:Class ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+       rdfs:label "Form"@de ,
+                  "Shape"@en ;
+       <http://www.w3.org/2004/02/skos/core#definition> "Das sichtbare Ausstattungsmerkmal (räumliche Form oder Kontur) eines bestimmten Objektes oder einer Art von Objekt."@de ,
+                                                        "The visible makeup characteristic (spatial form or contour) of a particular item or kind of item."@en ;
+       :definitionSource "“Shape.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/shape. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Squared
+:Squared rdf:type owl:Class ;
+         rdfs:subClassOf :Shape ;
+         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+         rdfs:label "Quadratisch"@de ,
+                    "Squared"@en ;
+         <http://www.w3.org/2004/02/skos/core#definition> "Geformt mit vier gleichen Seiten und vier rechten Winkeln."@de ,
+                                                          "Having four equal sides and four right angles."@en ;
+         :definitionSource "“Square.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/square. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Stiffness
+:Stiffness rdf:type owl:Class ;
+           rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+           rdfs:label "Steifigkeit"@de ,
+                      "Stiffness"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "Die Steifigkeit ist das Maß, bis zu dem ein Objekt einer Verformung als Reaktion auf eine einwirkende Kraft widersteht."@de ,
+                                                            "Stiffness is the extent to which an object resists deformation in response to an applied force."@en .
+
+
+###  https://w3id.org/pmd/co/Stress
+:Stress rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :relatesTo ;
+                                                     owl:someValuesFrom :Area
+                                                   ]
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :relatesTo ;
+                                                     owl:someValuesFrom :Force
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] ;
+        rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+        rdfs:label "Spannung"@de ,
+                   "Stress"@en ;
+        <http://www.w3.org/2004/02/skos/core#definition> """At any moment during the test, force divided by the original cross-sectional area, S_o, of the test piece
+
+Note: Here, all references to stress are to engineering stress."""@en ,
+                                                         """Dimensional Analysis: 
+ML*-1T*-2"""@en ,
+                                                         """Kraft zu einem beliebigen Zeitpunkt während des Versuchs dividiert durch den Anfangsquerschnitt (S_o) der Probe
+
+Anmerkung: Mit dem Begriff Spannung ist hier die technische Spannung ('Ingenieur-Spannung') gemeint."""@de ,
+                                                         "Units: Pa (SI), psi"@en ;
+        :definitionSource "DIN EN ISO 6892-1:2019"@en ;
+        :symbol "R"@en .
+
+
+###  https://w3id.org/pmd/co/Temperature
+:Temperature rdf:type owl:Class ;
+             rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "Temperatur"@de ,
+                        "Temperature"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "The degree of hotness or coldness measured on a definite scale."@en ;
+             :definitionSource "“Temperature.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/temperature. Accessed 25 Nov. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/TestingRate
+:TestingRate rdf:type owl:Class ;
+             rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "Prüfgeschwindigkeit"@de ,
+                        "Testing Rate"@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> "rate (resp. rates) used during the test"@en ,
+                                                              "während des Versuchs verwendete Geschwindigkeit(en)"@de ;
+             :definitionSource "DIN EN ISO 6892-1:2019"@en .
+
+
+###  https://w3id.org/pmd/co/Thermal
+:Thermal rdf:type owl:Class ;
+         rdfs:subClassOf :MaterialProperty ;
+         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+         rdfs:label "Thermal"@en ,
+                    "Thermisch"@de ;
+         <http://www.w3.org/2004/02/skos/core#definition> "Thermal is relating to, or caused by heat. Here specifically to the thermal properties of a material."@en ,
+                                                          "Thermisch bedeutet in Bezug auf oder verursacht durch Wärme. Hier speziell auf die thermischen Eigenschaften eines Materials."@de ;
+         :definitionSource "“Thermal.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/thermal. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/ThermalInsulation
+:ThermalInsulation rdf:type owl:Class ;
+                   rdfs:subClassOf :FurnaceCharacteristic ;
+                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                   rdfs:label "Thermal Insulation"@en ,
+                              "Thermische Isolierung"@de ;
+                   <http://www.w3.org/2004/02/skos/core#definition> "Thermal insulation is the reduction of heat transfer (i.e., the transfer of thermal energy between objects of differing temperature) between objects in thermal contact or in range of radiative influence. Thermal insulation can be achieved with specially engineered methods or processes, as well as with suitable object shapes and materials."@en ;
+                   :definitionSource "https://en.wikipedia.org/wiki/Thermal_insulation"@en .
+
+
+###  https://w3id.org/pmd/co/Thickness
+:Thickness rdf:type owl:Class ;
+           rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+           rdfs:label "Dicke"@de ,
+                      "Thickness"@en ;
+           <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt die gemessene Dimension in einer Richtung eines Prüfstücks."@de ,
+                                                            "This entity describes the measured dimension in one direction of a test piece."@en .
+
+
+###  https://w3id.org/pmd/co/VanderwaalsBond
+:VanderwaalsBond rdf:type owl:Class ;
+                 rdfs:subClassOf :BondingType ;
+                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                 rdfs:label "Van der Waals Bindung"@de ,
+                            "Vanderwaals Bond"@en ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "Die Van-der-Waals-Bindung ist durch die relativ schwachen Anziehungskräfte gegeben, die auf neutrale Atome und Moleküle wirken und die aufgrund der elektrischen Polarisierung entstehen, die in jedem der Teilchen durch die Anwesenheit anderer Teilchen induziert wird."@de ,
+                                                                  "Van der Waals bond is given by the relatively weak attractive forces that act on neutral atoms and molecules and that arise because of the electric polarization induced in each of the particles by the presence of other particles."@en ;
+                 :definitionSource "“Van der Waals forces.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/van%20der%20Waals%20forces. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/Weight
+:Weight rdf:type owl:Class ;
+        rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+        rdfs:label "Gewicht"@de ,
+                   "Weight"@en ;
+        <http://www.w3.org/2004/02/skos/core#definition> "The force with which a body is attracted toward the earth or a celestial body by gravitation and which is equal to the product of the mass and the local gravitational acceleration."@en ;
+        :definitionSource "“Weight.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/weight. Accessed 5 Dec. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/Width
+:Width rdf:type owl:Class ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+       rdfs:label "Breite"@de ,
+                  "Width"@en ;
+       <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität bezeichnet eine horizontale Messung, die im rechten Winkel zur Länge eines Objekts vorgenommen wird."@de ,
+                                                        "This entity describes a horizontal measurement of an object taken at right angles to the length of the object."@en ;
+       :definitionSource "https://www.merriam-webster.com/dictionary/width"@en .
+
+
+###  https://w3id.org/pmd/co/WorkingRange
+:WorkingRange rdf:type owl:Class ;
+              owl:equivalentClass [ rdf:type owl:Restriction ;
+                                    owl:onProperty :fromValue ;
+                                    owl:someValuesFrom rdfs:Literal
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :toValue ;
+                                    owl:someValuesFrom rdfs:Literal
+                                  ] ;
+              rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+              rdfs:label "Arbeitsbereich"@de ,
+                         "Working Range"@en ;
+              <http://www.w3.org/2004/02/skos/core#definition> "Diese Eigenschaft beschreibt den Bereich zwischen den Grenzen, innerhalb derer ein Prozessknoten (z. B. eine Maschine) für ihren vorgesehenen Zweck verwendet werden kann, ausgedrückt durch die Angabe der in Rede stehenden unteren und oberen Bereichswerte."@de ,
+                                                               "This property describes the region between the limits within which a processing node (e.g., a machine) is capable of being used for its intended purpose, expressed by stating the lower and upper range values of interest."@en .
+
+
+###  https://w3id.org/pmd/co/XCoordinate
+:XCoordinate rdf:type owl:Class ;
+             rdfs:subClassOf <https://w3id.org/pmd/co/2DPixelCoordinates> ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "X Coordinate"@en ,
+                        "X Korrdinate"@de ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Die X-Koordinate ist eine Koordinate, deren Wert durch Messung parallel zu einer X-Achse bestimmt wird."@de ,
+                                                              "X-coordinate is a coordinate whose value is determined by measuring parallel to an x-axis."@en ;
+             :definitionSource "“X-coordinate.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/x-coordinate. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/YCoordinate
+:YCoordinate rdf:type owl:Class ;
+             rdfs:subClassOf <https://w3id.org/pmd/co/2DPixelCoordinates> ;
+             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+             rdfs:label "Y Coordinate"@en ,
+                        "Y Koordinate"@de ;
+             <http://www.w3.org/2004/02/skos/core#definition> "Die Y-Koordinate ist eine Koordinate, deren Wert durch Messung parallel zu einer Y-Achse bestimmt wird."@de ,
+                                                              "Y-coordinate is a coordinate whose value is determined by measuring parallel to a y-axis."@en ;
+             :definitionSource "“Y-coordinate.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/y-coordinate. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/2DPixelCoordinates
+<https://w3id.org/pmd/co/2DPixelCoordinates> rdf:type owl:Class ;
+                                             rdfs:subClassOf :Coordinates ;
+                                             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                                             rdfs:label "2D Pixel Coordinates"@en ,
+                                                        "2D Pixel Koordinaten"@de ;
+                                             <http://www.w3.org/2004/02/skos/core#definition> "A pixel can be identified by a pair of integers indicating the column and row number, here the 2D pixel coordinates. For example, a pixel with coordinates (1,2) would be in column number 1 and row number 2. Typically, columns are numbered starting with zero from left to right."@en ,
+                                                                                              "Ein Pixel kann durch ein Paar von Ganzzahlen identifiziert werden, die die Spalten- und Zeilennummer angeben, hier die 2D Pixel Koordinaten. Zum Beispiel würde ein Pixel mit den Koordinaten (1,2) in der Spalte Nummer 1 und der Zeile Nummer 2 liegen. Üblicherweise werden Spalten beginnend mit Null von links nach rechts nummeriert."@de .
+
+
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
