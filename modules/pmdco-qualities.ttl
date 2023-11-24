@@ -82,7 +82,7 @@
 
 ###  http://purl.obolibrary.org/obo/PATO_0000052
 <http://purl.obolibrary.org/obo/PATO_0000052> rdf:type owl:Class ;
-                                              rdfs:subClassOf <https://w3id.org/pmd/co/'MorphologicQuality'> ;
+                                              rdfs:subClassOf :MorphologicQuality ;
                                               rdfs:label "Form"@de ,
                                                          "Shape"@en .
 
@@ -181,7 +181,7 @@
 
 ###  https://w3id.org/pmd/co/BondingType
 :BondingType rdf:type owl:Class ;
-             rdfs:subClassOf :MaterialRelated ;
+             rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Bindungstyp"@de ,
                         "BondingType"@en ;
@@ -268,7 +268,7 @@
 
 ###  https://w3id.org/pmd/co/CoatingDesignation
 :CoatingDesignation rdf:type owl:Class ;
-                    rdfs:subClassOf :MaterialRelated ;
+                    rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                     rdfs:label "Beschichtungsbezeichnung"@de ,
                                "Coating Designation"@en ;
@@ -278,7 +278,7 @@
 
 ###  https://w3id.org/pmd/co/Color
 :Color rdf:type owl:Class ;
-       rdfs:subClassOf <https://w3id.org/pmd/co/'MorphologicQuality'> ;
+       rdfs:subClassOf :MorphologicQuality ;
        rdfs:comment "alternative http://purl.obolibrary.org/obo/PATO_0000052 is too specific"@en ;
        rdfs:label "Color"@en ,
                   "Farbe"@de ;
@@ -665,7 +665,7 @@ Note: Optical extensometry may require a specific data storage method."""@en ,
 
 ###  https://w3id.org/pmd/co/Gloss
 :Gloss rdf:type owl:Class ;
-       rdfs:subClassOf <https://w3id.org/pmd/co/'MorphologicQuality'> ;
+       rdfs:subClassOf :MorphologicQuality ;
        rdfs:label "Glanz"@de ,
                   "Gloss"@en ;
        <http://www.w3.org/2004/02/skos/core#definition> "Gloss is a morphological quality that describes the capacity of a surface to reflect light in a specular (mirror-like) direction. It is a visual perception of the surface shininess or luster, and can greatly influence the perceived color and aesthetic appeal of an object. The level of gloss can vary from high (shiny or glossy) to low (matte or dull), and this property is often measured in industries such as coatings, plastics, paper, and automotive to control product quality."@en .
@@ -858,7 +858,7 @@ Note: Optical extensometry may require a specific data storage method."""@en ,
 
 ###  https://w3id.org/pmd/co/MaterialDesignation
 :MaterialDesignation rdf:type owl:Class ;
-                     rdfs:subClassOf :MaterialRelated ;
+                     rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
                      rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                      rdfs:label "Material Designation"@en ,
                                 "Materialbezeichnung"@de ;
@@ -882,7 +882,7 @@ E.g. \"steel\", \"aluminium\", \"wood\", \"plastic\", \"rubber\".""" ;
 
 ###  https://w3id.org/pmd/co/MaterialProperty
 :MaterialProperty rdf:type owl:Class ;
-                  rdfs:subClassOf :MaterialRelated ;
+                  rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                   rdfs:label "Material Property"@en ,
                              "Materialeigenschaft"@de ;
@@ -893,26 +893,16 @@ E.g. \"steel\", \"aluminium\", \"wood\", \"plastic\", \"rubber\".""" ;
 
 ###  https://w3id.org/pmd/co/MaterialQuality
 :MaterialQuality rdf:type owl:Class ;
-                 rdfs:subClassOf :MaterialRelated ;
+                 rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                  rdfs:label "Material Quality"@en ,
                             "Materialqualität"@de ;
                  <http://www.w3.org/2004/02/skos/core#definition> "i.e. Materialgüte"@de .
 
 
-###  https://w3id.org/pmd/co/MaterialRelated
-:MaterialRelated rdf:type owl:Class ;
-                 rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
-                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                 rdfs:label "Material Related"@en ,
-                            "Materialbezug"@de ;
-                 <http://www.w3.org/2004/02/skos/core#definition> "Diese Klasse dient der qualitativen und quantitativen Beschreibung eines Materials, indem sie Informationen über ein Material angibt, z. B. durch die Einbeziehung von Materialeigenschaften, Materialstruktur usw."@de ,
-                                                                  "This property is used to qualitatively and quantitatively describe a material by providing information on a material, e.g., by including material properties, material structure, etc."@en .
-
-
 ###  https://w3id.org/pmd/co/MaterialStructure
 :MaterialStructure rdf:type owl:Class ;
-                   rdfs:subClassOf :MaterialRelated ;
+                   rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                    rdfs:label "Material Structure"@en ,
                               "Materialstruktur"@de ;
@@ -993,6 +983,14 @@ Anmerkung: Es wird empfohlen, den Wert in GPa, gerundet auf 0,1 GPa, und nach IS
 Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GPa and according to ISO 80000-1."""@en ;
                      :definitionSource "DIN EN ISO 6892-1:2019"@en ;
                      :symbol "E" .
+
+
+###  https://w3id.org/pmd/co/MorphologicQuality
+:MorphologicQuality rdf:type owl:Class ;
+                    rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
+                    rdfs:label "Morphologic Quality"@en ,
+                               "Morphologische Qualität"@de ;
+                    <http://www.w3.org/2004/02/skos/core#definition> "A quality that is related to the size, shape and appearence of a material."@en .
 
 
 ###  https://w3id.org/pmd/co/NumberDensity
@@ -1198,7 +1196,7 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 ###  https://w3id.org/pmd/co/Roughness
 :Roughness rdf:type owl:Class ;
            rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ,
-                           <https://w3id.org/pmd/co/'MorphologicQuality'> ;
+                           :MorphologicQuality ;
            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
            rdfs:label "Oberflächenrauheit"@de ,
                       "Rauheit"@de ,
@@ -1262,7 +1260,7 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
 
 ###  https://w3id.org/pmd/co/Size
 :Size rdf:type owl:Class ;
-      rdfs:subClassOf <https://w3id.org/pmd/co/'MorphologicQuality'> ;
+      rdfs:subClassOf :MorphologicQuality ;
       rdfs:comment "maybe we should just use http://purl.obolibrary.org/obo/PATO_0000052"@en ;
       rdfs:label "Größe"@de ,
                  "Size"@en ;
@@ -1638,14 +1636,6 @@ Anmerkung: Mit dem Begriff Spannung ist hier die technische Spannung ('Ingenieur
                                                                  rdfs:label "Thermischer Volumenausdehnungskoeffizient"@de ,
                                                                             "Volumetric Thermal Expansion Coefficient"@en ;
                                                                  <http://www.w3.org/2004/02/skos/core#definition> "The Volumetric Thermal Expansion Coefficient is a thermal expansion coefficent that quantifies the degree to which a material expands upon heating into all three axial directions at once."@en .
-
-
-###  https://w3id.org/pmd/co/'MorphologicQuality'
-<https://w3id.org/pmd/co/'MorphologicQuality'> rdf:type owl:Class ;
-                                               rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000019> ;
-                                               rdfs:label "Morphologic Quality"@en ,
-                                                          "Morphologische Qualität"@de ;
-                                               <http://www.w3.org/2004/02/skos/core#definition> "A quality that is related to the size, shape and appearence of a material."@en .
 
 
 ###  https://w3id.org/pmd/co/'TrueStress'
