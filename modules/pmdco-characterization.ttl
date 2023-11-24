@@ -1,0 +1,124 @@
+@prefix : <https://w3id.org/pmd/co/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/> .
+
+<https://w3id.org/pmd/co> rdf:type owl:Ontology ;
+                           owl:versionIRI <https://w3id.org/pmd/co/char/3.x.x> ;
+                           owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ,
+                                       <http://purl.obolibrary.org/obo/iao/2022-11-07/iao.owl> ,
+                                       <http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ;
+                           <http://purl.org/dc/terms/bibliographicCitation> "PMDco: platform material digital ontology. Version 3.x.x, https://w3id.org/pmd/co/" ;
+                           <http://purl.org/dc/terms/created> "2023-11-17" ;
+                           <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
+                           <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (PMDco)"@en ;
+                           rdfs:comment "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. The design of PMDco is based on the W3C Provenance Ontology (PROV-O), which provides a standard framework for capturing the generation, derivation, and attribution of resources. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
+                           owl:versionInfo "3.x.x" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/bibliographicCitation
+<http://purl.org/dc/terms/bibliographicCitation> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/created
+<http://purl.org/dc/terms/created> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/title
+<http://purl.org/dc/terms/title> rdf:type owl:AnnotationProperty .
+
+
+###  https://w3id.org/pmd/co/definitionSource
+:definitionSource rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://w3id.org/pmd/co/AnalysingProcess
+:AnalysingProcess rdf:type owl:Class ;
+                  rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000011> ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "Analyseprozess"@de ,
+                             "Analysing Process"@en ;
+                  <http://www.w3.org/2004/02/skos/core#definition> """A process that is driven by the primary intent to gain new measurements
+An analysis process is either a transformative process or a non-transformative process."""@en .
+
+
+###  https://w3id.org/pmd/co/ElectronMicroscopy
+:ElectronMicroscopy rdf:type owl:Class ;
+                    rdfs:subClassOf :MicroscopyProcess ;
+                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                    rdfs:label "Electron Microscopy"@en ,
+                               "Elektronenmikroskopie"@de ;
+                    <http://www.w3.org/2004/02/skos/core#definition> "Die Verwendung eines elektronenoptischen Instruments, bei dem ein Strahl beschleunigter Elektronen als Beleuchtungsquelle eingesetzt wird, um ein vergrößertes Bild eines kleinen Objekts zu erzeugen."@de ,
+                                                                     "The act of using an electron-optical instrument in which a beam of accelerated electrons as a source of illumination is applied to produce a magnified image of a tiny object."@en ;
+                    :definitionSource "“Electron microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/electron%20microscope. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/MeasuringProcess
+:MeasuringProcess rdf:type owl:Class ;
+                  rdfs:subClassOf :AnalysingProcess ;
+                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                  rdfs:label "Measuring Process"@en ,
+                             "Messprozess"@de ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "A measurement process acquires data (usually expressed in numbers) by using tools."@en .
+
+
+###  https://w3id.org/pmd/co/MechanicalTestingProcess
+:MechanicalTestingProcess rdf:type owl:Class ;
+                          rdfs:subClassOf :AnalysingProcess ;
+                          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                          rdfs:label "Mechanical Testing Process"@en ,
+                                     "Mechanischer Testprozess"@de ;
+                          <http://www.w3.org/2004/02/skos/core#definition> "Determinization of a mechanical property."@en ;
+                          :definitionSource "“Mechanical test.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/mechanical%20test. Accessed 24 Nov. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/MicroscopyProcess
+:MicroscopyProcess rdf:type owl:Class ;
+                   rdfs:subClassOf :AnalysingProcess ;
+                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                   rdfs:label "Microscopy Process"@en ,
+                              "Mikroskopie"@de ;
+                   <http://www.w3.org/2004/02/skos/core#definition> "The use of or investigation with a microscope."@en ;
+                   :definitionSource "“Microscopy.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/microscopy. Accessed 24 Nov. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/NonTransformativeAnalysisProcess
+:NonTransformativeAnalysisProcess rdf:type owl:Class ;
+                                  rdfs:subClassOf :AnalysingProcess ;
+                                  owl:disjointWith :TransformativeAnalysisProcess ;
+                                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                                  rdfs:label "Nicht-transformativer Analyseprozess"@de ,
+                                             "Non Transformative Analysis Process"@en ;
+                                  <http://www.w3.org/2004/02/skos/core#definition> "An analysis process that is also a non-transformative process"@en .
+
+
+###  https://w3id.org/pmd/co/OpticalMicroscopy
+:OpticalMicroscopy rdf:type owl:Class ;
+                   rdfs:subClassOf :MicroscopyProcess ;
+                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                   rdfs:label "Optical Microscopy"@en ,
+                              "Optische Mikroskopie"@de ;
+                   <http://www.w3.org/2004/02/skos/core#definition> "A microscopy done with a microscope in which light rays are seen directly by the observer as distinguished from one (as an electron microscope) in which some transformation or system of indirect viewing is use."@en ;
+                   :definitionSource "“Optical microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/optical%20microscope. Accessed 24 Nov. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/TransformativeAnalysisProcess
+:TransformativeAnalysisProcess rdf:type owl:Class ;
+                               rdfs:subClassOf :AnalysingProcess ;
+                               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
+                               rdfs:label "Transformative Analysis Process"@en ,
+                                          "Transformativer Analyseprozess"@de ;
+                               <http://www.w3.org/2004/02/skos/core#definition> "An analysis process that is also a transformative process"@en .
+
+
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
