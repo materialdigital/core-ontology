@@ -6,7 +6,7 @@ Modules:
  - ```pmdco-qualities.ttl``` Material Qualities (qualities, dispositions and functions)
  - ```pmdco-manufacturing.ttl``` Material Manufacturing (transformation)
  - ```pmdco-characterization.ttl``` Material Characterization (measuring, analysing)
- - ```pmdco-datatrans.ttl``` Data Transformation (workflows, simulations)
+ - ```pmdco-datatransformation.ttl``` Data Transformation (workflows, simulations)
  - ```pmdco-devices.ttl``` Devices
  - ```pmdco-logistics.ttl``` Logistics and general organization
  
