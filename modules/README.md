@@ -31,7 +31,7 @@ Modules:
 - **rdfs:label**: 
   - **Format**: Capitalized
   - **Example**: "Your Super New Term"
-  - **Language**: Specify languages (e.g., `en`, `de`).
+  - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
 
 ### Properties
 - **Naming Convention**: Use lowerCamelCase (e.g., `yourNewProperty`).
@@ -46,7 +46,7 @@ Modules:
   - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
 - **skos:definition**: 
   - **Content**: Aristotelian principle definition of the term
-  - **Language**: `en` (English)
+  - **Language**: `en` for English
 - **iao:IAO_0000114 (has curation status)**: Choose according to editing status.
 - **iao:IAO_0000117 (term editor)**: 
   - **Format**: "PERSON: Firstname Lastname" (as responsible person)
