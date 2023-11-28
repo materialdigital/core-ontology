@@ -1,0 +1,20 @@
+name: HTML
+
+on:
+  push:
+    branches:
+    - develop-3.0.0
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: main
+        path: main
+    - name: Validate against SHACL shape
+      uses: konradhoeffner/shacl@v1
+      with:
+          shacl: shapes/shape1.ttl
+          data: |
+                shapes/shape1-data.ttl  
