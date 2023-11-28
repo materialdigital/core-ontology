@@ -57,6 +57,6 @@ Modules:
   - Ensure skos:prefLabel is also set.
   - **Format**: Capitalized
 - **skos:example**: Include examples if possible.
-- **iao:definitionSource**: 
+- **iao:IAO_0000119**: 
   - Use when definition is adopted from a resource.
 - Additional translations are welcome.
