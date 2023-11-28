@@ -20,19 +20,43 @@ Modules:
 
 * Namespace: [https://w3id.org/pmd/co](https://w3id.org/pmd/co)
 * Prefix: pmdco
+
+
 ## Mandatory Annotations for Ontology Terms
-### IRIs
-- Classes: UpperCamelCase like rdfs:label [en], example: YourSuperNewTerm; label: Your Super New Term
-- Properties: lowerCamelCase like rdfs:label [en], example: yourNewProperty; label: your new property
+### IRIs (Internationalized Resource Identifiers)
+- Ensure unique and persistent IRIs for each term
+
+### Classes
+- **Naming Convention**: Use UpperCamelCase (e.g., `YourSuperNewTerm`).
+- **rdfs:label**: 
+  - **Format**: Capitalized
+  - **Example**: "Your Super New Term"
+  - **Language**: Specify languages (e.g., `en`, `de`).
+
+### Properties
+- **Naming Convention**: Use lowerCamelCase (e.g., `yourNewProperty`).
+- **rdfs:label**: 
+  - **Format**: Natural language
+  - **Example**: "your new property"
+  - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
 
 ### Annotation Properties
-- rdfs: label: Capitalized for classes, language: en, de
-- skos:definition: aristotelian principle definition of the term, language: [en]
-- iao:IAO_0000114 (has curation status) choose according to editing status
-- iao:IAO_0000117 (term editor) your name as responsible person,  format: "PERSON: Firstname Lastname" 
+- **rdfs:label**: 
+  - **For Classes**: Capitalized
+  - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
+- **skos:definition**: 
+  - **Content**: Aristotelian principle definition of the term
+  - **Language**: `en` (English)
+- **iao:IAO_0000114 (has curation status)**: Choose according to editing status.
+- **iao:IAO_0000117 (term editor)**: 
+  - **Format**: "PERSON: Firstname Lastname" (as responsible person)
 
-## Additional Annotations
-- skos:altLabel for synonyms then also skos:prefLabel has to be set, formating capitalized
-- skos:example if possible
-- iao:definitionSource when definition is adopted form a resource
-- addional translations are welcome
+### Additional Annotations
+- **skos:altLabel**: 
+  - Use for synonyms.
+  - Ensure skos:prefLabel is also set.
+  - **Format**: Capitalized
+- **skos:example**: Include examples if possible.
+- **iao:definitionSource**: 
+  - Use when definition is adopted from a resource.
+- Additional translations are welcome.
