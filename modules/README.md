@@ -26,10 +26,10 @@ Modules:
 - Properties: lowerCamelCase like rdfs:label [en], example: yourNewProperty; label: your new property
 
 ### Annotation Properties
-- rdfs:label: Capitalized for classes, language: en, de
+- rdfs: label: Capitalized for classes, language: en, de
 - skos:definition: aristotelian principle definition of the term, language: [en]
-- iao:IAO_0000114 (hasCurationStatus) choose according to editing status
-- iao:IAO_0000117 (term Editor) your name as responsible person,  format: "PERSON: Firstname Lastname" 
+- iao:IAO_0000114 (has curation status) choose according to editing status
+- iao:IAO_0000117 (term editor) your name as responsible person,  format: "PERSON: Firstname Lastname" 
 
 ## Additional Annotations
 - skos:altLabel for synonyms then also skos:prefLabel has to be set, formating capitalized
