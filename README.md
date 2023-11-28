@@ -1,3 +1,5 @@
+![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/shacl.yaml/badge.svg?branch=develop-3.0.0)
+
 # The PMD Core Ontology (PMDco) 
 
 This is version v3.0.0 of the PMD Core Ontology (PMDco). 
