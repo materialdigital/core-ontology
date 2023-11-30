@@ -51,6 +51,11 @@
 <http://purl.obolibrary.org/obo/OBI_0400107> owl:equivalentClass :ComputingNode .
 
 
+###  https://w3id.org/pmd/co/Bandsaw
+:Bandsaw rdf:type owl:Class ;
+         rdfs:subClassOf :Saw .
+
+
 ###  https://w3id.org/pmd/co/Caliper
 :Caliper rdf:type owl:Class ;
          rdfs:subClassOf :MeasuringDevice ;
@@ -61,6 +66,11 @@
          <http://www.w3.org/2004/02/skos/core#definition> "A measuring device having two usually adjustable arms, legs, or jaws used especially to measure the dimensions of objects, such as diameters or thicknesses"@en ,
                                                           "Messgerät mit zwei in der Regel verstellbaren Armen, Schenkeln oder Klemmbacken, das vor allem zur Messung der Abmessungen von Gegenständen, wie z. B. des Durchmessers oder der Dicke, verwendet wird"@de ;
          :definitionSource "https://www.merriam-webster.com/dictionary/caliper"@en .
+
+
+###  https://w3id.org/pmd/co/CircularSaw
+:CircularSaw rdf:type owl:Class ;
+             rdfs:subClassOf :Saw .
 
 
 ###  https://w3id.org/pmd/co/ComputingNode
@@ -74,6 +84,11 @@
 A computing system can be virtual (e.g., a container or virtual machine) or physical (e.g., a bare-metal servers), uses digital representations of objects as inputs and produces digital measurements, such as simulation results or predictions, as outputs."""@en ,
                                                                 """Ein Rechnersystem, das eine Ausführungsumgebung bspw. für Simulationsprozesse oder Vorhersagemodelle bereitstellt.
 Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine) oder physisch (z. B. ein Bare-Metal-Server) ausgestaltet sein und verwendet in der Regel digitale Repräsentationen von Objekten als Eingaben und erzeugt digitale Messungen, wie z.B. Simulationsergebnisse oder Vorhersagen, als Ausgaben."""@de .
+
+
+###  https://w3id.org/pmd/co/CutFunction
+:CutFunction rdf:type owl:Class ;
+             rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000034> .
 
 
 ###  https://w3id.org/pmd/co/DimensionMeasuringDevice
@@ -132,6 +147,32 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
        :definitionSource "https://www.merriam-webster.com/dictionary/grips"@en .
 
 
+###  https://w3id.org/pmd/co/Knife
+:Knife rdf:type owl:Class ;
+       owl:equivalentClass [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
+                                                    owl:someValuesFrom :CutFunction
+                                                  ]
+                                                ) ;
+                             rdf:type owl:Class
+                           ] ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> .
+
+
+###  https://w3id.org/pmd/co/Lasercutter
+:Lasercutter rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
+                                                          owl:someValuesFrom :CutFunction
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+             rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> .
+
+
 ###  https://w3id.org/pmd/co/LoadCell
 :LoadCell rdf:type owl:Class ;
           rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
@@ -185,6 +226,32 @@ In general but not necessarily, a manufacture node includes intrinsic analysis n
                         "Mikroskop"@de ;
              <http://www.w3.org/2004/02/skos/core#definition> "An optical instrument consisting of a lens or combination of lenses for making enlarged images of minute objects."@en ;
              :definitionSource "“Microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/microscope. Accessed 5 Dec. 2022."@en .
+
+
+###  https://w3id.org/pmd/co/Saw
+:Saw rdf:type owl:Class ;
+     owl:equivalentClass [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
+                                                  owl:someValuesFrom :CutFunction
+                                                ]
+                                              ) ;
+                           rdf:type owl:Class
+                         ] ;
+     rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> .
+
+
+###  https://w3id.org/pmd/co/Scissors
+:Scissors rdf:type owl:Class ;
+          owl:equivalentClass [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
+                                                       owl:someValuesFrom :CutFunction
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] ;
+          rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> .
 
 
 ###  https://w3id.org/pmd/co/SimulationNode
@@ -250,6 +317,19 @@ In general but not necessarily, a manufacture node includes intrinsic analysis n
               <http://www.w3.org/2004/02/skos/core#definition> "A device for measuring temperature in which a pair of wires of dissimilar metals (such as copper and iron) are joined and the free ends of the wires are connected to an instrument (such as a voltmeter) that measures the difference in potential created at the junction of the two metals."@en ,
                                                                "Ein Gerät zur Temperaturmessung, bei dem ein Paar Drähte aus unterschiedlichen Metallen (z. B. Kupfer und Eisen) verbunden und die freien Enden der Drähte mit einem Instrument (z. B. einem Voltmeter) verbunden werden, das die an der Verbindungsstelle erzeugte der beiden Metalle Potentialdifferenz misst ."@de ;
               :definitionSource "“Thermocouple.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/thermocouple. Accessed 13 Jan. 2023."@en .
+
+
+###  https://w3id.org/pmd/co/WaterjetCutter
+:WaterjetCutter rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
+                                                             owl:someValuesFrom :CutFunction
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> .
 
 
 ###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi
