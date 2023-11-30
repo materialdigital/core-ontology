@@ -8,9 +8,7 @@
 
 <https://w3id.org/pmd/co> rdf:type owl:Ontology ;
                            owl:versionIRI <https://w3id.org/pmd/co/devices/3.0.0> ;
-                           owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ,
-                                       <http://purl.obolibrary.org/obo/iao/2022-11-07/iao.owl> ,
-                                       <http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ;
+                           owl:imports <http://purl.obolibrary.org/obo/obi/2023-09-20/obi.owl> ;
                            <http://purl.org/dc/terms/created> "2023-11-17" ;
                            <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
                            <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (PMDco) - Devices Module"@en ;
@@ -33,6 +31,10 @@
 <http://purl.org/dc/terms/title> rdf:type owl:AnnotationProperty .
 
 
+###  http://www.w3.org/2004/02/skos/core#definition
+<http://www.w3.org/2004/02/skos/core#definition> rdf:type owl:AnnotationProperty .
+
+
 ###  https://w3id.org/pmd/co/definitionSource
 :definitionSource rdf:type owl:AnnotationProperty .
 
@@ -41,6 +43,14 @@
 #    Classes
 #################################################################
 
+###  http://purl.obolibrary.org/obo/OBI_0000832
+<http://purl.obolibrary.org/obo/OBI_0000832> owl:equivalentClass :MeasuringDevice .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0400107
+<http://purl.obolibrary.org/obo/OBI_0400107> owl:equivalentClass :ComputingNode .
+
+
 ###  https://w3id.org/pmd/co/Caliper
 :Caliper rdf:type owl:Class ;
          rdfs:subClassOf :MeasuringDevice ;
@@ -48,20 +58,20 @@
          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
          rdfs:label "Caliper"@en ,
                     "Messschieber"@de ;
-         <http://www.w3.org/2004/02/skos/core#definition> "any of various measuring instruments having two usually adjustable arms, legs, or jaws used especially to measure the dimensions of objects, such as diameters or thicknesses"@en ,
-                                                          "ein Messgerät mit zwei in der Regel verstellbaren Armen, Schenkeln oder Klemmbacken, das vor allem zur Messung der Abmessungen von Gegenständen, wie z. B. des Durchmessers oder der Dicke, verwendet wird"@de ;
+         <http://www.w3.org/2004/02/skos/core#definition> "A measuring device having two usually adjustable arms, legs, or jaws used especially to measure the dimensions of objects, such as diameters or thicknesses"@en ,
+                                                          "Messgerät mit zwei in der Regel verstellbaren Armen, Schenkeln oder Klemmbacken, das vor allem zur Messung der Abmessungen von Gegenständen, wie z. B. des Durchmessers oder der Dicke, verwendet wird"@de ;
          :definitionSource "https://www.merriam-webster.com/dictionary/caliper"@en .
 
 
 ###  https://w3id.org/pmd/co/ComputingNode
 :ComputingNode rdf:type owl:Class ;
-               rdfs:subClassOf :ProcessingNode ;
+               rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
                <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-               rdfs:label "Computerknoten"@de ,
-                          "Computing Node"@en ;
+               rdfs:label "Computer"@de ,
+                          "Computing Device"@en ;
                <http://www.w3.org/2004/02/skos/core#definition> """A computing system that provides an execution environment for, e.g., simulation processes or prediction models.
-A Computing Node can be virtual (e.g., a container or virtual machine) or physical (e.g., a bare-metal servers), uses digital represenations of objects as inputs and produces digital measurements, such as simulation results or predictions, as outputs."""@en ,
+A computing system can be virtual (e.g., a container or virtual machine) or physical (e.g., a bare-metal servers), uses digital representations of objects as inputs and produces digital measurements, such as simulation results or predictions, as outputs."""@en ,
                                                                 """Ein Rechnersystem, das eine Ausführungsumgebung bspw. für Simulationsprozesse oder Vorhersagemodelle bereitstellt.
 Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine) oder physisch (z. B. ein Bare-Metal-Server) ausgestaltet sein und verwendet in der Regel digitale Repräsentationen von Objekten als Eingaben und erzeugt digitale Messungen, wie z.B. Simulationsergebnisse oder Vorhersagen, als Ausgaben."""@de .
 
@@ -73,8 +83,8 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
                           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                           rdfs:label "Dimension Measuring Device"@en ,
                                      "Dimensionsmesswerkzeug"@de ;
-                          <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt allgemein jedes Werkzeug, das für die Messung der Abmessungen eines greifbaren Objekts verwendet wird, z. B. eines Messschiebers."@de ,
-                                                                           "This entity generically describes any tool that is used for the measurement of the dimensions of a tangible object, e.g., a caliper."@en .
+                          <http://www.w3.org/2004/02/skos/core#definition> "A device that is used for the measurement of the dimensions of a tangible object, e.g., a caliper."@en ,
+                                                                           "Diese Entität beschreibt allgemein jedes Werkzeug, das für die Messung der Abmessungen eines greifbaren Objekts verwendet wird, z. B. eines Messschiebers."@de .
 
 
 ###  https://w3id.org/pmd/co/ElectronMicroscope
@@ -94,13 +104,13 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
               <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
               rdfs:label "Extensometer"@en ;
-              <http://www.w3.org/2004/02/skos/core#definition> "An instrument for measuring minute deformations of test specimens caused by tension, compression, bending, or twisting."@en ;
+              <http://www.w3.org/2004/02/skos/core#definition> "A device for measuring minute deformations of test specimens caused by tension, compression, bending, or twisting."@en ;
               :definitionSource "“Extensometer.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/extensometer. Accessed 5 Dec. 2022."@en .
 
 
 ###  https://w3id.org/pmd/co/Furnace
 :Furnace rdf:type owl:Class ;
-         rdfs:subClassOf :ProcessingNode ;
+         rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
          <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
          rdfs:label "Furnace"@en ,
@@ -112,19 +122,19 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
 ###  https://w3id.org/pmd/co/Grips
 :Grips rdf:type owl:Class ;
-       rdfs:subClassOf :ProcessingNode ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
        <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
        rdfs:label "Grips"@en ,
                   "Halterungsklemmen"@de ;
-       <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt ein Bauelement / Teil, mit dem etwas, normalerweise ein materielles Objekt, fest gegriffen oder eingespannt wird. Typischerweise sind Halterungen, Klemm- bzw. Spannsysteme Teil eines Befestigungssystems (Prozessknoten), das sich auf ein Prüfsystem bezieht."@de ,
-                                                        "This entity describes a part by which something, usually a tangible object, is grasped. Typically, grips are part of a mounting system (processing node) referring to a testing system."@en ;
+       <http://www.w3.org/2004/02/skos/core#definition> "Diese Gerät beschreibt ein Bauelement / Teil, mit dem etwas, normalerweise ein materielles Objekt, fest gegriffen oder eingespannt wird. Typischerweise sind Halterungen, Klemm- bzw. Spannsysteme Teil eines Befestigungssystems (Prozessknoten), das sich auf ein Prüfsystem bezieht."@de ,
+                                                        "This device is a part by which something, usually a tangible object, is grasped. Typically, grips are part of a mounting system (processing node) referring to a testing system."@en ;
        :definitionSource "https://www.merriam-webster.com/dictionary/grips"@en .
 
 
 ###  https://w3id.org/pmd/co/LoadCell
 :LoadCell rdf:type owl:Class ;
-          rdfs:subClassOf :ProcessingNode ;
+          rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
           rdfs:label "Kraftmessdose"@de ,
@@ -135,18 +145,18 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
 ###  https://w3id.org/pmd/co/ManufacturingNode
 :ManufacturingNode rdf:type owl:Class ;
-                   rdfs:subClassOf :ProcessingNode ;
+                   rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
                    <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                   rdfs:label "Herstellungsknoten"@de ,
-                              "Manufacturing Node"@en ;
+                   rdfs:label "Herstellungsgerät"@de ,
+                              "Manufacturing Device"@en ;
                    <http://www.w3.org/2004/02/skos/core#definition> """A processing node that implements transformative processes as well as consumes and creates tangible objects and typically requires inputs
 In general but not necessarily, a manufacture node includes intrinsic analysis nodes that create corresponding measurements with respect to the process implemented by the manufacture node."""@en .
 
 
 ###  https://w3id.org/pmd/co/MeasuringDevice
 :MeasuringDevice rdf:type owl:Class ;
-                 rdfs:subClassOf :ProcessingNode ;
+                 rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
                  <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                  rdfs:label "Measuring Device"@en ,
@@ -161,14 +171,14 @@ In general but not necessarily, a manufacture node includes intrinsic analysis n
                  rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                  rdfs:label "Bügelmessschraube"@de ,
                             "Micrometer Gauge"@en ;
-                 <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt ein Werkzeug zur Durchführung präziser Messungen mit einer Spindel, die durch eine Feingewindeschraube bewegt wird."@de ,
-                                                                  "This entity describes a tool for making precise measurements having a spindle moved by a finely threaded screw."@en ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "A measuring device for making precise measurements having a spindle moved by a finely threaded screw."@en ,
+                                                                  "Diese Entität beschreibt ein Werkzeug zur Durchführung präziser Messungen mit einer Spindel, die durch eine Feingewindeschraube bewegt wird."@de ;
                  :definitionSource "https://www.merriam-webster.com/dictionary/micrometer%20caliper"@en .
 
 
 ###  https://w3id.org/pmd/co/Micropscope
 :Micropscope rdf:type owl:Class ;
-             rdfs:subClassOf :ProcessingNode ;
+             rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
              <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Microscope"@en ,
@@ -177,32 +187,19 @@ In general but not necessarily, a manufacture node includes intrinsic analysis n
              :definitionSource "“Microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/microscope. Accessed 5 Dec. 2022."@en .
 
 
-###  https://w3id.org/pmd/co/ProcessingNode
-:ProcessingNode rdf:type owl:Class ;
-                rdfs:comment """Curation Advice!!!
-
-For each ProcessingNode:  
-Create classes for functions, dispositions, roles of the node in the BFO hierarchy.
-
-Define the device according to Rector Normalization: 
-https://douroucouli.wordpress.com/2019/06/29/ontotip-learn-the-rector-normalization-technique/
-
-E.g.  Furnace === Device and hasFunction some HeatingFunction""" .
-
-
 ###  https://w3id.org/pmd/co/SimulationNode
 :SimulationNode rdf:type owl:Class ;
                 rdfs:subClassOf :ComputingNode ;
                 <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                rdfs:label "Simulation Node"@en ,
+                rdfs:label "Simulation Device"@en ,
                            "Simulationsknoten"@de ;
                 <http://www.w3.org/2004/02/skos/core#definition> "A processing node that implements foo as well as consumes and creates simulation objects and parameters."@en .
 
 
 ###  https://w3id.org/pmd/co/Slide
 :Slide rdf:type owl:Class ;
-       rdfs:subClassOf :ProcessingNode ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
        <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
        rdfs:label "Schlitten"@de ,
@@ -212,13 +209,13 @@ E.g.  Furnace === Device and hasFunction some HeatingFunction""" .
 
 ###  https://w3id.org/pmd/co/TemperatureChangeDevice
 :TemperatureChangeDevice rdf:type owl:Class ;
-                         rdfs:subClassOf :TemperatureMeasuringDevice ;
+                         rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
                          <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
                          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                          rdfs:label "Temperature Change Device"@en ,
                                     "Temperaturänderungswerkzeug"@de ;
-                         <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt allgemein jedes Werkzeug, das zur Änderung und Einstellung der Temperatur eines materiellen Objekts oder der Umgebung verwendet wird, z. B. einen Ofen und Kühlmittel."@de ,
-                                                                          "This entity generically describes any tool that is used for the alteration and adjustment of the temperature of a tangible object or the environment, e.g., a furnace and cooling media."@en .
+                         <http://www.w3.org/2004/02/skos/core#definition> "A device that is used for the alteration and adjustment of the temperature of a tangible object or the environment, e.g., a furnace and cooling media."@en ,
+                                                                          "Diese Entität beschreibt allgemein jedes Werkzeug, das zur Änderung und Einstellung der Temperatur eines materiellen Objekts oder der Umgebung verwendet wird, z. B. einen Ofen und Kühlmittel."@de .
 
 
 ###  https://w3id.org/pmd/co/TemperatureMeasuringDevice
@@ -228,19 +225,19 @@ E.g.  Furnace === Device and hasFunction some HeatingFunction""" .
                             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                             rdfs:label "Temperature Measuring Device"@en ,
                                        "Temperaturmesswerkzeug"@de ;
-                            <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt allgemein jedes Werkzeug, das zur Messung der Temperatur eines materiellen Objekts oder der Umgebung verwendet wird, z. B. ein Thermoelement und Thermometer."@de ,
-                                                                             "This entity generically describes any tool that is used for the measurement of the temperature of a tangible object or the environment, e.g., a thermocouple and thermometers."@en .
+                            <http://www.w3.org/2004/02/skos/core#definition> "A device that is used for the measurement of the temperature of a tangible object or the environment, e.g., a thermocouple and thermometers."@en ,
+                                                                             "Diese Entität beschreibt allgemein jedes Werkzeug, das zur Messung der Temperatur eines materiellen Objekts oder der Umgebung verwendet wird, z. B. ein Thermoelement und Thermometer."@de .
 
 
 ###  https://w3id.org/pmd/co/TestingMachine
 :TestingMachine rdf:type owl:Class ;
-                rdfs:subClassOf :ProcessingNode ;
+                rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
                 <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                 rdfs:label "Prüfmaschine"@de ,
-                           "Testing Machine" ;
-                <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt einen Prozessknoten, der für die Durchführung eines bestimmten Tests verwendet wird. Eine Prüfmaschine kann technisch komplex sein und aus mehreren Teilen bestehen."@de ,
-                                                                 "This entity describes a processing node that is used to perform a defined test. A testing machine may be technically complex and contain several parts."@en .
+                           "Testing Machine"@en ;
+                <http://www.w3.org/2004/02/skos/core#definition> "A device that is used to perform a defined test. A testing machine may be technically complex and contain several parts."@en ,
+                                                                 "Ein Gerät, das für die Durchführung eines bestimmten Tests verwendet wird. Eine Prüfmaschine kann technisch komplex sein und aus mehreren Teilen bestehen."@de .
 
 
 ###  https://w3id.org/pmd/co/Thermocouple
