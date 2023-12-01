@@ -239,11 +239,14 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
 ###  https://w3id.org/pmd/co/HandheldCircularSaw
 :HandheldCircularSaw rdf:type owl:Class ;
-                     owl:equivalentClass [ rdf:type owl:Restriction ;
-                                           owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
-                                           owl:someValuesFrom :HandHeldDeviceRole
-                                         ] ;
-                     rdfs:subClassOf :CircularSaw ;
+                     rdfs:subClassOf [ owl:intersectionOf ( :CircularSaw
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                              owl:someValuesFrom :HandHeldDeviceRole
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
                      <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
                      <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
                      rdfs:label "Hand Circular Saw"@en ,
@@ -254,15 +257,14 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
 ###  https://w3id.org/pmd/co/Handsaw
 :Handsaw rdf:type owl:Class ;
-         owl:equivalentClass [ owl:intersectionOf ( :Saw
-                                                    [ rdf:type owl:Restriction ;
-                                                      owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
-                                                      owl:someValuesFrom :HandHeldDeviceRole
-                                                    ]
-                                                  ) ;
-                               rdf:type owl:Class
-                             ] ;
-         rdfs:subClassOf :Saw ;
+         rdfs:subClassOf [ owl:intersectionOf ( :Saw
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                  owl:someValuesFrom :HandHeldDeviceRole
+                                                ]
+                                              ) ;
+                           rdf:type owl:Class
+                         ] ;
          <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
          <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
          rdfs:label "Handsaw"@en ,
