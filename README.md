@@ -1,6 +1,6 @@
 # The PMD Core Ontology (PMDco) 
 
-This is version [v2.0.7](https://github.com/materialdigital/core-ontology/releases/tag/v2.0.6) of the PMD Core Ontology (PMDco). 
+This is version [v2.0.7](https://github.com/materialdigital/core-ontology/releases/tag/v2.0.7) of the PMD Core Ontology (PMDco). 
 
 Files: 
  - ```pmd_core.ttl```    core version of the PMD ontology
