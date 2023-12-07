@@ -1347,8 +1347,8 @@ Note: Optical extensometry may require a specific data storage method."""@en ,
        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
        rdfs:label "Grips"@en ,
                   "Halterungsklemmen"@de ;
-       <http://www.w3.org/2004/02/skos/core#definition> "Diese Entität beschreibt ein Bauelement / Teil, mit dem etwas, normalerweise ein materielles Objekt, fest gegriffen oder eingespannt wird. Typischerweise sind Halterungen, Klemm- bzw. Spannsysteme Teil eines Befestigungssystems (Prozessknoten), das sich auf ein Prüfsystem bezieht."@de ,
-                                                        "This entity describes a part by which something, usually a tangible object, is grasped. Typically, grips are part of a mounting system (processing node) referring to a testing system."@en ;
+       <http://www.w3.org/2004/02/skos/core#definition> "A compontent that describes a part by which something, usually a tangible object, is grasped. Typically, grips are part of a mounting system (processing node) referring to a testing system."@en ,
+                                                        "Diese Entität beschreibt ein Bauelement / Teil, mit dem etwas, normalerweise ein materielles Objekt, fest gegriffen oder eingespannt wird. Typischerweise sind Halterungen, Klemm- bzw. Spannsysteme Teil eines Befestigungssystems (Prozessknoten), das sich auf ein Prüfsystem bezieht."@de ;
        :definitionSource "https://www.merriam-webster.com/dictionary/grips"@en .
 
 
@@ -2370,7 +2370,7 @@ Specifically : a function that yields the mean value of a random variable under 
        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
        rdfs:label "Schlitten"@de ,
                   "Slide"@en ;
-       <http://www.w3.org/2004/02/skos/core#definition> "A moving piece that is guided by a part along its path, providing the mount for objects."@en .
+       <http://www.w3.org/2004/02/skos/core#definition> "A moving component that is guided by a part along its path, providing the mount for objects."@en .
 
 
 ###  https://w3id.org/pmd/co/Specimen
@@ -2654,15 +2654,15 @@ Anmerkung: Mit dem Begriff Spannung ist hier die technische Spannung ('Ingenieur
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Value Object"@en ,
                         "Wertobjekt"@de ;
-             <http://www.w3.org/2004/02/skos/core#definition> """A :ValueObject is a simple entity which represents a specific value. This value can be a numerical, textual, or a more complex data structure. If a literal value is to be specified, the :value datatype property has to be used. In cases where the value is represented by a resource (e.g. URI), the :resource object property has to be used.
+             <http://www.w3.org/2004/02/skos/core#definition> """A :ValueObject is an entity which represents a specific value. This value can be a numerical, textual, or a more complex data structure. If a literal value is to be specified, the :value datatype property has to be used. In cases where the value is represented by a resource (e.g. URI), the :resource object property has to be used.
 
-A value object, respectively its value, is always associated with an entity of type :Process, :ProcessingNode, or :Object (e.g. :Specimen). The value is meant to be a charactaristic of the associated entity. To express this association it is indended to use the :participant object property.
+A value object, respectively its value, is always associated with an entity of type :Process, :ProcessingNode, :Object (e.g. :Specimen), or other :ValueObject. The value is meant to be a charactaristic of the associated entity. To express this association it is indended to use the :characteristic object property if the value decribes some \"quality\", or the :participant (:input,:output) if it is participating a process.
 
-A value object might also refer to a certain unit. The :unit property might be used (e.g. with QUDT ontology).
+A value object might also refer to a unit. The :unit property might be used (e.g. with QUDT ontology).
 
-Instances of a value object might be specified as a specific Parameter, namely a SetPoint (nominal value), or Measurement. With :Setpoint the intend is to express, that the value is meant to be some preset, setting or nominal value. :Measurement expresses, that the value has been measured or determined somehow (see example).
+Instances of a value object might also be a type of :ValueScope, namely a :SetPoint (nominal value), or :Measurement (measured value). With :Setpoint the intend is to express, that the value is meant to be some preset, setting or nominal value. :Measurement expresses, that the value has been measured or determined somehow (see example).
 
-Instances of a value object might also be specified in a specific DataScope (:Metadata, :PrimaryData, :SecondaryData)."""@en ;
+Instances of a value object might also be specified in a specific :DataScope (:Metadata, :PrimaryData, :SecondaryData)."""@en ;
              <http://www.w3.org/2004/02/skos/core#example> """- the length of a specimen
 - the model number of a machine
 - a person involved in a process
@@ -2674,7 +2674,7 @@ ex:vo1 a :PrimaryData .
 ex:vo1 :unit qudt:MilliM . 
 ex:vo1 :value \"123.45\"
 ex:p1 a :LengthMeasuringProcess .
-ex:p1 :characteristic ex:vo1 ."""@en ,
+ex:p1 :output ex:vo1 ."""@en ,
                                                            "The length of a specimen, which has been measured as primary data. Its actual value is 123.45 millimeters."@en .
 
 
@@ -3133,4 +3133,4 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
                                          ]
  ] .
 
-###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
+###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi
