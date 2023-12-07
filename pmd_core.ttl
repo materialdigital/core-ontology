@@ -4,7 +4,7 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <https://w3id.org/pmd/co/> .
+@base <https://w3id.org/pmd/co> .
 
 <https://w3id.org/pmd/co> rdf:type owl:Ontology ;
                            owl:versionIRI <https://w3id.org/pmd/co/2.0.7> ;
@@ -122,6 +122,14 @@
 <http://www.w3.org/2004/02/skos/core#prefLabel> rdf:type owl:AnnotationProperty .
 
 
+###  http://www.w3.org/ns/prov#constraints
+<http://www.w3.org/ns/prov#constraints> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#editorialNote
+<http://www.w3.org/ns/prov#editorialNote> rdf:type owl:AnnotationProperty .
+
+
 ###  https://w3id.org/pmd/co/abbreviation
 :abbreviation rdf:type owl:AnnotationProperty ;
               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
@@ -169,6 +177,30 @@
 <http://www.w3.org/ns/oa#hasSource> rdf:type owl:ObjectProperty ;
                                     rdfs:subPropertyOf owl:topObjectProperty ;
                                     rdfs:isDefinedBy <http://www.w3.org/ns/oa#> .
+
+
+###  http://www.w3.org/ns/prov#generated
+<http://www.w3.org/ns/prov#generated> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/prov#used
+<http://www.w3.org/ns/prov#used> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/prov#wasAssociatedWith
+<http://www.w3.org/ns/prov#wasAssociatedWith> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/prov#wasDerivedFrom
+<http://www.w3.org/ns/prov#wasDerivedFrom> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/prov#wasInformedBy
+<http://www.w3.org/ns/prov#wasInformedBy> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/prov#wasUsedBy
+<http://www.w3.org/ns/prov#wasUsedBy> rdf:type owl:ObjectProperty .
 
 
 ###  https://w3id.org/pmd/co/belongsToProject
@@ -237,7 +269,9 @@ As a prepositional phrase, it indicates the elements, parts, or components that 
           rdfs:range :Object ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
           rdfs:label "composes"@en ;
-          <http://www.w3.org/2004/02/skos/core#definition> """This property is used to describe the fact that and which objects compose other objects, i.e. it is used to describe the specific constituents or ingredients forming a particular entity or object. 
+          <http://www.w3.org/2004/02/skos/core#definition> """Diese Eigenschaft wird verwendet, um die Tatsache zu beschreiben, dass und welche Objekte andere Objekte zusammensetzen, d. h. sie wird verwendet, um die spezifischen Bestandteile oder Zutaten zu beschreiben, aus denen ein bestimmtes Gebilde oder Objekt besteht. 
+Als Präpositionalphrase bezeichnet sie die Elemente, Teile oder Komponenten, aus denen sich ein anderes Objekt zusammensetzt."""@de ,
+                                                           """This property is used to describe the fact that and which objects compose other objects, i.e. it is used to describe the specific constituents or ingredients forming a particular entity or object. 
 As a prepositional phrase, it indicates the elements, parts, or components that make up a whole of another object."""@en .
 
 
@@ -568,6 +602,30 @@ Examples for rdsf:range are units from qudt or wikidata or own defindes units.""
 <http://www.w3.org/ns/oa#FragmentSelector> rdf:type owl:Class ;
                                            rdfs:label "Fragment Selector"@en ;
                                            <http://www.w3.org/2004/02/skos/core#example> <http://www.w3.org/ns/oa#> .
+
+
+###  http://www.w3.org/ns/prov#Activity
+<http://www.w3.org/ns/prov#Activity> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/prov#Agent
+<http://www.w3.org/ns/prov#Agent> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/prov#Entity
+<http://www.w3.org/ns/prov#Entity> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/prov#Organization
+<http://www.w3.org/ns/prov#Organization> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/prov#Person
+<http://www.w3.org/ns/prov#Person> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/prov#Role
+<http://www.w3.org/ns/prov#Role> rdf:type owl:Class .
 
 
 ###  https://w3id.org/pmd/co/AccreditationDocument
@@ -901,7 +959,8 @@ ex:vo4 pmd:resource pmd:NotDetected .""" ;
            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
            rdfs:label "Component"@en ,
                       "Komponente"@de ;
-           <http://www.w3.org/2004/02/skos/core#definition> "An object that serves a specific technical application. Constituent part of a compound of parts that builds a technical application"@en .
+           <http://www.w3.org/2004/02/skos/core#definition> "An object that serves a specific technical application. Constituent part of a compound of parts that builds a technical application."@en ,
+                                                            "Ein Objekt, das einer bestimmten technischen Anwendung dient. Bestandteil einer Zusammensetzung von Teilen, die eine technische Anwendung bilden."@de .
 
 
 ###  https://w3id.org/pmd/co/ComputingNode
@@ -1027,7 +1086,8 @@ also : a representation of such a cutting."""@en ;
            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
            rdfs:label "Data Scope"@en ,
                       "Datenkategorie"@de ;
-           <http://www.w3.org/2004/02/skos/core#definition> "This class is used to categorize data with respect to their intended usage in accordance with a regarded object or process."@en .
+           <http://www.w3.org/2004/02/skos/core#definition> "Die Entität Datenkategorie dient der Kategorisierung von Daten im Hinblick auf ihren Verwendungszweck in Übereinstimmung mit einem betrachteten Objekt oder Prozess."@de ,
+                                                            "The Entity DataScope is used to categorize data with regard to its intended use in accordance with an object or process under consideration."@en .
 
 
 ###  https://w3id.org/pmd/co/Dataset
@@ -1086,8 +1146,8 @@ also : a representation of such a cutting."""@en ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Beschreibung"@de ,
                         "Description"@en ;
-             <http://www.w3.org/2004/02/skos/core#definition> "Ein beschreibender Text, der die Natur / Beschaffenheit / Informationen zu einer Entität qualifiziert (z.B. Aktivitäten, Entitäten, Objekten, ...)."@de ,
-                                                              "A descriptive text qualifying the nature of a thing (e.g. agent, activity, entity, object, ...)." .
+             <http://www.w3.org/2004/02/skos/core#definition> "A descriptive text qualifying the nature of a thing (e.g. agent, activity, entity, object, ...)." ,
+                                                              "Ein beschreibender Text, der die Natur / Beschaffenheit / Informationen zu einer Entität qualifiziert (z.B. Aktivitäten, Entitäten, Objekten, ...)."@de .
 
 
 ###  https://w3id.org/pmd/co/Diameter
@@ -1682,7 +1742,10 @@ E.g. \"steel\", \"aluminium\", \"wood\", \"plastic\", \"rubber\".""" ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Measurement"@en ,
                         "Messwert"@de ;
-             <http://www.w3.org/2004/02/skos/core#definition> "Measurement is the quantification of attributes of an object or event, which can be used to compare with other objects or events."@en ;
+             <http://www.w3.org/2004/02/skos/core#definition> """Die Wertekategorie Messung ermöglicht die Kategorisierung von ValueObjects als gemessen.
+Messung ist die Quantifizierung von Eigenschaften eines Objekts oder Ereignisses, die zum Vergleich mit anderen Objekten oder Ereignissen verwendet werden können."""@de ,
+                                                              """The ValueScope category Measurement enables the categorization of ValueObjects as measured.
+Measurement is the quantification of attributes of an object or event, which can be used to compare with other objects or events."""@en ;
              :definitionSource "https://en.wikipedia.org/wiki/Measurement"@en .
 
 
@@ -1753,7 +1816,8 @@ E.g. \"steel\", \"aluminium\", \"wood\", \"plastic\", \"rubber\".""" ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
           rdfs:label "Metadata"@en ,
                      "Metadaten"@de ;
-          <http://www.w3.org/2004/02/skos/core#definition> "Attributes and additional data (provenance) concerning the factory, laboratory, the process system and the objects which allow the evaluation of the quality / reliability of the measurements and a systematic search task of a database."@en .
+          <http://www.w3.org/2004/02/skos/core#definition> "Die DataScope Metadaten umfassen Attribute und zusätzliche Daten (Provenienz), die z.B. die Fabrik, das Labor, das Prozesssystem und die Objekte betreffen und die eine Bewertung der Qualität / Zuverlässigkeit der Messungen und eine systematische Suche in einer Datenbank ermöglichen."@de ,
+                                                           "The DataScope Metadata covers attributes and additional data (provenance) concerning e.g., the factory, laboratory, the process system, and the objects which allow the evaluation of the quality / reliability of the measurements and a systematic search task of a database."@en .
 
 
 ###  https://w3id.org/pmd/co/MetallicBond
@@ -2069,8 +2133,8 @@ Anmerkung: Die Extensometer-Dehnung wird oftmals auch als technische Dehnung bez
              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
              rdfs:label "Primary Data"@en ,
                         "Primärdaten"@de ;
-             <http://www.w3.org/2004/02/skos/core#definition> "Data acquired before / after a process either refering to the geometry of the object (e.g. ao, bo, do, au, bu, du, Lu) or as a register of the complete setup (e.g. sketches, photos or videos)"@en ,
-                                                              "Data directly acquired during a process by sensors (time, force, length, temperature)"@en .
+             <http://www.w3.org/2004/02/skos/core#definition> "Die Datenkategorie Primärdaten umfasst Daten, die vor / nach einem Prozess erfasst werden, entweder bezogen auf die Geometrie des Objekts (z.B. ao, bo, do, au, bu, du, Lu) oder als Register des gesamten Aufbaus (z.B. Skizzen, Fotos oder Videos)"@de ,
+                                                              "The DataScope PrimaryData covers data acquired before / after a process either refering to the geometry of the object (e.g. ao, bo, do, au, bu, du, Lu) or as a register of the complete setup (e.g. sketches, photos or videos)"@en .
 
 
 ###  https://w3id.org/pmd/co/Process
@@ -2303,7 +2367,8 @@ Specifically : a function that yields the mean value of a random variable under 
                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                rdfs:label "Secondary Data"@en ,
                           "Sekundärdaten"@de ;
-               <http://www.w3.org/2004/02/skos/core#definition> "Characteristic values (e.g. test results) determined by equations or algorithms using primary data and metadata for a process"@en .
+               <http://www.w3.org/2004/02/skos/core#definition> "Der Datenkategorie Sekundärdaten umfasst Werte (z. B. Testergebnisse), die durch Gleichungen oder Algorithmen unter Verwendung von Primärdaten und Metadaten ermittelt werden."@de ,
+                                                                "The DataScope SecondaryData covers values (e.g. test results) determined by equations or algorithms using primary data and metadata."@en .
 
 
 ###  https://w3id.org/pmd/co/SemiCrystallineStructure
@@ -2331,10 +2396,9 @@ Specifically : a function that yields the mean value of a random variable under 
           rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
           rdfs:label "Set Point"@en ,
                      "Sollwert"@de ;
-          <http://www.w3.org/2004/02/skos/core#definition> "In cybernetics and control theory, a setpoint (SP;[1] also set point) is the desired or target value for an essential variable, or process value (PV) of a control system."@en ,
-                                                           "Sollwert bezeichnet allgemein den angestrebten Wert eines quantitativen Merkmales eines Systems, von dem der tatsächliche Istwert so wenig wie möglich abweichen soll. Der Sollwert wird von einem anderen System (z. B. Technik, Mensch) vorgegeben."@de ;
-          :definitionSource "https://de.wikipedia.org/wiki/Sollwert"@de ,
-                            "https://en.wikipedia.org/wiki/Setpoint_(control_system)"@en .
+          <http://www.w3.org/2004/02/skos/core#definition> "Die Wertekategorie Sollwert bezeichnet allgemein den gewünschten Wert eines quantitativen Merkmals eines Systems, von dem der Istwert möglichst wenig abweichen soll."@de ,
+                                                           "The ValueScope Setpoint generally refers to the desired value of a quantitative characteristic of a system, from which the actual value should deviate as little as possible."@en ;
+          :definitionSource "https://de.wikipedia.org/wiki/Sollwert"@de .
 
 
 ###  https://w3id.org/pmd/co/Shape
@@ -2686,8 +2750,8 @@ ex:p1 :characteristic ex:vo1 ."""@en ,
             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
             rdfs:label "Value Scope"@en ,
                        "Wertekategorie"@de ;
-            <http://www.w3.org/2004/02/skos/core#definition> "Any of a set of physical properties whose values determine the characteristics or behavior of something."@en ;
-            :definitionSource "“Parameter.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/parameter. Accessed 25 Nov. 2022."@en .
+            <http://www.w3.org/2004/02/skos/core#definition> "An entity that makes it possible to add categorization to \"ValueObjects\"."@en ,
+                                                             "Eine Entität, die es ermöglicht \"ValueObjects\" zusätzlich zu kategorisieren."@de .
 
 
 ###  https://w3id.org/pmd/co/VanderwaalsBond
@@ -2718,7 +2782,6 @@ ex:p1 :characteristic ex:vo1 ."""@en ,
                   "Voxel"@en ;
        <http://www.w3.org/2004/02/skos/core#definition> """An element representing a value on a grid in three dimensional space.
 In PMD, an infinitesimal part of an object which is made of a homogenuous material. Size depends on the observed material level. For now, geometrically, a cubus is assumed.
-Made of a material
 Different Voxels can have different material properties and material structure
 A (partial) logical object that describes (a part of) a physical object"""@en .
 
@@ -3135,4 +3198,4 @@ Hier wird es als eine Einheit von gezählten Pixeln bezeichnet. (Es handelt sich
                                          ]
  ] .
 
-###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
