@@ -18,6 +18,10 @@ The properties define the domain as 'planned process'. Both are sub property of 
 
 A typical process can have any number of inputs and outputs or neither.
 
+## Visualization
+The following image shows some manufacturing process with multiple inputs and outputs.
+
+<img src="https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/patterns/pattern1.png?raw=true" alt="pattern1 image" width="750"/>
 
 ## Shapes and example data
 [../shapes/shape1-data.ttl)](../shapes/shape1-data.ttl)
