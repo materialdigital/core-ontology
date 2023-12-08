@@ -154,6 +154,8 @@
 
 ###  http://purl.obolibrary.org/obo/RO_0000087
 <http://purl.obolibrary.org/obo/RO_0000087> rdf:type owl:ObjectProperty ;
+                                            rdfs:domain <http://www.w3.org/ns/prov#Agent> ;
+                                            rdfs:range <http://www.w3.org/ns/prov#Role> ;
                                             rdfs:label "has role"@en .
 
 
@@ -1134,12 +1136,19 @@ also : a representation of such a cutting."""@en ;
             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
             rdfs:label "Abteilung"@de ,
                        "Department"@en ;
-            <http://www.w3.org/2004/02/skos/core#definition> "A sub section of an organization [FIXME]"@en .
+            <http://www.w3.org/2004/02/skos/core#definition> "A sub section of an organization."@en .
 
 
 ###  https://w3id.org/pmd/co/DepartmentRole
 :DepartmentRole rdf:type owl:Class ;
-                rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
+                rdfs:subClassOf <http://www.w3.org/ns/prov#Role> ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty [ owl:inverseOf <http://purl.obolibrary.org/obo/RO_0000087>
+                                                 ] ;
+                                  owl:someValuesFrom <http://www.w3.org/ns/prov#Organization>
+                                ] ;
+                rdfs:label "Department Role"@en ,
+                           "A role indication that an organization is a sub section of another organization." .
 
 
 ###  https://w3id.org/pmd/co/Description
@@ -1503,7 +1512,9 @@ Note: Optical extensometry may require a specific data storage method."""@en ,
 
 ###  https://w3id.org/pmd/co/InitiatorRole
 :InitiatorRole rdf:type owl:Class ;
-               rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
+               rdfs:subClassOf <http://www.w3.org/ns/prov#Role> ;
+               <http://www.w3.org/2004/02/skos/core#definition> "A role indicating that its bearer has inititated a process."@en ,
+                                                                "Initiator Role"@en .
 
 
 ###  https://w3id.org/pmd/co/InsertSurface
@@ -1558,7 +1569,14 @@ Note: Optical extensometry may require a specific data storage method."""@en ,
 
 ###  https://w3id.org/pmd/co/LaboratoryRole
 :LaboratoryRole rdf:type owl:Class ;
-                rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
+                rdfs:subClassOf <http://www.w3.org/ns/prov#Role> ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty [ owl:inverseOf <http://purl.obolibrary.org/obo/RO_0000087>
+                                                 ] ;
+                                  owl:someValuesFrom <http://www.w3.org/ns/prov#Organization>
+                                ] ;
+                rdfs:label "Laboratory Role"@en ;
+                <http://www.w3.org/2004/02/skos/core#definition> "A role indicating that an organization participates in a process as laboratory."@de .
 
 
 ###  https://w3id.org/pmd/co/Length
@@ -1651,7 +1669,9 @@ Note: Optical extensometry may require a specific data storage method."""@en ,
 
 ###  https://w3id.org/pmd/co/ManufacturerRole
 :ManufacturerRole rdf:type owl:Class ;
-                  rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
+                  rdfs:subClassOf <http://www.w3.org/ns/prov#Role> ;
+                  rdfs:label "Manufacturer Role"@en ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "A role indicating that its bearer is a manufacturer. The role is realized in a manufacturing process."@en .
 
 
 ###  https://w3id.org/pmd/co/ManufacturingNode
@@ -2033,7 +2053,9 @@ Note: It is recommended to report the value in GPa rounded to the nearest 0.1 GP
 
 ###  https://w3id.org/pmd/co/OperatorRole
 :OperatorRole rdf:type owl:Class ;
-              rdfs:subClassOf <http://www.w3.org/ns/prov#Role> .
+              rdfs:subClassOf <http://www.w3.org/ns/prov#Role> ;
+              rdfs:label "Operator Role"@en ;
+              <http://www.w3.org/2004/02/skos/core#definition> "A role indicating that its bearer participates a process as operator."@en .
 
 
 ###  https://w3id.org/pmd/co/Optical
