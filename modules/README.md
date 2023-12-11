@@ -60,3 +60,14 @@ Modules:
 - **iao:IAO_0000119 (definition source)**: 
   - Use when definition is adopted from a resource.
 - Additional translations are welcome.
+
+
+## PMDco-Qualities features
+
+- subclass hierarchy to [bfo:Quality](http://purl.obolibrary.org/obo/BFO_0000019) categorizing to biological, chemical, pyhsical and performance qualities 
+- a lot of mechanical qualities as subclasses of morphological quality
+- reuse of pato size, shape, texture, structure, color, odor and spatial pattern as morphological qualities (curate_qualities.ipynb)
+- reuse of organismal qualities and cellular qualities as subclass of biological quality  (curate_qualities.ipynb)
+- translations to german for 856 trough text-davinci-003 model (curate_qualities.ipynb), and personally revised
+
+curently 991, terms 857 [pato](https://obofoundry.org/ontology/pato.html) terms referenced with [Imported From](http://purl.obolibrary.org/obo/IAO_0000412)
