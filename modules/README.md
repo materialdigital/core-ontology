@@ -59,6 +59,8 @@ Modules:
 - **skos:example**: Include examples if possible.
 - **iao:IAO_0000119 (definition source)**: 
   - Use when definition is adopted from a resource.
+- **iao:IAO_0000412 (imported from)**: 
+  - Use when definition is imported from existing ontology concept.
 - Additional translations are welcome.
 
 
