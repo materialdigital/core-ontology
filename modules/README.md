@@ -29,9 +29,10 @@ Modules:
 ### Classes
 - **Naming Convention**: Use UpperCamelCase (e.g., `YourSuperNewTerm`).
 - **rdfs:label**: 
-  - **Format**: Capitalized
+  - **Format**: Entitled
   - **Example**: "Your Super New Term"
   - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
+- **Processes**: Use Gerund (e.g., `Cutting`)
 
 ### Properties
 - **Naming Convention**: Use lowerCamelCase (e.g., `yourNewProperty`).
@@ -41,9 +42,6 @@ Modules:
   - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
 
 ### Annotation Properties
-- **rdfs:label**: 
-  - **For Classes**: Capitalized
-  - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
 - **skos:definition**: 
   - **Content**: Aristotelian principle definition of the term
   - **Language**: `en` for English
@@ -51,7 +49,7 @@ Modules:
 - **iao:IAO_0000117 (term editor)**: 
   - **Format**: "PERSON: Firstname Lastname" (as responsible person)
 
-### Additional Annotations
+## Additional Annotations
 - **skos:altLabel**: 
   - Use for synonyms.
   - Ensure skos:prefLabel is also set.
