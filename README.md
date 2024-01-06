@@ -17,8 +17,21 @@ If you like to contribute, please feel free to add any issues or participate in 
 ## Citation
 When using the PMD Core Ontology (PMDco), please cite the following publication, which provides comprehensive details and the foundational rationale behind the development of this ontology:
 
-Bayerlein, B., Schilling, M., Birkholz, H., Jung, M., Waitelonis, J., Mädler, L., Sack, H.:  
-"PMD Core Ontology: Achieving Semantic Interoperability in Materials Science,"  
+*B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.*
+
+Bibtex:
+```
+@article{BAYERLEIN2024,
+  title = {PMD Core Ontology: Achieving semantic interoperability in materials science},
+  journal = {Materials & Design},
+  volume = {237},
+  pages = {112603},
+  year = {2024},
+  issn = {0264-1275},
+  doi = {https://doi.org/10.1016/j.matdes.2023.112603},
+  author = {Bernd Bayerlein and Markus Schilling and Henk Birkholz and Matthias Jung and Jörg Waitelonis and Lutz Mädler and Harald Sack}
+}
+```
 available at: [Materials & Design](https://doi.org/10.1016/j.matdes.2023.112603).
   
 This publication offers valuable insights into the design, application, and significance of the PMDco, making it an essential reference for users and contributors.
