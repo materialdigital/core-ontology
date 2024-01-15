@@ -22,14 +22,14 @@ When using the PMD Core Ontology (PMDco), please cite the following publication,
 Bibtex:
 ```
 @article{BAYERLEIN2024,
-  title = {PMD Core Ontology: Achieving semantic interoperability in materials science},
-  journal = {Materials & Design},
+  title = {{PMD} {C}ore {O}ntology: {A}chieving semantic interoperability in materials science},
+  journal = {Materials \& Design},
   volume = {237},
   pages = {112603},
   year = {2024},
   issn = {0264-1275},
   doi = {https://doi.org/10.1016/j.matdes.2023.112603},
-  author = {Bernd Bayerlein and Markus Schilling and Henk Birkholz and Matthias Jung and Jörg Waitelonis and Lutz Mädler and Harald Sack}
+  author = {Bernd Bayerlein and Markus Schilling and Henk Birkholz and Matthias Jung and J{\"o}rg Waitelonis and Lutz M{\"a}dler and Harald Sack}
 }
 ```
 available at: [Materials & Design](https://doi.org/10.1016/j.matdes.2023.112603).
