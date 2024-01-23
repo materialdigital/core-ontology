@@ -68,6 +68,15 @@ Modules:
 - a lot of mechanical qualities as subclasses of morphological quality
 - reuse of pato size, shape, texture, structure, color, odor and spatial pattern as morphological qualities (curate_qualities.ipynb)
 - reuse of organismal qualities and cellular qualities as subclass of biological quality  (curate_qualities.ipynb)
-- translations to german for 856 trough text-davinci-003 model (curate_qualities.ipynb), and personally revised
+- translations to german for 856 through text-davinci-003 model (curate_qualities.ipynb), and personally revised
 
 curently 991, terms 857 [pato](https://obofoundry.org/ontology/pato.html) terms referenced with [Imported From](http://purl.obolibrary.org/obo/IAO_0000412)
+
+
+## PMDco-Characterization features
+
+- subclass hierarchy to [obi:PlannedProcess](http://purl.obolibrary.org/obo/OBI_0000011) covering analysis methods both physical, mechanical and chemical 
+- reuse of chmo anaytical processes (curate_characterization.ipynb)
+- translations to german for 95 labels, and personally revised
+
+curently 368, terms 250 [chmo](http://purl.obolibrary.org/obo/chmo.owl) terms referenced with [Imported From](http://purl.obolibrary.org/obo/IAO_0000412)
