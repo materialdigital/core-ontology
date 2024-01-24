@@ -4,4 +4,3 @@
 
 
 [ROR]: <https://ror.org/search>
-[ISNI]: <https://isni.oclc.org/> 
