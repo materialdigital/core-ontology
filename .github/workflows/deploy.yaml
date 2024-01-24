@@ -45,9 +45,9 @@ jobs:
            echo "Converting markdown sections into html sections so that they appear in the table of content in the index-en.html"
            sed -i -E -e 's/### ([[:digit:]]\.[[:digit:]]+\.) (.*)/<\/span><h3 id="\1" class="list">\2<\/h3><span class="markdown">/g' $dir/index-en.html
            sed -i -E -e 's/### ([[:digit:]]\.[[:digit:]]+\.) (.*)/<\/span><h3 id="\1" class="list">\2<\/h3><span class="markdown">/g' $dir/index-de.html
-           echo "Injecting code snippet for hiding unused elements to the index-en.html"
-           gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index-en.html
-           gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index-de.html
+           #echo "Injecting code snippet for hiding unused elements to the index-en.html"
+           #gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index-en.html
+           #gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index-de.html
 
     - name: Deploy to GitHub Pages
       if: success()
