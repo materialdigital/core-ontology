@@ -18,6 +18,19 @@ jobs:
            mkdir public 
            java -jar widoco.jar -ontFile main/pmd_core.ttl -outFolder public -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
            cp public/index-en.html public/index.html
+    - name: Include Additional Documentation
+      run: | 
+           echo "Adding textual inputs to the documentation HTML"
+           dir="public"
+           gawk -i inplace -v r="$(cat documentation/1.Introduction.md)" '{gsub(/This is a place holder text for the introduction. The introduction should briefly describe the ontology, its motivation, state of the art and goals./,r)}1' $dir/index.html
+           gawk -i inplace -v r="$(cat documentation/3.Description.md)" '{gsub(/This is a placeholder text for the description of your ontology. The description should include an explanation and a diagram explaining how the classes are related, examples of usage, etc./,r)}1' $dir/index.html
+           gawk -i inplace -v r="$(cat documentation/5.References.md|sed 's/&/\\\\&/')" '{gsub(/Add your references here. It is recommended to have them as a list./,r)}1' $dir/index.html
+           gawk -i inplace -v r="<span class=\"markdown\">$(cat documentation/6.Acknowledgements.md)</span>" '{gsub(/(The authors would like to thank.*documentation\.)/,r)}1' $dir/index.html
+           echo "Converting markdown sections into html sections so that they appear in the table of content in the index.html"
+           sed -i -E -e 's/### ([[:digit:]]\.[[:digit:]]+\.) (.*)/<\/span><h3 id="\1" class="list">\2<\/h3><span class="markdown">/g' $dir/index.html
+           echo "Injecting code snippet for hiding unused elements to the index.html"
+           gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index.html
+
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
