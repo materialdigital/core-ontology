@@ -28,7 +28,6 @@ jobs:
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.17/java-11-widoco-1.4.17-jar-with-dependencies.jar
            mkdir public 
            java -jar widoco.jar -ontFile pmd_core.ttl -outFolder public -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -rewriteAll -webVowl
-           # cp public/index-en.html public/index.html
     - name: Include Additional Documentation
       run: | 
            dir="public"
@@ -48,7 +47,8 @@ jobs:
            #echo "Injecting code snippet for hiding unused elements to the index-en.html"
            #gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index-en.html
            #gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index-de.html
-
+           echo "Set english website as default, or markdown of branch is rendered as default"
+           cp public/index-en.html public/index.html
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
