@@ -32,15 +32,15 @@ jobs:
       run: | 
            dir="public"
            echo "Adding english textual inputs to the documentation HTML"
-           gawk -i inplace -v r="$(cat documentation/1.Introduction.md)" '{gsub(/This is a place holder text for the introduction. The introduction should briefly describe the ontology, its motivation, state of the art and goals./,r)}1' $dir/index-en.html
-           gawk -i inplace -v r="$(cat documentation/3.Description.md)" '{gsub(/This is a placeholder text for the description of your ontology. The description should include an explanation and a diagram explaining how the classes are related, examples of usage, etc./,r)}1' $dir/index-en.html
-           gawk -i inplace -v r="$(cat documentation/5.References.md|sed 's/&/\\\\&/')" '{gsub(/Add your references here. It is recommended to have them as a list./,r)}1' $dir/index-en.html
-           gawk -i inplace -v r="<span class=\"markdown\">$(cat documentation/6.Acknowledgements.md)</span>" '{gsub(/(The authors would like to thank.*documentation\.)/,r)}1' $dir/index-en.html
+           gawk -i inplace -v r="$(cat documentation/en/1.Introduction.md)" '{gsub(/This is a place holder text for the introduction. The introduction should briefly describe the ontology, its motivation, state of the art and goals./,r)}1' $dir/index-en.html
+           gawk -i inplace -v r="$(cat documentation/en/3.Description.md)" '{gsub(/This is a placeholder text for the description of your ontology. The description should include an explanation and a diagram explaining how the classes are related, examples of usage, etc./,r)}1' $dir/index-en.html
+           gawk -i inplace -v r="$(cat documentation/en/5.References.md|sed 's/&/\\\\&/')" '{gsub(/Add your references here. It is recommended to have them as a list./,r)}1' $dir/index-en.html
+           gawk -i inplace -v r="<span class=\"markdown\">$(cat documentation/en/6.Acknowledgements.md)</span>" '{gsub(/(The authors would like to thank.*documentation\.)/,r)}1' $dir/index-en.html
            echo "Adding german textual inputs to the documentation HTML"
-           gawk -i inplace -v r="$(cat documentation/1.Einleitung.md)" '{gsub(/Dies ist ein Platzhalter f&uuml;r die Einf&uuml;hrung. Die Einf&uuml;hrung sollte in kurzer Form die Ontologie und ihren Anwendungszweck beschreiben, sowie Informationen &uuml;ber ihren Entwicklungsstand und Kontext enthalten./,r)}1' $dir/index-de.html
-           gawk -i inplace -v r="$(cat documentation/3.Description.md)" '{gsub(/Dies ist ein Platzhalter f&uuml;r die Beschreibung. Die Beschreibung sollte eine Erkl&auml;rung und Graphiken enthalten, die die Beziehung der Klassen untereinander und Anwendungsbeispiele enth&auml;lt./,r)}1' $dir/index-de.html
-           gawk -i inplace -v r="$(cat documentation/5.References.md|sed 's/&/\\\\&/')" '{gsub(/F&uuml;gen Sie Ihre Referenzen hier ein. &uuml;blicherweise wird dies in Form einer Liste gemacht./,r)}1' $dir/index-de.html
-           gawk -i inplace -v r="<span class=\"markdown\">$(cat documentation/6.Acknowledgements.md)</span>" '{gsub(/(Die Autoren bedanken sich bei.*documentation\.)/,r)}1' $dir/index-de.html
+           gawk -i inplace -v r="$(cat documentation/de/1.Einleitung.md)" '{gsub(/Dies ist ein Platzhalter f&uuml;r die Einf&uuml;hrung. Die Einf&uuml;hrung sollte in kurzer Form die Ontologie und ihren Anwendungszweck beschreiben, sowie Informationen &uuml;ber ihren Entwicklungsstand und Kontext enthalten./,r)}1' $dir/index-de.html
+           gawk -i inplace -v r="$(cat documentation/de/3.Description.md)" '{gsub(/Dies ist ein Platzhalter f&uuml;r die Beschreibung. Die Beschreibung sollte eine Erkl&auml;rung und Graphiken enthalten, die die Beziehung der Klassen untereinander und Anwendungsbeispiele enth&auml;lt./,r)}1' $dir/index-de.html
+           gawk -i inplace -v r="$(cat documentation/de/5.References.md|sed 's/&/\\\\&/')" '{gsub(/F&uuml;gen Sie Ihre Referenzen hier ein. &uuml;blicherweise wird dies in Form einer Liste gemacht./,r)}1' $dir/index-de.html
+           gawk -i inplace -v r="<span class=\"markdown\">$(cat documentation/de/6.Danksagung.md)</span>" '{gsub(/(Die Autoren bedanken sich bei.*documentation\.)/,r)}1' $dir/index-de.html
            echo "Converting markdown sections into html sections so that they appear in the table of content in the index-en.html"
            sed -i -E -e 's/### ([[:digit:]]\.[[:digit:]]+\.) (.*)/<\/span><h3 id="\1" class="list">\2<\/h3><span class="markdown">/g' $dir/index-en.html
            sed -i -E -e 's/### ([[:digit:]]\.[[:digit:]]+\.) (.*)/<\/span><h3 id="\1" class="list">\2<\/h3><span class="markdown">/g' $dir/index-de.html
