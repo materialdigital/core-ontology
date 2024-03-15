@@ -12,14 +12,12 @@ jobs:
       with:
         ref: develop-3.0.0
         path: main
-    - name: Validate against SHACL shape
+    - name: Validate against SHACL shapes
       run: |
-           #ls -la
            pip install pyshacl
 
            curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
            #java -jar robot.jar --version
 
-           
            java -jar robot.jar reason --reasoner elk --input main/shapes/shape1-data.ttl --output shape1-data-reasoned.ttl
            python3 -m pyshacl  -s main/shapes/shape1.ttl shape1-data-reasoned.ttl
