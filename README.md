@@ -19,6 +19,7 @@ When using the PMD Core Ontology (PMDco), please cite the following publication,
 
 *B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.*
 
+
 Bibtex:
 ```
 @article{BAYERLEIN2024,
