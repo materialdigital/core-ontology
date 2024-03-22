@@ -1,4 +1,4 @@
-name: reasoning example
+name: reasoning validation
 
 on:
   push:
@@ -12,10 +12,8 @@ jobs:
       with:
         ref: develop-3.0.0
         path: main
-    - name: Reasoning example
+    - name: Validate pmd-core.ttl by reasoning with ELK
       run: |
-          # ls -la
-          # 
-          # curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
-          # java -jar robot.jar --version
+          curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
+          java -jar robot.jar reason --reasoner elk --input main/pmd-core.ttl --output main/pmd-core-reasoned.ttl
 
