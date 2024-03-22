@@ -2,8 +2,8 @@
 
 Create a sketch of a pattern in the [miro board](https://miro.com/app/board/uXjVNOTPrFo=/). 
 
-[Input and output of a process](./shape1.md)
-[Scalar value specification with value and unit](./shape1.md)
+1. [Input and output of a process](./pattern1.md)
+1. [Scalar value specification with value and unit](./pattern1.md)
 
 Put an RDF example in the folder here. 
 
