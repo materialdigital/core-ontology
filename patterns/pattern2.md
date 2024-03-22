@@ -12,10 +12,10 @@ You should consider modelling the resource as a BNode.
 ## Visualization
 The following image shows some manufacturing process with multiple inputs and outputs.
 
-<img src="https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/patterns/pattern2.png?raw=true" alt="pattern2 image" width="750"/>
-
+<img src="https://raw.githubusercontent.com/materialdigital/core-ontology/develop-3.0.0/patterns/pattern2.png" alt="pattern2 image" width="750"/>
+          
 ## Shapes and example data
-[../shapes/shape2-data1.ttl)](../shapes/shape2-data1.ttl)
+[../shapes/shape2-data1.ttl](../shapes/shape2-data1.ttl)
 
 [../shapes/shape2.ttl](../shapes/shape2.ttl)
 
