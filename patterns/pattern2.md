@@ -10,7 +10,7 @@ You should consider modelling the resource as a BNode.
 
 
 ## Visualization
-The following image shows some manufacturing process with multiple inputs and outputs.
+The following image shows an instance of a scalar value specification with value and unit. 
 
 <img src="https://raw.githubusercontent.com/materialdigital/core-ontology/develop-3.0.0/patterns/pattern2.png" alt="pattern2 image" width="750"/>
           
