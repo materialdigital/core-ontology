@@ -29,7 +29,7 @@ Bibtex:
   year = {2024},
   issn = {0264-1275},
   doi = {https://doi.org/10.1016/j.matdes.2023.112603},
-  author = {Bernd Bayerlein and Markus Schilling and Henk Birkholz and Matthias Jung and J{\"o}rg Waitelonis and Lutz M{\"a}dler and Harald Sack}
+  author = {Bayerlein, Bernd and Schilling, Markus and Birkholz, Henk and Jung, Matthias and Waitelonis, J{\"o}rg and M{\"a}dler, Lutz and Sack, Harald}
 }
 ```
 available at: [Materials & Design](https://doi.org/10.1016/j.matdes.2023.112603).
