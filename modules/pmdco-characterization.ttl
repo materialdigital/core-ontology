@@ -8,13 +8,16 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix pmdco: <https://w3id.org/pmd/co/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@base <https://w3id.org/pmd/co> .
+@base <https://w3id.org/pmd/co#> .
 
 <https://w3id.org/pmd/co> rdf:type owl:Ontology ;
                            owl:versionIRI <https://w3id.org/pmd/co/characterization/3.0.0> ;
                            owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ,
                                        <http://purl.obolibrary.org/obo/iao/2022-11-07/iao.owl> ,
-                                       <http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ;
+                                       <http://purl.obolibrary.org/obo/obi/2024-01-09/obi.owl> ,
+                                       <http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ,
+                                       <https://raw.githubusercontent.com/materialdigital/core-ontology/develop-3.0.0/modules/pmdco-qualities.ttl> ,
+                                       <https://w3id.org/pmd/co/qualities/3.0.0> ;
                            dcterms:created "2023-11-17" ;
                            dcterms:license <http://creativecommons.org/licenses/by/4.0/> ;
                            dcterms:title "Platform Material Digital Core Ontology (PMDco) - Characterization Module"@en ;
@@ -185,12 +188,22 @@ pmdco:AmperostaticCoulometry rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/AnalysingProcess
 pmdco:AnalysingProcess rdf:type owl:Class ;
-                       rdfs:subClassOf obo:OBI_0000011 ;
+                       rdfs:subClassOf [ owl:intersectionOf ( obo:OBI_0000011
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty obo:OBI_0000293 ;
+                                                                owl:someValuesFrom obo:BFO_0000040
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty obo:OBI_0000299 ;
+                                                                owl:someValuesFrom obo:IAO_0000030
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
                        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                        rdfs:label "Analyseprozess"@de ,
                                   "Analysing Process"@en ;
-                       skos:definition """A process that is driven by the primary intent to gain new measurements
-An analysis process is either a transformative process or a non-transformative process."""@en .
+                       skos:definition "A process that is driven by the primary intent to gain new measurements or reports of some analysis."@en .
 
 
 ###  https://w3id.org/pmd/co/AnodicStrippingPotentiometry
@@ -508,7 +521,7 @@ pmdco:ElectroChemicalAnalysis rdf:type owl:Class ;
                               obo:IAO_0000117 "PERSON: Thomas Hanke" ;
                               obo:IAO_0000412 obo:CHMO_0000003 ;
                               rdfs:label "Electro Chemical Analysis"@en ,
-                                         "Electrochemische Analyse"@de ;
+                                         "Elektrochemische Analyse"@de ;
                               skos:definition "The use of an electrochemical cell to measure a qualitative or quantitative response." .
 
 
@@ -792,16 +805,33 @@ pmdco:MeasurementOfSolubilityInWater rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/MeasuringProcess
 pmdco:MeasuringProcess rdf:type owl:Class ;
-                       rdfs:subClassOf pmdco:AnalysingProcess ;
+                       rdfs:subClassOf [ owl:intersectionOf ( pmdco:AnalysingProcess
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty obo:OBI_0000299 ;
+                                                                owl:someValuesFrom obo:IAO_0000109
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
                        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                        rdfs:label "Measuring Process"@en ,
                                   "Messprozess"@de ;
-                       skos:definition "A measurement process acquires data (usually expressed in numbers) by using tools."@en .
+                       skos:definition "Is a analysis process that outputs a measurement datum. A measurement process acquires data (usually expressed in numbers) by using tools."@en .
 
 
 ###  https://w3id.org/pmd/co/MechanicalTestingProcess
 pmdco:MechanicalTestingProcess rdf:type owl:Class ;
-                               rdfs:subClassOf pmdco:AnalysingProcess ;
+                               rdfs:subClassOf [ owl:intersectionOf ( pmdco:AnalysingProcess
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty obo:OBI_0000299 ;
+                                                                        owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                                             owl:onProperty obo:IAO_0000221 ;
+                                                                                             owl:someValuesFrom pmdco:MechanicalQuality
+                                                                                           ]
+                                                                      ]
+                                                                    ) ;
+                                                 rdf:type owl:Class
+                                               ] ;
                                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                                rdfs:label "Mechanical Testing Process"@en ,
                                           "Mechanischer Testprozess"@de ;
@@ -811,7 +841,17 @@ pmdco:MechanicalTestingProcess rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/MicroscopyProcess
 pmdco:MicroscopyProcess rdf:type owl:Class ;
-                        rdfs:subClassOf pmdco:AnalysingProcess ;
+                        rdfs:subClassOf [ owl:intersectionOf ( pmdco:AnalysingProcess
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty obo:OBI_0000299 ;
+                                                                 owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                                      owl:onProperty obo:IAO_0000221 ;
+                                                                                      owl:someValuesFrom pmdco:MorphologicQuality
+                                                                                    ]
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] ;
                         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                         rdfs:label "Microscopy Process"@en ,
                                    "Mikroskopie"@de ;
@@ -838,6 +878,7 @@ pmdco:NonTransformativeAnalysisProcess rdf:type owl:Class ;
                                        rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                                        rdfs:label "Nicht-Transformativer Analyseprozess"@de ,
                                                   "Non Transformative Analysis Process"@en ;
+                                       owl:deprecated "true"^^xsd:boolean ;
                                        skos:definition "An analysis process that is also a non-transformative process"@en .
 
 
@@ -1176,6 +1217,7 @@ pmdco:TransformativeAnalysisProcess rdf:type owl:Class ;
                                     rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                                     rdfs:label "Transformative Analysis Process"@en ,
                                                "Transformativer Analyseprozess"@de ;
+                                    owl:deprecated "true"^^xsd:boolean ;
                                     skos:definition "An analysis process that is also a transformative process"@en .
 
 
