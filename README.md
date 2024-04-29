@@ -24,3 +24,8 @@ Folders:
  - ```patterns```    patterns describing the use of the modules and show examples
  - ```shapes```    shapes to describe the sets of conditions and constraints of use formally
 
+The modules depend on the following ontologies:
+- Basic formal ontology, http://purl.obolibrary.org/obo/bfo.owl in version http://purl.obolibrary.org/obo/bfo/2020/bfo.owl 
+- Relations Ontology RO Core,  http://purl.obolibrary.org/obo/ro/core.owl in version http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl 
+- Information artifact ontology, http://purl.obolibrary.org/obo/iao.owl in version http://purl.obolibrary.org/obo/2022-11-07/iao.owl 
+- Ontology for Biomedical Investigations, http://purl.obolibrary.org/obo/obi.owl in version http://purl.obolibrary.org/obo/2023-09-20/obi.owl
