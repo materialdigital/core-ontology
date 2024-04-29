@@ -10,6 +10,7 @@
                            owl:versionIRI <https://w3id.org/pmd/co/materials/3.0.0> ;
                            owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ,
                                        <http://purl.obolibrary.org/obo/iao/2022-11-07/iao.owl> ,
+                                       <http://purl.obolibrary.org/obo/obi/2023-09-20/obi.owl> ,
                                        <http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ;
                            <http://purl.org/dc/terms/created> "2023-11-17" ;
                            <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
@@ -37,6 +38,26 @@
 #    Classes
 #################################################################
 
+###  https://w3id.org/pmd/co/AlloyQualitySteel
+:AlloyQualitySteel rdf:type owl:Class ;
+                   rdfs:subClassOf :AlloySteel ;
+                   rdfs:comment """Description according to EN 10020:2000: \"Alloy quality steels are steel grades for which requirements exist with regard to, for example, toughness, grain size control and/or formability.
+Alloy quality steels are not generally intended for quenching and tempering or for surface hardening.\""""@en .
+
+
+###  https://w3id.org/pmd/co/AlloySpecialSteel
+:AlloySpecialSteel rdf:type owl:Class ;
+                   rdfs:subClassOf :AlloySteel ;
+                   rdfs:comment "Description according to EN 10020:2000: \"This  class  includes  steel  grades  other  than  stainless  steels,  which  are  characterized  by  precise  control  of chemical composition and particular conditions of manufacture and process control to ensure improved properties which are frequently specified in combination and within closely controlled limits.\""@en .
+
+
+###  https://w3id.org/pmd/co/AlloySteel
+:AlloySteel rdf:type owl:Class ;
+            rdfs:subClassOf :EuropeanGradedSteel ;
+            owl:disjointWith :UnalloyedSteel ;
+            rdfs:comment "Complementary class to UnalloyedSteel"@en .
+
+
 ###  https://w3id.org/pmd/co/Ceramic
 :Ceramic rdf:type owl:Class ;
          rdfs:subClassOf :EngineeredMaterial ;
@@ -45,13 +66,10 @@
 
 ###  https://w3id.org/pmd/co/Composite
 :Composite rdf:type owl:Class ;
-           rdfs:subClassOf [ owl:intersectionOf ( :EngineeredMaterial
-                                                  [ rdf:type owl:Restriction ;
-                                                    owl:onProperty <http://purl.obolibrary.org/obo/BFO_0000051> ;
-                                                    owl:allValuesFrom :EngineeredMaterial
-                                                  ]
-                                                ) ;
-                             rdf:type owl:Class
+           rdfs:subClassOf :EngineeredMaterial ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://purl.obolibrary.org/obo/BFO_0000051> ;
+                             owl:allValuesFrom :EngineeredMaterial
                            ] ;
            <http://purl.obolibrary.org/obo/IAO_0000116> "Classified by morphology."@en .
 
@@ -60,6 +78,27 @@
 :EngineeredMaterial rdf:type owl:Class ;
                     rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000040> ;
                     rdfs:comment "An entity whose identity is determined by teh organisation of its matter/atoms."@en .
+
+
+###  https://w3id.org/pmd/co/EuropeanGradedSteel
+:EuropeanGradedSteel rdf:type owl:Class ;
+                     rdfs:subClassOf :Ferrous_Alloy ;
+                     rdfs:comment "Classification based on \"classification\" according to EN 10020:2000 and numbering method EN 10027-2:2015 (E) and EN 10020:2000. Enforcing EN 10027 Section 4.1: \"Each steel number shall refer only to one steel grade. Conversely, each steel grade shall correspond to one steel number. ...\" by making groups disjoint."@en .
+
+
+###  https://w3id.org/pmd/co/Ferrous_Alloy
+:Ferrous_Alloy rdf:type owl:Class ;
+               rdfs:subClassOf :Metal .
+
+
+###  https://w3id.org/pmd/co/FiatMaterialDesignation
+:FiatMaterialDesignation rdf:type owl:Class ;
+                         rdfs:subClassOf <http://purl.obolibrary.org/obo/IAO_0020000> ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://purl.obolibrary.org/obo/RO_0002350> ;
+                                           owl:someValuesFrom :MaterialClassificationSystem
+                                         ] ;
+                         rdfs:comment "Often materials are identified by identical labels across different material classification systems. E.g. the aluminum alloy with label 2618A could be classified according to the AA standard or the EN standard."@en .
 
 
 ###  https://w3id.org/pmd/co/FunctionalMaterial
@@ -75,10 +114,549 @@
        <http://purl.obolibrary.org/obo/IAO_0000116> "Classified by morphology."@en .
 
 
+###  https://w3id.org/pmd/co/Group-00-Steel
+:Group-00-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-90-Steel ;
+                rdfs:subClassOf :UnalloyedBaseSteel .
+
+
+###  https://w3id.org/pmd/co/Group-01-Steel
+:Group-01-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-91-Steel ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-02-Steel
+:Group-02-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-92-Steel ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-03-Steel
+:Group-03-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-93-Steel ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-04-Steel
+:Group-04-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-94-Steel ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-05-Steel
+:Group-05-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-95-Steel ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-06-Steel
+:Group-06-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-96-Steel ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-07-Steel
+:Group-07-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-97-Steel ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-08-Steel
+:Group-08-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-98-Steel ;
+                rdfs:subClassOf :AlloyQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-10-Steel
+:Group-10-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-11-Steel
+:Group-11-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-12-Steel
+:Group-12-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-13-Steel
+:Group-13-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-14-Steel
+:Group-14-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-15-Steel
+:Group-15-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-16-Steel
+:Group-16-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-17-Steel
+:Group-17-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-18-Steel
+:Group-18-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-19-Steel
+:Group-19-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnallyedSpecialSteel .
+
+
+###  https://w3id.org/pmd/co/Group-20-Steel
+:Group-20-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-21-Steel
+:Group-21-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-22-Steel
+:Group-22-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-23-Steel
+:Group-23-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-24-Steel
+:Group-24-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-25-Steel
+:Group-25-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-26-Steel
+:Group-26-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-27-Steel
+:Group-27-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-28-Steel
+:Group-28-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-29-Steel
+:Group-29-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :ToolSteel .
+
+
+###  https://w3id.org/pmd/co/Group-30-Steel
+:Group-30-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-31-Steel
+:Group-31-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-32-Steel
+:Group-32-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-33-Steel
+:Group-33-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-34-Steel
+:Group-34-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-35-Steel
+:Group-35-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-36-Steel
+:Group-36-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-37-Steel
+:Group-37-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-38-Steel
+:Group-38-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-39-Steel
+:Group-39-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :MiscelaneousSteel .
+
+
+###  https://w3id.org/pmd/co/Group-40-Steel
+:Group-40-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StainlessSteel .
+
+
+###  https://w3id.org/pmd/co/Group-41-Steel
+:Group-41-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StainlessSteel .
+
+
+###  https://w3id.org/pmd/co/Group-42-Steel
+:Group-42-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StainlessSteel .
+
+
+###  https://w3id.org/pmd/co/Group-43-Steel
+:Group-43-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StainlessSteel .
+
+
+###  https://w3id.org/pmd/co/Group-44-Steel
+:Group-44-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StainlessSteel .
+
+
+###  https://w3id.org/pmd/co/Group-45-Steel
+:Group-45-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StainlessSteel .
+
+
+###  https://w3id.org/pmd/co/Group-46-Steel
+:Group-46-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :HeatResistingSteel .
+
+
+###  https://w3id.org/pmd/co/Group-47-Steel
+:Group-47-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :HeatResistingSteel .
+
+
+###  https://w3id.org/pmd/co/Group-48-Steel
+:Group-48-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :HeatResistingSteel .
+
+
+###  https://w3id.org/pmd/co/Group-49-Steel
+:Group-49-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :HeatResistingSteel .
+
+
+###  https://w3id.org/pmd/co/Group-50-Steel
+:Group-50-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-51-Steel
+:Group-51-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-52-Steel
+:Group-52-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-53-Steel
+:Group-53-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-54-Steel
+:Group-54-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-55-Steel
+:Group-55-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-56-Steel
+:Group-56-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-57-Steel
+:Group-57-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-58-Steel
+:Group-58-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-59-Steel
+:Group-59-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-60-Steel
+:Group-60-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-61-Steel
+:Group-61-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-62-Steel
+:Group-62-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-63-Steel
+:Group-63-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-64-Steel
+:Group-64-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-65-Steel
+:Group-65-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-66-Steel
+:Group-66-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-67-Steel
+:Group-67-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-68-Steel
+:Group-68-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-69-Steel
+:Group-69-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-70-Steel
+:Group-70-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-71-Steel
+:Group-71-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-72-Steel
+:Group-72-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-73-Steel
+:Group-73-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-74-Steel
+:Group-74-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-75-Steel
+:Group-75-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-76-Steel
+:Group-76-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-77-Steel
+:Group-77-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-78-Steel
+:Group-78-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-79-Steel
+:Group-79-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-80-Steel
+:Group-80-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-81-Steel
+:Group-81-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-82-Steel
+:Group-82-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-83-Steel
+:Group-83-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-84-Steel
+:Group-84-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-85-Steel
+:Group-85-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-86-Steel
+:Group-86-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-87-Steel ,
+                                    :Group-88-Steel ,
+                                    :Group-89-Steel ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-87-Steel
+:Group-87-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-88-Steel ,
+                                    :Group-89-Steel ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-88-Steel
+:Group-88-Steel rdf:type owl:Class ;
+                owl:equivalentClass :Group-89-Steel ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-89-Steel
+:Group-89-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :StructuralAndOrPVAndOrEngineeringSteel .
+
+
+###  https://w3id.org/pmd/co/Group-90-Steel
+:Group-90-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnalloyedBaseSteel .
+
+
+###  https://w3id.org/pmd/co/Group-91-Steel
+:Group-91-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-92-Steel
+:Group-92-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-93-Steel
+:Group-93-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-94-Steel
+:Group-94-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-95-Steel
+:Group-95-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-96-Steel
+:Group-96-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-97-Steel
+:Group-97-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :UnalloyedQualitySteel .
+
+
+###  https://w3id.org/pmd/co/Group-98-Steel
+:Group-98-Steel rdf:type owl:Class ;
+                rdfs:subClassOf :AlloyQualitySteel .
+
+
+###  https://w3id.org/pmd/co/HeatResistingSteel
+:HeatResistingSteel rdf:type owl:Class ;
+                    rdfs:subClassOf :AlloySteel .
+
+
+###  https://w3id.org/pmd/co/MaterialClassificationSystem
+:MaterialClassificationSystem rdf:type owl:Class ;
+                              rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000141> ;
+                              rdfs:comment """A formal classification system allowing to identify and name EngineeredMaterials. Examples for metals include the US UNS numbering system (https://en.wikipedia.org/wiki/Unified_numbering_system), the Register of European Steels (https://stahldaten.de/stahldat-sx/stahl-eisen-liste/) and others. 
+
+TODO: Possibly instatiate some relevant classifcation systems."""@en .
+
+
+###  https://w3id.org/pmd/co/MaterialDesignation
+:MaterialDesignation rdf:type owl:Class ;
+                     rdfs:subClassOf :FiatMaterialDesignation ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://purl.obolibrary.org/obo/RO_0002350> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :MaterialClassificationSystem
+                                     ] ;
+                     rdfs:comment "An instance of a materialdesignation can have multiple labels as would be typical for a product having a brand name and some standard conformant numerical and/or textual designations."@en .
+
+
 ###  https://w3id.org/pmd/co/Metal
 :Metal rdf:type owl:Class ;
        rdfs:subClassOf :EngineeredMaterial ;
        <http://purl.obolibrary.org/obo/IAO_0000116> "Classified by morphology."@en .
+
+
+###  https://w3id.org/pmd/co/MiscelaneousSteel
+:MiscelaneousSteel rdf:type owl:Class ;
+                   rdfs:subClassOf :AlloySpecialSteel .
+
+
+###  https://w3id.org/pmd/co/NaturalOrganicMaterial
+:NaturalOrganicMaterial rdf:type owl:Class ;
+                        rdfs:subClassOf :EngineeredMaterial .
 
 
 ###  https://w3id.org/pmd/co/Polymer
@@ -87,11 +665,207 @@
          <http://purl.obolibrary.org/obo/IAO_0000116> "Classified by morphology."@en .
 
 
+###  https://w3id.org/pmd/co/StainlessSteel
+:StainlessSteel rdf:type owl:Class ;
+                rdfs:subClassOf :AlloySteel ;
+                rdfs:comment "According to EN 10020:2000: \"Stainless steels are steels with at least 10,5 % of chromium and not more than 1,2 % of carbon\""@en .
+
+
+###  https://w3id.org/pmd/co/StructuralAndOrPVAndOrEngineeringSteel
+:StructuralAndOrPVAndOrEngineeringSteel rdf:type owl:Class ;
+                                        rdfs:subClassOf :AlloySpecialSteel .
+
+
 ###  https://w3id.org/pmd/co/StructuralMaterial
 :StructuralMaterial rdf:type owl:Class ;
-                    rdfs:subClassOf :EngineeredMaterial ;
+                    rdfs:subClassOf :EngineeredMaterial ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
+                                      owl:someValuesFrom <http://purl.obolibrary.org/obo/OBI_0000379>
+                                    ] ;
                     <http://purl.obolibrary.org/obo/IAO_0000116> "Classified by the role in a system."@en ;
                     rdfs:comment "Material whose primary purpose is to carry mechanical loads."@en .
+
+
+###  https://w3id.org/pmd/co/ToolSteel
+:ToolSteel rdf:type owl:Class ;
+           rdfs:subClassOf :AlloySpecialSteel .
+
+
+###  https://w3id.org/pmd/co/UnalloyedBaseSteel
+:UnalloyedBaseSteel rdf:type owl:Class ;
+                    rdfs:subClassOf :UnalloyedSteel ;
+                    rdfs:comment "Not explicitliy mentioned in EN 10020:2000. Assumed to be everything that is not UnalloyedSpecialSteel or UnalloyedQualitySteel."@en .
+
+
+###  https://w3id.org/pmd/co/UnalloyedQualitySteel
+:UnalloyedQualitySteel rdf:type owl:Class ;
+                       rdfs:subClassOf :UnalloyedSteel ;
+                       rdfs:comment "Description according to EN 10020:2000: \"Unalloyed quality steels are steel grades for which generally property requirements such as toughness, grain size control and/or formability are specified.\""@en .
+
+
+###  https://w3id.org/pmd/co/UnalloyedSteel
+:UnalloyedSteel rdf:type owl:Class ;
+                rdfs:subClassOf :EuropeanGradedSteel ;
+                rdfs:comment "Unalloyed steels are steel grades in which none of  the limit values of alloying elements as defined in table 1 of  EN 10020:2000 is  reached."@en .
+
+
+###  https://w3id.org/pmd/co/UnallyedSpecialSteel
+:UnallyedSpecialSteel rdf:type owl:Class ;
+                      rdfs:subClassOf :UnalloyedSteel ;
+                      rdfs:comment "Description according to EN 10020:2000: \"Unalloyed special steels have a higher degree of cleanness than quality steels particularly in respect of non-metallic inclusions. In most cases, they are intended for quenching and tempering or surface hardening and are characterized by consistent response to such treatment. Precise control of chemical composition and special care in manufacture and process control ensure improved properties to meet exacting requirements. These properties, which are generally in combination and within closely controlled limits, include a high or closely controlled yield strength or hardenability values sometimes associated with suitability for cold forming, welding, or toughness.\""@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://w3id.org/pmd/co/Register_of_European_Steels
+:Register_of_European_Steels rdf:type owl:NamedIndividual ,
+                                      :MaterialClassificationSystem .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :AlloyQualitySteel
+                :AlloySpecialSteel
+                :HeatResistingSteel
+                :StainlessSteel
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Group-01-Steel
+                :Group-02-Steel
+                :Group-03-Steel
+                :Group-04-Steel
+                :Group-05-Steel
+                :Group-06-Steel
+                :Group-97-Steel
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Group-10-Steel
+                :Group-11-Steel
+                :Group-12-Steel
+                :Group-13-Steel
+                :Group-14-Steel
+                :Group-15-Steel
+                :Group-16-Steel
+                :Group-17-Steel
+                :Group-18-Steel
+                :Group-19-Steel
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Group-20-Steel
+                :Group-21-Steel
+                :Group-22-Steel
+                :Group-23-Steel
+                :Group-24-Steel
+                :Group-25-Steel
+                :Group-26-Steel
+                :Group-27-Steel
+                :Group-28-Steel
+                :Group-29-Steel
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Group-30-Steel
+                :Group-31-Steel
+                :Group-32-Steel
+                :Group-33-Steel
+                :Group-34-Steel
+                :Group-35-Steel
+                :Group-36-Steel
+                :Group-37-Steel
+                :Group-38-Steel
+                :Group-39-Steel
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Group-40-Steel
+                :Group-41-Steel
+                :Group-42-Steel
+                :Group-43-Steel
+                :Group-44-Steel
+                :Group-45-Steel
+                :Group-46-Steel
+                :Group-47-Steel
+                :Group-48-Steel
+                :Group-49-Steel
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Group-50-Steel
+                :Group-51-Steel
+                :Group-52-Steel
+                :Group-53-Steel
+                :Group-54-Steel
+                :Group-55-Steel
+                :Group-56-Steel
+                :Group-57-Steel
+                :Group-58-Steel
+                :Group-59-Steel
+                :Group-60-Steel
+                :Group-61-Steel
+                :Group-62-Steel
+                :Group-63-Steel
+                :Group-64-Steel
+                :Group-65-Steel
+                :Group-66-Steel
+                :Group-67-Steel
+                :Group-68-Steel
+                :Group-69-Steel
+                :Group-70-Steel
+                :Group-71-Steel
+                :Group-72-Steel
+                :Group-73-Steel
+                :Group-74-Steel
+                :Group-75-Steel
+                :Group-76-Steel
+                :Group-77-Steel
+                :Group-78-Steel
+                :Group-79-Steel
+                :Group-80-Steel
+                :Group-81-Steel
+                :Group-82-Steel
+                :Group-83-Steel
+                :Group-84-Steel
+                :Group-85-Steel
+                :Group-86-Steel
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :MiscelaneousSteel
+                :StructuralAndOrPVAndOrEngineeringSteel
+                :ToolSteel
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :UnalloyedBaseSteel
+                :UnalloyedQualitySteel
+                :UnallyedSpecialSteel
+              )
+] .
 
 
 ###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
