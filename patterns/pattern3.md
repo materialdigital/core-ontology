@@ -14,7 +14,7 @@ The following image shows the assay "test:my_assay", in which the quality "test:
 <img src="https://raw.githubusercontent.com/materialdigital/core-ontology/develop-3.0.0/patterns/pattern3.png" alt="pattern3 image" width="750"/>
           
 ## Shapes and example data
-[../shapes/shape3-data1.ttl](../shapes/shape3-data1.ttl)
+[../shapes/shape3-data.ttl](../shapes/shape3-data.ttl)
 
 [../shapes/shape3.ttl](../shapes/shape3.ttl)
 
