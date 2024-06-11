@@ -10,6 +10,7 @@
                                          owl:versionIRI <https://w3id.org/pmd/co/manufacturing/3.0.0> ;
                                          owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ,
                                                      <http://purl.obolibrary.org/obo/iao/2022-11-07/iao.owl> ,
+                                                     <http://purl.obolibrary.org/obo/obi/2023-09-20/obi.owl> ,
                                                      <http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ;
                                          <http://purl.org/dc/terms/created> "2023-11-17" ;
                                          <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
@@ -670,7 +671,35 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
 
 ###  https://w3id.org/pmd/co/SpecimenRole
 :SpecimenRole rdf:type owl:Class ;
-              rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000023> ;
+              rdfs:subClassOf [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/BFO_0000023>
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty <http://purl.obolibrary.org/obo/RO_0000081> ;
+                                                       owl:someValuesFrom [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/BFO_0000040>
+                                                                                                 [ rdf:type owl:Restriction ;
+                                                                                                   owl:onProperty <http://purl.obolibrary.org/obo/OBI_0000312> ;
+                                                                                                   owl:someValuesFrom [ owl:intersectionOf ( :ManufacturingProcess
+                                                                                                                                             [ rdf:type owl:Restriction ;
+                                                                                                                                               owl:onProperty <http://purl.obolibrary.org/obo/OBI_0000293> ;
+                                                                                                                                               owl:someValuesFrom [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/BFO_0000040>
+                                                                                                                                                                                         [ rdf:type owl:Restriction ;
+                                                                                                                                                                                           owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                                                                                                                                                           owl:someValuesFrom :SampleRole
+                                                                                                                                                                                         ]
+                                                                                                                                                                                       ) ;
+                                                                                                                                                                    rdf:type owl:Class
+                                                                                                                                                                  ]
+                                                                                                                                             ]
+                                                                                                                                           ) ;
+                                                                                                                        rdf:type owl:Class
+                                                                                                                      ]
+                                                                                                 ]
+                                                                                               ) ;
+                                                                            rdf:type owl:Class
+                                                                          ]
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] ;
               owl:disjointWith :TestPieceRole ;
               <http://purl.obolibrary.org/obo/IAO_0000111> "Specimen Role" ;
               <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
@@ -691,7 +720,39 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
 
 ###  https://w3id.org/pmd/co/TestPieceRole
 :TestPieceRole rdf:type owl:Class ;
-               rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000023> ;
+               rdfs:subClassOf [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/BFO_0000023>
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty <http://purl.obolibrary.org/obo/RO_0000081> ;
+                                                        owl:someValuesFrom [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/BFO_0000040>
+                                                                                                  [ rdf:type owl:Restriction ;
+                                                                                                    owl:onProperty <http://purl.obolibrary.org/obo/OBI_0000312> ;
+                                                                                                    owl:someValuesFrom [ owl:intersectionOf ( :ManufacturingProcess
+                                                                                                                                              [ rdf:type owl:Restriction ;
+                                                                                                                                                owl:onProperty <http://purl.obolibrary.org/obo/OBI_0000293> ;
+                                                                                                                                                owl:someValuesFrom [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/BFO_0000040>
+                                                                                                                                                                                          [ rdf:type owl:Restriction ;
+                                                                                                                                                                                            owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
+                                                                                                                                                                                            owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                                                                                                                                                 owl:unionOf ( :SampleRole
+                                                                                                                                                                                                                               :SpecimenRole
+                                                                                                                                                                                                                             )
+                                                                                                                                                                                                               ]
+                                                                                                                                                                                          ]
+                                                                                                                                                                                        ) ;
+                                                                                                                                                                     rdf:type owl:Class
+                                                                                                                                                                   ]
+                                                                                                                                              ]
+                                                                                                                                            ) ;
+                                                                                                                         rdf:type owl:Class
+                                                                                                                       ]
+                                                                                                  ]
+                                                                                                ) ;
+                                                                             rdf:type owl:Class
+                                                                           ]
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
                <http://purl.obolibrary.org/obo/IAO_0000111> "Test Piece Role" ;
                <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
                <http://purl.obolibrary.org/obo/IAO_0000116> """ANMERKUNG: Ein Test Piece ist ein Teilstück (potenziell alles) eines Specimens, welches die Bedingungen erfüllt, die durch ein anzuwendendes Prüfverfahren gestellt werden. Ein Specimen erfüllt diese Anforderungen im Allgemeinen erst nach weiterer Bearbeitung. CAVE: Diese Anmerkung beschreibt das Objekt, welches die Rolle, die durch diese owl:Class definiert wird, realisiert.
