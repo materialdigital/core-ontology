@@ -1,0 +1,9 @@
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+SELECT ?resultSeverity (count(?resultSeverity) as ?count)
+WHERE {
+    ?vr a sh:ValidationResult .
+    ?vr sh:focusNode ?focusNode .
+    ?vr sh:resultSeverity ?resultSeverity .
+    FILTER(STRSTARTS(STR(?focusNode), "https://w3id.org/pmd/co/"))
+} GROUP BY ?resultSeverity
