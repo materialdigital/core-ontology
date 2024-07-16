@@ -1,0 +1,71 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix ex: <http://www.example.org/#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ex:TermEditorPropertyShape a sh:PropertyShape ;
+    sh:path obo:IAO_0000117 ;
+    sh:pattern "^PERSON:(.*)" ;
+    sh:message "must have at least one term editor (obo:IAO_0000117). The object must be a xsd:string which matches the pattern \"^PERSON:(.*)\""@en ;
+	sh:minCount 1 .
+
+ex:CurationStatusPropertyShape a sh:PropertyShape ;
+    sh:path obo:IAO_0000114 ;
+    sh:class obo:IAO_0000078;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "must have exactly one curation status (obo:IAO_0000114). Values must be of class obo:IAO_0000078"@en .
+
+ex:EnglishRdfsLabelPropertyShape a sh:PropertyShape ;
+    sh:path rdfs:label ;
+    sh:qualifiedValueShape [
+      	sh:datatype rdf:langString ;
+        sh:languageIn ( "en" ) ;
+    ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "must have at least one rdfs:label with language \"en\""@en .
+
+ex:ClassRdfsLabelPropertyShape a sh:PropertyShape ;
+	sh:path rdfs:label ;
+	sh:pattern "^(([A-Z][a-z]+)( |$))+" ;
+    sh:message "must be like \"Entitled String Style\" (Pattern: \"^(([A-Z][a-z]+)( |$))+\")" .
+
+ex:PropertyRdfsLabelPropertyShape a sh:PropertyShape ;
+	sh:path rdfs:label ;
+	sh:pattern "^(([a-z]+)( |$))+" ;
+    sh:message "must be like \"natural language string style\" (Pattern: \"^(([a-z]+)( |$))+\")" .
+
+ex:EnglishSkosDefinitionPropertyShape a sh:PropertyShape ;
+    sh:path skos:definition ;
+    sh:qualifiedValueShape [
+      	sh:datatype rdf:langString ;
+        sh:languageIn ( "en" ) ;
+    ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "must have at least one skos:definition with language \"en\""@en .
+
+ex:ClassConvention a rdfs:Class, sh:NodeShape ;
+	sh:targetClass owl:Class ;
+	sh:property ex:TermEditorPropertyShape ,
+				ex:CurationStatusPropertyShape ,
+				ex:EnglishRdfsLabelPropertyShape ,
+				ex:EnglishSkosDefinitionPropertyShape ,
+				ex:ClassRdfsLabelPropertyShape ;
+	.
+
+ex:PropertyConvention a rdfs:Class, sh:NodeShape ;
+	sh:targetClass owl:AnnotationProperty , owl:ObjectProperty ;
+	sh:property ex:TermEditorPropertyShape ,
+				ex:CurationStatusPropertyShape ,
+				ex:EnglishRdfsLabelPropertyShape ,
+				ex:EnglishSkosDefinitionPropertyShape ,
+				ex:PropertyRdfsLabelPropertyShape ;
+	.
+
