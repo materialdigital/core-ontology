@@ -1,0 +1,22 @@
+name: shacl validation of abox
+
+on:
+  push:
+    branches:
+    - develop-3.0.0
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: develop-3.0.0
+        path: main
+    - name: Validate against SHACL shapes
+      run: |
+           pip install pyshacl
+
+           curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
+           java -jar robot.jar reason --reasoner elk --input main/pmd-core.ttl --output pmd-core-reasoned.ttl
+           python3 -m pyshacl  -s main/.github/workflows/abox_quality_shacl.ttl pmd-core-reasoned.ttl
