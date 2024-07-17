@@ -18,7 +18,7 @@ fi
 if [ $1 -eq 1 ]
 then
     echo "pyshacl exited with exit code 1: DataGraph is Non-Conformant"
-    exit 0
+    exit 5
 fi
 if [ $1 -eq 2 ]
 then
