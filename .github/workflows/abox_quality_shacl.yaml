@@ -20,6 +20,7 @@ jobs:
            java -jar robot.jar reason --reasoner elk --input pmd-core-merged.ttl --output pmd-core-reasoned.ttl
     - name: pyshacl
       run: |
+           pip install pyshacl
            trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
            python3 -m pyshacl -f turtle -s main/.github/workflow_resources/abox_quality_shacl.ttl pmd-core-reasoned.ttl > shacl_report.ttl
     - name: Archive shacl_report.ttl
