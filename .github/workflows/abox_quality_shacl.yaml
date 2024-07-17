@@ -30,6 +30,13 @@ jobs:
            echo "robot query 2"
            java -jar robot.jar query --input shacl_report.ttl --query main/.github/workflow_resources/q_countValidationResults.sparql ValidationSummary.csv
            echo "finish"
+    - name: Archive shacl_report.ttl
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: shacl_report.ttl
+        path: |
+          shacl_report.ttl
     - name: Archive Validation Reports
       uses: actions/upload-artifact@v4
       with:
