@@ -13,32 +13,28 @@ jobs:
       with:
         ref: develop-3.0.0
         path: main
-    - name: make script executable
-      run: |
-           chmod +x main/.github/workflow_resources/pyshacl_exitcode.sh
-           set +e
     - name: call 0
       continue-on-error: true
       run: |
-           set +e
-           exit 0 || main/.github/workflow_resources/pyshacl_exitcode.sh $?
+           trap 'main/.github/workflow_resources/pyshacl_exitcode.sh $?' EXIT
+           exit 0
     - name: call 1
       continue-on-error: true
       run: |
-           set +e
-           exit 1 || main/.github/workflow_resources/pyshacl_exitcode.sh $?
+           trap 'main/.github/workflow_resources/pyshacl_exitcode.sh $?' EXIT
+           exit 1
     - name: call 2
       continue-on-error: true
       run: |
-           set +e
-           exit 2 || main/.github/workflow_resources/pyshacl_exitcode.sh $?
+           trap 'main/.github/workflow_resources/pyshacl_exitcode.sh $?' EXIT
+           exit 2
     - name: call 3
       continue-on-error: true
       run: |
-           set +e
-           exit 3 || main/.github/workflow_resources/pyshacl_exitcode.sh $?
+           trap 'main/.github/workflow_resources/pyshacl_exitcode.sh $?' EXIT
+           exit 3
     - name: call 4
       continue-on-error: true
       run: |
-           set +e
-           exit 4 || main/.github/workflow_resources/pyshacl_exitcode.sh $?
+           trap 'main/.github/workflow_resources/pyshacl_exitcode.sh $?' EXIT
+           exit 4
