@@ -16,16 +16,6 @@ jobs:
     - name: call 0
       continue-on-error: true
       run: |
-           trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" || exit $E' EXIT
-           exit 1
-    - name: call 1
-      continue-on-error: true
-      run: |
-           trap 'E=$?; test $E -eq 1 && echo \"trapped exit code 1\" || exit $E' EXIT
-           exit 1
-    - name: call 2
-      continue-on-error: true
-      run: |
-           trap "E=$?; test $E -eq 1 && echo \"trapped exit code 1\" || exit $E" EXIT
+           trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
            exit 1
     
