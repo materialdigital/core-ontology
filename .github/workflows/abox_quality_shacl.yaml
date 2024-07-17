@@ -6,7 +6,7 @@ on:
     - develop-3.0.0
 
 jobs:
-  deploy:
+  aboxshacl:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -17,12 +17,19 @@ jobs:
       run: |
            pip install pyshacl
 
+           echo "curl"
            curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
+           echo "robot merge"
            java -jar robot.jar merge --input main/pmd-core.ttl --output pmd-core-merged.ttl
+           echo "robot reason"
            java -jar robot.jar reason --reasoner elk --input pmd-core-merged.ttl --output pmd-core-reasoned.ttl
+           echo "pyshacl"
            python3 -m pyshacl -f turtle -s main/.github/workflow_resources/abox_quality_shacl.ttl pmd-core-reasoned.ttl > shacl_report.ttl ; bash main/.github/workflow_resources/pyshacl_exitcode.sh $?
+           echo "robot query 1"
            java -jar robot.jar query --input shacl_report.ttl --query main/.github/workflow_resources/q_listValidationResults.sparql ValidationReport.csv
+           echo "robot query 2"
            java -jar robot.jar query --input shacl_report.ttl --query main/.github/workflow_resources/q_countValidationResults.sparql ValidationSummary.csv
+           echo "finish"
     - name: Archive Validation Reports
       uses: actions/upload-artifact@v4
       with:
