@@ -7,17 +7,25 @@
 @base <https://w3id.org/pmd/co/> .
 
 <https://w3id.org/pmd/co/devices> rdf:type owl:Ontology ;
-                           owl:versionIRI <https://w3id.org/pmd/co/devices/3.0.0> ;
-                           owl:imports <http://purl.obolibrary.org/obo/obi/2023-09-20/obi.owl> ;
-                           <http://purl.org/dc/terms/created> "2023-11-17" ;
-                           <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
-                           <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (PMDco) - Devices Module"@en ;
-                           rdfs:comment "The device module of the PMD Core Ontology (PMDco). The scope of this module is the description of material science and engineering related devices and their characteristics."@en ;
-                           owl:versionInfo "3.0.0" .
+                                   owl:versionIRI <https://w3id.org/pmd/co/devices/3.0.0> ;
+                                   owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ;
+                                   <http://purl.org/dc/terms/created> "2023-11-17" ;
+                                   <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
+                                   <http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (PMDco) - Devices Module"@en ;
+                                   rdfs:comment "The device module of the PMD Core Ontology (PMDco). The scope of this module is the description of material science and engineering related devices and their characteristics."@en ;
+                                   owl:versionInfo "3.0.0" .
 
 #################################################################
 #    Annotation properties
 #################################################################
+
+###  http://purl.obolibrary.org/obo/IAO_0000112
+<http://purl.obolibrary.org/obo/IAO_0000112> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000117
+<http://purl.obolibrary.org/obo/IAO_0000117> rdf:type owl:AnnotationProperty .
+
 
 ###  http://purl.org/dc/terms/bibliographicCitation
 <http://purl.org/dc/terms/bibliographicCitation> rdf:type owl:AnnotationProperty .
@@ -43,14 +51,6 @@
 #    Classes
 #################################################################
 
-###  http://purl.obolibrary.org/obo/OBI_0000832
-<http://purl.obolibrary.org/obo/OBI_0000832> owl:equivalentClass :MeasuringDevice .
-
-
-###  http://purl.obolibrary.org/obo/OBI_0400107
-<http://purl.obolibrary.org/obo/OBI_0400107> owl:equivalentClass :ComputingNode .
-
-
 ###  https://w3id.org/pmd/co/AdjustmentDeviceRole
 :AdjustmentDeviceRole rdf:type owl:Class ;
                       rdfs:subClassOf :DeviceRole ;
@@ -62,80 +62,6 @@
                                                                        "Rolle eines Gerätes, das zum Einstellen eines anderen Gerätes (SubjectOfAdjustmentRole) verwendet wird. Die Rolle wird in einem Einstellungsprozess realisiert."@de .
 
 
-###  https://w3id.org/pmd/co/Bandsaw
-:Bandsaw rdf:type owl:Class ;
-         rdfs:subClassOf :Saw ;
-         <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-         rdfs:label "Bandsaw"@en ,
-                    "Bandsäge"@de ;
-         <http://www.w3.org/2004/02/skos/core#definition> "A band saw is a type of saw that uses a continuous, endless saw blade in the form of a band. This blade is usually a narrow, flexible steel blade with teeth along one edge. The band saw is mounted in a closed loop and is guided by two wheels, at least one of which is driven. The operation of the band saw enables precise and efficient cuts to be made in a variety of materials, including wood, metal and plastic."@en ,
-                                                          "Eine Bandsäge ist eine Art von Säge, die ein kontinuierliches, endloses Sägeblatt in Form eines Bands verwendet. Dieses Sägeblatt ist in der Regel eine schmale, flexible Stahlklinge mit Zähnen entlang einer Kante. Die Bandsäge ist in eine geschlossene Schleife montiert und wird über zwei Räder geführt, von denen mindestens eines angetrieben wird. Die Funktionsweise der Bandsäge ermöglicht präzise und effiziente Schnitte in unterschiedlichen Materialien, einschließlich Holz, Metall und Kunststoff."@de .
-
-
-###  https://w3id.org/pmd/co/CalibrationDeviceRole
-:CalibrationDeviceRole rdf:type owl:Class ;
-                       rdfs:subClassOf [ owl:intersectionOf ( :DeviceRole
-                                                              [ rdf:type owl:Restriction ;
-                                                                owl:onProperty <http://purl.obolibrary.org/obo/BFO_0000054> ;
-                                                                owl:someValuesFrom <http://purl.obolibrary.org/obo/OBI_0000818>
-                                                              ]
-                                                            ) ;
-                                         rdf:type owl:Class
-                                       ] ;
-                       <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-                       rdfs:label "Calibration Device Role"@en ,
-                                  "Kalibrierungsgeräterolle"@de ;
-                       <http://www.w3.org/2004/02/skos/core#definition> "Role of a device that is used for calibration of itself or another device, which has the \"Subject Of Calibration Role\". The role is realized in a calibration process."@en ,
-                                                                        "Rolle eines Geräts, das zum Kalibirieren sich selbst oder eines anderen Gerätes, das die \"Subject Of Calibration Role\" inne hat, verwendet wird. Die Rolle wird in einem Kalibrierungsprozess realisiert."@de .
-
-
-###  https://w3id.org/pmd/co/Caliper
-:Caliper rdf:type owl:Class ;
-         rdfs:subClassOf :MeasuringDevice ;
-         <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-         rdfs:label "Caliper"@en ,
-                    "Messschieber"@de ;
-         <http://www.w3.org/2004/02/skos/core#definition> "A measuring device having two usually adjustable arms, legs, or jaws used especially to measure the dimensions of objects, such as diameters or thicknesses"@en ,
-                                                          "Messgerät mit zwei in der Regel verstellbaren Armen, Schenkeln oder Klemmbacken, das vor allem zur Messung der Abmessungen von Gegenständen, wie z. B. des Durchmessers oder der Dicke, verwendet wird"@de ;
-         :definitionSource "https://www.merriam-webster.com/dictionary/caliper"@en .
-
-
-###  https://w3id.org/pmd/co/CircularSaw
-:CircularSaw rdf:type owl:Class ;
-             rdfs:subClassOf :Saw ;
-             <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-             <http://purl.obolibrary.org/obo/IAO_0000117> "PEROSON:Joerg Waitelonis" ;
-             rdfs:label "Circular Saw"@en ,
-                        "Kreissäge"@de ;
-             <http://www.w3.org/2004/02/skos/core#definition> "Die Kreissäge ist eine elektrische oder motorisierte Säge, die durch ein rundes, kreisförmiges Sägeblatt angetrieben wird. Das Sägeblatt einer Kreissäge ist mit Zähnen entlang seines Randes ausgestattet, die dazu dienen, das Material zu schneiden, wenn es in die Säge eingespeist wird. Kreissägen sind vielseitige Werkzeuge und können für verschiedene Materialien wie Holz, Metall, Kunststoff und sogar Gestein verwendet werden, abhängig vom spezifischen Sägeblatt, das installiert ist."@de ,
-                                                              "The circular saw is an electric or motorized saw that is powered by a round, circular saw blade. The blade of a circular saw is equipped with teeth along its edge that are used to cut the material as it is fed into the saw. Circular saws are versatile tools and can be used for different materials such as wood, metal, plastic and even rock, depending on the specific saw blade that is installed."@en .
-
-
-###  https://w3id.org/pmd/co/CircularTableSaw
-:CircularTableSaw rdf:type owl:Class ;
-                  rdfs:subClassOf :CircularSaw ;
-                  <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                  <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-                  rdfs:label "Circular Table Saw"@en ,
-                             "Tischkreissäge"@de ;
-                  <http://www.w3.org/2004/02/skos/core#definition> "A stationary circular saw that is built into a table top. It is often used in workshops for precise wood cuts."@en ,
-                                                                   "Eine stationäre Kreissäge, die in eine Tischplatte eingebaut ist. Sie wird oft in Werkstätten für präzise Holzschnitte verwendet."@de .
-
-
-###  https://w3id.org/pmd/co/ComputingNode
-:ComputingNode rdf:type owl:Class ;
-               rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-               <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-               rdfs:label "Computer"@de ,
-                          "Computing Device"@en ;
-               <http://www.w3.org/2004/02/skos/core#definition> """A computing system that provides an execution environment for, e.g., simulation processes or prediction models.
-A computing system can be virtual (e.g., a container or virtual machine) or physical (e.g., a bare-metal servers), uses digital representations of objects as inputs and produces digital measurements, such as simulation results or predictions, as outputs."""@en ,
-                                                                """Ein Rechnersystem, das eine Ausführungsumgebung bspw. für Simulationsprozesse oder Vorhersagemodelle bereitstellt.
-Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine) oder physisch (z. B. ein Bare-Metal-Server) ausgestaltet sein und verwendet in der Regel digitale Repräsentationen von Objekten als Eingaben und erzeugt digitale Messungen, wie z.B. Simulationsergebnisse oder Vorhersagen, als Ausgaben."""@de .
-
-
 ###  https://w3id.org/pmd/co/CutFunction
 :CutFunction rdf:type owl:Class ;
              rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000034> ;
@@ -145,100 +71,12 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
 ###  https://w3id.org/pmd/co/DeviceRole
 :DeviceRole rdf:type owl:Class ;
-            owl:equivalentClass [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/BFO_0000023>
-                                                       [ rdf:type owl:Restriction ;
-                                                         owl:onProperty <http://purl.obolibrary.org/obo/RO_0000081> ;
-                                                         owl:someValuesFrom <http://purl.obolibrary.org/obo/OBI_0000968>
-                                                       ]
-                                                     ) ;
-                                  rdf:type owl:Class
-                                ] ;
             rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000023> ;
             <http://purl.obolibrary.org/obo/IAO_0000117> "Role inhering in a device."@en ,
                                                          "PERSON:Joerg Waitelonis" ;
             rdfs:label "Device Role"@en ,
                        "Rolle eines Gerätes"@de ;
             <http://www.w3.org/2004/02/skos/core#definition> "Rolle, die ein Geräte inne haben kann."@de .
-
-
-###  https://w3id.org/pmd/co/DimensionMeasuringDevice
-:DimensionMeasuringDevice rdf:type owl:Class ;
-                          rdfs:subClassOf :MeasuringDevice ;
-                          <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                          rdfs:label "Dimension Measuring Device"@en ,
-                                     "Dimensionsmesswerkzeug"@de ;
-                          <http://www.w3.org/2004/02/skos/core#definition> "A device that is used for the measurement of the dimensions of a tangible object, e.g., a caliper."@en ,
-                                                                           "Diese Entität beschreibt allgemein jedes Werkzeug, das für die Messung der Abmessungen eines greifbaren Objekts verwendet wird, z. B. eines Messschiebers."@de .
-
-
-###  https://w3id.org/pmd/co/ElectronMicroscope
-:ElectronMicroscope rdf:type owl:Class ;
-                    rdfs:subClassOf :Micropscope ;
-                    <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                    rdfs:label "Electron Microscope"@en ,
-                               "Elektronenmikroskop"@de ;
-                    <http://www.w3.org/2004/02/skos/core#definition> "An electron-optical instrument in which a beam of electrons is used to produce an enlarged image of a minute object."@en ;
-                    :definitionSource "“Electron microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/electron%20microscope. Accessed 24 Nov. 2022."@en .
-
-
-###  https://w3id.org/pmd/co/Extensometer
-:Extensometer rdf:type owl:Class ;
-              rdfs:subClassOf :MeasuringDevice ;
-              <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-              rdfs:label "Extensometer"@en ;
-              <http://www.w3.org/2004/02/skos/core#definition> "A device for measuring minute deformations of test specimens caused by tension, compression, bending, or twisting."@en ;
-              :definitionSource "“Extensometer.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/extensometer. Accessed 5 Dec. 2022."@en .
-
-###  https://w3id.org/pmd/co/ForceMeasuringSystem
-:ForceMeasuringSystem rdf:type owl:Class ;
-              rdfs:subClassOf :MeasuringDevice ;
-              <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ; ### has curation status (IAO_0000114) requires discussion (IAO_0000428)
-              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-              <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Matthias Jung"@de ;
-              rdfs:label "Force-measuring System"@en ,
-                         "Kraftmesseinrichtung"@de ;
-              <http://www.w3.org/2004/02/skos/core#example> "Load cell"@en ,
-                                                            "Kraftmesszelle"@de ;
-              <http://www.w3.org/2004/02/skos/core#definition> """A measuring devive that is used to measure the force applied on an object. The output of a force-measuring system is typically an (electrical) signal that is proportional to the applied force."""@en ,
-                                                               """Ein Messgerät, das zur Messung der auf ein Objekt ausgeübten Kraft verwendet wird. Der Ausgabegröße eines Kraftmesssystems ist in der Regel ein elektrisches Signal, das sich proportional zur aufgebrachten Kraft verhält."""@de ;
-              :definitionSource "(altered from) Fraunhofer IWM Chat Bot, Model gpt-4-32k. Accessed 2024-06-05."@en .
-
-
-###  https://w3id.org/pmd/co/Furnace
-:Furnace rdf:type owl:Class ;
-         rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-         <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-         rdfs:label "Furnace"@en ,
-                    "Ofen"@de ;
-         <http://www.w3.org/2004/02/skos/core#definition> "An enclosed structure in which heat is produced (as for heating a house or for reducing ore)."@en ,
-                                                          "Eine geschlossene Struktur, in der Wärme erzeugt wird (z. B. zum Heizen eines Hauses oder zum Einschmelzen von Erz)."@de ;
-         :definitionSource "“Furnace.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/furnace. Accessed 13 Jan. 2023."@en .
-
-
-###  https://w3id.org/pmd/co/Grips
-:Grips rdf:type owl:Class ;
-       rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-       <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-       rdfs:label "Grips"@en ,
-                  "Halterungsklemmen"@de ;
-       <http://www.w3.org/2004/02/skos/core#definition> "Diese Gerät beschreibt ein Bauelement / Teil, mit dem etwas, normalerweise ein materielles Objekt, fest gegriffen oder eingespannt wird. Typischerweise sind Halterungen, Klemm- bzw. Spannsysteme Teil eines Befestigungssystems (Prozessknoten), das sich auf ein Prüfsystem bezieht."@de ,
-                                                        "This device is a part by which something, usually a tangible object, is grasped. Typically, grips are part of a mounting system (processing node) referring to a testing system."@en ;
-       :definitionSource "https://www.merriam-webster.com/dictionary/grips"@en .
-
-
-###  https://w3id.org/pmd/co/Hacksaw
-:Hacksaw rdf:type owl:Class ;
-         rdfs:subClassOf :Saw ;
-         <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-         rdfs:label "Bügelsäge"@de ,
-                    "Hacksaw"@en ;
-         <http://www.w3.org/2004/02/skos/core#definition> "A hacksaw is a hand saw designed for cutting various materials, particularly metal. It consists of a fine-toothed blade, tensioned in a frame, and a handle. The frame of a hacksaw is typically C-shaped, allowing the blade to be easily replaced when necessary. Hacksaws are commonly used in metalworking and other applications where a controlled and precise cut through metal is required. The fine teeth on the hacksaw blade enable it to cut through metal with efficiency, and the tensioned frame provides stability during the cutting process. Hacksaws are versatile tools and are often used for tasks such as cutting pipes, rods, and metal sheets. They are available in different sizes and tooth configurations to suit various cutting needs."@en ,
-                                                          "Eine Bügelsäge ist eine Art Handsäge zum Schneiden verschiedener Materialien, insbesondere Metall. Sie besteht aus einem fein gezahnten Blatt, das in einem Rahmen gespannt ist, und einem Griff. Der Rahmen einer Bügelsäge ist in der Regel C-förmig, so dass das Blatt bei Bedarf leicht ausgewechselt werden kann. Bügelsägen werden häufig bei der Metallbearbeitung und anderen Anwendungen eingesetzt, bei denen ein kontrollierter und präziser Schnitt durch Metall erforderlich ist. Die feinen Zähne des Sägeblatts ermöglichen ein effizientes Schneiden durch Metall, und der gespannte Rahmen sorgt für Stabilität während des Schneidens. Bügelsägen sind vielseitige Werkzeuge und werden häufig für Aufgaben wie das Schneiden von Rohren, Stangen und Blechen verwendet. Sie sind in verschiedenen Größen und Zahnkonfigurationen erhältlich, um verschiedenen Schneidanforderungen gerecht zu werden."@de .
 
 
 ###  https://w3id.org/pmd/co/HandHeldDeviceRole
@@ -251,197 +89,6 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
                                                                      "Rolle eines Gerätes, das per Hand betrieben oder verwendet wird."@de .
 
 
-###  https://w3id.org/pmd/co/HandheldCircularSaw
-:HandheldCircularSaw rdf:type owl:Class ;
-                     rdfs:subClassOf [ owl:intersectionOf ( :CircularSaw
-                                                            [ rdf:type owl:Restriction ;
-                                                              owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
-                                                              owl:someValuesFrom :HandHeldDeviceRole
-                                                            ]
-                                                          ) ;
-                                       rdf:type owl:Class
-                                     ] ;
-                     <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                     <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-                     rdfs:label "Hand Circular Saw"@en ,
-                                "Handkreissäge"@de ;
-                     <http://www.w3.org/2004/02/skos/core#definition> "A handheld circular saw is a portable circular saw that is guided by hand. It is well suited for precise cuts in construction and woodwork."@en ,
-                                                                      "Die Handkreissäge is eine tragbare Kreissäge, die von Hand geführt wird. Sie eignet sich gut für präzise Schnitte bei Bau- und Holzarbeiten."@de .
-
-
-###  https://w3id.org/pmd/co/Handsaw
-:Handsaw rdf:type owl:Class ;
-         rdfs:subClassOf [ owl:intersectionOf ( :Saw
-                                                [ rdf:type owl:Restriction ;
-                                                  owl:onProperty <http://purl.obolibrary.org/obo/RO_0000087> ;
-                                                  owl:someValuesFrom :HandHeldDeviceRole
-                                                ]
-                                              ) ;
-                           rdf:type owl:Class
-                         ] ;
-         <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-         <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-         rdfs:label "Handsaw"@en ,
-                    "Handsäge"@de ;
-         <http://www.w3.org/2004/02/skos/core#definition> "Die Handsäge ist eine manuell betriebene Säge, die dazu dient, verschiedene Materialien, insbesondere Holz, zu schneiden. Diese Art von Säge besteht typischerweise aus einem langen, dünnen Blatt mit Zähnen, das an einem Griff befestigt ist. Der Griff ermöglicht es dem Benutzer, die Säge von Hand zu führen und den Schnitt durch Vor- und Zurückbewegen des Blatts zu erzeugen. Handsägen sind in verschiedenen Ausführungen erhältlich, je nach der beabsichtigten Anwendung. Es gibt beispielsweise Handsägen für Holz, Metall oder Kunststoff, und sie können unterschiedliche Zahngeometrien und Blattlängen aufweisen, um optimal auf verschiedene Schneidanforderungen abgestimmt zu sein."@de ,
-                                                          "The handsaw is a manually operated saw that is used to cut various materials, especially wood. This type of saw typically consists of a long, thin blade with teeth attached to a handle. The handle allows the user to guide the saw by hand and make the cut by moving the blade back and forth. Handsaws are available in different designs, depending on the intended application. For example, there are handsaws for wood, metal or plastic, and they can have different tooth geometries and blade lengths to best suit different cutting requirements."@de .
-
-
-###  https://w3id.org/pmd/co/Knife
-:Knife rdf:type owl:Class ;
-       rdfs:subClassOf [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
-                                              [ rdf:type owl:Restriction ;
-                                                owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
-                                                owl:someValuesFrom :CutFunction
-                                              ]
-                                            ) ;
-                         rdf:type owl:Class
-                       ] ;
-       <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-       rdfs:label "Knife"@en ,
-                  "Messer"@de ;
-       <http://www.w3.org/2004/02/skos/core#definition> "A tool with a sharp edge, typically made of metal, used for cutting food, materials, or other substances."@en ,
-                                                        "Ein Werkzeug mit einer scharfen Schneide, üblicherweise aus Metall, das zum Schneiden von Lebensmitteln, Materialien oder anderen Substanzen verwendet wird."@de .
-
-
-###  https://w3id.org/pmd/co/Lasercutter
-:Lasercutter rdf:type owl:Class ;
-             rdfs:subClassOf [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
-                                                    [ rdf:type owl:Restriction ;
-                                                      owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
-                                                      owl:someValuesFrom :CutFunction
-                                                    ]
-                                                  ) ;
-                               rdf:type owl:Class
-                             ] ;
-             <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-             rdfs:label "Lasercutter"@en ,
-                        "Laserschneider"@de ;
-             <http://www.w3.org/2004/02/skos/core#definition> "A device that utilizes laser beams to create precise cuts in various materials such as wood, plastic, metal, etc."@en ,
-                                                              "Ein Gerät, das Laserstrahlen verwendet, um präzise Schnitte in verschiedenen Materialien wie Holz, Kunststoff, Metall usw. zu erzeugen."@de .
-
-
-###  https://w3id.org/pmd/co/LoadCell
-:LoadCell rdf:type owl:Class ;
-          rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-          <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-          rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-          rdfs:label "Kraftmessdose"@de ,
-                     "Load Cell"@en ;
-          <http://www.w3.org/2004/02/skos/core#definition> "A load cell converts a force such as tension, compression, pressure, or torque into an electrical signal that can be measured and standardized. It is a force transducer. As the force applied to the load cell increases, the electrical signal changes proportionally. The most common types of load cell are pneumatic, hydraulic, and strain gauges."@en ;
-          :definitionSource "https://en.wikipedia.org/wiki/Load_cell"@en .
-
-
-###  https://w3id.org/pmd/co/ManufacturingNode
-:ManufacturingNode rdf:type owl:Class ;
-                   rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-                   <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                   rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                   rdfs:label "Herstellungsgerät"@de ,
-                              "Manufacturing Device"@en ;
-                   <http://www.w3.org/2004/02/skos/core#definition> """A processing node that implements transformative processes as well as consumes and creates tangible objects and typically requires inputs
-In general but not necessarily, a manufacture node includes intrinsic analysis nodes that create corresponding measurements with respect to the process implemented by the manufacture node."""@en .
-
-
-###  https://w3id.org/pmd/co/MeasuringDevice
-:MeasuringDevice rdf:type owl:Class ;
-                 rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-                 <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                 rdfs:label "Measuring Device"@en ,
-                            "Messgerät"@de ;
-                 <http://www.w3.org/2004/02/skos/core#definition> "A processing node capable of determining a specific quality." .
-
-
-###  https://w3id.org/pmd/co/MicrometerGauge
-:MicrometerGauge rdf:type owl:Class ;
-                 rdfs:subClassOf :MeasuringDevice ;
-                 <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                 rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                 rdfs:label "Bügelmessschraube"@de ,
-                            "Micrometer Gauge"@en ;
-                 <http://www.w3.org/2004/02/skos/core#definition> "A measuring device for making precise measurements having a spindle moved by a finely threaded screw."@en ,
-                                                                  "Diese Entität beschreibt ein Werkzeug zur Durchführung präziser Messungen mit einer Spindel, die durch eine Feingewindeschraube bewegt wird."@de ;
-                 :definitionSource "https://www.merriam-webster.com/dictionary/micrometer%20caliper"@en .
-
-
-###  https://w3id.org/pmd/co/Micropscope
-:Micropscope rdf:type owl:Class ;
-             rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-             <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-             rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-             rdfs:label "Microscope"@en ,
-                        "Mikroskop"@de ;
-             <http://www.w3.org/2004/02/skos/core#definition> "An optical instrument consisting of a lens or combination of lenses for making enlarged images of minute objects."@en ;
-             :definitionSource "“Microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/microscope. Accessed 5 Dec. 2022."@en .
-
-
-###  https://w3id.org/pmd/co/Saw
-:Saw rdf:type owl:Class ;
-     rdfs:subClassOf [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
-                                            [ rdf:type owl:Restriction ;
-                                              owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
-                                              owl:someValuesFrom :CutFunction
-                                            ]
-                                          ) ;
-                       rdf:type owl:Class
-                     ] ;
-     <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-     <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-     rdfs:label "Saw"@en ;
-     <http://www.w3.org/2004/02/skos/core#definition> "A saw is a device used to cut materials, especially wood. It usually consists of a thin, sharp metal blade fitted with teeth and a handle or frame that allows the user to guide the saw. There are different types of saws designed for different applications, including handsaws, circular saws, hacksaws and band saws. Each type of saw is designed for specific tasks and materials to enable efficient cutting."@en ,
-                                                      "Eine Säge ist ein Gerät, das zum Zerteilen von Materialien, insbesondere von Holz, verwendet wird. Sie besteht in der Regel aus einem dünnen, scharfen Metallblatt, das mit Zähnen versehen ist, und einem Griff oder Rahmen, der es dem Benutzer ermöglicht, die Säge zu führen. Es gibt verschiedene Arten von Sägen, die für verschiedene Anwendungen konzipiert sind, darunter Handsägen, Kreissägen, Bügelsägen und Bandsägen. Jede Art von Säge ist auf bestimmte Aufgaben und Materialien abgestimmt, um effizientes Schneiden zu ermöglichen."@de ,
-                                                      "Säge"@de .
-
-
-###  https://w3id.org/pmd/co/Scissors
-:Scissors rdf:type owl:Class ;
-          rdfs:subClassOf [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
-                                                 [ rdf:type owl:Restriction ;
-                                                   owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
-                                                   owl:someValuesFrom :CutFunction
-                                                 ]
-                                               ) ;
-                            rdf:type owl:Class
-                          ] ;
-          <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-          rdfs:label "Pair Of Scissors"@en ,
-                     "Schere"@de ;
-          <http://www.w3.org/2004/02/skos/core#definition> "A tool with two sharp blades that are brought together by pressure on the handles to cut paper, fabric, or other materials."@en ,
-                                                           "Ein Werkzeug mit zwei scharfen Klingen, die durch Druck auf die Griffe zusammengeführt werden, um Papier, Stoff oder andere Materialien zu schneiden."@de .
-
-
-###  https://w3id.org/pmd/co/SimulationNode
-:SimulationNode rdf:type owl:Class ;
-                rdfs:subClassOf :ComputingNode ;
-                <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                rdfs:label "Simulation Device"@en ,
-                           "Simulationsknoten"@de ;
-                <http://www.w3.org/2004/02/skos/core#definition> "A processing node that implements foo as well as consumes and creates simulation objects and parameters."@en .
-
-
-###  https://w3id.org/pmd/co/SizingSaw
-:SizingSaw rdf:type owl:Class ;
-           rdfs:subClassOf :CircularSaw ;
-           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-           <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-           rdfs:label "Formatkreissäge"@de ,
-                      "Sizing Saw"@en ;
-           <http://www.w3.org/2004/02/skos/core#definition> "A sizing saw is an industrial circular saw designed for large cutting formats in woodworking and furniture production."@en ,
-                                                            "Eine Formatkreissäge ist eine industrielle Kreissäge, die für große Schnittformate in der Holzverarbeitung und Möbelherstellung ausgelegt ist."@de .
-
-
-###  https://w3id.org/pmd/co/Slide
-:Slide rdf:type owl:Class ;
-       rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-       <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-       rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-       rdfs:label "Schlitten"@de ,
-                  "Slide"@en ;
-       <http://www.w3.org/2004/02/skos/core#definition> "A moving piece that is guided by a part along its path, providing the mount for objects."@en .
-
-
 ###  https://w3id.org/pmd/co/SubjectOfAdjustmentRole
 :SubjectOfAdjustmentRole rdf:type owl:Class ;
                          rdfs:subClassOf :DeviceRole ;
@@ -452,83 +99,4 @@ In general but not necessarily, a manufacture node includes intrinsic analysis n
                                                                           "Rolle eines Gerätes (Einstellungsgegenstand), das eingestellt wird. Die Rolle wird ein einem Einstellungsprozess realisiert."@de .
 
 
-###  https://w3id.org/pmd/co/SubjectOfCalibarationRole
-:SubjectOfCalibarationRole rdf:type owl:Class ;
-                           rdfs:subClassOf [ owl:intersectionOf ( :DeviceRole
-                                                                  [ rdf:type owl:Restriction ;
-                                                                    owl:onProperty <http://purl.obolibrary.org/obo/BFO_0000054> ;
-                                                                    owl:someValuesFrom <http://purl.obolibrary.org/obo/OBI_0000818>
-                                                                  ]
-                                                                ) ;
-                                             rdf:type owl:Class
-                                           ] ;
-                           <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-                           rdfs:label "Kalibrierungsgegenstandsrolle"@de ,
-                                      "Subject Of Calibration Role"@en ;
-                           <http://www.w3.org/2004/02/skos/core#definition> "Role of a device that is being calibrated. The role is realized in a calibration process."@en ,
-                                                                            "Rolle eines Gerätes (Kalibrierungsgegenstand), das kalibriert wird. Die Rolle wird ein einem Kalibrierungsprozess realisiert."@de .
-
-
-###  https://w3id.org/pmd/co/TemperatureChangeDevice
-:TemperatureChangeDevice rdf:type owl:Class ;
-                         rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-                         <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                         rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                         rdfs:label "Temperature Change Device"@en ,
-                                    "Temperaturänderungswerkzeug"@de ;
-                         <http://www.w3.org/2004/02/skos/core#definition> "A device that is used for the alteration and adjustment of the temperature of a tangible object or the environment, e.g., a furnace and cooling media."@en ,
-                                                                          "Diese Entität beschreibt allgemein jedes Werkzeug, das zur Änderung und Einstellung der Temperatur eines materiellen Objekts oder der Umgebung verwendet wird, z. B. einen Ofen und Kühlmittel."@de .
-
-
-###  https://w3id.org/pmd/co/TemperatureMeasuringDevice
-:TemperatureMeasuringDevice rdf:type owl:Class ;
-                            rdfs:subClassOf :MeasuringDevice ;
-                            <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                            rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                            rdfs:label "Temperature Measuring Device"@en ,
-                                       "Temperaturmesswerkzeug"@de ;
-                            <http://www.w3.org/2004/02/skos/core#definition> "A device that is used for the measurement of the temperature of a tangible object or the environment, e.g., a thermocouple and thermometers."@en ,
-                                                                             "Diese Entität beschreibt allgemein jedes Werkzeug, das zur Messung der Temperatur eines materiellen Objekts oder der Umgebung verwendet wird, z. B. ein Thermoelement und Thermometer."@de .
-
-
-###  https://w3id.org/pmd/co/TestingMachine
-:TestingMachine rdf:type owl:Class ;
-                rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000968> ;
-                <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-                rdfs:label "Prüfmaschine"@de ,
-                           "Testing Machine"@en ;
-                <http://www.w3.org/2004/02/skos/core#definition> "A device that is used to perform a defined test. A testing machine may be technically complex and contain several parts."@en ,
-                                                                 "Ein Gerät, das für die Durchführung eines bestimmten Tests verwendet wird. Eine Prüfmaschine kann technisch komplex sein und aus mehreren Teilen bestehen."@de .
-
-
-###  https://w3id.org/pmd/co/Thermocouple
-:Thermocouple rdf:type owl:Class ;
-              rdfs:subClassOf :MeasuringDevice ;
-              <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
-              rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
-              rdfs:label "Thermocouple"@en ,
-                         "Thermoelement"@de ;
-              <http://www.w3.org/2004/02/skos/core#definition> "A device for measuring temperature in which a pair of wires of dissimilar metals (such as copper and iron) are joined and the free ends of the wires are connected to an instrument (such as a voltmeter) that measures the difference in potential created at the junction of the two metals."@en ,
-                                                               "Ein Gerät zur Temperaturmessung, bei dem ein Paar Drähte aus unterschiedlichen Metallen (z. B. Kupfer und Eisen) verbunden und die freien Enden der Drähte mit einem Instrument (z. B. einem Voltmeter) verbunden werden, das die an der Verbindungsstelle erzeugte der beiden Metalle Potentialdifferenz misst ."@de ;
-              :definitionSource "“Thermocouple.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/thermocouple. Accessed 13 Jan. 2023."@en .
-
-
-###  https://w3id.org/pmd/co/WaterjetCutter
-:WaterjetCutter rdf:type owl:Class ;
-                rdfs:subClassOf [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/OBI_0000968>
-                                                       [ rdf:type owl:Restriction ;
-                                                         owl:onProperty <http://purl.obolibrary.org/obo/RO_0000085> ;
-                                                         owl:someValuesFrom :CutFunction
-                                                       ]
-                                                     ) ;
-                                  rdf:type owl:Class
-                                ] ;
-                <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON:Joerg Waitelonis" ;
-                rdfs:label "Wasserstrahlschneider"@de ,
-                           "Waterjet Cutter"@en ;
-                <http://www.w3.org/2004/02/skos/core#definition> "A device that utilizes a high-pressure stream of water or a water stream with abrasive particles to cut materials such as metal, stone, plastic, etc."@en ,
-                                                                 "Ein Gerät, das einen Hochdruckwasserstrahl oder einen Wasserstrahl mit abrasiven Partikeln verwendet, um Materialien wie Metall, Stein, Kunststoff usw. zu schneiden."@de .
-
-
-###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
