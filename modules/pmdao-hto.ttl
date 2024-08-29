@@ -1,0 +1,89 @@
+@prefix : <https://w3id.org/pmd/ao/hto/> .
+@prefix ex: <https://example.org/> .
+@prefix hto: <https://w3id.org/pmd/ao/hto/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix qudt: <http://qudt.org/vocab/unit/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@base <https://w3id.org/pmd/ao/hto/> .
+
+<https://w3id.org/pmd/ao/hto/> rdf:type owl:Ontology ;
+                                owl:versionIRI <https://w3id.org/pmd/ao/hto/3.0.0> ;
+                                owl:imports obo: ,
+                                            qudt: ,
+                                            pmdco: ;
+                                dcterms:created "2024-08-29" ;
+                                dcterms:title "Platform Material Digital Application Ontology (PMDao) - Heat Treatment Module"@en ;
+                                owl:versionInfo "3.0.0" .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://w3id.org/pmd/ao/hto/Heating
+hto:Heating rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( pmdco:HeatTreatment
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000055 ;
+                                                         owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:BFO_0000051 ;
+                                                                              owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                                                   owl:onProperty obo:OBI_0001938 ;
+                                                                                                   owl:someValuesFrom [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                                                                               owl:onProperty obo:IAO_0000039 ;
+                                                                                                                                               owl:someValuesFrom qudt:DEG_C
+                                                                                                                                             ]
+                                                                                                                                             [ rdf:type owl:Restriction ;
+                                                                                                                                               owl:onProperty obo:OBI_0001937 ;
+                                                                                                                                               owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                                                                                    owl:onDatatype xsd:double ;
+                                                                                                                                                                    owl:withRestrictions ( [ xsd:minInclusive "100.0"^^xsd:double
+                                                                                                                                                                                           ]
+                                                                                                                                                                                         )
+                                                                                                                                                                  ]
+                                                                                                                                             ]
+                                                                                                                                           ) ;
+                                                                                                                        rdf:type owl:Class
+                                                                                                                      ]
+                                                                                                 ]
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:isDefinedBy <https://w3id.org/pmd/ao/hto/> ;
+            skos:definition "A process in which the temperature is increased from a lower to a higher level."@en ,
+                            "Ein Prozess, bei dem die Temperatur von einem niedrigem auf ein höheres Niveau gesteigert wird."@de ,
+                            "type of heating process, e.g. fast uncontrolled heating, heating ramp controlled etc. "@en ;
+            skos:prefLabel "Erwärmprozess"@de ,
+                           "Heating Process"@en .
+
+
+###  https://w3id.org/pmd/co/Furnace
+pmdco:Furnace rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+              skos:definition "A furnace intended to change the physical and chemical properties of objects (e.g., test pieces or blanks) achieved through heat treatment techniques such as annealing, case hardening, precipitation, strengthening, tempering, normalizing, or quenching."@en ;
+              skos:prefLabel "Ein Ofen, der dazu bestimmt ist, die physikalischen und chemischen Eigenschaften von Objekten (z. B. Prüfstücke oder Rohlinge) durch Wärmebehandlungsverfahren wie Glühen, Einsatzhärten, Nitrieren, Borieren, Ausscheidungsbildung, Verfestigen, Anlassen, Normalisieren oder Abschrecken zu verändern."@de ,
+                             "Heat Treatment Furnace"@en ,
+                             "Wärmebehandlungsofen"@de .
+
+
+###  https://w3id.org/pmd/co/HeatTreatment
+pmdco:HeatTreatment rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                    owl:equivalentClass [ owl:intersectionOf ( obo:OBI_0000011
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty obo:BFO_0000055 ;
+                                                                 owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                                      owl:onProperty obo:IAO_0000136 ;
+                                                                                      owl:someValuesFrom pmdco:Furnace
+                                                                                    ]
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] .
+
