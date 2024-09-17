@@ -1,10 +1,9 @@
 # The PMD Core Ontology (PMDco)
 
-This is version [v2.0.7](https://github.com/materialdigital/core-ontology/releases/tag/v2.0.7) of the PMD Core Ontology (PMDco).
+This is version [v2.0.7](https://github.com/materialdigital/core-ontology/releases/tag/v2.0.8) of the PMD Core Ontology (PMDco).
 
 ## Files
 - `pmd_core.ttl` - core version of the PMD ontology
-- `pmd_bfo_adapter.ttl` - mappings to information artifact ontology (IAO) and basic formal ontology (BFO).
 
 ## Contribute
 If you like to contribute, please feel free to add any issues or participate in discussions here on Github.
