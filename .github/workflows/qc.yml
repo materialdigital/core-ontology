@@ -2,16 +2,16 @@ name: verification rules
 on:
   push:
     branches:
-    - main
+    - develop-3.0.0
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
       with:
-        ref: main
+        ref: develop-3.0.0
         path: main
-    - name: Verification
+    - name: QC Verification
       run: |
            curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
            java -jar robot.jar --version
