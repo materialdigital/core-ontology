@@ -4,13 +4,13 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <https://w3id.org/pmd/co/> .
+
+@base <https://w3id.org/pmd/co/manufacturing> .
 
 <https://w3id.org/pmd/co/manufacturing> rdf:type owl:Ontology ;
                                          owl:versionIRI <https://w3id.org/pmd/co/manufacturing/3.0.0> ;
                                          owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ,
                                                      <http://purl.obolibrary.org/obo/iao/2022-11-07/iao.owl> ,
-                                                     <http://purl.obolibrary.org/obo/obi/2023-09-20/obi.owl> ,
                                                      <http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ;
                                          <http://purl.org/dc/terms/created> "2023-11-17" ;
                                          <http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/4.0/> ;
@@ -45,6 +45,9 @@
 ###  https://w3id.org/pmd/co/AgingProcess
 :AgingProcess rdf:type owl:Class ;
               rdfs:subClassOf :ManufacturingProcess ;
+
+              <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+
               rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
               rdfs:label "Aging Process"@en ,
                          "Alterungsprozess"@de ;
@@ -56,10 +59,24 @@
 ###  https://w3id.org/pmd/co/AssemblingProcess
 :AssemblingProcess rdf:type owl:Class ;
                    rdfs:subClassOf :ManufacturingProcess ;
+
+                   <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+
                    rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                    rdfs:label "Assemblierungsprozess"@de ,
                               "Assembling Process"@en ;
                    <http://www.w3.org/2004/02/skos/core#definition> "A process to mount or demount a component."@en .
+
+
+###  https://w3id.org/pmd/co/Blank
+:Blank rdf:type owl:Class ;
+       rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000030> ;
+       <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+       <http://purl.obolibrary.org/obo/IAO_0000117> "PMDco Team" ;
+       rdfs:label "Blank"@en ,
+                  "Rohling"@de ;
+       <http://www.w3.org/2004/02/skos/core#definition> "An object, usually a piece of material prepared to be made into something by a further operation."@en ,
+                                                        "Ein Objekt, in der Regel ein Stück Material, das für einen weiteren Arbeitsgang vorbereitet wird."@de .
 
 
 ###  https://w3id.org/pmd/co/BlankRole
@@ -76,6 +93,7 @@
 ###  https://w3id.org/pmd/co/Burning
 :Burning rdf:type owl:Class ;
          rdfs:subClassOf :ChangingPropertiesOfMaterial ;
+
          <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
          <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
          <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt"@en ;
@@ -87,6 +105,7 @@
          <http://www.w3.org/2004/02/skos/core#example> "Firing in Pottery"@en .
 
 
+
 ###  https://w3id.org/pmd/co/ChangingPropertiesOfMaterial
 :ChangingPropertiesOfMaterial rdf:type owl:Class ;
                               rdfs:subClassOf :ManufacturingProcess ;
@@ -96,8 +115,7 @@
                                                                            "Offizielle Definition findet man in: DIN 8580:2003-9 Fertigungsverfahren, Seite 5, 3.1.6 Stoffeigenschaften ändern - Definition"@de ;
                               rdfs:label "Changing Properties Of Material"@en ,
                                          "Stoffeigenschaft Ändern"@de ;
-                              <http://www.w3.org/2004/02/skos/core#altLabel> "Changing Of Material Properties"@en ,
-                                                                             "Property Alteration"@en ;
+                              <http://www.w3.org/2004/02/skos/core#altLabel> "Changing Of Material Properties"@en                                                                             "Property Alteration"@en ;
                               <http://www.w3.org/2004/02/skos/core#definition> "A manufacturing process that modifies the characteristics of the material from which a workpiece is made, including by processes at the submicroscopic or atomic scale, such as atomic diffusion, dislocation formation and movement in the atomic lattice or chemical reactions, whereby the resulting shape changes are not characteristic of these processes."@en ,
                                                                                "Ein Herstellungsprozess, der die Merkmale des Materials, aus dem ein Werkstück gefertigt ist, modifiziert, was unter anderem durch Vorgänge im submikroskopischen oder atomaren Bereich erfolgt, wie etwa durch Atomdiffusion, die Versetzungsentstehung und -bewegung im Atomgitter oder durch chemische Reaktionen, wobei die dabei auftretenden Formveränderungen nicht charakteristisch für diese Verfahren sind."@de ;
                               <http://www.w3.org/2004/02/skos/core#example> "Heat Treatment"@en .
@@ -105,14 +123,17 @@
 
 ###  https://w3id.org/pmd/co/Cleaning
 :Cleaning rdf:type owl:Class ;
-          rdfs:subClassOf :Separation ;
+
+          rdfs:subClassOf :Separating ;
+
           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
           <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
           <http://purl.obolibrary.org/obo/IAO_0000119> "Official definition can be found in: DIN 8592"@en ,
                                                        "Offizielle Definition findet man in: DIN 8592"@de ;
           rdfs:label "Cleaning"@en ,
                      "Reinigen"@de ;
-          <http://www.w3.org/2004/02/skos/core#definition> "A cutting process that involves removing unwanted material from a surface through cleaning methods, which may include processes like blasting, washing, or chemical cleaning."@en ,
+
+          <http://www.w3.org/2004/02/skos/core#definition> "A Seperating process that involves removing unwanted material from a surface through cleaning methods, which may include processes like blasting, washing, or chemical cleaning."@en ,
                                                            "Ein Trennprozess, bei dem unerwünschtes Material von einer Oberfläche durch Reinigungsmethoden entfernt wird, die Verfahren wie Strahlen, Waschen oder chemische Reinigung umfassen können."@de ;
           <http://www.w3.org/2004/02/skos/core#example> "Chemical Cleaning, Mechanical Cleaning"@en .
 
@@ -134,79 +155,121 @@
 ###  https://w3id.org/pmd/co/CoatingBySoldering
 :CoatingBySoldering rdf:type owl:Class ;
                     rdfs:subClassOf :Coating ;
-                    <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
+
+                    <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                     <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                    <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                     rdfs:label "Beschichten Durch Löten"@de ,
-                               "Coating By Soldering"@en .
+                               "Coating By Soldering"@en ;
+                    <http://www.w3.org/2004/02/skos/core#definition> "A Coating process that involves applying a coating using soldering techniques."@en ,
+                                                                     "Ein Beschichtungsprozess, der das Auftragen einer Beschichtung mittels Löten beinhaltet."@de ;
+                    <http://www.w3.org/2004/02/skos/core#example> "Applying a protective solder layer on electronic circuit boards."@en .
+
 
 
 ###  https://w3id.org/pmd/co/CoatingByWelding
 :CoatingByWelding rdf:type owl:Class ;
                   rdfs:subClassOf :Coating ;
-                  <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
+
+                  <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                   <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                  <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                   rdfs:label "Beschichten Durch Schweissen"@de ,
-                             "Coating By Welding"@en .
+                             "Coating By Welding"@en ;
+                  <http://www.w3.org/2004/02/skos/core#definition> "A Coating process that involves applying a coating using welding techniques."@en ,
+                                                                   "Ein Beschichtungsprozess, der das Auftragen einer Beschichtung mittels Schweißen beinhaltet."@de ;
+                  <http://www.w3.org/2004/02/skos/core#example> "Cladding a metal surface with a corrosion-resistant alloy using weld overlay."@en .
+
 
 
 ###  https://w3id.org/pmd/co/CoatingFromTheGaseousOrVapourState
 :CoatingFromTheGaseousOrVapourState rdf:type owl:Class ;
                                     rdfs:subClassOf :Coating ;
-                                    <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
+
+                                    <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                                     <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                    <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                                     rdfs:label "Beschichten Aus Dem Gasförmigen Oder Dampfförmigen Zustand"@de ,
                                                "Coating From The Gaseous Or Vapour State"@en ;
                                     <http://www.w3.org/2004/02/skos/core#altLabel> "Vakuumbeschichten"@de ;
-                                    <http://www.w3.org/2004/02/skos/core#example> "Depositing by evaporation."@en .
+                                    <http://www.w3.org/2004/02/skos/core#definition> "A Coating process that involves applying a coating from a gaseous or vapor state."@en ,
+                                                                                     "Ein Beschichtungsprozess, der das Auftragen einer Beschichtung aus einem gasförmigen oder dampfförmigen Zustand beinhaltet."@de ;
+                                    <http://www.w3.org/2004/02/skos/core#example> "Applying a thin film of material using chemical vapor deposition (CVD)."@en .
+
 
 
 ###  https://w3id.org/pmd/co/CoatingFromTheGranularOrPowderyState
 :CoatingFromTheGranularOrPowderyState rdf:type owl:Class ;
                                       rdfs:subClassOf :Coating ;
-                                      <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
+
+                                      <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                                       <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                      <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                                       rdfs:label "Beschichten Aus Dem Körnigen Oder Pulverförmigen Zustand"@de ,
                                                  "Coating From The Granular Or Powdery State"@en ;
-                                      <http://www.w3.org/2004/02/skos/core#example> "Powder spraying."@en .
+                                      <http://www.w3.org/2004/02/skos/core#definition> "A Coating process that involves applying a coating from a granular or powdery state."@en ,
+                                                                                       "Ein Beschichtungsprozess, der das Auftragen einer Beschichtung aus einem körnigen oder pulverförmigen Zustand beinhaltet."@de ;
+                                      <http://www.w3.org/2004/02/skos/core#example> "Powder coating of metal parts."@en .
 
 
 ###  https://w3id.org/pmd/co/CoatingFromTheIonizedState
 :CoatingFromTheIonizedState rdf:type owl:Class ;
                             rdfs:subClassOf :Coating ;
-                            <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
+
+                            <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                             <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                            <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                             rdfs:label "Beschichten Aus Dem Ionisierten Zustand"@de ,
                                        "Coating From The Ionized State"@en ;
-                            <http://www.w3.org/2004/02/skos/core#example> "Electroplating."@en .
+                            <http://www.w3.org/2004/02/skos/core#definition> "A Coating process that involves applying a coating from an ionized state."@en ,
+                                                                             "Ein Beschichtungsprozess, der das Auftragen einer Beschichtung aus einem ionisierten Zustand beinhaltet."@de ;
+                            <http://www.w3.org/2004/02/skos/core#example> "Plasma spraying of ceramic coatings."@en .
+
 
 
 ###  https://w3id.org/pmd/co/CoatingFromTheLiquidState
 :CoatingFromTheLiquidState rdf:type owl:Class ;
                            rdfs:subClassOf :Coating ;
-                           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
+
+                           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                            <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                           <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                            rdfs:label "Beschichten Aus Dem Flüssigen Zustand"@de ,
                                       "Coating From The Liquid State"@en ;
-                           <http://www.w3.org/2004/02/skos/core#example> "Spray painitng, dip enamelling."@en .
+                           <http://www.w3.org/2004/02/skos/core#definition> "A Coating process that involves applying a coating from a liquid state."@en ,
+                                                                            "Ein Beschichtungsprozess, der das Auftragen einer Beschichtung aus einem flüssigen Zustand beinhaltet."@de ;
+                           <http://www.w3.org/2004/02/skos/core#example> "Electroplating of metals."@en .
+
 
 
 ###  https://w3id.org/pmd/co/CoatingFromThePlasticState
 :CoatingFromThePlasticState rdf:type owl:Class ;
                             rdfs:subClassOf :Coating ;
-                            <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
+
+                            <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                             <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                            <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                             rdfs:label "Beschichten Aus Dem Plastischen Zustand"@de ,
-                                       "Coating From The Plastic State"@en .
+                                       "Coating From The Plastic State"@en ;
+                            <http://www.w3.org/2004/02/skos/core#definition> "A Coating process that involves applying a coating from a plastic state."@en ,
+                                                                             "Ein Beschichtungsprozess, der das Auftragen einer Beschichtung aus einem plastischen Zustand beinhaltet."@de ;
+                            <http://www.w3.org/2004/02/skos/core#example> "Applying a plastic film through hot melt coating."@en .
+
 
 
 ###  https://w3id.org/pmd/co/CoatingFromThePulpyOrPastyState
 :CoatingFromThePulpyOrPastyState rdf:type owl:Class ;
                                  rdfs:subClassOf :Coating ;
-                                 <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
+
+                                 <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                                  <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                 <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                                  rdfs:label "Beschichten Aus Dem Breiigen Oder Pastösen Zustand"@de ,
                                             "Coating From The Pulpy Or Pasty State"@en ;
-                                 <http://www.w3.org/2004/02/skos/core#example> "Painting."@en .
+                                 <http://www.w3.org/2004/02/skos/core#definition> "A Coating process that involves applying a coating from a pulpy or pasty state."@en ,
+                                                                                  "Ein Beschichtungsprozess, der das Auftragen einer Beschichtung aus einem breiigen oder pastösen Zustand beinhaltet."@de ;
+                                 <http://www.w3.org/2004/02/skos/core#example> "Painting, a protective layer of plaster on walls."@en .
+
 
 
 ###  https://w3id.org/pmd/co/Compounding
@@ -227,6 +290,9 @@
 ###  https://w3id.org/pmd/co/ConditioningProcess
 :ConditioningProcess rdf:type owl:Class ;
                      rdfs:subClassOf :ManufacturingProcess ;
+
+                     <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+
                      rdfs:isDefinedBy <https://w3id.org/pmd/co> ;
                      rdfs:label "Conditioning Process"@en ,
                                 "Konditionierungsprozess"@de ;
@@ -242,28 +308,36 @@
 
 ###  https://w3id.org/pmd/co/Disassembling
 :Disassembling rdf:type owl:Class ;
-               rdfs:subClassOf :Separation ;
+
+               rdfs:subClassOf :Separating ;
+
                <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
                <http://purl.obolibrary.org/obo/IAO_0000119> "Official definition can be found in: DIN 8591"@en ,
                                                             "Offizielle Definition findet man in: DIN 8591"@de ;
                rdfs:label "Disassembling"@en ,
                           "Zerlegen"@de ;
-               <http://www.w3.org/2004/02/skos/core#definition> "A cutting process that involves disassembling a composite or assembled unit into its constituent parts or sections."@en ,
+
+               <http://www.w3.org/2004/02/skos/core#definition> "A Seperating process that involves disassembling a composite or assembled unit into its constituent parts or sections."@en ,
+
                                                                 "Ein Trennprozess, bei dem eine zusammengesetzte oder montierte Einheit in ihre Einzelteile oder Abschnitte zerlegt wird."@de ;
                <http://www.w3.org/2004/02/skos/core#example> "Dismantling, Emptying"@en .
 
 
 ###  https://w3id.org/pmd/co/Dividing
 :Dividing rdf:type owl:Class ;
-          rdfs:subClassOf :Separation ;
+
+          rdfs:subClassOf :Separating ;
+
           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
           <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
           <http://purl.obolibrary.org/obo/IAO_0000119> "Official definition can be found in: DIN 8588"@en ,
                                                        "Offizielle Definition findet man in: DIN 8588"@de ;
           rdfs:label "Dividing"@en ,
                      "Zerteilen"@de ;
-          <http://www.w3.org/2004/02/skos/core#definition> "A cutting process that involves separating material into distinct parts using techniques like shear cutting, splitting, tearing, or breaking, typically employed in processes where precise control over the cut is less critical."@en ,
+
+          <http://www.w3.org/2004/02/skos/core#definition> "A Seperating process that involves separating material into distinct parts using techniques like shear cutting, splitting, tearing, or breaking, typically employed in processes where precise control over the cut is less critical."@en ,
+
                                                            "Ein Trennprozess, bei dem das Material durch Techniken wie Scherschneiden, Spalten, Reißen oder Brechen in verschiedene Teile zerlegt wird. Es wird in der Regel bei Prozessen eingesetzt, bei denen eine genaue Kontrolle über den Schnitt weniger wichtig ist."@de ;
           <http://www.w3.org/2004/02/skos/core#example> "Shearing, Cracking"@en .
 
@@ -385,13 +459,15 @@
 ###  https://w3id.org/pmd/co/HardeningByForming
 :HardeningByForming rdf:type owl:Class ;
                     rdfs:subClassOf :ChangingPropertiesOfMaterial ;
-                    <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+
+                    <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                     <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
-                    <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt"@en ;
+                    <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                     rdfs:label "Hardening By Forming"@en ,
                                "Verfestigen Durch Umformen"@de ;
-                    <http://www.w3.org/2004/02/skos/core#definition> "A changing the properties of material process, that changes the internal structure of the material and improves its properties by forming, such as rolling or pressing."@en ,
-                                                                     "Ein Stoffeigenschaftsänderungsprozess, der durch Umformen, wie Walzen oder Pressen, die innere Struktur des Materials verändert und die Eigenschaften verbessert."@de ;
+                    <http://www.w3.org/2004/02/skos/core#definition> "A Changing Properties Of Material process, that involves altering material properties by mechanical deformation."@en ,
+                                                                     "Ein Stoffeigenschaft Ändern Prozess, der die Eigenschaften des Materials durch mechanische Verformung verändert."@de ;
+
                     <http://www.w3.org/2004/02/skos/core#example> "Sheet Metal Rolling to Achieve Higher Strength."@en .
 
 
@@ -405,21 +481,25 @@
                rdfs:label "Heat Treatment"@en ,
                           "Wärmebehandlung"@de ;
                <http://www.w3.org/2004/02/skos/core#altLabel> "Wärmebehandeln"@de ;
-               <http://www.w3.org/2004/02/skos/core#definition> "A changing properties of materials process in which a solid (ferrous) product is fully or partially exposed to specific time-temperature sequences through a series of process steps with the aim of modifying its properties and/or its internal structure."@en ,
-                                                                "Ein Stoffeigenschaftsänderungsprozess, bei dem durch eine Reihe von Verfahrensschritten ein festes (Eisen-)Produkt ganz oder teilweise bestimmten Zeit-Temperatur-Abfolgen ausgesetzt wird, mit dem Ziel, seine Eigenschaften und/oder seine innere Struktur zu modifizieren."@de ;
+
+               <http://www.w3.org/2004/02/skos/core#definition> "A Changing Properties of Materials process in which a solid (ferrous) product is fully or partially exposed to specific time-temperature sequences through a series of process steps with the aim of modifying its properties and/or its internal structure."@en ,
+                                                                "Ein Stoffeigenschaft Ändern Prozess, bei dem durch eine Reihe von Verfahrensschritten ein festes (Eisen-)Produkt ganz oder teilweise bestimmten Zeit-Temperatur-Abfolgen ausgesetzt wird, mit dem Ziel, seine Eigenschaften und/oder seine innere Struktur zu modifizieren."@de ;
+
                <http://www.w3.org/2004/02/skos/core#example> "Annealing, Ageing, Hardening"@en .
 
 
 ###  https://w3id.org/pmd/co/Irradiating
 :Irradiating rdf:type owl:Class ;
              rdfs:subClassOf :ChangingPropertiesOfMaterial ;
-             <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+
+             <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
              <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
-             <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt"@en ;
+             <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
              rdfs:label "Bestrahlen"@de ,
                         "Irradiating"@en ;
-             <http://www.w3.org/2004/02/skos/core#definition> "A changing the properties of material process that employs radiation exposure, to alter and enhance a material's physical or chemical attributes."@en ,
-                                                              "Ein Stoffeigenschaftsänderungsprozess, bei dem die physikalischen oder chemischen Eigenschaften eines Materials durch Bestrahlung verändert und verbessert werden."@de ;
+             <http://www.w3.org/2004/02/skos/core#definition> "A Changing Properties Of Material process that employs radiation exposure, to alter and enhance a material's physical or chemical attributes."@en ,
+                                                              "Ein Stoffeigenschaft Ändern Prozess, bei dem die physikalischen oder chemischen Eigenschaften eines Materials durch Bestrahlung verändert und verbessert werden."@de ;
+
              <http://www.w3.org/2004/02/skos/core#example> "Polymer Curing"@en .
 
 
@@ -497,28 +577,36 @@
 
 ###  https://w3id.org/pmd/co/MachiningGeometricallyDefined
 :MachiningGeometricallyDefined rdf:type owl:Class ;
-                               rdfs:subClassOf :Separation ;
+
+                               rdfs:subClassOf :Separating ;
+
                                <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                                <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
                                <http://purl.obolibrary.org/obo/IAO_0000119> "Official definition can be found in: DIN 8589-0"@en ,
                                                                             "Offizielle Definition findet man in: DIN 8589-0"@de ;
                                rdfs:label "Machining Geometrically Defined"@en ,
                                           "Spanen Mit Geometrisch Bestimmten Schneiden"@de ;
-                               <http://www.w3.org/2004/02/skos/core#definition> "A cutting process that involves removing material with a tool that has a defined shape and sharp edges, such as in sawing and drilling operations."@en ,
+
+                               <http://www.w3.org/2004/02/skos/core#definition> "A Seperating process that involves removing material with a tool that has a defined shape and sharp edges, such as in sawing and drilling operations."@en ,
+
                                                                                 "Ein Trennprozess, bei dem Material mit einem Werkzeug mit definierter Form und scharfen Kanten entfernt wird, wie z. B. beim Sägen und Bohren."@de ;
                                <http://www.w3.org/2004/02/skos/core#example> "Drilling, Turning"@en .
 
 
 ###  https://w3id.org/pmd/co/MachiningGeometricallyUndefined
 :MachiningGeometricallyUndefined rdf:type owl:Class ;
-                                 rdfs:subClassOf :Separation ;
+
+                                 rdfs:subClassOf :Separating ;
+
                                  <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                                  <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
                                  <http://purl.obolibrary.org/obo/IAO_0000119> "Official definition can be found in: DIN 8589-0"@en ,
                                                                               "Offizielle Definition findet man in: DIN 8589-0"@de ;
                                  rdfs:label "Machining Geometrically Undefined"@en ,
                                             "Spanen Mit Geometrisch Unbestimmten Schneiden"@de ;
-                                 <http://www.w3.org/2004/02/skos/core#definition> "A cutting process that involves removing material using tools with undefined cutting edges, such as grinding or abrasive machining, where the exact shape of the cutting part isn't clearly defined."@en ,
+
+                                 <http://www.w3.org/2004/02/skos/core#definition> "A Seperating process that involves removing material using tools with undefined cutting edges, such as grinding or abrasive machining, where the exact shape of the cutting part isn't clearly defined."@en ,
+
                                                                                   "Ein Trennprozess, bei dem Material mit Werkzeugen mit undefinierten Schneiden abgetragen wird, wie z. B. beim Schleifen oder bei der abrasiven Bearbeitung, bei der die genaue Form des zu schneidenden Teils nicht klar definiert ist."@de ;
                                  <http://www.w3.org/2004/02/skos/core#example> "Grinding, Blasting"@en .
 
@@ -526,13 +614,16 @@
 ###  https://w3id.org/pmd/co/Magnetizing
 :Magnetizing rdf:type owl:Class ;
              rdfs:subClassOf :ChangingPropertiesOfMaterial ;
-             <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+
+             <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+
              <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
              <http://purl.obolibrary.org/obo/IAO_0000119> "https://industrylist.com/glossar/stoffeigenschaften-aendern/magnetisieren/"@de ;
              rdfs:label "Magnetisieren"@de ,
                         "Magnetizing"@en ;
-             <http://www.w3.org/2004/02/skos/core#definition> "A changing material properties process in which ferromagnetic materials are exposed to an external magnetic field, causing the material to take on magnetic properties."@en ,
-                                                              "Ein Stoffeigenschaftsänderungsprozess, bei dem ferromagnetische Stoffe einem äußeren Magnetfeld ausgesetzt werden wodurch der Stoff magnetische Eigenschaften übernimmt."@de ;
+             <http://www.w3.org/2004/02/skos/core#definition> "A Changing Properties Of Material process in which ferromagnetic materials are exposed to an external magnetic field, causing the material to take on magnetic properties."@en ,
+                                                              "Ein Stoffeigenschaft Ändern Prozess, bei dem ferromagnetische Stoffe einem äußeren Magnetfeld ausgesetzt werden wodurch der Stoff magnetische Eigenschaften übernimmt."@de ;
+
              <http://www.w3.org/2004/02/skos/core#example> "Static Magnetization, Pulse Magnetization."@en .
 
 
@@ -553,21 +644,24 @@
                       rdfs:subClassOf <http://purl.obolibrary.org/obo/OBI_0000011> ;
                       rdfs:label "Herstellungsprozess"@de ,
                                  "Manufacturing Process"@en ;
-                      <http://www.w3.org/2004/02/skos/core#definition> """A process that is driven by the primary intent to transform objects
-A manufacture process is always a transformative process."""@en ,
-                                                                       "A process that is driven by the primary intent to transform objects. A manufacture process is always a transformative process."@en .
+
+                      <http://www.w3.org/2004/02/skos/core#definition> """A planned process that is driven by the primary intent to transform objects
+A manufacturing process is always a transformative process."""@en ,
+                                                                       "Ein geplannter Prozess, der von der primären Absicht angetrieben wird, Objekte zu transformieren. Ein Herstellungsprozess ist immer ein Transformationsprozess."@de .
+
 
 
 ###  https://w3id.org/pmd/co/PhotochemicalProcess
 :PhotochemicalProcess rdf:type owl:Class ;
                       rdfs:subClassOf :ChangingPropertiesOfMaterial ;
-                      <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+                      <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                       <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
-                      <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt"@en ;
+                      <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                       rdfs:label "Photochemical Process"@en ,
                                  "Photochemische Verfahren"@de ;
-                      <http://www.w3.org/2004/02/skos/core#definition> "A changing properties of materials process in which light, typically ultraviolet (UV) light is used to trigger chemical reactions. In the printing industry and some additive manufacturing methods, this light exposure is used to harden photoresists or cure inks and resins. The process relies on the specific wavelengths of light to initiate chemical changes in the material."@en ,
-                                                                       "Ein Stoffeigenschaftsänderungsprozess, bei dem Licht, in der Regel ultraviolettes (UV) Licht, zur Auslösung chemischer Reaktionen verwendet wird. In der Druckindustrie und bei einigen additiven Fertigungsverfahren wird diese Lichteinwirkung zur Härtung von Fotolacken oder zur Aushärtung von Tinten und Harzen verwendet. Das Verfahren beruht auf den spezifischen Wellenlängen des Lichts, um chemische Veränderungen im Material auszulösen."@de ;
+                      <http://www.w3.org/2004/02/skos/core#definition> "A Changing Properties Of Material process in which light, typically ultraviolet (UV) light is used to trigger chemical reactions. In the printing industry and some additive manufacturing methods, this light exposure is used to harden photoresists or cure inks and resins. The process relies on the specific wavelengths of light to initiate chemical changes in the material."@en ,
+                                                                       "Ein Stoffeigenschaft Ändern Prozess, bei dem Licht, in der Regel ultraviolettes (UV) Licht, zur Auslösung chemischer Reaktionen verwendet wird. In der Druckindustrie und bei einigen additiven Fertigungsverfahren wird diese Lichteinwirkung zur Härtung von Fotolacken oder zur Aushärtung von Tinten und Harzen verwendet. Das Verfahren beruht auf den spezifischen Wellenlängen des Lichts, um chemische Veränderungen im Material auszulösen."@de ;
+
                       <http://www.w3.org/2004/02/skos/core#example> "Exposure"@en .
 
 
@@ -600,18 +694,126 @@ A manufacture process is always a transformative process."""@en ,
                 <http://www.w3.org/2004/02/skos/core#example> "Casting, Sintering"@en .
 
 
+
+###  https://w3id.org/pmd/co/PrimaryShapingByAdditiveManufacturing
+:PrimaryShapingByAdditiveManufacturing rdf:type owl:Class ;
+                                       rdfs:subClassOf :PrimaryShaping ;
+                                       <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+                                       <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                       <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
+                                       rdfs:label "Primary Shaping By Additive Manufacturing"@en ,
+                                                  "Urformen Durch Additive Fertigung"@de ;
+                                       <http://www.w3.org/2004/02/skos/core#definition> "A Primary Shaping process that involves forming materials through additive manufacturing techniques."@en ,
+                                                                                        "Ein Urformprozess, der das Formen von Materialien durch additive Fertigungstechniken beinhaltet."@de ;
+                                       <http://www.w3.org/2004/02/skos/core#example> "3D printing of polymer objects."@en .
+
+
+###  https://w3id.org/pmd/co/PrimaryShapingByWelding
+:PrimaryShapingByWelding rdf:type owl:Class ;
+                         rdfs:subClassOf :PrimaryShaping ;
+                         <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+                         <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                         <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
+                         rdfs:label "Primary Shaping By Welding"@en ,
+                                    "Urformen Durch Schweissen"@de ;
+                         <http://www.w3.org/2004/02/skos/core#definition> "A Primary Shaping process that involves forming materials by welding."@en ,
+                                                                          "Ein Urformprozess, der das Formen von Materialien durch Schweißen beinhaltet."@de ;
+                         <http://www.w3.org/2004/02/skos/core#example> "Fabrication of steel structures using welding techniques."@en .
+
+
+###  https://w3id.org/pmd/co/PrimaryShapingFromTheChipOrFiberState
+:PrimaryShapingFromTheChipOrFiberState rdf:type owl:Class ;
+                                       rdfs:subClassOf :PrimaryShaping ;
+                                       <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+                                       <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                       <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
+                                       rdfs:label "Primary Shaping From The Chip Or Fiber State"@en ,
+                                                  "Urformen Aus Dem Spanförmigen Oder Faserförmigen Zustand"@de ;
+                                       <http://www.w3.org/2004/02/skos/core#definition> "A Primary Shaping process that involves forming materials from a chip or fiber state."@en ,
+                                                                                        "Ein Urformprozess, der das Formen von Materialien aus einem span- oder faserförmigen Zustand beinhaltet."@de ;
+                                       <http://www.w3.org/2004/02/skos/core#example> "Compression molding of wood chips into particle boards."@en .
+
+
+###  https://w3id.org/pmd/co/PrimaryShapingFromTheGaseousOrVaporState
+:PrimaryShapingFromTheGaseousOrVaporState rdf:type owl:Class ;
+                                          rdfs:subClassOf :PrimaryShaping ;
+                                          <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+                                          <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                          <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
+                                          rdfs:label "Primary Shaping From The Gaseous Or Vapor State"@en ,
+                                                     "Urformen Aus Dem Gasförmigen Oder Dampfförmigen Zustand"@de ;
+                                          <http://www.w3.org/2004/02/skos/core#definition> "A Primary Shaping process that involves forming materials from a gaseous or vapor state."@en ,
+                                                                                           "Ein Urformprozess, der das Formen von Materialien aus einem gasförmigen oder dampfförmigen Zustand beinhaltet."@de ;
+                                          <http://www.w3.org/2004/02/skos/core#example> "Chemical vapor deposition (CVD) for thin film production."@en .
+
+
+###  https://w3id.org/pmd/co/PrimaryShapingFromTheGranularOrPowderedState
+:PrimaryShapingFromTheGranularOrPowderedState rdf:type owl:Class ;
+                                              rdfs:subClassOf :PrimaryShaping ;
+                                              <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+                                              <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                              <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
+                                              rdfs:label "Primary Shaping From The Granular Or Powdered State"@en ,
+                                                         "Urformen Aus Dem Körnerförmigen Oder Pulverförmigen Zustand"@de ;
+                                              <http://www.w3.org/2004/02/skos/core#definition> "A Primary Shaping process that involves forming materials from a granular or powdered state."@en ,
+                                                                                               "Ein Urformprozess, der das Formen von Materialien aus einem körnigen oder pulverförmigen Zustand beinhaltet."@de ;
+                                              <http://www.w3.org/2004/02/skos/core#example> "Powder metallurgy for creating metal parts."@en .
+
+
+###  https://w3id.org/pmd/co/PrimaryShapingFromTheIonizedState
+:PrimaryShapingFromTheIonizedState rdf:type owl:Class ;
+                                   rdfs:subClassOf :PrimaryShaping ;
+                                   <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+                                   <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                   <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
+                                   rdfs:label "Primary Shaping From The Ionized State"@en ,
+                                              "Urformen Aus DemIonisierten Zustand"@de ;
+                                   <http://www.w3.org/2004/02/skos/core#definition> "A Primary Shaping process that involves forming materials from an ionized state."@en ,
+                                                                                    "Ein Urformprozess, der das Formen von Materialien aus einem ionisierten Zustand beinhaltet."@de ;
+                                   <http://www.w3.org/2004/02/skos/core#example> "Plasma arc welding."@en .
+
+
+###  https://w3id.org/pmd/co/PrimaryShapingFromTheLiquidState
+:PrimaryShapingFromTheLiquidState rdf:type owl:Class ;
+                                  rdfs:subClassOf :PrimaryShaping ;
+                                  <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+                                  <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                  <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
+                                  rdfs:label "Primary Shaping From The Liquid State"@en ,
+                                             "Urformen Aus Dem Flüssigen Zustand"@de ;
+                                  <http://www.w3.org/2004/02/skos/core#definition> "A Primary Shaping process that involves forming materials from a liquid state."@en ,
+                                                                                   "Ein Urformprozess, der das Formen von Materialien aus einem flüssigen Zustand beinhaltet."@de ;
+                                  <http://www.w3.org/2004/02/skos/core#example> "Casting of molten metal into molds."@en .
+
+
+###  https://w3id.org/pmd/co/PrimaryShapingFromThePlasticState
+:PrimaryShapingFromThePlasticState rdf:type owl:Class ;
+                                   rdfs:subClassOf :PrimaryShaping ;
+                                   <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
+                                   <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
+                                   <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
+                                   rdfs:label "Primary Shaping From The Plastic State"@en ,
+                                              "Urformen Aus Dem Plastischen Zustand"@de ;
+                                   <http://www.w3.org/2004/02/skos/core#definition> "A Primary Shaping process that involves forming materials from a plastic state."@en ,
+                                                                                    "Ein Urformprozess, der das Formen von Materialien aus einem plastischen Zustand beinhaltet."@de ;
+                                   <http://www.w3.org/2004/02/skos/core#example> "Thermoforming of plastic sheets."@en .
+
+
 ###  https://w3id.org/pmd/co/Removing
 :Removing rdf:type owl:Class ;
-          rdfs:subClassOf :Separation ;
+          rdfs:subClassOf :Separating ;
+
           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
           <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
           <http://purl.obolibrary.org/obo/IAO_0000119> "Official definition can be found in: DIN 8590"@en ,
                                                        "Offizielle Definition findet man in: DIN 8590"@de ;
           rdfs:label "Abtragen"@de ,
                      "Removing"@en ;
-          <http://www.w3.org/2004/02/skos/core#definition> "A cutting process that involves removing material through thermical, chemical and electrochemical methods."@en ,
+
+          <http://www.w3.org/2004/02/skos/core#definition> "A Seperating process that involves removing material through thermical, chemical and electrochemical methods."@en ,
                                                            "Ein Trennprozess, bei dem Material durch thermische, chemische und elektrochemische Methoden abgetragen wird."@de ;
           <http://www.w3.org/2004/02/skos/core#example> "Electrical Discharge Machining, Thermal Ablation"@en .
+
 
 
 ###  https://w3id.org/pmd/co/SampleRole
@@ -636,6 +838,7 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
 
 ###  https://w3id.org/pmd/co/Separation
 :Separation rdf:type owl:Class ;
+
             owl:equivalentClass [ owl:intersectionOf ( :ManufacturingProcess
                                                        [ rdf:type owl:Restriction ;
                                                          owl:onProperty <http://purl.obolibrary.org/obo/BFO_0000055> ;
@@ -647,9 +850,11 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
             rdfs:subClassOf :ManufacturingProcess ;
             <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
             <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
-            <http://purl.obolibrary.org/obo/IAO_0000119> "Official definition can be found in: DIN 8580:2003-9 Fertigungsverfahren, Page 4, 3.1.3 Trennen - Definition"@en ,
-                                                         "Offizielle Definition findet man in: DIN 8580:2003-9 Fertigungsverfahren, Seite 4, 3.1.3 Trennen - Definition"@de ;
-            rdfs:label "Separation"@en ,
+
+            <http://purl.obolibrary.org/obo/IAO_0000118> "Cutting"@en ;
+            <http://purl.obolibrary.org/obo/IAO_0000119> "Official definition can be found in: DIN 8580:2003-9 Fertigungsverfahren, Page 4, 3.1.3 Trennen - Definition"@en ;
+            rdfs:label "Separating"@en ,
+
                        "Trennen"@de ;
             <http://www.w3.org/2004/02/skos/core#definition> "A manufacturing process in which the bond between objects is broken, resulting in a partial or complete reduction in cohesion."@en ,
                                                              "Ein Herstellungsprozess, bei dem die Bindung zwischen Objekten aufgehoben wird, was zu einer teilweisen oder vollständigen Verringerung der Kohäsion führt."@de ;
@@ -664,6 +869,7 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
            <http://purl.obolibrary.org/obo/IAO_0000119> "https://industrylist.com/glossar/stoffeigenschaften-aendern/sintern/"@de ;
            rdfs:label "Sintering"@en ,
                       "Sintern"@de ;
+
            <http://www.w3.org/2004/02/skos/core#definition> "A changing properties of materials process in which granular and powdery materials, which have already been shaped in the first step, are mixed and combined and compacted by heating."@en ,
                                                             "Ein Stoffeigenschaftsänderungsprozess, bei dem körnige und pulverförmige Stoffe, welche im ersten Schritt bereits in Form gebracht wurden, vermischt und durch Erwärmung verbunden und verdichtet werden."@de ;
            <http://www.w3.org/2004/02/skos/core#example> "Metal Powder Sintering, Ceramic Sintering"@en .
@@ -718,8 +924,10 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
                                                                "Rolle eines Objektes, das aus einem Probenabschnitt (Sample) entnommen wurde (durch Umformen und/oder maschinelles Bearbeiten und/oder Wärmebehandlung) mit dem Zweck Proben (Test Pieces) aus diesem Objekt herzustellen."@de .
 
 
+
 ###  https://w3id.org/pmd/co/TestPieceRole
 :TestPieceRole rdf:type owl:Class ;
+
                rdfs:subClassOf [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/BFO_0000023>
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty <http://purl.obolibrary.org/obo/RO_0000081> ;
@@ -767,6 +975,7 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
                           "Test Piece Role"@en ;
                <http://www.w3.org/2004/02/skos/core#definition> "Rolle eines Objekts, welches eine Probe ist, die aus einem Prüfling (Specimen) oder Probenabschnitt (Sample) entnommen wurde; die Probe hat festgelegte Dimensionen, kann maschinell bearbeitet sein, wurde in einen für die Verwendung in einem Prüfverfahren notwendigen Zustand gebracht"@de ,
                                                                 "role of object which is a part taken from a specimen or sample; the part has specified dimensions, is machined or un-machined, brought to a required condition for submission to a given test"@en ;
+
                :definitionSource "EN 10021:2006-12 (European standardization committee: CEN/TC 459/SC 12/WG 4)"@en .
 
 
@@ -787,19 +996,22 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
 ###  https://w3id.org/pmd/co/ThermomechanicalTreatment
 :ThermomechanicalTreatment rdf:type owl:Class ;
                            rdfs:subClassOf :ChangingPropertiesOfMaterial ;
-                           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000428> ;
+
+                           <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000122> ;
                            <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
-                           <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt"@en ;
+                           <http://purl.obolibrary.org/obo/IAO_0000119> "chatgpt 4.o"@en ;
                            rdfs:label "Thermomechanical Treatment"@en ,
                                       "Thermomechanisches Behandeln"@de ;
-                           <http://www.w3.org/2004/02/skos/core#definition> "A changing properties of materials process that involves the simultaneous application of heat and mechanical stresses. Thermomechanical treatment is utilized to alter and improve the material's microstructure and mechanical properties."@en ,
-                                                                            "Ein Stoffeigenschaftsänderungsprozess, der die gleichzeitige Anwendung von Wärme und mechanischen Spannungen beinhaltet. Die thermomechanische Behandlung wird eingesetzt, um die Mikrostruktur und die mechanischen Eigenschaften des Materials zu verändern und zu verbessern."@de ;
+                           <http://www.w3.org/2004/02/skos/core#definition> "A Changing Properties Of Material process that involves the simultaneous application of heat and mechanical stresses. Thermomechanical treatment is utilized to alter and improve the material's microstructure and mechanical properties."@en ,
+                                                                            "Ein Stoffeigenschaft Ändern Prozess, der die gleichzeitige Anwendung von Wärme und mechanischen Spannungen beinhaltet. Die thermomechanische Behandlung wird eingesetzt, um die Mikrostruktur und die mechanischen Eigenschaften des Materials zu verändern und zu verbessern."@de ;
+
                            <http://www.w3.org/2004/02/skos/core#example> "Hot Isostatic Pressing"@en .
 
 
 ###  https://w3id.org/pmd/co/UrformenAusDemBreiigenOderPastösenZustand
 :UrformenAusDemBreiigenOderPastösenZustand rdf:type owl:Class ;
                                            rdfs:subClassOf :PrimaryShaping ;
+
                                            <http://purl.obolibrary.org/obo/IAO_0000114> <http://purl.obolibrary.org/obo/IAO_0000123> ;
                                            <http://purl.obolibrary.org/obo/IAO_0000117> "PERSON: Bernd Bayerlein"@de ;
                                            rdfs:label "Urformen Aus Dem Breiigen Oder Pastösen Zustand"@de .
