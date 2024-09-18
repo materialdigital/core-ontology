@@ -1,0 +1,14 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+# every pmd resource needs a label
+SELECT ?a WHERE {
+    values ?t {owl:Class owl:ObjectProperty owl:DatatypeProperty}
+    ?a rdf:type ?t .
+    FILTER REGEX (str(?a), "w3id.org/pmd/co", "i") .
+    OPTIONAL {
+       ?a rdfs:label ?l .
+    }
+   FILTER (!BOUND(?l))
+}
+

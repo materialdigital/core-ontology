@@ -1,0 +1,24 @@
+name: verification rules
+on:
+  push:
+    branches:
+    - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: main
+        path: main
+    - name: Verification
+      run: |
+           curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
+           java -jar robot.jar --version
+           java -jar robot.jar validate-profile --profile DL --input main/pmd-core.ttl --output validation.txt
+           cat validation.txt
+           java -jar robot.jar verify --input main/pmd-core.ttl --queries main/.github/workflow_resources/qc-queries/label-missing.sparql  
+           #java -jar robot.jar verify --input main/pmd-core.ttl --queries main/.github/workflow_resources/qc-queries/isdefinedby-missing.sparql  
+           java -jar robot.jar verify --input main/pmd-core.ttl --queries main/.github/workflow_resources/qc-queries/description-missing.sparql   
+           java -jar robot.jar verify --input main/pmd-core.ttl --queries main/.github/workflow_resources/qc-queries/https-missing.sparql
+
