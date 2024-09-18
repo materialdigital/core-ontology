@@ -1,6 +1,6 @@
 ![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/shacl.yaml/badge.svg?branch=develop-3.0.0)
 ![pmd-core reasoning](https://github.com/materialdigital/core-ontology/actions/workflows/reasoning.yaml/badge.svg?branch=develop-3.0.0)
-![pmd-core reasoning](https://github.com/materialdigital/core-ontology/actions/workflows/qc.yaml/badge.svg?branch=develop-3.0.0)
+![quality checks](https://github.com/materialdigital/core-ontology/actions/workflows/qc.yaml/badge.svg?branch=develop-3.0.0)
 
 # The PMD Core Ontology (PMDco) 
 
