@@ -4,7 +4,9 @@
 
 # The PMD Core Ontology (PMDco) 
 
-This is version v3.0.0alpha of the PMD Core Ontology (PMDco). 
+## Versions
+
+This is the development version v3.0.0alpha of the PMD Core Ontology (PMDco). 
 
 ## Introduction
 
