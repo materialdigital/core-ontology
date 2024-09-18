@@ -1,4 +1,5 @@
-@prefix : <https://w3id.org/pmd/co/> .
+@base <https://w3id.org/pmd/co/qualities/> .
+@prefix : <https://w3id.org/pmd/co/qualities/> .
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -8,887 +9,1165 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix pmdco: <https://w3id.org/pmd/co/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@base <https://w3id.org/pmd/co/> .
-
-<https://w3id.org/pmd/co/qualities> rdf:type owl:Ontology ;
-                                     owl:versionIRI <https://w3id.org/pmd/co/qualities/3.0.0> ;
-                                     owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ;
-                                     dcterms:created "2023-11-17" ;
-                                     dcterms:license <http://creativecommons.org/licenses/by/4.0/> ;
-                                     dcterms:title "Platform Material Digital Core Ontology (PMDco) - Qualities Module"@en ;
-                                     rdfs:comment "Qualities module of the PMD Core Ontology (PMDco). The scope of this module is the description of materials related qualities."@en ;
-                                     owl:versionInfo "3.0.0" .
-
-#################################################################
-#    Annotation properties
-#################################################################
-
-###  http://purl.org/dc/terms/created
-dcterms:created rdf:type owl:AnnotationProperty .
-
-
-#################################################################
-#    Object Properties
-#################################################################
-
-###  https://w3id.org/pmd/co/qualities/in_response_to
-<https://w3id.org/pmd/co/qualities/in_response_to> rdf:type owl:ObjectProperty ;
-                                                   owl:inverseOf <https://w3id.org/pmd/co/qualities/responds_with> .
-
-
-###  https://w3id.org/pmd/co/qualities/responds_with
-<https://w3id.org/pmd/co/qualities/responds_with> rdf:type owl:ObjectProperty ;
-                                                  rdfs:subPropertyOf owl:topObjectProperty ;
-                                                  rdfs:domain obo:BFO_0000017 ;
-                                                  rdfs:range <https://w3id.org/pmd/co/qualities/Response> ;
-                                                  rdfs:comment "The realizable entity must be \"stimulated\" by some Stimulus in order to respond with the Response. The bearer of the realizable entity must participate in Stimulation as well as in Response." ;
-                                                  rdfs:label "responds with"@en .
-
-
-###  https://w3id.org/pmd/co/qualities/stimulated_by
-<https://w3id.org/pmd/co/qualities/stimulated_by> rdf:type owl:ObjectProperty ;
-                                                  rdfs:subPropertyOf obo:BFO_0000054 ;
-                                                  rdfs:range <https://w3id.org/pmd/co/qualities/Stimulation> ;
-                                                  rdfs:label "stimulated by"@en .
-
-
-###  https://w3id.org/pmd/co/qualities/stimulates
-<https://w3id.org/pmd/co/qualities/stimulates> rdf:type owl:ObjectProperty ;
-                                               rdfs:subPropertyOf obo:BFO_0000055 ;
-                                               rdfs:domain <https://w3id.org/pmd/co/qualities/Stimulation> ;
-                                               rdfs:label "stimulates"@en .
-
-
-#################################################################
-#    Classes
-#################################################################
-
-###  https://w3id.org/pmd/co/Hardness
-pmdco:Hardness rdf:type owl:Class ;
-               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MechanicalProperty> .
-
-
-###  https://w3id.org/pmd/co/IndentationHardness
-pmdco:IndentationHardness rdf:type owl:Class ;
-                          rdfs:subClassOf pmdco:Hardness .
-
-
-###  https://w3id.org/pmd/co/ReboundHardness
-pmdco:ReboundHardness rdf:type owl:Class ;
-                      rdfs:subClassOf pmdco:Hardness .
-
-
-###  https://w3id.org/pmd/co/ScratchHardness
-pmdco:ScratchHardness rdf:type owl:Class ;
-                      rdfs:subClassOf pmdco:Hardness .
-
-
-###  https://w3id.org/pmd/co/qualities/ASTM_Grainsize
-<https://w3id.org/pmd/co/qualities/ASTM_Grainsize> rdf:type owl:Class ;
-                                                   rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Scalar> .
-
-
-###  https://w3id.org/pmd/co/qualities/AccousticAbsorptionCoefficient
-<https://w3id.org/pmd/co/qualities/AccousticAbsorptionCoefficient> rdf:type owl:Class ;
-                                                                   rdfs:subClassOf <https://w3id.org/pmd/co/qualities/AccousticProperty> ,
-                                                                                   [ rdf:type owl:Restriction ;
-                                                                                     owl:onProperty <https://w3id.org/pmd/co/qualities/responds_with> ;
-                                                                                     owl:someValuesFrom <https://w3id.org/pmd/co/qualities/EmissionOfAccousticWave>
-                                                                                   ] .
-
-
-###  https://w3id.org/pmd/co/qualities/AccousticProperty
-<https://w3id.org/pmd/co/qualities/AccousticProperty> rdf:type owl:Class ;
-                                                      rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MechanicalProperty> ,
-                                                                      [ rdf:type owl:Restriction ;
-                                                                        owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                        owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfAccousticWave>
-                                                                      ] .
-
-
-###  https://w3id.org/pmd/co/qualities/Age
-<https://w3id.org/pmd/co/qualities/Age> rdf:type owl:Class ;
-                                        rdfs:subClassOf <https://w3id.org/pmd/co/qualities/TemporalProperty> ;
-                                        owl:disjointWith <https://w3id.org/pmd/co/qualities/Half-Life> .
-
-
-###  https://w3id.org/pmd/co/qualities/AggregateState
-<https://w3id.org/pmd/co/qualities/AggregateState> rdf:type owl:Class ;
-                                                   rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicQuality> .
-
-
-###  https://w3id.org/pmd/co/qualities/ApplicationOfAccousticWave
-<https://w3id.org/pmd/co/qualities/ApplicationOfAccousticWave> rdf:type owl:Class ;
-                                                               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad> .
-
-
-###  https://w3id.org/pmd/co/qualities/ApplicationOfElasticImpact
-<https://w3id.org/pmd/co/qualities/ApplicationOfElasticImpact> rdf:type owl:Class ;
-                                                               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad> .
-
-
-###  https://w3id.org/pmd/co/qualities/ApplicationOfElectricField
-<https://w3id.org/pmd/co/qualities/ApplicationOfElectricField> rdf:type owl:Class ;
-                                                               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Stimulation> .
-
-
-###  https://w3id.org/pmd/co/qualities/ApplicationOfHeatFlux
-<https://w3id.org/pmd/co/qualities/ApplicationOfHeatFlux> rdf:type owl:Class ;
-                                                          rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Stimulation> .
-
-
-###  https://w3id.org/pmd/co/qualities/ApplicationOfMagneticField
-<https://w3id.org/pmd/co/qualities/ApplicationOfMagneticField> rdf:type owl:Class ;
-                                                               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Stimulation> .
-
-
-###  https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad
-<https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad> rdf:type owl:Class ;
-                                                                rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Stimulation> .
-
-
-###  https://w3id.org/pmd/co/qualities/ApplicationOfSubstance
-<https://w3id.org/pmd/co/qualities/ApplicationOfSubstance> rdf:type owl:Class ;
-                                                           rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Stimulation> .
-
-
-###  https://w3id.org/pmd/co/qualities/AtomicStructure
-<https://w3id.org/pmd/co/qualities/AtomicStructure> rdf:type owl:Class ;
-                                                    rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialStructure> .
-
-
-###  https://w3id.org/pmd/co/qualities/BoilingPoint
-<https://w3id.org/pmd/co/qualities/BoilingPoint> rdf:type owl:Class ;
-                                                 rdfs:subClassOf <https://w3id.org/pmd/co/qualities/PhaseBoundary> .
-
-
-###  https://w3id.org/pmd/co/qualities/Brinell2.5_62.5_ISO_6506
-<https://w3id.org/pmd/co/qualities/Brinell2.5_62.5_ISO_6506> rdf:type owl:Class ;
-                                                             rdfs:subClassOf <https://w3id.org/pmd/co/qualities/BrinellHardness> .
-
-
-###  https://w3id.org/pmd/co/qualities/BrinellHardness
-<https://w3id.org/pmd/co/qualities/BrinellHardness> rdf:type owl:Class ;
-                                                    rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Scalar> .
-
-
-###  https://w3id.org/pmd/co/qualities/Bulk
-<https://w3id.org/pmd/co/qualities/Bulk> rdf:type owl:Class ;
-                                         rdfs:subClassOf obo:BFO_0000024 ,
-                                                         [ rdf:type owl:Restriction ;
-                                                           owl:onProperty obo:BFO_0000176 ;
-                                                           owl:allValuesFrom [ rdf:type owl:Class ;
-                                                                               owl:unionOf ( obo:BFO_0000027
-                                                                                             obo:BFO_0000030
-                                                                                           )
-                                                                             ]
-                                                         ] ;
-                                         owl:disjointWith <https://w3id.org/pmd/co/qualities/Surface> .
-
-
-###  https://w3id.org/pmd/co/qualities/BulkModulus
-<https://w3id.org/pmd/co/qualities/BulkModulus> rdf:type owl:Class ;
-                                                rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ElasticModulus> ,
-                                                                [ rdf:type owl:Restriction ;
-                                                                  owl:onProperty obo:BFO_0000197 ;
-                                                                  owl:allValuesFrom [ rdf:type owl:Class ;
-                                                                                      owl:unionOf ( obo:BFO_0000027
-                                                                                                    obo:BFO_0000030
-                                                                                                    <https://w3id.org/pmd/co/qualities/Bulk>
-                                                                                                  )
-                                                                                    ]
-                                                                ] .
-
-
-###  https://w3id.org/pmd/co/qualities/CategoricalQuality
-<https://w3id.org/pmd/co/qualities/CategoricalQuality> rdf:type owl:Class ;
-                                                       rdfs:subClassOf obo:BFO_0000019 ;
-                                                       rdfs:comment "e.g. material class. Is treated in the \"materials\" module." .
-
-
-###  https://w3id.org/pmd/co/qualities/ChangeOfAggregateState
-<https://w3id.org/pmd/co/qualities/ChangeOfAggregateState> rdf:type owl:Class ;
-                                                           rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ChangeOfPhase> .
-
-
-###  https://w3id.org/pmd/co/qualities/ChangeOfPhase
-<https://w3id.org/pmd/co/qualities/ChangeOfPhase> rdf:type owl:Class ;
-                                                  rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
-
-
-###  https://w3id.org/pmd/co/qualities/ChangeOfTemperature
-<https://w3id.org/pmd/co/qualities/ChangeOfTemperature> rdf:type owl:Class ;
-                                                        rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
-
-
-###  https://w3id.org/pmd/co/qualities/ChemicalComposition
-<https://w3id.org/pmd/co/qualities/ChemicalComposition> rdf:type owl:Class ;
-                                                        rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicQuality> .
-
-
-###  https://w3id.org/pmd/co/qualities/ChemicalPotential
-<https://w3id.org/pmd/co/qualities/ChemicalPotential> rdf:type owl:Class ;
-                                                      rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ThermodynamicQuality> .
-
-
-###  https://w3id.org/pmd/co/qualities/CorpuscularIrradiation
-<https://w3id.org/pmd/co/qualities/CorpuscularIrradiation> rdf:type owl:Class ;
-                                                           rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Irradiation> .
-
-
-###  https://w3id.org/pmd/co/qualities/CrackGrowth
-<https://w3id.org/pmd/co/qualities/CrackGrowth> rdf:type owl:Class ;
-                                                rdfs:subClassOf <https://w3id.org/pmd/co/qualities/EvolutionOfDamage> .
-
-
-###  https://w3id.org/pmd/co/qualities/CrystallStructure
-<https://w3id.org/pmd/co/qualities/CrystallStructure> rdf:type owl:Class ;
-                                                      rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicQuality> .
-
-
-###  https://w3id.org/pmd/co/qualities/DefectDensity
-<https://w3id.org/pmd/co/qualities/DefectDensity> rdf:type owl:Class ;
-                                                  rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicQuality> .
-
-
-###  https://w3id.org/pmd/co/qualities/Deformation
-<https://w3id.org/pmd/co/qualities/Deformation> rdf:type owl:Class ;
-                                                rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
-
-
-###  https://w3id.org/pmd/co/qualities/Density
-<https://w3id.org/pmd/co/qualities/Density> rdf:type owl:Class ;
-                                            rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicQuality> .
-
-
-###  https://w3id.org/pmd/co/qualities/DeteriorativeProperty
-<https://w3id.org/pmd/co/qualities/DeteriorativeProperty> rdf:type owl:Class ;
-                                                          rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialProperty> ,
-                                                                          [ rdf:type owl:Restriction ;
-                                                                            owl:onProperty obo:BFO_0000054 ;
-                                                                            owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfSubstance>
-                                                                          ] .
-
-
-###  https://w3id.org/pmd/co/qualities/DielectricConstant
-<https://w3id.org/pmd/co/qualities/DielectricConstant> rdf:type owl:Class ;
-                                                       rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ElectricalProperty> ;
-                                                       owl:disjointWith <https://w3id.org/pmd/co/qualities/ElectricalConductivity> .
-
-
-###  https://w3id.org/pmd/co/qualities/ElasticModulus
-<https://w3id.org/pmd/co/qualities/ElasticModulus> rdf:type owl:Class ;
-                                                   rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Stiffness> ,
-                                                                   [ rdf:type owl:Restriction ;
-                                                                     owl:onProperty obo:BFO_0000197 ;
-                                                                     owl:someValuesFrom [ rdf:type owl:Class ;
-                                                                                          owl:unionOf ( obo:BFO_0000027
-                                                                                                        obo:BFO_0000030
-                                                                                                        <https://w3id.org/pmd/co/qualities/Bulk>
-                                                                                                      )
-                                                                                        ]
-                                                                   ] .
-
-
-###  https://w3id.org/pmd/co/qualities/ElectricPotential
-<https://w3id.org/pmd/co/qualities/ElectricPotential> rdf:type owl:Class ;
-                                                      rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ThermodynamicQuality> .
-
-
-###  https://w3id.org/pmd/co/qualities/ElectricalConductivity
-<https://w3id.org/pmd/co/qualities/ElectricalConductivity> rdf:type owl:Class ;
-                                                           rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ElectricalProperty> .
-
-
-###  https://w3id.org/pmd/co/qualities/ElectricalProperty
-<https://w3id.org/pmd/co/qualities/ElectricalProperty> rdf:type owl:Class ;
-                                                       rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialProperty> ,
-                                                                       [ rdf:type owl:Restriction ;
-                                                                         owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                         owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfElectricField>
-                                                                       ] .
-
-
-###  https://w3id.org/pmd/co/qualities/EmissionOfAccousticWave
-<https://w3id.org/pmd/co/qualities/EmissionOfAccousticWave> rdf:type owl:Class ;
-                                                            rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Deformation> .
-
-
-###  https://w3id.org/pmd/co/qualities/EmissionOfCorpuscularRadiation
-<https://w3id.org/pmd/co/qualities/EmissionOfCorpuscularRadiation> rdf:type owl:Class ;
-                                                                   rdfs:subClassOf <https://w3id.org/pmd/co/qualities/EmissionOfRadiation> .
-
-
-###  https://w3id.org/pmd/co/qualities/EmissionOfRadiation
-<https://w3id.org/pmd/co/qualities/EmissionOfRadiation> rdf:type owl:Class ;
-                                                        rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
-
-
-###  https://w3id.org/pmd/co/qualities/EmissionOfWaveRadiation
-<https://w3id.org/pmd/co/qualities/EmissionOfWaveRadiation> rdf:type owl:Class ;
-                                                            rdfs:subClassOf <https://w3id.org/pmd/co/qualities/EmissionOfRadiation> .
-
-
-###  https://w3id.org/pmd/co/qualities/EvolutionOfDamage
-<https://w3id.org/pmd/co/qualities/EvolutionOfDamage> rdf:type owl:Class ;
-                                                      rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
-
-
-###  https://w3id.org/pmd/co/qualities/FormationOfNotchOrScratch
-<https://w3id.org/pmd/co/qualities/FormationOfNotchOrScratch> rdf:type owl:Class ;
-                                                              rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
-
-
-###  https://w3id.org/pmd/co/qualities/GrainSizeDistribution
-<https://w3id.org/pmd/co/qualities/GrainSizeDistribution> rdf:type owl:Class ;
-                                                          rdfs:subClassOf <https://w3id.org/pmd/co/qualities/1D> .
-
-
-###  https://w3id.org/pmd/co/qualities/Half-Life
-<https://w3id.org/pmd/co/qualities/Half-Life> rdf:type owl:Class ;
-                                              rdfs:subClassOf <https://w3id.org/pmd/co/qualities/TemporalProperty> ,
-                                                              [ rdf:type owl:Restriction ;
-                                                                owl:onProperty <https://w3id.org/pmd/co/qualities/responds_with> ;
-                                                                owl:someValuesFrom <https://w3id.org/pmd/co/qualities/EmissionOfRadiation>
-                                                              ] .
-
-
-###  https://w3id.org/pmd/co/qualities/HeatCapacity
-<https://w3id.org/pmd/co/qualities/HeatCapacity> rdf:type owl:Class ;
-                                                 rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ThermalProperty> ,
-                                                                 [ rdf:type owl:Restriction ;
-                                                                   owl:onProperty <https://w3id.org/pmd/co/qualities/responds_with> ;
-                                                                   owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ChangeOfTemperature>
-                                                                 ] ;
-                                                 owl:disjointWith <https://w3id.org/pmd/co/qualities/ThermalConductivity> .
-
-
-
-
-###  https://w3id.org/pmd/co/qualities/Image
-<https://w3id.org/pmd/co/qualities/Image> rdf:type owl:Class ;
-                                          rdfs:subClassOf <https://w3id.org/pmd/co/qualities/2D> ;
-                                          owl:disjointWith <https://w3id.org/pmd/co/qualities/Map> .
-
-
-###  https://w3id.org/pmd/co/qualities/IndexOfRefraction
-<https://w3id.org/pmd/co/qualities/IndexOfRefraction> rdf:type owl:Class ;
-                                                      rdfs:subClassOf <https://w3id.org/pmd/co/qualities/OpticalProperty> ;
-                                                      owl:disjointWith <https://w3id.org/pmd/co/qualities/Reflectivity> .
-
-
-###  https://w3id.org/pmd/co/qualities/Irradiation
-<https://w3id.org/pmd/co/qualities/Irradiation> rdf:type owl:Class ;
-                                                rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Stimulation> ;
-                                                rdfs:comment """To account for wave-particle duality subclasses are not disjoint. 
+# 
+# 
+# #################################################################
+# #
+# #    Annotation properties
+# #
+# #################################################################
+# 
+# 
+# http://purl.org/dc/terms/created
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Object Properties
+# #
+# #################################################################
+# 
+# 
+# https://w3id.org/pmd/co/qualities/in_response_to
+# 
+# https://w3id.org/pmd/co/qualities/responds_with
+# 
+# https://w3id.org/pmd/co/qualities/stimulated_by
+# 
+# https://w3id.org/pmd/co/qualities/stimulates
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# http://purl.obolibrary.org/obo/IAO_0000030
+# 
+# https://w3id.org/pmd/co/Hardness
+# 
+# https://w3id.org/pmd/co/IndentationHardness
+# 
+# https://w3id.org/pmd/co/ReboundHardness
+# 
+# https://w3id.org/pmd/co/ScratchHardness
+# 
+# https://w3id.org/pmd/co/qualities/ASTM_Grainsize
+# 
+# https://w3id.org/pmd/co/qualities/AccousticAbsorptionCoefficient
+# 
+# https://w3id.org/pmd/co/qualities/AccousticProperty
+# 
+# https://w3id.org/pmd/co/qualities/Age
+# 
+# https://w3id.org/pmd/co/qualities/AggregateState
+# 
+# https://w3id.org/pmd/co/qualities/ApplicationOfAccousticWave
+# 
+# https://w3id.org/pmd/co/qualities/ApplicationOfElasticImpact
+# 
+# https://w3id.org/pmd/co/qualities/ApplicationOfElectricField
+# 
+# https://w3id.org/pmd/co/qualities/ApplicationOfHeatFlux
+# 
+# https://w3id.org/pmd/co/qualities/ApplicationOfMagneticField
+# 
+# https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad
+# 
+# https://w3id.org/pmd/co/qualities/ApplicationOfSubstance
+# 
+# https://w3id.org/pmd/co/qualities/AtomicStructure
+# 
+# https://w3id.org/pmd/co/qualities/BoilingPoint
+# 
+# https://w3id.org/pmd/co/qualities/Brinell2.5_62.5_ISO_6506
+# 
+# https://w3id.org/pmd/co/qualities/BrinellHardness
+# 
+# https://w3id.org/pmd/co/qualities/Bulk
+# 
+# https://w3id.org/pmd/co/qualities/BulkModulus
+# 
+# https://w3id.org/pmd/co/qualities/CategoricalQuality
+# 
+# https://w3id.org/pmd/co/qualities/ChangeOfAggregateState
+# 
+# https://w3id.org/pmd/co/qualities/ChangeOfPhase
+# 
+# https://w3id.org/pmd/co/qualities/ChangeOfTemperature
+# 
+# https://w3id.org/pmd/co/qualities/ChemicalComposition
+# 
+# https://w3id.org/pmd/co/qualities/ChemicalPotential
+# 
+# https://w3id.org/pmd/co/qualities/CorpuscularIrradiation
+# 
+# https://w3id.org/pmd/co/qualities/CrackGrowth
+# 
+# https://w3id.org/pmd/co/qualities/CrystallStructure
+# 
+# https://w3id.org/pmd/co/qualities/DefectDensity
+# 
+# https://w3id.org/pmd/co/qualities/Deformation
+# 
+# https://w3id.org/pmd/co/qualities/Density
+# 
+# https://w3id.org/pmd/co/qualities/DeteriorativeProperty
+# 
+# https://w3id.org/pmd/co/qualities/DielectricConstant
+# 
+# https://w3id.org/pmd/co/qualities/ElasticModulus
+# 
+# https://w3id.org/pmd/co/qualities/ElectricPotential
+# 
+# https://w3id.org/pmd/co/qualities/ElectricalConductivity
+# 
+# https://w3id.org/pmd/co/qualities/ElectricalProperty
+# 
+# https://w3id.org/pmd/co/qualities/EmissionOfAccousticWave
+# 
+# https://w3id.org/pmd/co/qualities/EmissionOfCorpuscularRadiation
+# 
+# https://w3id.org/pmd/co/qualities/EmissionOfRadiation
+# 
+# https://w3id.org/pmd/co/qualities/EmissionOfWaveRadiation
+# 
+# https://w3id.org/pmd/co/qualities/EvolutionOfDamage
+# 
+# https://w3id.org/pmd/co/qualities/FormationOfNotchOrScratch
+# 
+# https://w3id.org/pmd/co/qualities/GrainSizeDistribution
+# 
+# https://w3id.org/pmd/co/qualities/Half-Life
+# 
+# https://w3id.org/pmd/co/qualities/HeatCapacity
+# 
+# https://w3id.org/pmd/co/qualities/Image
+# 
+# https://w3id.org/pmd/co/qualities/IndexOfRefraction
+# 
+# https://w3id.org/pmd/co/qualities/Irradiation
+# 
+# https://w3id.org/pmd/co/qualities/Macrostructure
+# 
+# https://w3id.org/pmd/co/qualities/MagneticProperty
+# 
+# https://w3id.org/pmd/co/qualities/Map
+# 
+# https://w3id.org/pmd/co/qualities/MaterialProperty
+# 
+# https://w3id.org/pmd/co/qualities/MaterialPropertyMeasure
+# 
+# https://w3id.org/pmd/co/qualities/MaterialStructure
+# 
+# https://w3id.org/pmd/co/qualities/MechanicalProperty
+# 
+# https://w3id.org/pmd/co/qualities/MeltingPoint
+# 
+# https://w3id.org/pmd/co/qualities/MetallographicTexture
+# 
+# https://w3id.org/pmd/co/qualities/Microstructure
+# 
+# https://w3id.org/pmd/co/qualities/MohsHardness
+# 
+# https://w3id.org/pmd/co/qualities/MorphologicQuality
+# 
+# https://w3id.org/pmd/co/qualities/MorphologicalProperty
+# 
+# https://w3id.org/pmd/co/qualities/OccurenceOfChemicalReaction
+# 
+# https://w3id.org/pmd/co/qualities/OccurenceOfElecticField
+# 
+# https://w3id.org/pmd/co/qualities/OccurenceOfMagneticField
+# 
+# https://w3id.org/pmd/co/qualities/OpticalProperty
+# 
+# https://w3id.org/pmd/co/qualities/PassingOfTime
+# 
+# https://w3id.org/pmd/co/qualities/PhaseBoundary
+# 
+# https://w3id.org/pmd/co/qualities/PoleFigure
+# 
+# https://w3id.org/pmd/co/qualities/PolyCrystallineGrainStucture
+# 
+# https://w3id.org/pmd/co/qualities/PoreGrowth
+# 
+# https://w3id.org/pmd/co/qualities/Pressure
+# 
+# https://w3id.org/pmd/co/qualities/Reflectivity
+# 
+# https://w3id.org/pmd/co/qualities/Response
+# 
+# https://w3id.org/pmd/co/qualities/Scalar
+# 
+# https://w3id.org/pmd/co/qualities/SpecificSurfaceArea
+# 
+# https://w3id.org/pmd/co/qualities/Spectrum
+# 
+# https://w3id.org/pmd/co/qualities/SpeedOfSound
+# 
+# https://w3id.org/pmd/co/qualities/Stiffness
+# 
+# https://w3id.org/pmd/co/qualities/Stimulation
+# 
+# https://w3id.org/pmd/co/qualities/Strenght
+# 
+# https://w3id.org/pmd/co/qualities/StructuralAndChemicalDecay
+# 
+# https://w3id.org/pmd/co/qualities/SubatomicStructure
+# 
+# https://w3id.org/pmd/co/qualities/SublimationPoint
+# 
+# https://w3id.org/pmd/co/qualities/Surface
+# 
+# https://w3id.org/pmd/co/qualities/Temperature
+# 
+# https://w3id.org/pmd/co/qualities/TemporalProperty
+# 
+# https://w3id.org/pmd/co/qualities/ThermalConductivity
+# 
+# https://w3id.org/pmd/co/qualities/ThermalProperty
+# 
+# https://w3id.org/pmd/co/qualities/ThermodynamicQuality
+# 
+# https://w3id.org/pmd/co/qualities/TimeSeries
+# 
+# https://w3id.org/pmd/co/qualities/TriplePoint
+# 
+# https://w3id.org/pmd/co/qualities/WaverIrradiation
+# 
+# https://w3id.org/pmd/co/qualities/1D
+# 
+# https://w3id.org/pmd/co/qualities/2D
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Individuals
+# #
+# #################################################################
+# 
+# 
+# https://w3id.org/pmd/co/qualities/my_object
+# 
+# https://w3id.org/pmd/co/qualities/my_realizable_entity
+# 
+# https://w3id.org/pmd/co/qualities/my_response
+# 
+# https://w3id.org/pmd/co/qualities/my_stimulation
+# 
+# 
+# 
+# #################################################################
+# #
+# #    General axioms
+# #
+# #################################################################
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi
+
+pmdco:qualities a owl:Ontology;
+  owl:versionIRI :3.0.0;
+  owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl>;
+  dcterms:created "2023-11-17";
+  dcterms:license <http://creativecommons.org/licenses/by/4.0/>;
+  dcterms:title "Platform Material Digital Core Ontology (PMDco) - Qualities Module"@en;
+  rdfs:comment "Qualities module of the PMD Core Ontology (PMDco). The scope of this module is the description of materials related qualities."@en;
+  owl:versionInfo "3.0.0" .
+
+dcterms:created a owl:AnnotationProperty .
+
+:in_response_to a owl:ObjectProperty;
+  owl:inverseOf :responds_with .
+
+:responds_with a owl:ObjectProperty;
+  rdfs:subPropertyOf owl:topObjectProperty;
+  rdfs:domain obo:BFO_0000017;
+  rdfs:range :Response;
+  rdfs:comment "The realizable entity must be \"stimulated\" by some Stimulus in order to respond with the Response. The bearer of the realizable entity must participate in Stimulation as well as in Response.";
+  rdfs:label "responds with"@en .
+
+:stimulated_by a owl:ObjectProperty;
+  rdfs:subPropertyOf obo:BFO_0000054;
+  rdfs:range :Stimulation;
+  rdfs:label "stimulated by"@en .
+
+:stimulates a owl:ObjectProperty;
+  rdfs:subPropertyOf obo:BFO_0000055;
+  rdfs:domain :Stimulation;
+  rdfs:label "stimulates"@en .
+
+obo:IAO_0000030 a owl:Class;
+  rdfs:subClassOf obo:BFO_0000031;
+  rdfs:label "information content entity"@en .
+
+pmdco:Hardness a owl:Class;
+  rdfs:subClassOf :MechanicalProperty .
+
+pmdco:IndentationHardness a owl:Class;
+  rdfs:subClassOf pmdco:Hardness .
+
+pmdco:ReboundHardness a owl:Class;
+  rdfs:subClassOf pmdco:Hardness .
+
+pmdco:ScratchHardness a owl:Class;
+  rdfs:subClassOf pmdco:Hardness .
+
+:ASTM_Grainsize a owl:Class;
+  rdfs:subClassOf :Scalar .
+
+:AccousticAbsorptionCoefficient a owl:Class;
+  rdfs:subClassOf :AccousticProperty, _:genid1 .
+
+_:genid1 a owl:Restriction;
+  owl:someValuesFrom :EmissionOfAccousticWave;
+  owl:onProperty :responds_with .
+
+:AccousticProperty a owl:Class;
+  rdfs:subClassOf :MechanicalProperty, _:genid2 .
+
+_:genid2 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfAccousticWave;
+  owl:onProperty :stimulated_by .
+
+:Age a owl:Class;
+  rdfs:subClassOf :TemporalProperty;
+  owl:disjointWith :Half-Life .
+
+:AggregateState a owl:Class;
+  rdfs:subClassOf :MorphologicQuality .
+
+:ApplicationOfAccousticWave a owl:Class;
+  rdfs:subClassOf :ApplicationOfMechanicalLoad .
+
+:ApplicationOfElasticImpact a owl:Class;
+  rdfs:subClassOf :ApplicationOfMechanicalLoad .
+
+:ApplicationOfElectricField a owl:Class;
+  rdfs:subClassOf :Stimulation .
+
+:ApplicationOfHeatFlux a owl:Class;
+  rdfs:subClassOf :Stimulation .
+
+:ApplicationOfMagneticField a owl:Class;
+  rdfs:subClassOf :Stimulation .
+
+:ApplicationOfMechanicalLoad a owl:Class;
+  rdfs:subClassOf :Stimulation .
+
+:ApplicationOfSubstance a owl:Class;
+  rdfs:subClassOf :Stimulation .
+
+:AtomicStructure a owl:Class;
+  rdfs:subClassOf :MaterialStructure .
+
+:BoilingPoint a owl:Class;
+  rdfs:subClassOf :PhaseBoundary .
+
+:Brinell2.5_62.5_ISO_6506 a owl:Class;
+  rdfs:subClassOf :BrinellHardness .
+
+:BrinellHardness a owl:Class;
+  rdfs:subClassOf :Scalar .
+
+:Bulk a owl:Class;
+  rdfs:subClassOf obo:BFO_0000024, _:genid3;
+  owl:disjointWith :Surface .
+
+_:genid3 a owl:Restriction;
+  owl:allValuesFrom _:genid4;
+  owl:onProperty obo:BFO_0000176 .
+
+_:genid4 a owl:Class;
+  owl:unionOf _:genid6 .
+
+_:genid6 a rdf:List;
+  rdf:first obo:BFO_0000027;
+  rdf:rest _:genid5 .
+
+_:genid5 a rdf:List;
+  rdf:first obo:BFO_0000030;
+  rdf:rest rdf:nil .
+
+:BulkModulus a owl:Class;
+  rdfs:subClassOf :ElasticModulus, _:genid7 .
+
+_:genid7 a owl:Restriction;
+  owl:allValuesFrom _:genid8;
+  owl:onProperty obo:BFO_0000197 .
+
+_:genid8 a owl:Class;
+  owl:unionOf _:genid11 .
+
+_:genid11 a rdf:List;
+  rdf:first obo:BFO_0000027;
+  rdf:rest _:genid10 .
+
+_:genid10 a rdf:List;
+  rdf:first obo:BFO_0000030;
+  rdf:rest _:genid9 .
+
+_:genid9 a rdf:List;
+  rdf:first :Bulk;
+  rdf:rest rdf:nil .
+
+:CategoricalQuality a owl:Class;
+  rdfs:subClassOf obo:BFO_0000019;
+  rdfs:comment "e.g. material class. Is treated in the \"materials\" module." .
+
+:ChangeOfAggregateState a owl:Class;
+  rdfs:subClassOf :ChangeOfPhase .
+
+:ChangeOfPhase a owl:Class;
+  rdfs:subClassOf :Response .
+
+:ChangeOfTemperature a owl:Class;
+  rdfs:subClassOf :Response .
+
+:ChemicalComposition a owl:Class;
+  rdfs:subClassOf :MorphologicQuality .
+
+:ChemicalPotential a owl:Class;
+  rdfs:subClassOf :ThermodynamicQuality .
+
+:CorpuscularIrradiation a owl:Class;
+  rdfs:subClassOf :Irradiation .
+
+:CrackGrowth a owl:Class;
+  rdfs:subClassOf :EvolutionOfDamage .
+
+:CrystallStructure a owl:Class;
+  rdfs:subClassOf :MorphologicQuality .
+
+:DefectDensity a owl:Class;
+  rdfs:subClassOf :MorphologicQuality .
+
+:Deformation a owl:Class;
+  rdfs:subClassOf :Response .
+
+:Density a owl:Class;
+  rdfs:subClassOf :MorphologicQuality .
+
+:DeteriorativeProperty a owl:Class;
+  rdfs:subClassOf :MaterialProperty, _:genid12 .
+
+_:genid12 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfSubstance;
+  owl:onProperty obo:BFO_0000054 .
+
+:DielectricConstant a owl:Class;
+  rdfs:subClassOf :ElectricalProperty;
+  owl:disjointWith :ElectricalConductivity .
+
+:ElasticModulus a owl:Class;
+  rdfs:subClassOf :Stiffness, _:genid13 .
+
+_:genid13 a owl:Restriction;
+  owl:someValuesFrom _:genid14;
+  owl:onProperty obo:BFO_0000197 .
+
+_:genid14 a owl:Class;
+  owl:unionOf _:genid17 .
+
+_:genid17 a rdf:List;
+  rdf:first obo:BFO_0000027;
+  rdf:rest _:genid16 .
+
+_:genid16 a rdf:List;
+  rdf:first obo:BFO_0000030;
+  rdf:rest _:genid15 .
+
+_:genid15 a rdf:List;
+  rdf:first :Bulk;
+  rdf:rest rdf:nil .
+
+:ElectricPotential a owl:Class;
+  rdfs:subClassOf :ThermodynamicQuality .
+
+:ElectricalConductivity a owl:Class;
+  rdfs:subClassOf :ElectricalProperty .
+
+:ElectricalProperty a owl:Class;
+  rdfs:subClassOf :MaterialProperty, _:genid18 .
+
+_:genid18 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfElectricField;
+  owl:onProperty :stimulated_by .
+
+:EmissionOfAccousticWave a owl:Class;
+  rdfs:subClassOf :Deformation .
+
+:EmissionOfCorpuscularRadiation a owl:Class;
+  rdfs:subClassOf :EmissionOfRadiation .
+
+:EmissionOfRadiation a owl:Class;
+  rdfs:subClassOf :Response .
+
+:EmissionOfWaveRadiation a owl:Class;
+  rdfs:subClassOf :EmissionOfRadiation .
+
+:EvolutionOfDamage a owl:Class;
+  rdfs:subClassOf :Response .
+
+:FormationOfNotchOrScratch a owl:Class;
+  rdfs:subClassOf :Response .
+
+:GrainSizeDistribution a owl:Class;
+  rdfs:subClassOf :1D .
+
+:Half-Life a owl:Class;
+  rdfs:subClassOf :TemporalProperty, _:genid19 .
+
+_:genid19 a owl:Restriction;
+  owl:someValuesFrom :EmissionOfRadiation;
+  owl:onProperty :responds_with .
+
+:HeatCapacity a owl:Class;
+  rdfs:subClassOf :ThermalProperty, _:genid20;
+  owl:disjointWith :ThermalConductivity .
+
+_:genid20 a owl:Restriction;
+  owl:someValuesFrom :ChangeOfTemperature;
+  owl:onProperty :responds_with .
+
+:Image a owl:Class;
+  rdfs:subClassOf :2D;
+  owl:disjointWith :Map .
+
+:IndexOfRefraction a owl:Class;
+  rdfs:subClassOf :OpticalProperty;
+  owl:disjointWith :Reflectivity .
+
+:Irradiation a owl:Class;
+  rdfs:subClassOf :Stimulation;
+  rdfs:comment """To account for wave-particle duality subclasses are not disjoint. 
 Does that make sense from a (onto-)logic point of view?""" .
 
+:Macrostructure a owl:Class;
+  rdfs:subClassOf :MaterialStructure .
 
-###  https://w3id.org/pmd/co/qualities/Macrostructure
-<https://w3id.org/pmd/co/qualities/Macrostructure> rdf:type owl:Class ;
-                                                   rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialStructure> .
+:MagneticProperty a owl:Class;
+  rdfs:subClassOf :MaterialProperty, _:genid21 .
 
+_:genid21 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfMagneticField;
+  owl:onProperty :stimulated_by .
 
-###  https://w3id.org/pmd/co/qualities/MagneticProperty
-<https://w3id.org/pmd/co/qualities/MagneticProperty> rdf:type owl:Class ;
-                                                     rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialProperty> ,
-                                                                     [ rdf:type owl:Restriction ;
-                                                                       owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                       owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfMagneticField>
-                                                                     ] .
+:Map a owl:Class;
+  rdfs:subClassOf :2D .
 
-
-###  https://w3id.org/pmd/co/qualities/Map
-<https://w3id.org/pmd/co/qualities/Map> rdf:type owl:Class ;
-                                        rdfs:subClassOf <https://w3id.org/pmd/co/qualities/2D> .
-
-
-###  https://w3id.org/pmd/co/qualities/MaterialProperty
-<https://w3id.org/pmd/co/qualities/MaterialProperty> rdf:type owl:Class ;
-                                                     rdfs:subClassOf obo:BFO_0000017 ,
-                                                                     [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                                              owl:onProperty obo:BFO_0000197 ;
-                                                                                              owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
-                                                                                                                                        [ rdf:type owl:Restriction ;
-                                                                                                                                          owl:onProperty obo:BFO_0000056 ;
-                                                                                                                                          owl:someValuesFrom [ owl:intersectionOf ( <https://w3id.org/pmd/co/qualities/Response>
-                                                                                                                                                                                    [ rdf:type owl:Restriction ;
-                                                                                                                                                                                      owl:onProperty obo:BFO_0000199 ;
-                                                                                                                                                                                      owl:someValuesFrom obo:BFO_0000008
-                                                                                                                                                                                    ]
-                                                                                                                                                                                  ) ;
-                                                                                                                                                               rdf:type owl:Class
-                                                                                                                                                             ]
-                                                                                                                                        ]
-                                                                                                                                        [ rdf:type owl:Restriction ;
-                                                                                                                                          owl:onProperty obo:BFO_0000056 ;
-                                                                                                                                          owl:someValuesFrom [ owl:intersectionOf ( <https://w3id.org/pmd/co/qualities/Stimulation>
-                                                                                                                                                                                    [ rdf:type owl:Restriction ;
-                                                                                                                                                                                      owl:onProperty obo:BFO_0000199 ;
-                                                                                                                                                                                      owl:someValuesFrom obo:BFO_0000008
-                                                                                                                                                                                    ]
-                                                                                                                                                                                  ) ;
-                                                                                                                                                               rdf:type owl:Class
-                                                                                                                                                             ]
-                                                                                                                                        ]
-                                                                                                                                      ) ;
-                                                                                                                   rdf:type owl:Class
-                                                                                                                 ]
-                                                                                            ]
-                                                                                            [ rdf:type owl:Restriction ;
-                                                                                              owl:onProperty <https://w3id.org/pmd/co/qualities/responds_with> ;
-                                                                                              owl:someValuesFrom <https://w3id.org/pmd/co/qualities/Response>
-                                                                                            ]
-                                                                                            [ rdf:type owl:Restriction ;
-                                                                                              owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                                              owl:someValuesFrom <https://w3id.org/pmd/co/qualities/Stimulation>
-                                                                                            ]
-                                                                                          ) ;
-                                                                       rdf:type owl:Class
-                                                                     ] ,
-                                                                     [ rdf:type owl:Restriction ;
-                                                                       owl:onProperty obo:BFO_0000059 ;
-                                                                       owl:someValuesFrom <https://w3id.org/pmd/co/qualities/MaterialPropertyMeasure>
-                                                                     ] ;
-                                                     rdfs:comment """A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
+:MaterialProperty a owl:Class;
+  rdfs:subClassOf obo:BFO_0000017, _:genid22, _:genid43;
+  rdfs:comment """A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
 
 (Callister, W.D., Rethwisch, D.G., Materials Science and Engineering, Wiley, 2014)
 
 We only deal with intensive (system-size independent) materrial properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules."""@en .
 
+_:genid22 a owl:Class;
+  owl:intersectionOf _:genid27 .
 
-###  https://w3id.org/pmd/co/qualities/MaterialPropertyMeasure
-<https://w3id.org/pmd/co/qualities/MaterialPropertyMeasure> rdf:type owl:Class ;
-                                                            rdfs:subClassOf <http://purl.obolibrary.org/obo/IAO_0000030> .
+_:genid27 a rdf:List;
+  rdf:first _:genid28;
+  rdf:rest _:genid25 .
 
+_:genid25 a rdf:List;
+  rdf:first _:genid26;
+  rdf:rest _:genid23 .
 
-###  https://w3id.org/pmd/co/qualities/MaterialStructure
-<https://w3id.org/pmd/co/qualities/MaterialStructure> rdf:type owl:Class ;
-                                                      rdfs:subClassOf obo:BFO_0000027 .
+_:genid23 a rdf:List;
+  rdf:first _:genid24;
+  rdf:rest rdf:nil .
 
+_:genid24 a owl:Restriction;
+  owl:someValuesFrom :Stimulation;
+  owl:onProperty :stimulated_by .
 
-###  https://w3id.org/pmd/co/qualities/MechanicalProperty
-<https://w3id.org/pmd/co/qualities/MechanicalProperty> rdf:type owl:Class ;
-                                                       rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialProperty> ,
-                                                                       [ rdf:type owl:Restriction ;
-                                                                         owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                         owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad>
-                                                                       ] .
+_:genid26 a owl:Restriction;
+  owl:someValuesFrom :Response;
+  owl:onProperty :responds_with .
 
+_:genid28 a owl:Restriction;
+  owl:someValuesFrom _:genid29;
+  owl:onProperty obo:BFO_0000197 .
 
-###  https://w3id.org/pmd/co/qualities/MeltingPoint
-<https://w3id.org/pmd/co/qualities/MeltingPoint> rdf:type owl:Class ;
-                                                 rdfs:subClassOf <https://w3id.org/pmd/co/qualities/PhaseBoundary> .
+_:genid29 a owl:Class;
+  owl:intersectionOf _:genid42 .
 
+_:genid42 a rdf:List;
+  rdf:first obo:BFO_0000040;
+  rdf:rest _:genid36 .
 
-###  https://w3id.org/pmd/co/qualities/MetallographicTexture
-<https://w3id.org/pmd/co/qualities/MetallographicTexture> rdf:type owl:Class ;
-                                                          rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicQuality> .
+_:genid36 a rdf:List;
+  rdf:first _:genid37;
+  rdf:rest _:genid30 .
 
+_:genid30 a rdf:List;
+  rdf:first _:genid31;
+  rdf:rest rdf:nil .
 
-###  https://w3id.org/pmd/co/qualities/Microstructure
-<https://w3id.org/pmd/co/qualities/Microstructure> rdf:type owl:Class ;
-                                                   rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialStructure> .
+_:genid31 a owl:Restriction;
+  owl:someValuesFrom _:genid32;
+  owl:onProperty obo:BFO_0000056 .
 
+_:genid32 a owl:Class;
+  owl:intersectionOf _:genid35 .
 
-###  https://w3id.org/pmd/co/qualities/MohsHardness
-<https://w3id.org/pmd/co/qualities/MohsHardness> rdf:type owl:Class ;
-                                                 rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Scalar> .
+_:genid35 a rdf:List;
+  rdf:first :Stimulation;
+  rdf:rest _:genid33 .
 
+_:genid33 a rdf:List;
+  rdf:first _:genid34;
+  rdf:rest rdf:nil .
 
-###  https://w3id.org/pmd/co/qualities/MorphologicQuality
-<https://w3id.org/pmd/co/qualities/MorphologicQuality> rdf:type owl:Class ;
-                                                       rdfs:subClassOf obo:BFO_0000019 ,
-                                                                       [ rdf:type owl:Restriction ;
-                                                                         owl:onProperty obo:BFO_0000197 ;
-                                                                         owl:someValuesFrom obo:BFO_0000040
-                                                                       ] ;
-                                                       skos:altLabel "MaterialStructure" .
+_:genid34 a owl:Restriction;
+  owl:someValuesFrom obo:BFO_0000008;
+  owl:onProperty obo:BFO_0000199 .
 
+_:genid37 a owl:Restriction;
+  owl:someValuesFrom _:genid38;
+  owl:onProperty obo:BFO_0000056 .
 
-###  https://w3id.org/pmd/co/qualities/MorphologicalProperty
-<https://w3id.org/pmd/co/qualities/MorphologicalProperty> rdf:type owl:Class ;
-                                                          rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialProperty> .
+_:genid38 a owl:Class;
+  owl:intersectionOf _:genid41 .
 
+_:genid41 a rdf:List;
+  rdf:first :Response;
+  rdf:rest _:genid39 .
 
-###  https://w3id.org/pmd/co/qualities/OccurenceOfChemicalReaction
-<https://w3id.org/pmd/co/qualities/OccurenceOfChemicalReaction> rdf:type owl:Class ;
-                                                                rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
+_:genid39 a rdf:List;
+  rdf:first _:genid40;
+  rdf:rest rdf:nil .
 
+_:genid40 a owl:Restriction;
+  owl:someValuesFrom obo:BFO_0000008;
+  owl:onProperty obo:BFO_0000199 .
 
-###  https://w3id.org/pmd/co/qualities/OccurenceOfElecticField
-<https://w3id.org/pmd/co/qualities/OccurenceOfElecticField> rdf:type owl:Class ;
-                                                            rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
+_:genid43 a owl:Restriction;
+  owl:someValuesFrom :MaterialPropertyMeasure;
+  owl:onProperty obo:BFO_0000059 .
 
+:MaterialPropertyMeasure a owl:Class;
+  rdfs:subClassOf obo:IAO_0000030 .
 
-###  https://w3id.org/pmd/co/qualities/OccurenceOfMagneticField
-<https://w3id.org/pmd/co/qualities/OccurenceOfMagneticField> rdf:type owl:Class ;
-                                                             rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Response> .
+:MaterialStructure a owl:Class;
+  rdfs:subClassOf obo:BFO_0000027 .
 
+:MechanicalProperty a owl:Class;
+  rdfs:subClassOf :MaterialProperty, _:genid44 .
 
-###  https://w3id.org/pmd/co/qualities/OpticalProperty
-<https://w3id.org/pmd/co/qualities/OpticalProperty> rdf:type owl:Class ;
-                                                    rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialProperty> ,
-                                                                    [ rdf:type owl:Restriction ;
-                                                                      owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                      owl:someValuesFrom <https://w3id.org/pmd/co/qualities/WaverIrradiation>
-                                                                    ] .
+_:genid44 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfMechanicalLoad;
+  owl:onProperty :stimulated_by .
 
+:MeltingPoint a owl:Class;
+  rdfs:subClassOf :PhaseBoundary .
 
-###  https://w3id.org/pmd/co/qualities/PassingOfTime
-<https://w3id.org/pmd/co/qualities/PassingOfTime> rdf:type owl:Class ;
-                                                  rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Stimulation> .
+:MetallographicTexture a owl:Class;
+  rdfs:subClassOf :MorphologicQuality .
 
+:Microstructure a owl:Class;
+  rdfs:subClassOf :MaterialStructure .
 
-###  https://w3id.org/pmd/co/qualities/PhaseBoundary
-<https://w3id.org/pmd/co/qualities/PhaseBoundary> rdf:type owl:Class ;
-                                                  rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicalProperty> ,
-                                                                  [ rdf:type owl:Restriction ;
-                                                                    owl:onProperty <https://w3id.org/pmd/co/qualities/responds_with> ;
-                                                                    owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ChangeOfPhase>
-                                                                  ] ,
-                                                                  [ rdf:type owl:Restriction ;
-                                                                    owl:onProperty <https://w3id.org/pmd/co/qualities/responds_with> ;
-                                                                    owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ChangeOfTemperature>
-                                                                  ] ,
-                                                                  [ rdf:type owl:Restriction ;
-                                                                    owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                    owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfHeatFlux>
-                                                                  ] ,
-                                                                  [ rdf:type owl:Restriction ;
-                                                                    owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                    owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad>
-                                                                  ] ,
-                                                                  [ rdf:type owl:Restriction ;
-                                                                    owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                    owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfSubstance>
-                                                                  ] .
+:MohsHardness a owl:Class;
+  rdfs:subClassOf :Scalar .
 
+:MorphologicQuality a owl:Class;
+  rdfs:subClassOf obo:BFO_0000019, _:genid45;
+  skos:altLabel "MaterialStructure" .
 
-###  https://w3id.org/pmd/co/qualities/PoleFigure
-<https://w3id.org/pmd/co/qualities/PoleFigure> rdf:type owl:Class ;
-                                               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Map> ,
-                                                               [ rdf:type owl:Restriction ;
-                                                                 owl:onProperty obo:BFO_0000058 ;
-                                                                 owl:someValuesFrom <https://w3id.org/pmd/co/qualities/MetallographicTexture>
-                                                               ] .
+_:genid45 a owl:Restriction;
+  owl:someValuesFrom obo:BFO_0000040;
+  owl:onProperty obo:BFO_0000197 .
 
+:MorphologicalProperty a owl:Class;
+  rdfs:subClassOf :MaterialProperty .
 
-###  https://w3id.org/pmd/co/qualities/PolyCrystallineGrainStucture
-<https://w3id.org/pmd/co/qualities/PolyCrystallineGrainStucture> rdf:type owl:Class ;
-                                                                 rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicQuality> .
+:OccurenceOfChemicalReaction a owl:Class;
+  rdfs:subClassOf :Response .
 
+:OccurenceOfElecticField a owl:Class;
+  rdfs:subClassOf :Response .
 
-###  https://w3id.org/pmd/co/qualities/PoreGrowth
-<https://w3id.org/pmd/co/qualities/PoreGrowth> rdf:type owl:Class ;
-                                               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/EvolutionOfDamage> .
+:OccurenceOfMagneticField a owl:Class;
+  rdfs:subClassOf :Response .
 
+:OpticalProperty a owl:Class;
+  rdfs:subClassOf :MaterialProperty, _:genid46 .
 
-###  https://w3id.org/pmd/co/qualities/Pressure
-<https://w3id.org/pmd/co/qualities/Pressure> rdf:type owl:Class ;
-                                             rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ThermodynamicQuality> ;
-                                             owl:disjointWith <https://w3id.org/pmd/co/qualities/Temperature> .
+_:genid46 a owl:Restriction;
+  owl:someValuesFrom :WaverIrradiation;
+  owl:onProperty :stimulated_by .
 
+:PassingOfTime a owl:Class;
+  rdfs:subClassOf :Stimulation .
 
-###  https://w3id.org/pmd/co/qualities/Reflectivity
-<https://w3id.org/pmd/co/qualities/Reflectivity> rdf:type owl:Class ;
-                                                 rdfs:subClassOf <https://w3id.org/pmd/co/qualities/OpticalProperty> .
+:PhaseBoundary a owl:Class;
+  rdfs:subClassOf :MorphologicalProperty, _:genid47, _:genid48, _:genid49, _:genid50,
+    _:genid51 .
 
+_:genid47 a owl:Restriction;
+  owl:someValuesFrom :ChangeOfPhase;
+  owl:onProperty :responds_with .
 
-###  https://w3id.org/pmd/co/qualities/Response
-<https://w3id.org/pmd/co/qualities/Response> rdf:type owl:Class ;
-                                             rdfs:subClassOf obo:BFO_0000015 ;
-                                             owl:disjointWith <https://w3id.org/pmd/co/qualities/Stimulation> .
+_:genid48 a owl:Restriction;
+  owl:someValuesFrom :ChangeOfTemperature;
+  owl:onProperty :responds_with .
 
+_:genid49 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfHeatFlux;
+  owl:onProperty :stimulated_by .
 
-###  https://w3id.org/pmd/co/qualities/Scalar
-<https://w3id.org/pmd/co/qualities/Scalar> rdf:type owl:Class ;
-                                           rdfs:subClassOf <http://purl.obolibrary.org/obo/IAO_0000030> .
+_:genid50 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfMechanicalLoad;
+  owl:onProperty :stimulated_by .
 
+_:genid51 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfSubstance;
+  owl:onProperty :stimulated_by .
 
-###  https://w3id.org/pmd/co/qualities/SpecificSurfaceArea
-<https://w3id.org/pmd/co/qualities/SpecificSurfaceArea> rdf:type owl:Class ;
-                                                        rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MorphologicQuality> .
+:PoleFigure a owl:Class;
+  rdfs:subClassOf :Map, _:genid52 .
 
+_:genid52 a owl:Restriction;
+  owl:someValuesFrom :MetallographicTexture;
+  owl:onProperty obo:BFO_0000058 .
 
-###  https://w3id.org/pmd/co/qualities/Spectrum
-<https://w3id.org/pmd/co/qualities/Spectrum> rdf:type owl:Class ;
-                                             rdfs:subClassOf <https://w3id.org/pmd/co/qualities/1D> ;
-                                             owl:disjointWith <https://w3id.org/pmd/co/qualities/TimeSeries> .
+:PolyCrystallineGrainStucture a owl:Class;
+  rdfs:subClassOf :MorphologicQuality .
 
+:PoreGrowth a owl:Class;
+  rdfs:subClassOf :EvolutionOfDamage .
 
-###  https://w3id.org/pmd/co/qualities/SpeedOfSound
-<https://w3id.org/pmd/co/qualities/SpeedOfSound> rdf:type owl:Class ;
-                                                 rdfs:subClassOf <https://w3id.org/pmd/co/qualities/AccousticProperty> .
+:Pressure a owl:Class;
+  rdfs:subClassOf :ThermodynamicQuality;
+  owl:disjointWith :Temperature .
 
+:Reflectivity a owl:Class;
+  rdfs:subClassOf :OpticalProperty .
 
-###  https://w3id.org/pmd/co/qualities/Stiffness
-<https://w3id.org/pmd/co/qualities/Stiffness> rdf:type owl:Class ;
-                                              rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MechanicalProperty> ,
-                                                              [ rdf:type owl:Restriction ;
-                                                                owl:onProperty obo:BFO_0000197 ;
-                                                                owl:someValuesFrom obo:BFO_0000040
-                                                              ] ,
-                                                              [ rdf:type owl:Restriction ;
-                                                                owl:onProperty <https://w3id.org/pmd/co/qualities/responds_with> ;
-                                                                owl:someValuesFrom <https://w3id.org/pmd/co/qualities/Deformation>
-                                                              ] ;
-                                              owl:disjointWith <https://w3id.org/pmd/co/qualities/Strenght> .
+:Response a owl:Class;
+  rdfs:subClassOf obo:BFO_0000015;
+  owl:disjointWith :Stimulation .
 
+:Scalar a owl:Class;
+  rdfs:subClassOf obo:IAO_0000030 .
 
-###  https://w3id.org/pmd/co/qualities/Stimulation
-<https://w3id.org/pmd/co/qualities/Stimulation> rdf:type owl:Class ;
-                                                rdfs:subClassOf obo:BFO_0000015 .
+:SpecificSurfaceArea a owl:Class;
+  rdfs:subClassOf :MorphologicQuality .
 
+:Spectrum a owl:Class;
+  rdfs:subClassOf :1D;
+  owl:disjointWith :TimeSeries .
 
-###  https://w3id.org/pmd/co/qualities/Strenght
-<https://w3id.org/pmd/co/qualities/Strenght> rdf:type owl:Class ;
-                                             rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MechanicalProperty> .
+:SpeedOfSound a owl:Class;
+  rdfs:subClassOf :AccousticProperty .
 
+:Stiffness a owl:Class;
+  rdfs:subClassOf :MechanicalProperty, _:genid53, _:genid54;
+  owl:disjointWith :Strenght .
 
-###  https://w3id.org/pmd/co/qualities/StructuralAndChemicalDecay
-<https://w3id.org/pmd/co/qualities/StructuralAndChemicalDecay> rdf:type owl:Class ;
-                                                               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/EvolutionOfDamage> .
+_:genid53 a owl:Restriction;
+  owl:someValuesFrom obo:BFO_0000040;
+  owl:onProperty obo:BFO_0000197 .
 
+_:genid54 a owl:Restriction;
+  owl:someValuesFrom :Deformation;
+  owl:onProperty :responds_with .
 
-###  https://w3id.org/pmd/co/qualities/SubatomicStructure
-<https://w3id.org/pmd/co/qualities/SubatomicStructure> rdf:type owl:Class ;
-                                                       rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialStructure> .
+:Stimulation a owl:Class;
+  rdfs:subClassOf obo:BFO_0000015 .
 
+:Strenght a owl:Class;
+  rdfs:subClassOf :MechanicalProperty .
 
-###  https://w3id.org/pmd/co/qualities/SublimationPoint
-<https://w3id.org/pmd/co/qualities/SublimationPoint> rdf:type owl:Class ;
-                                                     rdfs:subClassOf <https://w3id.org/pmd/co/qualities/PhaseBoundary> .
+:StructuralAndChemicalDecay a owl:Class;
+  rdfs:subClassOf :EvolutionOfDamage .
 
+:SubatomicStructure a owl:Class;
+  rdfs:subClassOf :MaterialStructure .
 
-###  https://w3id.org/pmd/co/qualities/Surface
-<https://w3id.org/pmd/co/qualities/Surface> rdf:type owl:Class ;
-                                            rdfs:subClassOf obo:BFO_0000024 ,
-                                                            [ rdf:type owl:Restriction ;
-                                                              owl:onProperty obo:BFO_0000176 ;
-                                                              owl:allValuesFrom [ rdf:type owl:Class ;
-                                                                                  owl:unionOf ( obo:BFO_0000027
-                                                                                                obo:BFO_0000030
-                                                                                              )
-                                                                                ]
-                                                            ] .
+:SublimationPoint a owl:Class;
+  rdfs:subClassOf :PhaseBoundary .
 
+:Surface a owl:Class;
+  rdfs:subClassOf obo:BFO_0000024, _:genid55 .
 
-###  https://w3id.org/pmd/co/qualities/Temperature
-<https://w3id.org/pmd/co/qualities/Temperature> rdf:type owl:Class ;
-                                                rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ThermodynamicQuality> .
+_:genid55 a owl:Restriction;
+  owl:allValuesFrom _:genid56;
+  owl:onProperty obo:BFO_0000176 .
 
+_:genid56 a owl:Class;
+  owl:unionOf _:genid58 .
 
-###  https://w3id.org/pmd/co/qualities/TemporalProperty
-<https://w3id.org/pmd/co/qualities/TemporalProperty> rdf:type owl:Class ;
-                                                     rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialProperty> ,
-                                                                     [ rdf:type owl:Restriction ;
-                                                                       owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                       owl:someValuesFrom <https://w3id.org/pmd/co/qualities/PassingOfTime>
-                                                                     ] .
+_:genid58 a rdf:List;
+  rdf:first obo:BFO_0000027;
+  rdf:rest _:genid57 .
 
+_:genid57 a rdf:List;
+  rdf:first obo:BFO_0000030;
+  rdf:rest rdf:nil .
 
-###  https://w3id.org/pmd/co/qualities/ThermalConductivity
-<https://w3id.org/pmd/co/qualities/ThermalConductivity> rdf:type owl:Class ;
-                                                        rdfs:subClassOf <https://w3id.org/pmd/co/qualities/ThermalProperty> .
+:Temperature a owl:Class;
+  rdfs:subClassOf :ThermodynamicQuality .
 
+:TemporalProperty a owl:Class;
+  rdfs:subClassOf :MaterialProperty, _:genid59 .
 
-###  https://w3id.org/pmd/co/qualities/ThermalProperty
-<https://w3id.org/pmd/co/qualities/ThermalProperty> rdf:type owl:Class ;
-                                                    rdfs:subClassOf <https://w3id.org/pmd/co/qualities/MaterialProperty> ,
-                                                                    [ rdf:type owl:Restriction ;
-                                                                      owl:onProperty <https://w3id.org/pmd/co/qualities/stimulated_by> ;
-                                                                      owl:someValuesFrom <https://w3id.org/pmd/co/qualities/ApplicationOfHeatFlux>
-                                                                    ] .
+_:genid59 a owl:Restriction;
+  owl:someValuesFrom :PassingOfTime;
+  owl:onProperty :stimulated_by .
 
+:ThermalConductivity a owl:Class;
+  rdfs:subClassOf :ThermalProperty .
 
-###  https://w3id.org/pmd/co/qualities/ThermodynamicQuality
-<https://w3id.org/pmd/co/qualities/ThermodynamicQuality> rdf:type owl:Class ;
-                                                         rdfs:subClassOf obo:BFO_0000019 ,
-                                                                         [ rdf:type owl:Restriction ;
-                                                                           owl:onProperty obo:BFO_0000197 ;
-                                                                           owl:someValuesFrom obo:BFO_0000040
-                                                                         ] .
+:ThermalProperty a owl:Class;
+  rdfs:subClassOf :MaterialProperty, _:genid60 .
 
+_:genid60 a owl:Restriction;
+  owl:someValuesFrom :ApplicationOfHeatFlux;
+  owl:onProperty :stimulated_by .
 
-###  https://w3id.org/pmd/co/qualities/TimeSeries
-<https://w3id.org/pmd/co/qualities/TimeSeries> rdf:type owl:Class ;
-                                               rdfs:subClassOf <https://w3id.org/pmd/co/qualities/1D> .
+:ThermodynamicQuality a owl:Class;
+  rdfs:subClassOf obo:BFO_0000019, _:genid61 .
 
+_:genid61 a owl:Restriction;
+  owl:someValuesFrom obo:BFO_0000040;
+  owl:onProperty obo:BFO_0000197 .
 
-###  https://w3id.org/pmd/co/qualities/TriplePoint
-<https://w3id.org/pmd/co/qualities/TriplePoint> rdf:type owl:Class ;
-                                                rdfs:subClassOf <https://w3id.org/pmd/co/qualities/PhaseBoundary> .
+:TimeSeries a owl:Class;
+  rdfs:subClassOf :1D .
 
+:TriplePoint a owl:Class;
+  rdfs:subClassOf :PhaseBoundary .
 
-###  https://w3id.org/pmd/co/qualities/WaverIrradiation
-<https://w3id.org/pmd/co/qualities/WaverIrradiation> rdf:type owl:Class ;
-                                                     rdfs:subClassOf <https://w3id.org/pmd/co/qualities/Irradiation> .
+:WaverIrradiation a owl:Class;
+  rdfs:subClassOf :Irradiation .
 
+:1D a owl:Class;
+  rdfs:subClassOf obo:IAO_0000030 .
 
-###  https://w3id.org/pmd/co/qualities/1D
-<https://w3id.org/pmd/co/qualities/1D> rdf:type owl:Class ;
-                                       rdfs:subClassOf <http://purl.obolibrary.org/obo/IAO_0000030> .
+:2D a owl:Class;
+  rdfs:subClassOf obo:IAO_0000030 .
 
+:my_object a owl:NamedIndividual, :Surface;
+  obo:BFO_0000196 :my_realizable_entity .
 
-###  https://w3id.org/pmd/co/qualities/2D
-<https://w3id.org/pmd/co/qualities/2D> rdf:type owl:Class ;
-                                       rdfs:subClassOf <http://purl.obolibrary.org/obo/IAO_0000030> .
+:my_realizable_entity a owl:NamedIndividual, pmdco:ScratchHardness;
+  :responds_with :my_response;
+  :stimulated_by :my_stimulation .
 
+:my_response a owl:NamedIndividual, :FormationOfNotchOrScratch .
 
-#################################################################
-#    Individuals
-#################################################################
+:my_stimulation a owl:NamedIndividual, :ApplicationOfMechanicalLoad .
 
-###  https://w3id.org/pmd/co/qualities/my_object
-<https://w3id.org/pmd/co/qualities/my_object> rdf:type owl:NamedIndividual ,
-                                                       <https://w3id.org/pmd/co/qualities/Surface> ;
-                                              obo:BFO_0000196 <https://w3id.org/pmd/co/qualities/my_realizable_entity> .
+_:genid62 a owl:AllDisjointClasses;
+  owl:members _:genid72 .
 
+_:genid72 a rdf:List;
+  rdf:first :ASTM_Grainsize;
+  rdf:rest _:genid71 .
 
-###  https://w3id.org/pmd/co/qualities/my_realizable_entity
-<https://w3id.org/pmd/co/qualities/my_realizable_entity> rdf:type owl:NamedIndividual ,
-                                                                  pmdco:ScratchHardness ;
-                                                         <https://w3id.org/pmd/co/qualities/responds_with> <https://w3id.org/pmd/co/qualities/my_response> ;
-                                                         <https://w3id.org/pmd/co/qualities/stimulated_by> <https://w3id.org/pmd/co/qualities/my_stimulation> .
+_:genid71 a rdf:List;
+  rdf:first :AggregateState;
+  rdf:rest _:genid70 .
 
+_:genid70 a rdf:List;
+  rdf:first :ChemicalComposition;
+  rdf:rest _:genid69 .
 
-###  https://w3id.org/pmd/co/qualities/my_response
-<https://w3id.org/pmd/co/qualities/my_response> rdf:type owl:NamedIndividual ,
-                                                         <https://w3id.org/pmd/co/qualities/FormationOfNotchOrScratch> .
+_:genid69 a rdf:List;
+  rdf:first :ChemicalPotential;
+  rdf:rest _:genid68 .
 
+_:genid68 a rdf:List;
+  rdf:first :CrystallStructure;
+  rdf:rest _:genid67 .
 
-###  https://w3id.org/pmd/co/qualities/my_stimulation
-<https://w3id.org/pmd/co/qualities/my_stimulation> rdf:type owl:NamedIndividual ,
-                                                            <https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad> .
+_:genid67 a rdf:List;
+  rdf:first :DefectDensity;
+  rdf:rest _:genid66 .
 
+_:genid66 a rdf:List;
+  rdf:first :Density;
+  rdf:rest _:genid65 .
 
-#################################################################
-#    General axioms
-#################################################################
+_:genid65 a rdf:List;
+  rdf:first :GrainSizeDistribution;
+  rdf:rest _:genid64 .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/ASTM_Grainsize>
-                <https://w3id.org/pmd/co/qualities/AggregateState>
-                <https://w3id.org/pmd/co/qualities/ChemicalComposition>
-                <https://w3id.org/pmd/co/qualities/ChemicalPotential>
-                <https://w3id.org/pmd/co/qualities/CrystallStructure>
-                <https://w3id.org/pmd/co/qualities/DefectDensity>
-                <https://w3id.org/pmd/co/qualities/Density>
-                <https://w3id.org/pmd/co/qualities/GrainSizeDistribution>
-                <https://w3id.org/pmd/co/qualities/MetallographicTexture>
-                <https://w3id.org/pmd/co/qualities/SpecificSurfaceArea>
-              )
-] .
+_:genid64 a rdf:List;
+  rdf:first :MetallographicTexture;
+  rdf:rest _:genid63 .
 
+_:genid63 a rdf:List;
+  rdf:first :SpecificSurfaceArea;
+  rdf:rest rdf:nil .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/ASTM_Grainsize>
-                <https://w3id.org/pmd/co/qualities/BrinellHardness>
-                <https://w3id.org/pmd/co/qualities/GrainSizeDistribution>
-              )
-] .
+_:genid73 a owl:AllDisjointClasses;
+  owl:members _:genid76 .
 
+_:genid76 a rdf:List;
+  rdf:first :ASTM_Grainsize;
+  rdf:rest _:genid75 .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/ApplicationOfElectricField>
-                <https://w3id.org/pmd/co/qualities/ApplicationOfHeatFlux>
-                <https://w3id.org/pmd/co/qualities/ApplicationOfMagneticField>
-                <https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad>
-                <https://w3id.org/pmd/co/qualities/ApplicationOfSubstance>
-                <https://w3id.org/pmd/co/qualities/Irradiation>
-                <https://w3id.org/pmd/co/qualities/PassingOfTime>
-              )
-] .
+_:genid75 a rdf:List;
+  rdf:first :BrinellHardness;
+  rdf:rest _:genid74 .
 
+_:genid74 a rdf:List;
+  rdf:first :GrainSizeDistribution;
+  rdf:rest rdf:nil .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/ApplicationOfElectricField>
-                <https://w3id.org/pmd/co/qualities/ApplicationOfHeatFlux>
-                <https://w3id.org/pmd/co/qualities/ApplicationOfMagneticField>
-                <https://w3id.org/pmd/co/qualities/ApplicationOfMechanicalLoad>
-                <https://w3id.org/pmd/co/qualities/Irradiation>
-              )
-] .
+_:genid77 a owl:AllDisjointClasses;
+  owl:members _:genid84 .
 
+_:genid84 a rdf:List;
+  rdf:first :ApplicationOfElectricField;
+  rdf:rest _:genid83 .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/AtomicStructure>
-                <https://w3id.org/pmd/co/qualities/Macrostructure>
-                <https://w3id.org/pmd/co/qualities/Microstructure>
-                <https://w3id.org/pmd/co/qualities/SubatomicStructure>
-              )
-] .
+_:genid83 a rdf:List;
+  rdf:first :ApplicationOfHeatFlux;
+  rdf:rest _:genid82 .
 
+_:genid82 a rdf:List;
+  rdf:first :ApplicationOfMagneticField;
+  rdf:rest _:genid81 .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/BoilingPoint>
-                <https://w3id.org/pmd/co/qualities/MeltingPoint>
-                <https://w3id.org/pmd/co/qualities/SublimationPoint>
-                <https://w3id.org/pmd/co/qualities/TriplePoint>
-              )
-] .
+_:genid81 a rdf:List;
+  rdf:first :ApplicationOfMechanicalLoad;
+  rdf:rest _:genid80 .
 
+_:genid80 a rdf:List;
+  rdf:first :ApplicationOfSubstance;
+  rdf:rest _:genid79 .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/ChangeOfTemperature>
-                <https://w3id.org/pmd/co/qualities/Deformation>
-                <https://w3id.org/pmd/co/qualities/EmissionOfRadiation>
-                <https://w3id.org/pmd/co/qualities/EvolutionOfDamage>
-                <https://w3id.org/pmd/co/qualities/OccurenceOfChemicalReaction>
-                <https://w3id.org/pmd/co/qualities/OccurenceOfElecticField>
-                <https://w3id.org/pmd/co/qualities/OccurenceOfMagneticField>
-              )
-] .
+_:genid79 a rdf:List;
+  rdf:first :Irradiation;
+  rdf:rest _:genid78 .
 
+_:genid78 a rdf:List;
+  rdf:first :PassingOfTime;
+  rdf:rest rdf:nil .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/ChangeOfTemperature>
-                <https://w3id.org/pmd/co/qualities/Deformation>
-                <https://w3id.org/pmd/co/qualities/EmissionOfRadiation>
-                <https://w3id.org/pmd/co/qualities/OccurenceOfChemicalReaction>
-                <https://w3id.org/pmd/co/qualities/OccurenceOfElecticField>
-                <https://w3id.org/pmd/co/qualities/OccurenceOfMagneticField>
-              )
-] .
+_:genid85 a owl:AllDisjointClasses;
+  owl:members _:genid90 .
 
+_:genid90 a rdf:List;
+  rdf:first :ApplicationOfElectricField;
+  rdf:rest _:genid89 .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/CrackGrowth>
-                <https://w3id.org/pmd/co/qualities/PoreGrowth>
-                <https://w3id.org/pmd/co/qualities/StructuralAndChemicalDecay>
-              )
-] .
+_:genid89 a rdf:List;
+  rdf:first :ApplicationOfHeatFlux;
+  rdf:rest _:genid88 .
 
+_:genid88 a rdf:List;
+  rdf:first :ApplicationOfMagneticField;
+  rdf:rest _:genid87 .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/DeteriorativeProperty>
-                <https://w3id.org/pmd/co/qualities/ElectricalProperty>
-                <https://w3id.org/pmd/co/qualities/MagneticProperty>
-                <https://w3id.org/pmd/co/qualities/MechanicalProperty>
-                <https://w3id.org/pmd/co/qualities/MorphologicalProperty>
-                <https://w3id.org/pmd/co/qualities/OpticalProperty>
-                <https://w3id.org/pmd/co/qualities/TemporalProperty>
-                <https://w3id.org/pmd/co/qualities/ThermalProperty>
-              )
-] .
+_:genid87 a rdf:List;
+  rdf:first :ApplicationOfMechanicalLoad;
+  rdf:rest _:genid86 .
 
+_:genid86 a rdf:List;
+  rdf:first :Irradiation;
+  rdf:rest rdf:nil .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <https://w3id.org/pmd/co/qualities/Scalar>
-                <https://w3id.org/pmd/co/qualities/1D>
-                <https://w3id.org/pmd/co/qualities/2D>
-              )
-] .
+_:genid91 a owl:AllDisjointClasses;
+  owl:members _:genid95 .
 
+_:genid95 a rdf:List;
+  rdf:first :AtomicStructure;
+  rdf:rest _:genid94 .
 
-[ rdf:type owl:AllDifferent ;
-  owl:distinctMembers ( <https://w3id.org/pmd/co/qualities/my_object>
-                        <https://w3id.org/pmd/co/qualities/my_realizable_entity>
-                        <https://w3id.org/pmd/co/qualities/my_response>
-                        <https://w3id.org/pmd/co/qualities/my_stimulation>
-                      )
-] .
+_:genid94 a rdf:List;
+  rdf:first :Macrostructure;
+  rdf:rest _:genid93 .
 
+_:genid93 a rdf:List;
+  rdf:first :Microstructure;
+  rdf:rest _:genid92 .
 
-###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
+_:genid92 a rdf:List;
+  rdf:first :SubatomicStructure;
+  rdf:rest rdf:nil .
+
+_:genid96 a owl:AllDisjointClasses;
+  owl:members _:genid100 .
+
+_:genid100 a rdf:List;
+  rdf:first :BoilingPoint;
+  rdf:rest _:genid99 .
+
+_:genid99 a rdf:List;
+  rdf:first :MeltingPoint;
+  rdf:rest _:genid98 .
+
+_:genid98 a rdf:List;
+  rdf:first :SublimationPoint;
+  rdf:rest _:genid97 .
+
+_:genid97 a rdf:List;
+  rdf:first :TriplePoint;
+  rdf:rest rdf:nil .
+
+_:genid101 a owl:AllDisjointClasses;
+  owl:members _:genid108 .
+
+_:genid108 a rdf:List;
+  rdf:first :ChangeOfTemperature;
+  rdf:rest _:genid107 .
+
+_:genid107 a rdf:List;
+  rdf:first :Deformation;
+  rdf:rest _:genid106 .
+
+_:genid106 a rdf:List;
+  rdf:first :EmissionOfRadiation;
+  rdf:rest _:genid105 .
+
+_:genid105 a rdf:List;
+  rdf:first :EvolutionOfDamage;
+  rdf:rest _:genid104 .
+
+_:genid104 a rdf:List;
+  rdf:first :OccurenceOfChemicalReaction;
+  rdf:rest _:genid103 .
+
+_:genid103 a rdf:List;
+  rdf:first :OccurenceOfElecticField;
+  rdf:rest _:genid102 .
+
+_:genid102 a rdf:List;
+  rdf:first :OccurenceOfMagneticField;
+  rdf:rest rdf:nil .
+
+_:genid109 a owl:AllDisjointClasses;
+  owl:members _:genid115 .
+
+_:genid115 a rdf:List;
+  rdf:first :ChangeOfTemperature;
+  rdf:rest _:genid114 .
+
+_:genid114 a rdf:List;
+  rdf:first :Deformation;
+  rdf:rest _:genid113 .
+
+_:genid113 a rdf:List;
+  rdf:first :EmissionOfRadiation;
+  rdf:rest _:genid112 .
+
+_:genid112 a rdf:List;
+  rdf:first :OccurenceOfChemicalReaction;
+  rdf:rest _:genid111 .
+
+_:genid111 a rdf:List;
+  rdf:first :OccurenceOfElecticField;
+  rdf:rest _:genid110 .
+
+_:genid110 a rdf:List;
+  rdf:first :OccurenceOfMagneticField;
+  rdf:rest rdf:nil .
+
+_:genid116 a owl:AllDisjointClasses;
+  owl:members _:genid119 .
+
+_:genid119 a rdf:List;
+  rdf:first :CrackGrowth;
+  rdf:rest _:genid118 .
+
+_:genid118 a rdf:List;
+  rdf:first :PoreGrowth;
+  rdf:rest _:genid117 .
+
+_:genid117 a rdf:List;
+  rdf:first :StructuralAndChemicalDecay;
+  rdf:rest rdf:nil .
+
+_:genid120 a owl:AllDisjointClasses;
+  owl:members _:genid128 .
+
+_:genid128 a rdf:List;
+  rdf:first :DeteriorativeProperty;
+  rdf:rest _:genid127 .
+
+_:genid127 a rdf:List;
+  rdf:first :ElectricalProperty;
+  rdf:rest _:genid126 .
+
+_:genid126 a rdf:List;
+  rdf:first :MagneticProperty;
+  rdf:rest _:genid125 .
+
+_:genid125 a rdf:List;
+  rdf:first :MechanicalProperty;
+  rdf:rest _:genid124 .
+
+_:genid124 a rdf:List;
+  rdf:first :MorphologicalProperty;
+  rdf:rest _:genid123 .
+
+_:genid123 a rdf:List;
+  rdf:first :OpticalProperty;
+  rdf:rest _:genid122 .
+
+_:genid122 a rdf:List;
+  rdf:first :TemporalProperty;
+  rdf:rest _:genid121 .
+
+_:genid121 a rdf:List;
+  rdf:first :ThermalProperty;
+  rdf:rest rdf:nil .
+
+_:genid129 a owl:AllDisjointClasses;
+  owl:members _:genid132 .
+
+_:genid132 a rdf:List;
+  rdf:first :Scalar;
+  rdf:rest _:genid131 .
+
+_:genid131 a rdf:List;
+  rdf:first :1D;
+  rdf:rest _:genid130 .
+
+_:genid130 a rdf:List;
+  rdf:first :2D;
+  rdf:rest rdf:nil .
+
+_:genid133 a owl:AllDifferent;
+  owl:distinctMembers _:genid137 .
+
+_:genid137 a rdf:List;
+  rdf:first :my_object;
+  rdf:rest _:genid136 .
+
+_:genid136 a rdf:List;
+  rdf:first :my_realizable_entity;
+  rdf:rest _:genid135 .
+
+_:genid135 a rdf:List;
+  rdf:first :my_response;
+  rdf:rest _:genid134 .
+
+_:genid134 a rdf:List;
+  rdf:first :my_stimulation;
+  rdf:rest rdf:nil .
