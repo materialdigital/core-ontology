@@ -46,11 +46,12 @@ jobs:
         path: v3.0.0
     - name: Build HTML for 3.0.0
       run: | 
-           
+
+           cd v3.0.0
            curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
            # merge all modules to one file
            # (but, do not merge the external imports, e.g. iao, etc)
-           java -jar robot.jar merge --catalog catalog-v001.xml --collapse-import-closure false --input v3.0.0/pmd-core.ttl --inputs "modules/*.ttl" --output merged.ttl 
+           java -jar robot.jar merge --catalog catalog-v001.xml --collapse-import-closure false --input pmd-core.ttl --inputs "modules/*.ttl" --output merged.ttl 
 
            # remove the module import statements 
            java -jar robot.jar merge --catalog catalog-v001.xml --collapse-import-closure false --input merged.ttl --inputs "modules/*.ttl" convert --output merged.ofn
@@ -65,9 +66,9 @@ jobs:
            # just another convert to make it beautiful
            java -jar robot.jar convert false --input merged3.ttl --output merged4.ttl
 
-    
+           cd ..
            mkdir public/3.0.0
-           java -jar widoco.jar -ontFile merged4.ttl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           java -jar widoco.jar -ontFile v3.0.0/merged4.ttl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
            ls public/3.0.0/           
            cp public/3.0.0/index-en.html public/3.0.0/index.html
 
