@@ -18,6 +18,18 @@ jobs:
            mkdir public 
            java -jar widoco.jar -ontFile main/pmd_core.ttl -outFolder public -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
            cp public/index-en.html public/index.html
+    - uses: actions/checkout@v3
+      with:
+        ref: v2.0.7
+        path: v2.0.7
+    - name: Build HTML for 2.0.7
+      run: | 
+           mkdir public/2.0.7 
+           java -jar widoco.jar -ontFile v2.0.7/pmd_core.ttl -outFolder public/2.0.7  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
+           
+           ls public/2.0.7/
+           mv public/2.0.7/doc/* public/2.0.7/
+           cp public/2.0.7/index-en.html public/2.0.7/index.html
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
