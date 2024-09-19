@@ -28,6 +28,30 @@ jobs:
            java -jar widoco.jar -ontFile v2.0.7/pmd_core.ttl -outFolder public/2.0.7  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
            ls public/2.0.7/           
            cp public/2.0.7/index-en.html public/2.0.7/index.html
+
+    - uses: actions/checkout@v3
+      with:
+        ref: v2.0.8
+        path: v2.0.8
+    - name: Build HTML for 2.0.8
+      run: | 
+           mkdir public/2.0.8 
+           java -jar widoco.jar -ontFile v2.0.8/pmd_core.ttl -outFolder public/2.0.8  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/2.0.8/           
+           cp public/2.0.8/index-en.html public/2.0.8/index.html
+
+    - uses: actions/checkout@v3
+      with:
+        ref: develop-3.0.0
+        path: v3.0.0
+    - name: Build HTML for 3.0.0
+      run: | 
+           mkdir public/3.0.0
+           java -jar widoco.jar -ontFile v3.0.0/pmd_core.ttl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.0.0/           
+           cp public/3.0.0/index-en.html public/3.0.0/index.html
+
+           
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
