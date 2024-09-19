@@ -49,8 +49,11 @@ jobs:
 
            cd v3.0.0
            curl -L -o robot.jar "https://github.com/ontodev/robot/releases/download/v1.9.5/robot.jar"
+           java -jar robot.jar --version
+           
            # merge all modules to one file
            # (but, do not merge the external imports, e.g. iao, etc)
+           
            java -jar robot.jar merge --catalog catalog-v001.xml --collapse-import-closure false --input pmd-core.ttl --inputs "modules/*.ttl" --output merged.ttl 
 
            # remove the module import statements 
