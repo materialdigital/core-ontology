@@ -14,6 +14,7 @@ jobs:
         path: main
     - name: Validate pmd-core.ttl by reasoning with ELK
       run: |
+          cd main
           curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
-          java -jar robot.jar reason --catalog catalog-v001.xml --reasoner elk --input main/pmd-core.ttl --output main/pmd-core-reasoned.ttl
+          java -jar robot.jar reason --catalog catalog-v001.xml --reasoner elk --input pmd-core.ttl --output pmd-core-reasoned.ttl
 
