@@ -1,59 +1,85 @@
-name: HTMLextend
+name: HTML
 
 on:
   push:
     branches:
-    - docu_extend
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'debug'
-        type: choice
-        options:
-        - info
-        - warning
-        - debug
+    - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-      # with:
-      #   ref: main
-      #   path: main
+      with:
+        ref: main
+        path: main
     - name: Build HTML for main
       run: | 
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.17/java-11-widoco-1.4.17-jar-with-dependencies.jar
            mkdir public 
-           java -jar widoco.jar -ontFile pmd_core.ttl -outFolder public -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -rewriteAll -webVowl
-    - name: Include Additional Documentation
-      run: | 
-           dir="public"
-           echo "Adding english textual inputs to the documentation HTML"
-           gawk -i inplace -v r="$(cat documentation/en/1.Introduction.md)" '{gsub(/This is a place holder text for the introduction. The introduction should briefly describe the ontology, its motivation, state of the art and goals./,r)}1' $dir/index-en.html
-           gawk -i inplace -v r="$(cat documentation/en/3.Description.md)" '{gsub(/This is a placeholder text for the description of your ontology. The description should include an explanation and a diagram explaining how the classes are related, examples of usage, etc./,r)}1' $dir/index-en.html
-           gawk -i inplace -v r="$(cat documentation/en/5.References.md|sed 's/&/\\\\&/')" '{gsub(/Add your references here. It is recommended to have them as a list./,r)}1' $dir/index-en.html
-           gawk -i inplace -v r="<span class=\"markdown\">$(cat documentation/en/6.Acknowledgements.md)</span>" '{gsub(/(The authors would like to thank.*documentation\.)/,r)}1' $dir/index-en.html
-           echo "Adding german textual inputs to the documentation HTML"
-           gawk -i inplace -v r="$(cat documentation/de/1.Einleitung.md)" '{gsub(/Dies ist ein Platzhalter f&uuml;r die Einf&uuml;hrung. Die Einf&uuml;hrung sollte in kurzer Form die Ontologie und ihren Anwendungszweck beschreiben, sowie Informationen &uuml;ber ihren Entwicklungsstand und Kontext enthalten./,r)}1' $dir/index-de.html
-           gawk -i inplace -v r="$(cat documentation/de/3.Beschreibung.md)" '{gsub(/Dies ist ein Platzhalter f&uuml;r die Beschreibung. Die Beschreibung sollte eine Erkl&auml;rung und Graphiken enthalten, die die Beziehung der Klassen untereinander und Anwendungsbeispiele enth&auml;lt./,r)}1' $dir/index-de.html
-           gawk -i inplace -v r="$(cat documentation/de/5.References.md|sed 's/&/\\\\&/')" '{gsub(/F&uuml;gen Sie Ihre Referenzen hier ein. &uuml;blicherweise wird dies in Form einer Liste gemacht./,r)}1' $dir/index-de.html
-           gawk -i inplace -v r="<span class=\"markdown\">$(cat documentation/de/6.Danksagung.md)</span>" '{gsub(/(Die Autoren bedanken sich bei.*wird\.)/,r)}1' $dir/index-de.html
-           echo "Converting markdown sections into html sections so that they appear in the table of content in the index-en.html"
-           sed -i -E -e 's/### ([[:digit:]]\.[[:digit:]]+\.) (.*)/<\/span><h3 id="\1" class="list">\2<\/h3><span class="markdown">/g' $dir/index-en.html
-           sed -i -E -e 's/### ([[:digit:]]\.[[:digit:]]+\.) (.*)/<\/span><h3 id="\1" class="list">\2<\/h3><span class="markdown">/g' $dir/index-de.html
-           #echo "Injecting code snippet for hiding unused elements to the index-en.html"
-           #gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index-en.html
-           #gawk -i inplace -v r="<script>$(cat documentation/hideUnusedElements.js)</script></head>" '{gsub(/(<\/head>)/,r)}1' $dir/index-de.html
-           echo "Set english website as default, or markdown of branch is rendered as default"
+           java -jar widoco.jar -ontFile main/pmd_core.ttl -outFolder public -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
            cp public/index-en.html public/index.html
+    - uses: actions/checkout@v3
+      with:
+        ref: v2.0.7
+        path: v2.0.7
+    - name: Build HTML for 2.0.7
+      run: | 
+           mkdir public/2.0.7 
+           java -jar widoco.jar -ontFile v2.0.7/pmd_core.ttl -outFolder public/2.0.7  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/2.0.7/           
+           cp public/2.0.7/index-en.html public/2.0.7/index.html
+
+    - uses: actions/checkout@v3
+      with:
+        ref: v2.0.8
+        path: v2.0.8
+    - name: Build HTML for 2.0.8
+      run: | 
+           mkdir public/2.0.8 
+           java -jar widoco.jar -ontFile v2.0.8/pmd_core.ttl -outFolder public/2.0.8  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/2.0.8/           
+           cp public/2.0.8/index-en.html public/2.0.8/index.html
+
+    - uses: actions/checkout@v3
+      with:
+        ref: develop-3.0.0
+        path: v3.0.0
+    - name: Build HTML for 3.0.0
+      run: | 
+
+           cd v3.0.0
+           curl -L -o robot.jar "https://github.com/ontodev/robot/releases/download/v1.9.5/robot.jar"
+           
+           # merge all modules to one file
+           # (but, do not merge the external imports, e.g. iao, etc)
+           
+           java -jar robot.jar merge --catalog catalog-v001.xml --collapse-import-closure false --input pmd-core.ttl --inputs "modules/*.ttl" --output merged.ttl 
+
+           # remove the module import statements 
+           java -jar robot.jar merge --catalog catalog-v001.xml --collapse-import-closure false --input merged.ttl --inputs "modules/*.ttl" convert --output merged.ofn
+           grep -v "Import(<" merged.ofn > merged2.ofn
+
+           # convert to turtle again, and add imports of external ontolgies
+           java -jar robot.jar convert --input merged2.ofn --output merged3.ttl
+           echo "<https://w3id.org/pmd/co> owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo.owl> ," >> merged3.ttl
+           echo "<http://purl.obolibrary.org/obo/iao/2022-11-07/iao.owl> , " >> merged3.ttl
+           echo "<http://purl.obolibrary.org/obo/ro/releases/2023-08-18/core.owl> ." >> merged3.ttl
+
+           # just another convert to make it beautiful
+           java -jar robot.jar convert --input merged3.ttl --output merged4.ttl
+
+           cd ..
+           mkdir public/3.0.0
+           java -jar widoco.jar -ontFile v3.0.0/merged4.ttl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.0.0/           
+           cp public/3.0.0/index-en.html public/3.0.0/index.html
+
+           
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
       with:
-        target_branch: gh-pages-dev
+        target_branch: gh-pages
         build_dir: public
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
