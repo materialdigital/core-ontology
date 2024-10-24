@@ -1,0 +1,136 @@
+Prefix(:=<https://w3id.org/pmd/co/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<https://w3id.org/pmd/co/logistics>
+Import(<https://w3id.org/pmd/co/components/imports-edit>)
+Annotation(<http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (PMDco) - Logistics Module"@en)
+Annotation(rdfs:comment "The logistics module of the PMD Core Ontology (PMDco). The scope of this module is the description of material science and engineering related logistics and general organization."@en)
+
+Declaration(Class(:Department))
+Declaration(Class(:DepartmentRole))
+Declaration(Class(:Initiator))
+Declaration(Class(:InitiatorRole))
+Declaration(Class(:Laboratory))
+Declaration(Class(:LaboratoryRole))
+Declaration(Class(:Manufacturer))
+Declaration(Class(:ManufacturerRole))
+Declaration(Class(:Operator))
+Declaration(Class(:OperatorRole))
+Declaration(Class(:Organization))
+Declaration(Class(:Person))
+Declaration(Class(:Project))
+Declaration(AnnotationProperty(<http://purl.org/dc/terms/bibliographicCitation>))
+Declaration(AnnotationProperty(<http://purl.org/dc/terms/created>))
+Declaration(AnnotationProperty(<http://purl.org/dc/terms/title>))
+Declaration(AnnotationProperty(<http://www.w3.org/2004/02/skos/core#definition>))
+Declaration(AnnotationProperty(:definitionSource))
+
+
+
+############################
+#   Classes
+############################
+
+# Class: :Department (Abteilung)
+
+AnnotationAssertion(rdfs:isDefinedBy :Department :logistics)
+AnnotationAssertion(rdfs:label :Department "Abteilung"@de)
+AnnotationAssertion(rdfs:label :Department "Department"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :Department "A sub section of an organization [FIXME]"@en)
+EquivalentClasses(:Department ObjectIntersectionOf(:Organization ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/RO_0000087> :DepartmentRole)))
+
+# Class: :DepartmentRole (Department Role)
+
+AnnotationAssertion(rdfs:isDefinedBy :DepartmentRole :logistics)
+AnnotationAssertion(rdfs:label :DepartmentRole "Department Role"@en)
+SubClassOf(:DepartmentRole <http://purl.obolibrary.org/obo/BFO_0000023>)
+
+# Class: :Initiator (Initiator)
+
+AnnotationAssertion(rdfs:isDefinedBy :Initiator :logistics)
+AnnotationAssertion(rdfs:label :Initiator "Initiator"@de)
+AnnotationAssertion(rdfs:label :Initiator "Initiator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :Initiator "The person that commisioned the process."@en)
+EquivalentClasses(:Initiator ObjectIntersectionOf(:Person ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/RO_0000087> :InitiatorRole)))
+
+# Class: :InitiatorRole (Initiator Role)
+
+AnnotationAssertion(rdfs:isDefinedBy :InitiatorRole :logistics)
+AnnotationAssertion(rdfs:label :InitiatorRole "Initiator Role"@en)
+SubClassOf(:InitiatorRole <http://purl.obolibrary.org/obo/BFO_0000023>)
+
+# Class: :Laboratory (Labor)
+
+AnnotationAssertion(rdfs:isDefinedBy :Laboratory :logistics)
+AnnotationAssertion(rdfs:label :Laboratory "Labor"@de)
+AnnotationAssertion(rdfs:label :Laboratory "Laboratory"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :Laboratory "A place equipped for experimental study in a science or for testing and analysis."@en)
+AnnotationAssertion(:definitionSource :Laboratory "“Laboratory.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/laboratory. Accessed 24 Nov. 2022."@en)
+EquivalentClasses(:Laboratory ObjectIntersectionOf(:Organization ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/RO_0000087> :LaboratoryRole)))
+
+# Class: :LaboratoryRole (Laboratory Role)
+
+AnnotationAssertion(rdfs:isDefinedBy :LaboratoryRole :logistics)
+AnnotationAssertion(rdfs:label :LaboratoryRole "Laboratory Role"@en)
+SubClassOf(:LaboratoryRole <http://purl.obolibrary.org/obo/BFO_0000023>)
+
+# Class: :Manufacturer (Hersteller)
+
+AnnotationAssertion(rdfs:isDefinedBy :Manufacturer :logistics)
+AnnotationAssertion(rdfs:label :Manufacturer "Hersteller"@de)
+AnnotationAssertion(rdfs:label :Manufacturer "Manufacturer"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :Manufacturer "Processing Node's manufacturer name, e.g.: \"Ipsen\", \"UPC\" or \"Bosch\""@en)
+EquivalentClasses(:Manufacturer ObjectIntersectionOf(:Organization ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/RO_0000087> :ManufacturerRole)))
+
+# Class: :ManufacturerRole (Manufacturer Role)
+
+AnnotationAssertion(rdfs:isDefinedBy :ManufacturerRole :logistics)
+AnnotationAssertion(rdfs:label :ManufacturerRole "Manufacturer Role"@en)
+SubClassOf(:ManufacturerRole <http://purl.obolibrary.org/obo/BFO_0000023>)
+
+# Class: :Operator (Operator)
+
+AnnotationAssertion(rdfs:isDefinedBy :Operator :logistics)
+AnnotationAssertion(rdfs:label :Operator "Operator"@de)
+AnnotationAssertion(rdfs:label :Operator "Operator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :Operator "A person that operates a machine or device."@en)
+AnnotationAssertion(:definitionSource :Operator "“Operator.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/operator. Accessed 24 Nov. 2022."@en)
+EquivalentClasses(:Operator ObjectIntersectionOf(:Person ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/RO_0000087> :OperatorRole)))
+
+# Class: :OperatorRole (Operator Role)
+
+AnnotationAssertion(rdfs:isDefinedBy :OperatorRole :logistics)
+AnnotationAssertion(rdfs:label :OperatorRole "Operator Role"@en)
+SubClassOf(:OperatorRole <http://purl.obolibrary.org/obo/BFO_0000023>)
+
+# Class: :Organization (Organization)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :Organization <http://purl.obolibrary.org/obo/IAO_0000123>)
+AnnotationAssertion(rdfs:isDefinedBy :Organization :logistics)
+AnnotationAssertion(rdfs:label :Organization "Organization"@en)
+AnnotationAssertion(rdfs:seeAlso :Organization "http://purl.obolibrary.org/obo/OBI_0000245")
+SubClassOf(:Organization <http://purl.obolibrary.org/obo/BFO_0000040>)
+
+# Class: :Person (Person)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :Person <http://purl.obolibrary.org/obo/IAO_0000123>)
+AnnotationAssertion(rdfs:isDefinedBy :Person :logistics)
+AnnotationAssertion(rdfs:label :Person "Person"@en)
+SubClassOf(:Person <http://purl.obolibrary.org/obo/BFO_0000040>)
+
+# Class: :Project (Project)
+
+AnnotationAssertion(rdfs:isDefinedBy :Project :logistics)
+AnnotationAssertion(rdfs:label :Project "Project"@en)
+AnnotationAssertion(rdfs:label :Project "Projekt"@de)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :Project "A series of goal-orientated (intent) activities and interactions to achieve a specific outcome."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :Project "Eine Reihe von zielorientierten (absichtlichen) Aktivitäten und Interaktionen, um ein bestimmtes Ergebnis zu erzielen."@de)
+SubClassOf(:Project <http://purl.obolibrary.org/obo/OBI_0000011>)
+
+
+)
