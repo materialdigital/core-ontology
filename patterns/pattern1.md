@@ -3,7 +3,7 @@
 Description on how to represent inputs and outputs of processes.
 
 ## Description
-Typically, in PMD processes are subclasses of the 'planned process' (OBI:0000011), meaning 
+Typically, in PMD, processes are subclasses of the 'planned process' (OBI:0000011), meaning 
 a process realizes some plan, which is the concretization of some plan specification. 
 In contrary, natural processes are not realizing a particular plan that has been specified somehow.
 
@@ -26,7 +26,7 @@ The following image shows some manufacturing process with multiple inputs and ou
 <img src="https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/patterns/pattern1.png?raw=true" alt="pattern1 image" width="750"/>
 
 ## Shapes and example data
-[../shapes/shape1-data.ttl)](../shapes/shape1-data.ttl)
+[../shapes/shape1-data.ttl](../shapes/shape1-data.ttl)
 
 [../shapes/shape1.ttl](../shapes/shape1.ttl)
 
