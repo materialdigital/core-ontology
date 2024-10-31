@@ -13,9 +13,11 @@ jobs:
       with:
         ref: develop-3.0.0
         path: develop-3.0.0
-    - name: ODK Make 
+    - name: ODK refesh imports 
       run: |
            cd develop-3.0.0/src/ontology/
-           make || :
-           make
-   
+           make refresh-imports
+    - uses: mikeal/publish-to-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH_NAME: 'develop-3.0.0' #optional defaults to master
