@@ -1,0 +1,18 @@
+name: MAKE
+
+on:
+  push:
+    branches:
+    - develop-3.0.0
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    container: obolibrary/odkfull:v1.4.3
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: develop-3.0.0
+        path: develop-3.0.0
+    - name: Make for main
+      run: cd develop-3.0.0/src/ontology/ && sh run.sh make 
+   
