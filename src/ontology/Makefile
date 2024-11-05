@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                db137840bd0faad744fcd00b7efe8599df0cccc83599593dd52acf6b77113117
+CONFIG_HASH=                3f78dd20b0b722499741e89ca961b451fe775a843a0efae8283fad66976a88c7
 
 
 # ----------------------------------------
@@ -54,7 +54,7 @@ OBODATE ?=                  $(shell date +'%d:%m:%Y %H:%M')
 VERSION=                    $(TODAY)
 ANNOTATE_ONTOLOGY_VERSION = annotate -V $(ONTBASE)/releases/$(VERSION)/$@ --annotation owl:versionInfo $(VERSION)
 ANNOTATE_CONVERT_FILE =     annotate --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) convert -f ofn --output $@.tmp.owl && mv $@.tmp.owl $@
-OTHER_SRC =                 $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-logistics.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl $(COMPONENTSDIR)/imports-edit.owl 
+OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-logistics.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl 
 ONTOLOGYTERMS =             $(TMPDIR)/ontologyterms.txt
 EDIT_PREPROCESSED =         $(TMPDIR)/$(ONT)-preprocess.owl
 
@@ -427,6 +427,7 @@ no-mirror-recreate-%:
 $(COMPONENTSDIR)/%.owl: | $(COMPONENTSDIR)
 	test -f $@ || touch $@
 .PRECIOUS: $(COMPONENTSDIR)/%.owl
+
 
 
 
