@@ -7,9 +7,9 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 
 
 Ontology(<https://w3id.org/pmd/co/pmdco/imports/ro_import.owl>
-<https://w3id.org/pmd/co/pmdco/releases/2024-11-13/imports/ro_import.owl>
+<https://w3id.org/pmd/co/pmdco/releases/2024-11-14/imports/ro_import.owl>
 Annotation(<http://purl.org/dc/elements/1.1/source> <http://purl.obolibrary.org/obo/ro/releases/2024-04-24/ro.owl>)
-Annotation(owl:versionInfo "2024-11-13")
+Annotation(owl:versionInfo "2024-11-14")
 
 Declaration(Class(<http://purl.obolibrary.org/obo/BFO_0000002>))
 Declaration(Class(<http://purl.obolibrary.org/obo/BFO_0000003>))
@@ -77,6 +77,8 @@ Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002333>))
 Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002334>))
 Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002335>))
 Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002336>))
+Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002350>))
+Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002351>))
 Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002352>))
 Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002404>))
 Declaration(ObjectProperty(<http://purl.obolibrary.org/obo/RO_0002405>))
@@ -153,6 +155,7 @@ Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/IAO_0000589>))
 Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/IAO_0000600>))
 Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/RO_0001900>))
 Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/RO_0002259>))
+Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/RO_0002423>))
 Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/RO_0002575>))
 Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/RO_0002579>))
 Declaration(AnnotationProperty(<http://purl.obolibrary.org/obo/RO_0002581>))
@@ -190,9 +193,42 @@ Declaration(AnnotationProperty(<http://xmlns.com/foaf/0.1/homepage>))
 #   Annotation Properties
 ############################
 
+# Annotation Property: <http://purl.obolibrary.org/obo/RO_0001900> (temporal interpretation)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000115> <http://purl.obolibrary.org/obo/RO_0001900> "An assertion that holds between an OWL Object Property and a temporal interpretation that elucidates how OWL Class Axioms that use this property are to be interpreted in a temporal context.")
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0001900> "temporal interpretation")
+AnnotationAssertion(rdfs:seeAlso <http://purl.obolibrary.org/obo/RO_0001900> <http://purl.obolibrary.org/obo/ro/docs/temporal-semantics/>)
+
 # Annotation Property: <http://purl.obolibrary.org/obo/RO_0002259> (<http://purl.obolibrary.org/obo/RO_0002259>)
 
 SubAnnotationPropertyOf(<http://purl.obolibrary.org/obo/RO_0002259> <http://www.geneontology.org/formats/oboInOwl#SubsetProperty>)
+
+# Annotation Property: <http://purl.obolibrary.org/obo/RO_0002423> (logical macro assertion on an annotation property)
+
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0002423> "logical macro assertion on an annotation property"@en)
+
+# Annotation Property: <http://purl.obolibrary.org/obo/RO_0002575> (is direct form of)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000115> <http://purl.obolibrary.org/obo/RO_0002575> "relation p is the direct form of relation q iff p is a subPropertyOf q, p does not have the Transitive characteristic, q does have the Transitive characteristic, and for all x, y: x q y -> exists z1, z2, ..., zn such that x p z1 ... z2n y")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> <http://purl.obolibrary.org/obo/RO_0002575> "The general property hierarchy is:
+
+  \"directly P\" SubPropertyOf \"P\"
+  Transitive(P)
+
+Where we have an annotation assertion
+
+  \"directly P\" \"is direct form of\" \"P\"")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/RO_0002423> <http://purl.obolibrary.org/obo/RO_0002575> "If we have the annotation P is-direct-form-of Q, and we have inverses P' and Q', then it follows that P' is-direct-form-of Q'")
+AnnotationAssertion(<http://purl.org/dc/terms/creator> <http://purl.obolibrary.org/obo/RO_0002575> <https://orcid.org/0000-0002-6601-2165>)
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0002575> "is direct form of")
+AnnotationAssertion(rdfs:seeAlso <http://purl.obolibrary.org/obo/RO_0002575> <http://purl.obolibrary.org/obo/ro/docs/direct-and-indirect-relations/>)
+
+# Annotation Property: <http://purl.obolibrary.org/obo/RO_0002579> (is indirect form of)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000115> <http://purl.obolibrary.org/obo/RO_0002579> "relation p is the indirect form of relation q iff p is a subPropertyOf q, and there exists some p' such that p' is the direct form of q, p' o p' -> p, and forall x,y : x q y -> either (1) x p y or (2) x p' y")
+AnnotationAssertion(<http://purl.org/dc/terms/creator> <http://purl.obolibrary.org/obo/RO_0002579> <https://orcid.org/0000-0002-6601-2165>)
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0002579> "is indirect form of")
+AnnotationAssertion(rdfs:seeAlso <http://purl.obolibrary.org/obo/RO_0002579> <http://purl.obolibrary.org/obo/ro/docs/direct-and-indirect-relations/>)
 
 # Annotation Property: <http://purl.obolibrary.org/obo/RO_0002581> (is a defining property chain axiom)
 
@@ -203,6 +239,28 @@ AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0002581> "is a
 
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000115> <http://purl.obolibrary.org/obo/RO_0002582> "If R <- P o Q is a defining property chain axiom, then (1) R -> P o Q holds and (2) Q is either reflexive or locally reflexive. A corollary of this is that P SubPropertyOf R.")
 AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0002582> "is a defining property chain axiom where second argument is reflexive")
+
+# Annotation Property: <http://purl.obolibrary.org/obo/RO_0004049> (is positive form of)
+
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#created_by> <http://purl.obolibrary.org/obo/RO_0004049> <https://orcid.org/0000-0002-6601-2165>)
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#creation_date> <http://purl.obolibrary.org/obo/RO_0004049> "2018-03-14T00:03:16Z"^^xsd:dateTime)
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0004049> "is positive form of")
+
+# Annotation Property: <http://purl.obolibrary.org/obo/RO_0004050> (is negative form of)
+
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#created_by> <http://purl.obolibrary.org/obo/RO_0004050> <https://orcid.org/0000-0002-6601-2165>)
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#creation_date> <http://purl.obolibrary.org/obo/RO_0004050> "2018-03-14T00:03:24Z"^^xsd:dateTime)
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0004050> "is negative form of")
+
+# Annotation Property: <http://purl.obolibrary.org/obo/RO_0040042> (is homeomorphic for)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000112> <http://purl.obolibrary.org/obo/RO_0040042> "part-of is homeomorphic for independent continuants.")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000115> <http://purl.obolibrary.org/obo/RO_0040042> "R is homemorphic for C iff (1) there exists some x,y such that x R y, and x and y instantiate C and (2) for all x, if x is an instance of C, and there exists some y some such that x R y, then it follows that y is an instance of C.")
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#created_by> <http://purl.obolibrary.org/obo/RO_0040042> <https://orcid.org/0000-0002-6601-2165>)
+AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#creation_date> <http://purl.obolibrary.org/obo/RO_0040042> "2018-10-21T19:46:34Z"^^xsd:dateTime)
+AnnotationAssertion(rdfs:comment <http://purl.obolibrary.org/obo/RO_0040042> "R homeomorphic-for C expands to: C SubClassOf R only C. Additionally, for any class D that is disjoint with C, we can also expand to C DisjointWith R some D, D DisjointWith R some C.")
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0040042> "is homeomorphic for")
+AnnotationAssertion(rdfs:seeAlso <http://purl.obolibrary.org/obo/RO_0040042> <https://github.com/oborel/obo-relations/issues/164>)
 
 # Annotation Property: <http://purl.obolibrary.org/obo/valid_for_go_annotation_extension> (<http://purl.obolibrary.org/obo/valid_for_go_annotation_extension>)
 
@@ -842,6 +900,27 @@ AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> <http://purl.ob
 AnnotationAssertion(<http://www.geneontology.org/formats/oboInOwl#inSubset> <http://purl.obolibrary.org/obo/RO_0002336> <http://purl.obolibrary.org/obo/RO_0002259>)
 AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0002336> "positively regulated by"@en)
 SubObjectPropertyOf(<http://purl.obolibrary.org/obo/RO_0002336> <http://purl.obolibrary.org/obo/RO_0002334>)
+
+# Object Property: <http://purl.obolibrary.org/obo/RO_0002350> (member of)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000112> <http://purl.obolibrary.org/obo/RO_0002350> "An organism that is a member of a population of organisms")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000115> <http://purl.obolibrary.org/obo/RO_0002350> "is member of is a mereological relation between a item and a collection.")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000118> <http://purl.obolibrary.org/obo/RO_0002350> "is member of")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000118> <http://purl.obolibrary.org/obo/RO_0002350> "member part of")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000119> <http://purl.obolibrary.org/obo/RO_0002350> "SIO")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/RO_0001900> <http://purl.obolibrary.org/obo/RO_0002350> <http://purl.obolibrary.org/obo/RO_0001901>)
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0002350> "member of"@en)
+SubObjectPropertyOf(<http://purl.obolibrary.org/obo/RO_0002350> <http://purl.obolibrary.org/obo/BFO_0000050>)
+InverseObjectProperties(<http://purl.obolibrary.org/obo/RO_0002350> <http://purl.obolibrary.org/obo/RO_0002351>)
+
+# Object Property: <http://purl.obolibrary.org/obo/RO_0002351> (has member)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000115> <http://purl.obolibrary.org/obo/RO_0002351> "has member is a mereological relation between a collection and an item.")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000119> <http://purl.obolibrary.org/obo/RO_0002351> "SIO")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/RO_0001900> <http://purl.obolibrary.org/obo/RO_0002351> <http://purl.obolibrary.org/obo/RO_0001901>)
+AnnotationAssertion(rdfs:label <http://purl.obolibrary.org/obo/RO_0002351> "has member"@en)
+SubObjectPropertyOf(<http://purl.obolibrary.org/obo/RO_0002351> <http://purl.obolibrary.org/obo/BFO_0000051>)
+IrreflexiveObjectProperty(<http://purl.obolibrary.org/obo/RO_0002351>)
 
 # Object Property: <http://purl.obolibrary.org/obo/RO_0002352> (input of)
 
