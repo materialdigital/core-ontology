@@ -16,9 +16,9 @@ jobs:
            curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
            java -jar robot.jar --version
 
-           java -jar robot.jar merge --catalog main/catalog-v001.xml --input main/pmdco.ttl --output main/pmd-core-merged.ttl
+           java -jar robot.jar merge --catalog main/src/ontology/catalog-v001.xml --input main/src/ontology/pmdco-edit.owl --output main/pmd-core-merged.ttl
 
-           java -jar robot.jar validate-profile --catalog main/catalog-v001.xml  --profile DL --input main/pmd-core-merged.ttl --output validation.txt
+           java -jar robot.jar validate-profile --profile DL --input main/pmd-core-merged.ttl --output validation.txt
            cat validation.txt
 
            java -jar robot.jar verify  --input main/pmd-core-merged.ttl --queries main/.github/workflow_resources/qc-queries/label-missing.sparql  
