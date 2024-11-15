@@ -21,12 +21,12 @@
 <https://w3id.org/pmd/co/> rdf:type owl:Ontology ;
                             owl:versionIRI <https://w3id.org/pmd/co/3.0.0-dev> ;
                             terms:bibliographicCitation "PMDco: Platform Material Digital Ontology. Version 3.0.0-dev, https://w3id.org/pmd/co/" ;
-                            terms:created "2024-11-14" ;
+                            terms:created "2024-11-15" ;
                             terms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
                             terms:license <https://creativecommons.org/licenses/unspecified> ;
                             terms:title "PMD Core Ontology" ;
                             owl:priorVersion <https://w3id.org/pmd/co/2.0.8> ;
-                            owl:versionInfo "3.0.0-dev" .
+                            owl:versionInfo "2024-11-15" .
 
 #################################################################
 #    Annotation properties
@@ -553,9 +553,13 @@ foaf:mbox rdf:type owl:AnnotationProperty ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
 
 
-###  https://w3id.org/pmd/co/PMD_0001027
-co:PMD_0001027 rdf:type owl:AnnotationProperty ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+###  https://w3id.org/pmd/co/PMD_0001032
+co:PMD_0001032 rdf:type owl:AnnotationProperty ;
+               obo:IAO_0000115 "A term tracker annotation is an editor note used to track the history of an entity. For each change, it records the related GitHub issue and pull request."@en ;
+               obo:IAO_0000116 "hijacked from http://openenergy-platform.org/ontology/oeo/OEO_00020426"@en ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "term tracker annotation"@en ;
+               rdfs:subPropertyOf obo:IAO_0000116 .
 
 
 #################################################################
@@ -2398,7 +2402,8 @@ TODO: Possibly instatiate some relevant classifcation systems."""@en .
 
 ###  https://w3id.org/pmd/co/PMD_0000004
 co:PMD_0000004 rdf:type owl:Class ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Material Entity Aggregate"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000005
@@ -2759,13 +2764,13 @@ co:PMD_0000533 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000534
 co:PMD_0000534 rdf:type owl:Class ;
+               obo:IAO_0000119 "“Blank.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/blank. Accessed 25 Nov. 2022."@en ;
                rdfs:isDefinedBy co:manufacturing ,
                                 co:qualities ;
                rdfs:label "Blank Role"@en ,
                           "Rohling-Rolle"@de ;
                skos:definition "Role of an object, which is realized in a preparation process"@en ;
-               skos:example "Some portion of material, which to be made into something by a further operation."@en ;
-               co:PMD_0001027 "“Blank.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/blank. Accessed 25 Nov. 2022."@en .
+               skos:example "Some portion of material, which to be made into something by a further operation."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000535
@@ -2858,12 +2863,12 @@ co:PMD_0000543 rdf:type owl:Class ;
 co:PMD_0000544 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000602 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "https://www.merriam-webster.com/dictionary/caliper"@en ;
                rdfs:isDefinedBy co:devices ;
                rdfs:label "Caliper"@en ,
                           "Messschieber"@de ;
                skos:definition "A measuring device having two usually adjustable arms, legs, or jaws used especially to measure the dimensions of objects, such as diameters or thicknesses"@en ,
-                               "Messgerät mit zwei in der Regel verstellbaren Armen, Schenkeln oder Klemmbacken, das vor allem zur Messung der Abmessungen von Gegenständen, wie z. B. des Durchmessers oder der Dicke, verwendet wird"@de ;
-               co:PMD_0001027 "https://www.merriam-webster.com/dictionary/caliper"@en .
+                               "Messgerät mit zwei in der Regel verstellbaren Armen, Schenkeln oder Klemmbacken, das vor allem zur Messung der Abmessungen von Gegenständen, wie z. B. des Durchmessers oder der Dicke, verwendet wird"@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000545
@@ -2930,10 +2935,10 @@ co:PMD_0000552 rdf:type owl:Class ;
                obo:IAO_0000117 "PMDco Team" ;
                obo:IAO_0000119 "chatgpt 4.o"@en ;
                rdfs:isDefinedBy co:characterization ;
-               rdfs:label "A Structural Property Analyzing Process that determines the chemical composition of a material by identifying and quantifying its constituent elements and compounds."@en ,
-                          "Analyseverfahren für die chemische Zusammensetzung"@de ,
-                          "Chemical Composition Analyzing Process"@en ,
-                          "Ein Struktur Eigenschaften Analyseverfahren, das die chemische Zusammensetzung eines Materials bestimmt, indem es dessen Bestandteile und Verbindungen identifiziert und quantifiziert."@de .
+               rdfs:label "Analyseverfahren für die chemische Zusammensetzung"@de ,
+                          "Chemical Composition Analyzing Process"@en ;
+               skos:definition "A Structural Property Analyzing Process that determines the chemical composition of a material by identifying and quantifying its constituent elements and compounds."@en ,
+                               "Ein Struktur Eigenschaften Analyseverfahren, das die chemische Zusammensetzung eines Materials bestimmt, indem es dessen Bestandteile und Verbindungen identifiziert und quantifiziert."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000553
@@ -3765,14 +3770,14 @@ co:PMD_0000624 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000855 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
                obo:IAO_0000117 "PMDco Team" ;
-               obo:IAO_0000119 "ChatGPT 3.5"@en ;
+               obo:IAO_0000119 "ChatGPT 3.5"@en ,
+                               "“Electron microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/electron%20microscope. Accessed 24 Nov. 2022."@en ;
                rdfs:isDefinedBy co:devices ;
                rdfs:label "Electron Microscope"@en ,
                           "Elektronenmikroskop"@de ;
                skos:definition "A device that uses a beam of electrons to create high-resolution images of a sample's surface or structure."@en ,
                                "An electron-optical instrument in which a beam of electrons is used to produce an enlarged image of a minute object."@en ,
-                               "Ein Gerät, das einen Elektronenstrahl verwendet, um hochauflösende Bilder der Oberfläche oder Struktur einer Probe zu erstellen."@de ;
-               co:PMD_0001027 "“Electron microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/electron%20microscope. Accessed 24 Nov. 2022."@en .
+                               "Ein Gerät, das einen Elektronenstrahl verwendet, um hochauflösende Bilder der Oberfläche oder Struktur einer Probe zu erstellen."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000625
@@ -3880,10 +3885,10 @@ co:PMD_0000635 rdf:type owl:Class ;
 co:PMD_0000636 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000602 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "“Extensometer.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/extensometer. Accessed 5 Dec. 2022."@en ;
                rdfs:isDefinedBy co:devices ;
                rdfs:label "Extensometer"@en ;
-               skos:definition "A device for measuring minute deformations of test specimens caused by tension, compression, bending, or twisting."@en ;
-               co:PMD_0001027 "“Extensometer.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/extensometer. Accessed 5 Dec. 2022."@en .
+               skos:definition "A device for measuring minute deformations of test specimens caused by tension, compression, bending, or twisting."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000637
@@ -4115,12 +4120,12 @@ co:PMD_0000654 rdf:type owl:Class ;
 co:PMD_0000655 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000602 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "“Furnace.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/furnace. Accessed 13 Jan. 2023."@en ;
                rdfs:isDefinedBy co:devices ;
                rdfs:label "Furnace"@en ,
                           "Ofen"@de ;
                skos:definition "An enclosed structure in which heat is produced (as for heating a house or for reducing ore)."@en ,
-                               "Eine geschlossene Struktur, in der Wärme erzeugt wird (z. B. zum Heizen eines Hauses oder zum Einschmelzen von Erz)."@de ;
-               co:PMD_0001027 "“Furnace.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/furnace. Accessed 13 Jan. 2023."@en .
+                               "Eine geschlossene Struktur, in der Wärme erzeugt wird (z. B. zum Heizen eines Hauses oder zum Einschmelzen von Erz)."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000656
@@ -4243,10 +4248,10 @@ co:PMD_0000666 rdf:type owl:Class ;
                obo:IAO_0000117 "PMDco Team" ;
                obo:IAO_0000119 "chatgpt 4.o"@en ;
                rdfs:isDefinedBy co:characterization ;
-               rdfs:label "A Structural Property Analyzing Process that measures the quantity of a substance by its mass, often involving the precipitation, filtration, drying, and weighing of the substance."@en ,
-                          "Ein Struktur Eigenschaften Analyseverfahren, das die Menge einer Substanz durch ihre Masse misst und dabei häufig die Fällung, Filtration, Trocknung und Wägung der Substanz umfasst."@de ,
-                          "Gravimetrical Analyzing Process"@en ,
+               rdfs:label "Gravimetrical Analyzing Process"@en ,
                           "Gravimetrisches Analyseverfahren"@de ;
+               skos:definition "A Structural Property Analyzing Process that measures the quantity of a substance by its mass, often involving the precipitation, filtration, drying, and weighing of the substance."@en ,
+                               "Ein Struktur Eigenschaften Analyseverfahren, das die Menge einer Substanz durch ihre Masse misst und dabei häufig die Fällung, Filtration, Trocknung und Wägung der Substanz umfasst."@de ;
                skos:example "An example of a Gravimetrical Analyzing Process is the determination of sulfate content in a sample by precipitating it as barium sulfate, filtering, drying, and weighing the precipitate."@en .
 
 
@@ -4266,12 +4271,12 @@ co:PMD_0000667 rdf:type owl:Class ;
 co:PMD_0000668 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000602 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "https://www.merriam-webster.com/dictionary/grips"@en ;
                rdfs:isDefinedBy co:devices ;
                rdfs:label "Grips"@en ,
                           "Halterungsklemmen"@de ;
                skos:definition "Diese Gerät beschreibt ein Bauelement / Teil, mit dem etwas, normalerweise ein materielles Objekt, fest gegriffen oder eingespannt wird. Typischerweise sind Halterungen, Klemm- bzw. Spannsysteme Teil eines Befestigungssystems (Prozessknoten), das sich auf ein Prüfsystem bezieht."@de ,
-                               "This device is a part by which something, usually a tangible object, is grasped. Typically, grips are part of a mounting system (processing node) referring to a testing system."@en ;
-               co:PMD_0001027 "https://www.merriam-webster.com/dictionary/grips"@en .
+                               "This device is a part by which something, usually a tangible object, is grasped. Typically, grips are part of a mounting system (processing node) referring to a testing system."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000669
@@ -5537,16 +5542,15 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000879 ,
-                               [ rdf:type owl:Restriction ;
+               rdfs:subClassOf [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000087 ;
                                  owl:someValuesFrom co:PMD_0000815
                                ] ;
+               obo:IAO_0000119 "“Laboratory.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/laboratory. Accessed 24 Nov. 2022."@en ;
                rdfs:isDefinedBy co:logistics ;
                rdfs:label "Labor"@de ,
                           "Laboratory"@en ;
-               skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
-               co:PMD_0001027 "“Laboratory.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/laboratory. Accessed 24 Nov. 2022."@en .
+               skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000815
@@ -5615,11 +5619,11 @@ co:PMD_0000819 rdf:type owl:Class ;
 co:PMD_0000820 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000602 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "https://en.wikipedia.org/wiki/Load_cell"@en ;
                rdfs:isDefinedBy co:devices ;
                rdfs:label "Kraftmessdose"@de ,
                           "Load Cell"@en ;
-               skos:definition "A load cell converts a force such as tension, compression, pressure, or torque into an electrical signal that can be measured and standardized. It is a force transducer. As the force applied to the load cell increases, the electrical signal changes proportionally. The most common types of load cell are pneumatic, hydraulic, and strain gauges."@en ;
-               co:PMD_0001027 "https://en.wikipedia.org/wiki/Load_cell"@en .
+               skos:definition "A load cell converts a force such as tension, compression, pressure, or torque into an electrical signal that can be measured and standardized. It is a force transducer. As the force applied to the load cell increases, the electrical signal changes proportionally. The most common types of load cell are pneumatic, hydraulic, and strain gauges."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000821
@@ -5743,7 +5747,7 @@ co:PMD_0000830 rdf:type owl:Class ;
                                ] ;
                rdfs:isDefinedBy co:logistics ;
                rdfs:label "Hersteller"@de ,
-                          "Manufacturer"@en ;
+                          "ManufacturerCompany"@en ;
                skos:definition "Processing Node's manufacturer name, e.g.: \"Ipsen\", \"UPC\" or \"Bosch\""@en .
 
 
@@ -5815,7 +5819,8 @@ co:PMD_0000842 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000845
 co:PMD_0000845 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000890 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Matrix"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000846
@@ -5896,12 +5901,12 @@ co:PMD_0000853 rdf:type owl:Class ;
 co:PMD_0000854 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000602 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "https://www.merriam-webster.com/dictionary/micrometer%20caliper"@en ;
                rdfs:isDefinedBy co:devices ;
                rdfs:label "Bügelmessschraube"@de ,
                           "Micrometer Gauge"@en ;
                skos:definition "A measuring device for making precise measurements having a spindle moved by a finely threaded screw."@en ,
-                               "Diese Entität beschreibt ein Werkzeug zur Durchführung präziser Messungen mit einer Spindel, die durch eine Feingewindeschraube bewegt wird."@de ;
-               co:PMD_0001027 "https://www.merriam-webster.com/dictionary/micrometer%20caliper"@en .
+                               "Diese Entität beschreibt ein Werkzeug zur Durchführung präziser Messungen mit einer Spindel, die durch eine Feingewindeschraube bewegt wird."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000855
@@ -6078,11 +6083,11 @@ co:PMD_0000872 rdf:type owl:Class ;
                                  owl:onProperty obo:RO_0000087 ;
                                  owl:someValuesFrom co:PMD_0000873
                                ] ;
+               obo:IAO_0000119 "“Operator.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/operator. Accessed 24 Nov. 2022."@en ;
                rdfs:isDefinedBy co:logistics ;
                rdfs:label "Operator"@de ,
                           "Operator"@en ;
-               skos:definition "A person that operates a machine or device."@en ;
-               co:PMD_0001027 "“Operator.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/operator. Accessed 24 Nov. 2022."@en .
+               skos:definition "A person that operates a machine or device."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000873
@@ -6156,7 +6161,8 @@ co:PMD_0000879 rdf:type owl:Class ;
                obo:IAO_0000114 obo:IAO_0000123 ;
                rdfs:isDefinedBy co:logistics ;
                rdfs:label "Organization"@en ;
-               rdfs:seeAlso "http://purl.obolibrary.org/obo/OBI_0000245" .
+               rdfs:seeAlso "http://purl.obolibrary.org/obo/OBI_0000245" ;
+               co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000880
@@ -6269,13 +6275,15 @@ co:PMD_0000889 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000890
 co:PMD_0000890 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000892 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "PortionOFConnectedMatter"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000891
 co:PMD_0000891 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000892 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "PortionOfDisconnectedMatter"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000892
@@ -6288,7 +6296,8 @@ co:PMD_0000892 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000893
 co:PMD_0000893 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000891 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Powder"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000894
@@ -6599,13 +6608,13 @@ ANMERKUNG: Die exakte Wortwahl der EN 10021 wurde verallgemeinert."""@de ,
                                """NOTE: A Sample is a part (or the whole) of a Sample product. The Sample product is specifically produced portion of an industrially used and traded product for the purpose of determining the properties/quality of the product. CAVE: This note describes the object, that realizes the role defined by this owl:Class.
 NOTE: The wording used in EN 10021 was generalized."""@en ;
                obo:IAO_0000117 "PERSON: Matthias Jung" ;
+               obo:IAO_0000119 "EN 10021:2006-12 (European standardization committee: CEN/TC 459/SC 12/WG 4)"@en ;
                rdfs:isDefinedBy co:manufacturing ,
                                 co:qualities ;
                rdfs:label "Probe-Rolle"@de ,
                           "Sample Role"@en ;
                skos:definition "Role of an object, which is a quantity of material taken from a (sample) product, that is sufficient for the purpose of obtaining test pieces."@en ,
-                               "Rolle eines Objektes, das eine von einem Probestück/Material entnommene Menge ist, welche (vom Umfang her) geeignet ist Proben (Test Pieces) herzustellen."@de ;
-               co:PMD_0001027 "EN 10021:2006-12 (European standardization committee: CEN/TC 459/SC 12/WG 4)"@en .
+                               "Rolle eines Objektes, das eine von einem Probestück/Material entnommene Menge ist, welche (vom Umfang her) geeignet ist Proben (Test Pieces) herzustellen."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000920
@@ -7222,13 +7231,13 @@ ANMERKUNG: Die exakte Wortwahl der EN 10021 wurde verallgemeinert."""@de ,
                                """NOTE: A Test Piece is a piece that is taken from a specimen (potentially the whole specimen), which fulfills the requirements, that are set by the test procedure in which the test piece is about to be used. A specimen fulfills this requierements generally speaking only after further treatment/processing. CAVE: This note describes the object, that realizes the role defined by this owl:Class.
 NOTE: The wording used in EN 10021 was generalized."""@en ;
                obo:IAO_0000117 "PERSON: Matthias Jung" ;
+               obo:IAO_0000119 "EN 10021:2006-12 (European standardization committee: CEN/TC 459/SC 12/WG 4)"@en ;
                rdfs:isDefinedBy co:manufacturing ,
                                 co:qualities ;
                rdfs:label "Proben-Rolle"@de ,
                           "Test Piece Role"@en ;
                skos:definition "Rolle eines Objekts, welches eine Probe ist, die aus einem Prüfling (Specimen) oder Probenabschnitt (Sample) entnommen wurde; die Probe hat festgelegte Dimensionen, kann maschinell bearbeitet sein, wurde in einen für die Verwendung in einem Prüfverfahren notwendigen Zustand gebracht"@de ,
-                               "role of object which is a part taken from a specimen or sample; the part has specified dimensions, is machined or un-machined, brought to a required condition for submission to a given test"@en ;
-               co:PMD_0001027 "EN 10021:2006-12 (European standardization committee: CEN/TC 459/SC 12/WG 4)"@en .
+                               "role of object which is a part taken from a specimen or sample; the part has specified dimensions, is machined or un-machined, brought to a required condition for submission to a given test"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000976
@@ -7317,12 +7326,12 @@ co:PMD_0000982 rdf:type owl:Class ;
 co:PMD_0000983 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000602 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "“Thermocouple.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/thermocouple. Accessed 13 Jan. 2023."@en ;
                rdfs:isDefinedBy co:devices ;
                rdfs:label "Thermocouple"@en ,
                           "Thermoelement"@de ;
                skos:definition "A device for measuring temperature in which a pair of wires of dissimilar metals (such as copper and iron) are joined and the free ends of the wires are connected to an instrument (such as a voltmeter) that measures the difference in potential created at the junction of the two metals."@en ,
-                               "Ein Gerät zur Temperaturmessung, bei dem ein Paar Drähte aus unterschiedlichen Metallen (z. B. Kupfer und Eisen) verbunden und die freien Enden der Drähte mit einem Instrument (z. B. einem Voltmeter) verbunden werden, das die an der Verbindungsstelle erzeugte der beiden Metalle Potentialdifferenz misst ."@de ;
-               co:PMD_0001027 "“Thermocouple.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/thermocouple. Accessed 13 Jan. 2023."@en .
+                               "Ein Gerät zur Temperaturmessung, bei dem ein Paar Drähte aus unterschiedlichen Metallen (z. B. Kupfer und Eisen) verbunden und die freien Enden der Drähte mit einem Instrument (z. B. einem Voltmeter) verbunden werden, das die an der Verbindungsstelle erzeugte der beiden Metalle Potentialdifferenz misst ."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000984

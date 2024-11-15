@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                3f78dd20b0b722499741e89ca961b451fe775a843a0efae8283fad66976a88c7
+CONFIG_HASH=                2033487c79215dc876e440b75d831cfb43ef3eb13b20f6ed0e1ff93dd35182eb
 
 
 # ----------------------------------------
@@ -452,8 +452,7 @@ ifeq ($(strip $(MIR)),true)
 .PHONY: mirror-bfo
 .PRECIOUS: $(MIRRORDIR)/bfo.owl
 mirror-bfo: | $(TMPDIR)
-	curl -L $(OBOBASE)/bfo.owl --create-dirs -o $(TMPDIR)/bfo-download.owl --retry 4 --max-time 200 && \
-	$(ROBOT) convert -i $(TMPDIR)/bfo-download.owl -o $(TMPDIR)/$@.owl
+	$(ROBOT) convert -I https://raw.githubusercontent.com/BFO-ontology/BFO-2020/release-2024-01-29/src/owl/bfo-core.ttl -o $(TMPDIR)/$@.owl
 
 
 ## ONTOLOGY: ro
