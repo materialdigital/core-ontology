@@ -10,6 +10,7 @@
 ## Introduction
 
 The Platform MaterialDigital core ontology (PMDco) is a mid-level ontology for materials science and engineering (MSE). The PMDco provides bridging mid-level concepts for detailed description of processes, experiments, and computational workflows enabling the reproducibility of process and materials data. These general MSE concepts are designed to be extendable for specific applications within application ontologies. The PMDco is designed in a collaborative effort within the MaterialDigital initiative and intended to be easily used by MSE domain experts.
+Our Ontology Playground, organised every second Friday from 1-2 pm, is a great opportunity to connect with developers and our proactive community to shape the PMDco. Please register via our [mailing list](https://www.lists.kit.edu/sympa/subscribe/ontology-playground?previous_action=info).
 
 ## Versions
 
