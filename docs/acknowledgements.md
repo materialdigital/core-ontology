@@ -1,3 +1,1 @@
-The authors would like to thank [Daniel Garijo](https://w3id.org/people/dgarijo) for developing [Widoco](https://github.com/dgarijo/Widoco), the program used to create the template used in this documentation.
-
 The authors would like to thank the Federal Government and the Heads of Government of the Länder for their funding and support within the framework of the [Plattform MaterialDigital](https://www.materialdigital.de/). Funded by the german [Federal Ministry of Education and Research](https://www.bmbf.de/bmbf/en) (BMBF).
