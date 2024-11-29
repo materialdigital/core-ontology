@@ -1,8 +1,6 @@
-
 ![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/shacl.yaml/badge.svg?branch=develop-3.0.0)
 ![basic checks](https://github.com/materialdigital/core-ontology/actions/workflows/quality-checks.yaml/badge.svg?branch=develop-3.0.0)
 ![Build Status](https://github.com/materialdigital/core-ontology/actions/workflows/qc.yml/badge.svg)
-
 
 
 # PMD Core Ontology
@@ -27,7 +25,6 @@ If you like to contribute, please feel free to add any issues or participate in 
 
 - Namespace: [https://w3id.org/pmd/co](https://w3id.org/pmd/co)
 - Prefix: pmdco
-- [Miro Board Documentation](https://miro.com/app/board/uXjVNOTPrFo=/)
 
 Important Folders: 
 
@@ -35,7 +32,14 @@ Important Folders:
  - ```patterns```    patterns describing the use of the modules and show examples
  - ```shapes```    shapes to describe the sets of conditions and constraints of use formally
 
+## Documentation
 
+- [Documentation](https://materialdigital.github.io/core-ontology/3.0.0/docs)
+- [Beginers Guide Miro Board ](https://miro.com/app/board/uXjVLY9FwGU=/)
+- [Widoco list of classes and properties](https://materialdigital.github.io/core-ontology/3.0.0/)
+- [Patterns and Active Development Miro Board (Playground)](https://miro.com/app/board/uXjVNOTPrFo=/)
+
+ 
 ## Contact
 
 Please use this GitHub repository's [Issue tracker](https://github.com/materialdigital/core-ontology/issues) to request new terms/classes or report errors or specific concerns related to the ontology.
