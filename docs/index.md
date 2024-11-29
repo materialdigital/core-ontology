@@ -4,17 +4,15 @@
 
 # PMD core ontology
 
-Welcome to the documentation page for our ontology ... 
+Welcome to the **Platform MaterialDigital Core Ontology**, your gateway to advancing the digital transformation of Materials Science and Engineering (MSE)! As the field evolves, managing complex workflows, integrating diverse datasets, and achieving interoperability are more critical than ever. PMDco provides a standardized framework to address these challenges, enabling seamless data modeling, enhanced collaboration, and reproducibility across the MSE domain.
 
-todo
-
-todo
-
+This documentation is designed to guide you through the ontology's structure, features, and applications, making it easier to incorporate PMDco into your workflows. Whether you're a researcher, developer, or industry professional, we're excited to support your journey toward smarter, more efficient materials science practices.
 
 Here you will find information about:
 
-- [introduction and scope of the ontology](intro.md)
-- todo
+- [introduction and scope of the ontology](intro.md) (To be improved)
+- [Design Principles and Conventions](design.md) (ToDo)
+- [Ontology description](ontology.md)  (ToDo)
+- [Usage Patterns](patterns.md)  (ToDo)
 - [different versions of the ontology](versions.md)
-- todo
 - [how to contribute](contributing.md)
