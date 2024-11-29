@@ -11,8 +11,8 @@ This documentation is designed to guide you through the ontology's structure, fe
 Here you will find information about:
 
 - [introduction and scope of the ontology](intro.md) (To be improved)
-- [Design Principles and Conventions](design.md) (ToDo)
-- [Ontology description](ontology.md)  (ToDo)
-- [Usage Patterns](patterns.md)  (ToDo)
+- [design principles and conventions](design.md) (ToDo)
+- [ontology description](ontology.md)  (ToDo)
+- [usage patterns](patterns.md)  (ToDo)
 - [different versions of the ontology](versions.md)
 - [how to contribute](contributing.md)
