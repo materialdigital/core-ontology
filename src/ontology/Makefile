@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                2033487c79215dc876e440b75d831cfb43ef3eb13b20f6ed0e1ff93dd35182eb
+CONFIG_HASH=                5b44160766863a968a40da89c3bedee1227dec197284ab36919402954723fef1
 
 
 # ----------------------------------------
@@ -642,6 +642,8 @@ update_repo:
 	sh $(SCRIPTSDIR)/update_repo.sh
 	
 
+update_docs:
+	mkdocs gh-deploy --config-file ../../mkdocs.yaml
 
 # Note to future generations: computing the real path relative to the
 # current directory is a way to ensure we only clean up directories that
