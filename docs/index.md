@@ -2,9 +2,9 @@
 ![build docs](https://github.com/ISE-FIZKarlsruhe/nfdicore/actions/workflows/update-docs.yml/badge.svg)
 ![verification](https://github.com/ISE-FIZKarlsruhe/nfdicore/actions/workflows/verification.yml/badge.svg)
 
-# PMD core ontology
+# PMD Core Ontology (PMDco)
 
-Welcome to the **Platform MaterialDigital Core Ontology**, your gateway to advancing the digital transformation of Materials Science and Engineering (MSE)! As the field evolves, managing complex workflows, integrating diverse datasets, and achieving interoperability are more critical than ever. PMDco provides a standardized framework to address these challenges, enabling seamless data modeling, enhanced collaboration, and reproducibility across the MSE domain.
+Welcome to the **Platform MaterialDigital Core Ontology (PMDco)**, your gateway to advancing the digital transformation of Materials Science and Engineering (MSE)! As the field evolves, managing complex workflows, integrating diverse datasets, and achieving interoperability are more critical than ever. PMDco provides a standardized framework to address these challenges, enabling seamless data modeling, enhanced collaboration, and reproducibility across the MSE domain.
 
 This documentation is designed to guide you through the ontology's structure, features, and applications, making it easier to incorporate PMDco into your workflows. Whether you're a researcher, developer, or industry professional, we're excited to support your journey toward smarter, more efficient materials science practices.
 
