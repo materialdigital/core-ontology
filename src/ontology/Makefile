@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                5b44160766863a968a40da89c3bedee1227dec197284ab36919402954723fef1
+CONFIG_HASH=                5c89bc15d104fac5188d3cbe685b2e88f3c4735d02cda6d9a07c845decf116b8
 
 
 # ----------------------------------------
@@ -54,7 +54,7 @@ OBODATE ?=                  $(shell date +'%d:%m:%Y %H:%M')
 VERSION=                    $(TODAY)
 ANNOTATE_ONTOLOGY_VERSION = annotate -V $(ONTBASE)/releases/$(VERSION)/$@ --annotation owl:versionInfo $(VERSION)
 ANNOTATE_CONVERT_FILE =     annotate --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) convert -f ofn --output $@.tmp.owl && mv $@.tmp.owl $@
-OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-logistics.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl 
+OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-axioms-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-logistics.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl 
 ONTOLOGYTERMS =             $(TMPDIR)/ontologyterms.txt
 EDIT_PREPROCESSED =         $(TMPDIR)/$(ONT)-preprocess.owl
 
@@ -160,7 +160,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo ro iao obi
+IMPORTS =  bfo ro iao obi afo
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -437,6 +437,7 @@ $(COMPONENTSDIR)/%.owl: | $(COMPONENTSDIR)
 
 
 
+
 # ----------------------------------------
 # Mirroring upstream ontologies
 # ----------------------------------------
@@ -477,6 +478,14 @@ mirror-iao: | $(TMPDIR)
 mirror-obi: | $(TMPDIR)
 	curl -L $(OBOBASE)/obi.owl --create-dirs -o $(TMPDIR)/obi-download.owl --retry 4 --max-time 200 && \
 	$(ROBOT) convert -i $(TMPDIR)/obi-download.owl -o $(TMPDIR)/$@.owl
+
+
+## ONTOLOGY: afo
+.PHONY: mirror-afo
+.PRECIOUS: $(MIRRORDIR)/afo.owl
+mirror-afo: | $(TMPDIR)
+	curl -L $(OBOBASE)/afo.owl --create-dirs -o $(TMPDIR)/afo-download.owl --retry 4 --max-time 200 && \
+	$(ROBOT) convert -i $(TMPDIR)/afo-download.owl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)
