@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                5c89bc15d104fac5188d3cbe685b2e88f3c4735d02cda6d9a07c845decf116b8
+CONFIG_HASH=                b417d47737527d076f575a69409f50796c7610167b45b9dd1fa18a444dacbf37
 
 
 # ----------------------------------------
@@ -160,7 +160,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo ro iao obi afo
+IMPORTS =  bfo ro iao obi
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -478,14 +478,6 @@ mirror-iao: | $(TMPDIR)
 mirror-obi: | $(TMPDIR)
 	curl -L $(OBOBASE)/obi.owl --create-dirs -o $(TMPDIR)/obi-download.owl --retry 4 --max-time 200 && \
 	$(ROBOT) convert -i $(TMPDIR)/obi-download.owl -o $(TMPDIR)/$@.owl
-
-
-## ONTOLOGY: afo
-.PHONY: mirror-afo
-.PRECIOUS: $(MIRRORDIR)/afo.owl
-mirror-afo: | $(TMPDIR)
-	curl -L $(OBOBASE)/afo.owl --create-dirs -o $(TMPDIR)/afo-download.owl --retry 4 --max-time 200 && \
-	$(ROBOT) convert -i $(TMPDIR)/afo-download.owl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)
