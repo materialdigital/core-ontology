@@ -3043,6 +3043,17 @@ For example, A and B may be gene products and binding of B by A positively regul
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0000007 -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0000007">
+        <obo:IAO_0000119 rdf:resource="http://purl.allotrope.org/ontologies/property#AFX_0000940"/>
+        <rdfs:comment xml:lang="en">The property specifies of which kind of general portion of material something is built of.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
+        <rdfs:label xml:lang="en">composed of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0001026 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0001026">
@@ -3123,7 +3134,7 @@ For example, A and B may be gene products and binding of B by A positively regul
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000892"/>
         <rdfs:comment xml:lang="en">Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a Manufacturing Process may be SemiFinishedProdcuts.</rdfs:comment>
         <rdfs:comment xml:lang="en">The sum of portions of matter of the same type form a portion of matter of that type.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
         <rdfs:label xml:lang="de">Material</rdfs:label>
         <rdfs:label xml:lang="en">Material</rdfs:label>
         <skos:definition xml:lang="en">A Material is a Portion Of Matter that has the disposition to participate in some Manifacturing Process and whose shape is not relevant for its disposition to participate in the Manifacuring Process.</skos:definition>
@@ -3165,7 +3176,7 @@ TODO: Possibly instatiate some relevant classifcation systems.</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000004">
         <rdfs:comment xml:lang="en">This class is the &quot;entry point&quot; for the multi-scale perspective on material entities by recursively consisting of Material Entity Aggregates. In particular, this class is not “disjoint” with object.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
         <rdfs:label xml:lang="en">Material Entity Aggregate</rdfs:label>
         <skos:definition xml:lang="en">A material entity that is a mereological sum of separate material entities and possesses nonconnected boundaries.</skos:definition>
     </owl:Class>
@@ -3811,10 +3822,8 @@ TBD: Does the Blank &apos;consists of&apos; only 1 Material?</skos:definition>
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000546">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000632"/>
         <obo:IAO_0000116 xml:lang="en">Classified by morphology.</obo:IAO_0000116>
-        <obo:IAO_0000119>ChatGPT 4.o</obo:IAO_0000119>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
         <rdfs:label xml:lang="en">Ceramic</rdfs:label>
-        <skos:definition xml:lang="en">Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.</skos:definition>
     </owl:Class>
     
 
@@ -4283,7 +4292,45 @@ TBD: Does the Blank &apos;consists of&apos; only 1 Material?</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000577 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000577">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000632"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000632"/>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000007"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000632"/>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000845"/>
+                                            </owl:Restriction>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000007"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000632"/>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+                                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020001"/>
+                                            </owl:Restriction>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
         <rdfs:label xml:lang="en">Composite Material</rdfs:label>
         <skos:definition xml:lang="en">A Composite Material is an Engineered Material that &apos;consists of&apos; some Material that has a Matrix role and of some Material that has a Filler role.</skos:definition>
@@ -5175,11 +5222,8 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000639">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000852"/>
-        <obo:IAO_0000119>ChatGPT 4.o</obo:IAO_0000119>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
         <rdfs:label xml:lang="en">Ferrous Alloy</rdfs:label>
-        <skos:definition></skos:definition>
-        <skos:definition xml:lang="en">A ferrous alloy is a metal describing an alloy containing iron as its principal element, often combined with other elements for enhanced properties.</skos:definition>
     </owl:Class>
     
 
@@ -5417,7 +5461,6 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000654 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000654">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000632"/>
         <obo:IAO_0000116 xml:lang="en">Classified by the role in a system.</obo:IAO_0000116>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
         <rdfs:label xml:lang="en">Functional Material</rdfs:label>
@@ -5525,11 +5568,8 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000661">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000632"/>
         <obo:IAO_0000116 xml:lang="en">Classified by morphology.</obo:IAO_0000116>
-        <obo:IAO_0000119>ChatGPT 4.o</obo:IAO_0000119>
-        <rdfs:comment xml:lang="en">It is often composed of silica-based compounds.</rdfs:comment>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
         <rdfs:label xml:lang="en">Glass</rdfs:label>
-        <skos:definition xml:lang="en">A glass is an engineered material present as an amorphous solid typically formed by rapid cooling of a melt.</skos:definition>
     </owl:Class>
     
 
@@ -5557,12 +5597,10 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000663">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020003"/>
-        <obo:IAO_0000119>ChatGPT 4.o</obo:IAO_0000119>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
         <rdfs:label xml:lang="en">Grain</rdfs:label>
         <rdfs:label xml:lang="de">Korn</rdfs:label>
         <skos:definition xml:lang="de">A Grain is a Crystallite that &apos;consists of&apos; a Metal.</skos:definition>
-        <skos:definition xml:lang="en">A grain is a crystallite describing a region within a polycrystalline material where the crystal lattice is uniformly oriented.</skos:definition>
     </owl:Class>
     
 
@@ -6749,8 +6787,8 @@ A manufacturing process is always a transformative process.</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000845 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000845">
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
-        <rdfs:label xml:lang="en">Matrix</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
+        <rdfs:label xml:lang="en">Matrix Role</rdfs:label>
         <skos:definition xml:lang="en">Matrix is the role of a PortionOfConnectedMatter that implies to host the Filler.</skos:definition>
     </owl:Class>
     
@@ -6844,12 +6882,20 @@ A manufacturing process is always a transformative process.</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000852 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000852">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000632"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000632"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0050002"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <obo:IAO_0000116 xml:lang="en">Classified by morphology.</obo:IAO_0000116>
-        <obo:IAO_0000119>ChatGPT 4.o</obo:IAO_0000119>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
         <rdfs:label xml:lang="en">Metal</rdfs:label>
-        <skos:definition xml:lang="en">A metal is an engineered material representing a class of materials characterized by high electrical and thermal conductivity, ductility, and metallic bonding.</skos:definition>
     </owl:Class>
     
 
@@ -7064,10 +7110,8 @@ A manufacturing process is always a transformative process.</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000868">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000001"/>
-        <obo:IAO_0000119>ChatGPT 4.o</obo:IAO_0000119>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
         <rdfs:label xml:lang="en">Natural Organic Material</rdfs:label>
-        <skos:definition xml:lang="en">Natural organic materials are materials derived from natural biological sources, primarily composed of carbon-based compounds.</skos:definition>
     </owl:Class>
     
 
@@ -7394,7 +7438,7 @@ A manufacturing process is always a transformative process.</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000890">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000004"/>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
         <rdfs:label xml:lang="en">Connected Material Entity Aggregate</rdfs:label>
         <skos:definition xml:lang="en">A material entity aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity.</skos:definition>
         <skos:example xml:lang="en">the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body</skos:example>
@@ -7406,7 +7450,7 @@ A manufacturing process is always a transformative process.</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000891">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000004"/>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
         <rdfs:label xml:lang="en">Disconnected Material Entity Aggregate</rdfs:label>
         <skos:definition xml:lang="en">A material entity aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group.</skos:definition>
         <skos:example xml:lang="en">a heap of stones, a colony of honeybees, a group of synapses, the trees of a forest, the canopy of a forest, the fish of a shoal, a group of commuters on the subway, the patients in a hospital</skos:example>
@@ -7418,7 +7462,6 @@ A manufacturing process is always a transformative process.</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000892">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000004"/>
-        <rdfs:comment xml:lang="en">It is also representing a distinct physical or conceptual part of a material or substance.</rdfs:comment>
         <rdfs:comment xml:lang="en">Lome explanation for portion of matter: &quot;What is a molecule cluster at the cellular level? Contrary to the molecular level, at the cellular level of granularity the boundary of each molecule is outside of the level of granular focus. What forms a discontinuous cluster of countable individual molecules and thus bona fide objects at the molecular level, is a continuous and non-countable molecular substance at coarser levels of
 granularity. At these coarser levels, the individual molecules cannot be differentiated and demarcated anymore and the cluster as a whole possesses only fiat inner boundaries.&quot;</rdfs:comment>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
@@ -7432,9 +7475,8 @@ granularity. At these coarser levels, the individual molecules cannot be differe
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000893">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000891"/>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
         <rdfs:label xml:lang="en">Powder</rdfs:label>
-        <skos:definition xml:lang="en">A powder is a dry, solid disconnected material entity aggragate composed of many very fine particles. These particles can flow freely when shaken or tilted.</skos:definition>
     </owl:Class>
     
 
@@ -8347,7 +8389,6 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0000955 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000955">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000632"/>
         <obo:IAO_0000116 xml:lang="en">Classified by the role in a system.</obo:IAO_0000116>
         <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
         <rdfs:label xml:lang="en">Structural Material</rdfs:label>
@@ -9366,8 +9407,8 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0020001 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020001">
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
-        <rdfs:label xml:lang="en">Filler</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
+        <rdfs:label xml:lang="en">Filler Role</rdfs:label>
         <skos:definition xml:lang="en">Filler is the role of a PortionOfDisconnectedMatter that implies being hosted in a Matrix.</skos:definition>
     </owl:Class>
     
@@ -9376,8 +9417,8 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0020002 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020002">
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
-        <rdfs:label xml:lang="en">Precipitate</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
+        <rdfs:label xml:lang="en">Precipitate Role</rdfs:label>
         <skos:definition xml:lang="en">Precipitate is the role of a Portion Of Matter that implies being hosted in a Matrix and the Precipitate derives from the Matrix or the Precipitate derives from the Thing that the Matrix derives from.</skos:definition>
     </owl:Class>
     
@@ -9386,7 +9427,7 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0020003 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020003">
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/materials"/>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/"/>
         <rdfs:label xml:lang="en">Crystallite</rdfs:label>
         <skos:definition xml:lang="en">A Crystallite is an object that &apos;consists&apos; of a crystalline Material and &apos;is part of &apos; a Material.</skos:definition>
     </owl:Class>

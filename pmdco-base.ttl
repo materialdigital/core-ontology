@@ -204,6 +204,11 @@ obo:RO_0000085 rdf:type owl:ObjectProperty ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
 
 
+###  http://purl.obolibrary.org/obo/RO_0000086
+obo:RO_0000086 rdf:type owl:ObjectProperty ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+
+
 ###  http://purl.obolibrary.org/obo/RO_0000087
 obo:RO_0000087 rdf:type owl:ObjectProperty ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
@@ -212,6 +217,14 @@ obo:RO_0000087 rdf:type owl:ObjectProperty ;
 ###  http://purl.obolibrary.org/obo/RO_0002350
 obo:RO_0002350 rdf:type owl:ObjectProperty ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+
+
+###  https://w3id.org/pmd/co/PMD_0000007
+co:PMD_0000007 rdf:type owl:ObjectProperty ;
+               obo:IAO_0000119 <http://purl.allotrope.org/ontologies/property#AFX_0000940> ;
+               rdfs:comment "The property specifies of which kind of general portion of material something is built of."@en ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "composed of"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001026
@@ -373,7 +386,7 @@ co:PMD_0000001 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000892 ;
                rdfs:comment "Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a Manufacturing Process may be SemiFinishedProdcuts."@en ,
                             "The sum of portions of matter of the same type form a portion of matter of that type."@en ;
-               rdfs:isDefinedBy co:materials ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Material"@de ,
                           "Material"@en ;
                skos:definition "A Material is a Portion Of Matter that has the disposition to participate in some Manifacturing Process and whose shape is not relevant for its disposition to participate in the Manifacuring Process."@en .
@@ -406,7 +419,7 @@ TODO: Possibly instatiate some relevant classifcation systems."""@en .
 co:PMD_0000004 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000040 ;
                rdfs:comment "This class is the \"entry point\" for the multi-scale perspective on material entities by recursively consisting of Material Entity Aggregates. In particular, this class is not “disjoint” with object."@en ;
-               rdfs:isDefinedBy co:materials ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Material Entity Aggregate"@en ;
                skos:definition "A material entity that is a mereological sum of separate material entities and possesses nonconnected boundaries."@en .
 
@@ -983,10 +996,8 @@ co:PMD_0000545 rdf:type owl:Class ;
 co:PMD_0000546 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000632 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Ceramic"@en ;
-               skos:definition "Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications."@en .
+               rdfs:label "Ceramic"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000547
@@ -1366,7 +1377,35 @@ co:PMD_0000576 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000577
 co:PMD_0000577 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ;
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
+                                                      [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty co:PMD_0000007 ;
+                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000632
+                                                                                                                         [ rdf:type owl:Restriction ;
+                                                                                                                           owl:onProperty obo:RO_0000087 ;
+                                                                                                                           owl:someValuesFrom co:PMD_0000845
+                                                                                                                         ]
+                                                                                                                       ) ;
+                                                                                                    rdf:type owl:Class
+                                                                                                  ]
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty co:PMD_0000007 ;
+                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000632
+                                                                                                                         [ rdf:type owl:Restriction ;
+                                                                                                                           owl:onProperty obo:RO_0000087 ;
+                                                                                                                           owl:someValuesFrom co:PMD_0020001
+                                                                                                                         ]
+                                                                                                                       ) ;
+                                                                                                    rdf:type owl:Class
+                                                                                                  ]
+                                                                             ]
+                                                                           ) ;
+                                                        rdf:type owl:Class
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
                rdfs:isDefinedBy co:materials ;
                rdfs:label "Composite Material"@en ;
                skos:definition "A Composite Material is an Engineered Material that 'consists of' some Material that has a Matrix role and of some Material that has a Filler role."@en .
@@ -2094,11 +2133,8 @@ co:PMD_0000638 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000639
 co:PMD_0000639 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000852 ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Ferrous Alloy"@en ;
-               skos:definition "A ferrous alloy is a metal describing an alloy containing iron as its principal element, often combined with other elements for enhanced properties."@en ,
-                               "" .
+               rdfs:label "Ferrous Alloy"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000640
@@ -2291,7 +2327,22 @@ co:PMD_0000653 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000654
 co:PMD_0000654 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ;
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty [ owl:inverseOf co:PMD_0000007
+                                                                       ] ;
+                                                        owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
+                                                                                                  [ rdf:type owl:Restriction ;
+                                                                                                    owl:onProperty obo:RO_0000085 ;
+                                                                                                    owl:someValuesFrom obo:BFO_0000034
+                                                                                                  ]
+                                                                                                ) ;
+                                                                             rdf:type owl:Class
+                                                                           ]
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
                obo:IAO_0000116 "Classified by the role in a system."@en ;
                rdfs:isDefinedBy co:materials ;
                rdfs:label "Functional Material"@en ;
@@ -2378,11 +2429,8 @@ co:PMD_0000660 rdf:type owl:Class ;
 co:PMD_0000661 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000632 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
-               rdfs:comment "It is often composed of silica-based compounds."@en ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Glass"@en ;
-               skos:definition "A glass is an engineered material present as an amorphous solid typically formed by rapid cooling of a melt."@en .
+               rdfs:label "Glass"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000662
@@ -2404,12 +2452,10 @@ co:PMD_0000662 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000663
 co:PMD_0000663 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020003 ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
-               rdfs:isDefinedBy co:materials ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Grain"@en ,
                           "Korn"@de ;
-               skos:definition "A Grain is a Crystallite that 'consists of' a Metal."@de ,
-                               "A grain is a crystallite describing a region within a polycrystalline material where the crystal lattice is uniformly oriented."@en .
+               skos:definition "A Grain is a Crystallite that 'consists of' a Metal."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000664
@@ -3069,7 +3115,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid75 ;
+               owl:equivalentClass _:genid100 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000087 ;
@@ -3081,18 +3127,18 @@ co:PMD_0000814 rdf:type owl:Class ;
                           "Laboratory"@en ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en .
 
-_:genid75 owl:intersectionOf ( obo:BFO_0000029
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:RO_0000087 ;
-                                  owl:someValuesFrom co:PMD_0000815
-                                ]
-                              ) ;
-           rdf:type owl:Class .
+_:genid100 owl:intersectionOf ( obo:BFO_0000029
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo:RO_0000087 ;
+                                   owl:someValuesFrom co:PMD_0000815
+                                 ]
+                               ) ;
+            rdf:type owl:Class .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid75 ;
+   owl:annotatedTarget _:genid100 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -3409,8 +3455,8 @@ co:PMD_0000842 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000845
 co:PMD_0000845 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Matrix"@en ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Matrix Role"@en ;
                skos:definition "Matrix is the role of a PortionOfConnectedMatter that implies to host the Filler."@en .
 
 
@@ -3483,12 +3529,17 @@ co:PMD_0000851 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000852
 co:PMD_0000852 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ;
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000086 ;
+                                                        owl:someValuesFrom co:PMD_0050002
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
                obo:IAO_0000116 "Classified by morphology."@en ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Metal"@en ;
-               skos:definition "A metal is an engineered material representing a class of materials characterized by high electrical and thermal conductivity, ductility, and metallic bonding."@en .
+               rdfs:label "Metal"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000853
@@ -3598,10 +3649,13 @@ co:PMD_0000862 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000863
 co:PMD_0000863 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000019 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000197 ;
-                                 owl:someValuesFrom obo:BFO_0000040
+               rdfs:subClassOf [ owl:intersectionOf ( obo:BFO_0000019
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:BFO_0000197 ;
+                                                        owl:someValuesFrom obo:BFO_0000040
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
                                ] ;
                obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
@@ -3663,10 +3717,8 @@ co:PMD_0000867 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000868
 co:PMD_0000868 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000001 ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Natural Organic Material"@en ;
-               skos:definition "Natural organic materials are materials derived from natural biological sources, primarily composed of carbon-based compounds."@en .
+               rdfs:label "Natural Organic Material"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000869
@@ -3933,7 +3985,7 @@ co:PMD_0000889 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000890
 co:PMD_0000890 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000004 ;
-               rdfs:isDefinedBy co:materials ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Connected Material Entity Aggregate"@en ;
                skos:definition "A material entity aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity."@en ;
                skos:example "the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body"@en .
@@ -3942,7 +3994,7 @@ co:PMD_0000890 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000891
 co:PMD_0000891 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000004 ;
-               rdfs:isDefinedBy co:materials ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Disconnected Material Entity Aggregate"@en ;
                skos:definition "A material entity aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group."@en ;
                skos:example "a heap of stones, a colony of honeybees, a group of synapses, the trees of a forest, the canopy of a forest, the fish of a shoal, a group of commuters on the subway, the patients in a hospital"@en .
@@ -3951,8 +4003,7 @@ co:PMD_0000891 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000892
 co:PMD_0000892 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000004 ;
-               rdfs:comment "It is also representing a distinct physical or conceptual part of a material or substance."@en ,
-                            """Lome explanation for portion of matter: \"What is a molecule cluster at the cellular level? Contrary to the molecular level, at the cellular level of granularity the boundary of each molecule is outside of the level of granular focus. What forms a discontinuous cluster of countable individual molecules and thus bona fide objects at the molecular level, is a continuous and non-countable molecular substance at coarser levels of
+               rdfs:comment """Lome explanation for portion of matter: \"What is a molecule cluster at the cellular level? Contrary to the molecular level, at the cellular level of granularity the boundary of each molecule is outside of the level of granular focus. What forms a discontinuous cluster of countable individual molecules and thus bona fide objects at the molecular level, is a continuous and non-countable molecular substance at coarser levels of
 granularity. At these coarser levels, the individual molecules cannot be differentiated and demarcated anymore and the cluster as a whole possesses only fiat inner boundaries.\""""@en ;
                rdfs:isDefinedBy co:materials ;
                rdfs:label "Portion Of Matter"@en ;
@@ -3962,9 +4013,8 @@ granularity. At these coarser levels, the individual molecules cannot be differe
 ###  https://w3id.org/pmd/co/PMD_0000893
 co:PMD_0000893 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000891 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Powder"@en ;
-               skos:definition "A powder is a dry, solid disconnected material entity aggragate composed of many very fine particles. These particles can flow freely when shaken or tilted."@en .
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Powder"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000894
@@ -4733,10 +4783,21 @@ co:PMD_0000953 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000955
 co:PMD_0000955 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000085 ;
-                                 owl:someValuesFrom obo:OBI_0000379
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000654
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty [ owl:inverseOf co:PMD_0000007
+                                                                       ] ;
+                                                        owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
+                                                                                                  [ rdf:type owl:Restriction ;
+                                                                                                    owl:onProperty obo:RO_0000085 ;
+                                                                                                    owl:someValuesFrom obo:OBI_0000379
+                                                                                                  ]
+                                                                                                ) ;
+                                                                             rdf:type owl:Class
+                                                                           ]
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
                                ] ;
                obo:IAO_0000116 "Classified by the role in a system."@en ;
                rdfs:isDefinedBy co:materials ;
@@ -5138,10 +5199,13 @@ co:PMD_0000984 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000985
 co:PMD_0000985 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000019 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000197 ;
-                                 owl:someValuesFrom obo:BFO_0000040
+               rdfs:subClassOf [ owl:intersectionOf ( obo:BFO_0000019
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:BFO_0000197 ;
+                                                        owl:someValuesFrom obo:BFO_0000040
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
                                ] ;
                obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
@@ -5600,23 +5664,23 @@ co:PMD_0020000 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020001
 co:PMD_0020001 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Filler"@en ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Filler Role"@en ;
                skos:definition "Filler is the role of a PortionOfDisconnectedMatter that implies being hosted in a Matrix."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020002
 co:PMD_0020002 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Precipitate"@en ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Precipitate Role"@en ;
                skos:definition "Precipitate is the role of a Portion Of Matter that implies being hosted in a Matrix and the Precipitate derives from the Matrix or the Precipitate derives from the Thing that the Matrix derives from."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020003
 co:PMD_0020003 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000030 ;
-               rdfs:isDefinedBy co:materials ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Crystallite"@en ;
                skos:definition "A Crystallite is an object that 'consists' of a crystalline Material and 'is part of ' a Material."@en .
 
