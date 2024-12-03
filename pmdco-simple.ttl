@@ -21,12 +21,12 @@
 <https://w3id.org/pmd/co/> rdf:type owl:Ontology ;
                             owl:versionIRI <https://w3id.org/pmd/co/3.0.0-dev> ;
                             terms:bibliographicCitation "PMDco: Platform Material Digital Ontology. Version 3.0.0-dev, https://w3id.org/pmd/co/" ;
-                            terms:created "2024-11-15" ;
+                            terms:created "2024-12-03" ;
                             terms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
                             terms:license <https://creativecommons.org/licenses/unspecified> ;
                             terms:title "PMD Core Ontology" ;
                             owl:priorVersion <https://w3id.org/pmd/co/2.0.8> ;
-                            owl:versionInfo "2024-11-15" .
+                            owl:versionInfo "2024-12-03" .
 
 #################################################################
 #    Annotation properties
@@ -410,6 +410,11 @@ dc:format rdf:type owl:AnnotationProperty ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
 
 
+###  http://purl.org/dc/elements/1.1/identifier
+dc:identifier rdf:type owl:AnnotationProperty ;
+              rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+
+
 ###  http://purl.org/dc/elements/1.1/source
 dc:source rdf:type owl:AnnotationProperty ;
           rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
@@ -543,14 +548,14 @@ skos:example rdf:type owl:AnnotationProperty ;
              rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
 
 
+###  http://www.w3.org/2004/02/skos/core#scopeNote
+skos:scopeNote rdf:type owl:AnnotationProperty ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+
+
 ###  http://xmlns.com/foaf/0.1/homepage
 foaf:homepage rdf:type owl:AnnotationProperty ;
               rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
-
-
-###  http://xmlns.com/foaf/0.1/mbox
-foaf:mbox rdf:type owl:AnnotationProperty ;
-          rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001032
@@ -655,21 +660,6 @@ obo:BFO_0000055 rdf:type owl:ObjectProperty ;
                 rdfs:label "realizes"@en .
 
 
-###  http://purl.obolibrary.org/obo/BFO_0000056
-obo:BFO_0000056 rdf:type owl:ObjectProperty ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
-
-
-###  http://purl.obolibrary.org/obo/BFO_0000058
-obo:BFO_0000058 rdf:type owl:ObjectProperty ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
-
-
-###  http://purl.obolibrary.org/obo/BFO_0000059
-obo:BFO_0000059 rdf:type owl:ObjectProperty ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
-
-
 ###  http://purl.obolibrary.org/obo/BFO_0000062
 obo:BFO_0000062 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0002086 ;
@@ -705,22 +695,75 @@ obo:BFO_0000063 rdf:type owl:ObjectProperty ;
 
 ###  http://purl.obolibrary.org/obo/BFO_0000176
 obo:BFO_0000176 rdf:type owl:ObjectProperty ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+                owl:inverseOf obo:BFO_0000178 ;
+                dc:identifier "221-BFO" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "continuant part of"@en ;
+                skos:definition "b continuant part of c =Def b and c are continuants & there is some time t such that b and c exist at t & b continuant part of c at t"@en ;
+                skos:example "Milk teeth continuant part of human; surgically removed tumour continuant part of organism"@en ;
+                skos:scopeNote "Users that require more sophisticated representations of time are encouraged to import a temporal extension of BFO-Core provided by the BFO development team. See documentation for guidance: <Link>"@en .
+
+
+###  http://purl.obolibrary.org/obo/BFO_0000178
+obo:BFO_0000178 rdf:type owl:ObjectProperty ;
+                dc:identifier "271-BFO" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "has continuant part"@en ;
+                skos:definition "b has continuant part c =Def c continuant part of b"@en ;
+                skos:scopeNote "Users that require more sophisticated representations of time are encouraged to import a temporal extension of BFO-Core provided by the BFO development team. See documentation for guidance: <Link>"@en .
+
+
+###  http://purl.obolibrary.org/obo/BFO_0000194
+obo:BFO_0000194 rdf:type owl:ObjectProperty ;
+                owl:inverseOf obo:BFO_0000195 ;
+                dc:identifier "260-BFO" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "specifically depended on by"@en ;
+                skos:altLabel "s-depended on by"@en ;
+                skos:definition "b specifically depended on by c =Def c specifically depends on b"@en ;
+                skos:example "Coloured object specifically depended on by colour"@en .
+
+
+###  http://purl.obolibrary.org/obo/BFO_0000195
+obo:BFO_0000195 rdf:type owl:ObjectProperty ;
+                dc:identifier "012-BFO" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "specifically depends on"@en ;
+                skos:altLabel "s-depends on"@en ;
+                skos:definition "(Elucidation) specifically depends on is a relation between a specifically dependent continuant b and specifically dependent continuant or independent continuant that is not a spatial region c such that b and c share no parts in common & b is of a nature such that at all times t it cannot exist unless c exists & b is not a boundary of c"@en ;
+                skos:example "A shape specifically depends on the shaped object; hue, saturation and brightness of a colour sample specifically depends on each other"@en ;
+                skos:scopeNote "The analogue of specifically depends on for occurrents is has participant."@en .
 
 
 ###  http://purl.obolibrary.org/obo/BFO_0000196
 obo:BFO_0000196 rdf:type owl:ObjectProperty ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+                rdfs:subPropertyOf obo:BFO_0000194 ;
+                owl:inverseOf obo:BFO_0000197 ;
+                dc:identifier "053-BFO" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "bearer of"@en ;
+                skos:definition "b bearer of c =Def c inheres in b"@en ;
+                skos:example "A patch of ink is the bearer of a colour quality; an organism is the bearer of a temperature quality"@en .
 
 
 ###  http://purl.obolibrary.org/obo/BFO_0000197
 obo:BFO_0000197 rdf:type owl:ObjectProperty ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+                rdfs:subPropertyOf obo:BFO_0000195 ;
+                dc:identifier "051-BFO" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "inheres in"@en ;
+                skos:definition "b inheres in c =Def b is a specifically dependent continuant & c is an independent continuant that is not a spatial region & b specifically depends on c"@en ;
+                skos:example "A shape inheres in a shaped object; a mass inheres in a material entity"@en .
 
 
 ###  http://purl.obolibrary.org/obo/BFO_0000199
-obo:BFO_0000199 rdf:type owl:ObjectProperty ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+obo:BFO_0000199 rdf:type owl:ObjectProperty ,
+                         owl:FunctionalProperty ;
+                dc:identifier "132-BFO" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "occupies temporal region"@en ;
+                skos:definition "p occupies temporal region t =Def p is a process or process boundary & the spatiotemporal region occupied by p temporally projects onto t"@en ;
+                skos:example "The Second World War occupies the temporal region September 1, 1939 - September 2, 1945"@en .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000136
@@ -768,7 +811,32 @@ obo:IAO_0000235 rdf:type owl:ObjectProperty ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0000293
 obo:OBI_0000293 rdf:type owl:ObjectProperty ;
-                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+                rdfs:subPropertyOf obo:RO_0000057 ;
+                owl:inverseOf obo:OBI_0000295 ;
+                obo:IAO_0000111 "has_specified_input" ;
+                obo:IAO_0000112 "see is_input_of example_of_usage"@en ;
+                obo:IAO_0000114 obo:IAO_0000122 ;
+                obo:IAO_0000115 "The inverse property of is_specified_input_of"@en ;
+                obo:IAO_0000116 "8/17/09: specified inputs of one process are not necessarily specified inputs of a larger process that it is part of. This is in contrast to how 'has participant' works." ;
+                obo:IAO_0000117 "PERSON: Alan Ruttenberg"@en ,
+                                "PERSON: Bjoern Peters" ,
+                                "PERSON: Larry Hunter" ,
+                                "PERSON: Melanie Coutot" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "has_specified_input"@en .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0000295
+obo:OBI_0000295 rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf obo:RO_0000056 ;
+                obo:IAO_0000111 "is_specified_input_of" ;
+                obo:IAO_0000112 "some Autologous EBV(Epstein-Barr virus)-transformed B-LCL (B lymphocyte cell line) is_input_for instance of Chromum Release Assay described at https://wiki.cbil.upenn.edu/obiwiki/index.php/Chromium_Release_assay"@en ;
+                obo:IAO_0000114 obo:IAO_0000122 ;
+                obo:IAO_0000115 "A relation between a planned process and a continuant participating in that process that is not created during  the process. The presence of the continuant during the process is explicitly specified in the plan specification which the process realizes the concretization of."@en ;
+                obo:IAO_0000117 "Alan Ruttenberg"@en ,
+                                "PERSON:Bjoern Peters" ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+                rdfs:label "is_specified_input_of"@en .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000299
@@ -2337,7 +2405,8 @@ co:PMD_0001026 rdf:type owl:ObjectProperty ;
 co:PMD_0001028 rdf:type owl:ObjectProperty ;
                owl:inverseOf co:PMD_0001029 ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "in response to"@en .
+               rdfs:label "in response to"@en ;
+               skos:definition "inverse of responds with"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001029
@@ -2353,15 +2422,18 @@ co:PMD_0001030 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000054 ;
                rdfs:range co:PMD_0000950 ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "stimulated by"@en .
+               rdfs:label "stimulated by"@en ;
+               skos:definition "inverse of stimulates"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001031
 co:PMD_0001031 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000055 ;
                rdfs:domain co:PMD_0000950 ;
+               rdfs:range co:PMD_0000005 ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "stimulates"@en .
+               rdfs:label "stimulates"@en ;
+               skos:definition "A relation between a stimulating process and material property, where there is some material entity that is bearer of the material property and participates in the stimulating process, and the material property comes to be realized in the course of the stimulating process."@en .
 
 
 #################################################################
@@ -2371,11 +2443,12 @@ co:PMD_0001031 rdf:type owl:ObjectProperty ;
 ###  https://w3id.org/pmd/co/PMD_0000001
 co:PMD_0000001 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000892 ;
-               rdfs:comment "The sum of portions of matter of the same type form a portion of matter of the same type."@en ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:comment "Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a Manufacturing Process may be SemiFinishedProdcuts."@en ,
+                            "The sum of portions of matter of the same type form a portion of matter of that type."@en ;
+               rdfs:isDefinedBy co:materials ;
                rdfs:label "Material"@de ,
                           "Material"@en ;
-               skos:definition "A Material is a portion of matter in which the shape of the portion is not relevant for its property to be a material."@en .
+               skos:definition "A Material is a Portion Of Matter that has the disposition to participate in some Manifacturing Process and whose shape is not relevant for its disposition to participate in the Manifacuring Process."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000002
@@ -2402,14 +2475,16 @@ TODO: Possibly instatiate some relevant classifcation systems."""@en .
 
 ###  https://w3id.org/pmd/co/PMD_0000004
 co:PMD_0000004 rdf:type owl:Class ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "Material Entity Aggregate"@en .
+               rdfs:comment "This class is the \"entry point\" for the multi-scale perspective on material entities by recursively consisting of Material Entity Aggregates. In particular, this class is not “disjoint” with object."@en ;
+               rdfs:isDefinedBy co:materials ;
+               rdfs:label "Material Entity Aggregate"@en ;
+               skos:definition "A material entity that is a mereological sum of separate material entities and possesses nonconnected boundaries."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000005
 co:PMD_0000005 rdf:type owl:Class ;
                rdfs:subClassOf [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000059 ;
+                                 owl:onProperty obo:RO_0000059 ;
                                  owl:someValuesFrom co:PMD_0000842
                                ] ;
                rdfs:isDefinedBy co:qualities ;
@@ -2423,8 +2498,10 @@ We only deal with intensive (system-size independent) materrial properties. Exte
 
 ###  https://w3id.org/pmd/co/PMD_0000006
 co:PMD_0000006 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Material Structure"@en .
+               rdfs:label "Material Structure"@en ;
+               skos:definition "The material structure is an object aggregate that describes the organization of components within a material, including atomic, molecular, and crystalline arrangements, which dictate its macroscopic properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000010
@@ -2445,21 +2522,27 @@ co:PMD_0000010 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000501
 co:PMD_0000501 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "1D"@en .
+               rdfs:label "1D"@en ;
+               skos:definition "1-D is an information content entity representing a one-dimensional structure or model representing a single linear dimension, often used in material science simulations or analysis."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000502
 co:PMD_0000502 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "2D"@en .
+               rdfs:label "2D"@en ;
+               skos:definition "A two-dimensional information content entity is a representation or analysis, commonly applied in studying planar material properties or surface phenomena."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000503
 co:PMD_0000503 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000921 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "ASTM  Grainsize"@en .
+               rdfs:label "ASTM  Grainsize"@en ;
+               skos:definition "The ASTM grain size is a scalar specifically describing the size of grains in a crystalline material as defined by ASTM standards."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000504
@@ -2483,8 +2566,10 @@ co:PMD_0000505 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001029 ;
                                  owl:someValuesFrom co:PMD_0000627
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Accoustic Absorption Coefficient"@en .
+               rdfs:label "Accoustic Absorption Coefficient"@en ;
+               skos:definition "The accoustic absorption coefficient is an accoustic property representing a measure of how much sound energy is absorbed by a material per unit area."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000506
@@ -2494,8 +2579,10 @@ co:PMD_0000506 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000517
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Accoustic Property"@en .
+               rdfs:label "Accoustic Property"@en ;
+               skos:definition "An accoustic property is a mechanical property representing characteristics of a material that determine its interaction with sound waves, such as absorption, reflection, and transmission."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000507
@@ -2552,15 +2639,19 @@ co:PMD_0000510 rdf:type owl:Class ;
 co:PMD_0000511 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000972 ;
                owl:disjointWith co:PMD_0000768 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Age"@en .
+               rdfs:label "Age"@en ;
+               skos:definition "The age is a temporal property describing the elapsed time since a material was manufactured, processed, or formed, which can influence its properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000512
 co:PMD_0000512 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000863 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Aggregate State"@en .
+               rdfs:label "Aggregate State"@en ;
+               skos:definition "The aggregate state is a morphological quality representing the physical state of a material, such as solid, liquid, or gas."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000513
@@ -2576,74 +2667,62 @@ co:PMD_0000513 rdf:type owl:Class ;
                skos:example "The Process of austenitizing and quenching a steel alloy to achieve a martensitic microstructure for hardness increase."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0000514
-co:PMD_0000514 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000516 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Alloy Quality Steel"@en ;
-               skos:definition """Description according to EN 10020:2000: \"Alloy quality steels are steel grades for which requirements exist with regard to, for example, toughness, grain size control and/or formability.
-Alloy quality steels are not generally intended for quenching and tempering or for surface hardening.\""""@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000515
-co:PMD_0000515 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000516 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Alloy Special Steel"@en ;
-               skos:definition "Description according to EN 10020:2000: \"This  class  includes  steel  grades  other  than  stainless  steels,  which  are  characterized  by  precise  control  of chemical composition and particular conditions of manufacture and process control to ensure improved properties which are frequently specified in combination and within closely controlled limits.\""@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000516
-co:PMD_0000516 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000634 ;
-               owl:disjointWith co:PMD_0001001 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Alloy Steel"@en ;
-               skos:definition "Complementary class to UnalloyedSteel"@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000517
 co:PMD_0000517 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000522 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Application Of Accoustic Wave"@en .
+               rdfs:label "Application Of Accoustic Wave"@en ;
+               skos:definition "An application of (an) acoustic wave is an application of (a) mechanical load describing the use of sound waves in a material or system for testing or functional purposes."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000518
 co:PMD_0000518 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000522 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Application Of Elastic Impact"@en .
+               rdfs:label "Application Of Elastic Impact"@en ;
+               skos:definition "An application of (an) elastic impact represents an application of (a) mechanical load describing the process of applying a force or impact to a material to observe its elastic response."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000519
 co:PMD_0000519 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Application Of Electric Field"@en .
+               rdfs:label "Application Of Electric Field"@en ;
+               skos:definition "An application of (an) electric field is the process of subjecting a material to an electric field to observe its behavior or modify its properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000520
 co:PMD_0000520 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Application Of Heat Flux"@en .
+               rdfs:label "Application Of Heat Flux"@en ;
+               skos:definition "An application of heat flux describes the process of transferring thermal energy to or from a material, often used in thermal property measurements."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000521
 co:PMD_0000521 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Application Of Magnetic Field"@en .
+               rdfs:label "Application Of Magnetic Field"@en ;
+               skos:definition "An application of (a) magnetic field is the process of subjecting a material to a magnetic field to study its magnetic properties or induce magnetization."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000522
 co:PMD_0000522 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Application Of Mechanical Load"@en .
+               rdfs:label "Application Of Mechanical Load"@en ;
+               skos:definition "An application of mechanical load is the process of applying force or stress to a material to observe its response or measure its properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000523
 co:PMD_0000523 rdf:type owl:Class ;
+               obo:IAO_0000119 "Application Of Substance" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Application Of Substance"@en .
+               rdfs:label "Application Of Substance"@en ;
+               skos:definition "The application of (a) substance is the process of applying a material or substance to a surface or within a system."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000524
@@ -2672,8 +2751,10 @@ co:PMD_0000525 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000526
 co:PMD_0000526 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000006 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Atomic Structure"@en .
+               rdfs:label "Atomic Structure"@en ;
+               skos:definition "The atomic structure is a material structure that describes the arrangement and composition of atoms in a material, influencing its physical and chemical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000527
@@ -2758,8 +2839,9 @@ co:PMD_0000533 rdf:type owl:Class ;
                rdfs:isDefinedBy co:manufacturing ;
                rdfs:label "Blank"@en ,
                           "Rohling"@de ;
-               skos:definition "An object, usually a piece of material prepared to be made into something by a further operation."@en ,
-                               "Ein Objekt, in der Regel ein Stück Material, das für einen weiteren Arbeitsgang vorbereitet wird."@de .
+               skos:definition """A Blank is an Object that has the disposition to be input to some Manifacturing Process and whose shape and other properties are relevant for its disposition to participate in the Manifacuring Process.
+
+TBD: Does the Blank 'consists of' only 1 Material?"""@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000534
@@ -2776,36 +2858,45 @@ co:PMD_0000534 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000535
 co:PMD_0000535 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000882 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Boiling Point"@en .
+               rdfs:label "Boiling Point"@en ;
+               skos:definition "The boiling point is a phase boundary described by the temperature at which a liquid changes to a gas under standard atmospheric pressure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000536
 co:PMD_0000536 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000537 ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Brinell 2.5 62.5 ISO 6506"@en .
+               rdfs:label "Brinell 2.5 62.5 ISO 6506"@en ;
+               skos:definition "A Brinell Hardness measured with 2.5mm diameter ball and a load of 62.5 kgf."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000537
 co:PMD_0000537 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000921 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Brinell Hardness"@en .
+               rdfs:label "Brinell Hardness"@en ;
+               skos:definition "The Brinell hardness is a scalar representing a measure of material hardness obtained by indenting the material with a steel or tungsten carbide ball under a specific load."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000538
 co:PMD_0000538 rdf:type owl:Class ;
                owl:disjointWith co:PMD_0000965 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Bulk"@en .
+               rdfs:label "Bulk"@en ;
+               skos:definition "The bulk is a fiat object part that describes the volume or mass of material considered as a whole, often in contrast to surface or interface phenomena."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000539
 co:PMD_0000539 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000618 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Bulk Modulus"@en .
+               rdfs:label "Bulk Modulus"@en ;
+               skos:definition "The bulk modulus is an elastic modulus representing a measure of a material's resistance to uniform compression."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000540
@@ -2882,27 +2973,35 @@ co:PMD_0000545 rdf:type owl:Class ;
 co:PMD_0000546 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000632 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Ceramic"@en .
+               rdfs:label "Ceramic"@en ;
+               skos:definition "Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000547
 co:PMD_0000547 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000548 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Change Of Aggregate State"@en .
+               rdfs:label "Change Of Aggregate State"@en ;
+               skos:definition "A change of aggregate state is a phase transition (change of phase) involving the collective state of particles in a material, such as melting or condensation."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000548
 co:PMD_0000548 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Change Of Phase"@en .
+               rdfs:label "Change Of Phase"@en ;
+               skos:definition "A change of phase is a process describing the transition of a material from one state of matter to another, such as from solid to liquid or liquid to gas."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000549
 co:PMD_0000549 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Change Of Temperature"@en .
+               rdfs:label "Change Of Temperature"@en ;
+               skos:definition "A change of temperature is a process describing the variation in thermal energy within a material or system over time or due to external influences."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000550
@@ -2925,8 +3024,10 @@ co:PMD_0000550 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000551
 co:PMD_0000551 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000863 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Chemical Composition"@en .
+               rdfs:label "Chemical Composition"@en ;
+               skos:definition "The chemical composition is a morphological quality describing the types and proportions of elements or compounds present in a material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000552
@@ -2944,8 +3045,10 @@ co:PMD_0000552 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000553
 co:PMD_0000553 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000985 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Chemical Potential"@en .
+               rdfs:label "Chemical Potential"@en ;
+               skos:definition "The chemical potential is a thermodynamic quality describing the energy change associated with the addition of a small quantity of a substance to a system at constant temperature and pressure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000554
@@ -3249,14 +3352,10 @@ co:PMD_0000576 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000577
 co:PMD_0000577 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000051 ;
-                                 owl:allValuesFrom co:PMD_0000632
-                               ] ;
-               obo:IAO_0000116 "Classified by morphology."@en ;
+               rdfs:subClassOf co:PMD_0000632 ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Composite"@en .
+               rdfs:label "Composite Material"@en ;
+               skos:definition "A Composite Material is an Engineered Material that 'consists of' some Material that has a Matrix role and of some Material that has a Filler role."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000578
@@ -3354,22 +3453,28 @@ co:PMD_0000584 rdf:type owl:Class ;
 co:PMD_0000585 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000931 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:datatransformation ;
-               rdfs:label "Continuous Simulation"@en .
+               rdfs:label "Continuous Simulation"@en ;
+               skos:definition "A continuous simulation is a simulating process that represents a simulation approach where changes in a system are modeled continuously over time."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000586
 co:PMD_0000586 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000802 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Corpuscular Irradiation"@en .
+               rdfs:label "Corpuscular Irradiation"@en ;
+               skos:definition "The corpuscular irradiation is an irradiation describing the exposure of a material to streams of particles, such as electrons or ions."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000587
 co:PMD_0000587 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000635 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Crack Growth"@en .
+               rdfs:label "Crack Growth"@en ;
+               skos:definition "The crack growth is an evolution of damage describing the progressive extension of a crack in a material under stress."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000588
@@ -3414,8 +3519,10 @@ co:PMD_0000590 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000591
 co:PMD_0000591 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000863 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Crystall Structure"@en .
+               rdfs:label "Crystal Structure"@en ;
+               skos:definition "The crystal structure is a morphologic quality describing the arrangement of atoms or molecules in a crystalline material, defining its geometric framework."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000592
@@ -3461,21 +3568,27 @@ co:PMD_0000594 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000595
 co:PMD_0000595 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000863 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Defect Density"@en .
+               rdfs:label "Defect Density"@en ;
+               skos:definition "The defect density is a morphological quality describing the number of defects per unit volume or area in a material, which can affect its mechanical and electronic properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000596
 co:PMD_0000596 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Deformation"@en .
+               rdfs:label "Deformation"@en ;
+               skos:definition "The deformation is a process describing a change in the shape, size, or structure of a material under the influence of stress or force."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000597
 co:PMD_0000597 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000863 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Density"@en .
+               rdfs:label "Density"@en ;
+               skos:definition "The density is a morphological quality representing the mass of a material per unit volume, often used as an indicator of material composition and structure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000598
@@ -3493,8 +3606,11 @@ co:PMD_0000598 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000599
 co:PMD_0000599 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
+               rdfs:comment "This role is also an indication that an organization is a sub section of another organization."@en ;
                rdfs:isDefinedBy co:logistics ;
-               rdfs:label "Department Role"@en .
+               rdfs:label "Department Role"@en ;
+               skos:definition "A department role is a role describing a personal function or position within an organization that defines responsibilities or activities in a specified context."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000600
@@ -3504,16 +3620,20 @@ co:PMD_0000600 rdf:type owl:Class ;
                                  owl:onProperty obo:BFO_0000054 ;
                                  owl:someValuesFrom co:PMD_0000523
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Deteriorative Property"@en .
+               rdfs:label "Deteriorative Property"@en ;
+               skos:definition "The deteriorative property is a material property representing characteristics that describe the susceptibility of a material to degradation over time."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000601
 co:PMD_0000601 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000931 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:datatransformation ;
-               rdfs:label "Deterministic Simulation"@en .
+               rdfs:label "Deterministic Simulation"@en ;
+               skos:definition "A deterministic simulating is a simulation process describing a simulation approach where outcomes are precisely determined through known relationships without random variability."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000602
@@ -3541,8 +3661,10 @@ co:PMD_0000603 rdf:type owl:Class ;
 co:PMD_0000604 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000621 ;
                owl:disjointWith co:PMD_0000620 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Dielectric Constant"@en .
+               rdfs:label "Dielectric Constant"@en ;
+               skos:definition "The dielectric constant is an electrical property representing a measure of a material's ability to store electrical energy in an electric field."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000605
@@ -3652,8 +3774,11 @@ co:PMD_0000612 rdf:type owl:Class ;
 co:PMD_0000613 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000931 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:datatransformation ;
-               rdfs:label "Discrete-event Simulation"@en .
+               rdfs:label "Discrete-event Simulation"@en ;
+               skos:definition "A discrete-event simulation is a simulating process describing a simulation method where events are processed at distinct points in time, commonly used for modeling systems with discrete state changes."@en ,
+                               "" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000614
@@ -3712,22 +3837,28 @@ co:PMD_0000617 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000618
 co:PMD_0000618 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000949 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Elastic Modulus"@en .
+               rdfs:label "Elastic Modulus"@en ;
+               skos:definition "An elastic modulus is a measure of a material's stiffness, defined as the ratio of stress to strain in the elastic deformation region."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000619
 co:PMD_0000619 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000985 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Electric Potential"@en .
+               rdfs:label "Electric Potential"@en ;
+               skos:definition "The electric potential is a thermodynamic quality describing the amount of work needed to move a unit charge from a reference point to a specific location in an electric field."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000620
 co:PMD_0000620 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000621 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Electrical Conductivity"@en .
+               rdfs:label "Electrical Conductivity"@en ;
+               skos:definition "The electrical conductivity is an electrical property describing the ability of a material to conduct electric current, influenced by its structure and composition."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000621
@@ -3737,8 +3868,10 @@ co:PMD_0000621 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000519
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Electrical Property"@en .
+               rdfs:label "Electrical Property"@en ;
+               skos:definition "An electrical property is a material property that represents the characteristics of a material that determine its behavior under the influence of an electric field, such as conductivity, resistivity, and permittivity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000622
@@ -3809,28 +3942,36 @@ co:PMD_0000626 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000627
 co:PMD_0000627 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000596 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Emission Of Accoustic Wave"@en .
+               rdfs:label "Emission Of Accoustic Wave"@en ;
+               skos:definition "The emission of (an) accoustic wave is a deformation describing the release of sound waves by a material or system, often due to vibration or stress."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000628
 co:PMD_0000628 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000629 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Emission Of Corpuscular Radiation"@en .
+               rdfs:label "Emission Of Corpuscular Radiation"@en ;
+               skos:definition "The emission of corpuscular radiation is an emission of radiation describing the release of particle-based radiation, such as alpha or beta particles, from a material or system."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000629
 co:PMD_0000629 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Emission Of Radiation"@en .
+               rdfs:label "Emission Of Radiation"@en ;
+               skos:definition "The emission radiation is a process describing the release of energy in the form of electromagnetic waves or particles from a material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000630
 co:PMD_0000630 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000629 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Emission Of Wave Radiation"@en .
+               rdfs:label "Emission Of Wave Radiation"@en ;
+               skos:definition "The emission of wave radioation is an emission of radiation describing the release of energy in the form of waves, such as electromagnetic or acoustic waves, by a material or system."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000631
@@ -3850,9 +3991,10 @@ co:PMD_0000631 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000632
 co:PMD_0000632 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000001 ;
+               rdfs:comment "We recognize that some of the materials in the subclasses also occur naturally. However, these are not within the scope of our consideration for technical use."@en ;
                rdfs:isDefinedBy co:materials ;
                rdfs:label "Engineered Material"@en ;
-               skos:definition "An entity whose identity is determined by teh organisation of its matter/atoms."@en .
+               skos:definition "An Engineered Material is a Material that is output of a Manufacturing Process."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000633
@@ -3867,18 +4009,12 @@ co:PMD_0000633 rdf:type owl:Class ;
                                "Ein Gerät zur Simulation von Umweltbedingungen wie Temperatur, Feuchtigkeit und Druck zur Prüfung von Materialien und Geräten."@de .
 
 
-###  https://w3id.org/pmd/co/PMD_0000634
-co:PMD_0000634 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000639 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "European Graded Steel"@en ;
-               skos:definition "Classification based on \"classification\" according to EN 10020:2000 and numbering method EN 10027-2:2015 (E) and EN 10020:2000. Enforcing EN 10027 Section 4.1: \"Each steel number shall refer only to one steel grade. Conversely, each steel grade shall correspond to one steel number. ...\" by making groups disjoint."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000635
 co:PMD_0000635 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Evolution Of Damage"@en .
+               rdfs:label "Evolution Of Damage"@en ;
+               skos:definition "An evolution of damage is a process representing the progression of material degradation under mechanical, thermal, or chemical stresses."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000636
@@ -3919,8 +4055,11 @@ co:PMD_0000638 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000639
 co:PMD_0000639 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000852 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Ferrous  Alloy"@en .
+               rdfs:label "Ferrous Alloy"@en ;
+               skos:definition "A ferrous alloy is a metal describing an alloy containing iron as its principal element, often combined with other elements for enhanced properties."@en ,
+                               "" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000640
@@ -3987,8 +4126,10 @@ co:PMD_0000644 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000645
 co:PMD_0000645 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Formation Of Notch Or Scratch"@en .
+               rdfs:label "Formation Of Notch Or Scratch"@en ;
+               skos:definition "The formation of (a) notch or (a) scratch is a process that describes the creation of small surface imperfections, which can influence a material's mechanical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000646
@@ -4113,7 +4254,7 @@ co:PMD_0000654 rdf:type owl:Class ;
                obo:IAO_0000116 "Classified by the role in a system."@en ;
                rdfs:isDefinedBy co:materials ;
                rdfs:label "Functional Material"@en ;
-               skos:definition "Material whose application purpose is to fulfuil a function other than mechanical load carrying."@en .
+               skos:definition "A Functional Material F is an Engineered Material which has the disposition to be used for an Object O (O consists of F) and O's function is other/more than mechanical load carrying."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000655
@@ -4196,8 +4337,11 @@ co:PMD_0000660 rdf:type owl:Class ;
 co:PMD_0000661 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000632 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
+               rdfs:comment "It is often composed of silica-based compounds."@en ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Glass"@en .
+               rdfs:label "Glass"@en ;
+               skos:definition "A glass is an engineered material present as an amorphous solid typically formed by rapid cooling of a melt."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000662
@@ -4218,16 +4362,22 @@ co:PMD_0000662 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000663
 co:PMD_0000663 rdf:type owl:Class ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:subClassOf co:PMD_0020003 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
+               rdfs:isDefinedBy co:materials ;
                rdfs:label "Grain"@en ,
-                          "Korn"@de .
+                          "Korn"@de ;
+               skos:definition "A Grain is a Crystallite that 'consists of' a Metal."@de ,
+                               "A grain is a crystallite describing a region within a polycrystalline material where the crystal lattice is uniformly oriented."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000664
 co:PMD_0000664 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000501 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Grain Size Distribution"@en .
+               rdfs:label "Grain Size Distribution"@en ;
+               skos:definition "The grain size distribution is a 1-D information content entity that represents the statistical representation of grain sizes in a polycrystalline material, influencing its mechanical and physical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000665
@@ -4279,692 +4429,6 @@ co:PMD_0000668 rdf:type owl:Class ;
                                "This device is a part by which something, usually a tangible object, is grasped. Typically, grips are part of a mounting system (processing node) referring to a testing system."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0000669
-co:PMD_0000669 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000999 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-00-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000670
-co:PMD_0000670 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-01-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000671
-co:PMD_0000671 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-02-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000672
-co:PMD_0000672 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-03-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000673
-co:PMD_0000673 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-04-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000674
-co:PMD_0000674 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-05-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000675
-co:PMD_0000675 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-06-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000676
-co:PMD_0000676 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-07-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000677
-co:PMD_0000677 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000514 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-08-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000678
-co:PMD_0000678 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-10-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000679
-co:PMD_0000679 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-11-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000680
-co:PMD_0000680 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-12-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000681
-co:PMD_0000681 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-13-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000682
-co:PMD_0000682 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-14-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000683
-co:PMD_0000683 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-15-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000684
-co:PMD_0000684 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-16-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000685
-co:PMD_0000685 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-17-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000686
-co:PMD_0000686 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-18-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000687
-co:PMD_0000687 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001002 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-19-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000688
-co:PMD_0000688 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-20-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000689
-co:PMD_0000689 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-21-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000690
-co:PMD_0000690 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-22-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000691
-co:PMD_0000691 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-23-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000692
-co:PMD_0000692 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-24-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000693
-co:PMD_0000693 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-25-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000694
-co:PMD_0000694 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-26-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000695
-co:PMD_0000695 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-27-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000696
-co:PMD_0000696 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-28-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000697
-co:PMD_0000697 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000993 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-29-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000698
-co:PMD_0000698 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-30-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000699
-co:PMD_0000699 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-31-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000700
-co:PMD_0000700 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-32-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000701
-co:PMD_0000701 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-33-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000702
-co:PMD_0000702 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-34-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000703
-co:PMD_0000703 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-35-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000704
-co:PMD_0000704 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-36-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000705
-co:PMD_0000705 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-37-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000706
-co:PMD_0000706 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-38-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000707
-co:PMD_0000707 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000860 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-39-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000708
-co:PMD_0000708 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000948 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-40-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000709
-co:PMD_0000709 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000948 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-41-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000710
-co:PMD_0000710 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000948 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-42-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000711
-co:PMD_0000711 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000948 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-43-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000712
-co:PMD_0000712 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000948 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-44-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000713
-co:PMD_0000713 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000948 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-45-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000714
-co:PMD_0000714 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000778 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-46-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000715
-co:PMD_0000715 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000778 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-47-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000716
-co:PMD_0000716 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000778 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-48-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000717
-co:PMD_0000717 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000778 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-49-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000718
-co:PMD_0000718 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-50-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000719
-co:PMD_0000719 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-51-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000720
-co:PMD_0000720 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-52-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000721
-co:PMD_0000721 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-53-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000722
-co:PMD_0000722 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-54-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000723
-co:PMD_0000723 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-55-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000724
-co:PMD_0000724 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-56-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000725
-co:PMD_0000725 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-57-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000726
-co:PMD_0000726 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-58-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000727
-co:PMD_0000727 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-59-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000728
-co:PMD_0000728 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-60-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000729
-co:PMD_0000729 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-61-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000730
-co:PMD_0000730 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-62-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000731
-co:PMD_0000731 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-63-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000732
-co:PMD_0000732 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-64-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000733
-co:PMD_0000733 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-65-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000734
-co:PMD_0000734 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-66-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000735
-co:PMD_0000735 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-67-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000736
-co:PMD_0000736 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-68-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000737
-co:PMD_0000737 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-69-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000738
-co:PMD_0000738 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-70-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000739
-co:PMD_0000739 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-71-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000740
-co:PMD_0000740 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-72-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000741
-co:PMD_0000741 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-73-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000742
-co:PMD_0000742 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-74-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000743
-co:PMD_0000743 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-75-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000744
-co:PMD_0000744 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-76-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000745
-co:PMD_0000745 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-77-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000746
-co:PMD_0000746 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-78-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000747
-co:PMD_0000747 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-79-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000748
-co:PMD_0000748 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-80-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000749
-co:PMD_0000749 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-81-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000750
-co:PMD_0000750 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-82-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000751
-co:PMD_0000751 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-83-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000752
-co:PMD_0000752 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-84-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000753
-co:PMD_0000753 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-85-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000754
-co:PMD_0000754 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-86-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000755
-co:PMD_0000755 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-87-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000756
-co:PMD_0000756 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-88-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000757
-co:PMD_0000757 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000954 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-89-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000758
-co:PMD_0000758 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000999 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-90-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000759
-co:PMD_0000759 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-91-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000760
-co:PMD_0000760 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-92-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000761
-co:PMD_0000761 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-93-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000762
-co:PMD_0000762 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-94-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000763
-co:PMD_0000763 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-95-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000764
-co:PMD_0000764 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-96-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000765
-co:PMD_0000765 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001000 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-97-Steel"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000766
-co:PMD_0000766 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000514 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Group-98-Steel"@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000767
 co:PMD_0000767 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000920 ;
@@ -4983,8 +4447,10 @@ co:PMD_0000768 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001029 ;
                                  owl:someValuesFrom co:PMD_0000629
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Half-Life"@en .
+               rdfs:label "Half-Life"@en ;
+               skos:definition "The half-life is a temporal property describing the time required for a quantity to reduce to half its initial value, often applied to radioactive decay or material degradation."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000769
@@ -5053,8 +4519,10 @@ co:PMD_0000772 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000773
 co:PMD_0000773 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000848 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Hardness"@en .
+               rdfs:label "Hardness"@en ;
+               skos:definition "The hardness is a mechanical property used as a measure of a material's resistance to localized plastic deformation, often tested by indentation or scratch methods."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000774
@@ -5102,15 +4570,10 @@ co:PMD_0000777 rdf:type owl:Class ;
                                  owl:someValuesFrom co:PMD_0000549
                                ] ;
                owl:disjointWith co:PMD_0000978 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Heat Capacity"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000778
-co:PMD_0000778 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000516 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Heat Resisting Steel"@en .
+               rdfs:label "Heat Capacity"@en ;
+               skos:definition "The heat capacity is a thermal property describing the amount of heat energy required to raise the temperature of a material by a given amount."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000779
@@ -5207,16 +4670,20 @@ co:PMD_0000785 rdf:type owl:Class ;
 co:PMD_0000786 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000931 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:datatransformation ;
-               rdfs:label "Hybrid Simulation"@en .
+               rdfs:label "Hybrid Simulation"@en ;
+               skos:definition "A hybrid simulation is a simulating process representing a simulation approach that combines physical and computational models to analyze material behavior."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000787
 co:PMD_0000787 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000502 ;
                owl:disjointWith co:PMD_0000834 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Image"@en .
+               rdfs:label "Image"@en ;
+               skos:definition "An image is a 2-D information content entity that is a visual representation of a material or system, often used for analysis or documentation."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000788
@@ -5235,16 +4702,20 @@ co:PMD_0000788 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000789
 co:PMD_0000789 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000773 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Indentation Hardness"@en .
+               rdfs:label "Indentation Hardness"@en ;
+               skos:definition "The indentation hardness is a hardness representing the resistance of a material to deformation from an indenter, used to assess surface hardness."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000790
 co:PMD_0000790 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000877 ;
                owl:disjointWith co:PMD_0000911 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Index Of Refraction"@en .
+               rdfs:label "Index Of Refraction"@en ;
+               skos:definition "The index of refraction is an optical property representing a measure of how much light bends when passing through a material, affecting its optical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000791
@@ -5274,8 +4745,10 @@ co:PMD_0000792 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000793
 co:PMD_0000793 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:logistics ;
-               rdfs:label "Initiator Role"@en .
+               rdfs:label "Initiator Role"@en ;
+               skos:definition "An initiator role is a role describing the position or function responsible for starting or catalyzing a process, often related to material testing or experiments."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000794
@@ -5555,8 +5028,10 @@ co:PMD_0000814 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000815
 co:PMD_0000815 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:logistics ;
-               rdfs:label "Laboratory Role"@en .
+               rdfs:label "Laboratory Role"@en ;
+               skos:definition "A laboratory role is a role specifying the functions or activities specific to experimental and analytical tasks performed in a laboratory setting."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000816
@@ -5674,8 +5149,10 @@ co:PMD_0000823 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000824
 co:PMD_0000824 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000006 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Macrostructure"@en .
+               rdfs:label "Macrostructure"@en ;
+               skos:definition "The macrostructure represents the large-scale structural features of a material visible to the naked eye or under low magnification."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000825
@@ -5685,8 +5162,10 @@ co:PMD_0000825 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000521
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Magnetic Property"@en .
+               rdfs:label "Magnetic Property"@en ;
+               skos:definition "A magnetic property is a material property representing characteristics that describe how a material responds to magnetic fields, such as permeability and coercivity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000826
@@ -5753,8 +5232,10 @@ co:PMD_0000830 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000831
 co:PMD_0000831 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:logistics ;
-               rdfs:label "Manufacturer Role"@en .
+               rdfs:label "Manufacturer Role"@en ;
+               skos:definition "The manufacturer role is a role that involves the production or fabrication of materials, components, or systems."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000832
@@ -5781,8 +5262,10 @@ A manufacturing process is always a transformative process."""@en ,
 ###  https://w3id.org/pmd/co/PMD_0000834
 co:PMD_0000834 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000502 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Map"@en .
+               rdfs:label "Map"@en ;
+               skos:definition "A map is a 2-D information content entity describing a representation of spatial data or relationships, often used in material science for visualizing properties or distributions."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000835
@@ -5812,15 +5295,17 @@ co:PMD_0000836 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000842
 co:PMD_0000842 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Material Property Measure"@en .
+               rdfs:label "Material Property Measure"@en ;
+               skos:definition "A material property measure is an information content entity that describes a quantification of a specific physical, mechanical, or chemical property of a material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000845
 co:PMD_0000845 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000890 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "Matrix"@en .
+               rdfs:isDefinedBy co:materials ;
+               rdfs:label "Matrix"@en ;
+               skos:definition "Matrix is the role of a PortionOfConnectedMatter that implies to host the Filler."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000846
@@ -5853,8 +5338,10 @@ co:PMD_0000848 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000522
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Mechanical Property"@en .
+               rdfs:label "Mechanical Property"@en ;
+               skos:definition "A mechanical property is a material property that represents attributes of a material that describe its behavior under mechanical forces, including strength, elasticity, and ductility."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000849
@@ -5871,30 +5358,38 @@ co:PMD_0000849 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000850
 co:PMD_0000850 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:characterization ;
-               rdfs:label "Mechanical Quality"@en .
+               rdfs:label "Mechanical Quality"@en ;
+               skos:definition "A mechanical quality is a quality used as an assessment of a material's mechanical behavior, including toughness, fatigue resistance, and strength."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000851
 co:PMD_0000851 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000882 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Melting Point"@en .
+               rdfs:label "Melting Point"@en ;
+               skos:definition "The melting point is a phase boundary described by the temperature at which a solid becomes a liquid under standard atmospheric pressure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000852
 co:PMD_0000852 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000632 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Metal"@en .
+               rdfs:label "Metal"@en ;
+               skos:definition "A metal is an engineered material representing a class of materials characterized by high electrical and thermal conductivity, ductility, and metallic bonding."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000853
 co:PMD_0000853 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000863 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Metallographic Texture"@en .
+               rdfs:label "Metallographic Texture"@en ;
+               skos:definition "The metallographic texture is a morphological quality describing the arrangement and orientation of grains and phases in a metallic material, observed through metallographic analysis."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000854
@@ -5938,8 +5433,10 @@ co:PMD_0000856 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000857
 co:PMD_0000857 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000006 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Microstructure"@en .
+               rdfs:label "Microstructure"@en ;
+               skos:definition "The microstructure represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000858
@@ -5968,18 +5465,13 @@ co:PMD_0000859 rdf:type owl:Class ;
                                "Eine Fräsmaschine ist ein Gerät, das Bearbeitungsoperationen durchführt, um Material von einem Werkstück mithilfe von Fräsern zu entfernen."@de .
 
 
-###  https://w3id.org/pmd/co/PMD_0000860
-co:PMD_0000860 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000515 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Miscelaneous Steel"@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000861
 co:PMD_0000861 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000921 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Mohs Hardness"@en .
+               rdfs:label "Mohs Hardness"@en ;
+               skos:definition "Mohs Hardness is a scalar (scale) used to rank materials based on their ability to scratch one another."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000862
@@ -5998,16 +5490,20 @@ co:PMD_0000862 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000863
 co:PMD_0000863 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
                rdfs:label "Morphologic Quality"@en ;
-               skos:altLabel "MaterialStructure" .
+               skos:altLabel "MaterialStructure" ;
+               skos:definition "A morphological quality is a material entity that represents the characteristics related to the shape, size, and structure of a material's features."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000864
 co:PMD_0000864 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000005 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Morphological Property"@en .
+               rdfs:label "Morphological Property"@en ;
+               skos:definition "A morphological property is a material property representing the characteristics of a material's structure, such as shape, size, and distribution of its features."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000865
@@ -6053,27 +5549,35 @@ co:PMD_0000867 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000868
 co:PMD_0000868 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ;
+               rdfs:subClassOf co:PMD_0000001 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Natural Organic Material"@en .
+               rdfs:label "Natural Organic Material"@en ;
+               skos:definition "Natural organic materials are materials derived from natural biological sources, primarily composed of carbon-based compounds."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000869
 co:PMD_0000869 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Occurence Of Chemical Reaction"@en .
+               rdfs:label "Occurence Of Chemical Reaction"@en ;
+               skos:definition "The occurrence of (a) chemical reaction is the process in which substances interact to form new chemical compounds or alter their molecular structure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000870
 co:PMD_0000870 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Occurence Of Electic Field"@en .
+               rdfs:label "Occurence Of Electic Field"@en ;
+               skos:definition "The occurrence of (an) electric field is a process describing the presence or generation of an electric field in a material or system."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000871
 co:PMD_0000871 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Occurence Of Magnetic Field"@en .
+               rdfs:label "Occurence Of Magnetic Field"@en ;
+               skos:definition "The occurrence of (a) magenetic field is a process describing the presence or generation of a magnetic field in a material or system."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000872
@@ -6092,8 +5596,10 @@ co:PMD_0000872 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000873
 co:PMD_0000873 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:logistics ;
-               rdfs:label "Operator Role"@en .
+               rdfs:label "Operator Role"@en ;
+               skos:definition "An operator role is a role indicating responsibility for operating equipment or systems, typically in a laboratory or manufacturing setting."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000874
@@ -6140,8 +5646,10 @@ co:PMD_0000877 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0001008
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Optical Property"@en .
+               rdfs:label "Optical Property"@en ;
+               skos:definition "An optical property is a material property representing the characteristics that describe how a material interacts with light, including reflection, refraction, and absorption."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000878
@@ -6158,24 +5666,28 @@ co:PMD_0000878 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000879
 co:PMD_0000879 rdf:type owl:Class ;
-               obo:IAO_0000114 obo:IAO_0000123 ;
+               obo:IAO_0000119 <http://openenergy-platform.org/ontology/oeo/OEO_00030022> ;
                rdfs:isDefinedBy co:logistics ;
                rdfs:label "Organization"@en ;
-               rdfs:seeAlso "http://purl.obolibrary.org/obo/OBI_0000245" ;
+               skos:definition "An organization is an immaterial entity that has the organisation role and there exists some sort of legal framework that recognises the entity and its continued existence."@en ;
                co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000880
 co:PMD_0000880 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Passing Of Time"@en .
+               rdfs:label "Passing Of Time"@en ;
+               skos:definition "Passing of time is a process that describes the progression of time, which can influence material aging and property changes."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000881
 co:PMD_0000881 rdf:type owl:Class ;
                obo:IAO_0000114 obo:IAO_0000123 ;
+               obo:IAO_0000412 "http://openenergy-platform.org/ontology/oeo/oeo-import-edits.owl"^^xsd:anyURI ;
                rdfs:isDefinedBy co:logistics ;
-               rdfs:label "Person"@en .
+               rdfs:label "Person"@en ;
+               skos:definition "A person is a human being."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000882
@@ -6201,8 +5713,10 @@ co:PMD_0000882 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000523
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Phase Boundary"@en .
+               rdfs:label "Phase Boundary"@en ;
+               skos:definition "A phase boundary is a morphological property denoting the interface between two distinct phases of a material, such as solid-liquid or liquid-gas boundaries."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000883
@@ -6223,19 +5737,23 @@ co:PMD_0000883 rdf:type owl:Class ;
 co:PMD_0000884 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000931 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:datatransformation ;
-               rdfs:label "Physical Simulation"@en .
+               rdfs:label "Physical Simulation"@en ;
+               skos:definition "A physical simulation is a simulating process describing the use of computational or experimental methods to replicate physical behaviors or processes under defined conditions."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000885
 co:PMD_0000885 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000834 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000058 ;
+                                 owl:onProperty obo:RO_0000058 ;
                                  owl:someValuesFrom co:PMD_0000853
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Pole Figure"@en .
+               rdfs:label "Pole Figure"@en ;
+               skos:definition "A pole figure is a map representing a graphical representation of the orientation of crystallographic planes in a polycrystalline sample."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000886
@@ -6253,8 +5771,10 @@ co:PMD_0000886 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000887
 co:PMD_0000887 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000863 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Poly Crystalline Grain Stucture"@en .
+               rdfs:label "Poly Crystalline Grain Stucture"@en ;
+               skos:definition "The poly-crystalline grain structure is a morphological quality that describes the arrangement of multiple crystallites or grains within a polycrystalline material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000888
@@ -6262,42 +5782,54 @@ co:PMD_0000888 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000632 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Polymer"@en .
+               rdfs:label "Polymer"@en ;
+               skos:definition "A polymer is an engineered material that consists of many repeated subunits (monomers) to form long chains. The atoms within a polymer chain are bonded together by covalent bonds. The intermolecular forces between polymer chains are typically represented by Van der Waals forces and hydrogen bonds."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000889
 co:PMD_0000889 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000635 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Pore Growth"@en .
+               rdfs:label "Pore Growth"@en ;
+               skos:definition "Pore Growth is an evolution of damagfe describing the process by which voids or pores in a material increase in size, often affecting its mechanical and physical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000890
 co:PMD_0000890 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000892 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "PortionOFConnectedMatter"@en .
+               rdfs:subClassOf co:PMD_0000004 ;
+               rdfs:isDefinedBy co:materials ;
+               rdfs:label "Connected Material Entity Aggregate"@en ;
+               skos:definition "A material entity aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity."@en ;
+               skos:example "the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000891
 co:PMD_0000891 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000892 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "PortionOfDisconnectedMatter"@en .
+               rdfs:subClassOf co:PMD_0000004 ;
+               rdfs:isDefinedBy co:materials ;
+               rdfs:label "Disconnected Material Entity Aggregate"@en ;
+               skos:definition "A material entity aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group."@en ;
+               skos:example "a heap of stones, a colony of honeybees, a group of synapses, the trees of a forest, the canopy of a forest, the fish of a shoal, a group of commuters on the subway, the patients in a hospital"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000892
 co:PMD_0000892 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000004 ;
+               rdfs:comment "It is also representing a distinct physical or conceptual part of a material or substance."@en ,
+                            """Lome explanation for portion of matter: \"What is a molecule cluster at the cellular level? Contrary to the molecular level, at the cellular level of granularity the boundary of each molecule is outside of the level of granular focus. What forms a discontinuous cluster of countable individual molecules and thus bona fide objects at the molecular level, is a continuous and non-countable molecular substance at coarser levels of
+granularity. At these coarser levels, the individual molecules cannot be differentiated and demarcated anymore and the cluster as a whole possesses only fiat inner boundaries.\""""@en ;
                rdfs:isDefinedBy co:materials ;
-               rdfs:label "Portion Of Matter"@en .
+               rdfs:label "Portion Of Matter"@en ;
+               skos:definition "A material entity that is not demarcated by any physical discontinuities. At some finer level of granularity it is a material entity aggregate, at some coarser level of granularity it is a fiat object part,but at this level of granularity it is neither."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000893
 co:PMD_0000893 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000891 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "Powder"@en .
+               rdfs:isDefinedBy co:materials ;
+               rdfs:label "Powder"@en ;
+               skos:definition "A powder is a dry, solid disconnected material entity aggragate composed of many very fine particles. These particles can flow freely when shaken or tilted."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000894
@@ -6331,8 +5863,11 @@ co:PMD_0000895 rdf:type owl:Class ;
 co:PMD_0000896 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000985 ;
                owl:disjointWith co:PMD_0000967 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
+               rdfs:comment "The pressure is commonly measured in Pascals."@en ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Pressure"@en .
+               rdfs:label "Pressure"@en ;
+               skos:definition "The pressure is a thermodynamic quality describing the force exerted per unit area on a material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000897
@@ -6513,15 +6048,19 @@ co:PMD_0000909 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000910
 co:PMD_0000910 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000773 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Rebound Hardness"@en .
+               rdfs:label "Rebound Hardness"@en ;
+               skos:definition "The rebound hardness is representing a measure of a material's hardness based on the height of rebound of a hammer dropped on the material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000911
 co:PMD_0000911 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000877 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Reflectivity"@en .
+               rdfs:label "Reflectivity"@en ;
+               skos:definition "The reflectivity is an optical property that describes the proportion of incident light or radiation that a material reflects."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000913
@@ -6557,8 +6096,10 @@ co:PMD_0000914 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000915
 co:PMD_0000915 rdf:type owl:Class ;
                owl:disjointWith co:PMD_0000950 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Response"@en .
+               rdfs:label "Responding Process"@en ;
+               skos:definition "The responding process is a process describing the reaction of a material or system to an applied stimulus."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000916
@@ -6638,8 +6179,10 @@ co:PMD_0000920 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000921
 co:PMD_0000921 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Scalar"@en .
+               rdfs:label "Scalar"@en ;
+               skos:definition "A scalar is an information content entity describing a single value representing a property of a material, such as density or temperature, without directional components."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000922
@@ -6675,8 +6218,10 @@ co:PMD_0000923 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000924
 co:PMD_0000924 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000773 ;
+               obo:IAO_0000119 "A measure of a material's resistance to deformation or scratching by a harder material." ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Scratch Hardness"@en .
+               rdfs:label "Scratch Hardness"@en ;
+               skos:definition "The scratch hardness is a hardness representing a measure of a material's resistance to deformation or scratching by a harder material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000925
@@ -6750,16 +6295,20 @@ co:PMD_0000929 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000930
 co:PMD_0000930 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:datatransformation ;
-               rdfs:label "Simulated Object"@en .
+               rdfs:label "Simulated Object"@en ;
+               skos:definition "A simulated object is an information content entity representing an entity or material representation created through simulation for analysis or study."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000931
 co:PMD_0000931 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000583 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:datatransformation ;
-               rdfs:label "Simulating Process"@en .
+               rdfs:label "Simulating Process"@en ;
+               skos:definition "A simulating process is a comuting process describing the method of creating a computational or physical model to replicate the behavior of a material or system under specific conditions."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000932
@@ -6884,8 +6433,10 @@ co:PMD_0000941 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000942
 co:PMD_0000942 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000863 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Specific Surface Area"@en .
+               rdfs:label "Specific Surface Area"@en ;
+               skos:definition "The specific surface area is a morphologic quality describing the total surface area of a material per unit of mass or volume."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000943
@@ -6937,23 +6488,19 @@ co:PMD_0000945 rdf:type owl:Class ;
 co:PMD_0000946 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000501 ;
                owl:disjointWith co:PMD_0000992 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Spectrum"@en .
+               rdfs:label "Spectrum"@en ;
+               skos:definition "A spectrum is a 1-D information content entity that describes the range of wavelengths or frequencies of a physical property, often used in reference to light, sound, or electromagnetic radiation."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000947
 co:PMD_0000947 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000506 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Speed Of Sound"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000948
-co:PMD_0000948 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000516 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Stainless Steel"@en ;
-               skos:definition "According to EN 10020:2000: \"Stainless steels are steels with at least 10,5 % of chromium and not more than 1,2 % of carbon\""@en .
+               rdfs:label "Speed Of Sound"@en ;
+               skos:definition "The speed of sound is an accoustic property representing the rate at which sound waves travel through a material, dependent on its density and elastic properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000949
@@ -6964,43 +6511,46 @@ co:PMD_0000949 rdf:type owl:Class ;
                                  owl:someValuesFrom co:PMD_0000596
                                ] ;
                owl:disjointWith co:PMD_0000952 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Stiffness"@en .
+               rdfs:label "Stiffness"@en ;
+               skos:definition "The stiffness is a mechanical property describing the resistance of a material to deformation under an applied force."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000950
 co:PMD_0000950 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Stimulation"@en .
+               rdfs:label "Stimulating Process"@en ;
+               skos:definition "The stimulating process is a process describing the application of an external influence, such as force, heat, or radiation, to study material response."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000951
 co:PMD_0000951 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000931 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:datatransformation ;
-               rdfs:label "Stochastic Simulation"@en .
+               rdfs:label "Stochastic Simulation"@en ;
+               skos:definition "A stochastic simulating is a simulation process describing a type of simulation that incorporates random variables to model probabilistic systems or processes."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000952
 co:PMD_0000952 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000848 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Strenght"@en .
+               rdfs:label "Strength"@en ;
+               skos:definition "The strength is a mechanical property describing the maximum stress a material can withstand before failure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000953
 co:PMD_0000953 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000635 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Structural And Chemical Decay"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000954
-co:PMD_0000954 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000515 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Structural And Or PV And Or Engineering Steel"@en .
+               rdfs:label "Structural And Chemical Decay"@en ;
+               skos:definition "The structural and chemical decay is an evolution of damage describing the deterioration of a material's structure and composition over time due to environmental or operational conditions."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000955
@@ -7009,7 +6559,7 @@ co:PMD_0000955 rdf:type owl:Class ;
                obo:IAO_0000116 "Classified by the role in a system."@en ;
                rdfs:isDefinedBy co:materials ;
                rdfs:label "Structural Material"@en ;
-               skos:definition "Material whose primary purpose is to carry mechanical loads."@en .
+               skos:definition "A Structural Material S is an Engineered Material which has the disposition to be used for an Object O (O consists of S) and O's function is primarily mechanical load carrying."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000956
@@ -7041,8 +6591,10 @@ co:PMD_0000957 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000958
 co:PMD_0000958 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000006 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Subatomic Structure"@en .
+               rdfs:label "Subatomic Structure"@en ;
+               skos:definition "The subatomic structure is a material structure that describes the composition and arrangement of particles smaller than atoms, such as protons, neutrons, and electrons."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000959
@@ -7070,8 +6622,10 @@ co:PMD_0000960 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000961
 co:PMD_0000961 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000882 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Sublimation Point"@en .
+               rdfs:label "Sublimation Point"@en ;
+               skos:definition "The sublimation point is a phase boundary that describes the temperature at which a material transitions directly from a solid to a gaseous state without passing through the liquid phase."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000962
@@ -7115,8 +6669,10 @@ co:PMD_0000964 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000965
 co:PMD_0000965 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Surface"@en .
+               rdfs:label "Surface"@en ;
+               skos:definition "A surface is a fiat object part defining the outermost layer or boundary of a material, where interactions with the environment occur."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000966
@@ -7134,8 +6690,10 @@ co:PMD_0000966 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000967
 co:PMD_0000967 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000985 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Temperature"@en .
+               rdfs:label "Temperature"@en ;
+               skos:definition "The temperature is a thermodynamic quality representing a measure of thermal energy within a material, influencing its phase and properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000968
@@ -7191,8 +6749,10 @@ co:PMD_0000972 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000880
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Temporal Property"@en .
+               rdfs:label "Temporal Property"@en ;
+               skos:definition "A temporal property is a material property that represents attributes related to the time-dependent behavior of a material or process."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000973
@@ -7269,8 +6829,10 @@ co:PMD_0000977 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000978
 co:PMD_0000978 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000981 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Thermal Conductivity"@en .
+               rdfs:label "Thermal Conductivity"@en ;
+               skos:definition "The thermal conductivity is a thermal property describing the ability of a material to conduct heat."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000979
@@ -7306,8 +6868,10 @@ co:PMD_0000981 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000520
                                ] ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Thermal Property"@en .
+               rdfs:label "Thermal Property"@en ;
+               skos:definition "A thermal property is a material property representing attributes of a material that describe its behavior under temperature changes, such as thermal conductivity and expansion."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000982
@@ -7348,8 +6912,10 @@ co:PMD_0000984 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000985
 co:PMD_0000985 rdf:type owl:Class ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Thermodynamic Quality"@en .
+               rdfs:label "Thermodynamic Quality"@en ;
+               skos:definition "A thermodynamic quality is a quality representing a property that describes the thermodynamic state of a material, such as entropy, enthalpy, or free energy."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000986
@@ -7435,15 +7001,10 @@ co:PMD_0000991 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000992
 co:PMD_0000992 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000501 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Time Series"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000993
-co:PMD_0000993 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000515 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Tool Steel"@en .
+               rdfs:label "Time Series"@en ;
+               skos:definition "A time series is a 1-D information content entity defined by a sequence of data points collected or recorded at successive time intervals, used for analyzing temporal properties or trends."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000994
@@ -7474,8 +7035,10 @@ co:PMD_0000995 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000996
 co:PMD_0000996 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000882 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Triple Point"@en .
+               rdfs:label "Triple Point"@en ;
+               skos:definition "The triple point is a phase boundary described by the specific temperature and pressure at which three phases of a substance coexist in equilibrium."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000997
@@ -7502,38 +7065,6 @@ co:PMD_0000998 rdf:type owl:Class ;
                           "Ultraviolett-Visible-Spektrophotometer"@de ;
                skos:definition "A device used to measure the absorbance of a sample in the ultraviolet and visible regions of the electromagnetic spectrum."@en ,
                                "Ein Gerät zur Messung der Absorption einer Probe im ultravioletten und sichtbaren Bereich des elektromagnetischen Spektrums."@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000999
-co:PMD_0000999 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001001 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Unalloyed Base Steel"@en ;
-               skos:definition "Not explicitliy mentioned in EN 10020:2000. Assumed to be everything that is not UnalloyedSpecialSteel or UnalloyedQualitySteel."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0001000
-co:PMD_0001000 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001001 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Unalloyed Quality Steel"@en ;
-               skos:definition "Description according to EN 10020:2000: \"Unalloyed quality steels are steel grades for which generally property requirements such as toughness, grain size control and/or formability are specified.\""@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0001001
-co:PMD_0001001 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000634 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Unalloyed Steel"@en ;
-               skos:definition "Unalloyed steels are steel grades in which none of  the limit values of alloying elements as defined in table 1 of  EN 10020:2000 is  reached."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0001002
-co:PMD_0001002 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0001001 ;
-               rdfs:isDefinedBy co:materials ;
-               rdfs:label "Unallyed Special Steel"@en ;
-               skos:definition "Description according to EN 10020:2000: \"Unalloyed special steels have a higher degree of cleanness than quality steels particularly in respect of non-metallic inclusions. In most cases, they are intended for quenching and tempering or surface hardening and are characterized by consistent response to such treatment. Precise control of chemical composition and special care in manufacture and process control ensure improved properties to meet exacting requirements. These properties, which are generally in combination and within closely controlled limits, include a high or closely controlled yield strength or hardenability values sometimes associated with suitability for cold forming, welding, or toughness.\""@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001003
@@ -7607,8 +7138,10 @@ co:PMD_0001007 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0001008
 co:PMD_0001008 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000802 ;
+               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:isDefinedBy co:qualities ;
-               rdfs:label "Waver Irradiation"@en .
+               rdfs:label "Waver Irradiation"@en ;
+               skos:definition "A waver irradiation is an irradiation describing an exposure of a material or system to electromagnetic waves or radiation."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001009
@@ -7824,6 +7357,70 @@ co:PMD_0001025 rdf:type owl:Class ;
                                "Ein geplanter Prozess, der das Ziel hat, Informationen über eine materielle Einheit (den Bewertungsgegenstand) zu gewinnen, indem er diese untersucht."@de .
 
 
+###  https://w3id.org/pmd/co/PMD_0020000
+co:PMD_0020000 rdf:type owl:Class ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Phase (spatial)"@en ;
+               skos:definition "A phase is a 3D spatial region occupied by a Portion Of Matter whose qualities or dispositions or Material Properties are (considered) uniform at the length scale of interest."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020001
+co:PMD_0020001 rdf:type owl:Class ;
+               rdfs:isDefinedBy co:materials ;
+               rdfs:label "Filler"@en ;
+               skos:definition "Filler is the role of a PortionOfDisconnectedMatter that implies being hosted in a Matrix."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020002
+co:PMD_0020002 rdf:type owl:Class ;
+               rdfs:isDefinedBy co:materials ;
+               rdfs:label "Precipitate"@en ;
+               skos:definition "Precipitate is the role of a Portion Of Matter that implies being hosted in a Matrix and the Precipitate derives from the Matrix or the Precipitate derives from the Thing that the Matrix derives from."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020003
+co:PMD_0020003 rdf:type owl:Class ;
+               rdfs:isDefinedBy co:materials ;
+               rdfs:label "Crystallite"@en ;
+               skos:definition "A Crystallite is an object that 'consists' of a crystalline Material and 'is part of ' a Material."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0050000
+co:PMD_0050000 rdf:type owl:Class ;
+               rdfs:isDefinedBy co:qualities ;
+               rdfs:label "Bond"@en ;
+               skos:definition "A bond is a relational quality describing the force interaction between atoms."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0050001
+co:PMD_0050001 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0050000 ;
+               obo:IAO_0000119 <https://sciencenotes.org/types-of-chemical-bonds/> ;
+               rdfs:isDefinedBy co:qualities ;
+               rdfs:label "Covalent Bond"@en ;
+               skos:definition "A covalent bond is a bond that forms when nonmetal atoms share electrons to achieve a stable electron configuration."@en ;
+               skos:example "In a water molecule (H₂O), the hydrogen and oxygen atoms share electrons."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0050002
+co:PMD_0050002 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0050000 ;
+               obo:IAO_0000119 <https://www.thoughtco.com/metallic-bond-definition-properties-and-examples-4117948> ;
+               rdfs:isDefinedBy co:qualities ;
+               rdfs:label "Metallic Bond"@en ;
+               skos:definition "A metallic bond is a bond that forms between metal atoms, where electrons are shared in a \"sea\" of electrons that move freely around the metal ions. This type of bonding gives metals their characteristic properties such as conductivity and malleability."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0050003
+co:PMD_0050003 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0050000 ;
+               obo:IAO_0000119 <https://sciencenotes.org/types-of-chemical-bonds/> ;
+               rdfs:isDefinedBy co:qualities ;
+               rdfs:label "Ionic Bond"@en ;
+               skos:definition "An ionic bond is a bond that occurs when one atom donates an electron to another atom, resulting in oppositely charged ions that attract each other."@en ;
+               skos:example "An example is the interaction between the atoms of sodium chloride (NaCl), where the sodium atom donates an electron to a chlorine atom."@en .
+
+
 #################################################################
 #    Individuals
 #################################################################
@@ -7865,15 +7462,6 @@ co:PMD_0000912 rdf:type owl:NamedIndividual ,
   owl:members ( co:PMD_0000503
                 co:PMD_0000537
                 co:PMD_0000664
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000514
-                co:PMD_0000515
-                co:PMD_0000778
-                co:PMD_0000948
               )
 ] .
 
@@ -7958,136 +7546,6 @@ co:PMD_0000912 rdf:type owl:NamedIndividual ,
                 co:PMD_0000877
                 co:PMD_0000972
                 co:PMD_0000981
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000670
-                co:PMD_0000671
-                co:PMD_0000672
-                co:PMD_0000673
-                co:PMD_0000674
-                co:PMD_0000675
-                co:PMD_0000765
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000678
-                co:PMD_0000679
-                co:PMD_0000680
-                co:PMD_0000681
-                co:PMD_0000682
-                co:PMD_0000683
-                co:PMD_0000684
-                co:PMD_0000685
-                co:PMD_0000686
-                co:PMD_0000687
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000688
-                co:PMD_0000689
-                co:PMD_0000690
-                co:PMD_0000691
-                co:PMD_0000692
-                co:PMD_0000693
-                co:PMD_0000694
-                co:PMD_0000695
-                co:PMD_0000696
-                co:PMD_0000697
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000698
-                co:PMD_0000699
-                co:PMD_0000700
-                co:PMD_0000701
-                co:PMD_0000702
-                co:PMD_0000703
-                co:PMD_0000704
-                co:PMD_0000705
-                co:PMD_0000706
-                co:PMD_0000707
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000708
-                co:PMD_0000709
-                co:PMD_0000710
-                co:PMD_0000711
-                co:PMD_0000712
-                co:PMD_0000713
-                co:PMD_0000714
-                co:PMD_0000715
-                co:PMD_0000716
-                co:PMD_0000717
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000718
-                co:PMD_0000719
-                co:PMD_0000720
-                co:PMD_0000721
-                co:PMD_0000722
-                co:PMD_0000723
-                co:PMD_0000724
-                co:PMD_0000725
-                co:PMD_0000726
-                co:PMD_0000727
-                co:PMD_0000728
-                co:PMD_0000729
-                co:PMD_0000730
-                co:PMD_0000731
-                co:PMD_0000732
-                co:PMD_0000733
-                co:PMD_0000734
-                co:PMD_0000735
-                co:PMD_0000736
-                co:PMD_0000737
-                co:PMD_0000738
-                co:PMD_0000739
-                co:PMD_0000740
-                co:PMD_0000741
-                co:PMD_0000742
-                co:PMD_0000743
-                co:PMD_0000744
-                co:PMD_0000745
-                co:PMD_0000746
-                co:PMD_0000747
-                co:PMD_0000748
-                co:PMD_0000749
-                co:PMD_0000750
-                co:PMD_0000751
-                co:PMD_0000752
-                co:PMD_0000753
-                co:PMD_0000754
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000860
-                co:PMD_0000954
-                co:PMD_0000993
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000999
-                co:PMD_0001000
-                co:PMD_0001002
               )
 ] .
 
