@@ -8,11 +8,3 @@ Welcome to the **Platform MaterialDigital Core Ontology (PMDco)**, your gateway 
 
 This documentation is designed to guide you through the ontology's structure, features, and applications, making it easier to incorporate PMDco into your workflows. Whether you're a researcher, developer, or industry professional, we're excited to support your journey toward smarter, more efficient materials science practices.
 
-Here you will find information about:
-
-- [introduction and scope of the ontology](intro.md) (To be improved)
-- [design principles and conventions](design.md) (ToDo)
-- [ontology description](ontology.md)  (ToDo)
-- [usage patterns](patterns.md)  (ToDo)
-- [different versions of the ontology](versions.md)
-- [how to contribute](contributing.md)
