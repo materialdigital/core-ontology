@@ -1,15 +1,16 @@
-Verwendete Ontologien: 
+# References
+
+TODO
+> - **References**: List references to academic papers, standards, or other sources.
+
+
 
 * [Dublin Core Terms](http://purl.org/dc/terms/)  
-* [Friend of a Friend](http://xmlns.com/foaf/0.1/)  
 * [Web Ontology Language](https://www.w3.org/TR/owl-overview/)  
-* [Provenance Namespace](https://www.w3.org/TR/2013/REC-prov-o-20130430/)  
 * [Quantities, Units, Dimensions and Types](http://www.qudt.org/2.1/catalog/qudt-catalog.html)  
 * [Resource Description Framework](https://www.w3.org/TR/rdf11-concepts/)  
 * [RDF Schema](https://www.w3.org/TR/rdf-schema/)  
-* [schema.org](https://schema.org/)  
 * [Simple Knowledge Organization System](https://www.w3.org/TR/skos-reference/)  
-* [Vocabulary for Annotating vocabulary descriptions](https://vocab.org/vann/)  
 * [XML Schema Definition](https://www.w3.org/TR/xmlschema11-1/)  
 * [Basic Formal Ontology](https://basic-formal-ontology.org/)  
 * [Relation Ontology](https://obofoundry.org/ontology/ro.html)  
