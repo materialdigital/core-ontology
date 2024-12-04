@@ -8,3 +8,14 @@ Welcome to the **Platform MaterialDigital Core Ontology (PMDco)**, your gateway 
 
 This documentation is designed to guide you through the ontology's structure, features, and applications, making it easier to incorporate PMDco into your workflows. Whether you're a researcher, developer, or industry professional, we're excited to support your journey toward smarter, more efficient materials science practices.
 
+### Prefix and namespace
+- Namespace: [https://w3id.org/pmd/co](https://w3id.org/pmd/co)
+- Prefix: pmdco
+
+
+### Important links
+
+- The latest version of the ontology can always be found at: [pmdco.owl](https://github.com/materialdigital/core-ontology/tree/develop-3.0.0/pmdco.owl)
+- [Beginers Guide Miro Board ](https://miro.com/app/board/uXjVLY9FwGU=/)
+- [Widoco generated List of Classes and Properties](https://materialdigital.github.io/core-ontology/3.0.0/)
+- [Patterns and Active Development Miro Board (Playground)](https://miro.com/app/board/uXjVNOTPrFo=/)
