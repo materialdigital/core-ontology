@@ -5,22 +5,27 @@ In ontology development and usage, **usage patterns** play a critical role in ad
 The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and examples. In particular, patterns are given in more detail in the [pattern section of the PMDco repository](https://github.com/materialdigital/core-ontology/tree/develop-3.0.0/patterns). Although these patterns are already documented separately, they are referenced here as a guide for understanding their structure and applicability.
 
 ---
+
 ## Inroduction
 This page uses a tensile testing example to demonstrate interconnected graph patterns within PMDco, beginning with the specification of a steel sheet material. It follows the process of manufacturing test pieces, detailing the roles of each object involved. Each process is guided by a specification or plan and is linked to devices, which include their own identifiers and specifications. The page further illustrates how processes are sequentially chained and subdivided, generating information content entities like time series data. Ultimately, it covers how this data is transformed to derive material properties, providing a foundational approach to modeling workflows in materials science.
 ![TableOfContents](https://github.com/user-attachments/assets/3510fa58-9774-4d04-a466-6a6bf7f2ddcd)
 
+---
+
 ## Table of Contents
-Hereby we provide an overview of the patterns used in PMDco 3.00:
+Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 1. [Pattern 1: Input and Output of Processes](#Pattern-1:-Input-and-Output-of-Processes)
 2. [Pattern 2: Scalar Value Specification with Value and Unit](#Pattern-2:-Scalar-Value-Specification-with-Value-and-Unit)
-3. Object and Material Specification
-4. Object, Role, and Process
-5. Process, Device, and Function
+3. [Pattern 3: Object and Material Specification] (#Pattern-3:-Object-and-Material-Specification)
+4. [Pattern 4: Object, Role, and Process] (#Pattern-4:-Object,-Role,-and-Process)
+5. [Pattern 5: Process, Device, and Function] (#Pattern-5:-Process,-Device,-and-Function)
 6. [Pattern 6: Device Identifier](#Pattern-6:-Device-Identifier)
-7. Process Chains
-8. Process Substeps
-9. Process and Data Output
-10. Process and Material Property
+7. [Pattern 7: Process Chains] (#Pattern-7:-Process-Chains)
+8. [Pattern 8: Process Substeps] (#Pattern-8:-Process-Substeps)
+9. [Pattern 9: Process and Data Output] (#Pattern-9:-Process and Data Output)
+10. [Pattern 10: Process and Material Property](#Pattern-10:-Process-and-Material-Property)
+
+---
 
 ## Example Patterns
 
@@ -51,6 +56,12 @@ Hereby we provide an overview of the patterns used in PMDco 3.00:
 
 ---
 
+### Pattern 3: Object and Material Specification
+### Pattern 4: Object, Role, and Process
+### Pattern 5: Process, Device, and Function
+
+---
+
 ### Pattern 6: Device Identifier
 **Purpose**: Ensures every device has at least one identifier for unambiguous identification.
 
@@ -60,3 +71,10 @@ Hereby we provide an overview of the patterns used in PMDco 3.00:
 ![Visualization of Pattern 6](https://raw.githubusercontent.com/materialdigital/core-ontology/develop-3.0.0/patterns/pattern6.png)
 
 [Explore Example Data, Pattern 6](https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/shapes/shape6-data.ttl)
+
+---
+
+### Pattern 7: Process Chains
+### Pattern 8: Process Substeps
+### Pattern 9: Process and Data Output
+### Pattern 10: Process and Material Property
