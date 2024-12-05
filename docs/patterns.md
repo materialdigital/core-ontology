@@ -16,13 +16,13 @@ This page uses a tensile testing example to demonstrate interconnected graph pat
 Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 1. [Pattern 1: Input and Output of Processes](#Pattern-1:-Input-and-Output-of-Processes)
 2. [Pattern 2: Scalar Value Specification with Value and Unit](#Pattern-2:-Scalar-Value-Specification-with-Value-and-Unit)
-3. [Pattern 3: Object and Material Specification] (#Pattern-3:-Object-and-Material-Specification)
-4. [Pattern 4: Object, Role, and Process] (#Pattern-4:-Object,-Role,-and-Process)
-5. [Pattern 5: Process, Device, and Function] (#Pattern-5:-Process,-Device,-and-Function)
+3. [Pattern 3: Object and Material Specification](#Pattern-3:-Object-and-Material-Specification)
+4. [Pattern 4: Object, Role, and Process](#Pattern-4:-Object,-Role,-and-Process)
+5. [Pattern 5: Process, Device, and Function](#Pattern-5:-Process,-Device,-and-Function)
 6. [Pattern 6: Device Identifier](#Pattern-6:-Device-Identifier)
-7. [Pattern 7: Process Chains] (#Pattern-7:-Process-Chains)
-8. [Pattern 8: Process Substeps] (#Pattern-8:-Process-Substeps)
-9. [Pattern 9: Process and Data Output] (#Pattern-9:-Process and Data Output)
+7. [Pattern 7: Process Chains](#Pattern-7:-Process-Chains)
+8. [Pattern 8: Process Substeps](#Pattern-8:-Process-Substeps)
+9. [Pattern 9: Process and Data Output](#Pattern-9:-Process-and-Data-Output)
 10. [Pattern 10: Process and Material Property](#Pattern-10:-Process-and-Material-Property)
 
 ---
