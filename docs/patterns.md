@@ -57,6 +57,14 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 ---
 
 ### Pattern 3 - Object and Material Specification
+**Purpose**: Specify the material, from which the object is made, by stating that it complies with the certain material specification.
+
+- **Core Idea**: provide a class pmd:MaterialSpecification as a subclass of iao:InformationContentEntity, to which the material object can adhere.
+- **Example Use Case**: Specifying the material of a steel sheet to be the steel S355J2.
+  
+![Pat3](https://github.com/user-attachments/assets/a57ee61c-ea53-4dcb-abc3-40ce4eb00ab5)
+
+
 ### Pattern 4 - Object, Role, and Process
 ### Pattern 5 - Process, Device, and Function
 
