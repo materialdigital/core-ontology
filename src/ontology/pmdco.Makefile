@@ -19,7 +19,7 @@ $(IMPORTDIR)/%_import.owl: $(MIRRORDIR)/%.owl $(IMPORTDIR)/%_terms.txt
 ## Module for ontology: chebi
 $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
-		extract --upper-term http://purl.obolibrary.org/obo/CHEBI_24431 --lower-terms $(IMPORTDIR)/chebi_terms.txt --copy-ontology-annotations true --individuals exclude --method MIREOT \
+		extract --upper-term http://purl.obolibrary.org/obo/CHEBI_24431 --lower-terms $(IMPORTDIR)/chebi_terms.txt --copy-ontology-annotations true --individuals exclude --intermediates none --method MIREOT \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
 		$(ANNOTATE_CONVERT_FILE); fi
 
