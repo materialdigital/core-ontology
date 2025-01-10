@@ -4,7 +4,7 @@ TODO
 > - **Tools and Resources**: Include links to tools, software, and tutorials.
 
 
-## Glossay
+## Glossary
 
 ## Tools and Resources
 
