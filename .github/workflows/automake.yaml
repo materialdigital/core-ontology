@@ -12,10 +12,10 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: develop-3.0.0
-    - name: ODK refesh imports 
+    - name: ODK refesh imports #We need to create pmdco.ttl as the shapes-library depends on it.
       run: |
            cd src/ontology/
-           make refresh-imports
+           make refresh-imports pmdco.ttl
     - uses: mikeal/publish-to-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
