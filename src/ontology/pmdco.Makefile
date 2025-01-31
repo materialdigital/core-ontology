@@ -16,12 +16,25 @@ $(IMPORTDIR)/%_import.owl: $(MIRRORDIR)/%.owl $(IMPORTDIR)/%_terms.txt
 		$(ANNOTATE_CONVERT_FILE); fi
 
 
+$(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
+	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
+		extract -T $(IMPORTDIR)/iao_terms.txt --force true --copy-ontology-annotations true --individuals exclude --method BOT \
+		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
+ 		remove --term http://www.w3.org/2002/07/owl#Nothing  --term http://purl.obolibrary.org/obo/PATO_0000001\
+ 		remove --select "RO:*"  \
+		$(ANNOTATE_CONVERT_FILE); fi
+
+
 ## Module for ontology: chebi
 $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
 		extract --upper-term http://purl.obolibrary.org/obo/CHEBI_24431 --lower-terms $(IMPORTDIR)/chebi_terms.txt --copy-ontology-annotations true --individuals exclude --intermediates none --method MIREOT \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
 		$(ANNOTATE_CONVERT_FILE); fi
+
+## we import the BFO entirely
+$(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl
+	if [ $(IMP) = true ]; then cp $(MIRRORDIR)/bfo.owl $(IMPORTDIR)/bfo_import.owl; fi
 
 
 

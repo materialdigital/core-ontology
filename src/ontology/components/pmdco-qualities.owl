@@ -15,7 +15,6 @@ Import(<https://w3id.org/pmd/co/pmdco/components/pmdco-shared.owl>)
 Annotation(dcterms:title "Platform Material Digital Core Ontology (PMDco) - Qualities Module"@en)
 Annotation(rdfs:comment "Qualities module of the PMD Core Ontology (PMDco). The scope of this module is the description of materials related qualities."@en)
 
-Declaration(Class(obo:IAO_0000030))
 Declaration(Class(pmdco:PMD_0000005))
 Declaration(Class(pmdco:PMD_0000006))
 Declaration(Class(pmdco:PMD_0000501))
@@ -126,13 +125,12 @@ Declaration(Class(pmdco:PMD_0050000))
 Declaration(Class(pmdco:PMD_0050001))
 Declaration(Class(pmdco:PMD_0050002))
 Declaration(Class(pmdco:PMD_0050003))
+Declaration(ObjectProperty(obo:BFO_0000056))
+Declaration(ObjectProperty(obo:BFO_0000059))
 Declaration(ObjectProperty(obo:BFO_0000176))
 Declaration(ObjectProperty(obo:BFO_0000196))
 Declaration(ObjectProperty(obo:BFO_0000197))
 Declaration(ObjectProperty(obo:BFO_0000199))
-Declaration(ObjectProperty(obo:RO_0000056))
-Declaration(ObjectProperty(obo:RO_0000058))
-Declaration(ObjectProperty(obo:RO_0000059))
 Declaration(ObjectProperty(pmdco:PMD_0001028))
 Declaration(ObjectProperty(pmdco:PMD_0001029))
 Declaration(ObjectProperty(pmdco:PMD_0001030))
@@ -194,11 +192,6 @@ ObjectPropertyRange(pmdco:PMD_0001031 pmdco:PMD_0000005)
 #   Classes
 ############################
 
-# Class: obo:IAO_0000030 (information content entity)
-
-AnnotationAssertion(rdfs:label obo:IAO_0000030 "information content entity"@en)
-SubClassOf(obo:IAO_0000030 obo:BFO_0000031)
-
 # Class: pmdco:PMD_0000005 (Material Property)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000005 "Material Property"@en)
@@ -208,8 +201,8 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000005 "A property is a material 
 
 We only deal with intensive (system-size independent) materrial properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules."@en)
 SubClassOf(pmdco:PMD_0000005 obo:BFO_0000017)
-SubClassOf(pmdco:PMD_0000005 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:BFO_0000197 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000056 ObjectIntersectionOf(pmdco:PMD_0000915 ObjectSomeValuesFrom(obo:BFO_0000199 obo:BFO_0000008))) ObjectSomeValuesFrom(obo:RO_0000056 ObjectIntersectionOf(pmdco:PMD_0000950 ObjectSomeValuesFrom(obo:BFO_0000199 obo:BFO_0000008))))) ObjectSomeValuesFrom(pmdco:PMD_0001029 pmdco:PMD_0000915) ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000950)))
-SubClassOf(pmdco:PMD_0000005 ObjectSomeValuesFrom(obo:RO_0000059 pmdco:PMD_0000842))
+SubClassOf(pmdco:PMD_0000005 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:BFO_0000197 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:BFO_0000056 ObjectIntersectionOf(pmdco:PMD_0000915 ObjectSomeValuesFrom(obo:BFO_0000199 obo:BFO_0000008))) ObjectSomeValuesFrom(obo:BFO_0000056 ObjectIntersectionOf(pmdco:PMD_0000950 ObjectSomeValuesFrom(obo:BFO_0000199 obo:BFO_0000008))))) ObjectSomeValuesFrom(pmdco:PMD_0001029 pmdco:PMD_0000915) ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000950)))
+SubClassOf(pmdco:PMD_0000005 ObjectSomeValuesFrom(obo:BFO_0000059 pmdco:PMD_0000842))
 
 # Class: pmdco:PMD_0000006 (Material Structure)
 
@@ -422,7 +415,7 @@ SubClassOf(pmdco:PMD_0000587 pmdco:PMD_0000635)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000591 "Crystal Structure"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000591 "The crystal structure is a morphologic quality that describes the periodic geometric arrangement of entities in a crystalline material. The finite set of periodic geometric arrangements is described by the 14 possible Bravais Lattices in three-dimensional space."@en)
-EquivalentClasses(pmdco:PMD_0000591 ObjectExactCardinality(1 obo:RO_0000059 pmdco:PMD_0020099))
+EquivalentClasses(pmdco:PMD_0000591 ObjectExactCardinality(1 obo:BFO_0000059 pmdco:PMD_0020099))
 SubClassOf(pmdco:PMD_0000591 pmdco:PMD_0000863)
 
 # Class: pmdco:PMD_0000595 (Defect Density)
@@ -728,8 +721,7 @@ SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_00
 AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000885 "ChatGPT 4.o")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000885 "Pole Figure"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000885 "A pole figure is a map representing a graphical representation of the orientation of crystallographic planes in a polycrystalline sample."@en)
-SubClassOf(pmdco:PMD_0000885 pmdco:PMD_0000834)
-SubClassOf(pmdco:PMD_0000885 ObjectSomeValuesFrom(obo:RO_0000058 pmdco:PMD_0000853))
+SubClassOf(pmdco:PMD_0000885 ObjectIntersectionOf(pmdco:PMD_0000834 ObjectSomeValuesFrom(ObjectInverseOf(obo:BFO_0000059) pmdco:PMD_0000853)))
 
 # Class: pmdco:PMD_0000887 (Poly Crystalline Grain Stucture)
 
