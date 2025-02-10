@@ -126,6 +126,11 @@ Declaration(Class(pmdco:PMD_0020110))
 Declaration(Class(pmdco:PMD_0020116))
 Declaration(Class(pmdco:PMD_0020129))
 Declaration(Class(pmdco:PMD_0020131))
+Declaration(Class(pmdco:PMD_0020132))
+Declaration(Class(pmdco:PMD_0020133))
+Declaration(Class(pmdco:PMD_0020134))
+Declaration(Class(pmdco:PMD_0020135))
+Declaration(Class(pmdco:PMD_0020140))
 Declaration(Class(pmdco:PMD_0050000))
 Declaration(Class(pmdco:PMD_0050001))
 Declaration(Class(pmdco:PMD_0050002))
@@ -140,6 +145,8 @@ Declaration(ObjectProperty(pmdco:PMD_0001028))
 Declaration(ObjectProperty(pmdco:PMD_0001029))
 Declaration(ObjectProperty(pmdco:PMD_0001030))
 Declaration(ObjectProperty(pmdco:PMD_0001031))
+Declaration(ObjectProperty(pmdco:PMD_0020020))
+Declaration(ObjectProperty(pmdco:PMD_0020021))
 Declaration(NamedIndividual(pmdco:PMD_0020006))
 Declaration(NamedIndividual(pmdco:PMD_0020007))
 Declaration(NamedIndividual(pmdco:PMD_0020008))
@@ -199,6 +206,22 @@ AnnotationAssertion(skos:definition pmdco:PMD_0001031 "A relation between a stim
 SubObjectPropertyOf(pmdco:PMD_0001031 obo:BFO_0000055)
 ObjectPropertyDomain(pmdco:PMD_0001031 pmdco:PMD_0000950)
 ObjectPropertyRange(pmdco:PMD_0001031 pmdco:PMD_0000005)
+
+# Object Property: pmdco:PMD_0020020 (interacts with)
+
+AnnotationAssertion(rdfs:comment pmdco:PMD_0020020 "A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants."@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020020 "interacts with"@en)
+SubObjectPropertyOf(pmdco:PMD_0020020 owl:topObjectProperty)
+SymmetricObjectProperty(pmdco:PMD_0020020)
+ObjectPropertyDomain(pmdco:PMD_0020020 obo:BFO_0000040)
+ObjectPropertyRange(pmdco:PMD_0020020 obo:BFO_0000040)
+
+# Object Property: pmdco:PMD_0020021 (causally influences)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020021 "causally influences"@en)
+SubObjectPropertyOf(pmdco:PMD_0020021 pmdco:PMD_0020020)
+ObjectPropertyDomain(pmdco:PMD_0020021 ObjectSomeValuesFrom(obo:BFO_0000196 pmdco:PMD_0020134))
+ObjectPropertyRange(pmdco:PMD_0020021 ObjectSomeValuesFrom(obo:BFO_0000196 pmdco:PMD_0020135))
 
 
 
@@ -267,7 +290,7 @@ SubClassOf(pmdco:PMD_0000506 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_00
 AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000511 "ChatGPT 4.o")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000511 "Age"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000511 "The age is a temporal property describing the elapsed time since a material was manufactured, processed, or formed, which can influence its properties."@en)
-SubClassOf(pmdco:PMD_0000511 pmdco:PMD_0000972)
+SubClassOf(pmdco:PMD_0000511 pmdco:PMD_0020131)
 DisjointClasses(pmdco:PMD_0000511 pmdco:PMD_0000768)
 
 # Class: pmdco:PMD_0000512 (Aggregate State)
@@ -448,10 +471,9 @@ SubClassOf(pmdco:PMD_0000596 obo:BFO_0000015)
 
 # Class: pmdco:PMD_0000597 (Density)
 
-AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000597 "ChatGPT 4.o")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000597 "Density"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000597 "The density is a morphological quality representing the mass of a material per unit volume, often used as an indicator of material composition and structure."@en)
-SubClassOf(pmdco:PMD_0000597 pmdco:PMD_0020109)
+AnnotationAssertion(skos:definition pmdco:PMD_0000597 "The density is a universal intensive quality representing the unit mass of a portion of matter per unit volume."@en)
+SubClassOf(pmdco:PMD_0000597 pmdco:PMD_0020140)
 
 # Class: pmdco:PMD_0000600 (Deteriorative Property)
 
@@ -553,7 +575,7 @@ SubClassOf(pmdco:PMD_0000664 pmdco:PMD_0000501)
 AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000768 "ChatGPT 4.o")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000768 "Half-Life"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000768 "The half-life is a temporal property describing the time required for a quantity to reduce to half its initial value, often applied to radioactive decay or material degradation."@en)
-SubClassOf(pmdco:PMD_0000768 pmdco:PMD_0000972)
+SubClassOf(pmdco:PMD_0000768 obo:BFO_0000019)
 SubClassOf(pmdco:PMD_0000768 ObjectSomeValuesFrom(pmdco:PMD_0001029 pmdco:PMD_0000629))
 
 # Class: pmdco:PMD_0000773 (Hardness)
@@ -595,11 +617,10 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000790 "The index of refraction i
 SubClassOf(pmdco:PMD_0000790 pmdco:PMD_0000877)
 DisjointClasses(pmdco:PMD_0000790 pmdco:PMD_0000911)
 
-# Class: pmdco:PMD_0000802 (Irradiation)
+# Class: pmdco:PMD_0000802 (Irradiation process)
 
-AnnotationAssertion(rdfs:label pmdco:PMD_0000802 "Irradiation"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000802 "To account for wave-particle duality subclasses are not disjoint. 
-Does that make sense from a (onto-)logic point of view?")
+AnnotationAssertion(rdfs:label pmdco:PMD_0000802 "Irradiation process"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0000802 "An irradiation process is a process in which a radiation source (bearing a stimulus role) emits radiation towards a material entity (bearing the target role)"@en)
 SubClassOf(pmdco:PMD_0000802 obo:BFO_0000015)
 
 # Class: pmdco:PMD_0000824 (Macrostructure)
@@ -1013,11 +1034,39 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0020129 "Reversible process"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020129 "A reversible process is a process whose participants form a thermodynamic system with an entropy S and S remains constant during the process."@en)
 SubClassOf(pmdco:PMD_0020129 obo:BFO_0000015)
 
-# Class: pmdco:PMD_0020131 (Intensive property)
+# Class: pmdco:PMD_0020131 (Intensive quality)
 
-AnnotationAssertion(rdfs:label pmdco:PMD_0020131 "Intensive property"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020131 "Intensive quality"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020131 "An intensive property is a qualty that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en)
 SubClassOf(pmdco:PMD_0020131 obo:BFO_0000019)
+
+# Class: pmdco:PMD_0020132 (Size)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020132 "Size"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020132 "Size is the quality of a material entity that describes its spatial extend."@en)
+SubClassOf(pmdco:PMD_0020132 obo:BFO_0000019)
+
+# Class: pmdco:PMD_0020133 (Mass)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020133 "Mass"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020133 "Mass is a quality that inheres in an object, object aggregate or fiat object part and affects those in processes where gravitation, acceleration, thermal mass etc are relevant."@en)
+SubClassOf(pmdco:PMD_0020133 obo:BFO_0000019)
+
+# Class: pmdco:PMD_0020134 (Stimulus role)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020134 "Stimulus role"@en)
+SubClassOf(pmdco:PMD_0020134 obo:BFO_0000023)
+
+# Class: pmdco:PMD_0020135 (Stimulation target role)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020135 "Stimulation target role"@en)
+SubClassOf(pmdco:PMD_0020135 obo:BFO_0000023)
+
+# Class: pmdco:PMD_0020140 (Universal intensive quality)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020140 "Universal intensive quality"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020140 "A universal intensive quality is an intensive quality that every portion of matter bears at any point in time."@en)
+SubClassOf(pmdco:PMD_0020140 pmdco:PMD_0020131)
 
 # Class: pmdco:PMD_0050000 (Bond)
 
