@@ -131,6 +131,7 @@ Declaration(Class(pmdco:PMD_0020133))
 Declaration(Class(pmdco:PMD_0020134))
 Declaration(Class(pmdco:PMD_0020135))
 Declaration(Class(pmdco:PMD_0020140))
+Declaration(Class(pmdco:PMD_0020142))
 Declaration(Class(pmdco:PMD_0050000))
 Declaration(Class(pmdco:PMD_0050001))
 Declaration(Class(pmdco:PMD_0050002))
@@ -146,7 +147,6 @@ Declaration(ObjectProperty(pmdco:PMD_0001029))
 Declaration(ObjectProperty(pmdco:PMD_0001030))
 Declaration(ObjectProperty(pmdco:PMD_0001031))
 Declaration(ObjectProperty(pmdco:PMD_0020020))
-Declaration(ObjectProperty(pmdco:PMD_0020021))
 Declaration(NamedIndividual(pmdco:PMD_0020006))
 Declaration(NamedIndividual(pmdco:PMD_0020007))
 Declaration(NamedIndividual(pmdco:PMD_0020008))
@@ -216,13 +216,6 @@ SymmetricObjectProperty(pmdco:PMD_0020020)
 ObjectPropertyDomain(pmdco:PMD_0020020 obo:BFO_0000040)
 ObjectPropertyRange(pmdco:PMD_0020020 obo:BFO_0000040)
 
-# Object Property: pmdco:PMD_0020021 (causally influences)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0020021 "causally influences"@en)
-SubObjectPropertyOf(pmdco:PMD_0020021 pmdco:PMD_0020020)
-ObjectPropertyDomain(pmdco:PMD_0020021 ObjectSomeValuesFrom(obo:BFO_0000196 pmdco:PMD_0020134))
-ObjectPropertyRange(pmdco:PMD_0020021 ObjectSomeValuesFrom(obo:BFO_0000196 pmdco:PMD_0020135))
-
 
 
 ############################
@@ -287,10 +280,9 @@ SubClassOf(pmdco:PMD_0000506 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_00
 
 # Class: pmdco:PMD_0000511 (Age)
 
-AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000511 "ChatGPT 4.o")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000511 "Age"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000511 "The age is a temporal property describing the elapsed time since a material was manufactured, processed, or formed, which can influence its properties."@en)
-SubClassOf(pmdco:PMD_0000511 pmdco:PMD_0020131)
+AnnotationAssertion(skos:definition pmdco:PMD_0000511 "The age is a quality denoting the temporal interval since a material entity came into existance."@en)
+SubClassOf(pmdco:PMD_0000511 obo:BFO_0000019)
 DisjointClasses(pmdco:PMD_0000511 pmdco:PMD_0000768)
 
 # Class: pmdco:PMD_0000512 (Aggregate State)
@@ -576,7 +568,6 @@ AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000768 "ChatGPT 4.o")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000768 "Half-Life"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000768 "The half-life is a temporal property describing the time required for a quantity to reduce to half its initial value, often applied to radioactive decay or material degradation."@en)
 SubClassOf(pmdco:PMD_0000768 obo:BFO_0000019)
-SubClassOf(pmdco:PMD_0000768 ObjectSomeValuesFrom(pmdco:PMD_0001029 pmdco:PMD_0000629))
 
 # Class: pmdco:PMD_0000773 (Hardness)
 
@@ -778,7 +769,7 @@ AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000896 "ChatGPT 4.o")
 AnnotationAssertion(rdfs:comment pmdco:PMD_0000896 "The pressure is commonly measured in Pascals."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000896 "Pressure"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000896 "The pressure is a thermodynamic quality describing the force exerted per unit area on a material."@en)
-SubClassOf(pmdco:PMD_0000896 pmdco:PMD_0020109)
+SubClassOf(pmdco:PMD_0000896 pmdco:PMD_0020140)
 DisjointClasses(pmdco:PMD_0000896 pmdco:PMD_0000967)
 
 # Class: pmdco:PMD_0000910 (Rebound Hardness)
@@ -894,10 +885,10 @@ SubClassOf(pmdco:PMD_0000965 ObjectAllValuesFrom(obo:BFO_0000176 ObjectUnionOf(o
 
 # Class: pmdco:PMD_0000967 (Temperature)
 
-AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000967 "ChatGPT 4.o")
+AnnotationAssertion(rdfs:comment pmdco:PMD_0000967 "To express that an object has a temperature, the property 'intensive bearer of' can be used. It implies a chain of: object consists of some portion of matter and portion of matter bearer of some temperature."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000967 "Temperature"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000967 "The temperature is a thermodynamic quality representing a measure of thermal energy within a material, influencing its phase and properties."@en)
-SubClassOf(pmdco:PMD_0000967 pmdco:PMD_0020109)
+AnnotationAssertion(skos:definition pmdco:PMD_0000967 "The temperature is a universal intensive quality representing the average atomic or molcular movement or vibration of a portion of matter."@en)
+SubClassOf(pmdco:PMD_0000967 pmdco:PMD_0020140)
 
 # Class: pmdco:PMD_0000972 (Temporal Property)
 
@@ -1037,6 +1028,7 @@ SubClassOf(pmdco:PMD_0020129 obo:BFO_0000015)
 # Class: pmdco:PMD_0020131 (Intensive quality)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020131 "Intensive quality"@en)
+AnnotationAssertion(skos:altLabel pmdco:PMD_0020131 "Point property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020131 "An intensive property is a qualty that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en)
 SubClassOf(pmdco:PMD_0020131 obo:BFO_0000019)
 
@@ -1055,6 +1047,8 @@ SubClassOf(pmdco:PMD_0020133 obo:BFO_0000019)
 # Class: pmdco:PMD_0020134 (Stimulus role)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020134 "Stimulus role"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020134 "See 'Stimulus role'"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020134 "The stimulus role is a role that an object bears in a process when causally influencing another object  that bears a stimulation target role in the same process."@en)
 SubClassOf(pmdco:PMD_0020134 obo:BFO_0000023)
 
 # Class: pmdco:PMD_0020135 (Stimulation target role)
@@ -1067,6 +1061,13 @@ SubClassOf(pmdco:PMD_0020135 obo:BFO_0000023)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020140 "Universal intensive quality"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020140 "A universal intensive quality is an intensive quality that every portion of matter bears at any point in time."@en)
 SubClassOf(pmdco:PMD_0020140 pmdco:PMD_0020131)
+
+# Class: pmdco:PMD_0020142 (energy)
+
+AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0020142 <http://openenergy-platform.org/ontology/oeo/OEO_00000150>)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020142 "energy"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020142 "Energy is a quality of material entities which manifests as a capacity to perform work (such as causing motion or the interaction of molecules)"@en)
+SubClassOf(pmdco:PMD_0020142 obo:BFO_0000019)
 
 # Class: pmdco:PMD_0050000 (Bond)
 
