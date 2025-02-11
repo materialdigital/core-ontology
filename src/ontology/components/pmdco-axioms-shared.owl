@@ -18,6 +18,41 @@ Import(<https://w3id.org/pmd/co/manufacturing>)
 Import(<https://w3id.org/pmd/co/materials>)
 Import(<https://w3id.org/pmd/co/qualities>)
 
+Declaration(ObjectProperty(:PMD_0020021))
+Declaration(ObjectProperty(:PMD_0020022))
+Declaration(ObjectProperty(:PMD_0020141))
+
+############################
+#   Object Properties
+############################
+
+# Object Property: :PMD_0020021 (causally influences)
+
+AnnotationAssertion(rdfs:label :PMD_0020021 "causally influences"@en)
+AnnotationAssertion(skos:definition :PMD_0020021 "An entity (that is bearer of some stimulation role) causally influences another entity (that is bearer of the stimulation target role) in a process iff  the target objects qualites (and/or realizable entities?) are altered in a manner that is significant in the given context/domain of discourse.."@en)
+SubObjectPropertyOf(:PMD_0020021 :PMD_0020020)
+ObjectPropertyDomain(:PMD_0020021 ObjectSomeValuesFrom(obo:BFO_0000196 :PMD_0020134))
+ObjectPropertyRange(:PMD_0020021 ObjectSomeValuesFrom(obo:BFO_0000196 :PMD_0020135))
+
+# Object Property: :PMD_0020022 (intensive bearer of)
+
+AnnotationAssertion(rdfs:comment :PMD_0020022 "TODO: check if we should force the 'o' to be a portion of matter' through:
+http://ontologydesignpatterns.org/wiki/Submissions:N-Ary_Relation_Pattern_%28OWL_2%29
+or
+https://www.w3.org/TR/swbp-n-aryRelations/"@en)
+AnnotationAssertion(rdfs:label :PMD_0020022 "intensive bearer of"@en)
+AnnotationAssertion(skos:definition :PMD_0020022 "Intensive bearer of is a chain that allows to connect objects to intensive properties through \"the matter they consist of\"."@en)
+AnnotationAssertion(skos:example :PMD_0020022 "This piece of metal intensive bearer of some temperature."@en)
+SubObjectPropertyOf(:PMD_0020022 owl:topObjectProperty)
+
+# Object Property: :PMD_0020141 (integral bearer of)
+
+AnnotationAssertion(rdfs:label :PMD_0020141 "integral bearer of"@en)
+SubObjectPropertyOf(:PMD_0020141 obo:BFO_0000196)
+ObjectPropertyDomain(:PMD_0020141 ObjectUnionOf(obo:BFO_0000027 obo:BFO_0000030))
+ObjectPropertyRange(:PMD_0020141 obo:BFO_0000020)
+
+
 
 ############################
 #   Classes
@@ -28,4 +63,5 @@ Import(<https://w3id.org/pmd/co/qualities>)
 SubClassOf(:PMD_0000852 ObjectIntersectionOf(:PMD_0000632 ObjectSomeValuesFrom(obo:BFO_0000051 ObjectIntersectionOf(:PMD_0020003 ObjectSomeValuesFrom(obo:BFO_0000196 :PMD_0050002)))))
 
 
+SubObjectPropertyOf(ObjectPropertyChain(:PMD_0020005 obo:BFO_0000196) :PMD_0020022)
 )
