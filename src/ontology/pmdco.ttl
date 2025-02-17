@@ -17,7 +17,7 @@
 @base <https://w3id.org/pmd/co/pmdco.ttl> .
 
 <https://w3id.org/pmd/co/pmdco.ttl> rdf:type owl:Ontology ;
-                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-01-31/pmdco.ttl> ;
+                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-02-11/pmdco.ttl> ;
                                      dcterms:creator <https://orcid.org/0000-0001-7192-7143> ,
                                                      <https://orcid.org/0000-0002-3717-7104> ,
                                                      <https://orcid.org/0000-0002-7094-5371> ,
@@ -28,7 +28,7 @@
                                      dcterms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
                                      dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                      dcterms:title "PMD Core Ontology" ;
-                                     owl:versionInfo "2025-01-31" .
+                                     owl:versionInfo "2025-02-11" .
 
 #################################################################
 #    Annotation properties
@@ -1061,13 +1061,6 @@ obo:RO_0000092 rdf:type owl:ObjectProperty ;
                rdfs:label "disposition of"@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0000007
-co:PMD_0000007 rdf:type owl:ObjectProperty ;
-               obo:IAO_0000119 <http://purl.allotrope.org/ontologies/property#AFX_0000940> ;
-               rdfs:label "composed of"@en ;
-               skos:definition "The property specifies of which kind of general portion of material something is built of."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000009
 co:PMD_0000009 rdf:type owl:ObjectProperty ;
                rdfs:domain obo:BFO_0000015 ;
@@ -1144,6 +1137,58 @@ co:PMD_0020005 rdf:type owl:ObjectProperty ;
                rdfs:label "consists of"@en ;
                skos:definition "A continuant part property that relates Material Entity Aggregates in the direction of smaller length-scale."@en ;
                skos:example "A portion of steel consists of a portion of carbon and a portion of iron."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020020
+co:PMD_0020020 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdf:type owl:SymmetricProperty ;
+               rdfs:domain obo:BFO_0000040 ;
+               rdfs:range obo:BFO_0000040 ;
+               rdfs:comment "A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants."@en ;
+               rdfs:label "interacts with"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020021
+co:PMD_0020021 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf co:PMD_0020020 ;
+               rdfs:domain [ rdf:type owl:Restriction ;
+                             owl:onProperty obo:BFO_0000196 ;
+                             owl:someValuesFrom co:PMD_0020134
+                           ] ;
+               rdfs:range [ rdf:type owl:Restriction ;
+                            owl:onProperty obo:BFO_0000196 ;
+                            owl:someValuesFrom co:PMD_0020135
+                          ] ;
+               rdfs:label "causally influences"@en ;
+               skos:definition "An entity (that is bearer of some stimulation role) causally influences another entity (that is bearer of the stimulation target role) in a process iff  the target objects qualites (and/or realizable entities?) are altered in a manner that is significant in the given context/domain of discourse.."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020022
+co:PMD_0020022 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               owl:propertyChainAxiom ( co:PMD_0020005
+                                        obo:BFO_0000196
+                                      ) ;
+               rdfs:comment """TODO: check if we should force the 'o' to be a portion of matter' through:
+http://ontologydesignpatterns.org/wiki/Submissions:N-Ary_Relation_Pattern_%28OWL_2%29
+or
+https://www.w3.org/TR/swbp-n-aryRelations/"""@en ;
+               rdfs:label "intensive bearer of"@en ;
+               skos:definition "Intensive bearer of is a chain that allows to connect objects to intensive properties through \"the matter they consist of\"."@en ;
+               skos:example "This piece of metal intensive bearer of some temperature."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020141
+co:PMD_0020141 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:BFO_0000196 ;
+               rdfs:domain [ rdf:type owl:Class ;
+                             owl:unionOf ( obo:BFO_0000027
+                                           obo:BFO_0000030
+                                         )
+                           ] ;
+               rdfs:range obo:BFO_0000020 ;
+               rdfs:label "integral bearer of"@en .
 
 
 #################################################################
@@ -1250,6 +1295,20 @@ obo:BFO_0000002 rdf:type owl:Class ;
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource obo:BFO_0000002 ;
+   owl:annotatedProperty obo:IAO_0000116 ;
+   owl:annotatedTarget "Continuant doesn't have a closure axiom because the subclasses don't necessarily exhaust all possibilites. For example, in an expansion involving bringing in some of Ceuster's other portions of reality, questions are raised as to whether universals are continuants"@en ;
+   obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/0000007>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:BFO_0000002 ;
+   owl:annotatedProperty obo:IAO_0000600 ;
+   owl:annotatedTarget "A continuant is an entity that persists, endures, or continues to exist through time while maintaining its identity. (axiom label in BFO2 Reference: [008-002])"@en ;
+   obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/008-002>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:BFO_0000002 ;
    owl:annotatedProperty obo:IAO_0000601 ;
    owl:annotatedTarget "if b is a continuant and if, for some t, c has_continuant_part b at t, then c is a continuant. (axiom label in BFO2 Reference: [126-001])"@en ;
    obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/126-001>
@@ -1295,20 +1354,6 @@ obo:BFO_0000002 rdf:type owl:Class ;
    owl:annotatedProperty obo:IAO_0000602 ;
    owl:annotatedTarget "(forall (x) (if (Material Entity x) (exists (t) (and (TemporalRegion t) (existsAt x t))))) // axiom label in BFO2 CLIF: [011-002] " ;
    obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/011-002>
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource obo:BFO_0000002 ;
-   owl:annotatedProperty obo:IAO_0000116 ;
-   owl:annotatedTarget "Continuant doesn't have a closure axiom because the subclasses don't necessarily exhaust all possibilites. For example, in an expansion involving bringing in some of Ceuster's other portions of reality, questions are raised as to whether universals are continuants"@en ;
-   obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/0000007>
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource obo:BFO_0000002 ;
-   owl:annotatedProperty obo:IAO_0000600 ;
-   owl:annotatedTarget "A continuant is an entity that persists, endures, or continues to exist through time while maintaining its identity. (axiom label in BFO2 Reference: [008-002])"@en ;
-   obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/008-002>
  ] .
 
 
@@ -3806,7 +3851,7 @@ co:PMD_0000505 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000506
 co:PMD_0000506 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000848 ,
+               rdfs:subClassOf co:PMD_0000005 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000517
@@ -3864,11 +3909,10 @@ co:PMD_0000510 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000511
 co:PMD_0000511 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000972 ;
+               rdfs:subClassOf obo:BFO_0000019 ;
                owl:disjointWith co:PMD_0000768 ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:label "Age"@en ;
-               skos:definition "The age is a temporal property describing the elapsed time since a material was manufactured, processed, or formed, which can influence its properties."@en .
+               skos:definition "The age is a quality denoting the temporal interval since a material entity came into existance."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000512
@@ -4050,7 +4094,7 @@ co:PMD_0000533 rdf:type owl:Class ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Blank"@en ,
                           "Rohling"@de ;
-               skos:definition """A Blank is an Object that has the disposition to be input to some Manifacturing Process and whose shape and other properties are relevant for its disposition to participate in the Manifacuring Process.
+               skos:definition """A Blank is an Object that has the disposition to be input to some Manifacturing Process and whose shape or other properties are relevant for its disposition to participate in the Manifacuring Process.
 
 TBD: Does the Blank 'consists of' only 1 Material?"""@en .
 
@@ -4545,7 +4589,7 @@ co:PMD_0000576 rdf:type owl:Class ;
 co:PMD_0000577 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
                                                       [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty co:PMD_0000007 ;
+                                                                               owl:onProperty co:PMD_0020005 ;
                                                                                owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000632
                                                                                                                          [ rdf:type owl:Restriction ;
                                                                                                                            owl:onProperty obo:BFO_0000196 ;
@@ -4556,7 +4600,7 @@ co:PMD_0000577 rdf:type owl:Class ;
                                                                                                   ]
                                                                              ]
                                                                              [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty co:PMD_0000007 ;
+                                                                               owl:onProperty co:PMD_0020005 ;
                                                                                owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000632
                                                                                                                          [ rdf:type owl:Restriction ;
                                                                                                                            owl:onProperty obo:BFO_0000196 ;
@@ -4799,10 +4843,9 @@ co:PMD_0000596 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000597
 co:PMD_0000597 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000863 ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
+               rdfs:subClassOf co:PMD_0020140 ;
                rdfs:label "Density"@en ;
-               skos:definition "The density is a morphological quality representing the mass of a material per unit volume, often used as an indicator of material composition and structure."@en .
+               skos:definition "The density is a universal intensive quality representing the unit mass of a portion of matter per unit volume."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000598
@@ -5443,7 +5486,7 @@ co:PMD_0000653 rdf:type owl:Class ;
 co:PMD_0000654 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf co:PMD_0000007
+                                                        owl:onProperty [ owl:inverseOf co:PMD_0020005
                                                                        ] ;
                                                         owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
                                                                                                   [ rdf:type owl:Restriction ;
@@ -5560,11 +5603,9 @@ co:PMD_0000662 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000663
 co:PMD_0000663 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020003 ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
-               rdfs:label "Grain"@en ,
+               rdfs:label "Crystal grain"@en ,
                           "Korn"@de ;
-               skos:definition "A Grain is a Crystallite that 'consists of' a Metal."@de ,
-                               "A grain is a crystallite describing a region within a polycrystalline material where the crystal lattice is uniformly oriented."@en .
+               skos:definition "A crystal grain is a crystal that is continuant part of a polycrystal."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000664
@@ -5632,11 +5673,7 @@ co:PMD_0000767 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000768
 co:PMD_0000768 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000972 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001029 ;
-                                 owl:someValuesFrom co:PMD_0000629
-                               ] ;
+               rdfs:subClassOf obo:BFO_0000019 ;
                obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:label "Half-Life"@en ;
                skos:definition "The half-life is a temporal property describing the time required for a quantity to reduce to half its initial value, often applied to radioactive decay or material degradation."@en .
@@ -6022,9 +6059,8 @@ co:PMD_0000801 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000802
 co:PMD_0000802 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000015 ;
-               rdfs:label "Irradiation"@en ;
-               skos:definition """To account for wave-particle duality subclasses are not disjoint. 
-Does that make sense from a (onto-)logic point of view?""" .
+               rdfs:label "Irradiation process"@en ;
+               skos:definition "An irradiation process is a process in which a radiation source (bearing a stimulus role) emits radiation towards a material entity (bearing the target role)"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000803
@@ -6173,7 +6209,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid337 ;
+               owl:equivalentClass _:genid343 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000196 ;
@@ -6184,7 +6220,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                           "Laboratory"@en ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en .
 
-_:genid337 owl:intersectionOf ( obo:BFO_0000029
+_:genid343 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:BFO_0000196 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6195,7 +6231,7 @@ _:genid337 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid337 ;
+   owl:annotatedTarget _:genid343 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -6529,9 +6565,10 @@ co:PMD_0000848 rdf:type owl:Class ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000522
                                ] ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:label "Mechanical Property"@en ;
-               skos:definition "A mechanical property is a material property that represents attributes of a material that describe its behavior under mechanical forces, including strength, elasticity, and ductility."@en .
+               skos:definition """A mechanical property is a material property that inheres in a material M when an object O_target that consists of M is stimulated in a process through an interaction with an object O_stimulus and M changes its stress/strain/..(mechanical?) SDCs.
+
+TODO: Check general class axiom and defintion altogether !!!"""@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000849
@@ -7013,7 +7050,9 @@ co:PMD_0000891 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000892
 co:PMD_0000892 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000004 ;
-               rdfs:comment "It is also representing a distinct physical or conceptual part of a material or substance."@en ,
+               rdfs:comment """It is also representing a distinct physical or conceptual part of a material or substance.
+
+The open energy ontology OEO defines portion of matter as a subclass of object aggregate, which implies countability. Our portion is not (precisely) countable and thus bearer of intensive properties."""@en ,
                             """Lome explanation for portion of matter: \"What is a molecule cluster at the cellular level? Contrary to the molecular level, at the cellular level of granularity the boundary of each molecule is outside of the level of granular focus. What forms a discontinuous cluster of countable individual molecules and thus bona fide objects at the molecular level, is a continuous and non-countable molecular substance at coarser levels of
 granularity. At these coarser levels, the individual molecules cannot be differentiated and demarcated anymore and the cluster as a whole possesses only fiat inner boundaries.\""""@en ;
                rdfs:label "Portion Of Matter"@en ;
@@ -7054,7 +7093,7 @@ co:PMD_0000895 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000896
 co:PMD_0000896 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000985 ;
+               rdfs:subClassOf co:PMD_0020140 ;
                owl:disjointWith co:PMD_0000967 ;
                obo:IAO_0000119 "ChatGPT 4.o" ;
                rdfs:comment "The pressure is commonly measured in Pascals."@en ;
@@ -7607,36 +7646,7 @@ co:PMD_0000942 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000943
 co:PMD_0000943 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( obo:BFO_0000023
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:BFO_0000196 ;
-                                                        owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
-                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty [ owl:inverseOf co:PMD_0000016
-                                                                                                                   ] ;
-                                                                                                    owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000833
-                                                                                                                                              [ rdf:type owl:Restriction ;
-                                                                                                                                                owl:onProperty co:PMD_0000015 ;
-                                                                                                                                                owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
-                                                                                                                                                                                          [ rdf:type owl:Restriction ;
-                                                                                                                                                                                            owl:onProperty obo:BFO_0000196 ;
-                                                                                                                                                                                            owl:someValuesFrom co:PMD_0000919
-                                                                                                                                                                                          ]
-                                                                                                                                                                                        ) ;
-                                                                                                                                                                     rdf:type owl:Class
-                                                                                                                                                                   ]
-                                                                                                                                              ]
-                                                                                                                                            ) ;
-                                                                                                                         rdf:type owl:Class
-                                                                                                                       ]
-                                                                                                  ]
-                                                                                                ) ;
-                                                                             rdf:type owl:Class
-                                                                           ]
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
+               rdfs:subClassOf obo:BFO_0000023 ;
                owl:disjointWith co:PMD_0000975 ;
                obo:IAO_0000111 "Specimen Role" ;
                obo:IAO_0000114 obo:IAO_0000428 ;
@@ -7695,7 +7705,7 @@ co:PMD_0000947 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000949
 co:PMD_0000949 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000848 ,
+               rdfs:subClassOf co:PMD_0000005 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty co:PMD_0001029 ;
                                  owl:someValuesFrom co:PMD_0000596
@@ -7743,7 +7753,7 @@ co:PMD_0000953 rdf:type owl:Class ;
 co:PMD_0000955 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000654
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf co:PMD_0000007
+                                                        owl:onProperty [ owl:inverseOf co:PMD_0020005
                                                                        ] ;
                                                         owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
                                                                                                   [ rdf:type owl:Restriction ;
@@ -7869,9 +7879,9 @@ co:PMD_0000965 rdf:type owl:Class ;
                                                                  )
                                                    ]
                                ] ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
-               rdfs:label "Surface"@en ;
-               skos:definition "A surface is a fiat object part defining the outermost layer or boundary of a material, where interactions with the environment occur."@en .
+               rdfs:label "Surface layer (fiat object part)"@en ;
+               skos:definition "A surface layer (fiat object part) is a fiat object part that is part of only object. The surface layer is the three dimensional region defining the outermost layer of an object, where surface-interactions with other material entities occur. What is considered as the surface is thus defined by the interaction process."@en ;
+               skos:example "When considering optical properties of a surface layer (fiat object part) of a polished piece of metal we likely consider a different three dimensional spatial region than when considering the scratch hardness properties of the same polished piece of metal."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000966
@@ -7887,10 +7897,10 @@ co:PMD_0000966 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000967
 co:PMD_0000967 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000985 ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
+               rdfs:subClassOf co:PMD_0020140 ;
+               rdfs:comment "To express that an object has a temperature, the property 'intensive bearer of' can be used. It implies a chain of: object consists of some portion of matter and portion of matter bearer of some temperature."@en ;
                rdfs:label "Temperature"@en ;
-               skos:definition "The temperature is a thermodynamic quality representing a measure of thermal energy within a material, influencing its phase and properties."@en .
+               skos:definition "The temperature is a universal intensive quality representing the average atomic or molcular movement or vibration of a portion of matter."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000968
@@ -7973,40 +7983,7 @@ co:PMD_0000974 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000975
 co:PMD_0000975 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( obo:BFO_0000023
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:BFO_0000196 ;
-                                                        owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
-                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty [ owl:inverseOf co:PMD_0000016
-                                                                                                                   ] ;
-                                                                                                    owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000833
-                                                                                                                                              [ rdf:type owl:Restriction ;
-                                                                                                                                                owl:onProperty co:PMD_0000015 ;
-                                                                                                                                                owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
-                                                                                                                                                                                          [ rdf:type owl:Restriction ;
-                                                                                                                                                                                            owl:onProperty obo:BFO_0000196 ;
-                                                                                                                                                                                            owl:someValuesFrom [ rdf:type owl:Class ;
-                                                                                                                                                                                                                 owl:unionOf ( co:PMD_0000919
-                                                                                                                                                                                                                               co:PMD_0000943
-                                                                                                                                                                                                                             )
-                                                                                                                                                                                                               ]
-                                                                                                                                                                                          ]
-                                                                                                                                                                                        ) ;
-                                                                                                                                                                     rdf:type owl:Class
-                                                                                                                                                                   ]
-                                                                                                                                              ]
-                                                                                                                                            ) ;
-                                                                                                                         rdf:type owl:Class
-                                                                                                                       ]
-                                                                                                  ]
-                                                                                                ) ;
-                                                                             rdf:type owl:Class
-                                                                           ]
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
+               rdfs:subClassOf obo:BFO_0000023 ;
                obo:IAO_0000111 "Test Piece Role" ;
                obo:IAO_0000114 obo:IAO_0000428 ;
                obo:IAO_0000116 """ANMERKUNG: Ein Test Piece ist ein Teilstück (potenziell alles) eines Specimens, welches die Bedingungen erfüllt, die durch ein anzuwendendes Prüfverfahren gestellt werden. Ein Specimen erfüllt diese Anforderungen im Allgemeinen erst nach weiterer Bearbeitung. CAVE: Diese Anmerkung beschreibt das Objekt, welches die Rolle, die durch diese owl:Class definiert wird, realisiert.
@@ -8135,9 +8112,8 @@ co:PMD_0000985 rdf:type owl:Class ;
                                                     ) ;
                                  rdf:type owl:Class
                                ] ;
-               obo:IAO_0000119 "ChatGPT 4.o" ;
-               rdfs:label "Thermodynamic Quality"@en ;
-               skos:definition "A thermodynamic quality is a quality representing a property that describes the thermodynamic state of a material, such as entropy, enthalpy, or free energy."@en .
+               rdfs:label "Thermodynamic property"@en ;
+               skos:definition "A thermodynamic property is a quality that inheres in a material entity and describes its thermodynamic state and participates in thermodynamic processes"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000986
@@ -8576,8 +8552,8 @@ co:PMD_0020002 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020003
 co:PMD_0020003 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000030 ;
-               rdfs:label "Crystallite"@en ;
-               skos:definition "A Crystallite is an object that 'consists' of a crystalline Material and 'is part of ' a Material."@en .
+               rdfs:label "Crystal"@en ;
+               skos:definition "A crystal is an object that has part some entities that concretize a Bravais lattice."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020004
@@ -8601,7 +8577,7 @@ co:PMD_0020025 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000892 ;
                rdfs:label "Portion Of Pure Substance"@en ;
                skos:altLabel "Portion of Chemical Entity"@en ;
-               skos:definition "A Portion Of Pure Substance is a Portion Of Matter that 'has part' only one kind of chebi:chemical entity or other similar entity."@en ;
+               skos:definition "A Portion Of Pure Substance is a Portion Of Matter that 'has part' only one kind of chebi:chemical entity or other similar entity. It has no structural qualities or realizable entites beyond representing its parts of a single enitiy type."@en ;
                skos:example """Pure water, a portion of iron atoms. Refer to: http://purl.obolibrary.org/obo/CHEBI_24431
 In contrast, salt water 'consists of' a portion of pure water and a portion of pure NaCl. Steel 'consists of ' a 'portion of pure iron', a 'portion of pure carbon' and possibly portions of other alloying- and impurity-elements."""@en .
 
@@ -9793,7 +9769,148 @@ co:PMD_0020104 rdf:type owl:Class ;
 co:PMD_0020105 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000001 ;
                rdfs:label "Mineral"@en ;
-               skos:definition "A mineral is a material that has part some crystallite."@en .
+               skos:definition "A mineral is a material that has part some crystal."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020106
+co:PMD_0020106 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000027 ;
+               rdfs:label "Polycrystal"@en ;
+               skos:definition "A polycrystall is an object aggregate that has continuant part some crystal grains."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020108
+co:PMD_0020108 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020105 ;
+               rdfs:label "Graphite"@en ;
+               skos:definition "A mineral that has part some crystal that in turn consists of some portion of carbon"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020109
+co:PMD_0020109 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000985 ;
+               rdfs:label "Intensive thermodynamic property"@en ;
+               skos:definition "An intensive thermodynamic property is a thermodynamic property that inheres in a portion of matter."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020110
+co:PMD_0020110 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000985 ;
+               rdfs:label "Extensive thermodynamic property"@en ;
+               skos:definition "An extensive thermodynamic property is a thermodynamic property that inheres in an object or object aggregate where the object or object aggregate is considered the thermodynamic system."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020115
+co:PMD_0020115 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000891 ;
+               rdfs:label "Aerosol"@en ;
+               skos:definition """An aerosol is a disconnected material entity aggregate which:
+1. consists of some portion of matter whose aggregate state quality concretizes gasous and 
+2. consists of some portion of matter whose aggregate state quality concretises solid or liquid (TODO: express that this portion is also a disconnected material entity aggregate)"""@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020116
+co:PMD_0020116 rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Class ;
+                                     owl:oneOf ( co:PMD_0020117
+                                                 co:PMD_0020118
+                                                 co:PMD_0020119
+                                                 co:PMD_0020120
+                                                 co:PMD_0020121
+                                                 co:PMD_0020122
+                                                 co:PMD_0020123
+                                                 co:PMD_0020124
+                                                 co:PMD_0020125
+                                               )
+                                   ] ;
+               rdfs:subClassOf co:PMD_0020098 ;
+               rdfs:label "Aggregate state value"@en ;
+               skos:definition "The aggregate state type is a nature constant that concretizes the aggregatge state quality."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020126
+co:PMD_0020126 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000890 ;
+               rdfs:label "Foam"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020128
+co:PMD_0020128 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000027 ;
+               rdfs:label "Thermodynamic system"@en ;
+               skos:definition "A thermodynamic system is an object aggregate whose objects are bearer of  thermodynamic properties. A thermodynamic system environs a thermodynamic process by which the thermodynamic properties of the objects of the thermodynamic system change over time."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020129
+co:PMD_0020129 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000015 ;
+               rdfs:label "Reversible process"@en ;
+               skos:definition "A reversible process is a process whose participants form a thermodynamic system with an entropy S and S remains constant during the process."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020131
+co:PMD_0020131 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000019 ;
+               rdfs:label "Intensive quality"@en ;
+               skos:altLabel "Point property"@en ;
+               skos:definition "An intensive property is a qualty that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020132
+co:PMD_0020132 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000019 ;
+               rdfs:label "Size"@en ;
+               skos:definition "Size is the quality of a material entity that describes its spatial extend."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020133
+co:PMD_0020133 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000019 ;
+               rdfs:label "Mass"@en ;
+               skos:definition "Mass is a quality that inheres in an object, object aggregate or fiat object part and affects those in processes where gravitation, acceleration, thermal mass etc are relevant."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020134
+co:PMD_0020134 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:label "Stimulus role"@en ;
+               skos:definition "See 'Stimulus role'"@en ,
+                               "The stimulus role is a role that an object bears in a process when causally influencing another object  that bears a stimulation target role in the same process."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020135
+co:PMD_0020135 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:label "Stimulation target role"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020138
+co:PMD_0020138 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000027 ;
+               rdfs:label "Lot"@en ;
+               skos:definition "A lot is an object aggregate whose parts are output of the same prodction process."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020139
+co:PMD_0020139 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000533 ;
+               rdfs:label "Heat (metallurgy)"@en ;
+               skos:definition "A heat is a fixed amount of metallic alloy that has the disposition to be input to some Manifacturing Process."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020140
+co:PMD_0020140 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020131 ;
+               rdfs:label "Universal intensive quality"@en ;
+               skos:definition "A universal intensive quality is an intensive quality that every portion of matter bears at any point in time."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020142
+co:PMD_0020142 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000019 ;
+               obo:IAO_0000119 <http://openenergy-platform.org/ontology/oeo/OEO_00000150> ;
+               rdfs:label "energy"@en ;
+               skos:definition "Energy is a quality of material entities which manifests as a capacity to perform work (such as causing motion or the interaction of molecules)"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050000
@@ -10047,6 +10164,60 @@ co:PMD_0020019 rdf:type owl:NamedIndividual ;
                rdfs:label "Bravais Lattice Cubic Face-centered"@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020117
+co:PMD_0020117 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state solid"@en ;
+               skos:definition "A state where the bonds between entites trasmit shear forces."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020118
+co:PMD_0020118 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state liquid"@en ;
+               skos:definition "A state where the bonds of the entites transmit no shear force."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020119
+co:PMD_0020119 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state gasous"@en ;
+               skos:definition "A state where the entities have no bonding."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020120
+co:PMD_0020120 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state plasma"@en ;
+               skos:definition "An aggregate state where the entites are atom nuclei and have no bonds."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020121
+co:PMD_0020121 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state atom gas"@en ;
+               skos:definition "A gaseous state where the gas entities are atoms."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020122
+co:PMD_0020122 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state supercritical fluid"@en ;
+               skos:definition "A state with strong bindings between entites that do not transmit shear force."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020123
+co:PMD_0020123 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state mesomorphic"@en ;
+               skos:definition "A state where some bonds transmit shear stresses and some do not."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020124
+co:PMD_0020124 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state suprafluid"@en ;
+               skos:definition "A state with frictionless binding that transmits no shear force between entites."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020125
+co:PMD_0020125 rdf:type owl:NamedIndividual ;
+               rdfs:label "Aggregate state suprasolid"@en ;
+               skos:definition "A state that exhibits suprafluid and solid properties."@en .
+
+
 #################################################################
 #    Annotations
 #################################################################
@@ -10088,6 +10259,14 @@ obo:CHEBI_33250 obo:IAO_0000115 "A chemical entity constituting the smallest com
 #################################################################
 #    General axioms
 #################################################################
+
+[ rdf:type owl:Class ;
+  owl:unionOf ( co:PMD_0000773
+                co:PMD_0000952
+              ) ;
+  rdfs:subClassOf co:PMD_0000848
+] .
+
 
 [ rdf:type owl:AllDisjointClasses ;
   owl:members ( obo:BFO_0000004
@@ -10226,22 +10405,20 @@ obo:CHEBI_33250 obo:IAO_0000115 "A chemical entity constituting the smallest com
 
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000587
-                co:PMD_0000889
-                co:PMD_0000953
+  owl:members ( co:PMD_0000553
+                co:PMD_0000619
+                co:PMD_0000896
+                co:PMD_0000967
+                co:PMD_0020109
+                co:PMD_0020110
               )
 ] .
 
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000600
-                co:PMD_0000621
-                co:PMD_0000825
-                co:PMD_0000848
-                co:PMD_0000864
-                co:PMD_0000877
-                co:PMD_0000972
-                co:PMD_0000981
+  owl:members ( co:PMD_0000587
+                co:PMD_0000889
+                co:PMD_0000953
               )
 ] .
 
@@ -10269,6 +10446,20 @@ obo:CHEBI_33250 obo:IAO_0000115 "A chemical entity constituting the smallest com
                         co:PMD_0020017
                         co:PMD_0020018
                         co:PMD_0020019
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( co:PMD_0020117
+                        co:PMD_0020118
+                        co:PMD_0020119
+                        co:PMD_0020120
+                        co:PMD_0020121
+                        co:PMD_0020122
+                        co:PMD_0020123
+                        co:PMD_0020124
+                        co:PMD_0020125
                       )
 ] .
 
