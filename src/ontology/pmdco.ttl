@@ -17,7 +17,7 @@
 @base <https://w3id.org/pmd/co/pmdco.ttl> .
 
 <https://w3id.org/pmd/co/pmdco.ttl> rdf:type owl:Ontology ;
-                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-02-11/pmdco.ttl> ;
+                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-02-18/pmdco.ttl> ;
                                      dcterms:creator <https://orcid.org/0000-0001-7192-7143> ,
                                                      <https://orcid.org/0000-0002-3717-7104> ,
                                                      <https://orcid.org/0000-0002-7094-5371> ,
@@ -28,7 +28,7 @@
                                      dcterms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
                                      dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                      dcterms:title "PMD Core Ontology" ;
-                                     owl:versionInfo "2025-02-11" .
+                                     owl:versionInfo "2025-02-18" .
 
 #################################################################
 #    Annotation properties
@@ -3738,6 +3738,10 @@ co:PMD_0000005 rdf:type owl:Class ;
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000059 ;
                                  owl:someValuesFrom co:PMD_0000842
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000197 ;
+                                 owl:allValuesFrom co:PMD_0000001
                                ] ;
                rdfs:label "Material Property"@en ;
                skos:definition """A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
@@ -3769,7 +3773,7 @@ co:PMD_0000010 rdf:type owl:Class ;
                                                           [ rdf:type owl:Restriction ;
                                                             owl:onProperty [ owl:inverseOf co:PMD_0001026
                                                                            ] ;
-                                                            owl:someValuesFrom co:PMD_0000892
+                                                            owl:someValuesFrom co:PMD_0000001
                                                           ]
                                                         ) ;
                                      rdf:type owl:Class
@@ -3778,7 +3782,7 @@ co:PMD_0000010 rdf:type owl:Class ;
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty [ owl:inverseOf co:PMD_0001026
                                                 ] ;
-                                 owl:someValuesFrom co:PMD_0000892
+                                 owl:someValuesFrom co:PMD_0000001
                                ] ;
                rdfs:comment "Diese Klasse umfasst verschiedene Normen und Spezifikationen, wie z. B. die europäische Spezifikation von Stahlsorten, in der die notwendigen Eigenschaften eines Werkstoffs aufgeführt sind, um bestimmte industrielle, gesetzliche oder anwendungsbezogene Anforderungen zu erfüllen."@de ,
                             "This class encompasses various standards and specifications, such as the European Steel Grade specification, which detail the necessary attributes a material must possess to meet specific industrial, regulatory, or application-based requirements."@en ;
@@ -6209,7 +6213,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid343 ;
+               owl:equivalentClass _:genid344 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000196 ;
@@ -6220,7 +6224,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                           "Laboratory"@en ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en .
 
-_:genid343 owl:intersectionOf ( obo:BFO_0000029
+_:genid344 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:BFO_0000196 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6231,7 +6235,7 @@ _:genid343 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid343 ;
+   owl:annotatedTarget _:genid344 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -7647,7 +7651,6 @@ co:PMD_0000942 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000943
 co:PMD_0000943 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
-               owl:disjointWith co:PMD_0000975 ;
                obo:IAO_0000111 "Specimen Role" ;
                obo:IAO_0000114 obo:IAO_0000428 ;
                obo:IAO_0000116 """ANMERKUNG: Ein Specimen ist ein Teilstück (potenziell alles) eines Samples, welches für die Herstellung von Test Pieces bearbeitet wurde, jedoch nicht zwingend das Test Piece selbst darstellt. CAVE: Diese Anmerkung beschreibt das Objekt, welches die Rolle, die durch diese owl:Class definiert wird, realisiert.
@@ -9853,19 +9856,19 @@ co:PMD_0020131 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000019 ;
                rdfs:label "Intensive quality"@en ;
                skos:altLabel "Point property"@en ;
-               skos:definition "An intensive property is a qualty that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en .
+               skos:definition "An intensive quality is a qualty that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020132
 co:PMD_0020132 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000019 ;
+               rdfs:subClassOf co:PMD_0020149 ;
                rdfs:label "Size"@en ;
                skos:definition "Size is the quality of a material entity that describes its spatial extend."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020133
 co:PMD_0020133 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000019 ;
+               rdfs:subClassOf co:PMD_0020149 ;
                rdfs:label "Mass"@en ;
                skos:definition "Mass is a quality that inheres in an object, object aggregate or fiat object part and affects those in processes where gravitation, acceleration, thermal mass etc are relevant."@en .
 
@@ -9911,6 +9914,93 @@ co:PMD_0020142 rdf:type owl:Class ;
                obo:IAO_0000119 <http://openenergy-platform.org/ontology/oeo/OEO_00000150> ;
                rdfs:label "energy"@en ;
                skos:definition "Energy is a quality of material entities which manifests as a capacity to perform work (such as causing motion or the interaction of molecules)"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020143
+co:PMD_0020143 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000015 ;
+               rdfs:label "Process chain"@en ;
+               skos:definition "A process chain is a process that 'has contiuant part' subprocesses S1...Sn where S1...Sn precede each other and where some object or object aggregate that are output of Sn are then input to Sn+1."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020144
+co:PMD_0020144 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:label "Product (chemical reaction)"@en ;
+               skos:definition "Product is the role of a material entity that is output of a chemical reaction and is created or transformed during the reaction."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020145
+co:PMD_0020145 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:label "Educt"@en ;
+               skos:definition "Educt is the role of a material entity that is input of a chemical reaction and is consumed or transformed during the reaction"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020146
+co:PMD_0020146 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:label "Catalyst"@en ;
+               skos:definition "Catalyst is the role of a participant in a chemical reaction that does not alter its qualities/realizable entities  after the chemical reaction."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020148
+co:PMD_0020148 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000019 ;
+               rdfs:label "Extensive quality"@en ;
+               skos:definition "An extensive quality is a qualty that inheres in only object or object aggregate or fiat object part or chemical entity and is dependent on the bearers (system-) size."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020149
+co:PMD_0020149 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020148 ;
+               rdfs:label "Universal extensive quality"@en ;
+               skos:definition "A universal extensive quality is an intensive quality that the bearer bears at any point in time."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020150
+co:PMD_0020150 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020149 ;
+               rdfs:label "Volume"@en ;
+               skos:definition "Volume is a universal extensive quality that affects those in processes where a spatial region/spatial extent is relevant."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020151
+co:PMD_0020151 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020149 ;
+               rdfs:label "Internal Energy"@en ;
+               skos:definition "Internal energy is a universal extensive quality that specifies the bearers potential to do work."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020152
+co:PMD_0020152 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000027 ;
+               rdfs:label "Component"@en ;
+               skos:definition "A component is an object aggregate that bears a function in a technical system."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020153
+co:PMD_0020153 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000027 ;
+               rdfs:label "Technical system"@en ;
+               skos:definition """A technical system is an object aggretate: 
+1. that is output of a manufacturing process, 
+2. that bears some function 
+3. whose continuant parts are some components."""@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020154
+co:PMD_0020154 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020148 ;
+               rdfs:label "Atomic extensive quality"@en ;
+               skos:definition "An atomic extensive quality is a extensive quality that inheres in atom aggregates."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020155
+co:PMD_0020155 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020154 ;
+               rdfs:label "Interatomic interaction energy"@en ;
+               skos:definition "Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050000
