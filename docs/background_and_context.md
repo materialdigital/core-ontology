@@ -10,14 +10,14 @@ Todo
 
 ## Domain Overview
 
-The Platform MaterialDigital Core Ontology (PMDco) addresses challenges in the domain of Materials Science and Engineering (MSE), which is undergoing a significant digital transformation. MSE is an interdisciplinary field that focuses on understanding and adaption of the properties of materials to develop new products and improve existing ones. It combines principles from physics, chemistry, and engineering to explore the relationships between the structure, properties, processing, and performance of materials.
+The Platform MaterialDigital Core Ontology (PMDco) addresses challenges in the domain of Materials Science and Engineering (MSE), which is subject to significant digital transformation. The MSE domain is an interdisciplinary field that focuses on understanding and adaption of material properties to develop new and improve existing products. The MSE domain combines principles from physics, chemistry, and engineering to explore the relationships between the structure, properties, processing, and performance of materials.
 
-Hence, the key components of MSE may be considered to be:
+In summary, key components of the MSE domain can be categorized in:
 
 - ***Materials Classes***, such as metals, ceramics, polymer, composites, etc.,
-- ***Materials Related Paradigms***, which are summarized by processing, structure, properties, and performance (PSPP), and
-- ***Applications and Research Areas***, which include, e.g., nanotechnology, metallurgy, materials testing, etc.
-
+- ***Applications and Research Areas***, which include, e.g., nanotechnology, metallurgy, or materials testing, and
+- ***Materials Related Paradigms***, which are summarized by processing, structure, properties, and performance (PSPP).
+- 
 > **Materials Paradigms**
 >
 > ***Processing (P)***: The methods used to shape and treat materials to achieve desired properties. This includes techniques like casting, forging, and additive manufacturing.
@@ -41,7 +41,7 @@ The creation of the PMDco is driven by the need to overcome critical data integr
 1. **Heterogeneity of Terminology**: MSE involves diverse perspectives from its subdomains, leading to inconsistencies in terminology that hinder data sharing and understanding.
 2. **Lack of Standardized Data Formats**: Data from experiments, simulations, and industrial processes often lack uniform structures, impeding the seamless exchange of information.
 3. **Sparse and Incomplete Data**: Contextual information, including metadata and provenance, is frequently missing, limiting reproducibility and reuse.
-4. **Semantic Gaps Between Domains**: The absence of alignment between high-level ontologies and domain-specific vocabularies creates integration challenges for cross-disciplinary research.
+4. **Semantic Gaps Between Domains**: The absence of alignment between high-level ontologies and domain-specific vocabularies poses integration challenges for cross-disciplinary research.
 
 The PMDco serves as a mid-level ontology designed to address these challenges by standardizing MSE terminologies and processes, enabling automated data integration, and facilitating adherence to the FAIR (Findable, Accessible, Interoperable, Reusable) principles.
 
@@ -53,7 +53,7 @@ The PMDco complements and extends several existing ontologies by providing a mid
 
 - **Top-Level Ontologies (TLOs)**:
 
-  - The *[Basic Formal Ontology (BFO)](https://basic-formal-ontology.org/)* provides abstract, cross-domain semantic structures. However, its high-level nature complicates direct application to MSE-specific contexts.
+  - The *[Basic Formal Ontology (BFO2020)](https://www.iso.org/standard/74572.html)* provides abstract, cross-domain semantic structures. However, its high-level nature complicates direct application to MSE-specific contexts.
   - PMDco bridges the gap by integrating MSE-specific concepts into this (and such) general frameworks.
 - **Domain-Specific Ontologies**:
 
