@@ -36,7 +36,6 @@ Declaration(Class(pmdco:PMD_0000536))
 Declaration(Class(pmdco:PMD_0000537))
 Declaration(Class(pmdco:PMD_0000538))
 Declaration(Class(pmdco:PMD_0000539))
-Declaration(Class(pmdco:PMD_0000545))
 Declaration(Class(pmdco:PMD_0000547))
 Declaration(Class(pmdco:PMD_0000548))
 Declaration(Class(pmdco:PMD_0000549))
@@ -135,10 +134,12 @@ Declaration(Class(pmdco:PMD_0020150))
 Declaration(Class(pmdco:PMD_0020151))
 Declaration(Class(pmdco:PMD_0020154))
 Declaration(Class(pmdco:PMD_0020155))
+Declaration(Class(pmdco:PMD_0020200))
 Declaration(Class(pmdco:PMD_0050000))
 Declaration(Class(pmdco:PMD_0050001))
 Declaration(Class(pmdco:PMD_0050002))
 Declaration(Class(pmdco:PMD_0050003))
+Declaration(Class(pmdco:PMD_20199))
 Declaration(ObjectProperty(obo:BFO_0000056))
 Declaration(ObjectProperty(obo:BFO_0000059))
 Declaration(ObjectProperty(obo:BFO_0000176))
@@ -225,9 +226,9 @@ ObjectPropertyRange(pmdco:PMD_0020020 obo:BFO_0000040)
 #   Classes
 ############################
 
-# Class: pmdco:PMD_0000005 (Material Property)
+# Class: pmdco:PMD_0000005 (Behavioral Material Property)
 
-AnnotationAssertion(rdfs:label pmdco:PMD_0000005 "Material Property"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0000005 "Behavioral Material Property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000005 "A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
 
 (Callister, W.D., Rethwisch, D.G., Materials Science and Engineering, Wiley, 2014)
@@ -280,6 +281,7 @@ DisjointClasses(pmdco:PMD_0000511 pmdco:PMD_0000768)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000512 "Aggregate State"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000512 "The aggregate state is a morphological quality representing the physical state of a material, such as solid, liquid, or gas."@en)
+EquivalentClasses(pmdco:PMD_0000512 ObjectExactCardinality(1 obo:BFO_0000059 pmdco:PMD_0020116))
 SubClassOf(pmdco:PMD_0000512 pmdco:PMD_0000863)
 
 # Class: pmdco:PMD_0000517 (Application Of Accoustic Wave)
@@ -363,12 +365,6 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000539 "Bulk Modulus"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000539 "The bulk modulus is an elastic modulus representing a measure of a material's resistance to uniform compression."@en)
 SubClassOf(pmdco:PMD_0000539 pmdco:PMD_0000618)
 SubClassOf(pmdco:PMD_0000539 ObjectAllValuesFrom(obo:BFO_0000197 ObjectUnionOf(obo:BFO_0000027 obo:BFO_0000030 pmdco:PMD_0000538)))
-
-# Class: pmdco:PMD_0000545 (Categorical Quality)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0000545 "Categorical Quality"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000545 "e.g. material class. Is treated in the \"materials\" module.")
-SubClassOf(pmdco:PMD_0000545 obo:BFO_0000019)
 
 # Class: pmdco:PMD_0000547 (Change Of Aggregate State)
 
@@ -1006,11 +1002,17 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0020155 "Interatomic interaction energy
 AnnotationAssertion(skos:definition pmdco:PMD_0020155 "Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate."@en)
 SubClassOf(pmdco:PMD_0020155 pmdco:PMD_0020154)
 
+# Class: pmdco:PMD_0020200 (Force)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020200 "Force"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020200 "Force is a reciprocal relation between two objects where the other object exerces the same force with opposite sign onto the first. Force may be responsible for changes in velocity and/or deformation of objects."@en)
+SubClassOf(pmdco:PMD_0020200 obo:BFO_0000145)
+
 # Class: pmdco:PMD_0050000 (Bond)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0050000 "Bond"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0050000 "A bond is a relational quality describing the force interaction between atoms."@en)
-SubClassOf(pmdco:PMD_0050000 obo:BFO_0000145)
+SubClassOf(pmdco:PMD_0050000 pmdco:PMD_0020200)
 
 # Class: pmdco:PMD_0050001 (Covalent Bond)
 
@@ -1034,6 +1036,12 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0050003 "Ionic Bond"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0050003 "An ionic bond is a bond that occurs when one atom donates an electron to another atom, resulting in oppositely charged ions that attract each other."@en)
 AnnotationAssertion(skos:example pmdco:PMD_0050003 "An example is the interaction between the atoms of sodium chloride (NaCl), where the sodium atom donates an electron to a chlorine atom."@en)
 SubClassOf(pmdco:PMD_0050003 pmdco:PMD_0050000)
+
+# Class: pmdco:PMD_20199 (Static Material Property)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_20199 "Static Material Property"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_20199 "A Static Material Property does not need a stimulus to be realized in contrast to the Behavoiral Material Property"@en)
+SubClassOf(pmdco:PMD_20199 obo:BFO_0000019)
 
 
 ############################
