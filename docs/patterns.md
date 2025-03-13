@@ -2,7 +2,7 @@
 
 In ontology development and usage, **usage patterns** play a critical role in addressing recurring modeling requirements. These patterns provide standardized, reusable semantic snippets that facilitate consistent representation of relationships between instances and entities. Furthermore, such patterns may be used to create SHACL shapes to include constraints in a knowledge representation. By following usage patterns, ontology users and developers can ensure uniformity, clarity, and reusability in their models.
 
-The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and examples. In particular, patterns are given in more detail in the [pattern section of the PMDco repository](https://github.com/materialdigital/core-ontology/tree/develop-3.0.0/patterns). Although these patterns are already documented separately, they are referenced here as a guide for understanding their structure and applicability.
+The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and examples.
 
 ---
 
@@ -14,75 +14,142 @@ This page uses a tensile testing example to demonstrate interconnected graph pat
 
 ## Table of Contents
 Hereby we provide an overview of the patterns used in PMDco 3.0.0:
-- [Pattern 1](#Pattern-1---Input-and-Output-of-Processes): Input and Output of Processes
-- [Pattern 2](#Pattern-2---Scalar-Value-Specification-with-Value-and-Unit): Scalar Value Specification with Value and Unit
-- [Pattern 3](#Pattern-3---Object-and-Material-Specification): Object and Material Specification
-- [Pattern 4](#Pattern-4---Object,-Role,-and-Process): Object, Role, and Process
-- [Pattern 5](#Pattern-5---Process,-Device,-and-Function): Process, Device, and Function
-- [Pattern 6](#Pattern-6---Device-Identifier): Device Identifier
-- [Pattern 7](#Pattern-7---Process-Chains): Process Chains
-- [Pattern 8](#Pattern-8---Process-Substeps): Process Substeps
-- [Pattern 9](#Pattern-9---Process-and-Data-Output): Process and Data Output
-- [Pattern 10](#Pattern-10---Process-and-Material-Property): Process and Material Property
+- [Pattern 1](#Pattern-1---Temporal-Region): Temporal Region
+- [Pattern 2](#Pattern-2---Process-Chain): Process Chain
+- [Pattern 3](#Pattern-3---Process-Inputs-and-Outputs): Process Inputs and Outputs
+- [Pattern 4](#Pattern-4---Realizable-Entities): Realizable Entities
+- [Pattern 5](#Pattern-5---Qualities): Qualities
+- [Pattern 6](#Pattern-6---Scalar-Measurement): Scalar Measurement
+- [Pattern 7](#Pattern-7---Scalar-Value-Specification): Scalar Value Specification
+- [Pattern 8](#Pattern-8---Categorical-Value-Specification): Categorical Value Specification
+- [Pattern 9](#Pattern-9---Material-and-Device-Specification): Material and Device Specification
 
 ---
 
 ## Example Patterns
 
-### Pattern 1 - Input and Output of Processes
-**Purpose**: Describes how to represent inputs and outputs for planned processes.
+### Pattern 1 - Temporal Region
 
+- **Purpose**: Represent moments of time when a process has started/ended.
 - **Core Properties**: 
-  - `has_specified_input` (`OBI:0000293`)
-  - `has_specified_output` (`OBI:0000299`)
+  - `bfo:occupiesTemporalRegion` 
+  - `bfo:properTemporalPart`
+  - `bfo:hasFirstInstant`
+  - `bfo:hasLastInstant`
+  - `pmd:endsWith`
+- **Example Use Case**: Specifying certain moments of time when some industiral process started or ended. 
+
+![Visualization of Pattern 1](https://github.com/user-attachments/assets/2bee33e5-c7ba-46ef-85ca-c4fccf7c19f5)
+
+---
+
+### Pattern 2 - Process Chain
+
+- **Purpose**: Represent complex processes, which has other processes as their stages.
+- **Core Properties**: 
+  - `bfo:precedes` 
+  - `bfo:hasOccurentPart`
+  - `pmd:startsWith`
+  - `pmd:endsWith`
+- **Example Use Case**: Specifying manufactirung processes consisting of several stages.
+
+![Visualization of Pattern 2](https://github.com/user-attachments/assets/01c1f41f-52ad-4789-8d49-40006485852c)
+
+---
+
+### Pattern 3 - Process Inputs and Outputs
+
+- **Purpose**: Describes how to represent inputs and outputs for planned processes.
+- **Core Properties**: 
+  - `pmd:hasInput` 
+  - `pmd:hasOutput`
 - **Key Insight**: A planned process can have multiple inputs and outputs, typically involving material entities or information-bearing entities.
 - **How to Interpret**: Inputs and outputs are linked to processes using the above properties to indicate participation.
 
-![Visualization of Pattern 1](https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/patterns/pattern1.png?raw=true)
-
-[Explore Example Data, Pattern 1](https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/shapes/shape1-data.ttl)
+  
+![Visualization of Pattern 3](https://github.com/user-attachments/assets/8a27fe19-dd1e-4542-a4d7-5c22a62e3ff8)
 
 ---
 
-### Pattern 2 - Scalar Value Specification with Value and Unit
-**Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
+### Pattern 4 - Realizable Entities
 
-- **Core Idea**: Use a BNode for scalar quantities, ensuring each quantity has exactly one value and one unit.
+- **Purpose**: Represent characteristics of the objects, brought to existence by specific situation.
+- **Core Properties**: 
+  - `bfo:bearerOf` 
+  - `bfo:concretizes`
+  - `bfo:realizes`
+  - `bfo:hasParticipant`
+- **Example Use Case**: Specifying the role of specimen, which material object realizes during a process. 
+  
+![Visualization of Pattern 4](https://github.com/user-attachments/assets/ea1dc484-19ab-4696-85d7-6779aa93d756)
+
+---
+
+### Pattern 5 - Qualities
+
+- **Purpose**: Represent inherent characteristics of the objects, having certain scalar values at moments/periods of time.
+- **Core Properties**: 
+  - `bfo:bearerOf` 
+  - `bfo:existAt`
+  - `iao:isAbout`
+  - `pmd:derivesFrom`
+- **Example Use Case**: Specifying that value of hardness of a specimen at certain point of time.
+- 
+![Visualization of Pattern 5](https://github.com/user-attachments/assets/bf33523f-6e30-474e-886d-226c9d0e3738)
+
+---
+
+### Pattern 6 - Scalar Measurement
+
+- **Purpose**: Represent measured value of some material characteristic. 
+- **Core Properties**: 
+  - `iao:isQualityMeasuredAs` 
+  - `bfo:realizes`
+  - `iao:isAbout`
+  - `pmd:hasInput`
+  - `pmd:hasOutput`
+  - `pmd:hasValueSpecification`
+  - `pmd:specifiesValueOf`
+- **Example Use Case**: Specifying the measured heat capacity value of a specimen.
+
+![Visualization of Pattern 6](https://github.com/user-attachments/assets/674f71cd-f712-4f09-ae72-85650946bc25)
+
+---
+
+### Pattern 7 - Scalar Value Specification
+
+- **Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
+- **Core Properties**: 
+  - `obi:hasSpecifiedNumericValue`
+  - `iao:hasMeasurementUnitLabel`
+  - `pmd:hasValueSpecification`
+  - `pmd:specifiesValueOf`
 - **Example Use Case**: Specifying measurements like length, mass, or time with standard units.
 
-![Visualization of Pattern 2](https://raw.githubusercontent.com/materialdigital/core-ontology/develop-3.0.0/patterns/pattern2.png)
-
-[Explore Example Data, Pattern 2](https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/shapes/shape2-data1.ttl)
+![Visualization of Pattern 7](https://github.com/user-attachments/assets/f3f1e93c-cba1-4c7c-8862-27566a4f04e0)
 
 ---
 
-### Pattern 3 - Object and Material Specification
-**Purpose**: Specify the material, from which the object is made, by stating that it complies with the certain material specification.
+### Pattern 8 - Categorical Value Specification
 
-- **Core Idea**: provide a class pmd:MaterialSpecification as a subclass of iao:InformationContentEntity, to which the material object can adhere.
-- **Example Use Case**: Specifying the material of a steel sheet to be the steel S355J2.
+- **Purpose**: Represents object characteristics, described by belonging to some category.
+- **Core Properties**: 
+  - `obi:hasSpecifiedValue`
+  - `iao:isQualityMeasuredAs`
+  - `pmd:hasValueSpecification`
+  - `pmd:specifiesValueOf`
+- **Example Use Case**: Specifying that material belongs to a certain category, e.g., is a polymer.
   
-![Pat3](https://github.com/user-attachments/assets/a57ee61c-ea53-4dcb-abc3-40ce4eb00ab5)
-
-
-### Pattern 4 - Object, Role, and Process
-### Pattern 5 - Process, Device, and Function
+![Visualization of Pattern 8](https://github.com/user-attachments/assets/2a726fcf-e07a-496b-a50e-520705a273d6)
 
 ---
+### Pattern 9 - Material and Device Specification
 
-### Pattern 6 - Device Identifier
-**Purpose**: Ensures every device has at least one identifier for unambiguous identification.
+- **Purpose**: Specify the material, from which the object is made, by stating that it complies with the certain material specification. Or, specifying the device in the same manner.
+- **Core Idea**: provide a class pmd:MaterialSpecification/pmd:DeviceSpecification as a subclass of iao:InformationContentEntity, to which the material/device object can adhere.
+- **Example Use Case**: Specifying the material of a steel sheet to be the steel S355J2.
 
-- **Description**: A device is associated with an identifier (`IAO:0020000`) or symbol (`IAO:0000028`), along with a value specification.
-- **Relevance**: Useful for tracking devices in systems where precise identification is crucial.
+![Visualization of Pattern 9](https://github.com/user-attachments/assets/2bd208c7-5a29-4270-a10b-d63542ee97ce)
 
-![Visualization of Pattern 6](https://raw.githubusercontent.com/materialdigital/core-ontology/develop-3.0.0/patterns/pattern6.png)
-
-[Explore Example Data, Pattern 6](https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/shapes/shape6-data.ttl)
 
 ---
-
-### Pattern 7 - Process Chains
-### Pattern 8 - Process Substeps
-### Pattern 9 - Process and Data Output
-### Pattern 10 - Process and Material Property
