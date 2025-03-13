@@ -14,22 +14,21 @@ This page uses a tensile testing example to demonstrate interconnected graph pat
 
 ## Table of Contents
 Hereby we provide an overview of the patterns used in PMDco 3.0.0:
-- [Pattern 1](#Pattern-1---Input-and-Output-of-Processes): Input and Output of Processes
-- [Pattern 2](#Pattern-2---Scalar-Value-Specification-with-Value-and-Unit): Scalar Value Specification with Value and Unit
-- [Pattern 3](#Pattern-3---Object-and-Material-Specification): Object and Material Specification
-- [Pattern 4](#Pattern-4---Object,-Role,-and-Process): Object, Role, and Process
-- [Pattern 5](#Pattern-5---Process,-Device,-and-Function): Process, Device, and Function
-- [Pattern 6](#Pattern-6---Device-Identifier): Device Identifier
-- [Pattern 7](#Pattern-7---Process-Chains): Process Chains
-- [Pattern 8](#Pattern-8---Process-Substeps): Process Substeps
-- [Pattern 9](#Pattern-9---Process-and-Data-Output): Process and Data Output
-- [Pattern 10](#Pattern-10---Process-and-Material-Property): Process and Material Property
+- [Pattern 1](#Pattern-1---Temporal-Region): Temporal Region
+- [Pattern 2](#Pattern-2---Process-Chain): Process Chain
+- [Pattern 3](#Pattern-3---Process-Inputs-and-Outputs): Process Inputs and Outputs
+- [Pattern 4](#Pattern-4---Realizable-Entities): Realizable Entities
+- [Pattern 5](#Pattern-5---Qualities): Qualities
+- [Pattern 6](#Pattern-6---Scalar-Measurement): Scalar Measurement
+- [Pattern 7](#Pattern-7---Scalar-Value-Specification): Scalar Value Specification
+- [Pattern 8](#Pattern-8---Categorical-Value-Specification): Categorical Value Specification
+- [Pattern 9](#Pattern-9---Material-and-Device-Specification): Material and Device Specification
 
 ---
 
 ## Example Patterns
 
-### Pattern 1 - Input and Output of Processes
+### Pattern 1 - Temporal Region
 **Purpose**: Describes how to represent inputs and outputs for planned processes.
 
 - **Core Properties**: 
