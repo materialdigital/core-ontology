@@ -17,7 +17,7 @@
 @base <https://w3id.org/pmd/co/pmdco.ttl> .
 
 <https://w3id.org/pmd/co/pmdco.ttl> rdf:type owl:Ontology ;
-                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-03-06/pmdco.ttl> ;
+                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-03-13/pmdco.ttl> ;
                                      dcterms:creator <https://orcid.org/0000-0001-7192-7143> ,
                                                      <https://orcid.org/0000-0002-3717-7104> ,
                                                      <https://orcid.org/0000-0002-7094-5371> ,
@@ -28,7 +28,7 @@
                                      dcterms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology"@en ;
                                      dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                      dcterms:title "PMD Core Ontology" ;
-                                     owl:versionInfo "2025-03-06" .
+                                     owl:versionInfo "2025-03-13" .
 
 #################################################################
 #    Annotation properties
@@ -940,6 +940,91 @@ Some currently missing phenomena that should be considered \"about\" are predica
                 rdfs:label "is about"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000219
+obo:IAO_0000219 rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf obo:IAO_0000136 ;
+                owl:inverseOf obo:IAO_0000235 ;
+                rdfs:domain obo:IAO_0000030 ;
+                rdfs:range obo:BFO_0000001 ;
+                obo:IAO_0000112 "A person's name denotes the person. A variable name in a computer program denotes some piece of memory. Lexically equivalent strings can denote different things, for instance \"Alan\" can denote different people. In each case of use, there is a case of the denotation relation obtaining, between \"Alan\" and the person that is being named."@en ;
+                obo:IAO_0000115 "A primitive, instance-level, relation obtaining between an information content entity and some portion of reality. Denotation is what happens when someone creates an information content entity E in order to specifically refer to something. The only relation between E and the thing is that E can be used to 'pick out' the thing. This relation connects those two together. Freedictionary.com sense 3: To signify directly; refer to specifically"@en ;
+                obo:IAO_0000116 """2009-11-10 Alan Ruttenberg. Old definition said the following to emphasize the generic nature of this relation. We no longer have 'specifically denotes', which would have been primitive, so make this relation primitive.
+g denotes r =def 
+r is a portion of reality
+there is some c that is a concretization of g 
+every c that is a concretization of g specifically denotes r"""@en ;
+                obo:IAO_0000117 "person:Alan Ruttenberg"@en ;
+                obo:IAO_0000119 "Conversations with Barry Smith, Werner Ceusters, Bjoern Peters, Michel Dumontier, Melanie Courtot, James Malone, Bill Hogan"@en ;
+                rdfs:comment ""@en ;
+                rdfs:label "denotes"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000221
+obo:IAO_0000221 rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf obo:IAO_0000136 ;
+                owl:inverseOf obo:IAO_0000417 ;
+                rdfs:domain obo:IAO_0000109 ;
+                rdfs:range obo:BFO_0000019 ;
+                obo:IAO_0000115 "m is a quality measurement of q at t. When q is a quality, there is a measurement process p that has specified output m, a measurement datum, that is about q"@en ;
+                obo:IAO_0000116 "8/6/2009 Alan Ruttenberg: The strategy is to be rather specific with this relationship. There are other kinds of measurements that are not of qualities, such as those that measure time. We will add these as separate properties for the moment and see about generalizing later"@en ,
+                                """From the second IAO workshop [Alan Ruttenberg 8/6/2009: not completely current, though bringing in comparison is probably important]
+
+This one is the one we are struggling with at the moment. The issue is what a measurement measures. On the one hand saying that it measures the quality would include it \"measuring\" the bearer = referring to the bearer in the measurement. However this makes comparisons of two different things not possible. On the other hand not having it inhere in the bearer, on the face of it, breaks the audit trail.
+
+Werner suggests a solution based on \"Magnitudes\" a proposal for which we are awaiting details.
+--
+From the second IAO workshop, various comments, [commented on by Alan Ruttenberg 8/6/2009]
+
+unit of measure is a quality, e.g. the length of a ruler.
+
+[We decided to hedge on what units of measure are, instead talking about measurement unit labels, which are the information content entities that are about whatever measurement units are. For IAO we need that information entity in any case. See the term measurement unit label]
+
+[Some struggling with the various subflavors of is_about. We subsequently removed the relation represents, and describes until and only when we have a better theory]
+
+a represents b means either a denotes b or a describes
+
+describe:
+a describes b means a is about b and a allows an inference of at least one quality of b
+
+We have had a long discussion about denotes versus describes."""@en ,
+                                """From the second IAO workshop: An attempt at tieing the quality to the measurement datum more carefully.
+
+a is a magnitude means a is a determinate quality particular inhering in some bearer b existing at a time t that can be represented/denoted by an information content entity e that has parts denoting a unit of measure, a number, and b. The unit of measure is an instance of the determinable quality."""@en ,
+                                """From the second meeting on IAO:
+
+An attempt at defining assay using Barry's \"reliability\" wording
+
+assay:
+process and has_input some material entity
+and has_output some information content entity 
+and which is such that instances of this process type reliably generate 
+outputs that describes the input."""@en ,
+                                """This one is the one we are struggling with at the moment. The issue is what a measurement measures. On the one hand saying that it measures the quality would include it \"measuring\" the bearer = referring to the bearer in the measurement. However this makes comparisons of two different things not possible. On the other hand not having it inhere in the bearer, on the face of it, breaks the audit trail.
+
+Werner suggests a solution based on \"Magnitudes\" a proposal for which we are awaiting details."""@en ;
+                obo:IAO_0000117 "Alan Ruttenberg"@en ;
+                rdfs:label "is quality measurement of"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000235
+obo:IAO_0000235 rdf:type owl:ObjectProperty ;
+                rdfs:domain obo:BFO_0000001 ;
+                rdfs:range obo:IAO_0000030 ;
+                obo:IAO_0000115 "inverse of the relation 'denotes'"@en ;
+                obo:IAO_0000117 "Person: Jie Zheng, Chris Stoeckert, Mike Conlon"@en ;
+                obo:IAO_0000233 <https://github.com/information-artifact-ontology/IAO/issues/206> ;
+                rdfs:label "denoted by"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000417
+obo:IAO_0000417 rdf:type owl:ObjectProperty ;
+                obo:IAO_0000114 obo:IAO_0000120 ;
+                obo:IAO_0000115 "inverse of the relation of is quality measurement of"@en ;
+                obo:IAO_0000116 "2009/10/19 Alan Ruttenberg. Named 'junk' relation useful in restrictions, but not a real instance relationship"@en ;
+                obo:IAO_0000117 "Person:Alan Ruttenberg"@en ;
+                rdfs:label "is quality measured as"@en .
+
+
 ###  http://purl.obolibrary.org/obo/RO_0000052
 obo:RO_0000052 rdf:type owl:ObjectProperty ;
                owl:inverseOf obo:RO_0000053 ;
@@ -1061,6 +1146,32 @@ obo:RO_0000092 rdf:type owl:ObjectProperty ;
                rdfs:label "disposition of"@en .
 
 
+###  http://purl.obolibrary.org/obo/RO_0001000
+obo:RO_0001000 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               owl:inverseOf obo:RO_0001001 ;
+               obo:IAO_0000111 "derives from" ;
+               obo:IAO_0000112 "this cell derives from this parent cell (cell division)"@en ,
+                               "this nucleus derives from this parent nucleus (nuclear division)"@en ;
+               obo:IAO_0000114 obo:IAO_0000125 ;
+               obo:IAO_0000115 "a relation between two distinct material entities, the new entity and the old entity, in which the new entity begins to exist when the old entity ceases to exist, and the new entity inherits the significant portion of the matter of the old entity"@en ;
+               obo:IAO_0000116 "This is a very general relation. More specific relations are preferred when applicable, such as 'directly develops from'."@en ;
+               obo:IAO_0000118 "derives_from"@en ;
+               obo:IAO_0000412 obo:ro.owl ;
+               rdfs:label "derives from"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0001001
+obo:RO_0001001 rdf:type owl:ObjectProperty ;
+               obo:IAO_0000112 "this parent cell derives into this cell (cell division)"@en ,
+                               "this parent nucleus derives into this nucleus (nuclear division)"@en ;
+               obo:IAO_0000114 obo:IAO_0000125 ;
+               obo:IAO_0000115 "a relation between two distinct material entities, the old entity and the new entity, in which the new entity begins to exist when the old entity ceases to exist, and the new entity inherits the significant portion of the matter of the old entity"@en ;
+               obo:IAO_0000116 "This is a very general relation. More specific relations are preferred when applicable, such as 'directly develops into'. To avoid making statements about a future that may not come to pass, it is often better to use the backward-looking 'derives from' rather than the forward-looking 'derives into'."@en ;
+               obo:IAO_0000118 "derives_into"@en ;
+               rdfs:label "derives into"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000009
 co:PMD_0000009 rdf:type owl:ObjectProperty ;
                rdfs:domain obo:BFO_0000015 ;
@@ -1128,12 +1239,6 @@ co:PMD_0001031 rdf:type owl:ObjectProperty ;
 ###  https://w3id.org/pmd/co/PMD_0020005
 co:PMD_0020005 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000178 ;
-               rdfs:domain [ rdf:type owl:Class ;
-                             owl:unionOf ( obo:BFO_0000030
-                                           co:PMD_0000004
-                                         )
-                           ] ;
-               rdfs:range co:PMD_0000004 ;
                rdfs:label "consists of"@en ;
                skos:definition "A continuant part property that relates Material Entity Aggregates in the direction of smaller length-scale."@en ;
                skos:example "A portion of steel consists of a portion of carbon and a portion of iron."@en .
@@ -1251,18 +1356,18 @@ obo:BFO_0000001 rdf:type owl:Class ;
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource obo:BFO_0000001 ;
+   owl:annotatedProperty obo:IAO_0000600 ;
+   owl:annotatedTarget "An entity is anything that exists or has existed or will exist. (axiom label in BFO2 Reference: [001-001])"@en ;
+   obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/001-001>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:BFO_0000001 ;
    owl:annotatedProperty obo:IAO_0000116 ;
    owl:annotatedTarget "Entity doesn't have a closure axiom because the subclasses don't necessarily exhaust all possibilites. For example Werner Ceusters 'portions of reality' include 4 sorts, entities (as BFO construes them), universals, configurations, and relations. It is an open question as to whether entities as construed in BFO will at some point also include these other portions of reality. See, for example, 'How to track absolutely everything' at http://www.referent-tracking.com/_RTU/papers/CeustersICbookRevised.pdf"@en ;
    obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/0000004> ;
    rdfs:comment "per discussion with Barry Smith" ;
    rdfs:seeAlso <http://www.referent-tracking.com/_RTU/papers/CeustersICbookRevised.pdf>
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource obo:BFO_0000001 ;
-   owl:annotatedProperty obo:IAO_0000600 ;
-   owl:annotatedTarget "An entity is anything that exists or has existed or will exist. (axiom label in BFO2 Reference: [001-001])"@en ;
-   obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/001-001>
  ] .
 
 
@@ -3448,6 +3553,37 @@ of this, different, term."""@en ,
                 rdfs:label "measurement unit label"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000005
+obo:IAO_0000005 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000033 ;
+                obo:IAO_0000111 "objective specification"@en ;
+                obo:IAO_0000112 "In the protocol of a ChIP assay the objective specification says to identify protein and DNA interaction."@en ;
+                obo:IAO_0000114 obo:IAO_0000122 ;
+                obo:IAO_0000115 "A directive information entity that describes an intended process endpoint. When part of a plan specification the concretization is realized in a planned process in which the bearer tries to effect the world so that the process endpoint is achieved."@en ;
+                obo:IAO_0000116 "2009-03-16: original definition when imported from OBI read: \"objective is an non realizable information entity which can serve as that  proper part of a plan towards which the realization of the plan is directed.\""@en ,
+                                "2014-03-31: In the example of usage (\"In the protocol of a ChIP assay the objective specification says to identify protein and DNA interaction\") there is a protocol which is the ChIP assay protocol. In addition to being concretized on paper, the protocol can be concretized as a realizable entity, such as a plan that inheres in a person. The objective specification is the part that says that some protein and DNA interactions are identified. This is a specification of a process endpoint: the boundary in the process before which they are not identified and after which they are. During the realization of the plan, the goal is to get to the point of having the interactions, and participants in the realization of the plan try to do that."@en ,
+                                "Answers the question, why did you do this experiment?"@en ;
+                obo:IAO_0000117 "PERSON: Alan Ruttenberg"@en ,
+                                "PERSON: Barry Smith"@en ,
+                                "PERSON: Bjoern Peters"@en ,
+                                "PERSON: Jennifer Fostel"@en ;
+                obo:IAO_0000118 "goal specification"@en ;
+                obo:IAO_0000119 "OBI Plan and Planned Process/Roles Branch"@en ,
+                                "OBI_0000217"@en ;
+                rdfs:label "objective specification"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000007
+obo:IAO_0000007 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000033 ;
+                obo:IAO_0000112 "Pour the contents of flask 1 into flask 2"@en ;
+                obo:IAO_0000114 obo:IAO_0000122 ;
+                obo:IAO_0000115 "A directive information entity that describes an action the bearer will take."@en ;
+                obo:IAO_0000117 "Alan Ruttenberg"@en ;
+                obo:IAO_0000119 "OBI Plan and Planned Process branch"@en ;
+                rdfs:label "action specification"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0000009
 obo:IAO_0000009 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000030 ;
@@ -3532,6 +3668,24 @@ this case we explicitly refer to the singular form"""@en ,
                 rdfs:label "scalar measurement datum"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000033
+obo:IAO_0000033 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000030 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:IAO_0000136 ;
+                                  owl:someValuesFrom obo:BFO_0000017
+                                ] ;
+                obo:IAO_0000114 obo:IAO_0000122 ;
+                obo:IAO_0000115 "An information content entity whose concretizations indicate to their bearer how to realize them in a process."@en ;
+                obo:IAO_0000116 "2009-03-16: provenance: a term realizable information entity was proposed for OBI (OBI_0000337) , edited by the PlanAndPlannedProcess branch. Original definition was  \"is the specification of a process that can be concretized and realized by an actor\" with alternative term  \"instruction\".It has been subsequently moved to IAO where the objective for which the original term was defined was satisfied with the definitionof this, different, term."@en ,
+                                "2013-05-30 Alan Ruttenberg: What differentiates a directive information entity from an information concretization is that it can have concretizations that are either qualities or realizable entities. The concretizations that are realizable entities are created when an individual chooses to take up the direction, i.e. has the intention to (try to) realize it."@en ,
+                                "8/6/2009 Alan Ruttenberg: Changed label from \"information entity about a realizable\" after discussions at ICBO"@en ,
+                                "Werner pushed back on calling it realizable information entity as it isn't realizable. However this name isn't right either. An example would be a recipe. The realizable entity would be a plan, but the information entity isn't about the plan, it, once concretized, *is* the plan. -Alan"@en ;
+                obo:IAO_0000117 "PERSON: Alan Ruttenberg"@en ,
+                                "PERSON: Bjoern Peters"@en ;
+                rdfs:label "directive information entity"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0000078
 obo:IAO_0000078 rdf:type owl:Class ;
                 owl:equivalentClass [ rdf:type owl:Class ;
@@ -3565,6 +3719,40 @@ obo:IAO_0000102 rdf:type owl:Class ;
                 obo:IAO_0000115 "Data about an ontology part is a data item about a part of an ontology, for example a term"@en ;
                 obo:IAO_0000117 "Person:Alan Ruttenberg"@en ;
                 rdfs:label "data about an ontology part"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000104
+obo:IAO_0000104 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000033 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:IAO_0000005
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:IAO_0000007
+                                ] ;
+                obo:IAO_0000111 "plan specification"@en ;
+                obo:IAO_0000112 "PMID: 18323827.Nat Med. 2008 Mar;14(3):226.New plan proposed to help resolve conflicting medical advice."@en ;
+                obo:IAO_0000114 obo:IAO_0000122 ;
+                obo:IAO_0000115 "A directive information entity with action specifications and objective specifications as parts, and that may be concretized as a realizable entity that, if realized, is realized in a process in which the bearer tries to achieve the objectives by taking the actions specified."@en ;
+                obo:IAO_0000116 "2009-03-16: provenance: a term a plan was proposed for OBI (OBI_0000344) , edited by the PlanAndPlannedProcess branch. Original definition was \" a plan is a specification of a process that is realized by an actor to achieve the objective specified as part of the plan\". It has been subsequently moved to IAO where the objective for which the original term was defined was satisfied with the definitionof this, different, term."@en ,
+                                "2014-03-31: A plan specification can have other parts, such as conditional specifications."@en ,
+                                "2022-01-16 Updated definition to that proposed by Clint Dowloand, IAO Issue 231."@en ,
+                                "Alternative previous definition: a plan is a set of instructions that specify how an objective should be achieved"@en ;
+                obo:IAO_0000117 "Alan Ruttenberg"@en ,
+                                "Clint Dowland"@en ;
+                obo:IAO_0000119 "OBI Plan and Planned Process branch"@en ,
+                                "OBI_0000344"@en ;
+                rdfs:comment """2/3/2009 Comment from OBI review.
+
+Action specification not well enough specified.
+Conditional specification not well enough specified.
+Question whether all plan specifications have objective specifications.
+
+Request that IAO either clarify these or change definitions not to use them"""@en ;
+                rdfs:label "plan specification"@en ;
+                rdfs:seeAlso "https://github.com/information-artifact-ontology/IAO/issues/231#issuecomment-1010455131"@en .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000109
@@ -3624,6 +3812,16 @@ obo:OBI_0000379 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000034 .
 
 
+###  http://purl.obolibrary.org/obo/OBI_0001930
+obo:OBI_0001930 rdf:type owl:Class ;
+                rdfs:subClassOf obo:OBI_0001933 ;
+                obo:IAO_0000111 "categorical value specification" ;
+                obo:IAO_0000114 obo:IAO_0000123 ;
+                obo:IAO_0000115 "A value specification that is specifies one category out of a fixed number of nominal categories"@en ;
+                obo:IAO_0000117 "PERSON:Bjoern Peters" ;
+                rdfs:label "categorical value specification" .
+
+
 ###  http://purl.obolibrary.org/obo/OBI_0001931
 obo:OBI_0001931 rdf:type owl:Class ;
                 rdfs:subClassOf obo:OBI_0001933 ,
@@ -3665,40 +3863,8 @@ co:PMD_0000001 rdf:type owl:Class ;
                             "The sum of portions of matter of the same type form a portion of matter of that type."@en ;
                rdfs:label "Material"@de ,
                           "Material"@en ;
-               skos:definition "A Material is a Portion Of Matter that has the disposition to participate in some Manifacturing Process and whose shape is not relevant for its disposition to participate in the Manifacuring Process."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000002
-co:PMD_0000002 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000640
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf obo:BFO_0000178
-                                                                       ] ;
-                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                        owl:onClass co:PMD_0000003
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
-               rdfs:label "Material Designation"@en ;
-               skos:definition "An instance of a materialdesignation can have multiple labels as would be typical for a product having a brand name and some standard conformant numerical and/or textual designations."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000003
-co:PMD_0000003 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000030 ;
-               rdfs:label "Material Classification System"@en ;
-               skos:definition """A formal classification system allowing to identify and name EngineeredMaterials. Examples for metals include the US UNS numbering system (https://en.wikipedia.org/wiki/Unified_numbering_system), the Register of European Steels (https://stahldaten.de/stahldat-sx/stahl-eisen-liste/) and others. 
-
-TODO: Possibly instatiate some relevant classifcation systems."""@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000004
-co:PMD_0000004 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000040 ;
-               rdfs:comment "This class is the \"entry point\" for the multi-scale perspective on material entities by recursively consisting of Material Entity Aggregates. In particular, this class is not “disjoint” with object."@en ;
-               rdfs:label "Material Entity Aggregate"@en ;
-               skos:definition "A material entity that is a mereological sum of separate material entities and possesses nonconnected boundaries."@en .
+               skos:altLabel "Portion of Material"@en ;
+               skos:definition "A Material is a Portion Of Matter that may participate in some Manifacturing Process and whose shape is not relevant for its participation in the Manifacuring Process."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000005
@@ -3752,19 +3918,12 @@ co:PMD_0000005 rdf:type owl:Class ;
                                  owl:onProperty obo:BFO_0000197 ;
                                  owl:allValuesFrom co:PMD_0000001
                                ] ;
-               rdfs:label "Material Property"@en ;
+               rdfs:label "Behavioral Material Property"@en ;
                skos:definition """A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
 
 (Callister, W.D., Rethwisch, D.G., Materials Science and Engineering, Wiley, 2014)
 
 We only deal with intensive (system-size independent) materrial properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules."""@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000006
-co:PMD_0000006 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000027 ;
-               rdfs:label "Material Structure"@en ;
-               skos:definition "The material structure is an object aggregate that describes the organization of components within a material, including atomic, molecular, and crystalline arrangements, which dictate its macroscopic properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000008
@@ -3773,31 +3932,6 @@ co:PMD_0000008 rdf:type owl:Class ;
                obo:IAO_0000116 "an attribute of a process" ;
                rdfs:label "process characteristic"@en ;
                skos:definition "A process characteristic is a dependent occurrent that existentially depends on a process."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000010
-co:PMD_0000010 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( obo:IAO_0000030
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty [ owl:inverseOf co:PMD_0001026
-                                                                           ] ;
-                                                            owl:someValuesFrom co:PMD_0000001
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf obo:IAO_0000030 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf co:PMD_0001026
-                                                ] ;
-                                 owl:someValuesFrom co:PMD_0000001
-                               ] ;
-               rdfs:comment "Diese Klasse umfasst verschiedene Normen und Spezifikationen, wie z. B. die europäische Spezifikation von Stahlsorten, in der die notwendigen Eigenschaften eines Werkstoffs aufgeführt sind, um bestimmte industrielle, gesetzliche oder anwendungsbezogene Anforderungen zu erfüllen."@de ,
-                            "This class encompasses various standards and specifications, such as the European Steel Grade specification, which detail the necessary attributes a material must possess to meet specific industrial, regulatory, or application-based requirements."@en ;
-               rdfs:label "Material Specification"@en ,
-                          "Materialspezifikation"@de ;
-               skos:definition "Diese Klasse beschreibt eine information content entity, die eine Reihe von Kriterien und Parametern darstellt, die die Eigenschaften und Leistungsanforderungen definieren, denen ein Material entsprechen muss, um eindeutig spezifiziert zu werden."@de ,
-                               "This class is an information content entity that represents a set of criteria and parameters defining the properties and performance requirements with which a material has to comply in order to be specified unambiguously."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000014
@@ -3924,7 +4058,16 @@ co:PMD_0000511 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000512
 co:PMD_0000512 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000863 ;
+               owl:equivalentClass [ rdf:type owl:Restriction ;
+                                     owl:onProperty obo:BFO_0000059 ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass co:PMD_0020116
+                                   ] ;
+               rdfs:subClassOf co:PMD_0000863 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000059 ;
+                                 owl:someValuesFrom co:PMD_0020116
+                               ] ;
                rdfs:label "Aggregate State"@en ;
                skos:definition "The aggregate state is a morphological quality representing the physical state of a material, such as solid, liquid, or gas."@en .
 
@@ -4011,7 +4154,7 @@ co:PMD_0000525 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000526
 co:PMD_0000526 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000006 ;
+               rdfs:subClassOf obo:BFO_0000027 ;
                rdfs:label "Atomic Structure"@en ;
                skos:definition "The atomic structure is a material structure that describes the arrangement and composition of atoms in a material, influencing its physical and chemical properties."@en .
 
@@ -4082,12 +4225,24 @@ co:PMD_0000532 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000533
 co:PMD_0000533 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000030 ;
+               owl:equivalentClass [ owl:intersectionOf ( obo:BFO_0000030
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:BFO_0000196 ;
+                                                            owl:someValuesFrom co:PMD_0000534
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf obo:BFO_0000030 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000196 ;
+                                 owl:someValuesFrom co:PMD_0000534
+                               ] ;
                obo:IAO_0000114 obo:IAO_0000428 ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Blank"@en ,
                           "Rohling"@de ;
-               skos:definition """A Blank is an Object that has the disposition to be input to some Manifacturing Process and whose shape or other properties are relevant for its disposition to participate in the Manifacuring Process.
+               skos:definition """A Blank is an Object that may be input to some Manifacturing Process and whose shape or other properties are relevant for participation to participate in the Manifacuring Process.
 
 TBD: Does the Blank 'consists of' only 1 Material?"""@en .
 
@@ -4208,13 +4363,6 @@ co:PMD_0000544 rdf:type owl:Class ;
                           "Messschieber"@de ;
                skos:definition "A measuring device having two usually adjustable arms, legs, or jaws used especially to measure the dimensions of objects, such as diameters or thicknesses"@en ,
                                "Messgerät mit zwei in der Regel verstellbaren Armen, Schenkeln oder Klemmbacken, das vor allem zur Messung der Abmessungen von Gegenständen, wie z. B. des Durchmessers oder der Dicke, verwendet wird"@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000545
-co:PMD_0000545 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000019 ;
-               rdfs:label "Categorical Quality"@en ;
-               skos:definition "e.g. material class. Is treated in the \"materials\" module." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000546
@@ -4440,16 +4588,6 @@ co:PMD_0000567 rdf:type owl:Class ;
                           "Coating Device"@en ;
                skos:definition "A device used for applying a coating or layer to materials to enhance their properties or appearance."@en ,
                                "Ein Gerät zum Auftragen einer Beschichtung oder Schicht auf Materialien zur Verbesserung ihrer Eigenschaften oder ihres Aussehens."@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000568
-co:PMD_0000568 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000603 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Beschichtungsgerätrolle"@de ,
-                          "Coating Device Role"@en ;
-               skos:definition "A role fulfilled by devices used to apply coatings to surfaces."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die zur Aufbringung von Beschichtungen auf Oberflächen verwendet werden."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000569
@@ -4750,16 +4888,6 @@ co:PMD_0000592 rdf:type owl:Class ;
                                "Eine Funktion, die ausgeführt wird, um Materialien mit Schneidgeräten zu trennen oder zu teilen."@de .
 
 
-###  https://w3id.org/pmd/co/PMD_0000593
-co:PMD_0000593 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000603 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Cutting Device Role"@en ,
-                          "Schneidgerätrolle"@de ;
-               skos:definition "A role fulfilled by devices that are used to cut or divide materials."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die zum Schneiden oder Teilen von Materialien verwendet werden."@de .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000594
 co:PMD_0000594 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000933 ;
@@ -4854,8 +4982,7 @@ co:PMD_0000602 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000603
 co:PMD_0000603 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
-               obo:IAO_0000117 "PERSON:Joerg Waitelonis" ,
-                               "Role inhering in a device."@en ;
+               obo:IAO_0000117 "Role inhering in a device."@en ;
                rdfs:label "Device Role"@en ,
                           "Rolle eines Gerätes"@de ;
                skos:definition "Rolle, die ein Geräte inne haben kann."@de .
@@ -4911,16 +5038,6 @@ co:PMD_0000608 rdf:type owl:Class ;
                           "Differentialthermometer"@de ;
                skos:definition "A device used to measure the temperature difference between a sample and a reference material as they are heated or cooled."@en ,
                                "Ein Gerät zur Messung des Temperaturunterschieds zwischen einer Probe und einem Referenzmaterial beim Erhitzen oder Abkühlen."@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000609
-co:PMD_0000609 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000846 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Dimension Measuring Device Role"@en ,
-                          "Dimensionierungsgerätrolle"@de ;
-               skos:definition "A role fulfilled by devices specifically designed to measure dimensions of objects."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die speziell zur Messung der Abmessungen von Objekten entwickelt wurden."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000610
@@ -5214,21 +5331,6 @@ co:PMD_0000639 rdf:type owl:Class ;
                skos:definition "A ferrous alloy is a metal describing an alloy containing iron as its principal element, often combined with other elements for enhanced properties."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0000640
-co:PMD_0000640 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000017
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf obo:BFO_0000178
-                                                                       ] ;
-                                                        owl:someValuesFrom co:PMD_0000003
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
-               rdfs:label "Fiat Material Designation"@en ;
-               skos:definition "Often materials are identified by identical labels across different material classification systems. E.g. the aluminum alloy with label 2618A could be classified according to the AA standard or the EN standard."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000641
 co:PMD_0000641 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000806 ;
@@ -5251,16 +5353,6 @@ co:PMD_0000642 rdf:type owl:Class ;
                           "Flow Cytometer"@en ;
                skos:definition "A Flow Cytometer is a Device used to measure the physical and chemical characteristics of a population of cells or particles."@en ,
                                "Ein Durchflusszytometer ist ein Gerät, das verwendet wird, um die physikalischen und chemischen Eigenschaften einer Zell- oder Partikelpopulation zu messen."@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000643
-co:PMD_0000643 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000846 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Force Measuring Device Role"@en ,
-                          "Kraftmessgerätrolle"@de ;
-               skos:definition "A role fulfilled by devices specifically designed to measure force."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die speziell zur Messung von Kraft entwickelt wurden."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000644
@@ -5939,16 +6031,6 @@ co:PMD_0000803 rdf:type owl:Class ;
                                "Ein Gerät zum Aussetzen von Materialien gegenüber Strahlung zur Induktion von Veränderungen ihrer Eigenschaften."@de .
 
 
-###  https://w3id.org/pmd/co/PMD_0000804
-co:PMD_0000804 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000603 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Irradiation Device Role"@en ,
-                          "Irradiationsgerätrolle"@de ;
-               skos:definition "A role fulfilled by devices used to expose materials to radiation."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die Materialien der Strahlung aussetzen."@de .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000805
 co:PMD_0000805 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000034 ;
@@ -6070,7 +6152,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid344 ;
+               owl:equivalentClass _:genid334 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000196 ;
@@ -6081,7 +6163,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                           "Laboratory"@en ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en .
 
-_:genid344 owl:intersectionOf ( obo:BFO_0000029
+_:genid334 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:BFO_0000196 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6092,7 +6174,7 @@ _:genid344 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid344 ;
+   owl:annotatedTarget _:genid334 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -6202,13 +6284,6 @@ co:PMD_0000823 rdf:type owl:Class ;
                skos:definition "A Seperating process that involves removing material using tools with undefined cutting edges, such as grinding or abrasive machining, where the exact shape of the cutting part isn't clearly defined."@en ,
                                "Ein Trennprozess, bei dem Material mit Werkzeugen mit undefinierten Schneiden abgetragen wird, wie z. B. beim Schleifen oder bei der abrasiven Bearbeitung, bei der die genaue Form des zu schneidenden Teils nicht klar definiert ist."@de ;
                skos:example "Grinding, Blasting"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000824
-co:PMD_0000824 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000006 ;
-               rdfs:label "Macrostructure"@en ;
-               skos:definition "The macrostructure represents the large-scale structural features of a material visible to the naked eye or under low magnification."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000825
@@ -6381,16 +6456,6 @@ co:PMD_0000845 rdf:type owl:Class ;
                skos:definition "Matrix is the role of a PortionOfConnectedMatter that implies to host the Filler."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0000846
-co:PMD_0000846 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000603 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Measuring Device Role"@en ,
-                          "Messgerätrolle"@de ;
-               skos:definition "A role fulfilled by devices that are used to measure various physical properties such as temperature, force, or dimensions."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die zur Messung verschiedener physikalischer Eigenschaften wie Temperatur, Kraft oder Dimensionen verwendet werden."@de .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000847
 co:PMD_0000847 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000034 ;
@@ -6422,13 +6487,6 @@ co:PMD_0000849 rdf:type owl:Class ;
                           "Mechanische Eigenschaften Analyseverfahren"@de ;
                skos:definition "An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads."@en ,
                                "Eine Analyse, die die mechanischen Eigenschaften von Materialien bewertet, wie z.B. Festigkeit, Härte, Elastizität und Zugfestigkeit, oft durch Tests, die die Reaktion auf Kräfte und Lasten messen."@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000850
-co:PMD_0000850 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000019 ;
-               rdfs:label "Mechanical Quality"@en ;
-               skos:definition "A mechanical quality is a quality used as an assessment of a material's mechanical behavior, including toughness, fatigue resistance, and strength."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000851
@@ -6502,7 +6560,7 @@ co:PMD_0000856 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000857
 co:PMD_0000857 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000006 ;
+               rdfs:subClassOf obo:BFO_0000027 ;
                rdfs:label "Microstructure"@en ;
                skos:definition "The microstructure represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope."@en .
 
@@ -6841,7 +6899,7 @@ co:PMD_0000889 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000890
 co:PMD_0000890 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000004 ;
+               rdfs:subClassOf obo:BFO_0000027 ;
                rdfs:label "Connected Material Entity Aggregate"@en ;
                skos:definition "A material entity aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity."@en ;
                skos:example "the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body"@en .
@@ -6849,7 +6907,7 @@ co:PMD_0000890 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000891
 co:PMD_0000891 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000004 ;
+               rdfs:subClassOf obo:BFO_0000027 ;
                rdfs:label "Disconnected Material Entity Aggregate"@en ;
                skos:definition "A material entity aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group."@en ;
                skos:example "a heap of stones, a colony of honeybees, a group of synapses, the trees of a forest, the canopy of a forest, the fish of a shoal, a group of commuters on the subway, the patients in a hospital"@en .
@@ -6857,14 +6915,14 @@ co:PMD_0000891 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000892
 co:PMD_0000892 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000004 ;
+               rdfs:subClassOf obo:BFO_0000040 ;
                rdfs:comment """It is also representing a distinct physical or conceptual part of a material or substance.
 
 The open energy ontology OEO defines portion of matter as a subclass of object aggregate, which implies countability. Our portion is not (precisely) countable and thus bearer of intensive properties."""@en ,
                             """Lome explanation for portion of matter: \"What is a molecule cluster at the cellular level? Contrary to the molecular level, at the cellular level of granularity the boundary of each molecule is outside of the level of granular focus. What forms a discontinuous cluster of countable individual molecules and thus bona fide objects at the molecular level, is a continuous and non-countable molecular substance at coarser levels of
 granularity. At these coarser levels, the individual molecules cannot be differentiated and demarcated anymore and the cluster as a whole possesses only fiat inner boundaries.\""""@en ;
                rdfs:label "Portion Of Matter"@en ;
-               skos:definition "A material entity that is not demarcated by any physical discontinuities. At some finer level of granularity it is a material entity aggregate, at some coarser level of granularity it is a fiat object part,but at this level of granularity it is neither."@en .
+               skos:definition "A material entity that is not demarcated by any physical discontinuities. At some finer level of granularity it is an object aggregate, at some coarser level of granularity it is a fiat object part,but at this level of granularity it is neither."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000893
@@ -6905,16 +6963,6 @@ co:PMD_0000896 rdf:type owl:Class ;
                rdfs:comment "The pressure is commonly measured in Pascals."@en ;
                rdfs:label "Pressure"@en ;
                skos:definition "The pressure is a thermodynamic quality describing the force exerted per unit area on a material."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000897
-co:PMD_0000897 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000846 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Druckmessgerätrolle"@de ,
-                          "Pressure Measuring Device Role"@en ;
-               skos:definition "A role fulfilled by devices specifically designed to measure pressure."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die speziell zur Messung des Drucks entwickelt wurden."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000898
@@ -7292,13 +7340,6 @@ co:PMD_0000929 rdf:type owl:Class ;
                skos:example "Shear testing of rivets to ensure they can hold structural components together under lateral loads."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0000930
-co:PMD_0000930 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000030 ;
-               rdfs:label "Simulated Object"@en ;
-               skos:definition "A simulated object is an information content entity representing an entity or material representation created through simulation for analysis or study."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000931
 co:PMD_0000931 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000583 ;
@@ -7368,16 +7409,6 @@ co:PMD_0000937 rdf:type owl:Class ;
                           "Soldering Device"@en ;
                skos:definition "A device used for joining materials together by melting and applying a filler metal."@en ,
                                "Ein Gerät zum Verbinden von Materialien durch Schmelzen und Auftragen eines Füllmetalls."@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000938
-co:PMD_0000938 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000603 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Lötgerätrolle"@de ,
-                          "Soldering Device Role"@en ;
-               skos:definition "A role fulfilled by devices used to solder materials together."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die zur Verbindung von Materialien durch Löten verwendet werden."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000939
@@ -7558,13 +7589,6 @@ co:PMD_0000957 rdf:type owl:Class ;
                                "Eine Analyse, die die äußere und innere Struktur und Morphologie von Materialien untersucht, einschließlich der Anordnung von Atomen, Kristallen, Körnern und Phasen, oft unter Verwendung von Techniken wie Mikroskopie und Beugung."@de .
 
 
-###  https://w3id.org/pmd/co/PMD_0000958
-co:PMD_0000958 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000006 ;
-               rdfs:label "Subatomic Structure"@en ;
-               skos:definition "The subatomic structure is a material structure that describes the composition and arrangement of particles smaller than atoms, such as protons, neutrons, and electrons."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000959
 co:PMD_0000959 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000603 ;
@@ -7677,16 +7701,6 @@ co:PMD_0000969 rdf:type owl:Class ;
                           "Temperaturänderungsfunktion"@de ;
                skos:definition "A subfunction of heat treatment performed to induce changes in temperature to alter material properties."@en ,
                                "Eine Unterfunktion der Wärmebehandlung, die durchgeführt wird, um Temperaturänderungen hervorzurufen, um die Materialeigenschaften zu verändern."@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000970
-co:PMD_0000970 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000846 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Temperature Measuring Device Role"@en ,
-                          "Temperaturmessgerätrolle"@de ;
-               skos:definition "A role fulfilled by devices specifically designed to measure temperature."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die speziell zur Messung der Temperatur entwickelt wurden."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000971
@@ -8081,16 +8095,6 @@ co:PMD_0001011 rdf:type owl:Class ;
                                "Ein Gerät zum Verbinden von Materialien durch Schmelzen, üblicherweise unter Zugabe eines Füllmaterials."@de .
 
 
-###  https://w3id.org/pmd/co/PMD_0001012
-co:PMD_0001012 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000603 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Schweißgerätrolle"@de ,
-                          "Welding Device Role"@en ;
-               skos:definition "A role fulfilled by devices used to weld materials together."@en ,
-                               "Eine Rolle, die von Geräten erfüllt wird, die zur Verbindung von Materialien durch Schweißen verwendet werden."@de .
-
-
 ###  https://w3id.org/pmd/co/PMD_0001013
 co:PMD_0001013 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000812 ;
@@ -8285,9 +8289,9 @@ co:PMD_0020024 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020025
 co:PMD_0020025 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000892 ;
-               rdfs:label "Portion Of Pure Substance"@en ;
+               rdfs:label "Pure Substance"@en ;
                skos:altLabel "Portion of Chemical Entity"@en ;
-               skos:definition "A Portion Of Pure Substance is a Portion Of Matter that 'has part' only one kind of chebi:chemical entity or other similar entity. It has no structural qualities or realizable entites beyond representing its parts of a single enitiy type."@en ;
+               skos:definition "A Pure Substance is a Portion Of Matter that 'has part' only one kind of chebi:chemical entity or other similar entity. It has no structural qualities or realizable entites beyond representing its parts of a single enitiy type."@en ;
                skos:example """Pure water, a portion of iron atoms. Refer to: http://purl.obolibrary.org/obo/CHEBI_24431
 In contrast, salt water 'consists of' a portion of pure water and a portion of pure NaCl. Steel 'consists of ' a 'portion of pure iron', a 'portion of pure carbon' and possibly portions of other alloying- and impurity-elements."""@en .
 
@@ -9603,9 +9607,9 @@ co:PMD_0020138 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020139
 co:PMD_0020139 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000533 ;
-               rdfs:label "Heat (metallurgy)"@en ;
-               skos:definition "A heat is a fixed amount of metallic alloy that has the disposition to be input to some Manifacturing Process."@en .
+               rdfs:subClassOf obo:BFO_0000030 ;
+               rdfs:label "Melt"@en ;
+               skos:definition ""@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020140
@@ -9710,9 +9714,60 @@ co:PMD_0020155 rdf:type owl:Class ;
                skos:definition "Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020166
+co:PMD_0020166 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000533 ,
+                               [ owl:intersectionOf ( co:PMD_0020139
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:BFO_0000196 ;
+                                                        owl:someValuesFrom co:PMD_0000534
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:label "Heat (metallurgy)"@en ;
+               skos:definition "A heat is a fixed amount of metallic alloy that may be input to some Manifacturing Process."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020200
+co:PMD_0020200 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000145 ;
+               rdfs:label "Force"@en ;
+               skos:definition "Force is a reciprocal relation between two objects where the other object exerces the same force with opposite sign onto the first. Force may be responsible for changes in velocity and/or deformation of objects."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020202
+co:PMD_0020202 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000029 ;
+               rdfs:label "Crack"@en ;
+               skos:definition "A crack is a physical separation of a material entity at the level of (atomic) Bonds."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020203
+co:PMD_0020203 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000029 ;
+               rdfs:label "Notch"@en ;
+               skos:definition "A notch is a geometric feature of the 'surface layer' of an object that introduces a strong change in shape or cross section."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020204
+co:PMD_0020204 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000029 ;
+               rdfs:label "Pore"@en ;
+               skos:definition "A pore is a cavity in the 'bulk' of an object"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020205
+co:PMD_0020205 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:comment "A defect role is a role of an independent continuant C indicating that C may affect a material entity E's ability to realize a function. C is continuant part of E."@en ;
+               rdfs:label "Defect (role)"@en ;
+               skos:example "A crack in an structural member may affect its ability to carry a load."@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0050000
 co:PMD_0050000 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000145 ;
+               rdfs:subClassOf co:PMD_0020200 ;
                rdfs:label "Bond"@en ;
                skos:definition "A bond is a relational quality describing the force interaction between atoms."@en .
 
@@ -10774,6 +10829,13 @@ co:PMD_0050152 rdf:type owl:Class ;
                skos:definition "Zirconium-Based Metallic Glass is an Amorphous Metal Glass that is composed mainly of zirconium, valued for its corrosion resistance and strength."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_20199
+co:PMD_20199 rdf:type owl:Class ;
+             rdfs:subClassOf obo:BFO_0000019 ;
+             rdfs:label "Static Material Property"@en ;
+             skos:definition "A Static Material Property does not need a stimulus to be realized in contrast to the Behavoiral Material Property"@en .
+
+
 #################################################################
 #    Individuals
 #################################################################
@@ -10918,8 +10980,7 @@ obo:OMO_0001000 rdf:type owl:NamedIndividual ;
 
 
 ###  https://w3id.org/pmd/co/PMD_0000912
-co:PMD_0000912 rdf:type owl:NamedIndividual ,
-                        co:PMD_0000003 .
+co:PMD_0000912 rdf:type owl:NamedIndividual .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020006
@@ -11199,15 +11260,6 @@ obo:CHEBI_33250 obo:IAO_0000115 "A chemical entity constituting the smallest com
 
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000526
-                co:PMD_0000824
-                co:PMD_0000857
-                co:PMD_0000958
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
   owl:members ( co:PMD_0000535
                 co:PMD_0000851
                 co:PMD_0000961
@@ -11262,6 +11314,14 @@ obo:CHEBI_33250 obo:IAO_0000115 "A chemical entity constituting the smallest com
   owl:members ( co:PMD_0020102
                 co:PMD_0020103
                 co:PMD_0020104
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( co:PMD_0020202
+                co:PMD_0020203
+                co:PMD_0020204
               )
 ] .
 
