@@ -118,8 +118,12 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 
 ### Pattern 7 - Scalar Value Specification
 
-**Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
-- **Core Idea**: Use a BNode for scalar quantities, ensuring each quantity has exactly one value and one unit.
+- **Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
+- **Core Properties**: 
+  - `obi:hasSpecifiedNumericValue`
+  - `iao:hasMeasurementUnitLabel`
+  - `pmd:hasValueSpecification`
+  - `pmd:specifiesValueOf`
 - **Example Use Case**: Specifying measurements like length, mass, or time with standard units.
 
 ![Visualization of Pattern 7](https://github.com/user-attachments/assets/f3f1e93c-cba1-4c7c-8862-27566a4f04e0)
@@ -128,12 +132,20 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 
 ### Pattern 8 - Categorical Value Specification
 
+- **Purpose**: Represents object characteristics, described by belonging to some category.
+- **Core Properties**: 
+  - `obi:hasSpecifiedValue`
+  - `iao:isQualityMeasuredAs`
+  - `pmd:hasValueSpecification`
+  - `pmd:specifiesValueOf`
+- **Example Use Case**: Specifying that material belongs to a certain category, e.g., is a polymer.
+  
 ![Visualization of Pattern 8](https://github.com/user-attachments/assets/2a726fcf-e07a-496b-a50e-520705a273d6)
 
 ---
 ### Pattern 9 - Material and Device Specification
 
-**Purpose**: Specify the material, from which the object is made, by stating that it complies with the certain material specification. Or, specifying the device in the same manner.
+- **Purpose**: Specify the material, from which the object is made, by stating that it complies with the certain material specification. Or, specifying the device in the same manner.
 - **Core Idea**: provide a class pmd:MaterialSpecification/pmd:DeviceSpecification as a subclass of iao:InformationContentEntity, to which the material/device object can adhere.
 - **Example Use Case**: Specifying the material of a steel sheet to be the steel S355J2.
 
