@@ -1,13 +1,5 @@
 # 2. Background and Context
 
-Todo
-
-> - **Domain Overview**: Provide an introduction to the domain being modeled.
-> - **Motivation**: Explain why the ontology was created and the problems it addresses.
-> - **Existing Ontologies**: Mention related ontologies and how this ontology complements or extends them.
-
-> --> Please check for comprehensibility (Markus)
-
 ## Domain Overview
 
 The Platform MaterialDigital Core Ontology (PMDco) addresses challenges in the domain of Materials Science and Engineering (MSE), which is subject to significant digital transformation. The MSE domain is an interdisciplinary field that focuses on understanding and adaption of material properties to develop new and improve existing products. The MSE domain combines principles from physics, chemistry, and engineering to explore the relationships between the structure, properties, processing, and performance of materials.
@@ -57,9 +49,11 @@ The PMDco complements and extends several existing ontologies by providing a mid
   - PMDco bridges the gap by integrating MSE-specific concepts into this general framework.
     
 - **Domain-Specific Ontologies**:
-
+  
   - Chemical Entities of Biological Interest ([ChEBI](https://www.ebi.ac.uk/chebi/)) facilitates representation of chemical entities.
-  - Quantities, Units, Dimensions, and Types ([QUDT](https://qudt.org/)) ontology supports the standardization and conversion of measurement units.
+  - Information Artifact Ontology ([IAO](https://obofoundry.org/ontology/iao.html)) represents types of information content entities such as documents, databases, and digital images.
+  - Ontology for Biomedical Investigations ([OBI](https://obi-ontology.org/)) helps to communicate about scientific investigations by defining terms for assays, devices, objectives, and more.
+ Please note that while AIO and OBI ontologies are not the domain-level ontologies in the usual meaning, we put them into this list to point out that they cover only certain "aspects of reality", in contrast to the BFO ontology, aiming to provide a comprehensive abstract framework for all the concepts.
   
 
 Despite their utility, many existing ontologies are niche-focused, inaccessible, or poorly maintained, limiting their broader applicability. The PMDco incorporates reusable components from these ontologies while addressing their limitations through a community-driven development and curation process.
