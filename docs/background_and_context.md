@@ -45,7 +45,7 @@ The PMDco complements and extends several existing ontologies by providing a mid
 
 - **Top-Level Ontologies (TLOs)**:
 
-  - The *[Basic Formal Ontology (BFO2020)](https://www.iso.org/standard/74572.html)* provides abstract, cross-domain semantic structures. However, its highly abstract nature complicates direct application to MSE-specific contexts.
+  - The [Basic Formal Ontology](https://basic-formal-ontology.org/bfo-2020.html) which is an ISO standard [BFO2020](https://www.iso.org/standard/74572.html) provides abstract, cross-domain semantic structures. However, its highly abstract nature complicates direct application to MSE-specific contexts.
   - PMDco bridges the gap by integrating MSE-specific concepts into this general framework.
     
 - **Domain-Specific Ontologies**:
