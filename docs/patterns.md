@@ -141,6 +141,11 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 ### Pattern 9 - Material and Device Specification
 
 - **Purpose**: Specify the material, from which the object is made, by stating that it complies with the certain material specification. Or, specifying the device in the same manner.
+- **Core Properties**: 
+  - `iao:isQualityMeasuredAs`
+  - `iao:isAbout`
+  - `pmd:hasValueSpecification`
+  - `pmd:specifiesValueOf`
 - **Core Idea**: provide a class pmd:MaterialSpecification/pmd:DeviceSpecification as a subclass of iao:InformationContentEntity, to which the material/device object can adhere.
 - **Example Use Case**: Specifying the material of a steel sheet to be the steel S355J2.
 
