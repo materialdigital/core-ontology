@@ -54,7 +54,7 @@ The PMDco complements and extends several existing ontologies by providing a mid
   - Information Artifact Ontology ([IAO](https://obofoundry.org/ontology/iao.html)) represents types of information content entities such as documents, databases, and digital images.
   - Ontology for Biomedical Investigations ([OBI](https://obi-ontology.org/)) helps to communicate about scientific investigations by defining terms for assays, devices, objectives, and more.
     
- Please note that while AIO and OBI ontologies are not the domain-level ontologies in the usual meaning, we put them into this list to point out that they cover only certain "aspects of reality", in contrast to the BFO ontology, aiming to provide a comprehensive abstract framework for all the concepts.
+ Please note that while IAO and OBI ontologies are not the domain-level ontologies in the usual meaning, we put them into this list to point out that they cover only certain "aspects of reality", in contrast to the BFO ontology, aiming to provide a comprehensive abstract framework for all the concepts.
   
 
 Despite their utility, many existing ontologies are niche-focused, inaccessible, or poorly maintained, limiting their broader applicability. The PMDco incorporates reusable components from these ontologies while addressing their limitations through a community-driven development and curation process.
