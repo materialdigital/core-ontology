@@ -1,14 +1,5 @@
 # Design and Methodology
 
-TODO
-
-> - **Design Principles**: Outline principles (e.g., modularity, reuse of existing standards).
-> - **Ontology Language and Tools**: Specify the ontology language (e.g., OWL, RDF) and tools (e.g., Protégé, OntoPanel).
-> - **Development Process**: Describe steps followed during ontology creation (e.g., requirements gathering, modeling, validation).
-> - **Versioning and Updates**: Discuss how the ontology will be maintained and updated.
-
-> --> Please check for comprehensibility (Markus)
-
 ## Design Principles
 
 The design of the ontology adheres to several fundamental principles to ensure usability, scalability, and alignment with the broader materials science community:
@@ -17,7 +8,7 @@ The design of the ontology adheres to several fundamental principles to ensure u
    The ontology is constructed in a modular fashion to enable different components to be developed, maintained, and reused independently. This approach supports scalability and customization for diverse use cases within the field of MSE while maintaining a cohesive structure.
 
 2. **Reuse of Existing Standards**:
-   Existing ontologies and standards such as [QUDT](https://qudt.org/) and [ChEBI](https://www.ebi.ac.uk/chebi/) have been integrated into the ontology to enhance semantic consistency and avoid duplication of effort. Aligning with these well-established resources ensures interoperability with other knowledge systems. Furthermore, established standards within the MSE realm are used to create, label, and define relevant concepts. One of the advantages is their broad distribution among stakeholders and a terminology and denomination a group of experts in the field has already agreed upon which enhances its acceptability.
+   Existing ontologies and standards such as [IAO](https://obofoundry.org/ontology/iao.html) and [ChEBI](https://www.ebi.ac.uk/chebi/) have been integrated into the ontology to enhance semantic consistency and avoid duplication of effort. Aligning with these well-established resources ensures interoperability with other knowledge systems. Furthermore, established standards within the MSE realm are used to create, label, and define relevant concepts. One of the advantages is their broad distribution among stakeholders and a terminology and denomination a group of experts in the field has already agreed upon which enhances its acceptability.
 
 3. **Community-Driven Development**:
    The ontology is curated and refined through ongoing engagement with domain experts and stakeholders. Workshops, feedback sessions, and collaborative modeling exercises are integral to ensuring the ontology addresses real-world requirements effectively.
@@ -68,7 +59,7 @@ The ontology development followed a structured and iterative process:
    - Leverage existing ontologies where possible, mapping relevant terms and extending them with domain-specific semantics.
 4. **Validation and Iteration**:
 
-   - Use reasoning tools (e.g., resoners HermiT and Pellet) to ensure logical and technical consistency and identify potential redundancies.
+   - Use reasoning tools (e.g., reasoners HermiT and Pellet) to ensure logical and technical consistency and identify potential redundancies.
    - Validate the ontology against real-world datasets and application scenarios through collaborative workshops.
 5. **Documentation and Training**:
 
