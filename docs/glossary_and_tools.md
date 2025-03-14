@@ -1,10 +1,8 @@
 # Glossary and Tools
-TODO
-> - **Glossary**: Define technical terms and acronyms used in the documentation.
-> - **Tools and Resources**: Include links to tools, software, and tutorials.
-
 
 ## Glossary
+
+- [Platform Material Digital Glossary](https://material-digital.de/glossar/) - a comprehensive glossary for the ontology-related terms. English and German versions available. 
 
 ## Tools and Resources
 
@@ -38,11 +36,11 @@ There are a lot of initiatives working on aspects of and respective tools availa
 
 ### Tools for Ontology Development and Maintenance
 
-* [Protégé](https://protege.stanford.edu/software.php)
+* [Protégé](https://protege.stanford.edu/software.php) - software used for ontology development and maintenance.
 * [Draw.io / Chowlk](https://www.drawio.com/)
     * [OntoPanel](https://yuechenbam.github.io/src/main/webapp/index.html) - Draw.io including plugin for ontology creation
     * [Chowlk Converter](https://chowlk.linkeddata.es/) - Chowlk Converter is a web application that takes as input an ontology conceptualization made with diagrams.net and generates its implementation in OWL.
-* [OTTR](https://ottr.xyz/)
+* [OTTR](https://ottr.xyz/) - language with supporting tools for representing and instantiating RDF graph and OWL ontology modelling patterns. Provides an abstraction level on top of basic RDF functionality.
 * [OOPS!](https://oops.linkeddata.es/) - OOPS! is a web-based tool, independent of any ontology development environment, for detecting potential pitfalls that could lead to modelling errors.
     * [Scientific Paper Publication on OOPS!](https://www.semantic-web-journal.net/system/files/swj989.pdf) (open access)
 * [RDF Grapher](https://www.ldf.fi/service/rdf-grapher) - RDF grapher is a web service for parsing RDF data and visualizing it as a graph.
