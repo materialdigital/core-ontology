@@ -1,4 +1,4 @@
-# 2. Background and Context
+# Background and Context
 
 ## Domain Overview
 
@@ -53,6 +53,7 @@ The PMDco complements and extends several existing ontologies by providing a mid
   - Chemical Entities of Biological Interest ([ChEBI](https://www.ebi.ac.uk/chebi/)) facilitates representation of chemical entities.
   - Information Artifact Ontology ([IAO](https://obofoundry.org/ontology/iao.html)) represents types of information content entities such as documents, databases, and digital images.
   - Ontology for Biomedical Investigations ([OBI](https://obi-ontology.org/)) helps to communicate about scientific investigations by defining terms for assays, devices, objectives, and more.
+  - 
  Please note that while AIO and OBI ontologies are not the domain-level ontologies in the usual meaning, we put them into this list to point out that they cover only certain "aspects of reality", in contrast to the BFO ontology, aiming to provide a comprehensive abstract framework for all the concepts.
   
 
