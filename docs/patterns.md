@@ -2,12 +2,8 @@
 
 In ontology development and usage, **usage patterns** play a critical role in addressing recurring modeling requirements. These patterns provide standardized, reusable semantic snippets that facilitate consistent representation of relationships between instances and entities. Furthermore, such patterns may be used to create SHACL shapes to include constraints in a knowledge representation. By following usage patterns, ontology users and developers can ensure uniformity, clarity, and reusability in their models.
 
-The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and examples.
+The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and example.
 
----
-
-## Inroduction
-This page uses a tensile testing example to demonstrate interconnected graph patterns within PMDco, beginning with the specification of a steel sheet material. It follows the process of manufacturing test pieces, detailing the roles of each object involved. Each process is guided by a specification or plan and is linked to devices, which include their own identifiers and specifications. The page further illustrates how processes are sequentially chained and subdivided, generating information content entities like time series data. Ultimately, it covers how this data is transformed to derive material properties, providing a foundational approach to modeling workflows in materials science.
 ![TableOfContents](https://github.com/user-attachments/assets/3510fa58-9774-4d04-a466-6a6bf7f2ddcd)
 
 ---
@@ -30,7 +26,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 
 ### Pattern 1 - Temporal Region
 
-- **Purpose**: Represent moments of time when a process has started/ended.
+- **Purpose**: Specifying the boundaries of a process on the time axis. 
 - **Core Properties**: 
   - `bfo:occupiesTemporalRegion` 
   - `bfo:properTemporalPart`
@@ -45,13 +41,13 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 
 ### Pattern 2 - Process Chain
 
-- **Purpose**: Represent complex processes, which has other processes as their stages.
+- **Purpose**: Represent complex processes, consisting of simultaneous and serial subprocesses. 
 - **Core Properties**: 
   - `bfo:precedes` 
   - `bfo:hasOccurentPart`
   - `pmd:startsWith`
   - `pmd:endsWith`
-- **Example Use Case**: Specifying manufactirung processes consisting of several stages.
+- **Example Use Case**: Specifying the structure of commplex manufactirung processes consisting of several stages.
 
 ![Visualization of Pattern 2](https://github.com/user-attachments/assets/01c1f41f-52ad-4789-8d49-40006485852c)
 
@@ -59,12 +55,11 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 
 ### Pattern 3 - Process Inputs and Outputs
 
-- **Purpose**: Describes how to represent inputs and outputs for planned processes.
+- **Purpose**: Describes how to represent inputs and outputs for planned processes typically involving material entities or information-bearing entities.
 - **Core Properties**: 
   - `pmd:hasInput` 
   - `pmd:hasOutput`
-- **Key Insight**: A planned process can have multiple inputs and outputs, typically involving material entities or information-bearing entities.
-- **How to Interpret**: Inputs and outputs are linked to processes using the above properties to indicate participation.
+- **Example Use Case**: A planned process with possibility of multiple inputs and outputs, e.g., testing properties of a metallic sample, or transforming a piece of material into another product.
 
   
 ![Visualization of Pattern 3](https://github.com/user-attachments/assets/8a27fe19-dd1e-4542-a4d7-5c22a62e3ff8)
@@ -79,7 +74,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `bfo:concretizes`
   - `bfo:realizes`
   - `bfo:hasParticipant`
-- **Example Use Case**: Specifying the role of specimen, which material object realizes during a process. 
+- **Example Use Case**: Specifying the role of specimen, which material object undertakes during a process. 
   
 ![Visualization of Pattern 4](https://github.com/user-attachments/assets/ea1dc484-19ab-4696-85d7-6779aa93d756)
 
