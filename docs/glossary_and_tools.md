@@ -36,10 +36,10 @@ There are a lot of initiatives working on aspects of and respective tools availa
 
 ### Tools for Ontology Development and Maintenance
 
-* [Protégé](https://protege.stanford.edu/software.php) - software used for ontology development and maintenance.
-* [Draw.io / Chowlk](https://www.drawio.com/)
-    * [OntoPanel](https://yuechenbam.github.io/src/main/webapp/index.html) - Draw.io including plugin for ontology creation
-    * [Chowlk Converter](https://chowlk.linkeddata.es/) - Chowlk Converter is a web application that takes as input an ontology conceptualization made with diagrams.net and generates its implementation in OWL.
+* [Protégé](https://protege.stanford.edu/software.php) - Software used for ontology development and maintenance.
+* [Draw.io](https://www.drawio.com/) - Online tool for visual diagrams construction.
+* [OntoPanel](https://yuechenbam.github.io/src/main/webapp/index.html) - A tool for ontology creation, including the Draw.io plugin
+* [Chowlk Converter](https://chowlk.linkeddata.es/) - Chowlk Converter is a web application that takes as input an ontology conceptualization made with diagrams.net and generates its implementation in OWL.
 * [OTTR](https://ottr.xyz/) - language with supporting tools for representing and instantiating RDF graph and OWL ontology modelling patterns. Provides an abstraction level on top of basic RDF functionality.
 * [OOPS!](https://oops.linkeddata.es/) - OOPS! is a web-based tool, independent of any ontology development environment, for detecting potential pitfalls that could lead to modelling errors.
     * [Scientific Paper Publication on OOPS!](https://www.semantic-web-journal.net/system/files/swj989.pdf) (open access)
