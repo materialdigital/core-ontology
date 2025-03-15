@@ -109,12 +109,13 @@ engineering goals.
 PMDco includes properties that define relationships and attributes:
 
 - **Object Properties**:
-  - **stimulates**: Links a stimulating process to a material property involved.
-  - **composed of**: The property specifies of which kind of general portion of material something is built of.
+  - **stimulates**: A relation between a stimulating process and material property, where there is some material entity that is bearer of the material property and participates in the stimulating process, and the material property comes to be realized in the course of the stimulating process.
+  - **interacts with**: A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants.
+  - **consists of**: A continuant part property that relates Material Entity Aggregates in the direction of smaller length-scale.
 
 - **Data Properties**:
-  - **hasValue**: Assigns a specific value to a property, such as a numerical measurement.
-  - **hasUnit**: Specifies the unit of measurement for a given value.
+  - **has specified value**: Assigns a specific value to a property, such as a numerical measurement.
+  - **has unit**: Specifies the unit of measurement for a given value.
 
 ### Individuals
 While PMDco serves as a mid-level ontology and may not define specific instances, it provides a framework for users to instantiate individuals pertinent to their domain. Therefore, however, it does not contain individuals in its pure form.
@@ -158,6 +159,26 @@ PMDco employs annotations to enrich classes and properties with metadata and hum
 - **Comments** | ***rdfs:comment***: Offer detailed descriptions, usage notes, clarifications of definitions, or additional relevant information. They may enhance the understanding of the terms regarded.
 - **Definitions** | ***skos:definition***: Delivers formal, human readable explanations and descriptions of classes and properties. Preferably, [Aristotelian definitions](#aristotelian-definition) are used that support in finding subclass relationships.
 - **Definition Source** | ***obo:IAO_0000119***: If the definition was obtained from a specific source (e.g., a well-known work from the field of MSE, a dictionary, or a URI/URL), this is specified as definition source, also citing the original document.
+
+**Example Annotations**:
+
+The class **Material** has the following annotations:
+
+``rdfs:label:`` "Material"@en <br/>
+``rdfs:label:`` "Material"@de <br/>
+``rdfs:comment:`` "Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a Manufacturing Process may be SemiFinishedProdcuts." <br/>
+``skos:definition:`` "A Material is a Portion Of Matter that has the disposition to participate in some Manifacturing Process and whose shape is not relevant for its disposition to participate in the Manifacuring Process." <br/>
+``obo:IAO_0000119:`` "Defined in accordance with standard materials science literature." <br/>
+``rdfs:isDefinedBy:`` https://w3id.org/pmd/co/ <br/>
+
+Similarly, the object property **exists at** has the following annotations:
+
+``rdfs:label:`` "exists at" <br/>
+``rdfs:comment:`` "Indicates the spatial or temporal existence of an entity." <br/>
+``skos:definition:`` "(Elucidation) exists at is a relation between a particular and some temporal region at which the particular exists" <br/>
+``dc:identifier:`` "118-BFO” <br/>
+``rdfs:isDefinedBy:`` https://w3id.org/pmd/co/ <br/>
+``skos:example:`` "First World War exists at 1914-1916; Mexico exists at January 1, 2000" <br/>
 
 > #### Aristotelian definition: 
 > An **Aristotelian definition** typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus). This method is rooted in Aristotle's philosophy and is often used in ontology development to define classes in relation to their superclasses. For more information, please see [Aristotelian](https://www.merriam-webster.com/dictionary/Aristotelian) and [Aristotelianism](https://en.wikipedia.org/wiki/Aristotelianism).
