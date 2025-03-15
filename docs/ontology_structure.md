@@ -137,19 +137,6 @@ While PMDco serves as a mid-level ontology and may not define specific instances
 ## Hierarchy
 PMDco presents a structured taxonomy with parent-child relationships among classes (class/subclass-relations). For example:
 
-- **Entity**
-  - **Continuant**
-    - **Independent Continuant**
-      - **Material Entity**
-        - **Material Entity Aggregate**
-          - **Portion of Matter**
-            - **Material**
-  - **Occurrent**
-    - **Process**
-      - **Planned Process**
-        - **Manufacturing Process**
-
-Block depiction:
 ```
 Entity
   ├── Continuant
