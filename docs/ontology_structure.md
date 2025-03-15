@@ -104,6 +104,20 @@ engineering goals.
 
 ``pmd:Monte Carlo Simulation`` - A Simulation Process that uses random sampling to solve physical and mathematical problems.
 
+5.**Devices module**: This category includes devices performing certain functions in industrial processes.
+
+Main BFO superclass:
+
+``bfo:object`` - An object is a material entity which manifests causal unity & is of a type instances of which are maximal relative to the sort of causal unity manifested.
+
+Examples:
+
+``pmd:Device`` - A physical or virtual entity used to perform a specific function or task, often involving measurement, manipulation, or analysis of materials.
+
+``pmd:Furnace`` - An enclosed structure in which heat is produced (as for heating a house or for reducing ore).
+
+``pmd:Creep Testing Device`` - A device used to test the creep behavior of materials under constant stress at high temperatures.
+
 
 ### Properties
 PMDco includes properties that define relationships and attributes:
@@ -171,6 +185,10 @@ The class **Material** has the following annotations:
 ``obo:IAO_0000119:`` "Defined in accordance with standard materials science literature." <br/>
 ``rdfs:isDefinedBy:`` https://w3id.org/pmd/co/ <br/>
 
+Protege look:
+
+![p0](https://github.com/user-attachments/assets/3c3ec208-40fc-407b-a7fc-f6a33a10bd2d)
+
 Similarly, the object property **exists at** has the following annotations:
 
 ``rdfs:label:`` "exists at" <br/>
@@ -179,6 +197,11 @@ Similarly, the object property **exists at** has the following annotations:
 ``dc:identifier:`` "118-BFO” <br/>
 ``rdfs:isDefinedBy:`` https://w3id.org/pmd/co/ <br/>
 ``skos:example:`` "First World War exists at 1914-1916; Mexico exists at January 1, 2000" <br/>
+
+Protege look:
+
+![p1](https://github.com/user-attachments/assets/cec64d9e-5b7b-48f3-8a2b-0e710ff63ccb)
+
 
 > #### Aristotelian definition: 
 > An **Aristotelian definition** typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus). This method is rooted in Aristotle's philosophy and is often used in ontology development to define classes in relation to their superclasses. For more information, please see [Aristotelian](https://www.merriam-webster.com/dictionary/Aristotelian) and [Aristotelianism](https://en.wikipedia.org/wiki/Aristotelianism).
