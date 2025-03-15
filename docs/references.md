@@ -1,10 +1,5 @@
 # References
 
-TODO
-> - **References**: List references to academic papers, standards, or other sources.
-
-
-
 * [Dublin Core Terms](http://purl.org/dc/terms/)  
 * [Web Ontology Language](https://www.w3.org/TR/owl-overview/)  
 * [Quantities, Units, Dimensions and Types](http://www.qudt.org/2.1/catalog/qudt-catalog.html)  
