@@ -1,26 +1,109 @@
 # Ontology Structure
-TODO:
-> - **Key Components**:
->   - **Classes**: Define the primary categories or entities.
->   - **Properties**: Describe relationships (object properties) and attributes (data properties).
->   - **Individuals**: Provide examples of specific instances.
-> - **Hierarchy**:
->   - Present the taxonomy or class hierarchy (e.g., parent-child relationships).
->   - Use diagrams for clarity.
-> - **Annotations**: Document metadata for classes, properties, and individuals (e.g., labels, comments, descriptions).
-> - **Constraints and Rules**: Define any restrictions (e.g., cardinality constraints, domain/range specifications).
+
 
 ## Key Components
 
-The key components within PMDco are based on classic ontology development, so that classes, object properties, data properties, individuals, and annotations are defined and specified in PMDco. 
+PMDco follows a classical ontology development approach, incorporating classes, object properties, data properties, individuals, and annotations to define and structure domain knowledge.
 
 ### Classes
-PMDco defines several primary categories central to materials science and engineering (MSE) as classes. Notable classes include:
 
-- **Material**: A Material is a portion of matter that has the disposition to participate in some manufacturing process and whose shape is not relevant for its disposition to participate in the manufacuring process.
-- **Manufacturing Process**: Denotes a planned process that is driven by the primary intent to transform objects. A manufacturing process is always a transformative process.
-- **Mechanical Property Analyzing Process**: Refers to an assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.
-- **Material Property**: A material property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
+PMDco defines several primary categories central to materials science and engineering (MSE). These categories provide a structured ontology for representing materials, their properties, processes, and associated devices. The ontology is made of modules, representing categories of the MSE concepts:
+
+![image (1)](https://github.com/user-attachments/assets/578d42b1-27dd-4f4c-83cc-513d827f1192)
+
+We provide a few examples from each category below:
+
+1.**Materials module**: This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.
+
+Examples:
+
+``bfo:material entity`` – the main superclass for materials and objects from BFO.
+
+``chebi:chemical entity`` - contains all the periodic elements imported from CHEBI ontology
+
+``pmd:MaterialAggregate`` – A material entity that is a mereological sum of separate material entities and possesses nonconnected boundaries.
+
+``pmd:PortionOfMatter`` – A material entity that is not demarcated by any physical discontinuities.
+
+``pmd:Material`` – a Portion Of Matter that has the disposition to participate in some Manufacturing Process and whose shape is not relevant for its disposition to participate in the Manufacturing Process.
+
+Some concrete materials definitions:
+
+pmd:Metal - A metal is an engineered material representing a class of materials characterized by high electrical and thermal conductivity, ductility, and metallic bonding.
+
+pmd:Ceramics - Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.
+
+2.**Qualities module**: Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.
+
+Main BFO superclasses:
+
+``bfo:quality`` – A quality is a specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized
+
+``bfo:realizable entity`` - A specifically dependent continuant  that inheres in continuant  entities and are not exhibited in full at every time in which it inheres in an entity or group of entities. The exhibition 
+or actualization of a realizable entity is a particular manifestation, functioning or process that occurs under certain circumstances.
+
+Examples from PMD:
+
+``pmd:Morphologic Quality`` - A morphological quality is a material entity that represents the characteristics related to the shape, size, and structure of a material's features.
+
+``pmd:MaterialProperty`` - A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape 
+and size.
+
+Some concrete properties:
+
+``pmd:Hardness`` – A measure of a material’s resistance to deformation or indentation.
+
+``pmd:Yield Strength`` – The stress at which a material transitions from elastic to plastic deformation.
+
+3.**Manufacturing module**: This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.
+
+The superclass for industrial processes:
+
+``pmd:ManufacturingProcess`` - A planned process that is driven by the primary intent to transform objectsA manufacturing process is always a transformative process.
+
+More specific examples:
+
+``pmd:Coating`` – A manufacturing process that aims to deposit a permanently adhering layer of a material without a form onto a workpiece, whereby the immediate state of the coating material directly before 
+application is essential.
+
+``pmd:Forming`` - A manufacturing process that changes the shape of a solid body through plastic deformation while retaining both mass and structural integrity.
+
+``pmd:Joining`` - A manufacturing process that enables the continuous bonding or joining of two or more workpieces with a specific, fixed shape or of such workpieces with a shapeless material, whereby the cohesion 
+is created at specific points and reinforced overall.
+
+4.**Material Characterization**: Material characterization involves methods and devices used to analyze the physical, mechanical, and chemical properties of materials.
+
+Main BFO superclass:
+
+``bfo:process`` - p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant
+
+The superclass for characterization processes:
+
+``pmd:Assay`` - A planned process that has the objective to produce information about a material entity (the evaluant) by examining it. (Imported from OBI ontology)
+
+More specific examples:
+
+``pmd:Acoustical Property Analyzing Process`` - An assay that measures the acoustic properties of materials by analyzing how sound waves interact with the material. This process involves generating sound waves and observing their reflection, transmission, absorption, or scattering to determine properties such as acoustic impedance, absorption coefficient, and sound speed.
+
+``pmd:Mechanical Property Analyzing Process`` - An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.
+
+``pmd:Tensile Testing Process`` – A Mechanical Property Analyzing Process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.
+
+5.**Data Transformation module**: This category includes processes that involve computational simulations and digital transformations related to material properties and behaviors.
+
+Main BFO superclass:
+
+``bfo:process`` - p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant
+
+Examples:
+
+``pmd:Computing Process`` - A planned process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or 
+engineering goals.
+
+``pmd:Simulation Process`` - A Computing Process that models the behavior of a system over time using mathematical or computational techniques.
+
+``pmd:Monte Carlo Simulation`` - A Simulation Process that uses random sampling to solve physical and mathematical problems.
+
 
 ### Properties
 PMDco includes properties that define relationships and attributes:
