@@ -104,7 +104,7 @@ engineering goals.
 
 ``pmd:Monte Carlo Simulation`` - A Simulation Process that uses random sampling to solve physical and mathematical problems.
 
-5.**Devices module**: This category includes devices performing certain functions in industrial processes.
+6.**Devices module**: This category includes devices performing certain functions in industrial processes.
 
 Main BFO superclass:
 
@@ -165,6 +165,26 @@ Entity
   ```
 
 This hierarchical structure facilitates organized data representation and promotes interoperability across MSE domains.
+
+Some Protege examples provided below.
+
+**Characterization processes taxonomy:**
+
+![tax_char](https://github.com/user-attachments/assets/aece6cdc-5639-43d0-b25f-19aba9400bca)
+
+**Materials taxonomy:**
+
+![tax_mater](https://github.com/user-attachments/assets/fc9530d7-db9a-4a87-b8b1-0681569c6b89)
+
+**Taxonomy of material properties:**
+
+![tax_qualities](https://github.com/user-attachments/assets/b2cfc656-47b0-4a6b-93cc-a18835513379)
+
+**Taxonomy of physical processes:**
+
+![tax_qualproc](https://github.com/user-attachments/assets/f45a1669-4018-4fdd-ba0a-651704714389)
+
+
 
 ## Annotations
 PMDco employs annotations to enrich classes and properties with metadata and human readable information, enhancing clarity and usability. This information may be provided in different natural languages (e.g., English and German).
