@@ -210,8 +210,9 @@ Protege look:
 ![p1](https://github.com/user-attachments/assets/cec64d9e-5b7b-48f3-8a2b-0e710ff63ccb)
 
 
-> #### Aristotelian definition: 
-> An **Aristotelian definition** typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus). This method is rooted in Aristotle's philosophy and is often used in ontology development to define classes in relation to their superclasses. For more information, please see [Aristotelian](https://www.merriam-webster.com/dictionary/Aristotelian) and [Aristotelianism](https://en.wikipedia.org/wiki/Aristotelianism).
+> #### Aristotelian definition:
+For providing the class definitions in PMDcore ontology we follow the Aristotelian principle:
+> An **Aristotelian definition** typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus), that should be expressed in the concepts defined in the ontology. This method is rooted in Aristotle's philosophy and is often used in ontology development to define classes in relation to their superclasses. For more information, please see [Aristotelian](https://www.merriam-webster.com/dictionary/Aristotelian) and [Aristotelianism](https://en.wikipedia.org/wiki/Aristotelianism).
 
 For instance, the class **Material** may have the following annotations:
 - **Label**: "Material"@en, "Material"@de
