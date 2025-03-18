@@ -250,11 +250,6 @@ co:PMD_0001032 rdf:type owl:AnnotationProperty ;
 #    Object Properties
 #################################################################
 
-###  http://purl.obolibrary.org/obo/BFO_0000051
-obo:BFO_0000051 rdf:type owl:ObjectProperty ;
-                owl:deprecated "use the BFO2020 relations 'has continuant part' or 'has occurent part'" .
-
-
 ###  http://purl.obolibrary.org/obo/BFO_0000054
 obo:BFO_0000054 rdf:type owl:ObjectProperty ;
                 owl:inverseOf obo:BFO_0000055 ;
@@ -947,12 +942,14 @@ co:PMD_0000009 rdf:type owl:ObjectProperty ;
 ###  https://w3id.org/pmd/co/PMD_0000015
 co:PMD_0000015 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000057 ;
+               rdfs:comment "relation from a process to someone or something physical or digital (continuant) that is a necessary precondition for the process to start" ;
                rdfs:label "has input"@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000016
 co:PMD_0000016 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000057 ;
+               rdfs:comment "relation from a process to someone or something physical or digital (continuant) that participates in the process such that it is generated or modified during the process, and that it exists at the end of the process" ;
                rdfs:label "has output"@de .
 
 
@@ -1111,15 +1108,9 @@ co:PMD_0060004 rdf:type owl:ObjectProperty ;
 
 ###  https://w3id.org/pmd/co/PMD_0000006
 co:PMD_0000006 rdf:type owl:DatatypeProperty ;
-               rdfs:domain obo:IAO_0000027 ;
+               rdfs:domain obo:IAO_0000030 ;
+               rdfs:comment "data property that relates an information content entity to a literal"@en ;
                rdfs:label "has value"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000021
-co:PMD_0000021 rdf:type owl:DatatypeProperty ;
-               rdfs:subPropertyOf co:PMD_0000006 ;
-               rdfs:domain co:PMD_0000002 ;
-               rdfs:label "has measurement value"@en .
 
 
 #################################################################
@@ -3533,7 +3524,11 @@ obo:OBI_0001933 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000000
 co:PMD_0000000 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0001933 ;
+               rdfs:subClassOf obo:OBI_0001933 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty co:PMD_0000020 ;
+                                 owl:cardinality "1"^^xsd:nonNegativeInteger
+                               ] ;
                obo:IAO_0000412 obo:OBI_0001931 ;
                rdfs:comment "A value specification that consists of two parts: a numeral and a unit label" ;
                rdfs:label "scalar value specification"@en .
@@ -3552,18 +3547,7 @@ co:PMD_0000001 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000002
 co:PMD_0000002 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000109
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty co:PMD_0000020 ;
-                                                        owl:cardinality "1"^^xsd:nonNegativeInteger
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty co:PMD_0000021 ;
-                                                        owl:cardinality "1"^^xsd:nonNegativeInteger
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
+               rdfs:subClassOf obo:IAO_0000109 ;
                obo:IAO_0000412 "http://purl.obolibrary.org/obo/IAO_0000032" ;
                rdfs:comment "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en ;
                rdfs:label "scalar measurement datum"@en .
@@ -5871,7 +5855,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid334 ;
+               owl:equivalentClass _:genid329 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000196 ;
@@ -5882,7 +5866,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                           "Laboratory"@en ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en .
 
-_:genid334 owl:intersectionOf ( obo:BFO_0000029
+_:genid329 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:BFO_0000196 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -5893,7 +5877,7 @@ _:genid334 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid334 ;
+   owl:annotatedTarget _:genid329 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -6212,7 +6196,7 @@ co:PMD_0000851 rdf:type owl:Class ;
 co:PMD_0000852 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:BFO_0000051 ;
+                                                        owl:onProperty obo:BFO_0000178 ;
                                                         owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0020003
                                                                                                   [ rdf:type owl:Restriction ;
                                                                                                     owl:onProperty obo:BFO_0000196 ;
@@ -7960,7 +7944,7 @@ co:PMD_0020023 rdf:type owl:Class ;
                                                )
                                    ] ;
                rdfs:subClassOf co:PMD_0020098 ;
-               rdfs:label "Metallic Grain Structures"@de .
+               rdfs:label "Metallic Grain Structures"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020024
@@ -10748,37 +10732,37 @@ co:PMD_0020019 rdf:type owl:NamedIndividual ;
 
 ###  https://w3id.org/pmd/co/PMD_0020027
 co:PMD_0020027 rdf:type owl:NamedIndividual ;
-               rdfs:label "Bainite"@de .
+               rdfs:label "Bainite"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020097
 co:PMD_0020097 rdf:type owl:NamedIndividual ;
-               rdfs:label "Austenite"@de .
+               rdfs:label "Austenite"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020100
 co:PMD_0020100 rdf:type owl:NamedIndividual ;
-               rdfs:label "Ferrite"@de .
+               rdfs:label "Ferrite"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020107
 co:PMD_0020107 rdf:type owl:NamedIndividual ;
-               rdfs:label "Ledeburite"@de .
+               rdfs:label "Ledeburite"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020109
 co:PMD_0020109 rdf:type owl:NamedIndividual ;
-               rdfs:label "Pearlite"@de .
+               rdfs:label "Pearlite"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020110
 co:PMD_0020110 rdf:type owl:NamedIndividual ;
-               rdfs:label "Widmanstatten structure"@de .
+               rdfs:label "Widmanstatten structure"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020111
 co:PMD_0020111 rdf:type owl:NamedIndividual ;
-               rdfs:label "Martensite"@de .
+               rdfs:label "Martensite"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020117
@@ -10840,6 +10824,9 @@ co:PMD_0020125 rdf:type owl:NamedIndividual ;
 #################################################################
 
 obo:BFO_0000050 owl:deprecated "use the BFO2020 relations 'has continuant part' or 'has occurent part'" .
+
+
+obo:BFO_0000051 owl:deprecated "use the BFO2020 relations 'has continuant part' or 'has occurent part'" .
 
 
 obo:CHEBI_23367 obo:IAO_0000115 "Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity." ;
