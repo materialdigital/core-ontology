@@ -2,7 +2,7 @@
 
 ## Glossary
 
-- [Platform Material Digital Glossary](https://material-digital.de/glossar/) - a comprehensive glossary for the ontology-related terms. English and German versions available. 
+- [MaterialDigital Initiative Glossary](https://material-digital.de/glossar/) - a comprehensive glossary for the ontology-related terms. English and German versions available. 
 
 ## Tools and Resources
 
@@ -12,7 +12,7 @@ This section comprises links and information on onboardings with respect to sema
 
 #### Ontology Development Guide
 
-In cooperation with participants in the MaterialDigital initiative ([PMD](https://www.materialdigital.de/)), a guide for the development of ontologies in general was created, which contains basic aspects and recommended procedures. This guide may be expanded and developed further and is hosted at the The Scientific Ontology Network.
+In cooperation with participants in the ([MaterialDigital initiative](https://www.materialdigital.de/)), a guide for the development of ontologies in general was created, which contains basic aspects and recommended procedures. This guide may be expanded and developed further and is hosted at the The Scientific Ontology Network.
 
 - [Development Guidelines at The Scientific Ontology Network](https://scientific-ontology-network.github.io/)
 - [Get the Guide (Direct Link)](https://github.com/scientific-ontology-network/ontology-development-guide/releases/download/v0.1.0/ontology-guide.pdf)
