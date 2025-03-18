@@ -8,13 +8,14 @@ $(ONTOLOGYTERMS): $(SRCMERGED)
 	$(ROBOT) query -f csv -i $< --query pmdco_terms.sparql $@
 
 
-$(IMPORTDIR)/%_import.owl: $(MIRRORDIR)/%.owl $(IMPORTDIR)/%_terms.txt
+# we dont want the "curation status annotation" and not the "data item"
+# we dont want RO
+$(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
-		extract -T $(IMPORTDIR)/$*_terms.txt --force true --copy-ontology-annotations true --individuals exclude --method BOT \
-		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
- 		remove --term http://www.w3.org/2002/07/owl#Nothing --term http://purl.obolibrary.org/obo/PATO_0000001\
+		remove --term "IAO:0000114" --term "IAO:0000027" --select "self descendants" \
+		extract -T $(IMPORTDIR)/obi_terms.txt --force true --copy-ontology-annotations false --individuals exclude --method BOT \
+		remove --select "RO:*"  \
 		$(ANNOTATE_CONVERT_FILE); fi
-
 
 $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
@@ -24,8 +25,6 @@ $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
  		remove --select "RO:*"  \
 		$(ANNOTATE_CONVERT_FILE); fi
 
-
-## Module for ontology: chebi
 $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
 		extract --upper-term http://purl.obolibrary.org/obo/CHEBI_24431 --lower-terms $(IMPORTDIR)/chebi_terms.txt --copy-ontology-annotations true --individuals exclude --intermediates none --method MIREOT \
@@ -33,8 +32,8 @@ $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 		$(ANNOTATE_CONVERT_FILE); fi
 
 ## we import the BFO entirely
-$(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl
-	if [ $(IMP) = true ]; then cp $(MIRRORDIR)/bfo.owl $(IMPORTDIR)/bfo_import.owl; fi
+#$(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl
+# if [ $(IMP) = true ]; then cp $(MIRRORDIR)/bfo.owl $(IMPORTDIR)/bfo_import.owl; fi
 
 
 
