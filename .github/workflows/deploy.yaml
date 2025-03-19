@@ -14,10 +14,25 @@ jobs:
         path: main
     - name: Build HTML for main
       run: | 
-           wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.17/java-11-widoco-1.4.17-jar-with-dependencies.jar
-           mkdir public 
-           java -jar widoco.jar -ontFile main/pmd_core.ttl -outFolder public -htaccess -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl
-           cp public/index-en.html public/index.html
+           curl -L -o robot.jar "https://github.com/ontodev/robot/releases/download/v1.9.5/robot.jar"
+
+           java -jar robot.jar merge --catalog v3.0.0/src/ontology/catalog-v001.xml --input v3.0.0/src/ontology/pmdco-edit.owl --output merged.ttl           
+          
+           mkdir public/3.0.0
+           java -jar widoco.jar -ontFile merged.ttl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.0.0/           
+           cp public/3.0.0/index-en.html public/3.0.0/index.html
+
+           pip install mkdocs
+           cd v3.0.0
+           mkdocs build -f mkdocs.yaml
+
+           cd ..
+           mkdir public/3.0.0/docs
+           cp -r v3.0.0/site/* public/3.0.0/docs/
+ 
+           cp -r public/3.0.0 public
+           
     - uses: actions/checkout@v3
       with:
         ref: v2.0.7
@@ -40,30 +55,6 @@ jobs:
            ls public/2.0.8/           
            cp public/2.0.8/index-en.html public/2.0.8/index.html
 
-    - uses: actions/checkout@v3
-      with:
-        ref: main
-        path: v3.0.0
-    - name: Build HTML for 3.0.0
-      run: | 
-
-           curl -L -o robot.jar "https://github.com/ontodev/robot/releases/download/v1.9.5/robot.jar"
-
-           java -jar robot.jar merge --catalog v3.0.0/src/ontology/catalog-v001.xml --input v3.0.0/src/ontology/pmdco-edit.owl --output merged.ttl           
-          
-           mkdir public/3.0.0
-           java -jar widoco.jar -ontFile merged.ttl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
-           ls public/3.0.0/           
-           cp public/3.0.0/index-en.html public/3.0.0/index.html
-
-           pip install mkdocs
-           cd v3.0.0
-           mkdocs build -f mkdocs.yaml
-
-           cd ..
-           mkdir public/3.0.0/docs
-           cp -r v3.0.0/site/* public/3.0.0/docs/
-           
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
