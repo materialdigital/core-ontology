@@ -13,6 +13,9 @@
 
 <https://w3id.org/pmd/co/> rdf:type owl:Ontology ;
                             owl:versionIRI <https://w3id.org/pmd/co/3.0.0-alpha1> ;
+                            dce:contributor <https://orcid.org/0000-0002-3092-0532> ,
+                                            <https://orcid.org/0000-0003-0410-3616> ,
+                                            <https://orcid.org/0000-0003-2612-8515> ;
                             dce:type obo:IAO_8000001 ;
                             dcterms:bibliographicCitation "PMDco: Platform Material Digital Ontology. Version 3.0.0-alpha1, https://w3id.org/pmd/co/" ;
                             dcterms:created "2025-03-19" ;
@@ -76,6 +79,11 @@ obo:IAO_0000119 rdf:type owl:AnnotationProperty ;
 
 ###  http://purl.obolibrary.org/obo/IAO_0000412
 obo:IAO_0000412 rdf:type owl:AnnotationProperty ;
+                rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
+
+
+###  http://purl.org/dc/elements/1.1/contributor
+dce:contributor rdf:type owl:AnnotationProperty ;
                 rdfs:isDefinedBy <https://w3id.org/pmd/co/> .
 
 
@@ -210,7 +218,8 @@ obo:IAO_0000136 rdf:type owl:ObjectProperty ;
 ###  https://w3id.org/pmd/co/PMD_0000004
 co:PMD_0000004 rdf:type owl:ObjectProperty ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "is subject of"@en .
+               rdfs:label "is subject of"@en ;
+               skos:definition "Inverse of 'is about'."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000009
@@ -225,17 +234,17 @@ co:PMD_0000009 rdf:type owl:ObjectProperty ;
 ###  https://w3id.org/pmd/co/PMD_0000015
 co:PMD_0000015 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000057 ;
-               rdfs:comment "relation from a process to someone or something physical or digital (continuant) that is a necessary precondition for the process to start" ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "has input"@de .
+               rdfs:label "has input"@de ;
+               skos:definition "relation from a process to someone or something physical or digital (continuant) that is a necessary precondition for the process to start" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000016
 co:PMD_0000016 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000057 ;
-               rdfs:comment "relation from a process to someone or something physical or digital (continuant) that participates in the process such that it is generated or modified during the process, and that it exists at the end of the process" ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "has output"@de .
+               rdfs:label "has output"@de ;
+               skos:definition "relation from a process to someone or something physical or digital (continuant) that participates in the process such that it is generated or modified during the process, and that it exists at the end of the process" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000020
@@ -309,9 +318,9 @@ co:PMD_0020020 rdf:type owl:ObjectProperty ;
                rdf:type owl:SymmetricProperty ;
                rdfs:domain obo:BFO_0000040 ;
                rdfs:range obo:BFO_0000040 ;
-               rdfs:comment "A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "interacts with"@en .
+               rdfs:label "interacts with"@en ;
+               skos:definition "A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020021
@@ -410,9 +419,9 @@ co:PMD_0060004 rdf:type owl:ObjectProperty ;
 ###  https://w3id.org/pmd/co/PMD_0000006
 co:PMD_0000006 rdf:type owl:DatatypeProperty ;
                rdfs:domain obo:IAO_0000030 ;
-               rdfs:comment "data property that relates an information content entity to a literal"@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "has value"@en .
+               rdfs:label "has value"@en ;
+               skos:definition "data property that relates an information content entity to a literal"@en .
 
 
 #################################################################
@@ -896,20 +905,7 @@ obo:OBI_0001933 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000000
 co:PMD_0000000 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0001933 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0000020 ;
-                                 owl:cardinality "1"^^xsd:nonNegativeInteger
-                               ] ;
-               obo:IAO_0000412 obo:OBI_0001931 ;
-               rdfs:comment "A value specification that consists of two parts: a numeral and a unit label" ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "scalar value specification"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000001
-co:PMD_0000001 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000892 ;
+               rdfs:subClassOf co:PMD_0000001 ;
                rdfs:comment "Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a Manufacturing Process may be SemiFinishedProdcuts."@en ,
                             "The sum of portions of matter of the same type form a portion of matter of that type."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
@@ -919,13 +915,26 @@ co:PMD_0000001 rdf:type owl:Class ;
                skos:definition "A Material is a Portion Of Matter that may participate in some Manifacturing Process and whose shape is not relevant for its participation in the Manifacuring Process."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0000001
+co:PMD_0000001 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000040 ;
+               rdfs:comment """It is also representing a distinct physical or conceptual part of a material or substance.
+
+The open energy ontology OEO defines portion of matter as a subclass of object aggregate, which implies countability. Our portion is not (precisely) countable and thus bearer of intensive properties."""@en ,
+                            """Lome explanation for portion of matter: \"What is a molecule cluster at the cellular level? Contrary to the molecular level, at the cellular level of granularity the boundary of each molecule is outside of the level of granular focus. What forms a discontinuous cluster of countable individual molecules and thus bona fide objects at the molecular level, is a continuous and non-countable molecular substance at coarser levels of
+granularity. At these coarser levels, the individual molecules cannot be differentiated and demarcated anymore and the cluster as a whole possesses only fiat inner boundaries.\""""@en ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "Portion Of Matter"@en ;
+               skos:definition "A material entity that is not demarcated by any physical discontinuities. At some finer level of granularity it is an object aggregate, at some coarser level of granularity it is a fiat object part,but at this level of granularity it is neither."@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000002
 co:PMD_0000002 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000109 ;
-               obo:IAO_0000412 "http://purl.obolibrary.org/obo/IAO_0000032" ;
-               rdfs:comment "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en ;
+               rdfs:subClassOf co:PMD_0000000 ;
+               rdfs:comment "We recognize that some of the materials in the subclasses also occur naturally. However, these are not within the scope of our consideration for technical use."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "scalar measurement datum"@en .
+               rdfs:label "Engineered Material"@en ;
+               skos:definition "An Engineered Material is a Material that is output of a Manufacturing Process."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000003
@@ -940,9 +949,9 @@ co:PMD_0000003 rdf:type owl:Class ;
                                  owl:someValuesFrom obo:IAO_0000007
                                ] ;
                obo:IAO_0000412 obo:IAO_0000104 ;
-               rdfs:comment "A directive information entity with action specifications and objective specifications as parts, and that may be concretized as a realizable entity that, if realized, is realized in a process in which the bearer tries to achieve the objectives by taking the actions specified." ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "plan specification"@en .
+               rdfs:label "plan specification"@en ;
+               skos:definition "A directive information entity with action specifications and objective specifications as parts, and that may be concretized as a realizable entity that, if realized, is realized in a process in which the bearer tries to achieve the objectives by taking the actions specified." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000005
@@ -990,7 +999,7 @@ co:PMD_0000005 rdf:type owl:Class ;
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000197 ;
-                                 owl:allValuesFrom co:PMD_0000001
+                                 owl:allValuesFrom co:PMD_0000000
                                ] ;
                rdfs:comment """Technical materials are complex object aggregates. The properties that are determined for those object aggregates are intrinsically associated with the methodologies employed in the measurement process. This is in contrast to typical 'physical' properties, which like e.g. mass that can be determined to high accuracy independently of the measurement process. 
 As a consequence, the behavoiral material properties in the ontology are differeciated according to their measurement method, e.g. Brinell hardness and Vickers hardness are different types of indentation hardness rather than different measures/quantification (GDC) of the materials property 'indentation hardness'.
@@ -1027,6 +1036,28 @@ co:PMD_0000017 rdf:type owl:Class ;
                rdfs:isDefinedBy "http://purl.obolibrary.org/obo/IAO_0020000" ;
                rdfs:label "identifier"@en ;
                skos:definition "An information content entity that is the outcome of a dubbing process and is used to refer to one instance of entity shared by a group of people to refer to that individual entity." .
+
+
+###  https://w3id.org/pmd/co/PMD_0000022
+co:PMD_0000022 rdf:type owl:Class ;
+               rdfs:subClassOf obo:OBI_0001933 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty co:PMD_0000020 ;
+                                 owl:cardinality "1"^^xsd:nonNegativeInteger
+                               ] ;
+               obo:IAO_0000412 obo:OBI_0001931 ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "scalar value specification"@en ;
+               skos:definition "A value specification that consists of two parts: a numeral and a unit label" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000023
+co:PMD_0000023 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000109 ;
+               obo:IAO_0000412 "http://purl.obolibrary.org/obo/IAO_0000032" ;
+               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
+               rdfs:label "scalar measurement datum"@en ;
+               skos:definition "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000501
@@ -1490,7 +1521,7 @@ co:PMD_0000544 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000546
 co:PMD_0000546 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ;
+               rdfs:subClassOf co:PMD_0000002 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Ceramic"@en ;
@@ -1838,10 +1869,10 @@ co:PMD_0000576 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000577
 co:PMD_0000577 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000002
                                                       [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                                                                owl:onProperty co:PMD_0020005 ;
-                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000632
+                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000002
                                                                                                                          [ rdf:type owl:Restriction ;
                                                                                                                            owl:onProperty obo:BFO_0000196 ;
                                                                                                                            owl:someValuesFrom co:PMD_0000845
@@ -1852,7 +1883,7 @@ co:PMD_0000577 rdf:type owl:Class ;
                                                                              ]
                                                                              [ rdf:type owl:Restriction ;
                                                                                owl:onProperty co:PMD_0020005 ;
-                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000632
+                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000002
                                                                                                                          [ rdf:type owl:Restriction ;
                                                                                                                            owl:onProperty obo:BFO_0000196 ;
                                                                                                                            owl:someValuesFrom co:PMD_0020001
@@ -2470,15 +2501,6 @@ co:PMD_0000631 rdf:type owl:Class ;
                skos:example "Simulating the diffusion of atoms in a crystal using Lennard-Jones potentials." .
 
 
-###  https://w3id.org/pmd/co/PMD_0000632
-co:PMD_0000632 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000001 ;
-               rdfs:comment "We recognize that some of the materials in the subclasses also occur naturally. However, these are not within the scope of our consideration for technical use."@en ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "Engineered Material"@en ;
-               skos:definition "An Engineered Material is a Material that is output of a Manufacturing Process."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000633
 co:PMD_0000633 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000602 ;
@@ -2704,7 +2726,7 @@ co:PMD_0000653 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000654
 co:PMD_0000654 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000002
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty [ owl:inverseOf co:PMD_0020005
                                                                        ] ;
@@ -2799,7 +2821,7 @@ co:PMD_0000660 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000661
 co:PMD_0000661 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ;
+               rdfs:subClassOf co:PMD_0000002 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
                rdfs:comment "It is often composed of silica-based compounds."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
@@ -2830,14 +2852,6 @@ co:PMD_0000663 rdf:type owl:Class ;
                rdfs:label "Crystal grain"@en ,
                           "Korn"@de ;
                skos:definition "A crystal grain is a crystal that is continuant part of a polycrystal."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000664
-co:PMD_0000664 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000501 ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "Grain Size Distribution"@en ;
-               skos:definition "The grain size distribution is a 1-D information content entity that represents the statistical representation of grain sizes in a polycrystalline material, influencing its mechanical and physical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000665
@@ -3802,7 +3816,7 @@ co:PMD_0000851 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000852
 co:PMD_0000852 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000632
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000002
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:BFO_0000178 ;
                                                         owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0020003
@@ -3968,7 +3982,7 @@ co:PMD_0000867 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000868
 co:PMD_0000868 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000001 ;
+               rdfs:subClassOf co:PMD_0000000 ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Natural Organic Material"@en ;
                skos:definition "Natural organic materials are materials derived from natural biological sources, primarily composed of carbon-based compounds."@en .
@@ -4199,7 +4213,7 @@ co:PMD_0000886 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000888
 co:PMD_0000888 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000632 ;
+               rdfs:subClassOf co:PMD_0000002 ;
                obo:IAO_0000116 "Classified by morphology."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Polymer"@en ;
@@ -4230,19 +4244,6 @@ co:PMD_0000891 rdf:type owl:Class ;
                rdfs:label "Disconnected Material Entity Aggregate"@en ;
                skos:definition "A material entity aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group."@en ;
                skos:example "a heap of stones, a colony of honeybees, a group of synapses, the trees of a forest, the canopy of a forest, the fish of a shoal, a group of commuters on the subway, the patients in a hospital"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000892
-co:PMD_0000892 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000040 ;
-               rdfs:comment """It is also representing a distinct physical or conceptual part of a material or substance.
-
-The open energy ontology OEO defines portion of matter as a subclass of object aggregate, which implies countability. Our portion is not (precisely) countable and thus bearer of intensive properties."""@en ,
-                            """Lome explanation for portion of matter: \"What is a molecule cluster at the cellular level? Contrary to the molecular level, at the cellular level of granularity the boundary of each molecule is outside of the level of granular focus. What forms a discontinuous cluster of countable individual molecules and thus bona fide objects at the molecular level, is a continuous and non-countable molecular substance at coarser levels of
-granularity. At these coarser levels, the individual molecules cannot be differentiated and demarcated anymore and the cluster as a whole possesses only fiat inner boundaries.\""""@en ;
-               rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "Portion Of Matter"@en ;
-               skos:definition "A material entity that is not demarcated by any physical discontinuities. At some finer level of granularity it is an object aggregate, at some coarser level of granularity it is a fiat object part,but at this level of granularity it is neither."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000893
@@ -5727,7 +5728,7 @@ co:PMD_0020024 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020025
 co:PMD_0020025 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000892 ;
+               rdfs:subClassOf co:PMD_0000001 ;
                rdfs:comment "TODO: it is not clear if we really need the 'Portion of pure substance\" or if we can just refer to the respecitve chemical entity directly (e.g. in chemical composition)."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Pure Substance"@en ;
@@ -6998,7 +6999,7 @@ co:PMD_0020104 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020105
 co:PMD_0020105 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000001 ;
+               rdfs:subClassOf co:PMD_0000000 ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Mineral"@en ;
                skos:definition "A mineral is a material that has part some crystal."@en .
@@ -7023,9 +7024,9 @@ co:PMD_0020108 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020112
 co:PMD_0020112 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020131 ;
-               rdfs:comment "An intensive quality describing the lower length scale object aggregate (grains) that is part of the material."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
-               rdfs:label "Grain Size Distribution"@en .
+               rdfs:label "Grain Size Distribution"@en ;
+               skos:definition "An intensive quality describing the lower length scale object aggregate (grains) that is part of the material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020115
@@ -7281,9 +7282,9 @@ co:PMD_0020204 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020205
 co:PMD_0020205 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
-               rdfs:comment "A defect role is a role of an independent continuant C indicating that C may affect a material entity E's ability to realize a function. C is continuant part of E."@en ;
                rdfs:isDefinedBy <https://w3id.org/pmd/co/> ;
                rdfs:label "Defect (role)"@en ;
+               skos:definition "A defect role is a role of an independent continuant C indicating that C may affect a material entity E's ability to realize a function. C is continuant part of E."@en ;
                skos:example "A crack in an structural member may affect its ability to carry a load."@en .
 
 
@@ -8758,29 +8759,6 @@ co:PMD_0020125 rdf:type owl:NamedIndividual ;
                 co:PMD_0000952
               ) ;
   rdfs:subClassOf co:PMD_0000848
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000503
-                co:PMD_0000512
-                co:PMD_0000551
-                co:PMD_0000553
-                co:PMD_0000591
-                co:PMD_0000595
-                co:PMD_0000597
-                co:PMD_0000664
-                co:PMD_0000853
-                co:PMD_0000942
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000503
-                co:PMD_0000537
-                co:PMD_0000664
-              )
 ] .
 
 
