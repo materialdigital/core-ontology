@@ -2,19 +2,19 @@
 
 Modules:
 
- - ```pmdco-materials.ttl``` Materials (material types, classes)
+ - ```pmdco-materials.owl``` Materials (material types, classes)
  	- describes materials itself using the qualities and characteristics from ```pmdco-qualities.ttl```. 
- - ```pmdco-qualities.ttl``` Material Qualities (qualities, dispositions and functions)
+ - ```pmdco-qualities.owl``` Material Qualities (qualities, dispositions and functions)
  	- "lists of" qualities and characteristics materials, devices, processes, etc. can have.
- - ```pmdco-manufacturing.ttl``` Material Manufacturing (transformation)
+ - ```pmdco-manufacturing.owl``` Material Manufacturing (transformation)
  	- describes processes related to the transformation of materials
- - ```pmdco-characterization.ttl``` Material Characterization (measuring, analysing)
+ - ```pmdco-characterization.owl``` Material Characterization (measuring, analysing)
  	- describes processes related to the analysis of materials (e.g. measuring of qualities)	
- - ```pmdco-datatransformation.ttl``` Data Transformation (workflows, simulations)
+ - ```pmdco-datatransformation.owl``` Data Transformation (workflows, simulations)
  	- describes processes related to data transformation and data analysis
- - ```pmdco-devices.ttl``` Devices
+ - ```pmdco-devices.owl``` Devices
    - "list of" devices related to materials science and engineering	
- - ```pmdco-logistics.ttl``` Logistics and general organization
+ - ```pmdco-logistics.owl``` Logistics and general organization
    - describes "logistics" of materials, datasets, and general organization of the domain
  
 
@@ -24,28 +24,31 @@ Modules:
 
 ## Mandatory Annotations for Ontology Terms
 ### IRIs (Internationalized Resource Identifiers)
-- Ensure unique and persistent IRIs for each term
+- IRIs are created folloing the general format: `https://w3id.org/pmd/co/PMD_<local ID>`
+- Local ID is a 7 digit number with leading zeros.
+- Example: https://w3id.org/pmd/co/PMD_0020098  (Natural Constant)
+- When adding a new concept with a new ID, please make sure, to use a new _global_ ID. (In relation to the entire ontology, not only within one module.)
+
+
 
 ### Classes
-- **Naming Convention**: Use UpperCamelCase (e.g., `YourSuperNewTerm`).
 - **rdfs:label**: 
-  - **Format**: Entitled
+  - **Format**: Entitled, singular
   - **Example**: "Your Super New Term"
   - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
 - **Processes**: Use Gerund (e.g., `Cutting`)
 
 ### Properties
-- **Naming Convention**: Use lowerCamelCase (e.g., `yourNewProperty`).
 - **rdfs:label**: 
-  - **Format**: Natural language
+  - **Format**: Natural language lower case
   - **Example**: "your new property"
   - **Language**: Specify languages (e.g.,`en` for English, `de` for German).
 
 ### Annotation Properties
 - **skos:definition**: 
-  - **Content**: Aristotelian principle definition of the term
+  - **Content**: Aristotelian principle definition of the term; If B is subclass of A, the definition should have the form "B is an A that ...". 
   - **Language**: `en` for English
-- **iao:IAO_0000114 (has curation status)**: Choose according to editing status.
+- **iao:IAO_0000114 (has curation status)**: Choose according to editing status. 
 - **iao:IAO_0000117 (term editor)**: 
   - **Format**: "PERSON: Firstname Lastname" (as responsible person)
 
@@ -61,22 +64,3 @@ Modules:
   - Use when definition is imported from existing ontology concept.
 - Additional translations are welcome.
 
-
-## PMDco-Qualities features
-
-- subclass hierarchy to [bfo:Quality](http://purl.obolibrary.org/obo/BFO_0000019) categorizing to biological, chemical, pyhsical and performance qualities 
-- a lot of mechanical qualities as subclasses of morphological quality
-- reuse of pato size, shape, texture, structure, color, odor and spatial pattern as morphological qualities (curate_qualities.ipynb)
-- reuse of organismal qualities and cellular qualities as subclass of biological quality  (curate_qualities.ipynb)
-- translations to german for 856 through text-davinci-003 model (curate_qualities.ipynb), and personally revised
-
-curently 991, terms 857 [pato](https://obofoundry.org/ontology/pato.html) terms referenced with [Imported From](http://purl.obolibrary.org/obo/IAO_0000412)
-
-
-## PMDco-Characterization features
-
-- subclass hierarchy to [obi:PlannedProcess](http://purl.obolibrary.org/obo/OBI_0000011) covering analysis methods both physical, mechanical and chemical 
-- reuse of chmo anaytical processes (curate_characterization.ipynb)
-- translations to german for 95 labels, and personally revised
-
-curently 368, terms 250 [chmo](http://purl.obolibrary.org/obo/chmo.owl) terms referenced with [Imported From](http://purl.obolibrary.org/obo/IAO_0000412)
