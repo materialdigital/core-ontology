@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                e7c37ef1f14696386f69b0405f6936b8b271f5595c68397e99e6dbbe8597bdcd
+CONFIG_HASH=                3c24c1e8643c447f8267cd30b8f3c8e08cce7cdd7a35af753741eb55ab9ac936
 
 
 # ----------------------------------------
@@ -376,14 +376,24 @@ $(IMPORTDIR)/%_import.owl: $(MIRRORDIR)/%.owl $(IMPORTDIR)/%_terms_combined.txt
 
 .PRECIOUS: $(IMPORTDIR)/%_import.owl
 
+## Module for ontology: bfo
+
+$(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl $(IMPORTDIR)/bfo_terms_combined.txt
+	if [ $(IMP) = true ]; then $(ROBOT) merge -i $< query --update ../sparql/preprocess-module.ru --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru  \
+    $(ANNOTATE_CONVERT_FILE); fi
+
+## Module for ontology: iao
+
+$(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl
+	echo "ERROR: You have configured your default module type to be custom; this behavior needs to be overwritten in pmdco.Makefile!" && false
+## Module for ontology: obi
+
+$(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl
+	echo "ERROR: You have configured your default module type to be custom; this behavior needs to be overwritten in pmdco.Makefile!" && false
 ## Module for ontology: chebi
 
-$(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl $(IMPORTDIR)/chebi_terms_combined.txt
-	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
-		extract -T $(IMPORTDIR)/chebi_terms_combined.txt --copy-ontology-annotations true --force true --individuals include --method TOP \
-		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
-		$(ANNOTATE_CONVERT_FILE); fi
-
+$(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
+	echo "ERROR: You have configured your default module type to be custom; this behavior needs to be overwritten in pmdco.Makefile!" && false
 
 .PHONY: refresh-imports
 refresh-imports:
