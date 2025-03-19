@@ -19,8 +19,8 @@ jobs:
            mkdir public
            mkdir public/3.0.0
            java -jar widoco.jar -ontFile v3.0.0/pmdco.owl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
-           ls public/3.0.0/           
-           cp public/3.0.0/index-en.html public/3.0.0/index.html
+           ls public/3.0.0/doc           
+           cp public/3.0.0/doc/index-en.html public/3.0.0/doc/index.html
 
            pip install mkdocs
            cd v3.0.0
@@ -30,7 +30,8 @@ jobs:
            mkdir public/3.0.0/docs
            cp -r v3.0.0/site/* public/3.0.0/docs/
  
-           cp -r public/3.0.0/* public
+           cp -r public/3.0.0/doc/* public
+           cp -r public/3.0.0/doc/* public/3.0.0
            
     - uses: actions/checkout@v3
       with:
