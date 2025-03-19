@@ -1,0 +1,195 @@
+Prefix(:=<https://w3id.org/pmd/co/>)
+Prefix(obo:=<http://purl.obolibrary.org/obo/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(oboInOwl:=<http://www.geneontology.org/formats/oboInOwl#>)
+
+
+Ontology(<https://w3id.org/pmd/co/pmdco/components/pmdco-shared.owl>
+Import(<https://w3id.org/pmd/co/components/imports-edit>)
+
+Declaration(Class(:PMD_0000000))
+Declaration(Class(:PMD_0000002))
+Declaration(Class(:PMD_0000003))
+Declaration(Class(:PMD_0000008))
+Declaration(Class(:PMD_0000014))
+Declaration(Class(:PMD_0000017))
+Declaration(Class(:PMD_0060009))
+Declaration(ObjectProperty(:PMD_0000004))
+Declaration(ObjectProperty(:PMD_0000009))
+Declaration(ObjectProperty(:PMD_0000015))
+Declaration(ObjectProperty(:PMD_0000016))
+Declaration(ObjectProperty(:PMD_0000020))
+Declaration(ObjectProperty(:PMD_0001026))
+Declaration(ObjectProperty(:PMD_0060000))
+Declaration(ObjectProperty(:PMD_0060001))
+Declaration(ObjectProperty(:PMD_0060002))
+Declaration(ObjectProperty(:PMD_0060003))
+Declaration(ObjectProperty(:PMD_0060004))
+Declaration(DataProperty(:PMD_0000006))
+Declaration(AnnotationProperty(<http://www.w3.org/2004/02/skos/core#definition>))
+Declaration(AnnotationProperty(:PMD_0001032))
+############################
+#   Annotation Properties
+############################
+
+# Annotation Property: :PMD_0001032 (term tracker annotation)
+
+AnnotationAssertion(obo:IAO_0000115 :PMD_0001032 "A term tracker annotation is an editor note used to track the history of an entity. For each change, it records the related GitHub issue and pull request."@en)
+AnnotationAssertion(obo:IAO_0000116 :PMD_0001032 "hijacked from http://openenergy-platform.org/ontology/oeo/OEO_00020426"@en)
+AnnotationAssertion(rdfs:label :PMD_0001032 "term tracker annotation"@en)
+SubAnnotationPropertyOf(:PMD_0001032 obo:IAO_0000116)
+
+
+############################
+#   Object Properties
+############################
+
+# Object Property: obo:IAO_0000136 (is about)
+
+InverseObjectProperties(obo:IAO_0000136 :PMD_0000004)
+
+# Object Property: :PMD_0000004 (is subject of)
+
+AnnotationAssertion(rdfs:label :PMD_0000004 "is subject of"@en)
+
+# Object Property: :PMD_0000009 (has process characteristic)
+
+AnnotationAssertion(rdfs:label :PMD_0000009 "has process characteristic"@de)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000009 "A relation between a process and a process characteristic that depends on it."@en)
+ObjectPropertyDomain(:PMD_0000009 obo:BFO_0000015)
+ObjectPropertyRange(:PMD_0000009 :PMD_0000008)
+
+# Object Property: :PMD_0000015 (has input)
+
+AnnotationAssertion(rdfs:comment :PMD_0000015 "relation from a process to someone or something physical or digital (continuant) that is a necessary precondition for the process to start")
+AnnotationAssertion(rdfs:label :PMD_0000015 "has input"@de)
+SubObjectPropertyOf(:PMD_0000015 obo:BFO_0000057)
+
+# Object Property: :PMD_0000016 (has output)
+
+AnnotationAssertion(rdfs:comment :PMD_0000016 "relation from a process to someone or something physical or digital (continuant) that participates in the process such that it is generated or modified during the process, and that it exists at the end of the process")
+AnnotationAssertion(rdfs:label :PMD_0000016 "has output"@de)
+SubObjectPropertyOf(:PMD_0000016 obo:BFO_0000057)
+
+# Object Property: :PMD_0000020 (has measurement unit label)
+
+AnnotationAssertion(obo:IAO_0000412 :PMD_0000020 obo:iao.owl)
+AnnotationAssertion(rdfs:label :PMD_0000020 "has measurement unit label"@en)
+SubObjectPropertyOf(:PMD_0000020 obo:BFO_0000178)
+
+# Object Property: :PMD_0001026 (complies with)
+
+AnnotationAssertion(rdfs:label :PMD_0001026 "complies with"@en)
+AnnotationAssertion(rdfs:label :PMD_0001026 "entspricht"@de)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0001026 "complies with is a relation between an independent continuant and an information content entity (e.g., specification or objective) that it conforms to."@en)
+SubObjectPropertyOf(:PMD_0001026 :PMD_0000004)
+ObjectPropertyDomain(:PMD_0001026 obo:BFO_0000004)
+ObjectPropertyRange(:PMD_0001026 obo:IAO_0000030)
+
+# Object Property: :PMD_0060000 (has value specification)
+
+AnnotationAssertion(obo:IAO_0000119 :PMD_0060000 "http://purl.obolibrary.org/obo/OBI_0001938")
+AnnotationAssertion(rdfs:label :PMD_0060000 "has value specification"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0060000 "A relation between an information content entity and a value specification that specifies its value.")
+SubObjectPropertyOf(:PMD_0060000 obo:BFO_0000178)
+
+# Object Property: :PMD_0060001 (specifies value of)
+
+AnnotationAssertion(obo:IAO_0000119 :PMD_0060001 "http://purl.obolibrary.org/obo/OBI_0001927")
+AnnotationAssertion(rdfs:label :PMD_0060001 "specifies value of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0060001 "A relation between a value specification and an entity which the specification is about.")
+SubObjectPropertyOf(:PMD_0060001 obo:IAO_0000136)
+
+# Object Property: :PMD_0060002 (starts with)
+
+AnnotationAssertion(obo:IAO_0000119 :PMD_0060002 "http://purl.obolibrary.org/obo/RO_0002224")
+AnnotationAssertion(rdfs:label :PMD_0060002 "starts with"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0060002 "X starts with y if and only if x has part y and the time point at which x starts is equivalent to the time point at which y starts. Formally: α(y) = α(x) ∧ ω(y) < ω(x), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point.")
+SubObjectPropertyOf(:PMD_0060002 obo:BFO_0000117)
+
+# Object Property: :PMD_0060003 (ends with)
+
+AnnotationAssertion(obo:IAO_0000119 :PMD_0060003 "http://purl.obolibrary.org/obo/RO_0002230")
+AnnotationAssertion(rdfs:label :PMD_0060003 "ends with"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0060003 "X ends with y if and only if x has part y and the time point at which x ends is equivalent to the time point at which y ends. Formally: α(y) > α(x) ∧ ω(y) = ω(x), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point.")
+SubObjectPropertyOf(:PMD_0060003 obo:BFO_0000117)
+
+# Object Property: :PMD_0060004 (simultaneous with)
+
+AnnotationAssertion(obo:IAO_0000119 :PMD_0060004 "http://purl.obolibrary.org/obo/RO_0002082")
+AnnotationAssertion(rdfs:label :PMD_0060004 "simultaneous with"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0060004 "X simultaneous with y iff ω(x) = ω(y) and ω(α ) = ω(α), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point and '=' indicates the same instance in time.")
+
+
+############################
+#   Data Properties
+############################
+
+# Data Property: :PMD_0000006 (has value)
+
+AnnotationAssertion(rdfs:comment :PMD_0000006 "data property that relates an information content entity to a literal"@en)
+AnnotationAssertion(rdfs:label :PMD_0000006 "has value"@en)
+DataPropertyDomain(:PMD_0000006 obo:IAO_0000030)
+
+
+
+############################
+#   Classes
+############################
+
+# Class: :PMD_0000000 (scalar value specification)
+
+AnnotationAssertion(obo:IAO_0000412 :PMD_0000000 obo:OBI_0001931)
+AnnotationAssertion(rdfs:comment :PMD_0000000 "A value specification that consists of two parts: a numeral and a unit label")
+AnnotationAssertion(rdfs:label :PMD_0000000 "scalar value specification"@en)
+SubClassOf(:PMD_0000000 obo:OBI_0001933)
+
+# Class: :PMD_0000002 (scalar measurement datum)
+
+AnnotationAssertion(obo:IAO_0000412 :PMD_0000002 "http://purl.obolibrary.org/obo/IAO_0000032")
+AnnotationAssertion(rdfs:comment :PMD_0000002 "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en)
+AnnotationAssertion(rdfs:label :PMD_0000002 "scalar measurement datum"@en)
+SubClassOf(:PMD_0000002 obo:IAO_0000109)
+
+# Class: :PMD_0000003 (plan specification)
+
+AnnotationAssertion(obo:IAO_0000412 :PMD_0000003 obo:IAO_0000104)
+AnnotationAssertion(rdfs:comment :PMD_0000003 "A directive information entity with action specifications and objective specifications as parts, and that may be concretized as a realizable entity that, if realized, is realized in a process in which the bearer tries to achieve the objectives by taking the actions specified.")
+AnnotationAssertion(rdfs:label :PMD_0000003 "plan specification"@en)
+SubClassOf(:PMD_0000003 obo:IAO_0000033)
+SubClassOf(:PMD_0000003 ObjectSomeValuesFrom(obo:BFO_0000178 obo:IAO_0000005))
+SubClassOf(:PMD_0000003 ObjectSomeValuesFrom(obo:BFO_0000178 obo:IAO_0000007))
+
+# Class: :PMD_0000008 (process characteristic)
+
+AnnotationAssertion(obo:IAO_0000116 :PMD_0000008 "an attribute of a process")
+AnnotationAssertion(rdfs:label :PMD_0000008 "process characteristic"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000008 "A process characteristic is a dependent occurrent that existentially depends on a process."@en)
+SubClassOf(:PMD_0000008 obo:BFO_0000003)
+
+# Class: :PMD_0000014 (plan)
+
+AnnotationAssertion(rdfs:isDefinedBy :PMD_0000014 "http://purl.obolibrary.org/obo/OBI_0000260")
+AnnotationAssertion(rdfs:label :PMD_0000014 "plan"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000014 "A plan is a realizable entity that is the inheres in a bearer who is committed to realizing it as a planned process.")
+SubClassOf(:PMD_0000014 obo:BFO_0000017)
+
+# Class: :PMD_0000017 (identifier)
+
+AnnotationAssertion(rdfs:isDefinedBy :PMD_0000017 "http://purl.obolibrary.org/obo/IAO_0020000")
+AnnotationAssertion(rdfs:label :PMD_0000017 "identifier"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000017 "An information content entity that is the outcome of a dubbing process and is used to refer to one instance of entity shared by a group of people to refer to that individual entity.")
+SubClassOf(:PMD_0000017 obo:IAO_0000030)
+
+# Class: :PMD_0060009 (specification datum)
+
+AnnotationAssertion(rdfs:label :PMD_0060009 "specification datum"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0060009 "A data item that provides specification for entities")
+SubClassOf(:PMD_0060009 obo:IAO_0000027)
+
+
+)

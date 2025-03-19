@@ -1,0 +1,51 @@
+id: pmdco
+title: "PMD Core Ontology"
+github_org: materialdigital
+git_main_branch: main
+repo: core-ontology
+uribase: https://w3id.org/pmd/co
+release_artefacts:
+  - base
+  - full
+  - simple
+primary_release: full
+export_formats:
+  - owl
+  - ttl
+remove_owl_nothing: true
+import_group:
+  products:
+    - id: bfo
+      mirror_from: https://raw.githubusercontent.com/BFO-ontology/BFO-2020/release-2024-01-29/src/owl/bfo-core.ttl
+      module_type: mirror
+    - id: iao
+      module_type: custom
+    - id: obi
+      module_type: custom
+    - id: chebi
+      mirror_from: "https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.obo"
+      module_type: custom
+      rebuild_if_source_changes: false
+
+components:
+  products:
+      - filename: imports-edit.owl
+      - filename: pmdco-shared.owl
+      - filename: pmdco-axioms-shared.owl
+      - filename: pmdco-qualities.owl
+      - filename: pmdco-materials.owl
+      - filename: pmdco-manufacturing.owl
+      - filename: pmdco-logistics.owl
+      - filename: pmdco-devices.owl
+      - filename: pmdco-datatransformation.owl
+      - filename: pmdco-characterization.owl
+
+documentation:
+  documentation_system: mkdocs
+robot_java_args: "-Xmx8G"
+robot_report:
+  use_labels: TRUE
+  fail_on: ERROR
+  custom_profile: TRUE
+  report_on:
+    - edit

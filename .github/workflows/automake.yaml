@@ -1,0 +1,22 @@
+name: MAKE
+
+on:
+  push:
+    branches:
+    - develop-3.0.0
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    container: obolibrary/odkfull:v1.5.2
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: develop-3.0.0
+    - name: ODK refesh imports #We need to create pmdco.ttl as the shapes-library depends on it.
+      run: |
+           cd src/ontology/
+           make refresh-imports pmdco.ttl
+    - uses: mikeal/publish-to-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH_NAME: 'develop-3.0.0' #optional defaults to master
