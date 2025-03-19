@@ -18,8 +18,7 @@ The latest version of the ontology can always be found at: [pmdco.owl](pmdco.owl
 
 ### Editors' version
 
-Editors of this ontology should use the edit version, 
-[src/ontology/pmdco-edit.owl](src/ontology/pmdco-edit.owl)
+Editors of this ontology should use the editing files of the modules in the components folder [src/ontology/components](src/ontology/components)
 
 If you like to contribute, please feel free to add any issues or participate in discussions here on Github.
 
