@@ -12,13 +12,13 @@ In summary, key components of the MSE domain can be categorized in:
   
 > **Materials Paradigms**
 >
-> ***Processing (P)***: The methods used to shape and treat materials to achieve desired properties. This includes techniques like casting, forging, and additive manufacturing.
+> ***Processing***: The methods used to shape and treat materials to achieve desired properties. This includes techniques like casting, forging, and additive manufacturing.
 >
-> ***Structure (S)***: The arrangement of atoms and molecules within a material, which can be observed at  different scales (atomic, microscopic, and macroscopic).
+> ***Structure***: The arrangement of atoms and molecules within a material, which can be observed at  different scales (atomic, microscopic, and macroscopic).
 >
-> ***Properties (P)***: The characteristics of materials that determine their behavior under various conditions. These include mechanical, electrical, thermal, optical, and magnetic properties.
+> ***Properties***: The characteristics of materials that determine their behavior under various conditions. These include mechanical, electrical, thermal, optical, and magnetic properties.
 >
-> ***Performance (P)***: How well a material performs in a specific application, considering factors like durability, efficiency, and cost-effectiveness.
+> ***Performance***: How well a material performs in a specific application, considering factors like durability, efficiency, and cost-effectiveness.
 
 MSE is crucial for technological advancement and innovation. It drives the development of new materials that can lead to breakthroughs in various industries, including aerospace, automotive, electronics, healthcare, and energy. By understanding and controlling the properties of materials, scientists and engineers can create solutions that improve performance, efficiency, and sustainability. Especially with regard to the latter, MSE encompasses the entire materials lifecycle, from raw material procurement to the development of components, production, and end-of-life recycling.
 

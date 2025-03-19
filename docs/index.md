@@ -1,6 +1,6 @@
-![build status](https://github.com/ISE-FIZKarlsruhe/nfdicore/actions/workflows/qc.yml/badge.svg)
-![build docs](https://github.com/ISE-FIZKarlsruhe/nfdicore/actions/workflows/update-docs.yml/badge.svg)
-![verification](https://github.com/ISE-FIZKarlsruhe/nfdicore/actions/workflows/verification.yml/badge.svg)
+![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/shacl.yaml/badge.svg)
+![basic checks](https://github.com/materialdigital/core-ontology/actions/workflows/quality-checks.yaml/badge.svg)
+![Build Status](https://github.com/materialdigital/core-ontology/actions/workflows/qc.yml/badge.svg)
 
 # PMD Core Ontology (PMDco)
 
@@ -15,14 +15,20 @@ This documentation is designed to guide you through the ontology's structure, fe
 
 ### Important links
 
-- The latest version of the ontology can always be found at: [pmdco.owl](https://github.com/materialdigital/core-ontology/tree/develop-3.0.0/pmdco.owl)
+- The latest version of the ontology can always be found at: [pmdco.owl](https://github.com/materialdigital/core-ontology/tree/main/pmdco.owl)
 - [Beginers Guide Miro Board ](https://miro.com/app/board/uXjVLY9FwGU=/)
 - [Widoco generated List of Classes and Properties](https://materialdigital.github.io/core-ontology/3.0.0/)
 - [Patterns and Active Development Miro Board (Playground)](https://miro.com/app/board/uXjVNOTPrFo=/)
 
 
 ### Citation
-When using the PMDco, please cite the following publication, which provides comprehensive details and the foundational rationale behind the development of this ontology:
+
+Please cite the ontology as follows:
+
+*PMDco: Platform Material Digital Ontology. Version 3.0.0, https://w3id.org/pmd/co/*
+
+
+When referring the PMDco 3.0.0 in publications, please also consider to cite the following publication about version 2.0.8, which provides comprehensive details and the foundational rationale behind the development of this ontology: 
 
 *B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.*
 

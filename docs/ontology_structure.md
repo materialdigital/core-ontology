@@ -1,9 +1,91 @@
 # Ontology Structure
 
+## BFO as top level ontology
 
-## Key Components
+The Basic Formal Ontology (BFO) is a **top-level ontology** that provides a structured framework for organizing entities based on their fundamental nature. It does not include domain-specific content but instead defines **high-level categories** that support the development of specialized ontologies like NFDIcore.  
 
-PMDco follows a classical ontology development approach, incorporating classes, object properties, data properties, individuals, and annotations to define and structure domain knowledge.
+BFO distinguishes entities based on whether they persist through time or unfold over time, dividing them into **continuants** and **occurrents**.  
+
+### **Continuants (Endurants)**  
+Continuants are entities that **exist at any given moment in time** and maintain their identity over time. There are tree kinds of continuants: *independent* continuants, *generically dependent* continuants and *specifically dependent* continuants.
+
+#### **Independent Continuants (IC)**  
+These are entities that **exist independently** and do not require another entity to exist.  
+
+- **Material Entities** – Physical objects with spatial extension.  
+  - *Examples*: Organisms, buildings, tools.  
+- **Immaterial Entities** – Boundaries or parts of objects defined by human convention.  
+  - *Examples*: The equator, the upper half of a sphere.  
+
+#### **Generically Dependent Continuants (GDC)**  
+These entities **depend on independent continuants** for their existence.  
+Generically dependent continuants can exist in multiple instances or be replicated across different locations. 
+
+- *Examples*:
+	- A book’s content (as opposed to a single physical copy of the book)  
+	- A software program (which can be installed on multiple computers)  
+	- A musical composition (which can be played on different instruments)   
+	- A dataset and data items
+	- Entities with information content
+
+#### **Specifically Dependent Continuants (SDC)**  
+Specifically dependent continuants are **qualities, roles, or dispositions** that **exist only in relation to a particular independent continuant**. They cannot exist independently and must always be **inherent in something else**.  
+
+  
+- **Qualities**  - Intrinsic properties of an independent continuant. They describe **how an entity is** at any moment in time.  
+
+	- *Examples*: The color of a leaf, the weight of a person, the temperature of a liquid.
+
+- **Roles** - Situational properties that an entity has **based on context or social convention**.  
+
+	- *Examples*: The role of a teacher, he status of a patient in a hospital, the role of a machine undergoing maintenance.
+
+- **Dispositions and functions** - Potential behaviors or tendencies that an entity has, even if they are not currently being realized. Functions are dispositions that represent the particular purpose of something.
+
+	- *Examples*: The fragility of glass (it might break if dropped), the solubility of salt (it dissolves in water), a person’s ability to speak multiple languages, the function of an oven to heat something up, the function of a screwdriver to turn screws in and out.
+
+
+### **Occurrents (Perdurants)**  
+An occurrents is an **entity that unfolds itself in time** or it is the start or end of such an entity.
+
+#### **Processes**  
+Processes are dynamic activities with temporal duration.  
+
+- *Examples*: A running event, a chemical reaction, cell division.  
+
+#### **Temporal Regions**  
+These represent divisions of time.  
+
+- *Examples*: A second, an hour, a historical period.  
+
+#### **Spatiotemporal Regions**  
+These combine space and time into a single entity.  
+
+- *Examples*: The path of a moving object, the trajectory of a planet.  
+
+
+
+### **Relations in BFO**  
+BFO defines formal **relationships** between entities to maintain consistency. Some key relations include:  
+
+
+- **continunat part of** – Indicates compositional relationships. (*Example: A wheel is part of a car.*) 
+- **occurent part of** - Some process has another process as part. (*Example: A conference event has multiple workshop events.*)
+- **located in** – Specifies spatial containment. (*Example: A book is located_in a library.*)  
+- **bearer of** – Assigns specifically dependent continuants to independent continuants. (*Example: A teacher is the bearer of the educator role.*)  
+- **has participant** - Assigns continuants to processes. (*Example: A student participates a lecture event.*)
+
+
+More information about BFO can be found at the [GitHub repo](https://github.com/bfo-ontology/BFO-2020) and the [documentation page](https://basic-formal-ontology.org/bfo-2020.html). 
+ 
+
+
+
+
+## Key Components of PMDco
+
+PMDco follows a classical ontology development approach, incorporating classes, object properties, data properties, individuals, and annotations to define and structure domain knowledge. All elements are categorized in the BFO hierarchy. 
+
 
 ### Classes
 
@@ -13,7 +95,7 @@ PMDco defines several primary categories central to materials science and engine
 
 We provide a few examples from each category below:
 
-1.**Materials module**: This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.
+**1. Materials module**: This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.
 
 Examples:
 
@@ -33,7 +115,7 @@ pmd:Metal - A metal is an engineered material representing a class of materials 
 
 pmd:Ceramics - Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.
 
-2.**Qualities module**: Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.
+**2. Qualities module**: Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.
 
 Main BFO superclasses:
 
@@ -55,7 +137,7 @@ Some concrete properties:
 
 ``pmd:Yield Strength`` – The stress at which a material transitions from elastic to plastic deformation.
 
-3.**Manufacturing module**: This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.
+**3. Manufacturing module**: This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.
 
 The superclass for industrial processes:
 
@@ -71,7 +153,7 @@ application is essential.
 ``pmd:Joining`` - A manufacturing process that enables the continuous bonding or joining of two or more workpieces with a specific, fixed shape or of such workpieces with a shapeless material, whereby the cohesion 
 is created at specific points and reinforced overall.
 
-4.**Material Characterization**: Material characterization involves methods and devices used to analyze the physical, mechanical, and chemical properties of materials.
+** 4. Material Characterization**: Material characterization involves methods and devices used to analyze the physical, mechanical, and chemical properties of materials.
 
 Main BFO superclass:
 
@@ -89,7 +171,7 @@ More specific examples:
 
 ``pmd:Tensile Testing Process`` – A Mechanical Property Analyzing Process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.
 
-5.**Data Transformation module**: This category includes processes that involve computational simulations and digital transformations related to material properties and behaviors.
+**5. Data Transformation module**: This category includes processes that involve computational simulations and digital transformations related to material properties and behaviors.
 
 Main BFO superclass:
 
@@ -104,7 +186,7 @@ engineering goals.
 
 ``pmd:Monte Carlo Simulation`` - A Simulation Process that uses random sampling to solve physical and mathematical problems.
 
-6.**Devices module**: This category includes devices performing certain functions in industrial processes.
+**6. Devices module**: This category includes devices performing certain functions in industrial processes.
 
 Main BFO superclass:
 
