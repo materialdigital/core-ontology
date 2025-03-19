@@ -55,10 +55,10 @@ $(ONT)-base.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(IMPORT_FILES)
 CITATION="'PMDco: Platform Material Digital Ontology. Version $(VERSION), https://w3id.org/pmd/co/'"
 
 
-
 ALL_ANNOTATIONS=--annotate-defined-by true \
 	--ontology-iri https://w3id.org/pmd/co/ -V https://w3id.org/pmd/co/$(VERSION) \
 	--annotation http://purl.org/dc/terms/created "$(TODAY)" \
+	--annotation owl:versionInfo "$(VERSION)" \
 	--annotation http://purl.org/dc/terms/bibliographicCitation "$(CITATION)"  \
 	--link-annotation owl:priorVersion https://w3id.org/pmd/co/$(PRIOR_VERSION) \
 
