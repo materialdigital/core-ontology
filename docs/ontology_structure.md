@@ -19,13 +19,14 @@ Examples:
 
 ``bfo:material entity`` – the main superclass for materials and objects from BFO.
 
-``chebi:chemical entity`` - contains all the periodic elements imported from CHEBI ontology
+``chebi:chemical entity`` - contains all the periodic elements imported from CHEBI ontology.
 
-``pmd:MaterialAggregate`` – A material entity that is a mereological sum of separate material entities and possesses nonconnected boundaries.
+``pmd:Connected Material Entity Aggregate`` – A mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity. <br/>
+Examples: the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body.
 
-``pmd:PortionOfMatter`` – A material entity that is not demarcated by any physical discontinuities.
+``pmd:Disonnected Material Entity Aggregate``  – A mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group. <br/> Examples: a heap of stones, a colony of honeybees, a group of synapses.
 
-``pmd:Material`` – a Portion Of Matter that has the disposition to participate in some Manufacturing Process and whose shape is not relevant for its disposition to participate in the Manufacturing Process.
+``pmd:Material`` – A Portion Of Matter that may participate in some Manifacturing Process and whose shape is not relevant for its participation in the Manifacuring Process.
 
 Some concrete materials definitions:
 
@@ -46,7 +47,7 @@ Examples from PMD:
 
 ``pmd:Morphologic Quality`` - A morphological quality is a material entity that represents the characteristics related to the shape, size, and structure of a material's features.
 
-``pmd:MaterialProperty`` - A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape 
+``pmd:Material Property`` - A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape 
 and size.
 
 Some concrete properties:
@@ -59,7 +60,7 @@ Some concrete properties:
 
 The superclass for industrial processes:
 
-``pmd:ManufacturingProcess`` - A planned process that is driven by the primary intent to transform objectsA manufacturing process is always a transformative process.
+``pmd:Manufacturing Process`` - A planned process that is driven by the primary intent to transform objectsA manufacturing process is always a transformative process.
 
 More specific examples:
 
@@ -132,28 +133,16 @@ PMDco includes properties that define relationships and attributes:
   - **has unit**: Specifies the unit of measurement for a given value.
 
 ### Individuals
-While PMDco serves as a mid-level ontology and may not define specific instances, it provides a framework for users to instantiate individuals pertinent to their domain. Therefore, however, it does not contain individuals in its pure form.
+While PMDco serves as a mid-level ontology and may not define specific instances, it provides a framework for users to instantiate individuals pertinent to their domain. Therefore, it mostly does not contain individuals in its pure form. <br/>
+The only individuals present in the PMDco are the ones belonging to the subclasses of a ``pmd:Nature Constant`` class, defined in the Qualities module: <br/>
+``pmd:Aggregate State Value`` - solid, liquid, etc. <br/>
+``pmd:Bravias Lattice (3D)`` - cubic body-centered, monoclinic primitive, etc. <br/>
+``pmd:Metallic Grain Structures`` - austenite, ferrite, etc.
 
 ## Hierarchy
-PMDco presents a structured taxonomy with parent-child relationships among classes (class/subclass-relations). For example:
+PMDco presents a structured taxonomy with parent-child relationships among classes (class/subclass-relations). This hierarchical structure facilitates organized data representation and promotes interoperability across MSE domains.
 
-```
-Entity
-  ├── Continuant
-  │   ├── Independent Continuant
-  │   │   ├── Material Entity
-  │   │   │   ├── Material Entity Aggregate
-  │   │   │   │   ├── Portion of Matter
-  │   │   │   │   │   └── Material
-  ├── Occurrent
-  │   ├── Process
-  │   │   ├── Planned Process
-  │   │   │   └── Manufacturing Process
-  ```
-
-This hierarchical structure facilitates organized data representation and promotes interoperability across MSE domains.
-
-Some Protege examples provided below.
+Some Examples visualized in Protege provided below.
 
 **Characterization processes taxonomy:**
 
