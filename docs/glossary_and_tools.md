@@ -49,3 +49,12 @@ There are a lot of initiatives working on aspects of and respective tools availa
     * [Scientific Paper Publication on ROBOT](https://link.springer.com/epdf/10.1186/s12859-019-3002-3?author_access_token=bB8BLjFWrdh42vR6DjT-nG_BpE1tBhCbnbw3BuzI2RPCZ2BK7EeexaCNYfT-cCz8Q_mrZomT2_svoQf12CW661Sagzw6JGF9DhJq3Q3fTPdMGFMtais7MRgx8-kDhp6uC9g2qcVh5FumTsveV22XVQ%3D%3D) (open access)
 * [INCEpTION](https://inception-project.github.io/) - A semantic annotation platform offering intelligent assistance and knowledge management
 
+### Other Related References
+* [Dublin Core Terms](http://purl.org/dc/terms/)  - a set of vocabularies consisting of a set of terms which can be used for describing web resources (video, images, web pages, etc.), as well as physical resources such as books, magazines, proceedings, journals, CDs, etc.
+* [Resource Description Framework](https://www.w3.org/TR/rdf11-concepts/)  - a framework for representing information in the Web, defining an abstract syntax (a data model) which serves to link all RDF-based languages and specifications.
+* [RDF Schema](https://www.w3.org/TR/rdf-schema/)  - a data-modelling vocabulary for RDF data. RDF Schema is an extension of the basic RDF vocabulary.
+* [Web Ontology Language](https://www.w3.org/TR/owl-overview/)  - an ontology language for the Semantic Web with formally defined meaning. OWL 2 ontologies provide classes, properties, individuals, and data values and are stored as Semantic Web documents.
+* [Simple Knowledge Organization System](https://www.w3.org/TR/skos-reference/)  - a common data model for sharing and linking knowledge organization systems via the Web.
+* [XML Schema Definition](https://www.w3.org/TR/xmlschema11-1/)  - a World Wide Web Consortium (W3C) recommendation that defines rules and elements for XML documents.
+
+
