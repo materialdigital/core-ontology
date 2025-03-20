@@ -60,8 +60,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `pmd:hasOutput`
 - **Example Use Case**: A planned process with possibility of multiple inputs and outputs, e.g., testing properties of a metallic sample, or transforming a piece of material into another product.
 
-  
-![Visualization of Pattern 3](https://github.com/user-attachments/assets/8a27fe19-dd1e-4542-a4d7-5c22a62e3ff8)
+![Visualization of Pattern 3](https://github.com/user-attachments/assets/77d73c60-d579-4bd2-9922-3ec2d83461d1)
 
 ---
 
@@ -75,7 +74,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `bfo:hasParticipant`
 - **Example Use Case**: Specifying the role of specimen, which material object undertakes during a process. 
   
-![Visualization of Pattern 4](https://github.com/user-attachments/assets/ea1dc484-19ab-4696-85d7-6779aa93d756)
+![Visualization of Pattern 4](https://github.com/user-attachments/assets/38b57e8a-c7d4-43e4-ad65-7b9204d2101e)
 
 ---
 
@@ -88,8 +87,8 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `iao:isAbout`
   - `pmd:derivesFrom`
 - **Example Use Case**: Specifying that value of hardness of a specimen at certain point of time.
-- 
-![Visualization of Pattern 5](https://github.com/user-attachments/assets/bf33523f-6e30-474e-886d-226c9d0e3738)
+
+![Visualization of Pattern 5](https://github.com/user-attachments/assets/a707b8ba-9835-491c-bd5c-48180e1e7cbd)
 
 ---
 
@@ -106,7 +105,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `pmd:specifiesValueOf`
 - **Example Use Case**: Specifying the measured heat capacity value of a specimen.
 
-![Visualization of Pattern 6](https://github.com/user-attachments/assets/674f71cd-f712-4f09-ae72-85650946bc25)
+![Visualization of Pattern 6](https://github.com/user-attachments/assets/770530aa-8ac1-49ff-98ec-7aa8c060d6ec)
 
 ---
 
@@ -120,7 +119,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `pmd:specifiesValueOf`
 - **Example Use Case**: Specifying measurements like length, mass, or time with standard units.
 
-![Visualization of Pattern 7](https://github.com/user-attachments/assets/f3f1e93c-cba1-4c7c-8862-27566a4f04e0)
+![Visualization of Pattern 7](https://github.com/user-attachments/assets/91e5d524-141f-4e49-b110-c98994cb38be)
 
 ---
 
@@ -134,7 +133,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `pmd:specifiesValueOf`
 - **Example Use Case**: Specifying that material belongs to a certain category, e.g., is a polymer.
   
-![Visualization of Pattern 8](https://github.com/user-attachments/assets/2a726fcf-e07a-496b-a50e-520705a273d6)
+![Visualization of Pattern 8](https://github.com/user-attachments/assets/38d70bbd-29d1-47c3-b73b-6e4ebc12feef)
 
 ---
 ### Pattern 9 - Material and Device Specification
@@ -148,7 +147,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 - **Core Idea**: provide a class pmd:MaterialSpecification/pmd:DeviceSpecification as a subclass of iao:InformationContentEntity, to which the material/device object can adhere.
 - **Example Use Case**: Specifying the material of a steel sheet to be the steel S355J2.
 
-![Visualization of Pattern 9](https://github.com/user-attachments/assets/2bd208c7-5a29-4270-a10b-d63542ee97ce)
+![Visualization of Pattern 9](https://github.com/user-attachments/assets/3414e021-477f-4eab-8174-2e8b2f29560b)
 
 
 ---

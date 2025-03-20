@@ -39,20 +39,17 @@ The PMDco serves as a mid-level ontology designed to address these challenges by
 
 ---
 
-## Existing Ontologies
+## Reusing Existing Ontologies
 
-The PMDco complements and extends several existing ontologies by providing a mid-level framework tailored for the MSE domain:
+The PMDco complements and extends several existing ontologies by providing a mid-level framework tailored for the MSE domain. The top-level ontology we use is:
 
-- **Top-Level Ontologies (TLOs)**:
+  - The [Basic Formal Ontology](https://basic-formal-ontology.org/bfo-2020.html) which is an ISO standard [BFO2020](https://www.iso.org/standard/74572.html) for the top-level ontologies and provides abstract, cross-domain semantic structures. However, its highly abstract nature complicates direct application to MSE-specific contexts. PMDco bridges the gap by integrating MSE-specific concepts into this general framework.
 
-  - The [Basic Formal Ontology](https://basic-formal-ontology.org/bfo-2020.html) which is an ISO standard [BFO2020](https://www.iso.org/standard/74572.html) provides abstract, cross-domain semantic structures. However, its highly abstract nature complicates direct application to MSE-specific contexts.
-  - PMDco bridges the gap by integrating MSE-specific concepts into this general framework.
+Some parts of the following ontologies are imported into PMDco:
     
-- **Domain-Specific Ontologies**:
-  
   - Chemical Entities of Biological Interest ([ChEBI](https://www.ebi.ac.uk/chebi/)) facilitates representation of chemical entities.
   - Information Artifact Ontology ([IAO](https://obofoundry.org/ontology/iao.html)) represents types of information content entities such as documents, databases, and digital images.
-  - Ontology for Biomedical Investigations ([OBI](https://obi-ontology.org/)) helps to communicate about scientific investigations by defining terms for assays, devices, objectives, and more.
+  - Ontology for Biomedical Investigations ([OBI](https://obi-ontology.org/)) is actually a collection of ontologies, which helps to communicate about scientific investigations by defining terms for assays, devices, objectives, and more.
     
  Please note that while IAO and OBI ontologies are not the domain-level ontologies in the usual meaning, we put them into this list to point out that they cover only certain "aspects of reality", in contrast to the BFO ontology, aiming to provide a comprehensive abstract framework for all the concepts.
   
