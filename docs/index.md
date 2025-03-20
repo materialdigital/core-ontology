@@ -15,7 +15,7 @@ This documentation is designed to guide you through the ontology's structure, fe
 
 ### Important links
 
-- The latest version of the ontology can always be found at: [pmdco.owl](https://github.com/materialdigital/core-ontology/tree/develop-3.0.0/pmdco.owl)
+- The latest version of the ontology can always be found at our GitHub: [pmdco.owl](https://github.com/materialdigital/core-ontology/tree/develop-3.0.0/pmdco.owl)
 - [Beginers Guide Miro Board ](https://miro.com/app/board/uXjVLY9FwGU=/)
 - [Widoco generated List of Classes and Properties](https://materialdigital.github.io/core-ontology/3.0.0/)
 - [Patterns and Active Development Miro Board (Playground)](https://miro.com/app/board/uXjVNOTPrFo=/)
@@ -24,7 +24,7 @@ This documentation is designed to guide you through the ontology's structure, fe
 ### Citation
 When using the PMDco, please cite the following publication, which provides comprehensive details and the foundational rationale behind the development of this ontology:
 
-*B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.*
+> *B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.*
 
 Bibtex:
 ```
