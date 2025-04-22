@@ -15,10 +15,11 @@
 @base <https://w3id.org/pmd/co/pmdco.ttl> .
 
 <https://w3id.org/pmd/co/pmdco.ttl> rdf:type owl:Ontology ;
-                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-03-20/pmdco.ttl> ;
-                                     dce:contributor <https://orcid.org/0000-0002-3092-0532> ,
-                                                     <https://orcid.org/0000-0003-0410-3616> ,
-                                                     <https://orcid.org/0000-0003-2612-8515> ;
+                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-04-22/pmdco.ttl> ;
+                                     dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
+                                                         <https://orcid.org/0000-0002-3092-0532> ,
+                                                         <https://orcid.org/0000-0003-0410-3616> ,
+                                                         <https://orcid.org/0000-0003-2612-8515> ;
                                      dcterms:creator <https://orcid.org/0000-0001-7192-7143> ,
                                                      <https://orcid.org/0000-0002-1058-3102> ,
                                                      <https://orcid.org/0000-0002-3717-7104> ,
@@ -31,7 +32,7 @@
                                      dcterms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology Documentation: https://materialdigital.github.io/core-ontology/docs/"@en ;
                                      dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                      dcterms:title "PMD Core Ontology" ;
-                                     owl:versionInfo "2025-03-20" .
+                                     owl:versionInfo "2025-04-22" .
 
 #################################################################
 #    Annotation properties
@@ -153,6 +154,10 @@ dce:title rdf:type owl:AnnotationProperty .
 
 ###  http://purl.org/dc/terms/bibliographicCitation
 dcterms:bibliographicCitation rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/contributor
+dcterms:contributor rdf:type owl:AnnotationProperty .
 
 
 ###  http://purl.org/dc/terms/created
@@ -1618,6 +1623,7 @@ obo:BFO_0000020 rdf:type owl:Class ;
                 obo:IAO_0000115 "b is a relational specifically dependent continuant = Def. b is a specifically dependent continuant and there are n &gt; 1 independent continuants c1, … cn which are not spatial regions are such that for all 1  i &lt; j  n, ci  and cj share no common parts, are such that for each 1  i  n, b s-depends_on ci at every time t during the course of b’s existence (axiom label in BFO2 Reference: [131-004])"@en ,
                                 "b is a specifically dependent continuant = Def. b is a continuant & there is some independent continuant c which is not a spatial region and which is such that b s-depends_on c at every time t during the course of b’s existence. (axiom label in BFO2 Reference: [050-003])"@en ;
                 obo:IAO_0000116 "Specifically dependent continuant doesn't have a closure axiom because the subclasses don't necessarily exhaust all possibilites. We're not sure what else will develop here, but for example there are questions such as what are promises, obligation, etc."@en ;
+                obo:IAO_0000412 obo:pato.owl ;
                 obo:IAO_0000602 "(iff (RelationalSpecificallyDependentContinuant a) (and (SpecificallyDependentContinuant a) (forall (t) (exists (b c) (and (not (SpatialRegion b)) (not (SpatialRegion c)) (not (= b c)) (not (exists (d) (and (continuantPartOfAt d b t) (continuantPartOfAt d c t)))) (specificallyDependsOnAt a b t) (specificallyDependsOnAt a c t)))))) // axiom label in BFO2 CLIF: [131-004] " ,
                                 "(iff (SpecificallyDependentContinuant a) (and (Continuant a) (forall (t) (if (existsAt a t) (exists (b) (and (IndependentContinuant b) (not (SpatialRegion b)) (specificallyDependsOnAt a b t))))))) // axiom label in BFO2 CLIF: [050-003] " ;
                 dce:identifier "050-BFO" ;
@@ -2574,7 +2580,7 @@ obo:CHEBI_30440 rdf:type owl:Class ;
                 oboInOwl:hasOBONamespace "chebi_ontology" ;
                 oboInOwl:id "CHEBI:30440" ;
                 oboInOwl:inSubset chebi:_STAR ;
-                rdfs:label "thallium" .
+                rdfs:label "thallium atom" .
 
 
 ###  http://purl.obolibrary.org/obo/CHEBI_30441
@@ -3966,30 +3972,6 @@ co:PMD_0000532 rdf:type owl:Class ;
                           "Biologische Eigenschaften Analyseverfahren"@de ;
                skos:definition "An assay that examines the interaction of materials with biological systems, including biocompatibility, biodegradability, toxicity, and the effects of materials on living organisms and cells."@en ,
                                "Eine Analyse, die die Wechselwirkung von Materialien mit biologischen Systemen untersucht, einschließlich Biokompatibilität, Abbaubarkeit, Toxizität und der Auswirkungen von Materialien auf lebende Organismen und Zellen."@de .
-
-
-###  https://w3id.org/pmd/co/PMD_0000533
-co:PMD_0000533 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( obo:BFO_0000030
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty obo:BFO_0000196 ;
-                                                            owl:someValuesFrom co:PMD_0000534
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf obo:BFO_0000030 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000196 ;
-                                 owl:someValuesFrom co:PMD_0000534
-                               ] ;
-               obo:IAO_0000114 obo:IAO_0000428 ;
-               obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Blank"@en ,
-                          "Rohling"@de ;
-               skos:definition """A Blank is an Object that may be input to some Manifacturing Process and whose shape or other properties are relevant for participation to participate in the Manifacuring Process.
-
-TBD: Does the Blank 'consists of' only 1 Material?"""@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000534
@@ -5631,26 +5613,6 @@ co:PMD_0000791 rdf:type owl:Class ;
                                "Ein Induktionsofen ist ein Ofen, der Materialien durch elektromagnetische Induktion erhitzt, wobei die Wärme direkt im Material erzeugt wird."@de .
 
 
-###  https://w3id.org/pmd/co/PMD_0000792
-co:PMD_0000792 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000881
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty obo:BFO_0000196 ;
-                                                            owl:someValuesFrom co:PMD_0000793
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf co:PMD_0000881 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000196 ;
-                                 owl:someValuesFrom co:PMD_0000793
-                               ] ;
-               rdfs:label "Initiator"@de ,
-                          "Initiator"@en ;
-               skos:definition "The person that commisioned the process."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000793
 co:PMD_0000793 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
@@ -5881,7 +5843,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid329 ;
+               owl:equivalentClass _:genid319 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000196 ;
@@ -5892,7 +5854,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                           "Laboratory"@en ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en .
 
-_:genid329 owl:intersectionOf ( obo:BFO_0000029
+_:genid319 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:BFO_0000196 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -5903,7 +5865,7 @@ _:genid329 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid329 ;
+   owl:annotatedTarget _:genid319 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -6396,27 +6358,6 @@ co:PMD_0000871 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000015 ;
                rdfs:label "Occurence Of Magnetic Field"@en ;
                skos:definition "The occurrence of (a) magenetic field is a process describing the presence or generation of a magnetic field in a material or system."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000872
-co:PMD_0000872 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000881
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty obo:BFO_0000196 ;
-                                                            owl:someValuesFrom co:PMD_0000873
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf co:PMD_0000881 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000196 ;
-                                 owl:someValuesFrom co:PMD_0000873
-                               ] ;
-               obo:IAO_0000119 "“Operator.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/operator. Accessed 24 Nov. 2022."@en ;
-               rdfs:label "Operator"@de ,
-                          "Operator"@en ;
-               skos:definition "A person that operates a machine or device."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000873
@@ -9378,8 +9319,7 @@ co:PMD_0020155 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020166
 co:PMD_0020166 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000533 ,
-                               [ owl:intersectionOf ( co:PMD_0020139
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0020139
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:BFO_0000196 ;
                                                         owl:someValuesFrom co:PMD_0000534
@@ -10864,6 +10804,9 @@ obo:CHEBI_33250 obo:IAO_0000115 "A chemical entity constituting the smallest com
                 oboInOwl:id "CHEBI:33250" ;
                 oboInOwl:inSubset chebi:_STAR ;
                 rdfs:label "atom" .
+
+
+<https://orcid.org/0000-0001-6772-1943> rdfs:label "Martin Glauer" .
 
 
 <https://orcid.org/0000-0001-7192-7143> rdfs:label "Jörg Waitelonis" .
