@@ -15,7 +15,7 @@
 @base <https://w3id.org/pmd/co/pmdco.ttl> .
 
 <https://w3id.org/pmd/co/pmdco.ttl> rdf:type owl:Ontology ;
-                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-06-02/pmdco.ttl> ;
+                                     owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-06-10/pmdco.ttl> ;
                                      dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
                                                          <https://orcid.org/0000-0002-3092-0532> ,
                                                          <https://orcid.org/0000-0003-0410-3616> ,
@@ -32,7 +32,7 @@
                                      dcterms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology Documentation: https://materialdigital.github.io/core-ontology/docs/"@en ;
                                      dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                      dcterms:title "PMD Core Ontology" ;
-                                     owl:versionInfo "2025-06-02" .
+                                     owl:versionInfo "2025-06-10" .
 
 #################################################################
 #    Annotation properties
@@ -3698,6 +3698,31 @@ co:PMD_0000023 rdf:type owl:Class ;
                skos:definition "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0000051
+co:PMD_0000051 rdf:type owl:Class ;
+               rdfs:subClassOf [ owl:intersectionOf ( obo:BFO_0000023
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:BFO_0000054 ;
+                                                        owl:someValuesFrom co:PMD_0000933
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000197 ;
+                                 owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000004
+                                                                           [ rdf:type owl:Restriction ;
+                                                                             owl:onProperty obo:BFO_0000056 ;
+                                                                             owl:someValuesFrom co:PMD_0000933
+                                                                           ]
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ]
+                               ] ;
+               rdfs:label "Simulation Entity Role"@en ;
+               skos:definition "Simulation entity role is a role that inheres in an independent continuant (IC) and is realized in a simulation process. This role enables the IC to participate in the simulation as a proxy, model, or representative of a real or hypothetical entity within the simulated context"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000501
 co:PMD_0000501 rdf:type owl:Class ;
                rdfs:subClassOf obo:IAO_0000030 ;
@@ -5843,7 +5868,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid319 ;
+               owl:equivalentClass _:genid328 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000196 ;
@@ -5854,7 +5879,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                           "Laboratory"@en ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en .
 
-_:genid319 owl:intersectionOf ( obo:BFO_0000029
+_:genid328 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:BFO_0000196 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -5865,7 +5890,7 @@ _:genid319 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid319 ;
+   owl:annotatedTarget _:genid328 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
