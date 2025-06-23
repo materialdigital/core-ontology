@@ -18,6 +18,8 @@ Import(<https://w3id.org/pmd/co/manufacturing>)
 Import(<https://w3id.org/pmd/co/materials>)
 Import(<https://w3id.org/pmd/co/qualities>)
 
+Declaration(Class(:PMD_0000548))
+Declaration(Class(:PMD_0000869))
 Declaration(Class(:PMD_0020113))
 Declaration(Class(:PMD_0020114))
 Declaration(Class(:PMD_0020127))
@@ -26,9 +28,16 @@ Declaration(Class(:PMD_0020136))
 Declaration(Class(:PMD_0020137))
 Declaration(Class(:PMD_0020140))
 Declaration(Class(:PMD_0020147))
+Declaration(Class(:PMD_0020185))
+Declaration(Class(:PMD_0020186))
+Declaration(Class(:PMD_0020187))
+Declaration(Class(:PMD_0020189))
+Declaration(Class(:PMD_0020190))
+Declaration(Class(:PMD_0020191))
 Declaration(ObjectProperty(:PMD_0020021))
 Declaration(ObjectProperty(:PMD_0020022))
 Declaration(ObjectProperty(:PMD_0020141))
+Declaration(ObjectProperty(:PMD_0020188))
 
 ############################
 #   Object Properties
@@ -39,8 +48,6 @@ Declaration(ObjectProperty(:PMD_0020141))
 AnnotationAssertion(rdfs:label :PMD_0020021 "causally influences"@en)
 AnnotationAssertion(skos:definition :PMD_0020021 "An entity (that is bearer of some stimulation role) causally influences another entity (that is bearer of the stimulation target role) in a process iff  the target objects qualites (and/or realizable entities?) are altered in a manner that is significant in the given context/domain of discourse.."@en)
 SubObjectPropertyOf(:PMD_0020021 :PMD_0020020)
-ObjectPropertyDomain(:PMD_0020021 ObjectSomeValuesFrom(obo:BFO_0000196 :PMD_0020134))
-ObjectPropertyRange(:PMD_0020021 ObjectSomeValuesFrom(obo:BFO_0000196 :PMD_0020135))
 
 # Object Property: :PMD_0020022 (intensive bearer of)
 
@@ -63,6 +70,15 @@ SubObjectPropertyOf(:PMD_0020141 obo:BFO_0000196)
 ObjectPropertyDomain(:PMD_0020141 ObjectUnionOf(obo:BFO_0000027 obo:BFO_0000030))
 ObjectPropertyRange(:PMD_0020141 obo:BFO_0000020)
 
+# Object Property: :PMD_0020188 (refers to)
+
+AnnotationAssertion(rdfs:label :PMD_0020188 "refers to"@en)
+AnnotationAssertion(skos:definition :PMD_0020188 "The relation between a process characteristic and the SDC of a (relevant) process participant, that justifies the characterisics existance."@en)
+SubObjectPropertyOf(:PMD_0020188 owl:topObjectProperty)
+FunctionalObjectProperty(:PMD_0020188)
+ObjectPropertyDomain(:PMD_0020188 :PMD_0020185)
+ObjectPropertyRange(:PMD_0020188 obo:BFO_0000020)
+
 
 
 ############################
@@ -73,9 +89,49 @@ ObjectPropertyRange(:PMD_0020141 obo:BFO_0000020)
 
 SubClassOf(:PMD_0000005 ObjectAllValuesFrom(obo:BFO_0000197 :PMD_0000000))
 
+# Class: :PMD_0000547 (Change Of Aggregate State)
+
+SubClassOf(:PMD_0000547 :PMD_0000548)
+
+# Class: :PMD_0000548 (Change Of Phase)
+
+AnnotationAssertion(rdfs:label :PMD_0000548 "Change Of Phase"@en)
+AnnotationAssertion(skos:definition :PMD_0000548 "A change of phase is a process describing the transition of some participant(s) from one phase to another phase."@en)
+AnnotationAssertion(skos:example :PMD_0000548 "Alpha-gamma transition when heating steel above the A1-temperature."@en)
+SubClassOf(:PMD_0000548 obo:BFO_0000015)
+
+# Class: :PMD_0000549 (Change Of Temperature)
+
+
+# Class: :PMD_0000596 (Deformation)
+
+
+# Class: :PMD_0000629 (Emission Of Radiation)
+
+
+# Class: :PMD_0000635 (Evolution Of Damage)
+
+
 # Class: :PMD_0000852 (Metal)
 
 SubClassOf(:PMD_0000852 ObjectIntersectionOf(:PMD_0000002 ObjectSomeValuesFrom(obo:BFO_0000178 ObjectIntersectionOf(:PMD_0020003 ObjectSomeValuesFrom(obo:BFO_0000196 :PMD_0050002)))))
+
+# Class: :PMD_0000869 (Occurence Of Chemical Reaction)
+
+AnnotationAssertion(rdfs:label :PMD_0000869 "Occurence Of Chemical Reaction"@en)
+AnnotationAssertion(skos:definition :PMD_0000869 "The occurrence of (a) chemical reaction is the process in which substances interact to form new chemical compounds or alter their molecular structure."@en)
+SubClassOf(:PMD_0000869 obo:BFO_0000015)
+SubClassOf(:PMD_0000869 ObjectSomeValuesFrom(obo:BFO_0000057 :PMD_0000001))
+
+# Class: :PMD_0000870 (Occurence Of Electic Field)
+
+
+# Class: :PMD_0000871 (Occurence Of Magnetic Field)
+
+
+# Class: :PMD_0000882 (Phase Boundary)
+
+SubClassOf(:PMD_0000882 ObjectSomeValuesFrom(:PMD_0001029 :PMD_0000548))
 
 # Class: :PMD_0020113 (Transfer of Energy)
 
@@ -120,6 +176,53 @@ SubClassOf(:PMD_0020140 :PMD_0020137)
 AnnotationAssertion(rdfs:label :PMD_0020147 "Change of formation energy or enthalpy"@en)
 SubClassOf(:PMD_0020147 :PMD_0020113)
 
+# Class: :PMD_0020185 (Process characteristic)
 
+AnnotationAssertion(rdfs:comment :PMD_0020185 "Closely related to IOF process characteristic but more explicit."@en)
+AnnotationAssertion(rdfs:label :PMD_0020185 "Process characteristic"@en)
+AnnotationAssertion(skos:definition :PMD_0020185 "An occurent that is characteristic to a process and one of:
+1. A quantifier/GDC about time related aspects of the process (duration, moment of occurence)--> to be reviewed.
+2. \"refers to\" a SDC  of an (important) process participant (e.g. the input/output participant)."@en)
+SubClassOf(:PMD_0020185 obo:BFO_0000003)
+
+# Class: :PMD_0020186 (SDC increment)
+
+AnnotationAssertion(rdfs:label :PMD_0020186 "SDC increment"@en)
+AnnotationAssertion(skos:definition :PMD_0020186 "A SDC increment represents the difference between two SDC (-values) at different points in time. It is based on the idea that the change of SDC (-value) results in the creation of a new SDC resource (IRI). (TODO: name the properties pointing to the two SDCs, e.g. initial xxx and final xxx).
+A SDC increment is always bound (TODO: name binding property) to a process in which the SDC-bearer participates."@en)
+AnnotationAssertion(skos:example :PMD_0020186 "The difference of the volume of an object at the start and the end of a swelling process."@en)
+SubClassOf(:PMD_0020186 obo:BFO_0000020)
+
+# Class: :PMD_0020187 (Rate)
+
+AnnotationAssertion(rdfs:label :PMD_0020187 "Rate"@en)
+AnnotationAssertion(skos:definition :PMD_0020187 "A Process characteristic that referst to a SDC increment"@en)
+AnnotationAssertion(skos:definition :PMD_0020187 "The cooling rate refers to the change in temperature during the cooling process.
+The production rate refers to the change in number of pieces produced.
+The heart rate refers to the increment of the number of heart beats during the observation period."@en)
+SubClassOf(:PMD_0020187 :PMD_0000008)
+
+# Class: :PMD_0020189 (Transformation of energy)
+
+AnnotationAssertion(rdfs:label :PMD_0020189 "Transformation of energy"@en)
+AnnotationAssertion(skos:definition :PMD_0020189 "A process during which energy stored in some participant is transformed into another form of energy."@en)
+AnnotationAssertion(skos:example :PMD_0020189 "Transformation of mechanical work to heat, transformation of potential energy to kinetic."@en)
+SubClassOf(:PMD_0020189 obo:BFO_0000015)
+
+# Class: :PMD_0020190 (Transformation of information)
+
+AnnotationAssertion(rdfs:label :PMD_0020190 "Transformation of information"@en)
+AnnotationAssertion(skos:definition :PMD_0020190 "A process during which information is transformed or altered."@en)
+SubClassOf(:PMD_0020190 obo:BFO_0000015)
+
+# Class: :PMD_0020191 (Environment)
+
+AnnotationAssertion(rdfs:label :PMD_0020191 "Environment"@en)
+AnnotationAssertion(skos:definition :PMD_0020191 "A role of an unbounded portion of matter that environs a process. The environment role indicates that its bearer is in physical contact/touching some (relevant) other process participant."@en)
+SubClassOf(:PMD_0020191 obo:BFO_0000023)
+
+
+DisjointClasses(:PMD_0000549 :PMD_0000596 :PMD_0000629 :PMD_0000635 :PMD_0000869 :PMD_0000870 :PMD_0000871)
+DisjointClasses(:PMD_0000549 :PMD_0000596 :PMD_0000629 :PMD_0000869 :PMD_0000870 :PMD_0000871)
 SubObjectPropertyOf(ObjectPropertyChain(:PMD_0020005 obo:BFO_0000196) :PMD_0020022)
 )
