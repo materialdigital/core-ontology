@@ -5,29 +5,27 @@
 @prefix ex:    <http://www.example.org/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
-@prefix obi:   <http://purl.obolibrary.org/obo/> .
-@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
 
-ex:Shape3 rdf:type sh:NodeShape ;
-          sh:targetClass  <https://w3id.org/pmd/co/PMD_0001025> ; # pmd:assay (replaced OBI)
+pmd:MeasurementProcessShape
+    rdf:type sh:NodeShape ;
+    sh:targetClass  pmd:PMD:0001025 ; #assay
+
+    # and one property pointing to the input
+    sh:property [
+        sh:path pmd:PMD_0000015 ;  #pmd:has input
+        sh:minCount 1 ;
+        sh:class obo:BFO_0000040 ;
+    ] ;
     
     # One property pointing to the output ...
     sh:property [
-        # obi:has_specified_output
-        sh:path <https://w3id.org/pmd/co/PMD_0000016> ;  #pmd:has output
+        sh:path pmd:PMD_0000016 ;  has output
         sh:minCount 1 ;
-        #iao:measurement_datum
-        sh:class <http://purl.obolibrary.org/obo/IAO_0000109> ; 
+        sh:node pmd:MeasurementDatumShape ;
     ] ;
     
-    # ... and one property pointing to the input
-    sh:property [
-        # obi:has_specified_input
-        sh:path <https://w3id.org/pmd/co/PMD_0000015> ;  #pmd:has input
-        sh:minCount 1 ;
-        #bfo:material entity
-        sh:class <http://purl.obolibrary.org/obo/BFO_0000040> ;
-    ] ;
+
     
     # property path 'has_specified_input'/'has_role' must point to the same 
     # (role-)resource as the 'realizes' of our assay. 
