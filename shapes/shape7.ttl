@@ -6,25 +6,53 @@
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
 @prefix shape:   <https://w3id.org/pmd/co/shapes> .
-
-shape: 
-    a owl:Ontology ;
-    owl:imports sh: ;
-    owl:imports pmd: ;
-
-	sh:declare [
-		sh:prefix "sh" ;
-		sh:namespace "http://www.w3.org/ns/shacl#"^^xsd:anyURI ;
-	] .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
 
 
-shape:chemical_composition
-    a sh:NodeShape ;
-    sh:targetClass  pmd:PMD_0000551 ;  #'Chemical Composition'
-    sh:property [            
-        sh:path <http://purl.obolibrary.org/obo/RO_0000080> ; #'quality of'
-        sh:maxCount 1 
+### Inspired by Copy of copy of Frame 28b
+### Approach bottom up from values to the chemical composition
+
+pmd:MassProportionShape 
+    rdf:type sh:NodeShape ; 
+    sh:targetClass pmd:PMD_0020102 ; # mass proportion
+    sh:property [
+        sh:path obo:BFO_0000059 ; #concretizes
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+        sh:node pmd:ScalarValueSpecificationShape ;
     ] ;
-    sh:property [            
-        sh:path <http://purl.obolibrary.org/obo/RO_0000059>  #'concretizes'
-    ] .
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+pmd:PortionOfShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass pmd:PMD_0020025 ; #pure substances under portion of matter
+    sh:property [
+        sh:path obo:BFO_0000196 ; #bearer of
+        sh:node pmd:MassProportionShape ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+
+# shape: 
+#  a owl:Ontology ;
+#    owl:imports sh: ;
+#    owl:imports pmd: ;
+
+#	sh:declare [
+#		sh:prefix "sh" ;
+#		sh:namespace "http://www.w3.org/ns/shacl#"^^xsd:anyURI ;
+#	] .
+
+
+#shape:chemical_composition
+#    a sh:NodeShape ;
+#    sh:targetClass  pmd:PMD_0000551 ;  #'Chemical Composition'
+#    sh:property [            
+#        sh:path <http://purl.obolibrary.org/obo/RO_0000080> ; #'quality of'
+#        sh:maxCount 1 
+#    ] ;
+#    sh:property [            
+#        sh:path <http://purl.obolibrary.org/obo/RO_0000059>  #'concretizes'
+#    ] .
