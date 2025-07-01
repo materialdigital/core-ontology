@@ -11,10 +11,11 @@
 
 ### Inspired by Copy of copy of Frame 28b
 ### Approach bottom up from values to the chemical composition
+### TODO: chains of properties
 
-pmd:MassProportionShape 
+pmd:ProportionShape 
     rdf:type sh:NodeShape ; 
-    sh:targetClass pmd:PMD_0020102 ; # mass proportion
+    sh:targetClass pmd:PMD_0020101 ;  #proportion (mass, volume , molar)
     sh:property [
         sh:path obo:BFO_0000059 ; #concretizes
         sh:minCount 1 ; 
@@ -24,15 +25,67 @@ pmd:MassProportionShape
     sh:closed true ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
-pmd:PortionOfShape
+pmd:PortionOfMatterShape
     rdf:type sh:NodeShape ; 
     sh:targetClass pmd:PMD_0020025 ; #pure substances under portion of matter
     sh:property [
         sh:path obo:BFO_0000196 ; #bearer of
-        sh:node pmd:MassProportionShape ;
+        sh:node pmd:ProportionShape ;
     ] ;
     sh:closed true ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+pmd:ChemicalCompositionSpecificationShape 
+    rdf:type sh:NodeShape ; 
+    sh:targetClass pmd:PMD_0020004 ; #chemical composition specification
+    sh:property [
+        sh:path obo:BFO_0000178 ; #has continious part
+        sh:node pmd:ScalarValueSpecificationShape ; 
+        sh:minCount 1 ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+pmd:ChemicalCompositionShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass pmd:PMD_0000551 ; #chemical composition 
+    sh:property [
+        sh:path obo:BFO_0000059 ; #concretizes
+        sh:node pmd:ChemicalCompositionSpecificationShape ;
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+    ] ; 
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+pmd:MaterialChemicalCompositionShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass pmd:PMD_0000000 ; #material
+    sh:property [
+        sh:path obo:BFO_0000196 ; #bearer of
+        sh:node pmd:ChemicalCompositionShape ; 
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+    ] ;
+    sh:property [
+        sh:path pmd:PMD_0020005 ; #consists of
+        sh:node pmd:PortionOfMatterShape ; 
+        sh:minCount 1 ; 
+    ] ;
+    # not closed shape because other material properties are to come
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+pmd:SampleChemicalCompositonShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass obo:BFO_0000030 ; #object
+    sh:property [
+        sh:path pmd:PMD_0020005 ; #consists of
+        sh:node pmd:SampleChemicalCompositonShape ; 
+        sh:mincount 1 ;
+    ] ;
+    # not closed shape because other objects features are to come
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
 
 
 # shape: 
