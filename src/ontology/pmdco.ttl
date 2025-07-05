@@ -12,7 +12,7 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix protege: <http://protege.stanford.edu/plugins/owl/protege#> .
 @prefix oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> .
-@base <https://w3id.org/pmd/co/pmdco.ttl> .
+@base <https://w3id.org/pmd/co/pmdco.ttl#> .
 
 <https://w3id.org/pmd/co/pmdco.ttl> rdf:type owl:Ontology ;
                                      owl:versionIRI <https://w3id.org/pmd/co/pmdco/releases/2025-04-22/pmdco.ttl> ;
@@ -3375,14 +3375,14 @@ obo:IAO_0000027 rdf:type owl:Class ;
                 obo:IAO_0000116 "2/2/2009 Alan and Bjoern discussing FACS run output data. This is a data item because it is about the cell population. Each element records an event and is typically further composed a set of measurment data items that record the fluorescent intensity stimulated by one of the lasers."@en ,
                                 "2009-03-16: data item deliberatly ambiguous: we merged data set and datum to be one entity, not knowing how to define singular versus plural. So data item is more general than datum."@en ,
                                 "2009-03-16: removed datum as alternative term as datum specifically refers to singular form, and is thus not an exact synonym."@en ,
-                                "2014-03-31: See discussion at http://odontomachus.wordpress.com/2014/03/30/aboutness-objects-propositions/" ,
                                 """JAR: datum     -- well, this will be very tricky to define, but maybe some 
 information-like stuff that might be put into a computer and that is 
 meant, by someone, to denote and/or to be interpreted by some 
 process... I would include lists, tables, sentences... I think I might 
 defer to Barry, or to Brian Cantwell Smith
 
-JAR: A data item is an approximately justified approximately true approximate belief"""@en ;
+JAR: A data item is an approximately justified approximately true approximate belief"""@en ,
+                                "2014-03-31: See discussion at http://odontomachus.wordpress.com/2014/03/30/aboutness-objects-propositions/" ;
                 obo:IAO_0000117 "PERSON: Alan Ruttenberg"@en ,
                                 "PERSON: Chris Stoeckert"@en ,
                                 "PERSON: Jonathan Rees"@en ;
@@ -9133,6 +9133,48 @@ co:PMD_0020112 rdf:type owl:Class ;
                skos:definition "An intensive quality describing the lower length scale object aggregate (grains) that is part of the material."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020113
+co:PMD_0020113 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000000
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:BFO_0000196 ;
+                                                            owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0020114
+                                                                                                      [ rdf:type owl:Restriction ;
+                                                                                                        owl:onProperty obo:BFO_0000059 ;
+                                                                                                        owl:someValuesFrom co:PMD_0020127
+                                                                                                      ]
+                                                                                                      [ rdf:type owl:Restriction ;
+                                                                                                        owl:onProperty obo:BFO_0000059 ;
+                                                                                                        owl:someValuesFrom co:PMD_0020156
+                                                                                                      ]
+                                                                                                    ) ;
+                                                                                 rdf:type owl:Class
+                                                                               ]
+                                                          ]
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:BFO_0000196 ;
+                                                            owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0020154
+                                                                                                      [ rdf:type owl:Restriction ;
+                                                                                                        owl:onProperty obo:BFO_0000059 ;
+                                                                                                        owl:someValuesFrom co:PMD_0020157
+                                                                                                      ]
+                                                                                                    ) ;
+                                                                                 rdf:type owl:Class
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf co:PMD_0020096 ;
+               rdfs:label "100Cr6"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020114
+co:PMD_0020114 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000952 ;
+               rdfs:label "ultimate tensile strength"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020115
 co:PMD_0020115 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000891 ;
@@ -9170,6 +9212,25 @@ The parts of c that bear the filler role are vacuum-filled or gas filled pores.
 The parts of c that bear the matrix role consist of a material that is bearer of solid or liquid aggregate state. 
 One pore with its sourrounding matrix is called 'cell'. 
 Depending of the interconnectedness of the pores the foam is open- or closed-cell."""@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020127
+co:PMD_0020127 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000022
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty co:PMD_0000006 ;
+                                                            owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                 owl:onDatatype xsd:float ;
+                                                                                 owl:withRestrictions ( [ xsd:minExclusive "830.0"^^xsd:float
+                                                                                                        ]
+                                                                                                      )
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf co:PMD_0000022 ;
+               rdfs:label "svs_bigger_830_MPa"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020128
@@ -9310,11 +9371,55 @@ co:PMD_0020153 rdf:type owl:Class ;
 3. whose continuant parts are some components."""@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020154
+co:PMD_0020154 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000952 ;
+               rdfs:label "yield strength"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020155
 co:PMD_0020155 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020148 ;
                rdfs:label "Interatomic interaction energy"@en ;
                skos:definition "Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020156
+co:PMD_0020156 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000022
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty co:PMD_0000006 ;
+                                                            owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                 owl:onDatatype xsd:float ;
+                                                                                 owl:withRestrictions ( [ xsd:maxExclusive "1130.0"^^xsd:float
+                                                                                                        ]
+                                                                                                      )
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf co:PMD_0000022 ;
+               rdfs:label "svs_smaller_1130_MPa"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020157
+co:PMD_0020157 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000022
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty co:PMD_0000006 ;
+                                                            owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                 owl:onDatatype xsd:float ;
+                                                                                 owl:withRestrictions ( [ xsd:minExclusive "590.0"^^xsd:float
+                                                                                                        ]
+                                                                                                      )
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf co:PMD_0000022 ;
+               rdfs:label "svs_bigger_590_MPa"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020166
@@ -10779,6 +10884,75 @@ co:PMD_0020125 rdf:type owl:NamedIndividual ;
                skos:definition "A state that exhibits suprafluid and solid properties."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020130
+co:PMD_0020130 rdf:type owl:NamedIndividual ,
+                        co:PMD_0000022 ;
+               co:PMD_0000006 "820.0"^^xsd:float ;
+               rdfs:label "SVS_820_MPa"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020136
+co:PMD_0020136 rdf:type owl:NamedIndividual ,
+                        co:PMD_0020114 ;
+               obo:BFO_0000059 co:PMD_0020130 ;
+               rdfs:label "UTS_820_MPa"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020137
+co:PMD_0020137 rdf:type owl:NamedIndividual ;
+               obo:BFO_0000196 co:PMD_0020136 ;
+               rdfs:label "100cr6"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020140
+co:PMD_0020140 rdf:type owl:NamedIndividual ,
+                        co:PMD_0000022 ;
+               co:PMD_0000006 "840.0"^^xsd:float ;
+               rdfs:label "SVS_840_MPa"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020147
+co:PMD_0020147 rdf:type owl:NamedIndividual ,
+                        co:PMD_0020114 ;
+               obo:BFO_0000059 co:PMD_0020140 ;
+               rdfs:label "UTS_840_MPa"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020149
+co:PMD_0020149 rdf:type owl:NamedIndividual ;
+               obo:BFO_0000196 co:PMD_0020147 ,
+                               co:PMD_0020159 ;
+               rdfs:label "another_100cr6"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020158
+co:PMD_0020158 rdf:type owl:NamedIndividual ,
+                        co:PMD_0000022 ;
+               co:PMD_0000006 "1000.0"^^xsd:float ;
+               rdfs:label "SVS_1000_MPa"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020159
+co:PMD_0020159 rdf:type owl:NamedIndividual ,
+                        co:PMD_0020114 ;
+               obo:BFO_0000059 co:PMD_0020158 ;
+               rdfs:label "UTS_1000_MPa"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020160
+co:PMD_0020160 rdf:type owl:NamedIndividual ,
+                        co:PMD_0000022 ;
+               co:PMD_0000006 "600.0"^^xsd:float ;
+               rdfs:label "SVS_600_MPa"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020161
+co:PMD_0020161 rdf:type owl:NamedIndividual ,
+                        co:PMD_0020154 ;
+               obo:BFO_0000196 co:PMD_0020160 ;
+               rdfs:label "YS_600_MPa"@en .
+
+
 #################################################################
 #    Annotations
 #################################################################
@@ -11007,4 +11181,4 @@ obo:CHEBI_33250 obo:IAO_0000115 "A chemical entity constituting the smallest com
 ] .
 
 
-###  Generated by the OWL API (version 4.5.29) https://github.com/owlcs/owlapi
+###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi
