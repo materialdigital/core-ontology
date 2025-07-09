@@ -11,17 +11,17 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: main
-        path: v3.0.0
+        path: v3.0.0-alpha2
     - name: Build HTML for main
-      run: | 
+      run: |
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
            
            mkdir public
-           mkdir public/3.0.0
-           java -jar widoco.jar -ontFile v3.0.0/pmdco.owl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
-           ls public/3.0.0/doc           
-           cp public/3.0.0/doc/index-en.html public/3.0.0/doc/index.html
-           cp public/3.0.0/doc/ontology.owl public/3.0.0/doc/ontology.rdf
+           mkdir public/3.0.0-alpha2
+           java -jar widoco.jar -ontFile v3.0.0-alpha2/pmdco.owl -outFolder public/3.0.0-alpha2  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.0.0-alpha2/doc           
+           cp public/3.0.0-alpha2/doc/index-en.html public/3.0.0-alpha2/doc/index.html
+           cp public/3.0.0-alpha2/doc/ontology.owl public/3.0.0-alpha2/doc/ontology.rdf
 
            pip install mkdocs
            cd v3.0.0
@@ -29,19 +29,46 @@ jobs:
 
            cd ..
            mkdir public/docs
-           mkdir public/3.0.0/docs
-           cp -r v3.0.0/site/* public/docs/
-           cp -r v3.0.0/site/* public/3.0.0/docs/
+           mkdir public/3.0.0-alpha2/docs
+           cp -r v3.0.0-alpha2/site/* public/docs/
+           cp -r v3.0.0-alpha2/site/* public/3.0.0-alpha2/docs/
            
-           cp -r public/3.0.0/doc/* public
-           cp -r public/3.0.0/doc/* public/3.0.0
+           cp -r public/3.0.0-alpha2/doc/* public
+           cp -r public/3.0.0-alpha2/doc/* public/3.0.0-alpha2
+
+    - uses: actions/checkout@v3
+      with:
+        ref: v3.0.0-alpha1
+        path: v3.0.0-alpha1
+    - name: Build HTML for 3.0.0-alpha1
+
+      run: |
+           wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
+           
+           mkdir public
+           mkdir public/3.0.0-alpha1
+           java -jar widoco.jar -ontFile v3.0.0-alpha1/pmdco.owl -outFolder public/3.0.0-alpha1  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.0.0-alpha1/doc           
+           cp public/3.0.0-alpha1/doc/index-en.html public/3.0.0-alpha1/doc/index.html
+           cp public/3.0.0-alpha1/doc/ontology.owl public/3.0.0-alpha1/doc/ontology.rdf
+
+           pip install mkdocs
+           cd v3.0.0-alpha1
+           mkdocs build -f mkdocs.yaml
+
+           cd ..
+           mkdir public/docs
+           mkdir public/3.0.0-alpha1/docs
+           
+           cp -r v3.0.0-alpha1/site/* public/3.0.0-alpha1/docs/
+           cp -r public/3.0.0-alpha1/doc/* public/3.0.0-alpha1
            
     - uses: actions/checkout@v3
       with:
         ref: v2.0.7
         path: v2.0.7
     - name: Build HTML for 2.0.7
-      run: | 
+      run: |
            mkdir public/2.0.7 
            java -jar widoco.jar -ontFile v2.0.7/pmd_core.ttl -outFolder public/2.0.7  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
            ls public/2.0.7/           
@@ -52,7 +79,7 @@ jobs:
         ref: v2.0.8
         path: v2.0.8
     - name: Build HTML for 2.0.8
-      run: | 
+      run: |
            mkdir public/2.0.8 
            java -jar widoco.jar -ontFile v2.0.8/pmd_core.ttl -outFolder public/2.0.8  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
            ls public/2.0.8/           
