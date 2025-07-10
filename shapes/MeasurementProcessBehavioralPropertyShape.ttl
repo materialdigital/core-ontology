@@ -1,0 +1,46 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix bfo:   <http://purl.obolibrary.org/obo/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+
+
+# Measurement process for a behavioral material property
+# Note: object is too  for a sample --> either create a class for the samples, or clarify how to define a sample via roles
+
+pmd:SampleShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass bfo:BFO_0000030 ; ## object
+    sh:property
+    [
+        sh:path pmd:PMD_0020005 ; ## consists of
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+        sh:node pmd:MaterialShape ;
+    ] ; 
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty rdfs:label) .
+
+pmd:MeasurementProcessShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass pmd:PMD_0001025 ; ## assay
+    sh:property 
+    [
+        sh:path pmd:PMD_0000015 ; ## has input
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+        sh:node pmd:SampleShape ; 
+    ] ; 
+    sh:property
+    [
+        sh:path pmd:PMD_0000016 ; ## has output
+        sh:minCount 1 ; 
+        sh:node pmd:ScalarMeasurementDatumShape ; 
+    ] ; 
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty rdfs:label) .
+

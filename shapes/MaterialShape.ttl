@@ -1,0 +1,32 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+
+# Materials can bear intensive qualities or behavioral material properties
+pmd:MaterialShape 
+    rdf:type sh:NodeShape ;
+    sh:targetClass pmd:PMD_0000000 ; ## material
+    sh:property 
+    [
+        sh:path obo:BFO_0000196 ; ## bearer of
+        sh:or 
+        (
+            [
+                sh:class pmd:PMD_0020131 ; #intensive quality
+            ]
+            [
+                sh:class pmd:PMD_0000005 ; ## behavioral material property
+
+            ]
+            [
+                sh:node pmd:BehavioralPropertyShape ;
+            ]
+        )
+    ] ; 
+    # Note: not closing the shape cause materials can be subjects in other triples
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .

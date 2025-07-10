@@ -1,0 +1,21 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix bfo:   <http://purl.obolibrary.org/obo/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+
+pmd:BehavioralPropertyShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass pmd:PMD_0000005 ; ## Behavioral Material Property
+    sh:property
+    [
+        sh:path bfo:BFO_0000059 ; ## concretizes
+        sh:minCount 1 ; 
+        sh:node  pmd:ScalarValueSpecificationShape ;
+    ] ; 
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty rdfs:label) .
