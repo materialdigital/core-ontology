@@ -1,6 +1,5 @@
 ![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/shacl.yaml/badge.svg)
 ![basic checks](https://github.com/materialdigital/core-ontology/actions/workflows/quality-checks.yaml/badge.svg)
-![Build Status](https://github.com/materialdigital/core-ontology/actions/workflows/qc.yml/badge.svg)
 
 
 # PMD Core Ontology

@@ -57,7 +57,7 @@ $(ONT)-base.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(IMPORT_FILES)
 
 
 $(ONT)-minimal.owl: 
-	$(ROBOT)  query --input $(ONT).owl --query ../sparql/select-minimal-profile.sparql $(TMPDIR)/minimal_profile.txt & \
+	$(ROBOT)  query --input $(ONT).owl --query ../sparql/select-minimal-profile.sparql $(TMPDIR)/minimal_profile.txt && \
 	$(ROBOT)  extract --input $(ONT).owl --term-file $(TMPDIR)/minimal_profile.txt --method BOT --intermediates minimal --output $@
 
 
