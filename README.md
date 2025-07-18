@@ -34,7 +34,7 @@ The **"base file"** is a specific release flavour. It reflects the intention of 
 
 The **"simple"** artefact only contains a simple existential graph of the terms defined in the ontology. This corresponds to the state before logical definitions and imports. For example, the only logical axioms are of the form *CL1 subClassOf CL2* or *CL1 subClassOf R some CL3* where *R* is any objectProperty and *CLn* is a class. The simple variant only contains the essential classes and no imports.
 
-The **"minimal"** artefact only contains a preselected minimal of the terms defined in the ontology. This set is extracted form the full variant and represents a lightweight subset of the ontology that covers the most essential concepts for basic interoperability and implementation. We recommend beginners to start with this artifact when learning about the ontolgoy (See issue [#121](https://github.com/materialdigital/core-ontology/issues/121)).
+The **"minimal"** artefact only contains a preselected minimal of the terms defined in the ontology. This set is extracted form the full variant and represents a lightweight subset of the ontology that covers the most essential concepts for basic interoperability and implementation. We recommend beginners to start with this artifact when learning about the ontology (See issue [#121](https://github.com/materialdigital/core-ontology/issues/121)).
 
 
 The ontology **"main"** file [pmdco.ttl](https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.ttl) contains the full version.
