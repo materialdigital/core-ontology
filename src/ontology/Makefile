@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                3c24c1e8643c447f8267cd30b8f3c8e08cce7cdd7a35af753741eb55ab9ac936
+CONFIG_HASH=                a6e9816354e06c45896244ab166c234727be3956815bc20431e32ef524edf1bc
 
 
 # ----------------------------------------
@@ -65,7 +65,7 @@ EDIT_PREPROCESSED =         $(TMPDIR)/$(ONT)-preprocess.owl
 
 FORMATS = $(sort  owl ttl owl)
 FORMATS_INCL_TSV = $(sort $(FORMATS) tsv)
-RELEASE_ARTEFACTS = $(sort $(ONT)-base $(ONT)-full $(ONT)-simple )
+RELEASE_ARTEFACTS = $(sort $(ONT)-base $(ONT)-full $(ONT)-simple $(ONT)-minimal )
 
 ifeq ($(ODK_DEBUG),yes)
 ODK_DEBUG_FILE = debug.log
@@ -619,6 +619,9 @@ $(ONT)-full.ttl: $(ONT)-full.owl
 	$(ROBOT) annotate --input $< --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) \
 		convert --check false -f ttl -o $@.tmp.ttl && mv $@.tmp.ttl $@
 $(ONT)-simple.ttl: $(ONT)-simple.owl
+	$(ROBOT) annotate --input $< --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) \
+		convert --check false -f ttl -o $@.tmp.ttl && mv $@.tmp.ttl $@
+$(ONT)-minimal.ttl: $(ONT)-minimal.owl
 	$(ROBOT) annotate --input $< --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) \
 		convert --check false -f ttl -o $@.tmp.ttl && mv $@.tmp.ttl $@
 # ----------------------------------------

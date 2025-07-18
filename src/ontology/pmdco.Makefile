@@ -44,8 +44,6 @@ $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 # if [ $(IMP) = true ]; then cp $(MIRRORDIR)/bfo.owl $(IMPORTDIR)/bfo_import.owl; fi
 
 
-
-
 $(ONT)-base.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(IMPORT_FILES)
 	$(ROBOT_RELEASE_IMPORT_MODE) \
 	reason --reasoner ELK --equivalent-classes-allowed asserted-only --exclude-tautologies structural --annotate-inferred-axioms False \
@@ -58,6 +56,9 @@ $(ONT)-base.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(IMPORT_FILES)
 		--output $@.tmp.owl && mv $@.tmp.owl $@
 
 
+$(ONT)-minimal.owl: 
+	$(ROBOT)  query --input $(ONT).owl --query ../sparql/select-minimal-profile.sparql $(TMPDIR)/minimal_profile.txt & \
+	$(ROBOT)  extract --input $(ONT).owl --term-file $(TMPDIR)/minimal_profile.txt --method BOT --intermediates minimal --output $@
 
 
 CITATION="'PMDco: Platform Material Digital Ontology. Version $(VERSION), https://w3id.org/pmd/co/'"
@@ -79,7 +80,10 @@ update-ontology-annotations:
 	$(ROBOT) annotate --input ../../pmdco-full.owl $(ALL_ANNOTATIONS) --output ../../pmdco-full.owl && \
 	$(ROBOT) annotate --input ../../pmdco-full.ttl $(ALL_ANNOTATIONS) --output ../../pmdco-full.ttl && \
 	$(ROBOT) annotate --input ../../pmdco-base.owl $(ALL_ANNOTATIONS) --output ../../pmdco-base.owl && \
-	$(ROBOT) annotate --input ../../pmdco-base.ttl $(ALL_ANNOTATIONS) --output ../../pmdco-base.ttl 
+	$(ROBOT) annotate --input ../../pmdco-base.ttl $(ALL_ANNOTATIONS) --output ../../pmdco-base.ttl && \
+	$(ROBOT) annotate --input ../../pmdco-minimal.owl $(ALL_ANNOTATIONS) --output ../../pmdco-minimal.owl && \
+	$(ROBOT) annotate --input ../../pmdco-minimal.ttl $(ALL_ANNOTATIONS) --output ../../pmdco-minimal.ttl 
+
 
 
 

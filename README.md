@@ -33,9 +33,9 @@ Important Folders:
 
 ## Documentation
 
-- [Documentation](https://materialdigital.github.io/core-ontology/3.0.0/docs)
+- [Documentation](https://materialdigital.github.io/core-ontology/3.0.0-alpha2/docs)
 - [Beginers Guide Miro Board ](https://miro.com/app/board/uXjVLY9FwGU=/)
-- [Widoco List of Classes and Properties](https://materialdigital.github.io/core-ontology/3.0.0/)
+- [Widoco List of Classes and Properties](https://materialdigital.github.io/core-ontology/3.0.0-alpha2/)
 - [Patterns and Active Development Miro Board (Playground)](https://miro.com/app/board/uXjVNOTPrFo=/)
 
  
