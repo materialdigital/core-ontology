@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                9b1e7f2d5a8c8db3e212f489c70f29bc010306c329710f4a042bc86f75357f05
+CONFIG_HASH=                60041d0c5eb526a9e0e70f41c217ddd1202f99afd3387b6187567a1c13c7d53b
 
 
 # ----------------------------------------
@@ -19,9 +19,9 @@ CONFIG_HASH=                9b1e7f2d5a8c8db3e212f489c70f29bc010306c329710f4a042b
 # these can be overwritten on the command line
 
 OBOBASE=                    http://purl.obolibrary.org/obo
-URIBASE=                    https://w3id.org/pmd/co
+URIBASE=                    https://w3id.org/pmd
 ONT=                        pmdco
-ONTBASE=                    https://w3id.org/pmd/co/pmdco
+ONTBASE=                    https://w3id.org/pmd/co
 EDIT_FORMAT=                owl
 SRC =                       $(ONT)-edit.$(EDIT_FORMAT)
 MAKE_FAST=                  $(MAKE) IMP=false PAT=false COMP=false MIR=false
@@ -415,7 +415,7 @@ $(IMPORTDIR)/%_import.owl: $(MIRRORDIR)/%.owl $(IMPORTDIR)/%_terms.txt \
 		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 		        --term-file $(IMPORTDIR)/$*_terms.txt $(T_IMPORTSEED) \
 		        --select complement --select annotation-properties \
-		 odk:normalize --base-iri https://w3id.org/pmd/co \
+		 odk:normalize --base-iri https://w3id.org/pmd \
 		               --subset-decls true --synonym-decls true \
 		 repair --merge-axiom-annotations true \
 		 $(ANNOTATE_CONVERT_FILE)
@@ -425,7 +425,7 @@ $(IMPORTDIR)/%_import.owl: $(MIRRORDIR)/%.owl $(IMPORTDIR)/%_terms.txt \
 ## Module for ontology: bfo (mirror)
 $(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl | all_robot_plugins
 	$(ROBOT) annotate --input $< --remove-annotations \
-		 odk:normalize --base-iri https://w3id.org/pmd/co \
+		 odk:normalize --base-iri https://w3id.org/pmd \
 		               --subset-decls true --synonym-decls true \
 		               --add-source true \
 		 repair --merge-axiom-annotations true \
@@ -677,7 +677,7 @@ $(ONT)-simple.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(SIMPLESEED) $(IMPORT_FILE
 		remove --axioms equivalent \
 		filter --term-file $(SIMPLESEED) --select "annotations ontology anonymous self" --trim true --signature true \
 		reduce -r $(REASONER) $(REDUCE_OPTIONS) \
-		odk:normalize --base-iri https://w3id.org/pmd/co --subset-decls true --synonym-decls true \
+		odk:normalize --base-iri https://w3id.org/pmd --subset-decls true --synonym-decls true \
 		repair --merge-axiom-annotations true \
 		$(SHARED_ROBOT_COMMANDS) annotate --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) --output $@.tmp.owl && mv $@.tmp.owl $@
 # ----------------------------------------
