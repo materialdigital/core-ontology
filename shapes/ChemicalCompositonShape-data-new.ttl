@@ -1,0 +1,151 @@
+@prefix : <http://www.semanticweb.org/zaripova/ontologies/2025/6/untitled-ontology-83/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@base <https://w3id.org/pmd/co/test> .
+
+<https://w3id.org/pmd/co/test> rdf:type owl:Ontology ;
+                                owl:imports qudt: ,
+                                    <https://w3id.org/pmd/co> .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://qudt.org/schema/qudt/conversionMultiplier
+qudt:conversionMultiplier rdf:type owl:AnnotationProperty .
+
+
+###  http://qudt.org/schema/qudt/conversionOffset
+qudt:conversionOffset rdf:type owl:AnnotationProperty .
+
+
+###  http://qudt.org/schema/qudt/hasDimensionlessUnit
+qudt:hasDimensionlessUnit rdf:type owl:AnnotationProperty .
+
+
+###  http://qudt.org/schema/qudt/iec60027_2
+qudt:iec60027_2 rdf:type owl:AnnotationProperty .
+
+
+###  http://qudt.org/schema/qudt/symbol
+qudt:symbol rdf:type owl:AnnotationProperty .
+
+
+###  http://qudt.org/schema/qudt/ucumCode
+qudt:ucumCode rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://qudt.org/schema/qudt/BaseUnit
+qudt:BaseUnit rdf:type owl:Class .
+
+
+###  http://qudt.org/schema/qudt/DerivedUnit
+qudt:DerivedUnit rdf:type owl:Class .
+
+
+###  http://qudt.org/schema/qudt/Unit
+qudt:Unit rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://qudt.org/vocab/unit/PERCENT
+unit:PERCENT rdf:type owl:NamedIndividual ,
+                      qudt:DerivedUnit ,
+                      qudt:Unit ;
+             qudt:conversionMultiplier 0.01 ;
+             qudt:conversionOffset 0.0 ;
+             qudt:hasDimensionlessUnit unit:UNITLESS ;
+             qudt:iec60027_2 "PC" ;
+             qudt:symbol "%" ;
+             qudt:ucumCode "%" ;
+             rdfs:label "PERCENT"@en .
+
+
+###  http://qudt.org/vocab/unit/UNITLESS
+unit:UNITLESS rdf:type owl:NamedIndividual ,
+                       qudt:BaseUnit ,
+                       qudt:Unit ;
+              qudt:conversionMultiplier 1.0 ;
+              qudt:conversionOffset 0.0 ;
+              qudt:iec60027_2 "1" ;
+              qudt:symbol "1" ;
+              qudt:ucumCode "1" ;
+              rdfs:label "UNITLESS"@en .
+
+
+###  https://w3id.org/pmd/co/test/SVS_Cr
+<https://w3id.org/pmd/co/test/SVS_Cr> rdf:type owl:NamedIndividual ,
+                                               <https://w3id.org/pmd/co/PMD_0000022> ;
+                                      <https://w3id.org/pmd/co/PMD_0000020> unit:PERCENT ;
+                                      <https://w3id.org/pmd/co/PMD_0000006> 1.35 .
+
+
+###  https://w3id.org/pmd/co/test/SVS_Fe
+<https://w3id.org/pmd/co/test/SVS_Fe> rdf:type owl:NamedIndividual ,
+                                               <https://w3id.org/pmd/co/PMD_0000022> ;
+                                      <https://w3id.org/pmd/co/PMD_0000020> unit:PERCENT ;
+                                      <https://w3id.org/pmd/co/PMD_0000006> 97.32 .
+
+
+###  https://w3id.org/pmd/co/test/bearing_1
+<https://w3id.org/pmd/co/test/bearing_1> rdf:type owl:NamedIndividual ,
+                                                  <http://purl.obolibrary.org/obo/BFO_0000030> ;
+                                         <https://w3id.org/pmd/co/PMD_0020005> <https://w3id.org/pmd/co/test/material_100Cr6> .
+
+
+###  https://w3id.org/pmd/co/test/chemical_composition_100Cr6
+<https://w3id.org/pmd/co/test/chemical_composition_100Cr6> rdf:type owl:NamedIndividual ,
+                                                                    <https://w3id.org/pmd/co/PMD_0000551> ;
+                                                           <http://purl.obolibrary.org/obo/BFO_0000059> <https://w3id.org/pmd/co/test/chemical_composition_specification_100Cr6> .
+
+
+###  https://w3id.org/pmd/co/test/chemical_composition_specification_100Cr6
+<https://w3id.org/pmd/co/test/chemical_composition_specification_100Cr6> rdf:type owl:NamedIndividual ,
+                                                                                  <https://w3id.org/pmd/co/PMD_0020004> ;
+                                                                         <http://purl.obolibrary.org/obo/BFO_0000178> <https://w3id.org/pmd/co/test/SVS_Cr> ,
+                                                                                                                      <https://w3id.org/pmd/co/test/SVS_Fe> .
+
+
+###  https://w3id.org/pmd/co/test/mass_proportion_Cr
+<https://w3id.org/pmd/co/test/mass_proportion_Cr> rdf:type owl:NamedIndividual ,
+                                                           <https://w3id.org/pmd/co/PMD_0020102> ;
+                                                  <http://purl.obolibrary.org/obo/BFO_0000059> <https://w3id.org/pmd/co/test/SVS_Cr> .
+
+
+###  https://w3id.org/pmd/co/test/mass_proportion_Fe
+<https://w3id.org/pmd/co/test/mass_proportion_Fe> rdf:type owl:NamedIndividual ,
+                                                           <https://w3id.org/pmd/co/PMD_0020102> ;
+                                                  <http://purl.obolibrary.org/obo/BFO_0000059> <https://w3id.org/pmd/co/test/SVS_Fe> .
+
+
+###  https://w3id.org/pmd/co/test/material_100Cr6
+<https://w3id.org/pmd/co/test/material_100Cr6> rdf:type owl:NamedIndividual ,
+                                                        <https://w3id.org/pmd/co/PMD_0000000> ;
+                                               <http://purl.obolibrary.org/obo/BFO_0000196> <https://w3id.org/pmd/co/test/chemical_composition_100Cr6> ;
+                                               <https://w3id.org/pmd/co/PMD_0020005> <https://w3id.org/pmd/co/test/portion_of_Cr> ,
+                                                                                     <https://w3id.org/pmd/co/test/portion_of_Fe> .
+
+
+###  https://w3id.org/pmd/co/test/portion_of_Cr
+<https://w3id.org/pmd/co/test/portion_of_Cr> rdf:type owl:NamedIndividual ,
+                                                      <https://w3id.org/pmd/co/PMD_0020029> .
+
+
+###  https://w3id.org/pmd/co/test/portion_of_Fe
+<https://w3id.org/pmd/co/test/portion_of_Fe> rdf:type owl:NamedIndividual ,
+                                                      <https://w3id.org/pmd/co/PMD_0020026> .
+
+
+###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi

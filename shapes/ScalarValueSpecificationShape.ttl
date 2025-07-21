@@ -1,0 +1,42 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix bfo:   <http://purl.obolibrary.org/obo/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+
+
+pmd:ScalarValueSpecificationShape 
+    rdf:type sh:NodeShape ;
+    sh:targetClass  pmd:PMD_0000022 ; # scalar value specification
+    sh:description "Shape describing that scalar value specification can have only one numeral and only one unit." ; 
+    
+    # Exactly one property pointing to the scalar value
+    sh:property [ 
+        sh:or (
+            [
+                sh:path  pmd:PMD_0000006 ;  ## has value
+                sh:maxCount 1 
+            ]
+            [
+                sh:path rdfs:value ;
+                sh:minCount 1 ;
+                sh:maxCount 1 
+            ]
+        )
+    ] ;
+    
+    # Exactly one property pointing to the physical unit
+    sh:property    
+        [      
+            sh:path pmd:PMD_0000020 ; #has measurement unit label
+            sh:minCount 0 ;
+            sh:maxCount 1 ;
+            sh:class qudt:Unit ;
+        ] ;
+   
+   sh:closed true ;
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .

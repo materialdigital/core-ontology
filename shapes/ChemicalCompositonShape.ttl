@@ -73,9 +73,19 @@ pmd:MaterialChemicalCompositionShape
         sh:minCount 1 ; 
     ] ;
     sh:property [
-        sh:path (pmd:PMD_0020005 obo:BFO_0000196) ; #consists of + bearer of
-        sh:equals obo:BFO_0000196 ; 
-        #sh:node pmd:PortionOfMatterShape
+        ## alternative paths between material and proportion
+        sh:path obo:BFO_0000196 ; #bearer of
+        sh:node pmd:ProportionShape ; 
+        sh:minCount 1 ; 
+        sh:path
+        [
+            sh:alternativePath 
+            (
+                obo:BFO_0000196 ## simple option: bearer of
+                ( obo:BFO_0000196 obo:BFO_0000059 obo:BFO_0000178 obo:BFO_0000058 ) ## 2nd option: bearer of - concretizes - has continious part - is concretized by
+                ( pmd:PMD_0020005 obo:BFO_0000196 ) ## 3rd option: consists of - bearer of
+            ) 
+        ] 
     ] ;
     # not closed shape because other material properties are to come
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
@@ -92,25 +102,3 @@ pmd:SampleChemicalCompositonShape
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
 
-
-# shape: 
-#  a owl:Ontology ;
-#    owl:imports sh: ;
-#    owl:imports pmd: ;
-
-#	sh:declare [
-#		sh:prefix "sh" ;
-#		sh:namespace "http://www.w3.org/ns/shacl#"^^xsd:anyURI ;
-#	] .
-
-
-#shape:chemical_composition
-#    a sh:NodeShape ;
-#    sh:targetClass  pmd:PMD_0000551 ;  #'Chemical Composition'
-#    sh:property [            
-#        sh:path <http://purl.obolibrary.org/obo/RO_0000080> ; #'quality of'
-#        sh:maxCount 1 
-#    ] ;
-#    sh:property [            
-#        sh:path <http://purl.obolibrary.org/obo/RO_0000059>  #'concretizes'
-#    ] .

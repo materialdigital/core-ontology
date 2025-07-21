@@ -5,11 +5,11 @@
 @prefix ex:    <http://www.example.org/#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
-@prefix bfo:   <http://purl.obolibrary.org/obo/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
 
-pmd:ScalarValueSpecificationShape 
+pmd:CategoricalValueSpecificationShape 
     rdf:type sh:NodeShape ;
-    sh:targetClass  pmd:PMD_0000022 ; # scalar value specification
+    sh:targetClass  obo:OBI_0001930 ; # categorical value specification
     
     # Exactly one property pointing to the scalar value
     sh:property [ 
@@ -25,22 +25,6 @@ pmd:ScalarValueSpecificationShape
                 sh:maxCount 1 
             ]
         )
-    ] ;
-    
-    # Exactly one property pointing to the physical unit --> pmd:unit does not exist, a scalar value can also be dimensionless
-    sh:property [
-        sh:or (
-            [            
-                sh:path pmd:PMD_0000020 ; #has measurement unit label
-                sh:minCount 0 ;
-                sh:maxCount 1 
-            ] 
-            [            
-                sh:path pmd:unit ;
-                sh:minCount 1 ;
-                sh:maxCount 1 
-            ] 
-        ) 
     ] ;
    
    sh:closed true ;
