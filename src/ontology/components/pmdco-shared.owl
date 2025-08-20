@@ -11,12 +11,22 @@ Prefix(oboInOwl:=<http://www.geneontology.org/formats/oboInOwl#>)
 Ontology(<https://w3id.org/pmd/co/components/pmdco-shared.owl>
 Import(<https://w3id.org/pmd/co/components/imports-edit.owl>)
 
+Declaration(Class(obo:OBI_0001930))
 Declaration(Class(:PMD_0000003))
 Declaration(Class(:PMD_0000008))
 Declaration(Class(:PMD_0000014))
 Declaration(Class(:PMD_0000017))
 Declaration(Class(:PMD_0000022))
 Declaration(Class(:PMD_0000023))
+Declaration(Class(:PMD_0000501))
+Declaration(Class(:PMD_0000502))
+Declaration(Class(:PMD_0000787))
+Declaration(Class(:PMD_0000834))
+Declaration(Class(:PMD_0000853))
+Declaration(Class(:PMD_0000885))
+Declaration(Class(:PMD_0000946))
+Declaration(Class(:PMD_0000992))
+Declaration(Class(:PMD_0060005))
 Declaration(Class(:PMD_0060009))
 Declaration(ObjectProperty(:PMD_0000004))
 Declaration(ObjectProperty(:PMD_0000009))
@@ -162,6 +172,14 @@ DataPropertyDomain(:PMD_0000006 obo:IAO_0000030)
 #   Classes
 ############################
 
+# Class: obo:OBI_0001930 (categorical value specification)
+
+AnnotationAssertion(obo:IAO_0000111 obo:OBI_0001930 "categorical value specification")
+AnnotationAssertion(obo:IAO_0000115 obo:OBI_0001930 "A value specification that is specifies one category out of a fixed number of nominal categories"@en)
+AnnotationAssertion(obo:IAO_0000117 obo:OBI_0001930 "PERSON:Bjoern Peters")
+AnnotationAssertion(rdfs:label obo:OBI_0001930 "categorical value specification")
+SubClassOf(obo:OBI_0001930 obo:OBI_0001933)
+
 # Class: :PMD_0000003 (plan specification)
 
 AnnotationAssertion(obo:IAO_0000412 :PMD_0000003 obo:IAO_0000104)
@@ -203,7 +221,7 @@ AnnotationAssertion(rdfs:label :PMD_0000022 "scalar value specification"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000022 "A value specification that consists of two parts: a numeral and a unit label")
 AnnotationAssertion(:PMD_0000060 :PMD_0000022 "true"^^xsd:boolean)
 SubClassOf(:PMD_0000022 obo:OBI_0001933)
-SubClassOf(:PMD_0000022 ObjectExactCardinality(1 :PMD_0000020))
+SubClassOf(:PMD_0000022 ObjectMinCardinality(1 :PMD_0000020))
 
 # Class: :PMD_0000023 (scalar measurement datum)
 
@@ -212,6 +230,65 @@ AnnotationAssertion(rdfs:label :PMD_0000023 "scalar measurement datum"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000023 "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en)
 AnnotationAssertion(:PMD_0000060 :PMD_0000023 "true"^^xsd:boolean)
 SubClassOf(:PMD_0000023 obo:IAO_0000109)
+
+# Class: :PMD_0000501 (1D)
+
+AnnotationAssertion(rdfs:label :PMD_0000501 "1D"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000501 "1-D is an information content entity representing a one-dimensional structure or model representing a single linear dimension, often used in material science simulations or analysis."@en)
+AnnotationAssertion(:PMD_0000060 :PMD_0000501 "true"^^xsd:boolean)
+SubClassOf(:PMD_0000501 obo:IAO_0000030)
+
+# Class: :PMD_0000502 (2D)
+
+AnnotationAssertion(rdfs:label :PMD_0000502 "2D"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000502 "A two-dimensional information content entity is a representation or analysis, commonly applied in studying planar material properties or surface phenomena."@en)
+AnnotationAssertion(:PMD_0000060 :PMD_0000502 "true"^^xsd:boolean)
+SubClassOf(:PMD_0000502 obo:IAO_0000030)
+
+# Class: :PMD_0000787 (image)
+
+AnnotationAssertion(rdfs:label :PMD_0000787 "image"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000787 "An image is a 2-D information content entity that is a visual representation of a material or system, often used for analysis or documentation."@en)
+AnnotationAssertion(:PMD_0000060 :PMD_0000787 "true"^^xsd:boolean)
+SubClassOf(:PMD_0000787 :PMD_0000502)
+DisjointClasses(:PMD_0000787 :PMD_0000834)
+
+# Class: :PMD_0000834 (map)
+
+AnnotationAssertion(rdfs:label :PMD_0000834 "map"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000834 "A map is a 2-D information content entity describing a representation of spatial data or relationships, often used in material science for visualizing properties or distributions."@en)
+AnnotationAssertion(:PMD_0000060 :PMD_0000834 "true"^^xsd:boolean)
+SubClassOf(:PMD_0000834 :PMD_0000502)
+
+# Class: :PMD_0000885 (pole figure)
+
+AnnotationAssertion(rdfs:label :PMD_0000885 "pole figure"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000885 "A pole figure is a map representing a graphical representation of the orientation of crystallographic planes in a polycrystalline sample."@en)
+AnnotationAssertion(:PMD_0000060 :PMD_0000885 "true"^^xsd:boolean)
+SubClassOf(:PMD_0000885 ObjectIntersectionOf(:PMD_0000834 ObjectSomeValuesFrom(ObjectInverseOf(obo:BFO_0000059) :PMD_0000853)))
+
+# Class: :PMD_0000946 (spectrum)
+
+AnnotationAssertion(rdfs:label :PMD_0000946 "spectrum"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000946 "A spectrum is a 1-D information content entity that describes the range of wavelengths or frequencies of a physical property, often used in reference to light, sound, or electromagnetic radiation."@en)
+AnnotationAssertion(:PMD_0000060 :PMD_0000946 "true"^^xsd:boolean)
+SubClassOf(:PMD_0000946 :PMD_0000501)
+DisjointClasses(:PMD_0000946 :PMD_0000992)
+
+# Class: :PMD_0000992 (time series)
+
+AnnotationAssertion(rdfs:label :PMD_0000992 "time series"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000992 "A time series is a 1-D information content entity defined by a sequence of data points collected or recorded at successive time intervals, used for analyzing temporal properties or trends."@en)
+AnnotationAssertion(:PMD_0000060 :PMD_0000992 "true"^^xsd:boolean)
+SubClassOf(:PMD_0000992 :PMD_0000501)
+
+# Class: :PMD_0060005 (categorical measurement datum)
+
+AnnotationAssertion(obo:IAO_0000119 :PMD_0060005 "http://purl.obolibrary.org/obo/OBI_0000938")
+AnnotationAssertion(rdfs:label :PMD_0060005 "categorical measurement datum"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0060005 "A measurement datum that is reported on a categorical scale.")
+AnnotationAssertion(:PMD_0000060 :PMD_0060005 "true"^^xsd:boolean)
+SubClassOf(:PMD_0060005 obo:IAO_0000109)
 
 # Class: :PMD_0060009 (specification datum)
 
