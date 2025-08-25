@@ -10,21 +10,20 @@
 pmd:CategoricalValueSpecificationShape 
     rdf:type sh:NodeShape ;
     sh:targetClass  obo:OBI_0001930 ; # categorical value specification
+    sh:description "Shape describing that categorical value specification can have only one value which can be either a literal or an IRI." ; 
+
     
     # Exactly one property pointing to the scalar value
     sh:property [ 
-        sh:or (
-            [
-                sh:path  pmd:PMD_0000006 ;  #pmd:has value, replaced because <http://purl.obolibrary.org/obo/OBI_0001937> ; #obi:has specified numeric value not in the ontology
+
+                sh:path  pmd:PMD_0000006 ;  # has value 
                 sh:minCount 1 ;
-                sh:maxCount 1 
-            ]
-            [
-                sh:path rdfs:value ;
-                sh:minCount 1 ;
-                sh:maxCount 1 
-            ]
-        )
+                sh:maxCount 1 ; 
+                sh:or 
+                (
+                    [ sh:node sh:IRI ; ]
+                    [ sh:node sh:Literal ; ]
+                ) ;
     ] ;
    
    sh:closed true ;

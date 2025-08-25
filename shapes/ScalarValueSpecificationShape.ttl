@@ -15,27 +15,27 @@ pmd:ScalarValueSpecificationShape
     sh:description "Shape describing that scalar value specification can have only one numeral and only one unit." ; 
     
     # Exactly one property pointing to the scalar value
-    sh:property [ 
-        sh:or (
-            [
-                sh:path  pmd:PMD_0000006 ;  ## has value
-                sh:maxCount 1 
-            ]
-            [
-                sh:path rdfs:value ;
-                sh:minCount 1 ;
-                sh:maxCount 1 
-            ]
-        )
-    ] ;
+    sh:property 
+        [
+            sh:path  pmd:PMD_0000006 ; # has value
+            sh:maxCount 1 ;
+            sh:minCount 1 ; 
+            sh:or 
+                (
+                    [ sh:datatype xsd:float ; ]
+                    [ sh:datatype xsd:integer ; ]
+                    [ sh:datatype xsd:decimal ; ]
+                ) 
+        ] ;
     
     # Exactly one property pointing to the physical unit
     sh:property    
         [      
             sh:path pmd:PMD_0000020 ; #has measurement unit label
-            sh:minCount 0 ;
+            sh:minCount 1 ; ## Note: use unit:UNITLESS from QUDT
             sh:maxCount 1 ;
-            sh:class qudt:Unit ;
+            # sh:class qudt:Unit ;
+            sh:nodeKind  sh:IRI ; # IRI from QUDT-UNIT
         ] ;
    
    sh:closed true ;
