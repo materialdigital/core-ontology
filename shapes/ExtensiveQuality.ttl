@@ -1,0 +1,35 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+
+pmd:ExtensiveQualityShape 
+    rdf:type sh:NodeShape ;
+    sh:targetClass  pmd:PMD_0020148 ; # extensive quality
+    sh:description "Shape describing that extensive quality inheres in an object and concretizes some value specification." 
+    
+    # inheres in an object
+    sh:property 
+        [ 
+
+            sh:path  obo:BFO_0000197 ;  # inheres in, 
+            # sh:minCount 1 ;
+            sh:maxCount 1 ; 
+            sh:class obo:BFO_0000030 ;     
+        ] ;
+    sh:property
+        [
+            sh:path obo:BFO_0000059 ; # concretizes
+            sh:or 
+                (
+                    [ sh:node pmd:ScalarValueSpecificationShape ; ]
+                    [ sh:node pmd:CategoricalValueSpecificationShape ; ]
+                ) ;
+        ] ;
+   
+   sh:closed true ;
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
