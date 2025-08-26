@@ -5,7 +5,7 @@
 @prefix ex:    <http://www.example.org/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
-@prefix bfo:   <http://purl.obolibrary.org/obo/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix unit: <http://qudt.org/vocab/unit/> .
 
@@ -13,13 +13,32 @@
 
 pmd:BehavioralPropertyShape
     rdf:type sh:NodeShape ; 
-    sh:targetClass pmd:PMD_0000005 ; ## Behavioral Material Property
-    sh:description "Shape which states that behavioral material property concretizes scalar value specification." ;
+    sh:targetClass pmd:PMD_0000005 ; # Behavioral Material Property
+    sh:description "Shape which states that behavioral material property inheres in (unbounded) portion of matter,  concretizes scalar value specification, and is realized in a process." ;
     sh:property
     [
-        sh:path bfo:BFO_0000059 ; ## concretizes
-        sh:minCount 1 ; 
+        sh:path obo:BFO_0000197 ; # inheres in
+        sh:minCount 1 ;
+        sh:maxCount 1 ; 
+        sh:class pmd:PMD_0000001 ; # portion of matter
+        # TODO: add portion of matter and/or material shape
+    ] ;
+
+    sh:property
+    [
+        sh:path obo:BFO_0000059 ; # concretizes
+        sh:minCount 1 ;
         sh:node  pmd:ScalarValueSpecificationShape ;
+        # TODO: can it be categorical value specification?
     ] ; 
 
+    sh:property 
+    [
+        sh:path obo:BFO_0000054 ; # has realization
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+        sh:class obo:BFO_0000015 ; # process
+    ] ;
+
+    sh:closed true ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty rdfs:label) .
