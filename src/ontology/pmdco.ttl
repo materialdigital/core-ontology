@@ -15,7 +15,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-08-21/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-08-27/pmdco.ttl> ;
                                   dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
                                                       <https://orcid.org/0000-0002-3092-0532> ,
                                                       <https://orcid.org/0000-0003-0410-3616> ,
@@ -32,7 +32,7 @@
                                   dcterms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology Documentation: https://materialdigital.github.io/core-ontology/docs/"@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2025-08-21" .
+                                  owl:versionInfo "2025-08-27" .
 
 #################################################################
 #    Annotation properties
@@ -226,6 +226,11 @@ co:PMD_0000060 rdf:type owl:AnnotationProperty ;
                rdfs:label "isInMinimalProfile"@en ;
                co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/121" ;
                rdfs:range xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0000062
+co:PMD_0000062 rdf:type owl:AnnotationProperty ;
+               rdfs:label "derivedFrom"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001032
@@ -3580,6 +3585,44 @@ obo:OBI_0001933 rdf:type owl:Class ;
                 rdfs:label "value specification" .
 
 
+###  https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000
+<https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> rdf:type owl:Class ;
+                                                      owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000602
+                                                                                                 [ rdf:type owl:Restriction ;
+                                                                                                   owl:onProperty obo:BFO_0000196 ;
+                                                                                                   owl:someValuesFrom co:PMD_0000592
+                                                                                                 ]
+                                                                                               ) ;
+                                                                            rdf:type owl:Class
+                                                                          ] ;
+                                                      rdfs:subClassOf co:PMD_0000602 ,
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty obo:BFO_0000196 ;
+                                                                        owl:someValuesFrom co:PMD_0000592
+                                                                      ] ;
+                                                      rdfs:comment "A device designed to cut, slice, divide, or sever objects."@en ;
+                                                      rdfs:label "cutting device"@en .
+
+
+###  https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001001
+<https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001001> rdf:type owl:Class ;
+                                                      owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000602
+                                                                                                 [ rdf:type owl:Restriction ;
+                                                                                                   owl:onProperty obo:BFO_0000196 ;
+                                                                                                   owl:someValuesFrom co:PMD_0000769
+                                                                                                 ]
+                                                                                               ) ;
+                                                                            rdf:type owl:Class
+                                                                          ] ;
+                                                      rdfs:subClassOf co:PMD_0000602 ,
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty obo:BFO_0000196 ;
+                                                                        owl:someValuesFrom co:PMD_0000769
+                                                                      ] ;
+                                                      rdfs:comment "A device that has the disposition to be grasped and operated by a human hand and is designed for manual use."@en ;
+                                                      rdfs:label "hand held device"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000000
 co:PMD_0000000 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000001 ;
@@ -3690,6 +3733,14 @@ We only deal with intensive (system-size independent) materrial properties. Exte
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
+###  https://w3id.org/pmd/co/PMD_0000007
+co:PMD_0000007 rdf:type owl:Class ;
+               rdfs:subClassOf obo:OBI_0001933 ;
+               obo:IAO_0000116 "also see \"The Ontology of Fields\" - Report of a Specialist Meeting Held under the Auspices of the Varenius Project: Donna Peuquet, Barry Smith, and Berit Brogaard; Bar Harbor, Maine 1998"@en ;
+               rdfs:comment "a value specifcation that represents an assignment of a vector to each point in a discretized spacial region"@en ;
+               rdfs:label "vector field specification"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000008
 co:PMD_0000008 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000003 ;
@@ -3697,6 +3748,12 @@ co:PMD_0000008 rdf:type owl:Class ;
                rdfs:label "process characteristic"@en ;
                skos:definition "A process characteristic is a dependent occurrent that existentially depends on a process."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0000010
+co:PMD_0000010 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000109 ;
+               rdfs:label "time measurement datum"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000014
@@ -5584,17 +5641,18 @@ co:PMD_0000768 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000769
 co:PMD_0000769 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000603 ;
+               rdfs:subClassOf obo:BFO_0000016 ;
                obo:IAO_0000117 "PMDco Team" ;
-               rdfs:label "Handbetriebenes Geräterolle"@de ,
-                          "hand held device role"@en ;
-               skos:definition "Role of a device that is operated or used manually."@en ,
-                               "Rolle eines Gerätes, das per Hand betrieben oder verwendet wird."@de .
+               rdfs:label "hand holdable disposition"@en ,
+                          "in der Hand haltbar"@de ;
+               skos:definition "Disposion eines Objektes, das per Hand gehalten, betrieben oder verwendet werden kann."@de ,
+                               "Disposition of an object that can be hold, operated or used manually."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000770
 co:PMD_0000770 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000558
+               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001001> ,
+                               [ owl:intersectionOf ( co:PMD_0000558
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:BFO_0000196 ;
                                                         owl:someValuesFrom co:PMD_0000769
@@ -5612,7 +5670,8 @@ co:PMD_0000770 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000771
 co:PMD_0000771 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000920
+               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001001> ,
+                               [ owl:intersectionOf ( co:PMD_0000920
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:BFO_0000196 ;
                                                         owl:someValuesFrom co:PMD_0000769
@@ -6042,14 +6101,7 @@ co:PMD_0000812 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000813
 co:PMD_0000813 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000602
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:BFO_0000196 ;
-                                                        owl:someValuesFrom co:PMD_0000592
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
+               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Messer"@de ,
                           "knife"@en ;
@@ -6059,7 +6111,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid345 ;
+               owl:equivalentClass _:genid351 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000196 ;
@@ -6071,7 +6123,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid345 owl:intersectionOf ( obo:BFO_0000029
+_:genid351 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:BFO_0000196 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6082,7 +6134,7 @@ _:genid345 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid345 ;
+   owl:annotatedTarget _:genid351 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -6107,14 +6159,7 @@ co:PMD_0000816 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000817
 co:PMD_0000817 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000602
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:BFO_0000196 ;
-                                                        owl:someValuesFrom co:PMD_0000592
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
+               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Laserschneider"@de ,
                           "lasercutter"@en ;
@@ -7102,14 +7147,7 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
 
 ###  https://w3id.org/pmd/co/PMD_0000920
 co:PMD_0000920 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000602
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:BFO_0000196 ;
-                                                        owl:someValuesFrom co:PMD_0000592
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
+               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
                obo:IAO_0000114 obo:IAO_0000428 ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "saw"@en ;
@@ -7130,14 +7168,7 @@ co:PMD_0000922 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000923
 co:PMD_0000923 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000602
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:BFO_0000196 ;
-                                                        owl:someValuesFrom co:PMD_0000592
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
+               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Schere"@de ,
                           "pair of scissors"@en ;
@@ -7947,14 +7978,7 @@ co:PMD_0001006 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0001007
 co:PMD_0001007 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000602
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:BFO_0000196 ;
-                                                        owl:someValuesFrom co:PMD_0000592
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
+               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Wasserstrahlschneider"@de ,
                           "waterjet cutter"@en ;
