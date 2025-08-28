@@ -1,0 +1,23 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+
+
+pmd:IdentifierShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass pmd:PMD_0000017 ; # identifier
+    sh:description "Shape which states that identifier has only one literal value." ;
+    sh:property
+    [
+        sh:path pmd:PMD_0000006 ; # inheres in
+        sh:minCount 1 ;
+        sh:maxCount 1 ; 
+        sh:node sh:Literal ;
+    ] ;
+
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty rdfs:label) .

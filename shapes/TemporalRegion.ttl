@@ -1,0 +1,35 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+
+pmd:TemporalRegionShape
+    rdf:type sh:NodeShape ; 
+    sh:targetClass obo:BFO_0000008 ; # temporal region
+    sh:description "Shape which states that temporal region precedes or preceded by another temporal region, and ca be specified by a scalar value specification. " ;
+    sh:property
+    [
+        sh:path obo:BFO_0000063 ; # precedes
+        sh:class obo:BFO_0000008 ; # temporal region
+    ] ;
+
+    sh:property
+    [
+        sh:path obo:BFO_0000062 ; # preceded by
+        sh:class obo:BFO_0000008 ; # temporal region
+    ] ;
+
+    sh:property 
+    [
+        sh:path [ sh:inversePath pmd:PMD_0060001 ] ; #inverse of specifies value of
+        sh:class obo:OBI_0001933 ; # value specification (maybe change to scalar value specification)
+    ] ;
+
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty rdfs:label) .

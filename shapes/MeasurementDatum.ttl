@@ -5,45 +5,53 @@
 @prefix ex:    <http://www.example.org/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
-@prefix obi:   <http://purl.obolibrary.org/obo/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
 
 pmd:ScalarMeasurementDatumShape
+    # Not closing shapes because inhering constrains from parent MeasurementDatumShape
     rdf:type sh:NodeShape ; 
     sh:targetClass pmd:PMD_0000023 ; #scalar measurement datum
     sh:property [
         sh:path pmd:PMD_0060000 ; #has value specification
         sh:minCount 1 ;
         sh:maxCount 1 ; 
-        sh:node pmd:ScalarValueSpecificationShape 
-    ] ;
-    sh:closed true ;
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+        sh:node pmd:ScalarValueSpecificationShape ;
+    ] .
 
 
 pmd:CategoricalMeasurementDatumShape
+    # Not closing shapes because inhering constrains from parent MeasurementDatumShape
     rdf:type sh:NodeShape ; 
     sh:targetClass pmd:PMD_0060005 ; #categorical measurement datum 
     sh:property [
         sh:path pmd:PMD_0060000 ; #has value specification
         sh:minCount 1 ;
         sh:maxCount 1 ; 
-        sh:node pmd:CategoricalValueSpecificationShape
-    ] ;
-    sh:closed true ;
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+        sh:node pmd:CategoricalValueSpecificationShape ;
+    ] .
 
 pmd:MeasurementDatumShape
-    rdf:type sh:NodeShape ; 
-    sh:targetclass obi:IAO_0000109 ;
-    sh:or   (
-        [
-            sh:class pmd:PMD_0000023 ; #scalar measurement datum
-            sh:node pmd:ScalarMeasurementDatumShape
-        ]
-        [
-            sh:class pmd:PMD_0060005 ; #categorical measurement datum
-            sh:node pmd:CategoricalMeasurementDatumShape
-        ]
+    rdf:type sh:NodeShape ;
+    sh:targetClass obo:IAO_0000109 ; # measurement datum
+
+    # Targeting either categorical or scalar value specification
+    sh:or (
+        [ sh:class pmd:PMD_0000023 ; sh:node pmd:ScalarMeasurementDatumShape ; ]
+        [ sh:class pmd:PMD_0060005 ; sh:node pmd:CategoricalMeasurementDatumShape ; ]
     ) ;
+
+    # TODO denotes and is about t.b.d.
+    sh:property [
+        sh:path obo:IAO_0000219 ; # denotes
+        sh:class obo:BFO_0000001 ; # entity
+    ] ;
+
+    # Specifically referring to a measured quality
+    sh:property
+    [
+        sh:path obo:IAO_0000221 ; # is quality measurement of
+        sh:class obo:BFO_0000019 ; # quality
+    ] ;
+    
     sh:closed true ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
