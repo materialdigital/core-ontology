@@ -61,12 +61,10 @@ Editors main file: [src/ontology/pmdco-edit.owl](https://github.com/materialdigi
 - [Widoco List of Classes and Properties](https://materialdigital.github.io/core-ontology/)
 - [Patterns and Active Development Miro Board (Playground)](https://miro.com/app/board/uXjVNOTPrFo=/)
 
- 
-## Contact
-
-Please use this GitHub repository's [Issue tracker](https://github.com/materialdigital/core-ontology/issues) to request new terms/classes or report errors or specific concerns related to the ontology.
-
-Our **Ontology Playground**, organised online **every second Friday from 1-2 pm (CET)**, is a great opportunity to connect with developers and our proactive community to shape the PMDco. Please register via our [mailing list](https://www.lists.kit.edu/sympa/subscribe/ontology-playground?previous_action=info).
+## Contribution
+- Please use this GitHub repository's [Issue tracker](https://github.com/materialdigital/core-ontology/issues) to request new terms/classes or report errors or specific concerns related to the ontology.
+- For creation of application ontologies using PMD core ontoogys we advice using the [application-ontology-template](https://github.com/materialdigital/application-ontology-template/). It applies the same framework used here and mirrors the pmdco with all its modules.
+- Our **Ontology Playground**, organised online **every second Friday from 1-2 pm (CET)**, is a great opportunity to connect with developers and our proactive community to shape the PMDco. Please register via our [mailing list](https://www.lists.kit.edu/sympa/subscribe/ontology-playground?previous_action=info).
 
 ## Acknowledgements
 
