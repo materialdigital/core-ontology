@@ -1,0 +1,100 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://w3id.org/pmd/co/test> rdf:type owl:Ontology ;
+                                owl:imports <http://example.org/my-mini-import-qudt-units> ,
+                                            <https://w3id.org/pmd/co> .
+
+#################################################################
+#    Individuals
+#################################################################
+
+
+###  https://w3id.org/pmd/co/test/SMD_450_MPa
+<https://w3id.org/pmd/co/test/SMD_450_MPa> rdf:type owl:NamedIndividual ,
+                                                    <https://w3id.org/pmd/co/PMD_0000023> ;
+                                           <http://purl.obolibrary.org/obo/IAO_0000219> <https://w3id.org/pmd/co/test/tensile_specimen> ;
+                                           <https://w3id.org/pmd/co/PMD_0060000> <https://w3id.org/pmd/co/test/SVS_450_MPa> .
+
+
+###  https://w3id.org/pmd/co/test/SVS_450_MPa
+<https://w3id.org/pmd/co/test/SVS_450_MPa> rdf:type owl:NamedIndividual ,
+                                                    <https://w3id.org/pmd/co/PMD_0000022> ;
+                                           <https://w3id.org/pmd/co/PMD_0000020> <http://qudt.org/vocab/unit/MegaPA> ;
+                                           <https://w3id.org/pmd/co/PMD_0000006> 450 .
+
+
+###  https://w3id.org/pmd/co/test/instron_testing_function
+<https://w3id.org/pmd/co/test/instron_testing_function> rdf:type owl:NamedIndividual ,
+                                                                 <https://w3id.org/pmd/co/PMD_0000976> .
+
+
+###  https://w3id.org/pmd/co/test/instron_testing_machine
+<https://w3id.org/pmd/co/test/instron_testing_machine> rdf:type owl:NamedIndividual ,
+                                                                <https://w3id.org/pmd/co/PMD_0000973> ;
+                                                       <http://purl.obolibrary.org/obo/BFO_0000196> <https://w3id.org/pmd/co/test/instron_testing_function> .
+
+
+###  https://w3id.org/pmd/co/test/material_NO27-14
+<https://w3id.org/pmd/co/test/material_NO27-14> rdf:type owl:NamedIndividual ,
+                                                         <https://w3id.org/pmd/co/PMD_0000000> ;
+                                                <http://purl.obolibrary.org/obo/BFO_0000196> <https://w3id.org/pmd/co/test/tensile_strength_NO27-14> .
+
+
+###  https://w3id.org/pmd/co/test/room_temperature
+<https://w3id.org/pmd/co/test/room_temperature> rdf:type owl:NamedIndividual ,
+                                                         <http://purl.obolibrary.org/obo/OBI_0001930> .
+
+
+###  https://w3id.org/pmd/co/test/temperature_tensile_test
+<https://w3id.org/pmd/co/test/temperature_tensile_test> rdf:type owl:NamedIndividual ,
+                                                                 <https://w3id.org/pmd/co/PMD_0000967> ;
+                                                        <http://purl.obolibrary.org/obo/BFO_0000059> <https://w3id.org/pmd/co/test/room_temperature> .
+
+
+###  https://w3id.org/pmd/co/test/temporal_region_tensile_testing
+<https://w3id.org/pmd/co/test/temporal_region_tensile_testing> rdf:type owl:NamedIndividual ,
+                                                                    <http://purl.obolibrary.org/obo/BFO_0000008> .
+
+
+###  https://w3id.org/pmd/co/test/tensile_specimen
+<https://w3id.org/pmd/co/test/tensile_specimen> rdf:type owl:NamedIndividual ,
+                                                         <http://purl.obolibrary.org/obo/BFO_0000030> ;
+                                                <http://purl.obolibrary.org/obo/BFO_0000196> <https://w3id.org/pmd/co/test/tensile_test_piece_role> ;
+                                                <https://w3id.org/pmd/co/PMD_0020005> <https://w3id.org/pmd/co/test/material_NO27-14> .
+
+
+###  https://w3id.org/pmd/co/test/tensile_strength_NO27-14
+<https://w3id.org/pmd/co/test/tensile_strength_NO27-14> rdf:type owl:NamedIndividual ,
+                                                                 <https://w3id.org/pmd/co/PMD_0000952> ;
+                                                        <http://purl.obolibrary.org/obo/BFO_0000059> <https://w3id.org/pmd/co/test/SVS_450_MPa> .
+
+
+###  https://w3id.org/pmd/co/test/tensile_strength_measurement
+<https://w3id.org/pmd/co/test/tensile_strength_measurement> rdf:type owl:NamedIndividual ,
+                                                                     <https://w3id.org/pmd/co/PMD_0000974> ;
+                                                            <http://purl.obolibrary.org/obo/BFO_0000055> <https://w3id.org/pmd/co/test/instron_testing_function> ,
+                                                                                                         <https://w3id.org/pmd/co/test/tensile_strength_NO27-14> ,
+                                                                                                         <https://w3id.org/pmd/co/test/tensile_test_piece_role> ;
+                                                            <http://purl.obolibrary.org/obo/BFO_0000057> <https://w3id.org/pmd/co/test/instron_testing_machine> ;
+                                                            <https://w3id.org/pmd/co/PMD_0000015> <https://w3id.org/pmd/co/test/tensile_specimen> ;
+                                                            <https://w3id.org/pmd/co/PMD_0000016> <https://w3id.org/pmd/co/test/SMD_450_MPa> ; 
+                                                            <http://purl.obolibrary.org/obo/BFO_0000108> <https://w3id.org/pmd/co/test/temporal_region_tensile_testing> ; 
+                                                            <https://w3id.org/pmd/co/PMD_0000009> <https://w3id.org/pmd/co/test/tensile_test_process_characteristic_temperature> .
+
+
+###  https://w3id.org/pmd/co/test/tensile_test_piece_role
+<https://w3id.org/pmd/co/test/tensile_test_piece_role> rdf:type owl:NamedIndividual ,
+                                                                <https://w3id.org/pmd/co/PMD_0000975> .
+
+
+###  https://w3id.org/pmd/co/test/tensile_test_process_characteristic_temperature
+<https://w3id.org/pmd/co/test/tensile_test_process_characteristic_temperature> rdf:type owl:NamedIndividual ,
+                                                                                        <https://w3id.org/pmd/co/PMD_0000008> ; 
+                                                                                        <https://w3id.org/pmd/co/PMD_0020113> <https://w3id.org/pmd/co/test/temperature_tensile_test> .
+
+
+###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi

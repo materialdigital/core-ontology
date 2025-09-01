@@ -1,0 +1,51 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+
+# NOTE: under construction, only valid for objects 'consisting of' materials which are not object aggregates.
+# TODO: think how to deal with bearer of for device and person sublcasses
+
+pmd:ObjectShape
+     
+    rdf:type sh:NodeShape ;
+    sh:targetClass obo:BFO_0000030 ; ## object
+    sh:description "Shape which states that objects bear extensive properties and roles (realized in processes), dispositions, consist of material, and might be parts of object aggregates (t.b.d.)" ;
+    sh:property 
+    [
+        sh:path obo:BFO_0000196 ; ## bearer of
+        sh:class pmd:PMD_0020148 ; #extensive quality
+    ] ;
+    sh:property 
+    [
+        sh:path obo:BFO_0000196 ; ## bearer of
+        sh:class obo:BFO_0000023 ; # role
+    ] ;
+
+    sh:property 
+    [
+        sh:path obo:BFO_0000196 ; ## bearer of
+        sh:class obo:BFO_0000016 ; # disposition
+    ] ;
+
+
+    sh:property
+    [
+        sh:path pmd:PMD_0020005 ; # consists of
+        sh:class pmd:PMD_0000000 ; # material
+        sh:minCount 1 ; 
+    ] ;
+
+    sh:property 
+    [
+        sh:path obo:BFO_0000176 ; # continuant part of
+        sh:class obo:BFO_0000027 ; # object aggregate
+    ] ;
+
+
+    sh:close true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .

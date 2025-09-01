@@ -2,45 +2,214 @@
 @prefix sh:    <http://www.w3.org/ns/shacl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ex:    <http://www.example.org/> .
+@prefix ex:    <http://www.example.org/#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
-@prefix bfo:   <http://purl.obolibrary.org/obo/> .
-@prefix qudt: <http://qudt.org/schema/qudt/> .
-@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
 
+# TODO Alternative paths are very important!
+# TODO Results in from Frame 307 --> for *supportive processes*
 
-# Measurement process for a behavioral material property
-# Note: object is too  for a sample --> either create a class for the samples, or clarify how to define a sample via roles
-
-pmd:SampleShape
-    rdf:type sh:NodeShape ; 
-    sh:targetClass bfo:BFO_0000030 ; ## object
-    sh:property
-    [
-        sh:path pmd:PMD_0020005 ; ## consists of
-        sh:minCount 1 ; 
-        sh:maxCount 1 ; 
-        sh:node pmd:MaterialShape ;
-    ] ; 
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty rdfs:label) .
-
-pmd:MeasurementProcessShape
-    rdf:type sh:NodeShape ; 
+pmd:AssayShape
+     
+    rdf:type sh:NodeShape ;
     sh:targetClass pmd:PMD_0001025 ; ## assay
+    sh:description "Shape which states that   " ;
     sh:property 
     [
         sh:path pmd:PMD_0000015 ; ## has input
+        sh:or
+        (
+            [
+                sh:class obo:BFO_0000030 ; #  object
+            ]
+            [
+                sh:class obo:BFO_0000027 ; # object aggregate
+            ]
+            [
+                sh:node pmd:ObjectShape ;
+            ]
+        ) ;
         sh:minCount 1 ; 
-        sh:maxCount 1 ; 
-        sh:node pmd:SampleShape ; 
+    ] ;
+
+    sh:property 
+    [
+        sh:path 
+        [
+            sh:alternativePath
+            (
+                pmd:PMD_0000016 # has output
+                sh:sequencePath
+                (
+                    obo:BFO_0000057
+                    pmd:PMD_0020005
+                    obo:BFO_0000196
+                    obo:BFO_0000059
+                    [ sh:inversePath pmd:PMD_0060000 ]
+                ) # has participant + consists of + bearer of + concretites + inverse of (has value specification)
+                sh:sequencePath
+                    (
+                        obo:BFO_0000057
+                        obo:IAO_0000235
+                    ) # has participant + denoted by
+            )
+        ] ;
+       
+        sh:node pmd:MeasurementDatumShape ;
+        sh:minCount 1 ; 
+        # TODO: alternative paths
+    ] ;
+
+    sh:property 
+    [
+        sh:path obo:BFO_0000057 ; ## has participant
+        sh:or
+        (
+            [
+                sh:class obo:BFO_0000030 ; #  object
+            ]
+            [
+                sh:node pmd:ObjectShape ;
+            ]
+        )
+    ] ;
+
+    sh:property
+    [
+        sh:node pmd:BehavioralPropertyShape ;
+        sh:path
+        [
+            sh:alternativePath
+            (
+                obo:BFO_0000055 # realizes
+                sh:sequencePath
+                (
+                    obo:BFO_0000057
+                    pmd:PMD_0020005
+                    obo:BFO_0000196
+                )
+                # has participant + consists of + bearer of (note has input is included as it is a subproperty of has participant)
+            )
+        ]
+    ] ;
+    
+    sh:property 
+    [
+        sh:path
+        [
+            sh:alternativePath
+            ( 
+                obo:BFO_0000055  # realizes
+                sh:sequencePath
+                ( 
+                    obo:BFO_0000057
+                    obo:BFO_0000196
+                ) # has participant + bearer of (note has input is included as it is a subproperty of has participant)
+            )
+        ] ;
+        sh:or
+        (
+            [
+                sh:class obo:BFO_0000023 ; # role
+            ]
+            [
+                sh:class obo:BFO_0000016 ; # disposition
+            ]
+        )
+    ] ;
+
+    sh:property 
+    [
+        sh:path obo:BFO_0000055 ; ## realizes
+        # sh:class pmd:PMD_0000014 ; # plan
+        sh:node pmd:PlanShape ; 
+        sh:MaxCount 1 ;
+    ] ; 
+
+    sh:property
+    [
+        sh:path
+        [
+            sh:alternativePath
+            (
+                pmd:PMD_0000009  # has process characteristic
+                sh:sequencePath
+                (
+                    obo:BFO_0000057
+                    obo:BFO_0000196
+                    [ sh:inversePath pmd:PMD_0020113 ]
+                )
+                # has participant + bearer of + inverse of (refers to). BUT! Not sure it is correct, cause then whatever the participant bears is a process characteristic.
+            ) 
+        ] ;
+        sh:node pmd:ProcessCharacteristicShape ; 
+        # TODO alternative path needs refinements
+    ] ; 
+
+
+    sh:property 
+    [
+        sh:path obo:BFO_0000117 ; # has occurent part
+        sh:class obo:BFO_0000015 ; # process
+    ] ;
+
+    sh:property 
+    [
+        sh:path obo:BFO_0000132 ; # occurent part of
+        sh:class obo:BFO_0000015 ; # process
+    ] ;
+
+    sh:property
+    [
+        sh:path obo:BFO_0000108 ; # exists at
+        sh:or
+        (
+            [
+                sh:node pmd:TemporalRegionShape
+            ]
+            [
+                sh:class obo:BFO_0000008 ; # temporal region
+            ]
+        )
     ] ; 
     sh:property
     [
-        sh:path pmd:PMD_0000016 ; ## has output
-        sh:minCount 1 ; 
-        sh:node pmd:ScalarMeasurementDatumShape ; 
+        sh:path obo:BFO_0000066 ; # occurs in
+        sh:class obo:BFO_0000029 ; # site (probably can reduce to lab)
+    ] ;
+
+
+    sh:close true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+pmd:PlanShape
+    rdf:type sh:NodeShape ;
+    sh:targetClass pmd:PMD_0000014 ; # plan
+    sh:description "Shape which states that plan (which is relaized by a process) concretizes recipe. " ;
+    sh:property 
+    [
+        sh:path obo:BFO_0000059 ; #concretizes
+        sh:node pmd:RecipeShape ;
+        sh:maxCount 1 ;
     ] ; 
-    sh:closed true ;
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty rdfs:label) .
+    sh:close true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+pmd:RecipeShape 
+    rdf:type sh:NodeShape ;
+    sh:targetClass pmd:PMD_0060008 ; # recipe
+    sh:description "Shape which states that recipe has continuant parts action specification and objective specifaction, it is about some object. " ;
+    sh:property 
+    [ 
+        sh:path obo:BFO_0000178 ; # has continuant part
+        sh:class obo:IAO_0000007 ; # plan specification
+    ] ; 
+    sh:property 
+    [ 
+        sh:path obo:BFO_0000178 ; # has continuant part
+        sh:class obo:IAO_0000005 ; # objective specification
+    ] ;
+    sh:close true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
