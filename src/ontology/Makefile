@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                60041d0c5eb526a9e0e70f41c217ddd1202f99afd3387b6187567a1c13c7d53b
+CONFIG_HASH=                0c534a71cb5ef09b5f3024a64dab816da2a5d22cb8695550ce26171164a6afa6
 
 
 # ----------------------------------------
@@ -188,7 +188,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo iao obi chebi
+IMPORTS =  bfo ro iao obi chebi
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -437,12 +437,6 @@ $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl
 	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
 	@false
 
-## Module for ontology: obi (custom)
-$(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl
-	@echo "ERROR: You have configured obi as a custom module;"
-	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
-	@false
-
 ## Module for ontology: chebi (custom)
 $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 	@echo "ERROR: You have configured chebi as a custom module;"
@@ -542,7 +536,14 @@ ifeq ($(MIR),true)
 .PHONY: mirror-bfo
 .PRECIOUS: $(MIRRORDIR)/bfo.owl
 mirror-bfo: | $(TMPDIR)
-	$(ROBOT) convert -I https://raw.githubusercontent.com/BFO-ontology/BFO-2020/release-2024-01-29/src/owl/bfo-core.ttl -o $(TMPDIR)/$@.owl
+	$(ROBOT) convert -I http://purl.obolibrary.org/obo/bfo/2020/notime/bfo.owl -o $(TMPDIR)/$@.owl
+
+
+## ONTOLOGY: ro
+.PHONY: mirror-ro
+.PRECIOUS: $(MIRRORDIR)/ro.owl
+mirror-ro: | $(TMPDIR)
+	$(ROBOT) convert -I http://purl.obolibrary.org/obo/ro/core.owl -o $(TMPDIR)/$@.owl
 
 
 ## ONTOLOGY: iao
