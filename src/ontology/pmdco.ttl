@@ -12974,7 +12974,19 @@ co:PMD_0050035 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050036
 co:PMD_0050036 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000888 ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000888
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:BFO_0000196 ;
+                                                            owl:someValuesFrom co:PMD_0200001
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf co:PMD_0000888 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000196 ;
+                                 owl:someValuesFrom co:PMD_0200001
+                               ] ;
                rdfs:label "biodegradable polymers"@en ;
                skos:definition "Biodegradable Polymers are Polymers that can be decomposed by biological organisms into environmentally benign substances."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -13948,6 +13960,16 @@ co:PMD_0060009 rdf:type owl:Class ;
                rdfs:label "specification datum"@en ;
                skos:definition "A data item that provides specification for entities" ;
                co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0200001
+co:PMD_0200001 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000016 ;
+               obo:IAO_0000119 "European Commission: Directorate-General for Research and Innovation, Biodegradability of plastics in the open environment, Publications Office of the European Union, 2021, https://data.europa.eu/doi/10.2777/690248" ;
+               rdfs:label "Biologische Abbaubarkeit"@de ,
+                          "biodegradabilty"@en ;
+               skos:definition "\"[Biodegradabilty] [...] is understood as the microbial conversion of all its organic constituents to carbon dioxide (or carbon dioxide and methane in conditions where oxygen is not present), new microbial biomass and mineral salts, within a timescale short enough not to lead to lasting harm or accumulation in the open environment.\""@en ,
+                               "\"[Biologische Abbaubarkeit] [...] beschreibt die mikrobielle Umwandlung all seiner organischen Bestandteile in Kohlendioxid oder – unter sauerstofffreien Bedingungen – in Kohlendioxid und Methan, neue mikrobielle Biomasse und Mineralsalze verstanden, und zwar innerhalb eines Zeitraums, der so kurz ist, dass es nicht zu dauerhaften Schäden oder Anreicherungen in der offenen Umwelt kommt.\""@de .
 
 
 #################################################################
