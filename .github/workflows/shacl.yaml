@@ -27,9 +27,9 @@ jobs:
            do  
                echo "processing: $DIR"
 
-               SHAPEFILE='"${DIR}shape.ttl"'
-               DATAFILE='"${DIR}shape-data.ttl"'
+               SHAPEFILE="'${DIR}shape.ttl'"
+               DATAFILE="'${DIR}shape-data.ttl'"
 
-               java -jar robot.jar merge --collapse-import-closure false --input merged-pmdco.ttl --input $DATAFILE reason  --reasoner hermit --output shape-data-reasoned.ttl
-               python3 -m pyshacl  -s $SHAPEFILE shape-data-reasoned.ttl
+               java -jar robot.jar merge --collapse-import-closure false --input merged-pmdco.ttl --input "$DATAFILE" reason  --reasoner hermit --output shape-data-reasoned.ttl
+               python3 -m pyshacl  -s "$SHAPEFILE" shape-data-reasoned.ttl
            done
