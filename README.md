@@ -51,8 +51,7 @@ Editors main file: [src/ontology/pmdco-edit.owl](https://github.com/materialdigi
 ### Important Folders: 
 
  - ```src/ontology/components```    modules of the PMD ontology
- - ```patterns```    patterns describing the use of the modules and show examples
- - ```shapes```    shapes to describe the sets of conditions and constraints of use formally
+ - ```patterns```    patterns and shapes describing the use of the modules and show examples
 
 ## Documentation
 
