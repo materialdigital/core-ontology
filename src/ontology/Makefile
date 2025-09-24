@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                0c534a71cb5ef09b5f3024a64dab816da2a5d22cb8695550ce26171164a6afa6
+CONFIG_HASH=                b62f025f356678e867545e5b552a63cf1862445a4246f784687cc5898f746911
 
 
 # ----------------------------------------
@@ -437,6 +437,12 @@ $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl
 	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
 	@false
 
+## Module for ontology: obi (custom)
+$(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl
+	@echo "ERROR: You have configured obi as a custom module;"
+	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
+	@false
+
 ## Module for ontology: chebi (custom)
 $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 	@echo "ERROR: You have configured chebi as a custom module;"
@@ -558,7 +564,7 @@ mirror-iao: | $(TMPDIR)
 .PHONY: mirror-obi
 .PRECIOUS: $(MIRRORDIR)/obi.owl
 mirror-obi: | $(TMPDIR)
-	curl -L $(OBOBASE)/obi.owl --create-dirs -o $(TMPDIR)/obi-download.owl --retry 4 --max-time 200 && \
+	curl -L $(OBOBASE)/obi/obi-base.owl --create-dirs -o $(TMPDIR)/obi-download.owl --retry 4 --max-time 200 && \
 	$(ROBOT) convert -i $(TMPDIR)/obi-download.owl -o $(TMPDIR)/$@.owl
 
 
