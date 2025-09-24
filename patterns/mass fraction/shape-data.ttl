@@ -1,0 +1,67 @@
+@prefix : <https://w3id.org/pmd/co/test5/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix chebi: <http://purl.obolibrary.org/obo/CHEBI_> .
+@prefix iao: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix obi: <http://purl.obolibrary.org/obo/OBI_> .
+@prefix ro: <http://purl.obolibrary.org/obo/RO_> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ex: <http://example.org/> .
+@prefix chmo: <http://purl.obolibrary.org/obo/CHMO_> .
+@prefix uo: <http://purl.obolibrary.org/obo/UO_> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@base <https://w3id.org/pmd/co/test5/> .
+
+
+<https://w3id.org/pmd/co/test5> rdf:type owl:Ontology .
+
+ex:steel_sheet_1 rdf:type pmd:Object .
+ex:steel_sheet_1 ro:0000086  ex:Mass_Y .                        ## ro:has quality
+ex:steel_sheet_1 ro:0000086  ex:proportion_1 .                  ## ro:has quality
+ex:steel_sheet_1 ro:0000086  ex:proportion_2 .                  ## ro:has quality
+ex:steel_sheet_1 bfo:0000051 ex:portion_of_molybden .           ## bfo:has_part
+ex:steel_sheet_1 bfo:0000051 ex:portion_of_Zr .                 ## bfo:has_part
+ex:steel_sheet_1 ex:specified_input_of ex:proc_1 .
+ex:steel_sheet_1 pmd:consists_of ex:portion_of_molybden  .
+
+ex:proportion_1 rdf:type pmd:MassProportion .
+ex:proportion_1 pmd:has_portion ex:portion_of_molybden .
+ex:proportion_1 ro:has_numerator ex:Mass_X .
+ex:proportion_1 iao:0000417  ex:scalar_measurement_datum_X1 .   ## iao:is quality measured as
+ex:proportion_1 ro:has_denominator ex:Mass_Y .
+ex:proportion_1 pmd:is_proportion_of ex:steel_sheet_1 .
+
+ex:proportion_2 rdf:type pmd:MassProportion .
+ex:portion_of_Zr rdf:type pmd:PortionOfMatter .
+
+ex:Mass_X rdf:type pmd:Mass .
+ex:Mass_Y rdf:type pmd:Mass .
+
+ex:portion_of_molybden rdf:type pmd:PortionOfMatter .
+ex:portion_of_molybden ex:bearer_of ex:some_mo .
+ex:portion_of_molybden ro:0000086 ex:Mass_X .                   ## ro:has quality
+ex:portion_of_molybden ro:0000086 ex:proportion_1 .             ## ro:has quality
+
+ex:some_mo rdf:type chebi:25370 .                               ## chebi:molybden
+
+ex:proc_1 rdf:type chmo:0000228 .                                   ## chmo:spectroscopy
+ex:proc_1 ex:has_specified_output ex:scalar_measurement_datum_X1 .
+ex:proc_1 ex:has_specified_output ex:scalar_measurement_datum_X3 .
+
+ex:scalar_measurement_datum_X3 rdf:type pmd:NichtNachweissbar .
+ex:scalar_measurement_datum_X3 iao:0000417  pmd:MassProportion .              ## iao:is quality measured as
+
+ex:scalar_measurement_datum_X1 rdf:type iao:0000032 .                          ## iao:scalar measurement datum
+ex:scalar_measurement_datum_X1 obi:0001938 ex:scalar_value_specification_X .   ## obi:has value specification
+## ex:scalar_measurement_datum_X1 iao:0000221 ex:proportion_1 .                ## iao:is quality measurement of
+
+ex:scalar_value_specification_X rdf:type obi:0001931 .                ## obi:scalar value specification
+## ex:scalar_value_specification_X obi:0001937  "76"^^xsd:real .      ## obi:has specified numeric value
+ex:scalar_value_specification_X iao:0000004  "76"^^xsd:double .       ## iao:has measurement value
+ex:scalar_value_specification_X iao:0000039 ex:MassPercentage .      ## iao:has measurement unit label
+
+ex:MassPercentage rdf:type uo:0000163 .                              ## uo:mass_percentage
+

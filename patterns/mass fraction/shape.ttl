@@ -1,0 +1,118 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix chebi: <http://purl.obolibrary.org/obo/CHEBI_> .
+@prefix iao: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix obi: <http://purl.obolibrary.org/obo/OBI_> .
+@prefix ro: <http://purl.obolibrary.org/obo/RO_> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ex: <http://example.org/> .
+@prefix chmo: <http://purl.obolibrary.org/obo/CHMO_> .
+@prefix uo: <http://purl.obolibrary.org/obo/UO_> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+
+
+pmd:MassFractionShape_Object
+   a sh:NodeShape ;
+   sh:targetClass pmd:Object ;
+   sh:property [
+       sh:path ro:0000086 ;  ## ro:has quality
+       sh:or (
+       [ sh:class pmd:Mass ]
+       [ sh:class pmd:MassProportion ]
+       )
+   ] ;
+   sh:property [
+       sh:path bfo:0000051 ;   ## bfo:has_part
+       sh:class pmd:PortionOfMatter ;
+   ] ;
+   sh:property [
+       sh:path pmd:consists_of ;
+       sh:class pmd:PortionOfMatter ;
+   ] ;
+   sh:property [
+       sh:path ex:specified_input_of ;
+       sh:class chmo:0000228 ;   ## chmo:spectroscopy
+   ]  .
+
+
+pmd:MassFractionShape_MassProportion
+   a sh:NodeShape ;
+   sh:targetClass pmd:MassProportion ;
+   sh:property [
+       sh:path ro:has_denominator ;
+       sh:class pmd:Mass ;
+   ] ;
+   sh:property [
+       sh:path ro:has_numerator ;
+       sh:class pmd:Mass ;
+   ] ;
+   sh:property [
+       sh:path pmd:has_portion ;
+       sh:class pmd:PortionOfMatter ;
+   ] ;
+   sh:property [
+       sh:path iao:0000417 ; ## iao:is quality measured as
+       sh:class iao:0000032 ; ## iao:scalar measurement datum
+   ] ;
+   sh:property [
+       sh:path pmd:is_proportion_of ;
+       sh:class pmd:Object ;
+   ] .
+
+
+pmd:MassFractionShape_PortionOfMatter
+   a sh:NodeShape ;
+   sh:targetClass pmd:PortionOfMatter ;
+   sh:property [
+       sh:path ro:0000086 ; ## ro:has quality
+       sh:or (
+        [ sh:class pmd:Mass ]
+        [ sh:class pmd:MassProportion ]
+       )
+   ];
+   sh:property [
+       sh:path ex:bearer_of ;
+       sh:class chebi:25370 ; ## chebi:molybden
+   ] .
+
+pmd:MassFractionShape_Spectroscopy
+   a sh:NodeShape ;
+   sh:targetClass chmo:0000228 ; ## chmo:spectroscopy
+   sh:property [
+       sh:path ex:has_specified_output ;
+       sh:or (
+        [ sh:class iao:0000032 ] ## iao:scalar measurement datum
+        [ sh:class pmd:NichtNachweissbar ]
+      )
+   ] .
+
+
+pmd:MassFractionShape_ScalarMeasurementDatum
+   a sh:NodeShape ;
+   sh:targetClass iao:0000032 ;  ## iao:scalar measurement datum
+   sh:property [
+       sh:path obi:0001938 ;  ## obi:has value specification
+       sh:class obi:0001931 ;  ## obi:scalar value specification
+   ] .
+
+pmd:MassFractionShape_ScalarValueSpecification
+   a sh:NodeShape ;
+   sh:targetClass obi:0001931 ; ## obi:scalar value specification
+   sh:property [
+       sh:path iao:0000039 ;    ## iao:has measurement unit label
+       sh:class uo:0000163 ;    ## uo:mass_percentage
+   ] ;
+   sh:or (
+        [ sh:path iao:0000004 ;          ## iao:has measurement value
+          sh:datatype xsd:double ; ]
+        [ sh:path obi:0001937 ;          ## obi:has specified numeric value
+          sh:datatype xsd:real ; ]
+     ) .
+
+
+
+
+
