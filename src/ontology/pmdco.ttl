@@ -469,6 +469,13 @@ obo:BFO_0000132 rdf:type owl:ObjectProperty ;
                 skos:definition "(Elucidation) occurrent part of is a relation between occurrents b and c when b is part of c"@en ;
                 skos:example "Mary's 5th birthday is an occurrent part of Mary's life; the first set of the tennis match is an occurrent part of the tennis match"@en .
 
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:BFO_0000132 ;
+   owl:annotatedProperty rdfs:subPropertyOf ;
+   owl:annotatedTarget obo:BFO_0000050 ;
+   rdfs:comment "\"occurrent part of\" is not a BFO2020 temporalized relation. It just restricts the domain and range to \"occurrent\". That's why is should be OK to make it sub property of RO \"part of\""
+ ] .
+
 
 ###  http://purl.obolibrary.org/obo/BFO_0000136
 obo:BFO_0000136 rdf:type owl:ObjectProperty ;
@@ -1108,20 +1115,6 @@ co:PMD_0000009 rdf:type owl:ObjectProperty ;
                skos:definition "A relation between a process and a process characteristic that depends on it."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0000015
-co:PMD_0000015 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf obo:RO_0000057 ;
-               rdfs:label "has input"@en ;
-               skos:definition "relation from a process to someone or something physical or digital (continuant) that is a necessary precondition for the process to start" .
-
-
-###  https://w3id.org/pmd/co/PMD_0000016
-co:PMD_0000016 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf obo:RO_0000057 ;
-               rdfs:label "has output"@en ;
-               skos:definition "relation from a process to someone or something physical or digital (continuant) that participates in the process such that it is generated or modified during the process, and that it exists at the end of the process" .
-
-
 ###  https://w3id.org/pmd/co/PMD_0001026
 co:PMD_0001026 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf co:PMD_0000004 ;
@@ -1693,6 +1686,13 @@ obo:BFO_0000016 rdf:type owl:Class ;
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource obo:BFO_0000016 ;
+   owl:annotatedProperty obo:IAO_0000602 ;
+   owl:annotatedTarget "(forall (x) (if (Disposition x) (and (RealizableEntity x) (exists (y) (and (MaterialEntity y) (bearerOfAt x y t)))))) // axiom label in BFO2 CLIF: [062-002] " ;
+   obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/062-002>
+ ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:BFO_0000016 ;
    owl:annotatedProperty obo:IAO_0000600 ;
    owl:annotatedTarget "b is a disposition means: b is a realizable entity & b’s bearer is some material entity & b is such that if it ceases to exist, then its bearer is physically changed, & b’s realization occurs when and because this bearer is in some special physical circumstances, & this realization occurs in virtue of the bearer’s physical make-up. (axiom label in BFO2 Reference: [062-002])"@en ;
    obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/062-002>
@@ -1710,13 +1710,6 @@ obo:BFO_0000016 rdf:type owl:Class ;
    owl:annotatedProperty obo:IAO_0000602 ;
    owl:annotatedTarget "(forall (x t) (if (and (RealizableEntity x) (existsAt x t)) (exists (y) (and (MaterialEntity y) (specificallyDepends x y t))))) // axiom label in BFO2 CLIF: [063-002] " ;
    obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/063-002>
- ] .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource obo:BFO_0000016 ;
-   owl:annotatedProperty obo:IAO_0000602 ;
-   owl:annotatedTarget "(forall (x) (if (Disposition x) (and (RealizableEntity x) (exists (y) (and (MaterialEntity y) (bearerOfAt x y t)))))) // axiom label in BFO2 CLIF: [062-002] " ;
-   obo:IAO_0010000 <http://purl.obolibrary.org/obo/bfo/axiom/062-002>
  ] .
 
 
@@ -4106,44 +4099,6 @@ obo:UO_0000003 rdf:type owl:Class ;
                rdfs:label "time unit" .
 
 
-###  https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000
-<https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> rdf:type owl:Class ;
-                                                      owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000602
-                                                                                                 [ rdf:type owl:Restriction ;
-                                                                                                   owl:onProperty obo:RO_0000085 ;
-                                                                                                   owl:someValuesFrom co:PMD_0000592
-                                                                                                 ]
-                                                                                               ) ;
-                                                                            rdf:type owl:Class
-                                                                          ] ;
-                                                      rdfs:subClassOf co:PMD_0000602 ,
-                                                                      [ rdf:type owl:Restriction ;
-                                                                        owl:onProperty obo:RO_0000085 ;
-                                                                        owl:someValuesFrom co:PMD_0000592
-                                                                      ] ;
-                                                      rdfs:comment "A device designed to cut, slice, divide, or sever objects."@en ;
-                                                      rdfs:label "cutting device"@en .
-
-
-###  https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001001
-<https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001001> rdf:type owl:Class ;
-                                                      owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000602
-                                                                                                 [ rdf:type owl:Restriction ;
-                                                                                                   owl:onProperty obo:RO_0000091 ;
-                                                                                                   owl:someValuesFrom co:PMD_0000769
-                                                                                                 ]
-                                                                                               ) ;
-                                                                            rdf:type owl:Class
-                                                                          ] ;
-                                                      rdfs:subClassOf co:PMD_0000602 ,
-                                                                      [ rdf:type owl:Restriction ;
-                                                                        owl:onProperty obo:RO_0000091 ;
-                                                                        owl:someValuesFrom co:PMD_0000769
-                                                                      ] ;
-                                                      rdfs:comment "A device that has the disposition to be grasped and operated by a human hand and is designed for manual use."@en ;
-                                                      rdfs:label "hand held device"@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0000000
 co:PMD_0000000 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000001 ;
@@ -4302,11 +4257,11 @@ co:PMD_0000053 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000833 ,
                                [ owl:intersectionOf ( obo:BFO_0000015
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty co:PMD_0000015 ;
+                                                        owl:onProperty obo:OBI_0000293 ;
                                                         owl:someValuesFrom obo:BFO_0000040
                                                       ]
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty co:PMD_0000016 ;
+                                                        owl:onProperty obo:OBI_0000299 ;
                                                         owl:someValuesFrom co:PMD_0020139
                                                       ]
                                                     ) ;
@@ -6114,7 +6069,6 @@ co:PMD_0000768 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000769
 co:PMD_0000769 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000016 ;
-               obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "hand holdable disposition"@en ,
                           "in der Hand haltbar"@de ;
                skos:definition "Disposion eines Objektes, das per Hand gehalten, betrieben oder verwendet werden kann."@de ,
@@ -6123,7 +6077,7 @@ co:PMD_0000769 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000770
 co:PMD_0000770 rdf:type owl:Class ;
-               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001001> ,
+               rdfs:subClassOf co:PMD_0001999 ,
                                [ owl:intersectionOf ( co:PMD_0000558
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:RO_0000091 ;
@@ -6142,7 +6096,7 @@ co:PMD_0000770 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000771
 co:PMD_0000771 rdf:type owl:Class ;
-               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001001> ,
+               rdfs:subClassOf co:PMD_0001999 ,
                                [ owl:intersectionOf ( co:PMD_0000920
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:RO_0000091 ;
@@ -6564,7 +6518,7 @@ co:PMD_0000812 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000813
 co:PMD_0000813 rdf:type owl:Class ;
-               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
+               rdfs:subClassOf co:PMD_0001998 ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Messer"@de ,
                           "knife"@en ;
@@ -6574,7 +6528,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid329 ;
+               owl:equivalentClass _:genid320 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000087 ;
@@ -6586,7 +6540,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid329 owl:intersectionOf ( obo:BFO_0000029
+_:genid320 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:RO_0000087 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6597,7 +6551,7 @@ _:genid329 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid329 ;
+   owl:annotatedTarget _:genid320 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -6622,7 +6576,7 @@ co:PMD_0000816 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000817
 co:PMD_0000817 rdf:type owl:Class ;
-               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
+               rdfs:subClassOf co:PMD_0001998 ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Laserschneider"@de ,
                           "lasercutter"@en ;
@@ -6773,17 +6727,18 @@ co:PMD_0000832 rdf:type owl:Class ;
 co:PMD_0000833 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( obo:BFO_0000015
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0000015 ;
+                                                            owl:onProperty obo:OBI_0000293 ;
                                                             owl:someValuesFrom obo:BFO_0000040
                                                           ]
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0000016 ;
+                                                            owl:onProperty obo:OBI_0000299 ;
                                                             owl:someValuesFrom obo:BFO_0000040
                                                           ]
                                                         ) ;
                                      rdf:type owl:Class
                                    ] ;
-               rdfs:subClassOf [ owl:intersectionOf ( obo:BFO_0000015
+               rdfs:subClassOf obo:OBI_0000011 ,
+                               [ owl:intersectionOf ( obo:BFO_0000015
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:BFO_0000055 ;
                                                         owl:someValuesFrom co:PMD_0000014
@@ -6792,11 +6747,11 @@ co:PMD_0000833 rdf:type owl:Class ;
                                  rdf:type owl:Class
                                ] ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0000015 ;
+                                 owl:onProperty obo:OBI_0000293 ;
                                  owl:someValuesFrom obo:BFO_0000040
                                ] ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0000016 ;
+                                 owl:onProperty obo:OBI_0000299 ;
                                  owl:someValuesFrom obo:BFO_0000040
                                ] ;
                rdfs:label "Herstellungsprozess"@de ,
@@ -7573,7 +7528,7 @@ NOTE: The wording used in EN 10021 was generalized."""@en ;
 
 ###  https://w3id.org/pmd/co/PMD_0000920
 co:PMD_0000920 rdf:type owl:Class ;
-               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
+               rdfs:subClassOf co:PMD_0001998 ;
                obo:IAO_0000114 obo:IAO_0000428 ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "saw"@en ;
@@ -7594,7 +7549,7 @@ co:PMD_0000922 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000923
 co:PMD_0000923 rdf:type owl:Class ;
-               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
+               rdfs:subClassOf co:PMD_0001998 ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Schere"@de ,
                           "pair of scissors"@en ;
@@ -8385,7 +8340,7 @@ co:PMD_0001006 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0001007
 co:PMD_0001007 rdf:type owl:Class ;
-               rdfs:subClassOf <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001000> ;
+               rdfs:subClassOf co:PMD_0001998 ;
                obo:IAO_0000117 "PMDco Team" ;
                rdfs:label "Wasserstrahlschneider"@de ,
                           "waterjet cutter"@en ;
@@ -8557,6 +8512,44 @@ co:PMD_0001024 rdf:type owl:Class ;
                           "x-ray microanalysis system"@en ;
                skos:definition "A device used for microanalysis of materials using X-ray techniques to determine elemental composition at a microscopic scale."@en ,
                                "Ein Gerät zur Mikroanalyse von Materialien unter Verwendung von Röntgentechniken zur Bestimmung der Elementzusammensetzung auf mikroskopischer Ebene."@de .
+
+
+###  https://w3id.org/pmd/co/PMD_0001998
+co:PMD_0001998 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000602
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:RO_0000085 ;
+                                                            owl:someValuesFrom co:PMD_0000592
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf co:PMD_0000602 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:RO_0000085 ;
+                                 owl:someValuesFrom co:PMD_0000592
+                               ] ;
+               rdfs:comment "A device designed to cut, slice, divide, or sever objects."@en ;
+               rdfs:label "cutting device"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0001999
+co:PMD_0001999 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000602
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:RO_0000091 ;
+                                                            owl:someValuesFrom co:PMD_0000769
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf co:PMD_0000602 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:RO_0000091 ;
+                                 owl:someValuesFrom co:PMD_0000769
+                               ] ;
+               rdfs:comment "A device that has the disposition to be grasped and operated by a human hand and is designed for manual use."@en ;
+               rdfs:label "hand held device"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020000
