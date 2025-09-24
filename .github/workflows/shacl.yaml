@@ -24,7 +24,8 @@ jobs:
 
 
            for DIR in main/patterns/*/     
-           do
-               java -jar robot.jar merge --collapse-import-closure false --input merged-pmdco.ttl --input '"$DIR"shape-data.ttl' reason  --reasoner hermit --output '"$DIR"shape-data-reasoned.ttl'
-               python3 -m pyshacl  -s '"$DIR"shape.ttl' '"$DIR"shape-data-reasoned.ttl'
+           do  
+               echo "processing $DIR"
+               java -jar robot.jar merge --collapse-import-closure false --input merged-pmdco.ttl --input '$DIRshape-data.ttl' reason  --reasoner hermit --output '$DIRshape-data-reasoned.ttl'
+               python3 -m pyshacl  -s '$DIRshape.ttl' '$DIRshape-data-reasoned.ttl'
            done
