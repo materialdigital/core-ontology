@@ -22,25 +22,25 @@ jobs:
            # merge the current EDIT version and all components into one ontology file
            java -jar robot.jar  merge --catalog main/src/ontology/catalog-v001.xml --input main/src/ontology/pmdco-edit.owl --output merged-pmdco.ttl
 
-           # merge the ontology file with the shacl-data file and apply reasoning (use e.g. elk, or hermit)
-           #    (make sure, the data file does not import pmdco)
-           java -jar robot.jar merge --input merged-pmdco.ttl --input main/shapes/shape1-data.ttl reason  --reasoner hermit --output shape1-data-reasoned.ttl
+           # merge the ontology file with the shacl-data file and apply reasoning (use e.g. elk, or hermit)           
+           java -jar robot.jar merge --collapse-import-closure false  --input merged-pmdco.ttl --input main/shapes/shape1-data.ttl reason  --reasoner hermit --output shape1-data-reasoned.ttl
            # validate the shacl shape
            python3 -m pyshacl  -s main/shapes/shape1.ttl shape1-data-reasoned.ttl
 
-
-           java -jar robot.jar merge --input merged-pmdco.ttl --input main/shapes/shape2-data.ttl reason  --reasoner hermit --output shape2-data-reasoned.ttl
+           java -jar robot.jar merge --collapse-import-closure false  --input merged-pmdco.ttl --input main/shapes/shape2-data.ttl reason  --reasoner hermit --output shape2-data-reasoned.ttl
            python3 -m pyshacl  -s main/shapes/shape2.ttl shape2-data-reasoned.ttl
 
-           #java -jar robot.jar merge --input merged-pmdco.ttl --input main/shapes/shape3-data.ttl reason  --reasoner hermit --output shape3-data-reasoned.ttl
-           #python3 -m pyshacl  -s main/shapes/shape3.ttl shape3-data-reasoned.ttl
+           java -jar robot.jar merge --collapse-import-closure false  --input merged-pmdco.ttl --input main/shapes/shape3-data.ttl reason  --reasoner hermit --output shape3-data-reasoned.ttl
+           python3 -m pyshacl  -s main/shapes/shape3.ttl shape3-data-reasoned.ttl
 
-           #java -jar robot.jar merge --input merged-pmdco.ttl --input main/shapes/shape5-data.ttl reason  --reasoner hermit --output shape5-data-reasoned.ttl
-           #python3 -m pyshacl  -s main/shapes/shape5.ttl shape5-data-reasoned.ttl
+           java -jar robot.jar merge --collapse-import-closure false  --input merged-pmdco.ttl --input main/shapes/shape5-data.ttl reason  --reasoner hermit --output shape5-data-reasoned.ttl
+           python3 -m pyshacl  -s main/shapes/shape5.ttl shape5-data-reasoned.ttl
           
-           #java -jar robot.jar merge --input merged-pmdco.ttl --input main/shapes/shape6-data.ttl reason  --reasoner hermit --output shape6-data-reasoned.ttl
-           #python3 -m pyshacl  -s main/shapes/shape6.ttl shape6-data-reasoned.ttl
+           java -jar robot.jar merge --collapse-import-closure false  --input merged-pmdco.ttl --input main/shapes/shape6-data.ttl reason  --reasoner hermit --output shape6-data-reasoned.ttl
+           python3 -m pyshacl  -s main/shapes/shape6.ttl shape6-data-reasoned.ttl
 
+           java -jar robot.jar merge --collapse-import-closure false  --input merged-pmdco.ttl --input main/shapes/shape7-data.ttl reason  --reasoner hermit --output shape7-data-reasoned.ttl
+           python3 -m pyshacl  -s main/shapes/shape6.ttl shape7-data-reasoned.ttl
 
 
            
