@@ -1272,6 +1272,17 @@ obo:IAO_0000004 rdf:type owl:DatatypeProperty ,
                 rdfs:label "has measurement value"@en .
 
 
+###  http://purl.obolibrary.org/obo/OBI_0001937
+obo:OBI_0001937 rdf:type owl:DatatypeProperty ;
+                rdfs:domain obo:OBI_0001933 ;
+                obo:IAO_0000114 obo:IAO_0000120 ;
+                obo:IAO_0000115 "A relation between a value specification and a number that quantifies it."@en ;
+                obo:IAO_0000116 "A range of 'real' might be better than 'float'. For now we follow 'has measurement value' until we can consider technical issues with SPARQL queries and reasoning." ;
+                obo:IAO_0000117 "PERSON: James A. Overton" ;
+                obo:IAO_0000119 "OBI" ;
+                rdfs:label "has specified numeric value" .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000006
 co:PMD_0000006 rdf:type owl:DatatypeProperty ;
                rdfs:domain obo:IAO_0000030 ;
@@ -3622,6 +3633,10 @@ Previous. An information content entity is a non-realizable information entity t
 obo:IAO_0000032 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000109 ,
                                 [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:OBI_0001931
+                                ] ,
+                                [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:IAO_0000039 ;
                                   owl:someValuesFrom owl:Thing
                                 ] ,
@@ -4047,11 +4062,19 @@ obo:OBI_0000835 rdf:type owl:Class ;
 ###  http://purl.obolibrary.org/obo/OBI_0001930
 obo:OBI_0001930 rdf:type owl:Class ;
                 rdfs:subClassOf obo:OBI_0001933 ;
-                obo:IAO_0000111 "categorical value specification" ;
                 obo:IAO_0000114 obo:IAO_0000123 ;
                 obo:IAO_0000115 "A value specification that is specifies one category out of a fixed number of nominal categories"@en ;
                 obo:IAO_0000117 "PERSON:Bjoern Peters" ;
                 rdfs:label "categorical value specification" .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0001931
+obo:OBI_0001931 rdf:type owl:Class ;
+                rdfs:subClassOf obo:OBI_0001933 ;
+                obo:IAO_0000114 obo:IAO_0000123 ;
+                obo:IAO_0000115 "A value specification that consists of two parts: a numeral and a unit label"@en ;
+                obo:IAO_0000117 "PERSON:Bjoern Peters" ;
+                rdfs:label "scalar value specification" .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0001933
@@ -6528,7 +6551,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid320 ;
+               owl:equivalentClass _:genid321 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000087 ;
@@ -6540,7 +6563,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid320 owl:intersectionOf ( obo:BFO_0000029
+_:genid321 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:RO_0000087 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6551,7 +6574,7 @@ _:genid320 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid320 ;
+   owl:annotatedTarget _:genid321 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -8529,8 +8552,8 @@ co:PMD_0001998 rdf:type owl:Class ;
                                  owl:onProperty obo:RO_0000085 ;
                                  owl:someValuesFrom co:PMD_0000592
                                ] ;
-               rdfs:comment "A device designed to cut, slice, divide, or sever objects."@en ;
-               rdfs:label "cutting device"@en .
+               rdfs:label "cutting device"@en ;
+               skos:definition "A device designed to cut, slice, divide, or sever objects."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001999
@@ -8548,8 +8571,8 @@ co:PMD_0001999 rdf:type owl:Class ;
                                  owl:onProperty obo:RO_0000091 ;
                                  owl:someValuesFrom co:PMD_0000769
                                ] ;
-               rdfs:comment "A device that has the disposition to be grasped and operated by a human hand and is designed for manual use."@en ;
-               rdfs:label "hand held device"@en .
+               rdfs:label "hand held device"@en ;
+               skos:definition "A device that has the disposition to be grasped and operated by a human hand and is designed for manual use."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020000
