@@ -16,7 +16,7 @@ has_specified_input (OBI:0000293)
 has_specified_output (OBI:0000299)
 ```
 
-The properties define the domain as 'planned process'. Both are sub property of 'has participant' which is defined in range 'occurent' and domain 'continuant'. 
+The properties define the domain as 'planned process'. Both are sub property of 'has participant' which is defined in domain 'occurent' and range 'continuant'. 
 
 A typical process can have any number of inputs and outputs or neither.
 
