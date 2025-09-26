@@ -1,9 +1,16 @@
 name: shacl validation
 
+#on:
+#  push:
+#    branches:
+#    - main
 on:
-  push:
-    branches:
-    - main
+  workflow_run:
+    workflows: ["pages-build-deployment"]
+    branches: [main]
+    types: 
+      - completed
+
 jobs:
   validate:
     runs-on: ubuntu-latest
