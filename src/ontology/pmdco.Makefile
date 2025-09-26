@@ -31,10 +31,10 @@ $(IMPORTDIR)/ro_import.owl: $(MIRRORDIR)/ro.owl $(IMPORTDIR)/ro_terms.txt \
 			   $(IMPORTSEED) | all_robot_plugins
 	$(ROBOT) annotate --input $< --remove-annotations \
 		 odk:normalize --add-source true \
-		 extract --term-file $(IMPORTDIR)/ro_terms.txt $(T_IMPORTSEED) \
+		 extract --term-file $(IMPORTDIR)/ro_terms.txt  \
 		         --force true --copy-ontology-annotations true \
-		         --individuals include \
-		         --method BOT \
+		         --individuals exclude \
+		         --method SUBSET \
 		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 		        --term-file $(IMPORTDIR)/ro_terms.txt $(T_IMPORTSEED) \
 		        --select complement --select annotation-properties \

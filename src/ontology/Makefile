@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                b62f025f356678e867545e5b552a63cf1862445a4246f784687cc5898f746911
+CONFIG_HASH=                c4ece47d82b0c9bc8a9c4586905f3e7c58b8e66796e50c1923d51bc9fd0db0fa
 
 
 # ----------------------------------------
@@ -431,6 +431,12 @@ $(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl | all_robot_plugins
 		 repair --merge-axiom-annotations true \
 		 $(ANNOTATE_CONVERT_FILE)
 
+## Module for ontology: ro (custom)
+$(IMPORTDIR)/ro_import.owl: $(MIRRORDIR)/ro.owl
+	@echo "ERROR: You have configured ro as a custom module;"
+	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
+	@false
+
 ## Module for ontology: iao (custom)
 $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl
 	@echo "ERROR: You have configured iao as a custom module;"
@@ -549,7 +555,7 @@ mirror-bfo: | $(TMPDIR)
 .PHONY: mirror-ro
 .PRECIOUS: $(MIRRORDIR)/ro.owl
 mirror-ro: | $(TMPDIR)
-	$(ROBOT) convert -I http://purl.obolibrary.org/obo/ro/core.owl -o $(TMPDIR)/$@.owl
+	$(ROBOT) convert -I http://purl.obolibrary.org/obo/ro.owl -o $(TMPDIR)/$@.owl
 
 
 ## ONTOLOGY: iao

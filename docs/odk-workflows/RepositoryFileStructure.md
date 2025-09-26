@@ -17,7 +17,7 @@ These are the current imports in PMDCO
 | Import | URL | Type |
 | ------ | --- | ---- |
 | bfo | http://purl.obolibrary.org/obo/bfo/2020/notime/bfo.owl | mirror |
-| ro | http://purl.obolibrary.org/obo/ro/core.owl | slme |
+| ro | http://purl.obolibrary.org/obo/ro.owl | custom |
 | iao | http://purl.obolibrary.org/obo/iao.owl | custom |
 | obi | http://purl.obolibrary.org/obo/obi.owl | custom |
 | chebi | https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.obo | custom |
