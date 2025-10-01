@@ -35,21 +35,21 @@ PMDco also provides general entities required for representing the fundamental M
 To ensure the ontology captures the knowledge we need and supports the right queries, we defined a set of competency questions. These are practical, user-focused questions that the ontology should be able to answer once complete. They guide the development process and later serve as a benchmark to check whether the ontology meets its goals. Examples of these competency questions include:
 
 - **Materials state/structure**:
-	- 1. What is the identifier X of material Y?
-	- 2. What is the chemical composition of material X?
-	- 3. What are the constituent substances of composite material X?
-	- 4. Which engineered materials are specified for property X?
-	- 5. Which specifications describe material X (e.g., standard references, certifications)?
-	- 6. What microstructural features (e.g., grain size, phase) are observed in material X?
-	- 7. How does the microstructure of material X change after processing step Y?
-	- 8. Which phases are present in alloy X under condition Y?
-	- 9. What is the relationship between microstructural feature X and property Y?
+	- *1. What is the identifier X of material Y?*
+	- *2. What is the chemical composition of material X?*
+	- *3. What are the constituent substances of composite material X?*
+	- *4. Which engineered materials are specified for property X?*
+	- *5. Which specifications describe material X (e.g., standard references, certifications)?*
+	- *6. What microstructural features (e.g., grain size, phase) are observed in material X?*
+	- *7. How does the microstructure of material X change after processing step Y?*
+	- *8. Which phases are present in alloy X under condition Y?*
+	- *9. What is the relationship between microstructural feature X and property Y?*
 - **Process**:
-	- 10. Which processing steps were applied to material X during manufacturing?
-	- 11. What is the sequence of processes in workflow X?
-	- 12. Which characterization processes were performed on sample X?
-	- 13. What simulation processes have been conducted to predict property X of material Y?
+	- *10. Which processing steps were applied to material X during manufacturing?*
+	- *11. What is the sequence of processes in workflow X?*
+	- *12. Which characterization processes were performed on sample X?*
+	- *13. What simulation processes have been conducted to predict property X of material Y?*
 - **Properties**:
-	- 14. What are the mechanical properties of material X (e.g., tensile strength, hardness)?
-	- 15. How does property X of material Y vary with parameter Z (e.g., temperature, pressure)?
-	- 16. Which instruments or devices were used in process X?
+	- *14. What are the mechanical properties of material X (e.g., tensile strength, hardness)?*
+	- *15. How does property X of material Y vary with parameter Z (e.g., temperature, pressure)?*
+	- *16. Which instruments or devices were used in process X?*
