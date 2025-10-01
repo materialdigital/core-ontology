@@ -9,6 +9,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 
 ## Table of Contents
 Hereby we provide an overview of the patterns used in PMDco 3.0.0:
+
 - [Pattern 1](#Pattern-1---Temporal-Region): Temporal Region
 - [Pattern 2](#Pattern-2---Process-Chain): Process Chain
 - [Pattern 3](#Pattern-3---Process-Inputs-and-Outputs): Process Inputs and Outputs
@@ -27,14 +28,58 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 
 - **Purpose**: Specifying the boundaries of a process on the time axis. 
 - **Core Properties**: 
-  - `bfo:occupiesTemporalRegion` 
-  - `bfo:properTemporalPart`
-  - `bfo:hasFirstInstant`
-  - `bfo:hasLastInstant`
-  - `pmd:endsWith`
+  - `bfo:occupies temporal region` ([BFO_0000199](http://purl.obolibrary.org/obo/BFO_0000199))
+  - `bfo:proper temporal part of ` ([BFO_0000136](http://purl.obolibrary.org/obo/BFO_0000136))
+  - `bfo:has first instant ` ([BFO_0000222](http://purl.obolibrary.org/obo/BFO_0000222))
+  - `bfo:has last instant ` ([BFO_0000224](http://purl.obolibrary.org/obo/BFO_0000224))
+  - `bfo:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
 - **Example Use Case**: Specifying certain moments of time when some industiral process started or ended. 
 
-![Visualization of Pattern 1](https://github.com/user-attachments/assets/2bee33e5-c7ba-46ef-85ca-c4fccf7c19f5)
+
+```mermaid
+stateDiagram
+
+
+  direction BT
+
+  classDef clazz fill:lightgrey,color:white
+  classDef ind font-size:small
+  
+  bfo_occurrent --> bfo_entity: subClassOf 
+  bfo_continuant --> bfo_entity: subClassOf 
+  bfo_process --> bfo_occurrent: subClassOf 
+  bfo_temporal_region --> bfo_occurrent: subClassOf 
+  bfo_one_dimensional --> bfo_temporal_region: subClassOf 
+  bfo_two_dimensional --> bfo_temporal_region: subClassOf 
+
+  class bfo_occurrent clazz  
+  class bfo_entity clazz
+  class bfo_continuant clazz
+  class bfo_process clazz
+  class bfo_temporal_region clazz
+  class bfo_one_dimensional clazz
+  class bfo_two_dimensional clazz
+
+
+   ex_proc_1 --> bfo_process: a
+   ex_period_1 --> bfo_one_dimensional: a
+   ex_period_2 --> bfo_one_dimensional: a
+   ex_proc_1 --> ex_period_1: bfo_occupiesTemporalRegion
+   ex_proc_1 --> ex_period_2: bfo_occupiesTemporalRegion
+   
+   ex_some_time --> bfo_temporal_region: a 
+   ex_cont_1 --> bfo_continuant: a
+   ex_cont_1 --> ex_some_time: bfo_existsAt
+
+   ex_start --> bfo_two_dimensional: a
+   ex_end --> bfo_two_dimensional: a
+   ex_period_2  --> ex_start: bfo_has_first_instant
+   ex_period_2  --> ex_end: bfo_has_last_instant
+
+
+
+```
+
 
 ---
 
