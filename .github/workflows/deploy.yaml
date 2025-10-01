@@ -14,6 +14,7 @@ jobs:
         path: v3.0.0-alpha3
     - name: Build HTML for main
       run: |
+           pip install pymdown-extensions
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
            
            mkdir public
@@ -45,7 +46,7 @@ jobs:
     - name: Build HTML for 3.0.0-alpha2
 
       run: |
-           
+           pip install pymdown-extensions
            mkdir public/3.0.0-alpha2
            java -jar widoco.jar -ontFile v3.0.0-alpha2/pmdco.owl -outFolder public/3.0.0-alpha2  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
            ls public/3.0.0-alpha2/doc           
