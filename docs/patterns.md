@@ -34,7 +34,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `bfo:proper temporal part of ` ([BFO_0000136](http://purl.obolibrary.org/obo/BFO_0000136))
   - `bfo:has first instant ` ([BFO_0000222](http://purl.obolibrary.org/obo/BFO_0000222))
   - `bfo:has last instant ` ([BFO_0000224](http://purl.obolibrary.org/obo/BFO_0000224))
-  - `bfo:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
+
 - **Example Use Case**: Specifying certain moments of time when some industrial process started or ended. 
 
 
