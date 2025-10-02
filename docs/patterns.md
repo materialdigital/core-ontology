@@ -23,7 +23,6 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
 ---
 
 ## Example Patterns
-<a name="Pattern-1---Temporal-Region"></a>
 
 ### Pattern 1 - Temporal Region
 
@@ -34,11 +33,12 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `bfo:proper temporal part of ` ([BFO_0000136](http://purl.obolibrary.org/obo/BFO_0000136))
   - `bfo:has first instant ` ([BFO_0000222](http://purl.obolibrary.org/obo/BFO_0000222))
   - `bfo:has last instant ` ([BFO_0000224](http://purl.obolibrary.org/obo/BFO_0000224))
-
+  - `bfo:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
 - **Example Use Case**: Specifying certain moments of time when some industrial process started or ended. 
 
 
 ```mermaid
+
 stateDiagram
 
 
@@ -77,7 +77,7 @@ stateDiagram
    ex_end --> bfo_two_dimensional: a
    ex_period_2  --> ex_start: bfo_has_first_instant
    ex_period_2  --> ex_end: bfo_has_last_instant
-   ex_period_1 --> ex_period_2: bfo:proper_temporal_part_of
+   ex_period_1 --> ex_period_2: bfo_proper_temporal_part_of
 
 
 
