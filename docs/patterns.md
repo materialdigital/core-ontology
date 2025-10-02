@@ -66,8 +66,8 @@ stateDiagram
    ex_proc_1 --> bfo_process: a
    ex_period_1 --> bfo_one_dimensional: a
    ex_period_2 --> bfo_one_dimensional: a
-   ex_proc_1 --> ex_period_1: bfo_occupiesTemporalRegion
-   ex_proc_1 --> ex_period_2: bfo_occupiesTemporalRegion
+   ex_proc_1 --> ex_period_1: bfo_occupies_temporal_region
+   ex_proc_1 --> ex_period_2: bfo_occupies_remporal_region
    
    ex_some_time --> bfo_temporal_region: a 
    ex_cont_1 --> bfo_continuant: a
@@ -77,6 +77,7 @@ stateDiagram
    ex_end --> bfo_two_dimensional: a
    ex_period_2  --> ex_start: bfo_has_first_instant
    ex_period_2  --> ex_end: bfo_has_last_instant
+   ex_period_1 --> ex_period_2: bfo:proper_temporal_part_of
 
 
 
