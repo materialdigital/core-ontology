@@ -1,0 +1,60 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT distinct ?c ?from ?to ?ppl WHERE {
+{
+
+## select the classes for the style block
+	?class rdf:type <http://www.w3.org/2002/07/owl#Class> .
+	?class rdfs:label ?classl
+	bind ( replace(replace(str(?classl), "^(.*[\\\\[/#]])", "", "i"), " ", "_") as ?cc )
+	BIND ( CONCAT(CONCAT("class ", str(?cc), " clazz") ) as ?c )
+} union
+{
+
+## create the connections
+	?s ?p ?o .
+
+## subject
+	bind ( replace(str(?s), "^(.*[\\\\[/#]])", "", "i") as ?ss )
+	optional {
+		?s rdfs:label ?subl .
+	}
+	BIND ( COALESCE(str(?subl), str(?ss)) as ?slor)
+	BIND ( CONCAT(replace(str(?slor), " ", "_"), " --> ") as ?from)
+
+
+## object
+	bind ( replace(str(?o), "^(.*[\\\\[/#]])", "", "i") as ?oo )
+	optional {
+		?o rdfs:label ?objl .
+	}
+	BIND ( COALESCE(str(?objl), str(?oo)) as ?olor)
+	BIND ( CONCAT(replace(str(?olor), " ", "_"), ": ") as ?to)
+
+
+## property	
+	bind ( replace(str(?p), "^(.*[\\\\[/#]])", "", "i") as ?pp)
+	optional {
+		?p rdfs:label ?propl .
+	}
+	BIND ( COALESCE(replace(str(?propl), " ", "_"), ?pp) as ?ppl)
+
+
+### filter
+	FILTER (!REGEX(str(?p), "http://www.w3.org/2000/01/rdf-schema#subPropertyOf|http://www.w3.org/2000/01/rdf-schema#label|http://www.w3.org/2002/07/owl#imports|versionIRI", "i"))
+	FILTER (!REGEX(str(?o), "http://www.w3.org/2002/07/owl#Ontology|http://www.w3.org/2002/07/owl#NamedIndividual|http://www.w3.org/2002/07/owl#Class|http://www.w3.org/2002/07/owl#AnnotationProperty|http://www.w3.org/2002/07/owl#ObjectProperty|http://www.w3.org/2002/07/owl#DatatypeProperty", "i"))
+} 
+}
+
+
+# robot export --input shape-data.ttl --header "ID" --include "classes properties" --export ids.txt
+# robot extract --input ../../pmdco-minimal.owl --term-file ids.txt --method subset --output merged.ttl
+# robot remove --input merged.ttl --term-file ids.txt --term rdfs:label -select complement --select annotation-properties --output rem.ttl
+# robot merge --input rem.ttl --input shape-data.ttl --collapse-import-closure false  query  --query work/mermaid.sparql out.csv
+# echo "stateDiagram \n direction BT  \nclassDef clazz fill:lightblue,color:white \n" > result.txt 
+# tail -n +2 out.csv | sed s'/,/ /'g >> result.txt 
+
+
+
