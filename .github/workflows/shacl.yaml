@@ -50,17 +50,17 @@ jobs:
                    echo "testing missing IRIs"
                    # test that all classes in the a-box are present in PMDco ontology
                    java -jar robot.jar export --input "$DATAFILE" --header "IRI" --include "classes properties" --export ids.txt
-                   echo "testing missing IRIs 2"
+                   #echo "testing missing IRIs 2"
                    tail -n +2 ids.txt > ids2.txt
                    echo "iris in a-box"
                    cat ids2.txt
-                   echo "testing missing IRIs 3"
+                   #echo "testing missing IRIs 3"
                    grep -Fof ids2.txt merged-pmdco.ttl  | sort -u | grep  -Fvf - ids2.txt > missing.txt || :
-                   echo "testing missing IRIs 4"
+                   #echo "testing missing IRIs 4"
+                   echo "missing iris"
                    cat missing.txt
-                   echo "testing missing IRIs 5"
+                   #echo "testing missing IRIs 5"
                    if [ -s missing.txt ]; then
-                      echo "testing missing IRIs 6"
                       echo "Found the listed IRIs in the a-box, but they are not present in PMDco:"
                       exit 1
                    fi
