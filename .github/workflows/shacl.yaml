@@ -38,20 +38,23 @@ jobs:
 
                    SHAPEFILE="${DIR}shape.ttl"
                    DATAFILE="${DIR}shape-data.ttl"
-                   
+                    
+                   echo "testing shape"
                    java -jar robot.jar merge --collapse-import-closure false --input merged-pmdco.ttl --input "$DATAFILE" reason  --reasoner hermit --output shape-data-reasoned.ttl
                    python3 -m pyshacl  -s "$SHAPEFILE" shape-data-reasoned.ttl
 
+                   echo "testing autoshapes"
                    # test with autoshapes
                    python3 -m pyshacl  -s main/patterns/autoshape/auto-shapes-open.ttl shape-data-reasoned.ttl
 
+                   echo "testing missing IRIs"
                    # test that all classes in the a-box are present in PMDco ontology
                    java -jar robot.jar export --input "$DATAFILE" --header "IRI" --include "classes properties" --export ids.txt
                    tail -n +2 ids.txt > ids2.txt
                    grep -Fof ids2.txt merged-pmdco.ttl  | sort -u | grep  -Fvf - ids2.txt > missing.txt
+                   cat missing.txt
                    if [ -s missing.txt ]; then
-                      echo "Found the following IRIs in the a-box, but they are not in PMDco:"
-                      cat missing.txt
+                      echo "Found the listed IRIs in the a-box, but they are not in PMDco:"
                       exit 1
                    fi
                fi
