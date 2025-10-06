@@ -1,15 +1,15 @@
 name: shacl validation
 
-#on:
-#  push:
-#    branches:
-#    - main
 on:
-  workflow_run:
-    workflows: [MAKE]
-    branches: [main]
-    types: 
-      - completed
+  push:
+    branches:
+    - main
+#on:
+#  workflow_run:
+#    workflows: [MAKE]
+#    branches: [main]
+#    types: 
+#      - completed
 
 jobs:
   validate:
@@ -48,7 +48,7 @@ jobs:
                    # test that all classes in the a-box are present in PMDco ontology
                    java -jar robot.jar export --input "$DATAFILE" --header "IRI" --include "classes properties" --export ids.txt
                    tail -n +2 ids.txt > ids2.txt
-                   grep -Fof ids2.txt merged.ttl  | sort -u | grep  -Fvf - ids2.txt > missing.txt
+                   grep -Fof ids2.txt merged-pmdco.ttl  | sort -u | grep  -Fvf - ids2.txt > missing.txt
                    if [ -s missing.txt ]; then
                       echo "Missing following IRIs in PMDco:"
                       cat missing.txt
