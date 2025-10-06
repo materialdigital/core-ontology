@@ -1,0 +1,950 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix swa: <http://topbraid.org/swa#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix owl2sh-semi-closed: <http://data.sparna.fr/ontologies/owl2sh-semi-closed#> .
+
+<http://data.sparna.fr/ontologies/owl2sh-semi-closed>
+  rdf:type owl:Ontology ;
+  rdfs:label "OWL 2 SHACL semi-closed ruleset"@en;
+  rdfs:comment """Turns an OWL Ontology into a set of SHACL Shapes. 
+  Additionnal Shapes with sh:targetSubjectOf verify the domains of the ontology properties, ensuring each property is asserted on an instance of the correct class.
+  Properties from other ontologies can still be asserted anywhere as the NodeShapes are not closed"""@en;
+  dct:source <https://www.topquadrant.com/from-owl-to-shacl-in-an-automated-way/> ;
+  dct:provenance "This is derived from original work by TopQuadrant at https://www.topquadrant.com/from-owl-to-shacl-in-an-automated-way/, with their authorization.";
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://data.sparna.fr/ontologies/owl2sh-semi-closed#"^^xsd:anyURI ;
+      sh:prefix "owl2sh-semi-closed" ;
+    ] ;
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+      sh:prefix "rdfs" ;
+    ] ;
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ;
+      sh:prefix "owl" ;
+    ] ;
+   sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/ns/shacl#"^^xsd:anyURI ;
+      sh:prefix "sh" ;
+    ] ;
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ;
+      sh:prefix "xsd" ;
+    ] ;
+   sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ;
+      sh:prefix "rdf" ;
+    ] ;
+    sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://datashapes.org/dash#"^^xsd:anyURI ;
+      sh:prefix "dash" ;
+    ] ;
+.
+
+
+owl2sh-semi-closed:ClassShape
+  rdf:type sh:NodeShape ;
+  # Preprocessing
+  sh:rule owl2sh-semi-closed:Preprocessing-CopyEquivalentIntersection;
+  sh:rule owl2sh-semi-closed:Preprocessing-FlattenIntersectionOf ;
+  # Create base PropertyShapes
+  sh:rule owl2sh-semi-closed:CreateNodeShapesAndPropertyShapesFromRestrictions ;
+  sh:rule owl2sh-semi-closed:CreateNodeShapesAndPropertyShapesFromMatchingDomains ;
+  sh:rule owl2sh-semi-closed:CreateNodeShapesAndPropertyShapesFromEquivalentClassHasValue ;
+  # properties characteristics stuff
+  sh:rule owl2sh-semi-closed:owlFunctionalProperty2shMaxCount1 ;
+  # cardinality stuff
+  sh:rule owl2sh-semi-closed:owlMaxCardinality2shMaxCount ;
+  sh:rule owl2sh-semi-closed:owlMaxQualifiedCardinalityOnClass2shMaxCount ;
+  sh:rule owl2sh-semi-closed:owlMaxQualifiedCardinalityOnClass2shQualifiedMaxCount ;
+  sh:rule owl2sh-semi-closed:owlMaxQualifiedCardinalityOnDataRange2shQualifiedMaxCount ;
+  sh:rule owl2sh-semi-closed:owlMinCardinality2shMinCount ;
+  sh:rule owl2sh-semi-closed:owlMinQualifiedCardinalityOnClass2shMinCount ;
+  sh:rule owl2sh-semi-closed:owlMinQualifiedCardinalityOnClass2shQualifiedMinCount ;
+  sh:rule owl2sh-semi-closed:owlMinQualifiedCardinalityOnDataRange2shQualifiedMinCount ;
+  sh:rule owl2sh-semi-closed:owlQualifiedCardinalityOnClass2shMinMaxCount ;
+  sh:rule owl2sh-semi-closed:owlQualifiedCardinalityOnClass2shQualifiedMinMaxCount ;
+  sh:rule owl2sh-semi-closed:owlQualifiedCardinalityOnDataRange2shQualifiedMinMaxCount ;
+  # quantifiers stuff
+  sh:rule owl2sh-semi-closed:owlHasValue2shHasValue ;
+  sh:rule owl2sh-semi-closed:owlSomeValuesFrom2shMinCount1 ;
+  sh:rule owl2sh-semi-closed:owlSomeValuesFromAllValuesFrom2dashHasValueWithClass ;
+  sh:rule owl2sh-semi-closed:owlSomeValuesFromIRI2dashHasValueWithClass ;
+  sh:rule owl2sh-semi-closed:owlAllValuesFrom2shClassOrDatatype ;
+  
+  # Turn UNIONS of IRIs into rdfs:subClassOf (so that it can be interpreted by SHACL validator I guess)
+  sh:rule owl2sh-semi-closed:owlUnionOfIRIs2rdfsSubClassOf ;
+  # range stuff
+  sh:rule owl2sh-semi-closed:rdfsRange2shNode ;
+  sh:rule owl2sh-semi-closed:rdfsRange2shClassOrDatatype ;
+  sh:rule owl2sh-semi-closed:rdfsRangeLiteral2shNodeKind ;
+  sh:rule owl2sh-semi-closed:shPropertyShapeCleanUp ;
+
+  # extra NodeShapes to check domains of properties
+  # This checks the domains of properties within *our* ontology, meaning the ruleset is owl2sh-semi-closed
+  # But properties for other ontologies are still allowed
+  sh:rule owl2sh-semi-closed:rdfsDomain2shNodeShapeWithTargetSubjectOf;
+
+  sh:target [
+      rdf:type sh:SPARQLTarget ;
+      sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+      sh:select """
+SELECT ?this
+WHERE {
+	{
+		{
+			{
+			  ?type rdfs:subClassOf* rdfs:Class .
+	    	?this a ?type .
+			}
+			UNION
+			{
+				?this a owl:Class .
+			}
+		}
+		FILTER isIRI(?this) .
+	}
+}""" ;
+    ] ;
+.
+
+owl2sh-semi-closed:Preprocessing-CopyEquivalentIntersection
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Copies any intersections within owl:equivalentClass into the host class itself so that subsequent rules convert them further." ;
+  rdfs:label "Copy owl:intersectionOfs from owl:equivalentClass" ;
+  sh:construct """CONSTRUCT {
+  $this owl:intersectionOf ?inter .
+}
+WHERE {
+  $this owl:equivalentClass ?equi .
+  FILTER isBlank(?equi) .
+  ?equi owl:intersectionOf ?inter .
+}""" ;
+  sh:order -1 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+owl2sh-semi-closed:Preprocessing-FlattenIntersectionOf
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Copies the members of an owl:intersectionOf list as superclasses into the host class itself. Subsequent rules then apply." ;
+  rdfs:label "Flatten owl:intersectionOf" ;
+  sh:construct """CONSTRUCT {
+  $this rdfs:subClassOf ?superClass .
+}
+WHERE {
+  $this owl:intersectionOf ?list .
+  ?list rdf:rest*/rdf:first ?superClass .
+  FILTER isBlank(?superClass) .
+}""" ;
+  sh:order 0 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:CreateNodeShapesAndPropertyShapesFromRestrictions
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Creates a NodeShape and a sh:property shape for each property that is mentioned in an owl:Restriction." ;
+  rdfs:label "owl:onProperty to sh:property" ;
+  sh:construct """
+      CONSTRUCT {
+        $this a sh:NodeShape .
+        $this a rdfs:Class .
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?property .
+      }
+      WHERE {
+        $this rdfs:subClassOf/owl:onProperty ?property .
+
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+      """ ;
+  sh:order 1 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:CreateNodeShapesAndPropertyShapesFromEquivalentClassHasValue
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Creates a sh:property shape for each property that is mentioned in an owl:Restriction." ;
+  rdfs:label "owl:equivalentClass/owl:hasValue to sh:NodeShape with sh:hasValue" ;
+  sh:construct """
+      CONSTRUCT {
+        $this a sh:NodeShape .
+        $this a rdfs:Class .
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?propertyProbablySkosInScheme .
+        ?propertyShape sh:hasValue ?somethingProbablyAConceptScheme .
+      }
+      WHERE {
+        $this owl:equivalentClass ?restriction .
+        FILTER(isBlank(?restriction)) .
+        ?restriction owl:hasValue ?somethingProbablyAConceptScheme .
+        ?restriction owl:onProperty ?propertyProbablySkosInScheme .
+
+        BIND (owl2sh-semi-closed:getPropertyShape(?propertyProbablySkosInScheme, $this) AS ?propertyShape) .
+      }
+      """ ;
+  sh:order 1 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:CreateNodeShapesAndPropertyShapesFromMatchingDomains
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Creates a NodeShape and a sh:property shape for each property with matching rdfs:domain." ;
+  rdfs:label "rdfs:domain to sh:property" ;
+  sh:construct """
+			CONSTRUCT {
+				$this a sh:NodeShape .
+    		$this a rdfs:Class .
+        $this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+			}
+			WHERE {
+				{
+    				?property rdfs:domain $this .
+				}
+				UNION {
+					?property rdfs:domain/owl:unionOf ?unionOf .
+					?unionOf rdf:rest*/rdf:first $this .
+				}
+
+				BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+			""" ;
+  sh:order 2 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:owlFunctionalProperty2shMaxCount1
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each relevant property that is owl:FunctionalProperty, create sh:maxCount of 1 (unless there is an OWL cardinality restriction)." ;
+  rdfs:label "owl:FunctionalProperty to sh:maxCount 1" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:maxCount 1 .
+      }
+      WHERE {
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?property .
+        ?property a owl:FunctionalProperty .
+        FILTER NOT EXISTS {
+          $this rdfs:subClassOf* ?class .
+          ?class rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          ?restriction owl:maxCardinality|owl:cardinality ?any .
+        }
+      }
+      """ ;
+  sh:order 3 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:rdfsRange2shNode
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each relevant property that has an rdfs:range, creates an sh:node if the range yielded a NodeShape that has an sh:hasValue constraint, instead of an sh:class" ;
+  rdfs:label "rdfs:range with IRI to sh:class or sh:datatype" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:node [
+          sh:property [
+            sh:path ?propertyProbablySkosInScheme ;
+            sh:hasValue ?somethingProbablyAConceptScheme ;
+          ]
+        ] .
+      }
+      WHERE {
+        {
+          $this sh:property ?propertyShape .
+        }
+        ?propertyShape sh:path ?property .
+        ?property rdfs:range ?range .
+        ?range owl:equivalentClass ?restriction .
+        FILTER(isBlank(?restriction)) .
+        ?restriction owl:hasValue ?somethingProbablyAConceptScheme .
+        ?restriction owl:onProperty ?propertyProbablySkosInScheme .
+      }
+      """ ;
+  sh:order 4 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:rdfsRange2shClassOrDatatype
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each relevant property that has an rdfs:range, create sh:class or sh:datatype constraint unless it already exists (from a restriction)." ;
+  rdfs:label "rdfs:range with IRI to sh:class or sh:datatype" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape ?parameter ?range .
+			}
+			WHERE {
+				{
+					$this sh:property ?propertyShape .
+					FILTER NOT EXISTS { ?propertyShape sh:node|sh:class|sh:datatype ?any } .
+				}
+				?propertyShape sh:path ?property .
+				?property rdfs:range ?range .
+				FILTER isIRI(?range) .
+        # exclude the case where range is rdfs:Literal, this will be handled with an sh:kind
+        FILTER(?range != rdfs:Literal) .
+				BIND (
+          IF(
+            ?range IN (xsd:boolean, xsd:string, xsd:date, xsd:dateTime, xsd:integer,xsd:integer, xsd:float, xsd:double, xsd:duration, xsd:anyURI, rdf:langString),
+            sh:datatype,
+            sh:class
+          ) AS ?parameter) .
+			}
+			""" ;
+  sh:order 5 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:rdfsRangeLiteral2shNodeKind
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each relevant property that has an rdfs:range with value rdfs:Literal, create sh:nodeKind constraint." ;
+  rdfs:label "rdfs:range rdfs:Literal to sh:nodeKind sh:Literal" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:nodeKind sh:Literal .
+      }
+      WHERE {
+        ?propertyShape sh:path ?property .
+        ?property a owl:DatatypeProperty .
+        ?property rdfs:range rdfs:Literal .
+      }
+      """ ;
+  sh:order 5 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:owlMaxCardinality2shMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:maxCardinality restriction, create a corresponding sh:maxCount constraint." ;
+  rdfs:label "owl:maxCardinality to sh:maxCount" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:maxCount ?maxCount .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        $this rdfs:subClassOf ?restriction .
+        ?restriction a owl:Restriction .
+        FILTER isBlank(?restriction) .
+        ?restriction owl:onProperty ?property .
+        ?restriction owl:maxCardinality|owl:cardinality ?raw .
+        BIND (xsd:integer(?raw) AS ?maxCount) .
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlMaxQualifiedCardinalityOnClass2shMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:maxQualifiedCardinality restriction on an IRI class, create a corresponding sh:maxCount constraint, if the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:maxQualifiedCardinality with owl:onClass to sh:maxCount" ;
+  sh:construct """
+      PREFIX sh: <http://www.w3.org/ns/shacl#>
+      PREFIX owl: <http://www.w3.org/2002/07/owl#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      PREFIX owl2sh-semi-closed: <http://data.sparna.fr/ontologies/owl2sh-semi-closed#>
+
+      CONSTRUCT {
+        ?propertyShape sh:maxCount ?maxCount .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:maxQualifiedCardinality ?raw .
+        ?restriction owl:onProperty ?property .
+        ?restriction owl:onClass ?onClass .
+        FILTER isIRI(?onClass) .
+        FILTER EXISTS { ?property rdfs:range ?onClass } .
+        BIND (xsd:integer(?raw) AS ?maxCount) .
+
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlMaxQualifiedCardinalityOnClass2shQualifiedMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:maxQualifiedCardinality restriction on an IRI class, create a corresponding (new) sh:qualifiedMaxCount constraint, unless the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:maxQualifiedCardinality with owl:onClass to sh:qualifiedMaxCount" ;
+  sh:construct """
+      CONSTRUCT {
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?property .
+        ?propertyShape sh:qualifiedMaxCount ?maxCount .
+        ?propertyShape sh:qualifiedValueShape ?valueShape .
+        ?valueShape sh:class ?onClass .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:maxQualifiedCardinality ?raw .
+        ?restriction owl:onProperty ?property .
+        ?restriction owl:onClass ?onClass .
+        FILTER isIRI(?onClass) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onClass } .
+        BIND (xsd:integer(?raw) AS ?maxCount) .
+        BIND (BNODE() AS ?propertyShape) .
+        BIND (BNODE() AS ?valueShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlMaxQualifiedCardinalityOnDataRange2shQualifiedMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:maxQualifiedCardinality restriction on an IRI datatype, create a corresponding (new) sh:qualifiedMaxCount constraint." ;
+  rdfs:label "owl:maxQualifiedCardinality with owl:onDataRange to sh:qualifiedMaxCount" ;
+  sh:construct """
+      CONSTRUCT {
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?property .
+        ?propertyShape sh:qualifiedMaxCount ?maxCount .
+        ?propertyShape sh:qualifiedValueShape ?valueShape .
+        ?valueShape sh:datatype ?onDataRange .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:maxQualifiedCardinality ?raw .
+        ?restriction owl:onProperty ?property .
+        ?restriction owl:onDataRange ?onDataRange .
+        FILTER isIRI(?onDataRange) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onDataRange } .
+        BIND (xsd:integer(?raw) AS ?maxCount) .
+        BIND (BNODE() AS ?propertyShape) .
+        BIND (BNODE() AS ?valueShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlMinCardinality2shMinCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:minCardinality restriction, create a corresponding sh:minCount constraint." ;
+  rdfs:label "owl:minCardinality to sh:minCount" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:minCount ?maxCount .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:minCardinality|owl:cardinality ?raw .
+        ?restriction owl:onProperty ?property .
+        BIND (xsd:integer(?raw) AS ?maxCount) .
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlMinQualifiedCardinalityOnClass2shMinCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:minQualifiedCardinality restriction on an IRI class, create a corresponding sh:minCount constraint, if the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:minQualifiedCardinality with owl:onClass to sh:minCount" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:minCount ?minCount .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:minQualifiedCardinality ?raw .
+        ?restriction owl:onClass ?onClass .
+        ?restriction owl:onProperty ?property .
+        FILTER isIRI(?onClass) .
+        FILTER EXISTS { ?property rdfs:range ?onClass } .
+        BIND (xsd:integer(?raw) AS ?minCount) .
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlMinQualifiedCardinalityOnClass2shQualifiedMinCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:minQualifiedCardinality restriction on an IRI class, create a corresponding (new) sh:qualifiedMinCount constraint, unless the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:minQualifiedCardinality with owl:onClass to sh:qualifiedMinCount" ;
+  sh:construct """
+      CONSTRUCT {
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?property .
+        ?propertyShape sh:qualifiedMinCount ?minCount .
+        ?propertyShape sh:qualifiedValueShape ?valueShape .
+        ?valueShape sh:class ?onClass .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:minQualifiedCardinality ?raw .
+        ?restriction owl:onClass ?onClass .
+        ?restriction owl:onProperty ?property .
+        FILTER isIRI(?onClass) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onClass } .
+        BIND (xsd:integer(?raw) AS ?minCount) .
+        BIND (BNODE() AS ?propertyShape) .
+        BIND (BNODE() AS ?valueShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlMinQualifiedCardinalityOnDataRange2shQualifiedMinCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:minQualifiedCardinality restriction on an IRI datatype, create a corresponding (new) sh:qualifiedMinCount constraint." ;
+  rdfs:label "owl:minQualifiedCardinality with owl:onDataRange to sh:qualifiedMinCount" ;
+  sh:construct """
+      CONSTRUCT {
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?property .
+        ?propertyShape sh:qualifiedMinCount ?minCount .
+        ?propertyShape sh:qualifiedValueShape ?valueShape .
+        ?valueShape sh:datatype ?onDataRange .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:minQualifiedCardinality ?raw .
+        ?restriction owl:onDataRange ?onDataRange .
+        ?restriction owl:onProperty ?property .
+        FILTER isIRI(?onDataRange) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onDataRange } .
+        BIND (xsd:integer(?raw) AS ?minCount) .
+        BIND (BNODE() AS ?propertyShape) .
+        BIND (BNODE() AS ?valueShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlQualifiedCardinalityOnClass2shMinMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:qualifiedCardinality restriction on an IRI class, create corresponding sh:max/minCount constraints, if the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:qualifiedCardinality with owl:onClass to sh:max/minCount" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:maxCount ?count .
+        ?propertyShape sh:minCount ?count .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:qualifiedCardinality ?raw .
+        ?restriction owl:onClass ?onClass .
+        ?restriction owl:onProperty ?property .
+        FILTER isIRI(?onClass) .
+        FILTER EXISTS { ?property rdfs:range ?onClass } .
+        BIND (xsd:integer(?raw) AS ?count) .
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlQualifiedCardinalityOnClass2shQualifiedMinMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:qualifiedCardinality restriction on an IRI class, create a corresponding (new) sh:qualifiedMax/MinCount constraint, unless the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:qualifiedCardinality with owl:onClass to sh:qualifiedMax/MinCount" ;
+  sh:construct """
+      CONSTRUCT {
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?property .
+        ?propertyShape sh:qualifiedMaxCount ?count .
+        ?propertyShape sh:qualifiedMinCount ?count .
+        ?propertyShape sh:qualifiedValueShape ?valueShape .
+        ?valueShape sh:class ?onClass .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:qualifiedCardinality ?raw .
+        ?restriction owl:onClass ?onClass .
+        ?restriction owl:onProperty ?property .
+        FILTER isIRI(?onClass) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onClass } .
+        BIND (xsd:integer(?raw) AS ?count) .
+        BIND (BNODE() AS ?propertyShape) .
+        BIND (BNODE() AS ?valueShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+owl2sh-semi-closed:owlQualifiedCardinalityOnDataRange2shQualifiedMinMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:qualifiedCardinality restriction on an IRI datatype, create a corresponding (new) sh:qualifiedMax/MinCount constraint." ;
+  rdfs:label "owl:qualifiedCardinality with owl:onDataRange to sh:qualifiedMax/MinCount" ;
+  sh:construct """
+      CONSTRUCT {
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?property .
+        ?propertyShape sh:qualifiedMaxCount ?count .
+        ?propertyShape sh:qualifiedMinCount ?count .
+        ?propertyShape sh:qualifiedValueShape ?valueShape .
+        ?valueShape sh:datatype ?onDataRange .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:qualifiedCardinality ?raw .
+        ?restriction owl:onDataRange ?onDataRange .
+        ?restriction owl:onProperty ?property .
+        FILTER isIRI(?onDataRange) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onDataRange } .
+        BIND (xsd:integer(?raw) AS ?count) .
+        BIND (BNODE() AS ?propertyShape) .
+        BIND (BNODE() AS ?valueShape) .
+      }
+      """ ;
+  sh:order 6 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+owl2sh-semi-closed:owlHasValue2shHasValue
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:hasValue restriction, create a corresponding sh:hasValue constraint." ;
+  rdfs:label "owl:hasValue to sh:hasValue" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:hasValue ?hasValue .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:onProperty ?property .
+        ?restriction owl:hasValue ?hasValue .
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+""" ;
+  sh:order 8 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+owl2sh-semi-closed:owlSomeValuesFrom2shMinCount1
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:someValuesFrom restriction, create a corresponding sh:minCount 1 constraint." ;
+  rdfs:label "owl:someValuesFrom to sh:minCount 1" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:minCount 1 .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        $this rdfs:subClassOf ?restriction .
+        ?restriction a owl:Restriction .
+        ?restriction owl:someValuesFrom ?someValuesFrom .
+        ?restriction owl:onProperty ?property .
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+""" ;
+  sh:order 4 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+owl2sh-semi-closed:owlSomeValuesFromAllValuesFrom2dashHasValueWithClass
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment """For each owl:someValuesFrom restriction combined with an owl:allValuesFrom on an IRI, create a corresponding dash:hasValueWithClass constraint using a path expression.
+
+For example:
+
+ex:ConstitutionalOwner
+  a owl:Class ;
+  rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty ex:isPlayedBy ;
+    owl:someValuesFrom [
+      a owl:Restriction ;
+      owl:allValuesFrom ex:StockholdersEquity ;
+      owl:onProperty ex:holdsEquityIn ;
+    ] ;
+  ] .
+
+becomes
+
+ex:ConstitutionalOwner
+  a sh:NodeShape ;
+  sh:property [
+    sh:path ( ex:isPlayedBy ex:holdsEquityIn ) ;
+    dash:hasValueWithClass ex:StockholdersEquity ;
+  ] .""" ;
+  rdfs:label "owl:someValuesFrom with IRI to dash:hasValueWithClass" ;
+  sh:construct """
+      CONSTRUCT {
+        $this sh:property ?propertyShape .
+        ?propertyShape dash:hasValueWithClass ?allValuesFrom .
+        ?propertyShape sh:path ?firstNode .
+        ?firstNode rdf:first ?property .
+        ?firstNode rdf:rest ?secondNode .
+        ?secondNode rdf:first ?allValuesFromProperty .
+        ?secondNode rdf:rest rdf:nil .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          {
+            $this rdfs:subClassOf ?restriction .
+            ?restriction a owl:Restriction .
+            FILTER isBlank(?restriction) .
+          }
+          ?restriction owl:someValuesFrom ?someValuesFrom .
+          ?someValuesFrom owl:allValuesFrom ?allValuesFrom .
+          FILTER isIRI(?allValuesFrom) .
+          FILTER (!(?allValuesFrom IN (xsd:boolean, xsd:string, xsd:date, xsd:dateTime, xsd:integer,xsd:integer, xsd:float, xsd:double, xsd:duration, xsd:anyURI))) .
+          FILTER isBlank(?someValuesFrom) .
+        }
+        ?restriction owl:onProperty ?property .
+        ?someValuesFrom owl:onProperty ?allValuesFromProperty .
+        BIND (BNODE() AS ?propertyShape) .
+        BIND (BNODE() AS ?firstNode) .
+        BIND (BNODE() AS ?secondNode) .
+      }
+""" ;
+  sh:order 7 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+owl2sh-semi-closed:owlUnionOfIRIs2rdfsSubClassOf
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:unionOf that only consists of named classes, move these classes into \"normal\" rdfs:subClassOf triples." ;
+  rdfs:label "owl:unionOf IRIs to rdfs:subClassOf" ;
+  sh:construct """
+      CONSTRUCT {
+        $this rdfs:subClassOf ?class .
+        # ?union owl2sh-semi-closed:mappedTo $this .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?union .
+          ?union owl:unionOf ?unionOf .
+          FILTER isBlank(?union) .
+        }
+        FILTER NOT EXISTS {
+          ?unionOf rdf:rest*/rdf:first ?member .
+          FILTER (!isIRI(?member)) .
+        } .
+        ?unionOf rdf:rest*/rdf:first ?class .
+      }
+""" ;
+  sh:order 4 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+owl2sh-semi-closed:owlSomeValuesFromIRI2dashHasValueWithClass
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:someValuesFrom restriction with an IRI, create a corresponding dash:hasValueWithClass constraint." ;
+  rdfs:label "owl:someValuesFrom with IRI to dash:hasValueWithClass" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape dash:hasValueWithClass ?someValuesFrom .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:someValuesFrom ?someValuesFrom .
+        ?restriction owl:onProperty ?property .
+        FILTER (isIRI(?someValuesFrom))
+        FILTER (!(?someValuesFrom IN (xsd:boolean, xsd:string, xsd:date, xsd:dateTime, xsd:integer,xsd:integer, xsd:float, xsd:double, xsd:duration, xsd:anyURI))) .
+        FILTER NOT EXISTS { ?property rdfs:range ?someValuesFrom } .
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+      }
+""" ;
+  sh:order 4 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+owl2sh-semi-closed:owlAllValuesFrom2shClassOrDatatype
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:allValuesFrom restriction, create a corresponding sh:class or sh:datatype constraint." ;
+  rdfs:label "owl:allValuesFrom with IRI to sh:class or sh:datatype" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape ?parameter ?allValuesFrom .
+        # ?restriction owl2sh-semi-closed:mappedTo ?propertyShape .
+      }
+      WHERE {
+        {
+          $this rdfs:subClassOf ?restriction .
+          ?restriction a owl:Restriction .
+          FILTER isBlank(?restriction) .
+        }
+        ?restriction owl:onProperty ?property .
+        ?restriction owl:allValuesFrom ?allValuesFrom .
+        FILTER isIRI(?allValuesFrom) .
+        BIND (owl2sh-semi-closed:getPropertyShape(?property, $this) AS ?propertyShape) .
+        BIND (
+          IF(
+            (?allValuesFrom IN (xsd:boolean, xsd:string, xsd:date, xsd:dateTime, xsd:integer,xsd:integer, xsd:float, xsd:double, xsd:duration, xsd:anyURI)),
+            sh:datatype,
+            sh:class
+          )
+          AS ?parameter
+        ) .
+      }
+""" ;
+  sh:order 4 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+owl2sh-semi-closed:rdfsDomain2shNodeShapeWithTargetSubjectOf
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each rdfs:domain that is an IRI, create a NodeShape with a sh:targetSubjectsOf to this domain and a sh:class constraint." ;
+  rdfs:label "rdfs:domain with IRI to sh:NodeShape with sh:class" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape a sh:NodeShape .
+        ?propertyShape sh:targetSubjectsOf ?property .
+        ?propertyShape sh:class ?domain .
+      }
+      WHERE {
+        ?property rdfs:domain ?domain .
+        FILTER (isIRI(?domain)) .
+
+        BIND(IRI(CONCAT(STR(?property), '-', 'shape')) AS ?propertyShape)
+      }
+      """ ;
+  sh:order 5 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+owl2sh-semi-closed:shPropertyShapeCleanUp
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each value of sh:property, add a rdf:type sh:PropertyShape triple." ;
+  rdfs:label "sh:property shape clean up" ;
+  sh:construct """CONSTRUCT {
+    ?propertyShape a sh:PropertyShape .
+}
+WHERE {
+    ?shape sh:property ?propertyShape .
+}""" ;
+  sh:order 100 ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+.
+
+
+# owl2sh-semi-closed:mappedTo
+#   rdf:type rdf:Property ;
+#  rdfs:comment "Associates an OWL/RDFS subject with one or more SHACL subjects that have been produced by the mapping rules. Statements that have been mapped to others can in principle be deleted. This is currently only used to flag blank nodes that appear in rdfs:subClassOf triples." ;
+#   rdfs:label "mapped to" ;
+# .
+
+
+owl2sh-semi-closed:getPropertyShape
+  rdf:type sh:SPARQLFunction ;
+  rdfs:comment "Gets an existing sh:PropertyShape for a given property at a given shape. If none is found, return a new blank node that will be reused by future calls." ;
+  rdfs:label "get property shape" ;
+  sh:parameter [
+      sh:path owl2sh-semi-closed:predicate ;
+      sh:class rdf:Property ;
+      sh:description "The predicate to match." ;
+    ] ;
+  sh:parameter [
+      sh:path owl2sh-semi-closed:shape ;
+      sh:class sh:Shape ;
+      sh:description "The shape hosting the constraint." ;
+    ] ;
+  sh:prefixes <http://data.sparna.fr/ontologies/owl2sh-semi-closed> ;
+  sh:returnType sh:PropertyShape ;
+  sh:select """
+    SELECT ?result
+    WHERE {
+      {
+        ?shape sh:property ?result .
+        ?result sh:path ?predicate .
+      }
+      UNION
+      {
+
+        BIND( 
+          IF(
+            CONTAINS(STR(?predicate), '#'),
+            STRAFTER(STR(?predicate), '#'),
+            REPLACE(REPLACE(STR(?predicate), '/', '_'), ':', '_')
+          )
+          AS ?propertyLocalName
+        )
+
+        BIND (
+          IF(isIRI($shape),
+            IRI(CONCAT(
+              STR($shape),
+              \"-\", 
+              ?propertyLocalName
+            )),
+            BNODE()
+          )
+        AS ?result) .
+      }
+    }
+    """ ;
+.
