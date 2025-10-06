@@ -852,29 +852,40 @@ obo1:OBI_0000295 rdf:type owl:ObjectProperty ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0000299
 obo1:OBI_0000299 rdf:type owl:ObjectProperty ;
+                 owl:equivalentProperty [ owl:inverseOf obo1:OBI_0000312
+                                        ] ;
                  rdfs:subPropertyOf obo1:RO_0000057 ;
                  owl:inverseOf obo1:OBI_0000312 ;
                  rdfs:domain obo1:OBI_0000011 ;
-                 obo1:IAO_0000111 "has specified output" ;
+                 obo1:IAO_0000111 "has specified output" ,
+                                  "has_specified_output" ,
+                                  "has_specified_output"@en ;
                  obo1:IAO_0000114 obo1:IAO_0000122 ;
-                 obo1:IAO_0000115 "The inverse property of is specified output of"@en ;
+                 obo1:IAO_0000115 "The inverse property of is specified output of"@en ,
+                                  "The inverse property of is_specified_output_of"@en ;
                  obo1:IAO_0000117 "PERSON: Alan Ruttenberg"@en ,
                                   "PERSON: Bjoern Peters" ,
                                   "PERSON: Larry Hunter" ,
                                   "PERSON: Melanie Courtot" ;
-                 rdfs:label "has specified output"@en .
+                 obo1:IAO_0000412 obo1:obi.owl ;
+                 rdfs:label "has specified output"@en ,
+                            "has_specified_output"@en .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000312
 obo1:OBI_0000312 rdf:type owl:ObjectProperty ;
                  rdfs:subPropertyOf obo1:RO_0000056 ;
                  rdfs:range obo1:OBI_0000011 ;
-                 obo1:IAO_0000111 "is specified output of" ;
+                 obo1:IAO_0000111 "is specified output of" ,
+                                  "is_specified_output_of" ,
+                                  "is_specified_output_of"@en ;
                  obo1:IAO_0000114 obo1:IAO_0000122 ;
                  obo1:IAO_0000115 "A relation between a planned process and a continuant participating in that process. The presence of the continuant at the end of the process is explicitly specified in the objective specification which the process realizes the concretization of."@en ;
                  obo1:IAO_0000117 "Alan Ruttenberg"@en ,
                                   "PERSON:Bjoern Peters" ;
-                 rdfs:label "is specified output of"@en .
+                 obo1:IAO_0000412 obo1:obi.owl ;
+                 rdfs:label "is specified output of"@en ,
+                            "is_specified_output_of"@en .
 
 
 ###  http://purl.obolibrary.org/obo/RO_0000052
@@ -1236,6 +1247,7 @@ obo1:IAO_0000004 rdf:type owl:DatatypeProperty ,
 
 ###  http://purl.obolibrary.org/obo/OBI_0001937
 obo1:OBI_0001937 rdf:type owl:DatatypeProperty ;
+                 rdfs:subPropertyOf obo1:OBI_0002135 ;
                  rdfs:domain obo1:OBI_0001933 ;
                  obo1:IAO_0000114 obo1:IAO_0000120 ;
                  obo1:IAO_0000115 "A relation between a value specification and a number that quantifies it."@en ;
@@ -1243,6 +1255,15 @@ obo1:OBI_0001937 rdf:type owl:DatatypeProperty ;
                  obo1:IAO_0000117 "PERSON: James A. Overton" ;
                  obo1:IAO_0000119 "OBI" ;
                  rdfs:label "has specified numeric value" .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0002135
+obo1:OBI_0002135 rdf:type owl:DatatypeProperty ;
+                 rdfs:domain obo1:OBI_0001933 ;
+                 obo1:IAO_0000115 "A relation between a value specification and a literal."@en ;
+                 obo1:IAO_0000116 "This is not an RDF/OWL object property. It is intended to link a value found in e.g. a database column of 'M' (the literal) to an instance of a value specification class, which can then be linked to indicate that this is about the biological gender of a human subject." ;
+                 obo1:IAO_0000119 "OBI" ;
+                 rdfs:label "has specified value"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000006
@@ -3507,6 +3528,23 @@ JAR: A data item is an approximately justified approximately true approximate be
                  rdfs:label "data item"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000028
+obo1:IAO_0000028 rdf:type owl:Class ;
+                 rdfs:subClassOf obo1:IAO_0000030 ;
+                 obo1:IAO_0000111 "symbol"@en ;
+                 obo1:IAO_0000112 "a serial number such as \"12324X\""@en ,
+                                  "a stop sign"@en ,
+                                  "a written proper name such as \"OBI\""@en ;
+                 obo1:IAO_0000114 obo1:IAO_0000125 ;
+                 obo1:IAO_0000115 "An information content entity that is a mark(s) or character(s) used as a conventional representation of another entity."@en ;
+                 obo1:IAO_0000116 "20091104, MC: this needs work and will most probably change"@en ,
+                                  "2014-03-31: We would like to have a deeper analysis of 'mark' and 'sign' in the future (see https://github.com/information-artifact-ontology/IAO/issues/154)."@en ;
+                 obo1:IAO_0000117 "PERSON: James A. Overton"@en ,
+                                  "PERSON: Jonathan Rees"@en ;
+                 obo1:IAO_0000119 "based on Oxford English Dictionary"@en ;
+                 rdfs:label "symbol"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0000030
 obo1:IAO_0000030 rdf:type owl:Class ;
                  rdfs:subClassOf obo1:BFO_0000031 ,
@@ -3682,6 +3720,41 @@ obo1:IAO_0000225 rdf:type owl:Class ;
                  rdfs:label "obsolescence reason specification"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000310
+obo1:IAO_0000310 rdf:type owl:Class ;
+                 rdfs:subClassOf obo1:IAO_0000030 ;
+                 obo1:IAO_0000111 "document"@en ;
+                 obo1:IAO_0000112 "A journal article, patent application, laboratory notebook, or a book"@en ;
+                 obo1:IAO_0000114 obo1:IAO_0000120 ;
+                 obo1:IAO_0000115 "A collection of information content entities intended to be understood together as a whole"@en ;
+                 obo1:IAO_0000117 "PERSON: Lawrence Hunter"@en ;
+                 rdfs:label "document"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000311
+obo1:IAO_0000311 rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( obo1:IAO_0000310
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty obo1:OBI_0000312 ;
+                                                              owl:allValuesFrom obo1:IAO_0000444
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf obo1:IAO_0000310 ;
+                 obo1:IAO_0000111 "publication"@en ;
+                 obo1:IAO_0000112 "journal article, newspaper story, book, etc."@en ;
+                 obo1:IAO_0000114 obo1:IAO_0000120 ;
+                 obo1:IAO_0000115 "A document that is the output of a publishing process."@en ;
+                 obo1:IAO_0000117 "PERSON: Chris Stoeckert"@en ,
+                                  "PERSON: Jie Zheng"@en ,
+                                  "PERSON: Lawrence Hunter"@en ;
+                 obo1:IAO_0000118 "published document"@en ;
+                 obo1:IAO_0000233 <https://github.com/information-artifact-ontology/IAO/issues/232> ;
+                 rdfs:comment "Revisit the term in Octorber 2020. Improve the defintion."@en ;
+                 rdfs:label "publication"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0000409
 obo1:IAO_0000409 rdf:type owl:Class ;
                  owl:equivalentClass [ rdf:type owl:Class ;
@@ -3720,6 +3793,18 @@ obo1:IAO_0000416 rdf:type owl:Class ;
                  rdfs:label "time measurement datum"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000444
+obo1:IAO_0000444 rdf:type owl:Class ;
+                 rdfs:subClassOf obo1:OBI_0000011 ;
+                 obo1:IAO_0000114 obo1:IAO_0000120 ;
+                 obo1:IAO_0000115 "A planned process of making information, such as literature, music, and software etc., available to the public for sale or for free."@en ;
+                 obo1:IAO_0000117 "Person: Jie Zheng"@en ;
+                 obo1:IAO_0000119 "https://en.wikipedia.org/wiki/Publishing" ;
+                 obo1:IAO_0000233 <https://github.com/information-artifact-ontology/IAO/issues/232> ;
+                 obo1:IAO_0000234 "VEuPathDB"@en ;
+                 rdfs:label "publishing process"@en .
+
+
 ###  http://purl.obolibrary.org/obo/NCBITaxon_9606
 obo1:NCBITaxon_9606 rdf:type owl:Class ;
                     owl:equivalentClass co:PMD_0000881 ;
@@ -3745,7 +3830,8 @@ obo1:OBI_0000011 rdf:type owl:Class ;
                                                         owl:someValuesFrom obo1:IAO_0000104
                                                       ]
                                  ] ;
-                 obo1:IAO_0000111 "planned process" ;
+                 obo1:IAO_0000111 "planned process" ,
+                                  "planned process"@en ;
                  obo1:IAO_0000112 "Injecting mice with a vaccine in order to test its efficacy" ;
                  obo1:IAO_0000114 obo1:IAO_0000122 ;
                  obo1:IAO_0000115 "A process that realizes a plan which is the concretization of a plan specification."@en ;
@@ -3756,6 +3842,7 @@ objectives is a planned process.""" ;
                  obo1:IAO_0000119 "branch derived" ;
                  obo1:IAO_0000232 "6/11/9: Edited at workshop. Used to include: is initiated by an agent" ,
                                   "This class merges the previously separated objective driven process and planned process, as they the separation proved hard to maintain. (1/22/09, branch call)"@en ;
+                 obo1:IAO_0000412 obo1:obi.owl ;
                  rdfs:label "planned process"@en .
 
 
@@ -6449,7 +6536,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid336 ;
+               owl:equivalentClass _:genid341 ;
                rdfs:subClassOf obo1:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo1:RO_0000087 ;
@@ -6461,7 +6548,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid336 owl:intersectionOf ( obo1:BFO_0000029
+_:genid341 owl:intersectionOf ( obo1:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo1:RO_0000087 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6472,7 +6559,7 @@ _:genid336 owl:intersectionOf ( obo1:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid336 ;
+   owl:annotatedTarget _:genid341 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
