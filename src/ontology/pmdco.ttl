@@ -17,7 +17,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-10-06/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-10-07/pmdco.ttl> ;
                                   dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
                                                       <https://orcid.org/0000-0002-3092-0532> ,
                                                       <https://orcid.org/0000-0003-0410-3616> ,
@@ -34,7 +34,7 @@
                                   dcterms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology Documentation: https://materialdigital.github.io/core-ontology/docs/"@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2025-10-06" .
+                                  owl:versionInfo "2025-10-07" .
 
 #################################################################
 #    Annotation properties
@@ -136,6 +136,11 @@ obo:_STAR rdf:type owl:AnnotationProperty ;
 ###  http://purl.org/dc/elements/1.1/contributor
 dce:contributor rdf:type owl:AnnotationProperty ;
                 rdfs:label "Contributor" .
+
+
+###  http://purl.org/dc/elements/1.1/creator
+dce:creator rdf:type owl:AnnotationProperty ;
+            rdfs:label "Creator" .
 
 
 ###  http://purl.org/dc/elements/1.1/description
@@ -888,6 +893,18 @@ obo1:OBI_0000312 rdf:type owl:ObjectProperty ;
                             "is_specified_output_of"@en .
 
 
+###  http://purl.obolibrary.org/obo/OBI_0001938
+obo1:OBI_0001938 rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf obo1:BFO_0000051 ;
+                 rdfs:domain obo1:IAO_0000030 ;
+                 rdfs:range obo1:OBI_0001933 ;
+                 obo1:IAO_0000114 obo1:IAO_0000120 ;
+                 obo1:IAO_0000115 "A relation between an information content entity and a value specification that specifies its value."@en ;
+                 obo1:IAO_0000117 "PERSON: James A. Overton" ;
+                 obo1:IAO_0000119 "OBI" ;
+                 rdfs:label "has value specification" .
+
+
 ###  http://purl.obolibrary.org/obo/RO_0000052
 obo1:RO_0000052 rdf:type owl:ObjectProperty ;
                 owl:inverseOf obo1:RO_0000053 ;
@@ -1192,14 +1209,6 @@ co:PMD_0020141 rdf:type owl:ObjectProperty ;
                skos:definition """Integral bearer of is a property chain linking an object or object aggregate O that consits of a portion of matter PM to a SDC Q that inheres in 'portions of matter' only:
 O -consists of-> PM -bearer of-> Q"""@en ;
                skos:example "Talking colloquially about Intensive thermodynamic properties of an object requires this property."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0060000
-co:PMD_0060000 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf obo1:BFO_0000051 ;
-               obo1:IAO_0000119 "http://purl.obolibrary.org/obo/OBI_0001938" ;
-               rdfs:label "has value specification"@en ;
-               skos:definition "A relation between an information content entity and a value specification that specifies its value." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0060001
@@ -3569,12 +3578,12 @@ Previous. An information content entity is a non-realizable information entity t
 obo1:IAO_0000032 rdf:type owl:Class ;
                  rdfs:subClassOf obo1:IAO_0000109 ,
                                  [ rdf:type owl:Restriction ;
-                                   owl:onProperty obo1:BFO_0000051 ;
-                                   owl:someValuesFrom obo1:OBI_0001931
-                                 ] ,
-                                 [ rdf:type owl:Restriction ;
                                    owl:onProperty obo1:IAO_0000039 ;
                                    owl:someValuesFrom owl:Thing
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0001938 ;
+                                   owl:someValuesFrom obo1:OBI_0001931
                                  ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo1:IAO_0000039 ;
@@ -3685,7 +3694,7 @@ Request that IAO either clarify these or change definitions not to use them"""@e
 obo1:IAO_0000109 rdf:type owl:Class ;
                  rdfs:subClassOf obo1:IAO_0000027 ,
                                  [ rdf:type owl:Restriction ;
-                                   owl:onProperty obo1:BFO_0000051 ;
+                                   owl:onProperty obo1:OBI_0001938 ;
                                    owl:someValuesFrom obo1:OBI_0001933
                                  ] ;
                  obo1:IAO_0000111 "measurement datum"@en ;
@@ -3803,6 +3812,66 @@ obo1:IAO_0000444 rdf:type owl:Class ;
                  obo1:IAO_0000233 <https://github.com/information-artifact-ontology/IAO/issues/232> ;
                  obo1:IAO_0000234 "VEuPathDB"@en ;
                  rdfs:label "publishing process"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0020000
+obo1:IAO_0020000 rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( obo1:IAO_0000030
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty obo1:IAO_0000219 ;
+                                                              owl:someValuesFrom obo1:BFO_0000001
+                                                            ]
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty obo1:OBI_0000312 ;
+                                                              owl:someValuesFrom obo1:IAO_0020010
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf obo1:IAO_0000030 ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:IAO_0000219 ;
+                                   owl:someValuesFrom obo1:BFO_0000001
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0000312 ;
+                                   owl:someValuesFrom obo1:IAO_0020010
+                                 ] ;
+                 obo1:IAO_0000111 "identifier"@en ;
+                 obo1:IAO_0000115 "An information content entity that is the outcome of a dubbing process and is used to refer to one instance of entity shared by a group of people to refer to that individual entity."@en ;
+                 obo1:IAO_0000117 "Justin Whorton"@en ,
+                                  "Mathias Brochhausen"@en ;
+                 obo1:IAO_0000118 "proper name"@en ;
+                 obo1:IAO_0000233 "https://github.com/information-artifact-ontology/IAO/issues/237"@en ;
+                 dce:creator "Mathias Brochhausen" ;
+                 rdfs:comment "Sep 29, 2016: The current definition has been amended from the previous version: \"A proper name is an information content entity that is the outcome of a dubbing process and is used to refer to one instance of entity shared by a group of people to refer to that individual entity.\" to more accuratly reflect the necessary and sufficient condition on the class. (MB)"@en ;
+                 rdfs:label "identifier"@en ;
+                 co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0020010
+obo1:IAO_0020010 rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( obo1:OBI_0000011
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty obo1:OBI_0000299 ;
+                                                              owl:someValuesFrom obo1:IAO_0020000
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf obo1:OBI_0000011 ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0000299 ;
+                                   owl:someValuesFrom obo1:IAO_0020000
+                                 ] ;
+                 obo1:IAO_0000115 "A planned process that provides a reference to an individual entity shared by a group of subscribers to refer to that individual entity."@en ;
+                 obo1:IAO_0000117 "Justin Whorton"@en ,
+                                  "Mathias Brochhausen"@en ;
+                 obo1:IAO_0000118 "dubbing process"@en ,
+                                  "naming"@en ;
+                 obo1:IAO_0000233 "https://github.com/information-artifact-ontology/IAO/issues/237"@en ;
+                 dce:creator "Mathias Brochhausen" ;
+                 rdfs:label "identifier creating process"@en .
 
 
 ###  http://purl.obolibrary.org/obo/NCBITaxon_9606
@@ -4223,15 +4292,6 @@ co:PMD_0000014 rdf:type owl:Class ;
                rdfs:isDefinedBy "http://purl.obolibrary.org/obo/OBI_0000260" ;
                rdfs:label "plan"@en ;
                skos:definition "A plan is a realizable entity that is the inheres in a bearer who is committed to realizing it as a planned process." ;
-               co:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0000017
-co:PMD_0000017 rdf:type owl:Class ;
-               rdfs:subClassOf obo1:IAO_0000030 ;
-               rdfs:isDefinedBy "http://purl.obolibrary.org/obo/IAO_0020000" ;
-               rdfs:label "identifier"@en ;
-               skos:definition "An information content entity that is the outcome of a dubbing process and is used to refer to one instance of entity shared by a group of people to refer to that individual entity." ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -6536,7 +6596,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid341 ;
+               owl:equivalentClass _:genid354 ;
                rdfs:subClassOf obo1:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo1:RO_0000087 ;
@@ -6548,7 +6608,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid341 owl:intersectionOf ( obo1:BFO_0000029
+_:genid354 owl:intersectionOf ( obo1:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo1:RO_0000087 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6559,7 +6619,7 @@ _:genid341 owl:intersectionOf ( obo1:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid341 ;
+   owl:annotatedTarget _:genid354 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
