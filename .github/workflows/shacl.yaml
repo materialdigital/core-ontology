@@ -40,7 +40,7 @@ jobs:
                    DATAFILE="${DIR}shape-data.ttl"
                     
                    echo "testing shape"
-                   java -jar robot.jar merge --collapse-import-closure false --input merged-pmdco.ttl --input "$DATAFILE" reason  --reasoner hermit --output shape-data-reasoned.ttl
+                   java -jar robot.jar merge --collapse-import-closure false --input merged-pmdco.ttl --input "$DATAFILE" reason  --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties ObjectPropertyCharacteristic SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" --output shape-data-reasoned.ttl
                    python3 -m pyshacl  -s "$SHAPEFILE" shape-data-reasoned.ttl
 
                    echo "testing autoshapes"
