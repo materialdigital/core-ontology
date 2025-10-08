@@ -36,50 +36,58 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `bfo:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
 - **Example Use Case**: Specifying certain moments of time when some industrial process started or ended. 
 
+```d2
+direction: up
 
-```mermaid
+classes: {
+  bfoclazz: {
+    style: {
+      fill: "#dd42f5"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  individual: {
+    style: {
+      fill: "lightgrey"
+    }
+  }
+}
+tbox.bfo*.class: bfoclazz
+tbox.label: ""
+tbox: {
+  "bfo:occurrent" -> "bfo:entity": "rdfs:subClassOf"
+  "bfo:continuant" -> "bfo:entity": "rdfs:subClassOf"
+  "bfo:process" -> "bfo:occurrent": "rdfs:subClassOf"
+  "bfo:temporal region" -> "bfo:occurrent": "rdfs:subClassOf"
+  "bfo:one dimensional t.r." -> "bfo:temporal region": "rdfs:subClassOf"
+  "bfo:two dimensional t.r." -> "bfo:temporal region": "rdfs:subClassOf"
+}
 
-stateDiagram
+tbox.style.stroke: transparent
+tbox.style.fill: transparent
 
+abox.ex*.class: individual
+abox.label: "___________________________________________________________________________"
+abox: {
+  "ex:process 1" -> "ex:period 1": "bfo:occupies_temporal_region"
+  "ex:process 1" -> "ex:period 2": "bfo:occupies_remporal_region"
+  "ex:period 2" -> "ex:start": "bfo:has_first_instant"
+  "ex:period 2" -> "ex:end": "bfo:has_last_instant"
+  "ex:period 1" -> "ex:period 2": "bfo:proper_temporal_part_of"
+  "ex:object 1" -> "ex:some time": "bfo:existsAt"
+}
+abox.style.stroke: transparent
+abox.style.fill: transparent
 
-  direction BT
-
-  classDef clazz fill:lightgrey,color:white
-  classDef ind font-size:small
-  
-  bfo_occurrent --> bfo_entity: subClassOf 
-  bfo_continuant --> bfo_entity: subClassOf 
-  bfo_process --> bfo_occurrent: subClassOf 
-  bfo_temporal_region --> bfo_occurrent: subClassOf 
-  bfo_one_dimensional --> bfo_temporal_region: subClassOf 
-  bfo_two_dimensional --> bfo_temporal_region: subClassOf 
-
-  class bfo_occurrent clazz  
-  class bfo_entity clazz
-  class bfo_continuant clazz
-  class bfo_process clazz
-  class bfo_temporal_region clazz
-  class bfo_one_dimensional clazz
-  class bfo_two_dimensional clazz
-
-
-   ex_proc_1 --> bfo_process: a
-   ex_period_1 --> bfo_one_dimensional: a
-   ex_period_2 --> bfo_one_dimensional: a
-   ex_proc_1 --> ex_period_1: bfo_occupies_temporal_region
-   ex_proc_1 --> ex_period_2: bfo_occupies_remporal_region
-   
-   ex_some_time --> bfo_temporal_region: a 
-   ex_cont_1 --> bfo_continuant: a
-   ex_cont_1 --> ex_some_time: bfo_existsAt
-
-   ex_start --> bfo_two_dimensional: a
-   ex_end --> bfo_two_dimensional: a
-   ex_period_2  --> ex_start: bfo_has_first_instant
-   ex_period_2  --> ex_end: bfo_has_last_instant
-   ex_period_1 --> ex_period_2: bfo_proper_temporal_part_of
-
-
+abox."ex:process " -> tbox."bfo:process": "rdf:type"
+abox."ex:period 1" -> tbox."bfo:one dimensional t.r.": "rdf:type"
+abox."ex:period 2" -> tbox."bfo:one dimensional t.r.": "rdf:type"
+abox."ex:some time" -> tbox."bfo:temporal region": "rdf:type"
+abox."ex:object 1" -> tbox."bfo:continuant": "rdf:type"
+abox."ex:start" -> tbox."bfo:two dimensional t.r.": "rdf:type"
+abox."ex:end" -> tbox."bfo:two dimensional t.r.": "rdf:type"
 
 ```
 
