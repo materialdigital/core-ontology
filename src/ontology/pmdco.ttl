@@ -17,7 +17,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-10-07/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-10-08/pmdco.ttl> ;
                                   dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
                                                       <https://orcid.org/0000-0002-3092-0532> ,
                                                       <https://orcid.org/0000-0003-0410-3616> ,
@@ -34,7 +34,7 @@
                                   dcterms:description "The PMD Core Ontology (PMDco) is a comprehensive framework for representing knowledge that encompasses fundamental concepts from the domains of materials science and engineering (MSE). The PMDco has been designed as a mid-level ontology to establish a connection between specific MSE application ontologies and the domain neutral concepts found in established top-level ontologies. The primary goal of the PMDco is to promote interoperability between diverse domains. PMDco's class structure is both understandable and extensible, making it an efficient tool for organizing MSE knowledge. It serves as a semantic intermediate layer that unifies MSE knowledge representations, enabling data and metadata to be systematically integrated on key terms within the MSE domain. With PMDco, it is possible to seamlessly trace data generation. By building on this foundation, PMDco facilitates the integration of data from various sources and the creation of complex workflows. In summary, PMDco is a valuable tool for researchers and practitioners in the MSE domains. It provides a common language for representing and sharing knowledge, allowing for efficient collaboration and promoting interoperability between diverse domains. Its design allows for the systematic integration of data and metadata, enabling seamless traceability of data generation. Overall, PMDco is a crucial step towards a unified and comprehensive understanding of the MSE domain. PMDco at GitHub: https://github.com/materialdigital/core-ontology Documentation: https://materialdigital.github.io/core-ontology/docs/"@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2025-10-07" .
+                                  owl:versionInfo "2025-10-08" .
 
 #################################################################
 #    Annotation properties
@@ -72,7 +72,14 @@ obo1:IAO_0000115 rdf:type owl:AnnotationProperty ;
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000116
-obo1:IAO_0000116 rdf:type owl:AnnotationProperty .
+obo1:IAO_0000116 rdf:type owl:AnnotationProperty ;
+                 obo1:IAO_0000111 "editor note"@en ;
+                 obo1:IAO_0000114 obo1:IAO_0000122 ;
+                 obo1:IAO_0000115 "An administrative note intended for its editor. It may not be included in the publication version of the ontology, so it should contain nothing necessary for end users to understand the ontology."@en ;
+                 obo1:IAO_0000117 "PERSON:Daniel Schober"@en ;
+                 obo1:IAO_0000119 "GROUP:OBI:<http://purl.obofoundry.org/obo/obi>"@en ;
+                 rdfs:isDefinedBy obo1:iao.owl ;
+                 rdfs:label "editor note"@en .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000117
@@ -1020,10 +1027,18 @@ obo1:RO_0000087 rdf:type owl:ObjectProperty ;
 ###  http://purl.obolibrary.org/obo/RO_0000091
 obo1:RO_0000091 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo1:RO_0000053 ;
+                owl:inverseOf obo1:RO_0000092 ;
                 rdfs:domain obo1:BFO_0000004 ;
                 rdfs:range obo1:BFO_0000016 ;
                 obo1:IAO_0000115 "a relation between an independent continuant (the bearer) and a disposition, in which the disposition specifically depends on the bearer for its existence"@en ;
                 rdfs:label "has disposition"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0000092
+obo1:RO_0000092 rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf obo1:RO_0000052 ;
+                obo1:IAO_0000115 "inverse of has disposition" ;
+                rdfs:label "disposition of"@en .
 
 
 ###  http://purl.obolibrary.org/obo/RO_0001025
