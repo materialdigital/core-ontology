@@ -1150,8 +1150,10 @@ co:PMD_0000004 rdf:type owl:ObjectProperty ;
 co:PMD_0000009 rdf:type owl:ObjectProperty ;
                rdfs:domain obo1:BFO_0000015 ;
                rdfs:range co:PMD_0000008 ;
-               rdfs:label "has process characteristic"@de ;
-               skos:definition "A relation between a process and a process characteristic that depends on it."@en .
+               rdfs:label "has process attribute"@de ;
+               rdfs:seeAlso "has process attribute from OEO https://openenergyplatform.org/ontology/oeo/OEO_00000500"@en ;
+               skos:definition "A relation between a process and a process attribute that depends on it."@en ;
+               skos:example "Tensile testing process has process attribute tensile rate"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001026
@@ -1243,6 +1245,21 @@ https://www.w3.org/TR/swbp-n-aryRelations/"""@en ;
                rdfs:label "intensive bearer of"@en ;
                skos:definition "Intensive bearer of is a chain that allows to connect objects to intensive properties through \"the matter they consist of\"."@en ;
                skos:example "This piece of metal intensive bearer of some temperature."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020127
+co:PMD_0020127 rdf:type owl:ObjectProperty ;
+               rdfs:domain co:PMD_0000008 ;
+               rdfs:range obo1:BFO_0000020 ;
+               rdfs:comment """Despite has characteristic from RO does not have any domain constraints, it is still not possible to directly connect an instance of a process with an instance of a SDC. 
+
+First, SDC is dependent on a IC. As RO does not have \"bearer of\" object property, the \"has characteristic\" implies that the domain should be an IC. 
+
+Second, characteristic of is a functional property. Thus, two triples SDC_1 characteristc of IC_1 and SDC_2  characteristc of Process_1 (where IC_1 participates in Process_1), cannot exist simultaneously. 
+An example of such case can be \"Temperature of during the annealing process was 1000°C\". Temperature is an SDC of some participant of the annealing, however it is not clear whether it is an SDC of an oven or of a sample in the oven. If we assert triple Annealing--> has characteristic --> Temperature 1000°C, then the correct triple connecting temperature SDC with either oven or specimen cannot exist."""@en ;
+               rdfs:label "refers to"@en ;
+               skos:definition "a relation between a process attribute and an SDC of some participant in a process"@en ;
+               skos:example "a relation to between a process attribute an a SDC of some participant in a process."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020141
@@ -4472,8 +4489,15 @@ co:PMD_0000007 rdf:type owl:Class ;
 co:PMD_0000008 rdf:type owl:Class ;
                rdfs:subClassOf obo1:BFO_0000003 ;
                obo1:IAO_0000116 "an attribute of a process" ;
-               rdfs:label "process characteristic"@en ;
-               skos:definition "A process characteristic is a dependent occurrent that existentially depends on a process."@en ;
+               rdfs:comment """Process attribute for a process has a similar application to specifically dependened continuant (SDC) for an independent continuant (IC). Furthermore, process attribute describes how SDCs of some participants, i.e., ICs, change in a process. 
+
+Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subclasses of this class."""@en ;
+               rdfs:label "process attribute"@en ;
+               rdfs:seeAlso "process attribute from OEO https://openenergyplatform.org/ontology/oeo/OEO_00030019"@en ;
+               owl:versionInfo "Renamed to avoid confusion with has characteristic object property"@en ;
+               skos:altLabel "process characteristic"@en ;
+               skos:definition "a process attribute is a dependent occurrent that existentially depends on a process."@en ;
+               skos:example "Tensile rate in a tensile testing process. Cooling rate in a quenching process"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
