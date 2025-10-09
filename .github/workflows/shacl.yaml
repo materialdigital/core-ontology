@@ -45,7 +45,7 @@ jobs:
                    echo " testing shape"
                    echo "   resoning"
 
-                   ## we have to seperate the commands, because robot seems not to do reasoning completely on multiple inputs
+                   ## we have to separate the commands, because robot seems not to do reasoning completely on multiple inputs
                    java -jar robot.jar --catalog catalog-v001.xml merge --input merged-pmdco.ttl --input "$DATAFILE" remove --select imports --output merged2.ttl
                    java -jar robot.jar reason --input merged2.ttl --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" --output shape-data-reasoned.ttl
                    
