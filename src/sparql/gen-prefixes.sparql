@@ -1,0 +1,18 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT "PREFIX" max(?prefix) ?iri ?c WHERE {
+    VALUES ?class { owl:Class owl:NamedIndividual owl:ObjectProperty owl:DatatypeProperty }
+	?x rdf:type ?class .
+	OPTIONAL {?x rdfs:label ?lab}
+	FILTER (!isBlank(?x))
+	FILTER (lang(?lab)="en")
+	BIND(CONCAT( REPLACE(  REPLACE(  ?lab   , "\\.","")   , " ", "_", "i"), ":") AS ?prefix) 
+	BIND(CONCAT( "<", CONCAT(str(?x), ">") ) AS ?iri)
+	BIND(REPLACE( str(?class), "http://www.w3.org/2002/07/owl", " " ) AS ?c)
+}
+GROUP BY ?iri ?c ORDER BY ?c ?prefix
+
+# robot --catalog ../ontology/catalog-v001.xml merge --input ../ontology/pmdco-edit.owl query --query gen-prefixes.sparql prefixes.csv
+# tail -n +2 prefixes.csv | sed s"/,/ /"g > prefixes.txt
