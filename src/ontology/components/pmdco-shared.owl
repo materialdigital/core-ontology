@@ -33,6 +33,7 @@ Declaration(ObjectProperty(obo:OBI_0001938))
 Declaration(ObjectProperty(:PMD_0000004))
 Declaration(ObjectProperty(:PMD_0000009))
 Declaration(ObjectProperty(:PMD_0001026))
+Declaration(ObjectProperty(:PMD_0020127))
 Declaration(ObjectProperty(:PMD_0060001))
 Declaration(ObjectProperty(:PMD_0060002))
 Declaration(ObjectProperty(:PMD_0060003))
@@ -90,10 +91,12 @@ SubObjectPropertyOf(obo:OBI_0001938 obo:BFO_0000051)
 AnnotationAssertion(rdfs:label :PMD_0000004 "is subject of"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000004 "Inverse of 'is about'."@en)
 
-# Object Property: :PMD_0000009 (has process characteristic)
+# Object Property: :PMD_0000009 (has process attribute)
 
-AnnotationAssertion(rdfs:label :PMD_0000009 "has process characteristic"@de)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000009 "A relation between a process and a process characteristic that depends on it."@en)
+AnnotationAssertion(rdfs:label :PMD_0000009 "has process attribute"@de)
+AnnotationAssertion(rdfs:seeAlso :PMD_0000009 "has process attribute from OEO https://openenergyplatform.org/ontology/oeo/OEO_00000500"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000009 "A relation between a process and a process attribute that depends on it."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0000009 "Tensile testing process has process attribute tensile rate"@en)
 ObjectPropertyDomain(:PMD_0000009 obo:BFO_0000015)
 ObjectPropertyRange(:PMD_0000009 :PMD_0000008)
 
@@ -105,6 +108,20 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_000102
 SubObjectPropertyOf(:PMD_0001026 :PMD_0000004)
 ObjectPropertyDomain(:PMD_0001026 obo:BFO_0000004)
 ObjectPropertyRange(:PMD_0001026 obo:IAO_0000030)
+
+# Object Property: :PMD_0020127 (refers to)
+
+AnnotationAssertion(rdfs:comment :PMD_0020127 "Despite has characteristic from RO does not have any domain constraints, it is still not possible to directly connect an instance of a process with an instance of a SDC. 
+
+First, SDC is dependent on a IC. As RO does not have \"bearer of\" object property, the \"has characteristic\" implies that the domain should be an IC. 
+
+Second, characteristic of is a functional property. Thus, two triples SDC_1 characteristc of IC_1 and SDC_2  characteristc of Process_1 (where IC_1 participates in Process_1), cannot exist simultaneously. 
+An example of such case can be \"Temperature of during the annealing process was 1000°C\". Temperature is an SDC of some participant of the annealing, however it is not clear whether it is an SDC of an oven or of a sample in the oven. If we assert triple Annealing--> has characteristic --> Temperature 1000°C, then the correct triple connecting temperature SDC with either oven or specimen cannot exist."@en)
+AnnotationAssertion(rdfs:label :PMD_0020127 "refers to"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020127 "a relation between a process attribute and an SDC of some participant in a process"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020127 "a relation to between a process attribute an a SDC of some participant in a process."@en)
+ObjectPropertyDomain(:PMD_0020127 :PMD_0000008)
+ObjectPropertyRange(:PMD_0020127 obo:BFO_0000020)
 
 # Object Property: :PMD_0060001 (specifies value of)
 
@@ -161,11 +178,16 @@ AnnotationAssertion(rdfs:label :PMD_0000007 "vector field specification"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000007 "a value specifcation that represents an assignment of a vector to each point in a discretized spacial region"@en)
 SubClassOf(:PMD_0000007 obo:OBI_0001933)
 
-# Class: :PMD_0000008 (process characteristic)
+# Class: :PMD_0000008 (process attribute)
 
 AnnotationAssertion(obo:IAO_0000116 :PMD_0000008 "an attribute of a process")
-AnnotationAssertion(rdfs:label :PMD_0000008 "process characteristic"@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000008 "A process characteristic is a dependent occurrent that existentially depends on a process."@en)
+AnnotationAssertion(rdfs:comment :PMD_0000008 "Process attribute for a process has a similar application to specifically dependened continuant (SDC) for an independent continuant (IC). Furthermore, process attribute describes how SDCs of some participants, i.e., ICs, change in a process"@en)
+AnnotationAssertion(rdfs:label :PMD_0000008 "process attribute"@en)
+AnnotationAssertion(rdfs:seeAlso :PMD_0000008 "process attribute from OEO https://openenergyplatform.org/ontology/oeo/OEO_00030019"@en)
+AnnotationAssertion(owl:versionInfo :PMD_0000008 "Renamed to avoid confusion with has characteristic object property"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#altLabel> :PMD_0000008 "process characteristic"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000008 "a process attribute is a dependent occurrent that existentially depends on a process."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0000008 "Tensile rate in a tensile testing process. Cooling rate in a quenching process"@en)
 AnnotationAssertion(:PMD_0000060 :PMD_0000008 "true"^^xsd:boolean)
 SubClassOf(:PMD_0000008 obo:BFO_0000003)
 
