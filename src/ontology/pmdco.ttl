@@ -284,6 +284,14 @@ co:PMD_0050117 rdf:type owl:AnnotationProperty ;
 
 
 #################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2000/01/rdf-schema#Literal
+rdfs:Literal rdf:type rdfs:Datatype .
+
+
+#################################################################
 #    Object Properties
 #################################################################
 
@@ -900,6 +908,32 @@ obo1:OBI_0000312 rdf:type owl:ObjectProperty ;
                             "is_specified_output_of"@en .
 
 
+###  http://purl.obolibrary.org/obo/OBI_0000417
+obo1:OBI_0000417 rdf:type owl:ObjectProperty ;
+                 owl:inverseOf obo1:OBI_0000833 ;
+                 rdfs:domain obo1:OBI_0000011 ;
+                 rdfs:range obo1:IAO_0000005 ;
+                 obo1:IAO_0000111 "achieves_planned_objective" ;
+                 obo1:IAO_0000112 "A cell sorting process achieves the objective specification 'material separation objective'" ;
+                 obo1:IAO_0000115 "This relation obtains between a planned process and a objective specification when the criteria specified in the objective specification are met at the end of the planned process."@en ;
+                 obo1:IAO_0000117 "BP, AR, PPPB branch" ;
+                 obo1:IAO_0000119 "PPPB branch derived" ;
+                 obo1:IAO_0000232 "modified according to email thread from 1/23/09 in accordince with DT and PPPB branch" ;
+                 rdfs:label "achieves_planned_objective" .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0000833
+obo1:OBI_0000833 rdf:type owl:ObjectProperty ;
+                 rdfs:domain obo1:IAO_0000005 ;
+                 rdfs:range obo1:OBI_0000011 ;
+                 obo1:IAO_0000111 "objective_achieved_by" ;
+                 obo1:IAO_0000114 obo1:IAO_0000122 ;
+                 obo1:IAO_0000115 "This relation obtains between an objective specification and a planned process when the criteria specified in the objective specification are met at the end of the planned process."@en ;
+                 obo1:IAO_0000117 "OBI" ;
+                 obo1:IAO_0000119 "OBI" ;
+                 rdfs:label "objective_achieved_by" .
+
+
 ###  http://purl.obolibrary.org/obo/OBI_0001938
 obo1:OBI_0001938 rdf:type owl:ObjectProperty ;
                  rdfs:subPropertyOf obo1:BFO_0000051 ;
@@ -1272,6 +1306,7 @@ obo1:IAO_0000004 rdf:type owl:DatatypeProperty ,
 obo1:OBI_0001937 rdf:type owl:DatatypeProperty ;
                  rdfs:subPropertyOf obo1:OBI_0002135 ;
                  rdfs:domain obo1:OBI_0001933 ;
+                 rdfs:range owl:real ;
                  obo1:IAO_0000114 obo1:IAO_0000120 ;
                  obo1:IAO_0000115 "A relation between a value specification and a number that quantifies it."@en ;
                  obo1:IAO_0000116 "A range of 'real' might be better than 'float'. For now we follow 'has measurement value' until we can consider technical issues with SPARQL queries and reasoning." ;
@@ -3917,6 +3952,21 @@ objectives is a planned process.""" ;
                  rdfs:label "planned process"@en .
 
 
+###  http://purl.obolibrary.org/obo/OBI_0000047
+obo1:OBI_0000047 rdf:type owl:Class ;
+                 rdfs:subClassOf obo1:BFO_0000040 ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0000312 ;
+                                   owl:someValuesFrom obo1:OBI_0000011
+                                 ] ;
+                 obo1:IAO_0000111 "processed material"@en ;
+                 obo1:IAO_0000112 "Examples include gel matrices, filter paper, parafilm and buffer solutions, mass spectrometer, tissue samples"@en ;
+                 obo1:IAO_0000114 obo1:IAO_0000122 ;
+                 obo1:IAO_0000115 "Is a material entity that is created or changed during material processing."@en ;
+                 obo1:IAO_0000117 "PERSON: Alan Ruttenberg"@en ;
+                 rdfs:label "processed material"@en .
+
+
 ###  http://purl.obolibrary.org/obo/OBI_0000067
 obo1:OBI_0000067 rdf:type owl:Class ;
                  rdfs:subClassOf obo1:BFO_0000023 ,
@@ -3942,6 +3992,10 @@ obo1:OBI_0000067 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0000070
 obo1:OBI_0000070 rdf:type owl:Class ;
+                 owl:equivalentClass [ rdf:type owl:Restriction ;
+                                       owl:onProperty obo1:OBI_0000417 ;
+                                       owl:someValuesFrom obo1:OBI_0000441
+                                     ] ;
                  rdfs:subClassOf obo1:OBI_0000011 ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo1:BFO_0000055 ;
@@ -3975,6 +4029,10 @@ obo1:OBI_0000070 rdf:type owl:Class ;
                                                                            ) ;
                                                         rdf:type owl:Class
                                                       ]
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0000417 ;
+                                   owl:someValuesFrom obo1:OBI_0000441
                                  ] ;
                  obo1:IAO_0000111 "assay"@en ;
                  obo1:IAO_0000112 "Assay the wavelength of light emitted by excited Neon atoms. Count of geese flying over a house." ;
@@ -3994,7 +4052,14 @@ obo1:OBI_0000112 rdf:type owl:Class ;
                  rdfs:subClassOf obo1:BFO_0000023 ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo1:RO_0000052 ;
-                                   owl:someValuesFrom obo1:BFO_0000040
+                                   owl:someValuesFrom [ owl:intersectionOf ( obo1:BFO_0000040
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo1:OBI_0000312 ;
+                                                                               owl:someValuesFrom obo1:OBI_0000659
+                                                                             ]
+                                                                           ) ;
+                                                        rdf:type owl:Class
+                                                      ]
                                  ] ;
                  obo1:IAO_0000111 "specimen role" ;
                  obo1:IAO_0000112 "liver section; a portion of a culture of cells; a nemotode or other animal once no longer a subject (generally killed); portion of blood from a patient." ;
@@ -4070,6 +4135,63 @@ obo1:OBI_0000379 rdf:type owl:Class ;
                  rdfs:label "mechanical function"@en .
 
 
+###  http://purl.obolibrary.org/obo/OBI_0000441
+obo1:OBI_0000441 rdf:type owl:Class ;
+                 rdfs:subClassOf obo1:IAO_0000005 ;
+                 obo1:IAO_0000111 "assay objective" ;
+                 obo1:IAO_0000112 "the objective to determine the weight of a mouse." ;
+                 obo1:IAO_0000114 obo1:IAO_0000122 ;
+                 obo1:IAO_0000115 "an objective specification to determine a specified type of information about an evaluated entity (the material entity bearing evaluant role)"@en ;
+                 obo1:IAO_0000117 "PPPB branch" ;
+                 obo1:IAO_0000119 "PPPB branch" ;
+                 rdfs:label "assay objective"@en .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0000457
+obo1:OBI_0000457 rdf:type owl:Class ;
+                 owl:equivalentClass [ rdf:type owl:Restriction ;
+                                       owl:onProperty obo1:OBI_0000417 ;
+                                       owl:someValuesFrom obo1:OBI_0000458
+                                     ] ;
+                 rdfs:subClassOf co:PMD_0000833 ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0000299 ;
+                                   owl:someValuesFrom obo1:OBI_0000047
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0000417 ;
+                                   owl:someValuesFrom obo1:OBI_0000458
+                                 ] ;
+                 obo1:IAO_0000111 "manufacturing" ;
+                 obo1:IAO_0000114 obo1:IAO_0000122 ;
+                 obo1:IAO_0000115 "A planned process with the objective to produce a processed material which will have a function for future use."@en ;
+                 obo1:IAO_0000116 "A person or organization (having manufacturer role) is a participant in this process" ,
+                                  "Manufacturing implies reproducibility and responsibility AR" ,
+                                  "This includes a single scientist making a processed material for personal use."@en ;
+                 obo1:IAO_0000117 "PERSON: Bjoern Peters" ,
+                                  "PERSON: Frank Gibson" ,
+                                  "PERSON: Jennifer Fostel" ,
+                                  "PERSON: Melanie Courtot" ,
+                                  "PERSON: Philippe Rocca-Serra" ;
+                 obo1:IAO_0000119 "GROUP: OBI PlanAndPlannedProcess Branch" ;
+                 rdfs:label "manufacturing"@en .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0000458
+obo1:OBI_0000458 rdf:type owl:Class ;
+                 rdfs:subClassOf obo1:IAO_0000005 ;
+                 obo1:IAO_0000111 "manufacturing objective" ;
+                 obo1:IAO_0000114 obo1:IAO_0000122 ;
+                 obo1:IAO_0000115 "is the objective to manufacture a material of a certain function (device)"@en ;
+                 obo1:IAO_0000117 "PERSON: Bjoern Peters" ,
+                                  "PERSON: Frank Gibson" ,
+                                  "PERSON: Jennifer Fostel" ,
+                                  "PERSON: Melanie Courtot" ,
+                                  "PERSON: Philippe Rocca-Serra" ;
+                 obo1:IAO_0000119 "GROUP: OBI PlanAndPlannedProcess Branch" ;
+                 rdfs:label "manufacturing objective"@en .
+
+
 ###  http://purl.obolibrary.org/obo/OBI_0000571
 obo1:OBI_0000571 rdf:type owl:Class ;
                  rdfs:subClassOf obo1:BFO_0000023 ,
@@ -4080,6 +4202,10 @@ obo1:OBI_0000571 rdf:type owl:Class ;
                                                                       obo1:OBI_0000245
                                                                     )
                                                       ]
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:BFO_0000054 ;
+                                   owl:allValuesFrom obo1:OBI_0000457
                                  ] ;
                  obo1:IAO_0000111 "manufacturer role" ;
                  obo1:IAO_0000112 "With respect to The Accuri C6 Flow Cytometer System, the organization Accuri bears the role manufacturer role.  With respect to a transformed line of tissue culture cells derived by a specific lab, the lab whose personnel isolated the cll line bears the role manufacturer role.  With respect to a specific antibody produced by an individual scientist, the scientist who purifies, characterizes and distributes the anitbody bears the role manufacturer role." ;
@@ -4088,6 +4214,53 @@ obo1:OBI_0000571 rdf:type owl:Class ;
                  obo1:IAO_0000117 "GROUP:  Role Branch" ;
                  obo1:IAO_0000119 "OBI" ;
                  rdfs:label "manufacturer role" .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0000659
+obo1:OBI_0000659 rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( obo1:OBI_0000011
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty obo1:OBI_0000417 ;
+                                                              owl:someValuesFrom obo1:OBI_0000684
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf co:PMD_0000833 ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0000299 ;
+                                   owl:someValuesFrom obo1:OBI_0100051
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0000417 ;
+                                   owl:someValuesFrom obo1:OBI_0000684
+                                 ] ;
+                 obo1:IAO_0000112 "drawing blood from a patient for analysis, collecting a piece of a plant for depositing in a herbarium, buying meat from a butcher in order to measure its protein content in an investigation, collecting a stone from a site" ;
+                 obo1:IAO_0000114 obo1:IAO_0000122 ;
+                 obo1:IAO_0000115 "A planned process with the objective to obtain a material entity for potential use as an input upon which measurements or observations are performed."@en ;
+                 obo1:IAO_0000116 "Definition updated following discussion on 2024-10-07 OBI dev call." ,
+                                  "Note: definition is in specimen creation objective which is defined as an objective to obtain and store a material entity for potential use as an input during an investigation." ,
+                                  "Philly2013: A specimen collection can have as part a material entity acquisition, such as ordering from a bank. The distinction is that specimen collection necessarily involves the creation of a specimen role. However ordering cell lines cells from ATCC for use in an investigation is NOT a specimen collection, because the cell lines already have a specimen role." ,
+                                  "Philly2013: The specimen_role for the specimen is created during the specimen collection process." ,
+                                  """label  changed to 'specimen collection process' on 10/27/2014, details see tracker:
+http://sourceforge.net/p/obi/obi-terms/716/""" ;
+                 obo1:IAO_0000117 "Bjoern Peters" ;
+                 obo1:IAO_0000118 "specimen collection" ;
+                 obo1:IAO_0000232 "5/31/2012: This process is not necessarily an acquisition, as specimens may be collected from materials already in posession" ,
+                                  "6/9/09: used at workshop" ;
+                 rdfs:label "specimen collection process" .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0000684
+obo1:OBI_0000684 rdf:type owl:Class ;
+                 rdfs:subClassOf obo1:IAO_0000005 ;
+                 obo1:IAO_0000112 "The objective to collect bits of excrement in the rainforest. The objective to obtain a blood sample from a patient." ;
+                 obo1:IAO_0000114 obo1:IAO_0000122 ;
+                 obo1:IAO_0000115 "A objective specification that is fulfilled by obtaining a material entity for potential use as an input upon which measurements or observations are performed."@en ;
+                 obo1:IAO_0000116 "OBI recommends against subclassing this term in order to avoid further parallel hierarchies between this term and specimen collection process."@en ;
+                 obo1:IAO_0000117 "Bjoern Peters" ;
+                 obo1:IAO_0000119 "Bjoern Peters" ;
+                 rdfs:label "specimen collection objective" .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000835
@@ -4126,7 +4299,19 @@ obo1:OBI_0001930 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0001931
 obo1:OBI_0001931 rdf:type owl:Class ;
-                 rdfs:subClassOf obo1:OBI_0001933 ;
+                 rdfs:subClassOf obo1:OBI_0001933 ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:IAO_0000039 ;
+                                   owl:someValuesFrom owl:Thing
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:IAO_0000039 ;
+                                   owl:minCardinality "1"^^xsd:nonNegativeInteger
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty obo1:OBI_0001937 ;
+                                   owl:minCardinality "1"^^xsd:nonNegativeInteger
+                                 ] ;
                  obo1:IAO_0000114 obo1:IAO_0000123 ;
                  obo1:IAO_0000115 "A value specification that consists of two parts: a numeral and a unit label"@en ;
                  obo1:IAO_0000117 "PERSON:Bjoern Peters" ;
@@ -4176,6 +4361,10 @@ obo1:UO_0000003 rdf:type owl:Class ;
                 obo1:IAO_0000111 "time unit" ;
                 obo1:IAO_0000412 obo1:uo.owl ;
                 rdfs:label "time unit" .
+
+
+###  http://www.w3.org/2002/07/owl#Thing
+owl:Thing rdf:type owl:Class .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000000
@@ -6598,7 +6787,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid351 ;
+               owl:equivalentClass _:genid371 ;
                rdfs:subClassOf obo1:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo1:RO_0000087 ;
@@ -6610,7 +6799,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid351 owl:intersectionOf ( obo1:BFO_0000029
+_:genid371 owl:intersectionOf ( obo1:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo1:RO_0000087 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -6621,7 +6810,7 @@ _:genid351 owl:intersectionOf ( obo1:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid351 ;
+   owl:annotatedTarget _:genid371 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
