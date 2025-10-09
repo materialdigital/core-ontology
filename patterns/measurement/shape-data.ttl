@@ -6,6 +6,29 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <https://w3id.org/pmd/co/test/shape3#> .
 
+@prefix assay:    <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
+@prefix realized_id: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> . 
+@prefix quality_is_specified_as: <http://purl.obolibrary.org/obo/IAO_0000419> . 
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> . 
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> . 
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039>  .
+@prefix centimeter: <http://purl.obolibrary.org/obo/UO_0000015> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix scalar_measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000032> .
+@prefix is_quality_measurement_of: <http://purl.obolibrary.org/obo/IAO_0000221> . 
+@prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . 
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+
+
 <https://w3id.org/pmd/co/test/shape3> rdf:type owl:Ontology ;
                                        owl:versionIRI <https://w3id.org/pmd/co/test/shape3/3.0.0>  .
 
@@ -15,16 +38,17 @@
 
 ###  https://w3id.org/pmd/co/test/shape3/my_assay
 <https://w3id.org/pmd/co/test/shape3/my_assay> rdf:type owl:NamedIndividual ,
-                                                        <http://purl.obolibrary.org/obo/OBI_0000070> ;
-                                               <http://purl.obolibrary.org/obo/BFO_0000055> <https://w3id.org/pmd/co/test/shape3/my_entities_evaluant_role> ;
-                                               <http://purl.obolibrary.org/obo/OBI_0000293> <https://w3id.org/pmd/co/test/shape3/my_evaluated_entity> ;
-                                               <http://purl.obolibrary.org/obo/OBI_0000299> <https://w3id.org/pmd/co/test/shape3/my_qualities_measurement_datum> .
+                                               assay: ;
+                                               realizes: <https://w3id.org/pmd/co/test/shape3/my_entities_evaluant_role> ;
+                                               has_specified_input: <https://w3id.org/pmd/co/test/shape3/my_evaluated_entity> ;
+                                               has_specified_output: <https://w3id.org/pmd/co/test/shape3/my_qualities_measurement_datum> ;
+                                               achieves_planned_objective: <https://w3id.org/pmd/co/test/shape3/my_objective> .
 
 
 ###  https://w3id.org/pmd/co/test/shape3/my_entities_evaluant_role
 <https://w3id.org/pmd/co/test/shape3/my_entities_evaluant_role> rdf:type owl:NamedIndividual ,
-                                                                         <http://purl.obolibrary.org/obo/OBI_0000067> ;
-                                                                <http://purl.obolibrary.org/obo/BFO_0000054> <https://w3id.org/pmd/co/test/shape3/my_assay> .
+                                                                         evaluant_role: ;
+                                                                realized_id: <https://w3id.org/pmd/co/test/shape3/my_assay> .
 
 
 ###  https://w3id.org/pmd/co/test/shape3/my_entities_preexising_quality
@@ -34,32 +58,32 @@
 
 ###  https://w3id.org/pmd/co/test/shape3/my_entities_quality
 <https://w3id.org/pmd/co/test/shape3/my_entities_quality> rdf:type owl:NamedIndividual ,
-                                                                   <http://purl.obolibrary.org/obo/BFO_0000019> ;
-                                                          <http://purl.obolibrary.org/obo/IAO_0000419> <https://w3id.org/pmd/co/test/shape3/my_qualities_measurement_datum> .
+                                                                  quality: ;
+                                                          quality_is_specified_as: <https://w3id.org/pmd/co/test/shape3/my_qualities_measurement_datum> .
 
 
 ###  https://w3id.org/pmd/co/test/shape3/my_evaluated_entity
 <https://w3id.org/pmd/co/test/shape3/my_evaluated_entity> rdf:type owl:NamedIndividual ,
-                                                                   <http://purl.obolibrary.org/obo/BFO_0000040> ;
-                                                          <http://purl.obolibrary.org/obo/RO_0000086> <https://w3id.org/pmd/co/test/shape3/my_entities_preexising_quality> ,
+                                                                   material_entity: ;
+                                                          has_quality: <https://w3id.org/pmd/co/test/shape3/my_entities_preexising_quality> ,
                                                                                                       <https://w3id.org/pmd/co/test/shape3/my_entities_quality> ;
-                                                          <http://purl.obolibrary.org/obo/RO_0000087> <https://w3id.org/pmd/co/test/shape3/my_entities_evaluant_role> .
+                                                          has_role: <https://w3id.org/pmd/co/test/shape3/my_entities_evaluant_role> .
 
 
 ###  https://w3id.org/pmd/co/test/shape3/my_measurment_datums_value_specification
 <https://w3id.org/pmd/co/test/shape3/my_measurment_datums_value_specification> rdf:type owl:NamedIndividual ;
-                                                                               <http://purl.obolibrary.org/obo/IAO_0000039> <http://purl.obolibrary.org/obo/UO_0000015> ;
-                                                                               <http://purl.obolibrary.org/obo/IAO_0000136> <https://w3id.org/pmd/co/test/shape3/my_evaluated_entity> ;
-                                                                               <http://purl.obolibrary.org/obo/OBI_0001927> <https://w3id.org/pmd/co/test/shape3/my_entities_quality> ;
-                                                                               <http://purl.obolibrary.org/obo/OBI_0001937> 1.0 .
+                                                                               has_measurement_unit_label: centimeter: ;
+                                                                               is_about: <https://w3id.org/pmd/co/test/shape3/my_evaluated_entity> ;
+                                                                               specifies_value_of: <https://w3id.org/pmd/co/test/shape3/my_entities_quality> ;
+                                                                               has_specified_numeric_value: "1.0"xsd:real .
 
 
 ###  https://w3id.org/pmd/co/test/shape3/my_qualities_measurement_datum
 <https://w3id.org/pmd/co/test/shape3/my_qualities_measurement_datum> rdf:type owl:NamedIndividual ,
-                                                                              <http://purl.obolibrary.org/obo/IAO_0000032> ;
-                                                                     <http://purl.obolibrary.org/obo/IAO_0000136> <https://w3id.org/pmd/co/test/shape3/my_evaluated_entity> ;
-                                                                     <http://purl.obolibrary.org/obo/IAO_0000221> <https://w3id.org/pmd/co/test/shape3/my_entities_quality> ;
-                                                                     <http://purl.obolibrary.org/obo/OBI_0001938> <https://w3id.org/pmd/co/test/shape3/my_measurment_datums_value_specification> .
+                                                                              scalar_measurement_datum: ;
+                                                                     is_about: <https://w3id.org/pmd/co/test/shape3/my_evaluated_entity> ;
+                                                                     is_quality_measurement_of: <https://w3id.org/pmd/co/test/shape3/my_entities_quality> ;
+                                                                     has_value_specification: <https://w3id.org/pmd/co/test/shape3/my_measurment_datums_value_specification> .
 
 
 ###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
