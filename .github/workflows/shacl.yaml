@@ -42,29 +42,32 @@ jobs:
                    SHAPEFILE="${DIR}shape.ttl"
                    DATAFILE="${DIR}shape-data.ttl"
                     
-                   echo "testing shape"
+                   echo " testing shape"
+                   echo "   resoning"
                    java -jar robot.jar --catalog catalog-v001.xml merge --input merged-pmdco.ttl --input "$DATAFILE" remove --select imports reason  --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties ObjectPropertyCharacteristic SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" --output shape-data-reasoned.ttl
+                   echo "   testing"
                    python3 -m pyshacl  -s "$SHAPEFILE" shape-data-reasoned.ttl
 
-                   echo "testing autoshapes"
+                   echo "   testing autoshapes"
                    # test with autoshapes
                    python3 -m pyshacl  -s main/patterns/autoshape/auto-shapes-open.ttl shape-data-reasoned.ttl
 
-                   echo "testing missing IRIs"
+                   echo "   testing missing IRIs"
                    # test that all classes in the a-box are present in PMDco ontology
                    java -jar robot.jar export --input "$DATAFILE" --header "IRI" --include "classes properties" --export ids.txt
                    #echo "testing missing IRIs 2"
                    tail -n +2 ids.txt > ids2.txt
-                   echo "iris in a-box"
-                   cat ids2.txt
+                   #echo "iris in a-box"
+                   #cat ids2.txt
                    #echo "testing missing IRIs 3"
                    grep -Fof ids2.txt merged-pmdco.ttl  | sort -u | grep  -Fvf - ids2.txt > missing.txt || :
                    #echo "testing missing IRIs 4"
-                   echo "missing iris"
-                   cat missing.txt
+                   #echo "missing iris"
+                   #cat missing.txt
                    #echo "testing missing IRIs 5"
                    if [ -s missing.txt ]; then
                       echo "Found the listed IRIs in the a-box, but they are not present in PMDco:"
+                      cat missing.txt
                       exit 1
                    fi
                fi
