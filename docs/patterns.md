@@ -359,7 +359,6 @@ ex:object3 a object:
 - **Example Use Case**: Specifying the role of a specimen of a material object that participates a process as input. 
   
 ```d2
-
 direction: up
 
 classes: {
@@ -399,22 +398,28 @@ obi*.class: obiclazz
 ex*.class: individual
 
 "ex:process 1" -> "ex:object 1": "obi:has_specified_input"
+"ex:process 1" -> "ex:result 1": "obi:has_specified_output"
+"ex:process 1" -> "ex:objective 1": "achieves_planned_objective"
 
-"ex:process 1" -> "pmd:fatigue testing process: ": "rdf:type"
+"ex:objective 1" -> "ex:object 1": "iao:is about"
+"ex:result 1" -> "ex:object 1": "iao:is about"
+"ex:process 1" -> "pmd:fatigue testing process": "rdf:type"
 "pmd:fatigue testing process: " -> "obi:planned process": "owl:subClassOf"
 "obi:planned process" -> "bfo:process": "owl:subClassOf"
 
 "ex:object 1" -> "bfo:object": "rdf:type"
 "ex:object 1" -> "ex:role 1": "ro:has role"
-"ex:role 1" -> "pmd:specimen role": "rdf:type"
+"ex:role 1" -> "obi:evaluant role": "rdf:type"
 "ex:role 1" -> "ex:process 1": "bfo:has realization"
 
-"bfo:object": {
-  near: center-left
-}
+# "bfo:object": {
+#  near: center-left
+# }
+
 
 ```
 ```
+
 
 @prefix : <https://w3id.org/pmd/co/test#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -426,22 +431,30 @@ ex*.class: individual
 @base <https://w3id.org/pmd/co/test> .
 
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
-@prefix specimen_role: <http://purl.obolibrary.org/obo/OBI_0000112> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
 @prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
 @prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
 @prefix planned_process: <http://purl.obolibrary.org/obo/OBI_0000011> .
 @prefix fatigue_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
 @prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136>  .
 
 <https://w3id.org/pmd/co/test/role> rdf:type owl:Ontology  .
 
 ex:process_1 a fatigue_testing_process: .
 ex:process_1 has_specified_input: ex:object_1 .
+ex:process_1 achieves_planned_objective: ex:objective_1 .
+ex:process_1 has_specified_output: ex:result_1 .
+
+ex:objective_1 is_about: ex:object_1 .
+ex:result_1  is_about: ex:object_1 .
 
 ex:object_1 a object: .
 ex:object_1 has_role: ex:role_1 .
 
-ex:role_1  a specimen_role: .
+ex:role_1 a evaluant_role: .
 ex:role_1 has_realization: ex:process_1  .
 
 
@@ -449,7 +462,7 @@ ex:role_1 has_realization: ex:process_1  .
 
 ---
 
-### Pattern 5 - Qualities
+### Pattern 5 - Realizable Entities (Qualities)
 
 - **Purpose**: Represent inherent characteristics of the objects, having certain scalar values at moments/periods of time.
 - **Core Properties**: 
