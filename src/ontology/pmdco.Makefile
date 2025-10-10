@@ -51,6 +51,9 @@ $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
  		remove --term http://www.w3.org/2002/07/owl#Nothing  --term http://purl.obolibrary.org/obo/PATO_0000001  \
  		remove --select "RO:*"  \
  		remove --term IAO:0000032 --select "self" --axioms logical  \
+ 		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+			  --term-file $(IMPORTDIR)/ro_terms.txt \
+		      --select complement --select annotation-properties \
 		$(ANNOTATE_CONVERT_FILE); fi
 
 
@@ -65,6 +68,11 @@ $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 		filter --term-file $(IMPORTDIR)/chebi_terms.txt --select "self annotations" reduce --reasoner ELK \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
 		$(ANNOTATE_CONVERT_FILE); fi
+
+
+.PHONY: autoshapes
+autoshapes: 
+	echo "please run manually: sh utils/generate-auto-shapes.sh"
 
 
 ## we import the BFO entirely
