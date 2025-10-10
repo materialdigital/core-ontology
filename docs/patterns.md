@@ -348,17 +348,72 @@ ex:object3 a object:
 
 ---
 
-### Pattern 4 - Realizable Entities
+### Pattern 4 - Realizable Entities (Role)
 
-- **Purpose**: Represent characteristics of the objects, brought to existence by specific situation.
+- **Purpose**: Represent characteristics of the objects, brought to existence by a specific situation. E.g. a role, which is relalized in a process.
 - **Core Properties**: 
-  - `bfo:bearerOf` 
-  - `bfo:concretizes`
-  - `bfo:realizes`
-  - `bfo:hasParticipant`
-- **Example Use Case**: Specifying the role of specimen, which material object undertakes during a process. 
+  - `ro:has role` [RO_0000087](http://purl.obolibrary.org/obo/RO_0000087)
+  - `bfo:has realization` [BFO_0000054](http://purl.obolibrary.org/obo/BFO_0000054)
+  - `obi:has specified input` [OBI_0000293](http://purl.obolibrary.org/obo/OBI_0000293)
+
+- **Example Use Case**: Specifying the role of a specimen of a material object that participates a process as input. 
   
-![Visualization of Pattern 4](https://github.com/user-attachments/assets/38b57e8a-c7d4-43e4-ad65-7b9204d2101e)
+```d2
+
+direction: up
+
+classes: {
+  bfoclazz: {
+    style: {
+      fill: "#dd42f5"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  pmdclazz: {
+    style: {
+      fill: "#7777BB"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  obiclazz: {
+    style: {
+      fill: "#BB7777"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  individual: {
+    style: {
+      fill: "lightgrey"
+    }
+  }
+}
+bfo*.class: bfoclazz
+pmd*.class: pmdclazz
+obi*.class: obiclazz
+ex*.class: individual
+
+"ex:process 1" -> "ex:object 1": "obi:has_specified_input"
+
+"ex:process 1" -> "pmd:fatigue testing process: ": "rdf:type"
+"pmd:fatigue testing process: " -> "obi:planned process": "owl:subClassOf"
+"obi:planned process" -> "bfo:process": "owl:subClassOf"
+
+"ex:object 1" -> "bfo:object": "rdf:type"
+"ex:object 1" -> "ex:role 1": "ro:has role"
+"ex:role 1" -> "pmd:specimen role": "rdf:type"
+"ex:role 1" -> "ex:process 1": "bfo:has realization"
+
+"bfo:object": {
+  near: center-left
+}
+
+```
 
 ---
 
