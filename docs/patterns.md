@@ -91,7 +91,48 @@ abox."ex:start" -> tbox."bfo:zero dimensional t.r.": "rdf:type"
 abox."ex:end" -> tbox."bfo:zero dimensional t.r.": "rdf:type"
 
 ```
+```
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
 
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . #Class
+@prefix continuant: <http://purl.obolibrary.org/obo/BFO_0000002> .  #Class
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . #Class
+@prefix one-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000038> . #Class
+@prefix zero-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000148> . #Class
+
+@prefix occupies_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000199> . #ObjectProperty
+@prefix proper_temporal_part_of: <http://purl.obolibrary.org/obo/BFO_0000136> . #ObjectProperty
+@prefix has_first_instant: <http://purl.obolibrary.org/obo/BFO_0000222> . #ObjectProperty
+@prefix has_last_instant: <http://purl.obolibrary.org/obo/BFO_0000224> . #ObjectProperty
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . #ObjectProperty
+
+<https://w3id.org/pmd/co/test/shape/temporal_region> rdf:type owl:Ontology .
+
+ex:process_1 a process: .
+ex:process_2 a process: .
+ex:period_1 a one-dimensional_temporal_region: .
+ex:period_2 a one-dimensional_temporal_region: . 
+ex:some_time a temporal_region: .
+ex:object_1 a continuant: .
+ex:start a zero-dimensional_temporal_region: .
+ex:end a zero-dimensional_temporal_region: .
+
+ex:process_1 occupies_temporal_region: ex:period_1 . 
+ex:process_2 occupies_temporal_region: ex:period_2 .
+ex:period_2 has_first_instant: ex:start . 
+ex:period_2 has_last_instant: ex:end .
+ex:period_1 proper_temporal_part_of: ex:period_2 .
+ex:object_1 exists_at: ex:some_time .
+
+```
+(see folder [patterns/temporal region](https://github.com/materialdigital/core-ontology/tree/main/patterns/temporal%20region))
 
 ---
 
