@@ -57,16 +57,23 @@ $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
 		$(ANNOTATE_CONVERT_FILE); fi
 
 
-#$(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
-#	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
-#		extract --upper-term http://purl.obolibrary.org/obo/CHEBI_24431 --lower-terms $(IMPORTDIR)/chebi_terms.txt --copy-ontology-annotations true --individuals exclude --intermediates none --method MIREOT \
-#		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
-#		$(ANNOTATE_CONVERT_FILE); fi
+$(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl $(IMPORTDIR)/bfo_terms.txt
+	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
+		extract -T $(IMPORTDIR)/bfo_terms.txt --force true --copy-ontology-annotations true --method SUBSET \
+		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
+ 		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+			  --term-file $(IMPORTDIR)/bfo_terms.txt \
+		      --select complement --select annotation-properties \
+		$(ANNOTATE_CONVERT_FILE); fi		
 
-$(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
+
+$(IMPORTDIR)/chebi_import.owl: #$(MIRRORDIR)/chebi.owl
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
 		filter --term-file $(IMPORTDIR)/chebi_terms.txt --select "self annotations" reduce --reasoner ELK \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
+ 		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+			  --term-file $(IMPORTDIR)/chebi_terms.txt \
+		      --select complement --select annotation-properties \
 		$(ANNOTATE_CONVERT_FILE); fi
 
 

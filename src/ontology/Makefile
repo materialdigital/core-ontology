@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                0fcc80fe13f143144fe9fe77a90f844aa5484043b14a1c76443d612458a3632b
+CONFIG_HASH=                e38c1b68abd4d56ff801ccaa9e1ea3989c878552f3f00bf591e1e24f86ac6728
 
 
 # ----------------------------------------
@@ -392,7 +392,7 @@ $(IMPORTSEED): $(PRESEED) | $(TMPDIR)
 
 T_IMPORTSEED = --term-file $(IMPORTSEED)
 
-ANNOTATION_PROPERTIES=rdfs:label IAO:0000115 IAO:0000116 IAO:0000112 IAO:0000233 
+ANNOTATION_PROPERTIES=rdfs:label IAO:0000119 IAO:0000115 IAO:0000116 IAO:0000112 skos:definition skos:example skos:comment 
 
 # ----------------------------------------
 # Import modules
@@ -422,14 +422,11 @@ $(IMPORTDIR)/%_import.owl: $(MIRRORDIR)/%.owl $(IMPORTDIR)/%_terms.txt \
 
 .PRECIOUS: $(IMPORTDIR)/%_import.owl
 
-## Module for ontology: bfo (mirror)
-$(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl | all_robot_plugins
-	$(ROBOT) annotate --input $< --remove-annotations \
-		 odk:normalize --base-iri https://w3id.org/pmd \
-		               --subset-decls true --synonym-decls true \
-		               --add-source true \
-		 repair --merge-axiom-annotations true \
-		 $(ANNOTATE_CONVERT_FILE)
+## Module for ontology: bfo (custom)
+$(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl
+	@echo "ERROR: You have configured bfo as a custom module;"
+	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
+	@false
 
 ## Module for ontology: ro (custom)
 $(IMPORTDIR)/ro_import.owl: $(MIRRORDIR)/ro.owl
