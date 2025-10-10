@@ -249,11 +249,86 @@ ex:process_step2a simultaneous_with: ex:process_step2b .
 
 - **Purpose**: Describes how to represent inputs and outputs for planned processes typically involving material entities or information-bearing entities.
 - **Core Properties**: 
-  - `pmd:hasInput` 
-  - `pmd:hasOutput`
+  - `obi:has_specified_input` [OBI_0000293](http://purl.obolibrary.org/obo/OBI_0000293)
+  - `obi:has_specified_output` [OBI_0000299](http://purl.obolibrary.org/obo/OBI_0000299)
 - **Example Use Case**: A planned process with possibility of multiple inputs and outputs, e.g., testing properties of a metallic sample, or transforming a piece of material into another product.
 
-![Visualization of Pattern 3](https://github.com/user-attachments/assets/77d73c60-d579-4bd2-9922-3ec2d83461d1)
+```d2
+direction: up
+
+classes: {
+  bfoclazz: {
+    style: {
+      fill: "#dd42f5"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  pmdclazz: {
+    style: {
+      fill: "#7777BB"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  individual: {
+    style: {
+      fill: "lightgrey"
+    }
+  }
+}
+bfo*.class: bfoclazz
+pmd*.class: pmdclazz
+ex*.class: individual
+
+"ex:process 1" -> "ex:object1": "obi:has_specified_input"
+"ex:process 1" -> "ex:object2": "obi:has_specified_output"
+"ex:process 2" -> "ex:object2": "obi:has_specified_input"
+"ex:process 2" -> "ex:object3": "obi:has_specified_output"
+
+"ex:process 1" -> "pmd:manufacturing process": "rdf:type"
+"ex:process 2" -> "pmd:coating process": "rdf:type"
+"pmd:manufacturing process" -> "bfo:process": "owl:subClassOf"
+"pmd:coating process" -> "pmd:manufacturing process": "owl:subClassOf"
+
+"ex:object1" -> "bfo:object": "rdf:type"
+"ex:object2" -> "bfo:object": "rdf:type"
+"ex:object3" -> "bfo:object": "rdf:type"
+
+```
+
+```
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.com/> .
+@base <https://w3id.org/pmd/co/test> .
+
+@prefix manufacturing_process: <https://w3id.org/pmd/co/PMD_0000833> .
+@prefix coating: <https://w3id.org/pmd/co/PMD_0000563> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+
+<https://w3id.org/pmd/co/test> rdf:type owl:Ontology  .
+
+ex:process1 a manufacturing_process: ;   
+        has_specified_input: ex:object1 ;
+        has_specified_output: ex:object2 . 
+
+ex:process2 a coating:;  
+        has_specified_input: ex:object2  ; 
+        has_specified_output: ex:object3 . 
+
+ex:object1 a object:
+ex:object2 a object:
+ex:object3 a object:
+```
+(see folder [patterns/input and output of processes](https://github.com/materialdigital/core-ontology/tree/main/patterns/input%20and%20output%20of%20processes))
+
 
 ---
 
