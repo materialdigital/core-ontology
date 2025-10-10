@@ -414,6 +414,38 @@ ex*.class: individual
 }
 
 ```
+```
+
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.com/> .
+@base <https://w3id.org/pmd/co/test> .
+
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix specimen_role: <http://purl.obolibrary.org/obo/OBI_0000112> .
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix planned_process: <http://purl.obolibrary.org/obo/OBI_0000011> .
+@prefix fatigue_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+
+<https://w3id.org/pmd/co/test/role> rdf:type owl:Ontology  .
+
+ex:process_1 a fatigue_testing_process: .
+ex:process_1 has_specified_input: ex:object_1 .
+
+ex:object_1 a object: .
+ex:object_1 has_role: ex:role_1 .
+
+ex:role_1  a specimen_role: .
+ex:role_1 has_realization: ex:process_1  .
+
+
+```
 
 ---
 
