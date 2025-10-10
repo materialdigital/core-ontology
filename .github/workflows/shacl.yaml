@@ -41,7 +41,7 @@ jobs:
 
                    SHAPEFILE="${DIR}shape.ttl"
                    DATAFILE="${DIR}shape-data.ttl"
-                    
+                  
                    echo " testing shape"
                    echo "   resoning"
 
@@ -49,8 +49,14 @@ jobs:
                    java -jar robot.jar --catalog catalog-v001.xml merge --input merged-pmdco.ttl --input "$DATAFILE" remove --select imports --output merged2.ttl
                    java -jar robot.jar reason --input merged2.ttl --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" --output shape-data-reasoned.ttl
                    
+
                    echo "   testing"
-                   python3 -m pyshacl  -s "$SHAPEFILE" shape-data-reasoned.ttl
+                   if [[ -f $SHAPEFILE ]]; then
+                        python3 -m pyshacl  -s "$SHAPEFILE" shape-data-reasoned.ttl
+                   else
+                        # just applying autoshapes on example data
+                        echo "     skippping, shapefile not found"  
+                   fi
 
                    echo "   testing autoshapes"
                    # test with autoshapes
