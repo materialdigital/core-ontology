@@ -62,7 +62,7 @@ tbox: {
   "bfo:process" -> "bfo:occurrent": "rdfs:subClassOf"
   "bfo:temporal region" -> "bfo:occurrent": "rdfs:subClassOf"
   "bfo:one dimensional t.r." -> "bfo:temporal region": "rdfs:subClassOf"
-  "bfo:two dimensional t.r." -> "bfo:temporal region": "rdfs:subClassOf"
+  "bfo:zero dimensional t.r." -> "bfo:temporal region": "rdfs:subClassOf"
 }
 
 tbox.style.stroke: transparent
@@ -72,7 +72,7 @@ abox.ex*.class: individual
 abox.label: "___________________________________________________________________________"
 abox: {
   "ex:process 1" -> "ex:period 1": "bfo:occupies_temporal_region"
-  "ex:process 1" -> "ex:period 2": "bfo:occupies_remporal_region"
+  "ex:process 2" -> "ex:period 2": "bfo:occupies_remporal_region"
   "ex:period 2" -> "ex:start": "bfo:has_first_instant"
   "ex:period 2" -> "ex:end": "bfo:has_last_instant"
   "ex:period 1" -> "ex:period 2": "bfo:proper_temporal_part_of"
@@ -81,13 +81,14 @@ abox: {
 abox.style.stroke: transparent
 abox.style.fill: transparent
 
-abox."ex:process " -> tbox."bfo:process": "rdf:type"
+abox."ex:process 1" -> tbox."bfo:process": "rdf:type"
+abox."ex:process 2" -> tbox."bfo:process": "rdf:type"
 abox."ex:period 1" -> tbox."bfo:one dimensional t.r.": "rdf:type"
 abox."ex:period 2" -> tbox."bfo:one dimensional t.r.": "rdf:type"
 abox."ex:some time" -> tbox."bfo:temporal region": "rdf:type"
 abox."ex:object 1" -> tbox."bfo:continuant": "rdf:type"
-abox."ex:start" -> tbox."bfo:two dimensional t.r.": "rdf:type"
-abox."ex:end" -> tbox."bfo:two dimensional t.r.": "rdf:type"
+abox."ex:start" -> tbox."bfo:zero dimensional t.r.": "rdf:type"
+abox."ex:end" -> tbox."bfo:zero dimensional t.r.": "rdf:type"
 
 ```
 
