@@ -252,6 +252,7 @@ ex:process_step2a simultaneous_with: ex:process_step2b .
   - `obi:has_specified_input` [OBI_0000293](http://purl.obolibrary.org/obo/OBI_0000293)
   - `obi:has_specified_output` [OBI_0000299](http://purl.obolibrary.org/obo/OBI_0000299)
 - **Example Use Case**: A planned process with possibility of multiple inputs and outputs, e.g., testing properties of a metallic sample, or transforming a piece of material into another product.
+- **Further notes**: There are also the properties [has input](http://purl.obolibrary.org/obo/RO_0002233) and [has output](http://purl.obolibrary.org/obo/RO_0002234) from RO. It is intended to use the OBI [has specified input](http://purl.obolibrary.org/obo/OBI_0000293) and [has specified output](http://purl.obolibrary.org/obo/OBI_0000299) on [planned processes](http://purl.obolibrary.org/obo/OBI_0000011) (as also indicated by the domain of those) and the RO variant on other kinds of processes.  
 
 ```d2
 direction: up
@@ -273,6 +274,14 @@ classes: {
       font-color: white
     }
   }
+  obiclazz: {
+    style: {
+      fill: "#BB7777"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
   individual: {
     style: {
       fill: "lightgrey"
@@ -281,6 +290,7 @@ classes: {
 }
 bfo*.class: bfoclazz
 pmd*.class: pmdclazz
+obi*.class: obiclazz
 ex*.class: individual
 
 "ex:process 1" -> "ex:object1": "obi:has_specified_input"
@@ -290,8 +300,10 @@ ex*.class: individual
 
 "ex:process 1" -> "pmd:manufacturing process": "rdf:type"
 "ex:process 2" -> "pmd:coating process": "rdf:type"
-"pmd:manufacturing process" -> "bfo:process": "owl:subClassOf"
+"obi:planned process" -> "bfo:process": "owl:subClassOf"
 "pmd:coating process" -> "pmd:manufacturing process": "owl:subClassOf"
+
+"pmd:manufacturing process" -> "obi:planned process": "owl:subClassOf"
 
 "ex:object1" -> "bfo:object": "rdf:type"
 "ex:object2" -> "bfo:object": "rdf:type"
@@ -307,6 +319,8 @@ ex*.class: individual
 @prefix ex: <http://example.com/> .
 @base <https://w3id.org/pmd/co/test> .
 
+
+@prefix planned_process: <http://purl.obolibrary.org/obo/OBI_0000011> .
 @prefix manufacturing_process: <https://w3id.org/pmd/co/PMD_0000833> .
 @prefix coating: <https://w3id.org/pmd/co/PMD_0000563> .
 @prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
@@ -314,6 +328,8 @@ ex*.class: individual
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
 
 <https://w3id.org/pmd/co/test> rdf:type owl:Ontology  .
+
+manufacturing_process: owl:subClassOf planned_process: .
 
 ex:process1 a manufacturing_process: ;   
         has_specified_input: ex:object1 ;
