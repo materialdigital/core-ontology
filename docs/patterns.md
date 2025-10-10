@@ -33,7 +33,7 @@ Hereby we provide an overview of the patterns used in PMDco 3.0.0:
   - `bfo:proper temporal part of ` ([BFO_0000136](http://purl.obolibrary.org/obo/BFO_0000136))
   - `bfo:has first instant ` ([BFO_0000222](http://purl.obolibrary.org/obo/BFO_0000222))
   - `bfo:has last instant ` ([BFO_0000224](http://purl.obolibrary.org/obo/BFO_0000224))
-  - `bfo:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
+  - `pmd:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
 - **Example Use Case**: Specifying certain moments of time when some industrial process started or ended. 
 
 ```d2
@@ -140,13 +140,108 @@ ex:object_1 exists_at: ex:some_time .
 
 - **Purpose**: Represent complex processes, consisting of simultaneous and serial subprocesses. 
 - **Core Properties**: 
-  - `bfo:precedes` 
-  - `bfo:hasOccurentPart`
-  - `pmd:startsWith`
-  - `pmd:endsWith`
-- **Example Use Case**: Specifying the structure of commplex manufactirung processes consisting of several stages.
+  - `bfo:precedes` ([BFO_0000063](http://purl.obolibrary.org/obo/BFO_0000063))
+  - `ro:has part` ([BFO_0000051](http://purl.obolibrary.org/obo/BFO_0000051))
+  - `pmd:starts with` ([PMD_0060002](https://w3id.org/pmd/co/PMD_0060002))
+  - `pmd:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
+  - `pmd:simultaneous with` ([PMD_0060004](https://w3id.org/pmd/co/PMD_0060004))
+- **Example Use Case**: Specifying the structure of commplex manufacturing processes consisting of several stages.
 
-![Visualization of Pattern 2](https://github.com/user-attachments/assets/01c1f41f-52ad-4789-8d49-40006485852c)
+```d2
+direction: up
+
+classes: {
+  bfoclazz: {
+    style: {
+      fill: "#dd42f5"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  individual: {
+    style: {
+      fill: "lightgrey"
+    }
+  }
+}
+tbox.bfo*.class: bfoclazz
+tbox.label: ""
+tbox: {
+  "bfo:process" -> "bfo:occurrent": "rdfs:subClassOf"
+}
+
+tbox.style.stroke: transparent
+tbox.style.fill: transparent
+
+abox.ex*.class: individual
+abox.label: "___________________________________________________________________________"
+abox: {
+  "ex:process parent" -> "ex:process step1": "pmd:starts_with"
+  "ex:process parent" -> "ex:process step3": "pmd:ends_with"
+
+  "ex:process parent" -> "ex:process step1": "ro:has part"
+  "ex:process parent" -> "ex:process step2a": "ro:has part"
+  "ex:process parent" -> "ex:process step2b": "ro:has part"
+  "ex:process parent" -> "ex:process step3": "ro:has part"
+
+  "ex:process step1" -> "ex:process step2a": "bfo:precedes"
+  "ex:process step1" -> "ex:process step2b": "bfo:precedes"
+  "ex:process step1" -> "ex:process step3": "bfo:precedes"
+
+  "ex:process step2a" -> "ex:process step3": "bfo:precedes"
+  "ex:process step2a" -> "ex:process step2b": "pmd:simultaneous_with"
+}
+
+abox.style.stroke: transparent
+abox.style.fill: transparent
+
+abox."ex:process parent" -> tbox."bfo:process": "rdf:type"
+abox."ex:process step1" -> tbox."bfo:process": "rdf:type"
+abox."ex:process step2a" -> tbox."bfo:process": "rdf:type"
+abox."ex:process step2b" -> tbox."bfo:process": "rdf:type"
+abox."ex:process step3" -> tbox."bfo:process": "rdf:type"
+```
+
+```
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . #Class
+
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . #ObjectProperty 
+@prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> . #ObjectProperty
+@prefix starts_with: <https://w3id.org/pmd/co/PMD_0060002> . #ObjectProperty
+@prefix ends_with: <https://w3id.org/pmd/co/PMD_0060003> . #ObjectProperty
+@prefix simultaneous_with: <https://w3id.org/pmd/co/PMD_0060004> . #ObjectProperty
+
+<https://w3id.org/pmd/co/test/shape/process_chain> rdf:type owl:Ontology .
+
+ex:process_parent a process: .
+ex:process_step1 a process: .
+ex:process_step2a a process: .
+ex:process_step2b a process: .
+ex:process_step3 a process: .
+
+
+ex:process_parent starts_with: ex:process_step1 .
+ex:process_parent ends_with: ex:process_step3 .
+ex:process_parent has_part: ex:process_step1, ex:process_step2a, ex:process_step2b, ex:process_step3 .
+
+ex:process_step1 precedes: ex:process_step2a, ex:process_step2b, ex:process_step3 .
+
+ex:process_step2a precedes: ex:process_step3 .
+ex:process_step2a simultaneous_with: ex:process_step2b .
+```
+
+(see folder [patterns/process chain](https://github.com/materialdigital/core-ontology/tree/main/patterns/process%20chain))
+
 
 ---
 
