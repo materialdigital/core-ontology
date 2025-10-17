@@ -25,6 +25,9 @@ The following image shows some manufacturing process with multiple inputs and ou
 
 <img src="https://github.com/materialdigital/core-ontology/blob/develop-3.0.0/patterns/pattern1.png?raw=true" alt="pattern1 image" width="750"/>
 
+alternative Visualization using [visgraph](https://thhanke.github.io/visgraph/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/main/patterns/input and output of processes/shape-data.ttl)
+<img src="https://raw.githubusercontent.com/materialdigital/core-ontology/main/patterns/input and output of processes/input_outputs.svg">
+
 ## Shapes and example data
 [../shapes/shape1-data.ttl](../shapes/shape1-data.ttl)
 

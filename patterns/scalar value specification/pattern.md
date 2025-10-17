@@ -14,6 +14,9 @@ The following image shows an instance of a scalar value specification with value
 
 <img src="pattern.png" alt="pattern2 image" width="750"/>
           
+alternative Visualization using [visgraph](https://thhanke.github.io/visgraph/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/shape-data.ttl)
+<img src="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/value_specification.svg">
+       
 ## Shapes and example data
 [shape-data.ttl](shape-data.ttl)
 
