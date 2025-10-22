@@ -4,6 +4,10 @@
 ## changes here rather than in the main Makefile
 
 
+$(IMPORTSEED): $(PRESEED) | $(TMPDIR)
+	echo "" > $@
+
+
 $(ONTOLOGYTERMS): $(SRCMERGED)
 	$(ROBOT) query -f csv -i $< --query pmdco_terms.sparql $@
 
