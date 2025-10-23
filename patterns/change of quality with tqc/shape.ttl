@@ -4,17 +4,29 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ex:    <http://www.example.org/#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix pmd:   <https://w3id.org/pmd/co/> .
 @prefix obi:   <http://purl.obolibrary.org/obo/> .
 @prefix pmdco: <https://w3id.org/pmd/co/> .
 @prefix shape:   <https://w3id.org/pmd/co/shapes> .
 
+
 shape:independent_continuant_anchor
     a sh:NodeShape ;
-    sh:targetClass obo:BFO_0000004 ; # independent continuant
+    sh:targetClass obi:BFO_0000004 ; # independent continuant
     sh:property
     [
         sh:path obi:RO_0000086 ; # has quality
+        # sh:class obi:BFO_0000019 ; # quality
+        sh:severity sh:Violation ;
+        sh:message "The quality instance of an anchor is not a subclass of Quality" ;
+        sh:sparql 
+        [
+            a sh:SPARQLConstraint ;
+            sh:select """
+                PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX obi:   <http://purl.obolibrary.org/obo/> 
+                SELECT ?icQualityClass
+                WHERE { FILTER NOT EXISTS { ?icQualityClass rdfs:subClassOf+ obi:BFO_0000019 } }""" ;
+        ]
     ] ;
 
     sh:property  
@@ -29,7 +41,10 @@ shape:independent_continuant_anchor
     [
         a sh:SPARQLConstraint ;
         sh:select """
-        SELECT DISTINCT $this ?tqc ?anchorQualityClass
+        PREFIX pmdco: <https://w3id.org/pmd/co/> 
+        PREFIX obi:   <http://purl.obolibrary.org/obo/> 
+
+        SELECT DISTINCT $ic ?tqc ?anchorQualityClass ?temporalQualityClass
         WHERE {
             # STEP 1. IC has state TQC --> finding the TQC
             ?ic pmdco:PMD_0000069 ?tqc . 
@@ -39,11 +54,11 @@ shape:independent_continuant_anchor
             ?icQuality a ?anchorQualityClass .
             
             # STEP 3. TQC has quality Quality --> finding TQC's quality and checking its type/class
-            ?tqc obi:RO_0000086 ?tqcQuality . '
-            ?tqcQuality a ?anchorQualityClass .
+            ?tqc obi:RO_0000086 ?tqcQuality . 
+            ?tqcQuality a ?temporalQualityClass .
             
             # Ensure we only check defined classes
-            FILTER (isIRI(?anchorQualityClass))
+            FILTER (?anchorQualityClass = ?temporalQualityClass)
         }
         """ ;
     ] ;
@@ -64,6 +79,18 @@ shape:temporally_qualified_continuant
     sh:property
     [
         sh:path obi:RO_0000086 ; # has quality
+        # sh:class obi:BFO_0000019 ; # quality
+        sh:severity sh:Violation ;
+        sh:message "The quality instance of an TQC is not a subclass of Quality" ;        
+        sh:sparql 
+        [
+            a sh:SPARQLConstraint ;
+            sh:select """
+                PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX obi:   <http://purl.obolibrary.org/obo/> 
+                SELECT ?tqcQualityClass
+                WHERE { FILTER NOT EXISTS { ?tqcQualityClass rdfs:subClassOf+ obi:BFO_0000019 } }""" ;
+        ]
     ] ;
 
     sh:closed false ;

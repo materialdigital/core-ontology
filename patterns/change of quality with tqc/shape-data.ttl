@@ -10,28 +10,42 @@
 
 <https://w3id.org/pmd/co/test/shape/change_of_quality_with_tqc> rdf:type owl:Ontology .
 
-@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . 
+@prefix man_process: <https://w3id.org/pmd/co/PMD_0000833>  . 
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
 @prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
 @prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
 @prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
 @prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix size: <https://w3id.org/pmd/co/PMD_0020132> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
 @prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
 @prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
 @prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
 @prefix statue: <http://example.org/statue> . 
-@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
-@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
-@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix has_state: <https://w3id.org/pmd/co/PMD_0000069> .
+@prefix has_input: <http://purl.obolibrary.org/obo/RO_0002233> .
+@prefix has_output: <http://purl.obolibrary.org/obo/RO_0002234> .
 @prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> .
 
-statue: rdfs:subClassOf :object .
-ex:object a statue: . 
+statue: rdfs:subClassOf object: .
+size: rdfs:subClassOf quality: .
+mass: rdfs:subClassOf quality: .
+density: rdfs:subClassOf quality: .
 
-ex:process_1 a process: .
-ex:process_2 a process: .
-ex:process_3 a process: .
-ex:process_1 precedes: ex:process_2 .
+# Define Object (Anchor)
+ex:object a statue: . 
+ex:object a independent_continuant: .
+ex:object has_quality: ex:quality_1 .
+ex:quality_1 a mass: .
+ex:object has_state: ex:object_at_t1  .
+ex:object has_state: ex:object_at_t2  .
+
+
+# Define the process
+ex:process_1 a man_process: .
+ex:process_1 exists_at: ex:temporal_region_12 .
+ex:temporal_region_12 a temporal_region: .
 
 
 # the object has a tqc at t1
@@ -41,18 +55,14 @@ ex:object_at_t1 a temporally_qualified_continuant: .
 ex:object_at_t1 a statue: .
 ex:object_at_t1 exists_at: ex:temporal_region_1 .
 ex:temporal_region_1  a temporal_region: .
-ex:object_at_t1 is_state_of: ex:object .
-
-# the tqc has a quality mass 
-# (the anchor also can have a quality mass; How to they relate?)
-ex:object_at_t1 has_quality: ex:quality_1 .
-ex:quality_1 a mass: .
+ex:object_at_t1 has_quality: ex:quality_t1 .
+ex:quality_t1 a mass: .
 
 # the tqc is input of a process
-ex:process_1 has_specified_input: ex:object_at_t1 .
+ex:process_1 has_input: ex:object_at_t1 .
 
 # after the process a new tqc is born as output
-ex:process_1 has_specified_output: ex:object_at_t2 .
+ex:process_1 has_output: ex:object_at_t2 .
 ex:object_at_t2 a temporally_qualified_continuant: .
 
 # this tqc has all the "process" relevant information (e.g. a new mass)
@@ -60,26 +70,6 @@ ex:object_at_t2 a temporally_qualified_continuant: .
 ex:object_at_t2 a statue: .
 ex:object_at_t2 exists_at: ex:temporal_region_2 .
 ex:temporal_region_2  a temporal_region: .
-ex:object_at_t2 is_state_of: ex:object .
 
-ex:object_at_t2 has_quality: ex:quality_2 . 
-ex:quality_2 a mass: .
-
-
-# the tqc can be input of another process
-ex:process_2 has_specified_input: ex:object_at_t2 .
-
-# and the output again spawns a new tqc
-# it might also result in a new type
-ex:process_2 has_specified_output: ex:object_at_t3 .
-ex:object_at_t3 a temporally_qualified_continuant: .
-ex:object_at_t3 a statue: .
-ex:object_at_t3 a material: .
-ex:object_at_t3 exists_at: ex:temporal_region_3 .
-ex:temporal_region_3  a temporal_region: .
-ex:object_at_t3 is_state_of: ex:object .
-ex:object_at_t3 has_quality: ex:quality_3 . 
-ex:quality_3 a density:  .
-
-
-
+ex:object_at_t2 has_quality: ex:quality_t2 . 
+ex:quality_t2 a mass: .
