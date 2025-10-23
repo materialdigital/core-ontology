@@ -1,0 +1,94 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix obi:   <http://purl.obolibrary.org/obo/> .
+@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+
+shape:independent_continuant_anchor
+    a sh:NodeShape ;
+    sh:targetClass obo:BFO_0000004 ; # independent continuant
+    sh:property
+    [
+        sh:path obi:RO_0000086 ; # has quality
+    ] ;
+
+    sh:property  
+    [
+        sh:path pmdco:PMD_0000069 ; # has state
+        sh:node shape:temporally_qualified_continuant ;
+    ] ;
+
+    sh:severity sh:Violation ;
+    sh:message "An Independent Continuant and its Temporally Qualified Continuant cannot both possess qualities of the same rdf:type (class)." ;
+    sh:sparql 
+    [
+        a sh:SPARQLConstraint ;
+        sh:select """
+        SELECT DISTINCT $this ?tqc ?anchorQualityClass
+        WHERE {
+            # STEP 1. IC has state TQC --> finding the TQC
+            ?ic pmdco:PMD_0000069 ?tqc . 
+            
+            # STEP 2. IC has quality Quality --> finding IC's quality and checking its type/class
+            ?ic obi:RO_0000086 ?icQuality .
+            ?icQuality a ?anchorQualityClass .
+            
+            # STEP 3. TQC has quality Quality --> finding TQC's quality and checking its type/class
+            ?tqc obi:RO_0000086 ?tqcQuality . '
+            ?tqcQuality a ?anchorQualityClass .
+            
+            # Ensure we only check defined classes
+            FILTER (isIRI(?anchorQualityClass))
+        }
+        """ ;
+    ] ;
+    
+
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+shape:temporally_qualified_continuant
+    a sh:NodeShape ;
+    sh:targetClass pmdco:PMD_0000068 ; # temporally qualified continuant
+    sh:property
+    [
+        sh:path obi:BFO_0000108 ; # exists at
+        sh:class obi:BFO_0000008 ; # temporal region
+        sh:minCount 1 ;  
+    ] ;
+    sh:property
+    [
+        sh:path obi:RO_0000086 ; # has quality
+    ] ;
+
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+shape:manufacturing_process
+    a sh:NodeShape ;
+    sh:targetClass  pmdco:PMD_0000833 ;   # Manufacturing process
+    sh:property [            
+        sh:path obi:RO_0002233 ; # has input
+        sh:node shape:temporally_qualified_continuant ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [            
+        sh:path obi:RO_0002234 ; # has  output
+        sh:node shape:temporally_qualified_continuant ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property
+    [
+        sh:path obi:BFO_0000108 ; # exists at
+        sh:class obi:BFO_0000008 ; # temporal region
+        sh:minCount 1 ;  
+    ] ;
+   
+   # sh:closed false ;
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
