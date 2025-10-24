@@ -4,6 +4,7 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ex:    <http://www.example.org/#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix obo:    <http://purl.obolibrary.org/obo/> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
 @prefix shape:   <https://w3id.org/pmd/co/shapes> .
 
@@ -18,13 +19,76 @@ shape:
 	] .
 
 
-shape:chemical_composition
-    a sh:NodeShape ;
-    sh:targetClass  pmd:PMD_0000551 ;  #'Chemical Composition'
-    sh:property [            
-        sh:path <http://purl.obolibrary.org/obo/RO_0000080> ; #'quality of'
-        sh:maxCount 1 
+# shape:chemical_composition
+#     a sh:NodeShape ;
+#     sh:targetClass  pmd:PMD_0000551 ;  #'Chemical Composition'
+#     sh:property [            
+#         sh:path <http://purl.obolibrary.org/obo/RO_0000080> ; #'quality of'
+#         sh:maxCount 1 
+#     ] ;
+#     sh:property [            
+#         sh:path <http://purl.obolibrary.org/obo/RO_0000059>  #'concretizes'
+#    ] .
+
+# See Frame 350 on Miro
+#C hemical composition (reworked after hackathon 2025)
+
+shape:proportion 
+    rdf:type sh:NodeShape ; 
+    sh:description "an instance of proportion (mass/molar/volume) concretizes an instance of scalar value specification. " ;
+    sh:targetClass pmd:PMD_0020101 ;  # proportion (mass, volume , molar)
+    sh:property [
+        sh:path obo:RO_0000059 ; #concretizes
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+        sh:node shape:scalar_value_specification ;
     ] ;
-    sh:property [            
-        sh:path <http://purl.obolibrary.org/obo/RO_0000059>  #'concretizes'
-    ] .
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+shape:pure_substance
+    rdf:type sh:NodeShape ;
+    sh:description "an instance of pure substance (any chemical element) has relational quality an instance of proportion. " ;
+    sh:targetClass pmd:PMD_0020025 ; #pure substances under portion of matter
+    sh:property [
+        sh:path pmd:PMD_0020137 ; # has relational quality
+        sh:node shape:proportion  ;
+    ] ;
+        sh:property [
+        sh:path obo:BFO_0000050 ; # part of
+        sh:class pmd:PMD:0000000  ; # material
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+shape:chemical_composition_specification
+    rdf:type sh:NodeShape ; 
+    sh:description "an instance of chemical composition specification has at least one member instance of scalar value specification. " ;
+    sh:targetClass pmd:PMD_0020004 ; #chemical composition specification
+    sh:property [
+        sh:path obo:RO_0002351 ; #has member
+        sh:node shape:scalar_value_specification ;
+        sh:minCount 1 ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+shape:chemical_composition
+    rdf:type sh:NodeShape ; 
+    sh:description "an instance of chemical composition concretizes an instance of chemical composition specification and quality of an instance material. " ;
+    sh:targetClass pmd:PMD_0000551 ; #chemical composition 
+    sh:property [
+        sh:path obo:RO_0000059 ; #concretizes
+        sh:node shape:chemical_composition_specification ;
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+    ] ; 
+    sh:property [
+        sh:path obo:RO:0000080 ; # quality of
+        sh:class pmd:PMD_0000000 ; # material
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
