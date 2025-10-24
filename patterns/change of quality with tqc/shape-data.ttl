@@ -1,3 +1,5 @@
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix si: <https://si-digital-framework.org/SI#> .
 @prefix : <https://w3id.org/pmd/co/test#> .
 @prefix ex: <https://www.example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -27,9 +29,11 @@
 @prefix has_input: <http://purl.obolibrary.org/obo/RO_0002233> .
 @prefix has_output: <http://purl.obolibrary.org/obo/RO_0002234> .
 @prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> .
+@prefix length: <https://w3id.org/pmd/co/PMD_0040001> .
 
 statue: rdfs:subClassOf object: .
 size: rdfs:subClassOf quality: .
+length: rdfs:subClassOf size: .
 mass: rdfs:subClassOf quality: .
 density: rdfs:subClassOf quality: .
 
@@ -56,7 +60,7 @@ ex:object_at_t1 a statue: .
 ex:object_at_t1 exists_at: ex:temporal_region_1 .
 ex:temporal_region_1  a temporal_region: .
 ex:object_at_t1 has_quality: ex:quality_t1 .
-ex:quality_t1 a mass: .
+ex:quality_t1 a size: .
 
 # the tqc is input of a process
 ex:process_1 has_input: ex:object_at_t1 .
@@ -72,4 +76,4 @@ ex:object_at_t2 exists_at: ex:temporal_region_2 .
 ex:temporal_region_2  a temporal_region: .
 
 ex:object_at_t2 has_quality: ex:quality_t2 . 
-ex:quality_t2 a mass: .
+ex:quality_t2 a density: .

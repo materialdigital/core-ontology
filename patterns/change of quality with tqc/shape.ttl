@@ -29,6 +29,8 @@ shape:independent_continuant_anchor
         ]
     ] ;
 
+    # WHERE { FILTER NOT EXISTS { ?someClassUri rdfs:subClassOf ?anchorQualityClass } }""" ;
+
     sh:property  
     [
         sh:path pmdco:PMD_0000069 ; # has state
@@ -43,6 +45,7 @@ shape:independent_continuant_anchor
         sh:select """
         PREFIX pmdco: <https://w3id.org/pmd/co/> 
         PREFIX obi:   <http://purl.obolibrary.org/obo/> 
+        PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
 
         SELECT DISTINCT $ic ?tqc ?anchorQualityClass ?temporalQualityClass
         WHERE {
@@ -52,12 +55,17 @@ shape:independent_continuant_anchor
             # STEP 2. IC has quality Quality --> finding IC's quality and checking its type/class
             ?ic obi:RO_0000086 ?icQuality .
             ?icQuality a ?anchorQualityClass .
+            FILTER NOT EXISTS { ?someAnchorChildClass rdfs:subClassOf ?anchorQualityClass .
+                                ?icQuality a ?someAnchorChildClass } .
+
             
             # STEP 3. TQC has quality Quality --> finding TQC's quality and checking its type/class
             ?tqc obi:RO_0000086 ?tqcQuality . 
             ?tqcQuality a ?temporalQualityClass .
+            FILTER  NOT EXISTS { ?someTempChildClass rdfs:subClassOf ?temporalQualityClass .
+                                ?tqcQuality a ?someTempChildClass } .
             
-            # Ensure we only check defined classes
+            # Ensure that the lowest classes of tqcQuality and icQuality are not the same
             FILTER (?anchorQualityClass = ?temporalQualityClass)
         }
         """ ;
