@@ -64,9 +64,18 @@ shape:independent_continuant_anchor
             ?tqcQuality a ?temporalQualityClass .
             FILTER  NOT EXISTS { ?someTempChildClass rdfs:subClassOf ?temporalQualityClass .
                                 ?tqcQuality a ?someTempChildClass } .
-            
-            # Ensure that the lowest classes of tqcQuality and icQuality are not the same
-            FILTER (?anchorQualityClass = ?temporalQualityClass)
+
+            {
+                # STEP 4. Ensure that the lowest classes of tqcQuality and icQuality are not the same
+                FILTER (?anchorQualityClass = ?temporalQualityClass) 
+
+            }
+            UNION
+            {
+                # STEP 5. Ensure that the Anchor's class is NOT  a subclass of tqc's quality class
+                ?anchorQualityClass rdfs:subClassOf* ?temporalQualityClass .
+
+            }
         }
         """ ;
     ] ;
