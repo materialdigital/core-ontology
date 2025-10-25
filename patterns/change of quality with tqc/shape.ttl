@@ -12,6 +12,7 @@
 shape:independent_continuant_anchor
     a sh:NodeShape ;
     sh:targetClass obi:BFO_0000004 ; # independent continuant
+    sh:description "Shape specifying that independent continuant (as an anchor for the temporally qualified continuants) has qualities, has states as temporally qualified continuants, and cannot have the same qualities as its TQCs." ;
     sh:property
     [
         sh:path obi:RO_0000086 ; # has quality
@@ -38,7 +39,7 @@ shape:independent_continuant_anchor
     ] ;
 
     sh:severity sh:Violation ;
-    sh:message "An Independent Continuant and its Temporally Qualified Continuant cannot both possess qualities of the same rdf:type (class)." ;
+    sh:message "An Independent Continuant and its Temporally Qualified Continuant cannot both possess the **lowest available** Qualities of the same rdf:type (class). Additionally, An Independent Continuant cannot have a Quality lower than the the Quality of its Temporally Qualified Continuant, if they these Qualities are from the same taxomony branch. " ;
     sh:sparql 
     [
         a sh:SPARQLConstraint ;
@@ -52,14 +53,14 @@ shape:independent_continuant_anchor
             # STEP 1. IC has state TQC --> finding the TQC
             ?ic pmdco:PMD_0000069 ?tqc . 
             
-            # STEP 2. IC has quality Quality --> finding IC's quality and checking its type/class
+            # STEP 2. IC has quality Quality --> finding IC's quality and checking its type/class, selecting the lowest avaliable quality class
             ?ic obi:RO_0000086 ?icQuality .
             ?icQuality a ?anchorQualityClass .
             FILTER NOT EXISTS { ?someAnchorChildClass rdfs:subClassOf ?anchorQualityClass .
                                 ?icQuality a ?someAnchorChildClass } .
 
             
-            # STEP 3. TQC has quality Quality --> finding TQC's quality and checking its type/class
+            # STEP 3. TQC has quality Quality --> finding TQC's quality and checking its type/class, selecting the lowest avaliable quality class
             ?tqc obi:RO_0000086 ?tqcQuality . 
             ?tqcQuality a ?temporalQualityClass .
             FILTER  NOT EXISTS { ?someTempChildClass rdfs:subClassOf ?temporalQualityClass .
@@ -68,31 +69,36 @@ shape:independent_continuant_anchor
             {
                 # STEP 4. Ensure that the lowest classes of tqcQuality and icQuality are not the same
                 FILTER (?anchorQualityClass = ?temporalQualityClass) 
-
             }
             UNION
             {
-                # STEP 5. Ensure that the Anchor's class is NOT  a subclass of tqc's quality class
+                # STEP 5. Ensure that the Anchor's class is NOT a subclass of tqc's quality class
                 ?anchorQualityClass rdfs:subClassOf* ?temporalQualityClass .
-
             }
         }
         """ ;
     ] ;
     
-
     sh:closed false ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
 shape:temporally_qualified_continuant
     a sh:NodeShape ;
     sh:targetClass pmdco:PMD_0000068 ; # temporally qualified continuant
+    sh:description "Shape specifying that temporally qualified continuant has qualities and is a state of at least one anchor (independent continuant). " ;
+
     sh:property
     [
         sh:path obi:BFO_0000108 ; # exists at
         sh:class obi:BFO_0000008 ; # temporal region
         sh:minCount 1 ;  
     ] ;
+    # sh:property
+    # [
+    #     sh:path pmdco:PMD_0000070 ; # is state of
+    #     sh:node shape:independent_continuant_anchor ;
+    #     sh:minCount 1 ;
+    # ] ;
     sh:property
     [
         sh:path obi:RO_0000086 ; # has quality
@@ -113,26 +119,4 @@ shape:temporally_qualified_continuant
     sh:closed false ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
-shape:manufacturing_process
-    a sh:NodeShape ;
-    sh:targetClass  pmdco:PMD_0000833 ;   # Manufacturing process
-    sh:property [            
-        sh:path obi:RO_0002233 ; # has input
-        sh:node shape:temporally_qualified_continuant ;
-        sh:minCount 1 ;
-    ] ;
-    sh:property [            
-        sh:path obi:RO_0002234 ; # has  output
-        sh:node shape:temporally_qualified_continuant ;
-        sh:minCount 1 ;
-    ] ;
-    sh:property
-    [
-        sh:path obi:BFO_0000108 ; # exists at
-        sh:class obi:BFO_0000008 ; # temporal region
-        sh:minCount 1 ;  
-    ] ;
-   
-   # sh:closed false ;
-   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
