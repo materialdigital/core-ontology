@@ -16,6 +16,7 @@ Declaration(Class(obo:OBI_0001930))
 Declaration(Class(:PMD_0000007))
 Declaration(Class(:PMD_0000008))
 Declaration(Class(:PMD_0000014))
+Declaration(Class(:PMD_0000068))
 Declaration(Class(:PMD_0000501))
 Declaration(Class(:PMD_0000502))
 Declaration(Class(:PMD_0000834))
@@ -32,6 +33,8 @@ Declaration(ObjectProperty(obo:OBI_0000299))
 Declaration(ObjectProperty(obo:OBI_0001938))
 Declaration(ObjectProperty(:PMD_0000004))
 Declaration(ObjectProperty(:PMD_0000009))
+Declaration(ObjectProperty(:PMD_0000069))
+Declaration(ObjectProperty(:PMD_0000070))
 Declaration(ObjectProperty(:PMD_0001026))
 Declaration(ObjectProperty(:PMD_0020127))
 Declaration(ObjectProperty(:PMD_0060001))
@@ -101,6 +104,22 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_000000
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0000009 "Tensile testing process has process attribute tensile rate"@en)
 ObjectPropertyDomain(:PMD_0000009 obo:BFO_0000015)
 ObjectPropertyRange(:PMD_0000009 :PMD_0000008)
+
+# Object Property: :PMD_0000069 (has state)
+
+AnnotationAssertion(rdfs:label :PMD_0000069 "has state"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000069 "relates a temporally qualified continuant to the unique anchor continuant that it is a temporal phase of"@en)
+AnnotationAssertion(:PMD_0001032 :PMD_0000069 "https://github.com/materialdigital/core-ontology/issues/185")
+InverseObjectProperties(:PMD_0000069 :PMD_0000070)
+InverseFunctionalObjectProperty(:PMD_0000069)
+ObjectPropertyDomain(:PMD_0000069 ObjectIntersectionOf(obo:BFO_0000002 ObjectComplementOf(:PMD_0000068)))
+ObjectPropertyRange(:PMD_0000069 :PMD_0000068)
+
+# Object Property: :PMD_0000070 (is state of)
+
+AnnotationAssertion(rdfs:label :PMD_0000070 "is state of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000070 "relates a temporally qualified continuant to the unique anchor continuant that it is a temporal phase of")
+FunctionalObjectProperty(:PMD_0000070)
 
 # Object Property: :PMD_0001026 (complies with)
 
@@ -202,6 +221,14 @@ AnnotationAssertion(rdfs:label :PMD_0000014 "plan"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000014 "A plan is a realizable entity that is the inheres in a bearer who is committed to realizing it as a planned process.")
 AnnotationAssertion(:PMD_0000060 :PMD_0000014 "true"^^xsd:boolean)
 SubClassOf(:PMD_0000014 obo:BFO_0000017)
+
+# Class: :PMD_0000068 (temporally qualified continuant)
+
+AnnotationAssertion(obo:IAO_0000116 :PMD_0000068 "For any temporally qualified continuant x@t, there exists a continuant y such that x@t has_state y, meaning that y is the anchor continuant of which x@t is a temporal phase existing at temporal regions t. The relation has_state is functional and signifies that all such temporally qualified continuants are uniquely associated with their basic anchor continuant."@en)
+AnnotationAssertion(rdfs:label :PMD_0000068 "temporally qualified continuant"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000068 "A temporally qualified continuant is a continuant that, by reference to a determinate temporal region, is such as to possess its properties only for so long as that period obtains, being otherwise in its essentiality unchanged."@en)
+AnnotationAssertion(:PMD_0001032 :PMD_0000068 "https://github.com/materialdigital/core-ontology/issues/185")
+EquivalentClasses(:PMD_0000068 ObjectIntersectionOf(obo:BFO_0000002 ObjectSomeValuesFrom(obo:BFO_0000108 obo:BFO_0000008) ObjectSomeValuesFrom(:PMD_0000070 ObjectIntersectionOf(obo:BFO_0000002 ObjectComplementOf(:PMD_0000068)))))
 
 # Class: :PMD_0000501 (1D)
 

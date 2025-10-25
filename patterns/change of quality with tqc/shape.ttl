@@ -1,0 +1,122 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix obi:   <http://purl.obolibrary.org/obo/> .
+@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+
+
+shape:independent_continuant_anchor
+    a sh:NodeShape ;
+    sh:targetClass obi:BFO_0000004 ; # independent continuant
+    sh:description "Shape specifying that independent continuant (as an anchor for the temporally qualified continuants) has qualities, has states as temporally qualified continuants, and cannot have the same qualities as its TQCs." ;
+    sh:property
+    [
+        sh:path obi:RO_0000086 ; # has quality
+        # sh:class obi:BFO_0000019 ; # quality
+        sh:severity sh:Violation ;
+        sh:message "The quality instance of an anchor is not a subclass of Quality" ;
+        sh:sparql 
+        [
+            a sh:SPARQLConstraint ;
+            sh:select """
+                PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX obi:   <http://purl.obolibrary.org/obo/> 
+                SELECT ?icQualityClass
+                WHERE { FILTER NOT EXISTS { ?icQualityClass rdfs:subClassOf+ obi:BFO_0000019 } }""" ;
+        ]
+    ] ;
+
+    # WHERE { FILTER NOT EXISTS { ?someClassUri rdfs:subClassOf ?anchorQualityClass } }""" ;
+
+    sh:property  
+    [
+        sh:path pmdco:PMD_0000069 ; # has state
+        sh:node shape:temporally_qualified_continuant ;
+    ] ;
+
+    sh:severity sh:Violation ;
+    sh:message "An Independent Continuant and its Temporally Qualified Continuant cannot both possess the **lowest available** Qualities of the same rdf:type (class). Additionally, An Independent Continuant cannot have a Quality lower than the the Quality of its Temporally Qualified Continuant, if they these Qualities are from the same taxomony branch. " ;
+    sh:sparql 
+    [
+        a sh:SPARQLConstraint ;
+        sh:select """
+        PREFIX pmdco: <https://w3id.org/pmd/co/> 
+        PREFIX obi:   <http://purl.obolibrary.org/obo/> 
+        PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+
+        SELECT DISTINCT $ic ?tqc ?anchorQualityClass ?temporalQualityClass
+        WHERE {
+            # STEP 1. IC has state TQC --> finding the TQC
+            ?ic pmdco:PMD_0000069 ?tqc . 
+            
+            # STEP 2. IC has quality Quality --> finding IC's quality and checking its type/class, selecting the lowest avaliable quality class
+            ?ic obi:RO_0000086 ?icQuality .
+            ?icQuality a ?anchorQualityClass .
+            FILTER NOT EXISTS { ?someAnchorChildClass rdfs:subClassOf ?anchorQualityClass .
+                                ?icQuality a ?someAnchorChildClass } .
+
+            
+            # STEP 3. TQC has quality Quality --> finding TQC's quality and checking its type/class, selecting the lowest avaliable quality class
+            ?tqc obi:RO_0000086 ?tqcQuality . 
+            ?tqcQuality a ?temporalQualityClass .
+            FILTER  NOT EXISTS { ?someTempChildClass rdfs:subClassOf ?temporalQualityClass .
+                                ?tqcQuality a ?someTempChildClass } .
+
+            {
+                # STEP 4. Ensure that the lowest classes of tqcQuality and icQuality are not the same
+                FILTER (?anchorQualityClass = ?temporalQualityClass) 
+            }
+            UNION
+            {
+                # STEP 5. Ensure that the Anchor's class is NOT a subclass of tqc's quality class
+                ?anchorQualityClass rdfs:subClassOf* ?temporalQualityClass .
+            }
+        }
+        """ ;
+    ] ;
+    
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+shape:temporally_qualified_continuant
+    a sh:NodeShape ;
+    sh:targetClass pmdco:PMD_0000068 ; # temporally qualified continuant
+    sh:description "Shape specifying that temporally qualified continuant has qualities and is a state of at least one anchor (independent continuant). " ;
+
+    sh:property
+    [
+        sh:path obi:BFO_0000108 ; # exists at
+        sh:class obi:BFO_0000008 ; # temporal region
+        sh:minCount 1 ;  
+    ] ;
+    # sh:property
+    # [
+    #     sh:path pmdco:PMD_0000070 ; # is state of
+    #     sh:node shape:independent_continuant_anchor ;
+    #     sh:minCount 1 ;
+    # ] ;
+    sh:property
+    [
+        sh:path obi:RO_0000086 ; # has quality
+        # sh:class obi:BFO_0000019 ; # quality
+        sh:severity sh:Violation ;
+        sh:message "The quality instance of an TQC is not a subclass of Quality" ;        
+        sh:sparql 
+        [
+            a sh:SPARQLConstraint ;
+            sh:select """
+                PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX obi:   <http://purl.obolibrary.org/obo/> 
+                SELECT ?tqcQualityClass
+                WHERE { FILTER NOT EXISTS { ?tqcQualityClass rdfs:subClassOf+ obi:BFO_0000019 } }""" ;
+        ]
+    ] ;
+
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+
