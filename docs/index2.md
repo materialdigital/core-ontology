@@ -1,0 +1,30 @@
+![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/shacl.yaml/badge.svg)
+![basic checks](https://github.com/materialdigital/core-ontology/actions/workflows/quality-checks.yaml/badge.svg)
+![Build Status](https://github.com/materialdigital/core-ontology/actions/workflows/qc.yml/badge.svg)
+
+# PMD Core Ontology (PMDco)
+
+
+
+Welcome to the **Platform MaterialDigital Core Ontology (PMDco)**, your gateway to advancing the digital transformation of Materials Science and Engineering (MSE)! As the field evolves, managing complex workflows, integrating diverse datasets, and achieving interoperability are more critical than ever. PMDco provides a standardized framework to address these challenges, enabling seamless data modeling, enhanced collaboration, and reproducibility across the MSE domain.
+
+This documentation is designed to guide you through the ontology's structure, features, and applications, making it easier to incorporate PMDco into your workflows. Whether you're a researcher, developer, or industry professional, we're excited to support your journey toward smarter, more efficient materials science practices.
+
+### Ontology metadata
+- Title: Platform Material Digital core ontology
+-	Abbreviation: PMDco
+-	Namespace: [https://w3id.org/pmd/co](https://w3id.org/pmd/co)
+-	Prefix: pmdco
+-	Language: OWL
+-	Repository: [https://github.com/materialdigital/core-ontology](https://github.com/materialdigital/core-ontology)
+-	Latest version (V.3): pmdco.owl
+-	Widoco documentation: [https://materialdigital.github.io/core-ontology/3.0.0/ ](https://materialdigital.github.io/core-ontology/3.0.0/ )
+-	Creators: Jörg Waitelonis, Philipp von Hartrott, Thomas Hanke, Markus Schilling, Bernd Bayerlein, Henk Birkholz, Jannis Grundmann, Fabian Neuhaus, Lars Vogt
+-	Contributors: Hossein Beygi Nasrabadi, Kostiantyn Hubaiev, Martin Glauer, Simon Stier
+-	Related project: MaterialDigital
+-	Funding: German Federal Ministry of Education and Research (BMBF) through project funding no. 13XP5094
+-	License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/) 
+-	Repository citation: Platform Material Digital Ontology. Version 3.0.0, [https://w3id.org/pmd/co/](https://w3id.org/pmd/co/)
+-	Paper citation (PMDco v2.0.8): B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.
+-	PMDCo in MatPortal: [https://matportal.org/ontologies/PMDCO ](https://matportal.org/ontologies/PMDCO )
+  
