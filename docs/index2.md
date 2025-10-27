@@ -17,11 +17,11 @@ This documentation is designed to guide you through the ontology's structure, fe
 -	Prefix: pmdco
 -	Language: OWL
 -	Repository: [https://github.com/materialdigital/core-ontology](https://github.com/materialdigital/core-ontology)
--	Latest version (V.3): pmdco.owl
+-	Latest version (V.3): [pmdco.owl](https://github.com/materialdigital/core-ontology/blob/main/pmdco.owl)
 -	Widoco documentation: [https://materialdigital.github.io/core-ontology/3.0.0/ ](https://materialdigital.github.io/core-ontology/3.0.0/ )
 -	Creators: Jörg Waitelonis, Philipp von Hartrott, Thomas Hanke, Markus Schilling, Bernd Bayerlein, Henk Birkholz, Jannis Grundmann, Fabian Neuhaus, Lars Vogt
 -	Contributors: Hossein Beygi Nasrabadi, Kostiantyn Hubaiev, Martin Glauer, Simon Stier
--	Related project: MaterialDigital
+-	Related project: [MaterialDigital](https://materialdigital.de/)
 -	Funding: German Federal Ministry of Education and Research (BMBF) through project funding no. 13XP5094
 -	License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/) 
 -	Repository citation: Platform Material Digital Ontology. Version 3.0.0, [https://w3id.org/pmd/co/](https://w3id.org/pmd/co/)
