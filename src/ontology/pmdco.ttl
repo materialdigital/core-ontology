@@ -768,6 +768,14 @@ obo:OBI_0000417 rdf:type owl:ObjectProperty ;
                 co:PMD_0000064 "https://github.com/search?q=repo%3Amaterialdigital%2Fcore-ontology+path%3A%2F%5Epatterns%5C%2F%2F+OBI_0000417&type=code" .
 
 
+###  http://purl.obolibrary.org/obo/OBI_0001927
+obo:OBI_0001927 rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf obo:IAO_0000136 ;
+                rdfs:domain obo:OBI_0001933 ;
+                obo:IAO_0000115 "A relation between a value specification and an entity which the specification is about."@en ;
+                rdfs:label "specifies value of" .
+
+
 ###  http://purl.obolibrary.org/obo/OBI_0001938
 obo:OBI_0001938 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:BFO_0000051 ;
@@ -954,6 +962,17 @@ obo:RO_0001001 rdf:type owl:ObjectProperty ;
                rdfs:label "derives into"@en .
 
 
+###  http://purl.obolibrary.org/obo/RO_0001015
+obo:RO_0001015 rdf:type owl:ObjectProperty ;
+               owl:inverseOf obo:RO_0001025 ;
+               rdf:type owl:TransitiveProperty ;
+               obo:IAO_0000112 "my head is the location of my brain"@en ,
+                               "this cage is the location of this rat"@en ;
+               obo:IAO_0000115 "a relation between two independent continuants, the location and the target, in which the target is entirely within the location"@en ;
+               obo:IAO_0000116 "Most location relations will only hold at certain times, but this is difficult to specify in OWL. See http://purl.obolibrary.org/obo/ro/docs/temporal-semantics/"@en ;
+               rdfs:label "location of"@en .
+
+
 ###  http://purl.obolibrary.org/obo/RO_0001025
 obo:RO_0001025 rdf:type owl:ObjectProperty ,
                         owl:TransitiveProperty ;
@@ -984,11 +1003,56 @@ obo:RO_0001025 rdf:type owl:ObjectProperty ,
                rdfs:label "located in"@en .
 
 
+###  http://purl.obolibrary.org/obo/RO_0002082
+obo:RO_0002082 rdf:type owl:ObjectProperty ,
+                        owl:SymmetricProperty ,
+                        owl:TransitiveProperty ;
+               obo:IAO_0000115 "x simultaneous with y iff ω(x) = ω(y) and ω(α ) = ω(α), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point and '=' indicates the same instance in time." ;
+               rdfs:label "simultaneous with"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0002223
+obo:RO_0002223 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:BFO_0000050 ;
+               owl:inverseOf obo:RO_0002224 ;
+               obo:IAO_0000115 "inverse of starts with" ;
+               obo:IAO_0000119 "Allen" ;
+               rdfs:label "starts"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0002224
+obo:RO_0002224 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:BFO_0000051 ;
+               rdf:type owl:TransitiveProperty ;
+               obo:IAO_0000112 "Every insulin receptor signaling pathway starts with the binding of a ligand to the insulin receptor" ;
+               obo:IAO_0000115 "x starts with y if and only if x has part y and the time point at which x starts is equivalent to the time point at which y starts. Formally: α(y) = α(x) ∧ ω(y) < ω(x), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point." ;
+               rdfs:label "starts with"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0002229
+obo:RO_0002229 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:BFO_0000050 ;
+               owl:inverseOf obo:RO_0002230 ;
+               obo:IAO_0000115 "inverse of ends with" ;
+               rdfs:label "ends"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0002230
+obo:RO_0002230 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:BFO_0000051 ;
+               rdf:type owl:TransitiveProperty ;
+               obo:IAO_0000115 "x ends with y if and only if x has part y and the time point at which x ends is equivalent to the time point at which y ends. Formally: α(y) > α(x) ∧ ω(y) = ω(x), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point." ;
+               rdfs:label "ends with"@en .
+
+
 ###  http://purl.obolibrary.org/obo/RO_0002233
 obo:RO_0002233 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:RO_0000057 ;
                owl:inverseOf obo:RO_0002352 ;
                rdfs:domain obo:BFO_0000015 ;
+               owl:propertyChainAxiom ( obo:RO_0002224
+                                        obo:RO_0002233
+                                      ) ;
                obo:IAO_0000115 "p has input c iff: p is a process, c is a material entity, c is a participant in p, c is present at the start of p, and the state of c is modified during p." ;
                rdfs:label "has input"@en .
 
@@ -997,6 +1061,9 @@ obo:RO_0002233 rdf:type owl:ObjectProperty ;
 obo:RO_0002234 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:RO_0000057 ;
                owl:inverseOf obo:RO_0002353 ;
+               owl:propertyChainAxiom ( obo:RO_0002230
+                                        obo:RO_0002234
+                                      ) ;
                obo:IAO_0000115 "p has output c iff c is a participant in p, c is present at the end of p, and c is not present in the same state at the beginning of p." ;
                rdfs:label "has output"@en .
 
@@ -5462,7 +5529,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid339 ;
+               owl:equivalentClass _:genid343 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000087 ;
@@ -5474,7 +5541,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid339 owl:intersectionOf ( obo:BFO_0000029
+_:genid343 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:RO_0000087 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -5485,7 +5552,7 @@ _:genid339 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid339 ;
+   owl:annotatedTarget _:genid343 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
