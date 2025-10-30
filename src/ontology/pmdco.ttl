@@ -14,7 +14,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-10-28/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-10-30/pmdco.ttl> ;
                                   dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
                                                       <https://orcid.org/0000-0002-3092-0532> ,
                                                       <https://orcid.org/0000-0003-0410-3616> ,
@@ -37,7 +37,7 @@ PMDco at GitHub: https://github.com/materialdigital/core-ontology
 Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2025-10-28" .
+                                  owl:versionInfo "2025-10-30" .
 
 #################################################################
 #    Annotation properties
@@ -935,6 +935,25 @@ obo:RO_0000092 rdf:type owl:ObjectProperty ;
                rdfs:label "disposition of"@en .
 
 
+###  http://purl.obolibrary.org/obo/RO_0001000
+obo:RO_0001000 rdf:type owl:ObjectProperty ;
+               owl:inverseOf obo:RO_0001001 ;
+               obo:IAO_0000112 "this cell derives from this parent cell (cell division)"@en ,
+                               "this nucleus derives from this parent nucleus (nuclear division)"@en ;
+               obo:IAO_0000115 "a relation between two distinct material entities, the new entity and the old entity, in which the new entity begins to exist when the old entity ceases to exist, and the new entity inherits the significant portion of the matter of the old entity"@en ;
+               obo:IAO_0000116 "This is a very general relation. More specific relations are preferred when applicable, such as 'directly develops from'."@en ;
+               rdfs:label "derives from"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0001001
+obo:RO_0001001 rdf:type owl:ObjectProperty ;
+               obo:IAO_0000112 "this parent cell derives into this cell (cell division)"@en ,
+                               "this parent nucleus derives into this nucleus (nuclear division)"@en ;
+               obo:IAO_0000115 "a relation between two distinct material entities, the old entity and the new entity, in which the new entity begins to exist when the old entity ceases to exist, and the new entity inherits the significant portion of the matter of the old entity"@en ;
+               obo:IAO_0000116 "This is a very general relation. More specific relations are preferred when applicable, such as 'directly develops into'. To avoid making statements about a future that may not come to pass, it is often better to use the backward-looking 'derives from' rather than the forward-looking 'derives into'."@en ;
+               rdfs:label "derives into"@en .
+
+
 ###  http://purl.obolibrary.org/obo/RO_0001025
 obo:RO_0001025 rdf:type owl:ObjectProperty ,
                         owl:TransitiveProperty ;
@@ -1045,6 +1064,30 @@ co:PMD_0000009 rdf:type owl:ObjectProperty ;
                rdfs:seeAlso "has process attribute from OEO https://openenergyplatform.org/ontology/oeo/OEO_00000500"@en ;
                skos:definition "A relation between a process and a process attribute that depends on it."@en ;
                skos:example "Tensile testing process has process attribute tensile rate"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000069
+co:PMD_0000069 rdf:type owl:ObjectProperty ;
+               owl:inverseOf co:PMD_0000070 ;
+               rdf:type owl:InverseFunctionalProperty ;
+               rdfs:domain [ owl:intersectionOf ( obo:BFO_0000002
+                                                  [ rdf:type owl:Class ;
+                                                    owl:complementOf co:PMD_0000068
+                                                  ]
+                                                ) ;
+                             rdf:type owl:Class
+                           ] ;
+               rdfs:range co:PMD_0000068 ;
+               rdfs:label "has state"@en ;
+               skos:definition "relates a temporally qualified continuant to the unique anchor continuant that it is a temporal phase of"@en ;
+               co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/185" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000070
+co:PMD_0000070 rdf:type owl:ObjectProperty ,
+                        owl:FunctionalProperty ;
+               rdfs:label "is state of"@en ;
+               skos:definition "relates a temporally qualified continuant to the unique anchor continuant that it is a temporal phase of" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001026
@@ -3352,6 +3395,47 @@ co:PMD_0000067 rdf:type owl:Class ;
 https://github.com/pyiron/semantikon/pull/278""" .
 
 
+###  https://w3id.org/pmd/co/PMD_0000068
+co:PMD_0000068 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( obo:BFO_0000002
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:BFO_0000108 ;
+                                                            owl:someValuesFrom obo:BFO_0000008
+                                                          ]
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty co:PMD_0000070 ;
+                                                            owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000002
+                                                                                                      [ rdf:type owl:Class ;
+                                                                                                        owl:complementOf co:PMD_0000068
+                                                                                                      ]
+                                                                                                    ) ;
+                                                                                 rdf:type owl:Class
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf obo:BFO_0000002 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000108 ;
+                                 owl:someValuesFrom obo:BFO_0000008
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty co:PMD_0000070 ;
+                                 owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000002
+                                                                           [ rdf:type owl:Class ;
+                                                                             owl:complementOf co:PMD_0000068
+                                                                           ]
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ]
+                               ] ;
+               obo:IAO_0000116 "For any temporally qualified continuant x@t, there exists a continuant y such that x@t has_state y, meaning that y is the anchor continuant of which x@t is a temporal phase existing at temporal regions t. The relation has_state is functional and signifies that all such temporally qualified continuants are uniquely associated with their basic anchor continuant."@en ;
+               rdfs:label "temporally qualified continuant"@en ;
+               skos:definition "A temporally qualified continuant is a continuant that, by reference to a determinate temporal region, is such as to possess its properties only for so long as that period obtains, being otherwise in its essentiality unchanged."@en ;
+               co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/185" .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000501
 co:PMD_0000501 rdf:type owl:Class ;
                rdfs:subClassOf obo:IAO_0000030 ;
@@ -4954,9 +5038,10 @@ co:PMD_0000767 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000768
 co:PMD_0000768 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000019 ;
+               rdfs:subClassOf co:PMD_0000008 ;
                rdfs:label "half-life"@en ;
-               skos:definition "The half-life is a temporal property describing the time required for a quantity to reduce to half its initial value, often applied to radioactive decay or material degradation."@en ;
+               skos:definition "The half-life is a process attribute describing the time it takes for a material entity or a quality of a material entity to reduce its initial value to a half"@en ;
+               skos:example "radioactive decay, material degradation"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5377,7 +5462,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid319 ;
+               owl:equivalentClass _:genid339 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000087 ;
@@ -5389,7 +5474,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid319 owl:intersectionOf ( obo:BFO_0000029
+_:genid339 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:RO_0000087 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -5400,7 +5485,7 @@ _:genid319 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid319 ;
+   owl:annotatedTarget _:genid339 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -6716,9 +6801,10 @@ co:PMD_0000966 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000967
 co:PMD_0000967 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020131 ;
-               rdfs:comment "To express that an object has a temperature, the property 'intensive bearer of' can be used. It implies a chain of: object consists of some portion of matter and portion of matter bearer of some temperature."@en ;
+               rdfs:comment "The concept refers to an absolute tempeature, not to be mistaken with temperature difference."@en ,
+                            "To express that an object has a temperature, the property 'intensive bearer of' can be used. It implies a chain of: object consists of some portion of matter and portion of matter bearer of some temperature."@en ;
                rdfs:label "temperature"@en ;
-               skos:definition "The temperature is a universal intensive quality representing the average atomic or molcular movement or vibration of a portion of matter."@en ;
+               skos:definition "The temperature is a fundamental intensive quality representing the average atomic or molcular movement or vibration of a portion of matter."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8479,6 +8565,8 @@ co:PMD_0020101 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000145 ;
                owl:disjointWith co:PMD_0050000 ;
                rdfs:label "proportion"@en ;
+               skos:altLabel "concentration"@en ,
+                             "fraction"@en ;
                skos:definition "A Proportion is a relational quality between two entites (the whole and the part) which quantifies the relation between the whole and its part."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -8618,6 +8706,7 @@ co:PMD_0020129 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020131
 co:PMD_0020131 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000019 ;
+               owl:disjointWith co:PMD_0020148 ;
                rdfs:label "intensive quality"@en ;
                skos:altLabel "Point property"@en ;
                skos:definition "An intensive quality is a qualty that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en ;
@@ -8635,8 +8724,9 @@ co:PMD_0020132 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020133
 co:PMD_0020133 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020148 ;
+               rdfs:comment "Mass is relevant in such processes as gravitation, acceleration, etc."@en ;
                rdfs:label "mass"@en ;
-               skos:definition "Mass is a quality that inheres in an object, object aggregate or fiat object part and affects those in processes where gravitation, acceleration, thermal mass etc are relevant."@en ;
+               skos:definition "Mass is fundamental extensive quality."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8720,7 +8810,7 @@ co:PMD_0020148 rdf:type owl:Class ;
 co:PMD_0020150 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020132 ;
                rdfs:label "volume"@en ;
-               skos:definition "Volume is a universal extensive quality that affects those in processes where a spatial region/spatial extent is relevant."@en ;
+               skos:definition "Volume is a three dimensional size."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8771,12 +8861,28 @@ co:PMD_0020166 rdf:type owl:Class ;
                skos:definition "A heat is a fixed amount of metallic alloy that may be input to some Manifacturing Process."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020199
+co:PMD_0020199 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020132 ;
+               rdfs:label "Fläche"@de ,
+                          "area"@en ;
+               skos:definition "Area a two dimesional size"@en ;
+               skos:example "Section area or a surface area"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020200
 co:PMD_0020200 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000017 ;
                rdfs:label "force"@en ;
                skos:definition "Force is a reciprocal relation realized between two objects where the other object exerces the same force with opposite sign onto the first. Force may be responsible for changes in velocity and/or deformation of objects."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020201
+co:PMD_0020201 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000146 ;
+               rdfs:label "section"@en ;
+               skos:definition "Section is a planar fiat surface cutting across the object"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020202
@@ -8812,11 +8918,20 @@ co:PMD_0020205 rdf:type owl:Class ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
+###  https://w3id.org/pmd/co/PMD_0020207
+co:PMD_0020207 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020103 ;
+               rdfs:label "amount of substance"@en ;
+               skos:definition "Amount of substance n is a molar propotion when the whole is a object aggregate N, which has Avogadro number objects (of same type) as parts (n = N/N_A)."@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0040001
 co:PMD_0040001 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020132 ;
+               rdfs:comment "Length is a size that describes the spacial extend of its bearer in one dimension."@en ;
                rdfs:label "length"@en ;
-               skos:definition "A size that characterizes the main spatial extend of an object or distance between characteristic points of an object."@en ;
+               skos:altLabel "dimension"@en ;
+               skos:definition "Length is a one dimensional size." ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -10533,6 +10648,22 @@ dce:license rdfs:label "dc:license" .
 
 
 [ rdf:type owl:AllDisjointClasses ;
+  owl:members ( co:PMD_0000503
+                co:PMD_0000512
+                co:PMD_0000551
+                co:PMD_0000591
+                co:PMD_0000595
+                co:PMD_0000597
+                co:PMD_0000853
+                co:PMD_0000896
+                co:PMD_0000942
+                co:PMD_0000967
+                co:PMD_0020112
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
   owl:members ( co:PMD_0000519
                 co:PMD_0000520
                 co:PMD_0000521
@@ -10582,6 +10713,18 @@ dce:license rdfs:label "dc:license" .
                 co:PMD_0000869
                 co:PMD_0000870
                 co:PMD_0000871
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( co:PMD_0000553
+                co:PMD_0000619
+                co:PMD_0020132
+                co:PMD_0020133
+                co:PMD_0020142
+                co:PMD_0020151
+                co:PMD_0020155
               )
 ] .
 
