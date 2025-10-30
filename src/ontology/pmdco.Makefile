@@ -4,8 +4,30 @@
 ## changes here rather than in the main Makefile
 
 
+#$(IMPORTSEED): $(PRESEED) | $(TMPDIR)
+#	echo "" > $@
+
+
 $(ONTOLOGYTERMS): $(SRCMERGED)
 	$(ROBOT) query -f csv -i $< --query pmdco_terms.sparql $@
+
+
+
+$(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl $(IMPORTDIR)/stato_terms.txt \
+			    | all_robot_plugins
+	$(ROBOT) annotate --input $< --remove-annotations \
+		 odk:normalize --add-source true \
+		 extract --term-file $(IMPORTDIR)/stato_terms.txt\
+		         --force true --copy-ontology-annotations true \
+		         --individuals include \
+		         --method SUBSET \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term-file $(IMPORTDIR)/stato_terms.txt $(T_IMPORTSEED) \
+		        --select complement --select annotation-properties \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 repair --merge-axiom-annotations true \
+		 $(ANNOTATE_CONVERT_FILE)
 
 
 $(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \

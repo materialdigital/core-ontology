@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                e38c1b68abd4d56ff801ccaa9e1ea3989c878552f3f00bf591e1e24f86ac6728
+CONFIG_HASH=                b17f491714102f1cc1faa4f94bfc39a40d442c35274ad22c612d927b61612565
 
 
 # ----------------------------------------
@@ -188,7 +188,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo ro iao obi chebi
+IMPORTS =  bfo ro iao obi chebi stato
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -452,6 +452,25 @@ $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
 	@false
 
+## Module for ontology: stato (slme)
+$(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl $(IMPORTDIR)/stato_terms.txt $(IMPORTSEED) | all_robot_plugins
+	$(ROBOT) annotate --input $< --remove-annotations \
+		 odk:normalize --add-source true \
+		 extract --term-file $(IMPORTDIR)/stato_terms.txt $(T_IMPORTSEED) \
+		         --copy-ontology-annotations true --force true \
+		         --individuals exclude \
+		         --method SUBSET \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term rdfs:label \
+		        --term IAO:0000115 \
+		        --term OMO:0002000 \
+		        --term-file $(IMPORTDIR)/stato_terms.txt $(T_IMPORTSEED) \
+		        --select complement --select annotation-properties \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 repair --merge-axiom-annotations true \
+		 $(ANNOTATE_CONVERT_FILE)
+
 endif # IMP=true
 
 .PHONY: refresh-imports
@@ -576,6 +595,14 @@ mirror-obi: | $(TMPDIR)
 .PRECIOUS: $(MIRRORDIR)/chebi.owl
 mirror-chebi: | $(TMPDIR)
 	$(ROBOT) convert -I https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.obo -o $(TMPDIR)/$@.owl
+
+
+## ONTOLOGY: stato
+.PHONY: mirror-stato
+.PRECIOUS: $(MIRRORDIR)/stato.owl
+mirror-stato: | $(TMPDIR)
+	curl -L $(OBOBASE)/stato.owl --create-dirs -o $(TMPDIR)/stato-download.owl --retry 4 --max-time 200 && \
+	$(ROBOT) convert -i $(TMPDIR)/stato-download.owl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)
