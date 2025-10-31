@@ -1,30 +1,10 @@
 # Usage Patterns
 
 In ontology development and usage, **usage patterns** play a critical role in addressing recurring modeling requirements. These patterns provide standardized, reusable semantic snippets that facilitate consistent representation of relationships between instances and entities. Furthermore, such patterns may be used to create SHACL shapes to include constraints in a knowledge representation. By following usage patterns, ontology users and developers can ensure uniformity, clarity, and reusability in their models.
-![TableOfContents](https://github.com/user-attachments/assets/3510fa58-9774-4d04-a466-6a6bf7f2ddcd)
 
 The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and example.
 
----
-
-## Table of Contents
-Hereby we provide an overview of the patterns used in PMDco 3.0.0:
-
-- [Pattern 1](#Pattern-1---Temporal-Region): Temporal Region
-- [Pattern 2](#Pattern-2---Process-Chain): Process Chain
-- [Pattern 3](#Pattern-3---Process-Inputs-and-Outputs): Process Inputs and Outputs
-- [Pattern 4](#Pattern-4---Realizable-Entities): Realizable Entities
-- [Pattern 5](#Pattern-5---Qualities): Qualities
-- [Pattern 6](#Pattern-6---Scalar-Measurement): Scalar Measurement
-- [Pattern 7](#Pattern-7---Scalar-Value-Specification): Scalar Value Specification
-- [Pattern 8](#Pattern-8---Categorical-Value-Specification): Categorical Value Specification
-- [Pattern 9](#Pattern-9---Material-and-Device-Specification): Material and Device Specification
-
----
-
-## Example Patterns
-
-### Pattern 1 - Temporal Region
+## Pattern 1 - Temporal Region
 
 
 - **Purpose**: Specifying the boundaries of a process on the time axis. 
@@ -136,7 +116,7 @@ ex:object_1 exists_at: ex:some_time .
 
 ---
 
-### Pattern 2 - Process Chain
+## Pattern 2 - Process Chain
 
 - **Purpose**: Represent complex processes, consisting of simultaneous and serial subprocesses. 
 - **Core Properties**: 
@@ -245,7 +225,7 @@ ex:process_step2a simultaneous_with: ex:process_step2b .
 
 ---
 
-### Pattern 3 - Process Inputs and Outputs
+## Pattern 3 - Process Inputs and Outputs
 
 - **Purpose**: Describes how to represent inputs and outputs for planned processes typically involving material entities or information-bearing entities.
 - **Core Properties**: 
@@ -348,7 +328,7 @@ ex:object3 a object:
 
 ---
 
-### Pattern 4 - Realizable Entities (Role)
+## Pattern 4 - Realizable Entities (Role)
 
 - **Purpose**: Represent characteristics of the objects, brought to existence by a specific situation. E.g. a role, which is relalized in a process.
 - **Core Properties**: 
@@ -462,7 +442,7 @@ ex:role_1 has_realization: ex:process_1  .
 
 ---
 
-### Pattern 5 - Realizable Entities (Qualities)
+## Pattern 5 - Realizable Entities (Qualities)
 
 - **Purpose**: Represent inherent characteristics of the objects, having certain scalar values at moments/periods of time.
 - **Core Properties**: 
@@ -476,7 +456,7 @@ ex:role_1 has_realization: ex:process_1  .
 
 ---
 
-### Pattern 6 - Scalar Measurement
+## Pattern 6 - Scalar Measurement
 
 - **Purpose**: Represent measured value of some material characteristic. 
 - **Core Properties**: 
@@ -493,7 +473,7 @@ ex:role_1 has_realization: ex:process_1  .
 
 ---
 
-### Pattern 7 - Scalar Value Specification
+## Pattern 7 - Scalar Value Specification
 
 - **Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
 - **Core Properties**: 
@@ -507,7 +487,7 @@ ex:role_1 has_realization: ex:process_1  .
 
 ---
 
-### Pattern 8 - Categorical Value Specification
+## Pattern 8 - Categorical Value Specification
 
 - **Purpose**: Represents object characteristics, described by belonging to some category.
 - **Core Properties**: 
@@ -520,7 +500,7 @@ ex:role_1 has_realization: ex:process_1  .
 ![Visualization of Pattern 8](https://github.com/user-attachments/assets/38d70bbd-29d1-47c3-b73b-6e4ebc12feef)
 
 ---
-### Pattern 9 - Material and Device Specification
+## Pattern 9 - Material and Device Specification
 
 - **Purpose**: Specify the material, from which the object is made, by stating that it complies with the certain material specification. Or, specifying the device in the same manner.
 - **Core Properties**: 
