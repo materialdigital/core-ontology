@@ -3,6 +3,7 @@ PRIOR_VERSION=3.0.0-alpha3
 ONTBASE=https://w3id.org/pmd/co/
 ANNOTATE_ONTOLOGY_VERSION="annotate -V $ONTBASE$VERSION/\$@ --annotation owl:versionInfo $VERSION"
 
+sh utils/generate-auto-shapes.sh
 
 #sh run.sh make clean
 
