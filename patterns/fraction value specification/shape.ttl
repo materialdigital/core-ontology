@@ -5,7 +5,7 @@
 @prefix ex:    <http://www.example.org/#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
-@prefix obi:   <http://purl.obolibrary.org/obo/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
 @prefix pmdco: <https://w3id.org/pmd/co/> .
 @prefix shape:   <https://w3id.org/pmd/co/shapes> .
 
@@ -21,7 +21,7 @@ shape:fraction_value_specification
             sh:maxInclusive 100 ;
             sh:datatype xsd:float ;
             sh:message "While defining fraction specification, the numerical value must be present, unique, and not exceed 100." ;
-            sh:path <http://purl.obolibrary.org/obo/OBI_0001937>  #obi:has specified numeric value
+            sh:path <http://purl.obolibrary.org/obo/OBI_0001937>  # has specified numeric value
         ] ;
 
     # Exactly one property pointing to the physical unit from UO
@@ -32,12 +32,13 @@ shape:fraction_value_specification
         sh:maxCount 1 ;
         sh:in 
         (
-            obi:UO_0000163  # mass percentage
-            obi:UO_0000164  # mass volume percentage
-            obi:UO_0000076  # mole fraction
+            obo:UO_0000163  # mass percentage
+            obo:UO_0000164  # mass volume percentage
+            obo:UO_0000076  # mole fraction
         ) ; 
         sh:message "has measurement unit label must only point to one of the allowed UO individuals: mass percentage, mass volume percentage, or mole fraction." ;
     ] ;
    
-   sh:closed true ;
+   sh:closed false ;
+   # not closing the shape because of is about and its sub properties
    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
