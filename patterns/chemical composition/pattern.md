@@ -10,6 +10,9 @@ The following image shows some manufacturing process with multiple inputs and ou
 
 <img src="pattern.png?raw=true" alt="pattern7 image" width="750"/>
 
+alternative Visualization using [visgraph](https://thhanke.github.io/visgraph/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/main/patterns/chemical%20composition/shape-data.ttl)
+<img src="https://raw.githubusercontent.com/materialdigital/core-ontology/main/patterns/chemical%20composition/chemical_composition.svg">
+
 ## SHACL shape and example data
 [shape-data.ttl](shape-data.ttl)
 

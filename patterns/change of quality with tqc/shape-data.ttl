@@ -1,0 +1,70 @@
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix si: <https://si-digital-framework.org/SI#> .
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+
+<https://w3id.org/pmd/co/test/shape/change_of_quality_with_tqc> rdf:type owl:Ontology .
+
+@prefix man_process: <https://w3id.org/pmd/co/PMD_0000833>  . 
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix size: <https://w3id.org/pmd/co/PMD_0020132> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix statue: <http://example.org/statue> . 
+@prefix has_state: <https://w3id.org/pmd/co/PMD_0000069> .
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix has_input: <http://purl.obolibrary.org/obo/RO_0002233> .
+@prefix has_output: <http://purl.obolibrary.org/obo/RO_0002234> .
+@prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> .
+@prefix length: <https://w3id.org/pmd/co/PMD_0040001> .
+
+statue: rdfs:subClassOf object: .
+size: rdfs:subClassOf quality: .
+length: rdfs:subClassOf size: .
+mass: rdfs:subClassOf quality: .
+density: rdfs:subClassOf quality: .
+
+# Define Object (Anchor)
+ex:object a statue: . 
+ex:object a independent_continuant: .
+ex:object has_quality: ex:quality_1 .
+ex:quality_1 a mass: .
+ex:object has_state: ex:object_at_t1  .
+ex:object has_state: ex:object_at_t2  .
+
+
+# the object has a tqc at t1
+# the tqc is also a statue  (the types of the anchor are also the types of the tqc, but not vice versa)
+
+ex:object_at_t1 a temporally_qualified_continuant: .
+ex:object_at_t1 a statue: .
+ex:object_at_t1 is_state_of: ex:object .
+ex:object_at_t1 exists_at: ex:temporal_region_1 .
+ex:temporal_region_1  a temporal_region: .
+ex:object_at_t1 has_quality: ex:quality_t1 .
+ex:quality_t1 a size: .
+
+
+# this tqc has all the "process" relevant information (e.g. a new mass)
+# it also "inherits" the types of the anchor
+ex:object_at_t2 a statue: .
+ex:object_at_t2 a temporally_qualified_continuant: .
+ex:object_at_t2 is_state_of: ex:object .
+ex:object_at_t2 exists_at: ex:temporal_region_2 .
+ex:temporal_region_2  a temporal_region: .
+ex:object_at_t2 has_quality: ex:quality_t2 . 
+ex:quality_t2 a density: .

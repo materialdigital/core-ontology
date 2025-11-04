@@ -1,4 +1,4 @@
-# Pattern: measurment
+# Pattern: measurement
 ## Purpose
 Description on how to represent the result of a measurement of a (scalar) physical quanity.
 
@@ -12,7 +12,10 @@ activities) and is thus related to this specific measurement through its role.
 The following image shows the assay "test:my_assay", in which the quality "test:my_entities_quality" is quantified by a scalar measurement datum. 
 
 <img src="pattern.png" alt="pattern3 image" width="750"/>
-          
+
+alternative Visualization using [visgraph](https://thhanke.github.io/visgraph/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/measurement/shape-data.ttl)
+<img src="https://raw.githubusercontent.com/materialdigital/core-ontology/main/patterns/measurement/measurements.svg">
+       
 ## Shapes and example data
 [shape-data.ttl](shape-data.ttl)
 

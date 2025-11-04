@@ -1,91 +1,83 @@
-@prefix : <https://w3id.org/pmd/co/test/shape7#> .
-@prefix ex: <https://w3id.org/pmd/co/test/shape7/> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <https://w3id.org/pmd/co/test/shape7#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix obo:    <http://purl.obolibrary.org/obo/> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+@base <https://w3id.org/pmd/co/test/shape_chemical_composition#> .
 
-<https://w3id.org/pmd/co/test/shape7> rdf:type owl:Ontology .
+<https://w3id.org/pmd/co/test/shape_chemical_composition> 
+    rdf:type owl:Ontology .
 
-#################################################################
-#    Individuals
-#################################################################
+### Define prefixes ###
 
-###  https://w3id.org/pmd/co/test/shape7/chemical_composition_quality
-ex:chemical_composition_quality rdf:type owl:NamedIndividual ,
-                                         <https://w3id.org/pmd/co/PMD_0000551> ;
-                                <http://purl.obolibrary.org/obo/RO_0000059> ex:chemical_composition_specification ;
-                                rdfs:label "chemical_composition_quality"@en .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix chemical_composition: <https://w3id.org/pmd/co/PMD_0000551> .
+@prefix chemical_composition_specification: <https://w3id.org/pmd/co/PMD_0025002> .
+@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0020130> .
+@prefix proportion: <https://w3id.org/pmd/co/PMD_0020101> .
+@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> . 
+@prefix portion_of_matter: <https://w3id.org/pmd/co/PMD_0000001> . 
+@prefix portion_of_chemical_element: <https://w3id.org/pmd/co/PMD_0020140> . 
+@prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
+@prefix portion_of_silicon: <https://w3id.org/pmd/co/PMD_0020050> . 
+@prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
 
+@prefix quality_of: <http://purl.obolibrary.org/obo/RO_0000080> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> .
+@prefix has_member: <http://purl.obolibrary.org/obo/RO_0002351> .
+@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0020136> . 
+@prefix has_relational_quality: <https://w3id.org/pmd/co/PMD_0020137> . 
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix part_of: <http://purl.obolibrary.org/obo/BFO_0000050> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
 
-###  https://w3id.org/pmd/co/test/shape7/chemical_composition_specification
-ex:chemical_composition_specification rdf:type owl:NamedIndividual ,
-                                               <https://w3id.org/pmd/co/PMD_0020004> ;
-                                      <http://purl.obolibrary.org/obo/BFO_0000051> ex:scalar_value_specification_C ,
-                                                                                   ex:scalar_value_specification_Fe ;
-                                      rdfs:label "chemical_composition_specification 1"@en .
+### Define subclass relations ###
 
+mass_proportion: rdfs:subClassOf proportion: .
+portion_of_chemical_element: rdfs:subClassOf portion_of_matter: . 
+material: rdfs:subClassOf portion_of_matter: . 
+portion_of_iron: rdfs:subClassOf portion_of_chemical_element: .
+portion_of_silicon: rdfs:subClassOf portion_of_chemical_element: .
 
-###  https://w3id.org/pmd/co/test/shape7/mass_proportion_carbon
-ex:mass_proportion_carbon rdf:type owl:NamedIndividual ,
-                                   <https://w3id.org/pmd/co/PMD_0020102> ;
-                          <http://purl.obolibrary.org/obo/RO_0000059> ex:scalar_value_specification_C ;
-                          rdfs:label "mass_proportion_carbon"@en .
+### Define material entities ###
 
+ex:material_no27_14 a material: . 
+ex:some_silicon a portion_of_silicon: .
+ex:some_silicon part_of: ex:material_no27_14 .
+ex:some_iron a portion_of_iron: . 
+ex:some_iron part_of: ex:material_no27_14 .
 
-<http://purl.obolibrary.org/obo/BFO_0000145> rdf:type owl:Class .
-<https://w3id.org/pmd/co/PMD_0020102> rdfs:subClassOf <http://purl.obolibrary.org/obo/BFO_0000145> .
+### Define chemical composition ###
 
+ex:chem_comp a chemical_composition: .
+ex:chem_comp quality_of: ex:material_no27_14 .
+ex:chem_comp_spec a chemical_composition_specification: .
+ex:chem_comp_spec has_member: ex:fraction_iron .
+ex:chem_comp_spec has_member: ex:fraction_silicon .
+ex:chem_comp concretizes: ex:chem_comp_spec .
 
-###  https://w3id.org/pmd/co/test/shape7/mass_proportion_iron
-ex:mass_proportion_iron rdf:type owl:NamedIndividual ,
-                                 <https://w3id.org/pmd/co/PMD_0020102> ;
-                        <http://purl.obolibrary.org/obo/RO_0000059> ex:scalar_value_specification_Fe ;
-                        rdfs:label "mass_proportion_iron"@en .
+### Define proportions ###
+ex:mass_proportion_iron a mass_proportion: .
+ex:mass_proportion_iron relational_quality_of: ex:some_iron .
+ex:mass_proportion_iron concretizes: ex:fraction_iron .
+ex:mass_proportion_silicon a mass_proportion: .
+ex:mass_proportion_silicon relational_quality_of: ex:some_silicon .
+ex:mass_proportion_silicon concretizes: ex:fraction_silicon .
 
-
-###  https://w3id.org/pmd/co/test/shape7/portion_of_carbon
-ex:portion_of_carbon rdf:type owl:NamedIndividual ,
-                              <https://w3id.org/pmd/co/PMD_0020025> ;
-                     <http://purl.obolibrary.org/obo/BFO_0000196> ex:mass_proportion_carbon ;
-                     rdfs:label "portion of carbon"@en .
-
-
-###  https://w3id.org/pmd/co/test/shape7/portion_of_iron
-ex:portion_of_iron rdf:type owl:NamedIndividual ,
-                            <https://w3id.org/pmd/co/PMD_0020025> ;
-                   <http://purl.obolibrary.org/obo/BFO_0000196> ex:mass_proportion_iron ;
-                   rdfs:label "portion_of_iron"@en .
-
-
-###  https://w3id.org/pmd/co/test/shape7/portion_of_steel
-ex:portion_of_steel rdf:type owl:NamedIndividual ,
-                             <https://w3id.org/pmd/co/PMD_0000639> ;
-                    <http://purl.obolibrary.org/obo/BFO_0000196> ex:mass_proportion_carbon ,
-                                                                 ex:mass_proportion_iron ;
-                    <http://purl.obolibrary.org/obo/RO_0000086> ex:chemical_composition_quality ;
-                    <https://w3id.org/pmd/co/PMD_0020005> ex:portion_of_carbon ,
-                                                          ex:portion_of_iron ;
-                    rdfs:label "portion_of_steel"@en .
-
-
-###  https://w3id.org/pmd/co/test/shape7/scalar_value_specification_C
-ex:scalar_value_specification_C rdf:type owl:NamedIndividual ,
-                                         <http://purl.obolibrary.org/obo/IAO_0000030> .
-
-
-###  https://w3id.org/pmd/co/test/shape7/scalar_value_specification_Fe
-ex:scalar_value_specification_Fe rdf:type owl:NamedIndividual ,
-                                          <http://purl.obolibrary.org/obo/IAO_0000030> .
-
-
-###  https://w3id.org/pmd/co/test/shape7/steel_sheet
-ex:steel_sheet rdf:type owl:NamedIndividual ,
-                        <http://purl.obolibrary.org/obo/BFO_0000030> ;
-               <https://w3id.org/pmd/co/PMD_0020005> ex:portion_of_steel ;
-               rdfs:label "steel_sheet"@en .
+### Define fraction specifcation ###
+ex:fraction_iron a fraction_value_specification: .
+ex:fraction_iron has_specified_numeric_value: "96.7"^^xsd:float .
+ex:fraction_iron has_measurement_unit_label: mass_percentage: . 
+ex:fraction_iron specifies_value_of: ex:some_iron .
+ex:fraction_silicon a fraction_value_specification: .
+ex:fraction_silicon has_specified_numeric_value: "3.3"^^xsd:float .
+ex:fraction_silicon has_measurement_unit_label: mass_percentage: . 
+ex:fraction_silicon specifies_value_of: ex:some_silicon .
 
 
-###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
