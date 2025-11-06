@@ -15,8 +15,8 @@ Import(<https://w3id.org/pmd/co/components/pmdco-shared.owl>)
 Annotation(dcterms:title "Platform Material Digital Core Ontology (PMDco) - Qualities Module"@en)
 Annotation(rdfs:comment "Qualities module of the PMD Core Ontology (PMDco). The scope of this module is the description of materials related qualities."@en)
 
-Declaration(Class(<http://purl.obolibrary.org/obo/CHEBI:59999>))
-Declaration(Class(<http://purl.obolibrary.org/obo/CHEBI:60003>))
+Declaration(Class(obo:CHEBI_59999))
+Declaration(Class(obo:CHEBI_60003))
 Declaration(Class(pmdco:PMD_0000000))
 Declaration(Class(pmdco:PMD_0000005))
 Declaration(Class(pmdco:PMD_0000503))
@@ -134,6 +134,7 @@ Declaration(Class(pmdco:PMD_0020205))
 Declaration(Class(pmdco:PMD_0020207))
 Declaration(Class(pmdco:PMD_0025001))
 Declaration(Class(pmdco:PMD_0025002))
+Declaration(Class(pmdco:PMD_0025997))
 Declaration(Class(pmdco:PMD_0040001))
 Declaration(Class(pmdco:PMD_0050000))
 Declaration(Class(pmdco:PMD_0050001))
@@ -150,8 +151,8 @@ Declaration(ObjectProperty(pmdco:PMD_0001029))
 Declaration(ObjectProperty(pmdco:PMD_0001030))
 Declaration(ObjectProperty(pmdco:PMD_0001031))
 Declaration(ObjectProperty(pmdco:PMD_0020020))
-Declaration(ObjectProperty(pmdco:PMD_0020136))
-Declaration(ObjectProperty(pmdco:PMD_0020137))
+Declaration(ObjectProperty(pmdco:PMD_0025998))
+Declaration(ObjectProperty(pmdco:PMD_0025999))
 Declaration(NamedIndividual(pmdco:PMD_0020006))
 Declaration(NamedIndividual(pmdco:PMD_0020007))
 Declaration(NamedIndividual(pmdco:PMD_0020008))
@@ -229,23 +230,23 @@ SymmetricObjectProperty(pmdco:PMD_0020020)
 ObjectPropertyDomain(pmdco:PMD_0020020 obo:BFO_0000040)
 ObjectPropertyRange(pmdco:PMD_0020020 obo:BFO_0000040)
 
-# Object Property: pmdco:PMD_0020136 (relational quality of)
+# Object Property: pmdco:PMD_0025998 (has relational quality)
 
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020136 "The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
+AnnotationAssertion(rdfs:label pmdco:PMD_0025998 "has relational quality"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025998 "a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence"@en)
+AnnotationAssertion(skos:example pmdco:PMD_0025998 "material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m"@en)
+SubObjectPropertyOf(pmdco:PMD_0025998 owl:topObjectProperty)
+InverseObjectProperties(pmdco:PMD_0025998 pmdco:PMD_0025999)
+ObjectPropertyRange(pmdco:PMD_0025998 obo:BFO_0000145)
+
+# Object Property: pmdco:PMD_0025999 (relational quality of)
+
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0025999 "The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
 RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is relevant for most of the SDC -> IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in >=2 ICs. Thus,  'relational quality of'  has the same intention to connect SDC to IC, however, without cardinality constraints."@en)
-AnnotationAssertion(rdfs:label pmdco:PMD_0020136 "relational quality of"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020136 "a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020136 "mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron"@en)
-SubObjectPropertyOf(pmdco:PMD_0020136 owl:topObjectProperty)
-InverseObjectProperties(pmdco:PMD_0020136 pmdco:PMD_0020137)
-
-# Object Property: pmdco:PMD_0020137 (has relational quality)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0020137 "has relational quality"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020137 "a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020137 "material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m"@en)
-SubObjectPropertyOf(pmdco:PMD_0020137 owl:topObjectProperty)
-ObjectPropertyRange(pmdco:PMD_0020137 obo:BFO_0000145)
+AnnotationAssertion(rdfs:label pmdco:PMD_0025999 "relational quality of"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025999 "a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence"@en)
+AnnotationAssertion(skos:example pmdco:PMD_0025999 "mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron"@en)
+SubObjectPropertyOf(pmdco:PMD_0025999 owl:topObjectProperty)
 
 
 
@@ -947,14 +948,6 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020129 "A reversible process is a
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020129 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0020129 obo:BFO_0000015)
 
-# Class: pmdco:PMD_0020130 (fraction value specification)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0020130 "fraction value specification"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020130 "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020130 "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en)
-SubClassOf(pmdco:PMD_0020130 ObjectIntersectionOf(obo:OBI_0001933 ObjectSomeValuesFrom(obo:OBI_0001927 <http://purl.obolibrary.org/obo/CHEBI:60003>) ObjectSomeValuesFrom(obo:OBI_0001927 ObjectIntersectionOf(<http://purl.obolibrary.org/obo/CHEBI:59999> ObjectSomeValuesFrom(obo:BFO_0000051 <http://purl.obolibrary.org/obo/CHEBI:60003>))) ObjectSomeValuesFrom(ObjectInverseOf(obo:RO_0002351) pmdco:PMD_0020004)))
-SubClassOf(pmdco:PMD_0020130 ObjectIntersectionOf(obo:OBI_0001933 ObjectSomeValuesFrom(obo:OBI_0001927 pmdco:PMD_0020140) ObjectSomeValuesFrom(obo:OBI_0001927 ObjectIntersectionOf(pmdco:PMD_0000000 ObjectSomeValuesFrom(obo:BFO_0000051 pmdco:PMD_0020140))) ObjectSomeValuesFrom(ObjectInverseOf(obo:RO_0002351) pmdco:PMD_0020004)))
-
 # Class: pmdco:PMD_0020131 (intensive quality)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020131 "intensive quality"@en)
@@ -1123,6 +1116,13 @@ AnnotationAssertion(skos:example pmdco:PMD_0025002 "Steel has quality chemical c
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0025002 "true"^^xsd:boolean)
 EquivalentClasses(pmdco:PMD_0025002 ObjectIntersectionOf(obo:IAO_0000030 ObjectSomeValuesFrom(obo:RO_0000058 pmdco:PMD_0000551)))
 SubClassOf(pmdco:PMD_0025002 pmdco:PMD_0020004)
+
+# Class: pmdco:PMD_0025997 (fraction value specification)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0025997 "fraction value specification"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025997 "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en)
+AnnotationAssertion(skos:example pmdco:PMD_0025997 "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en)
+SubClassOf(pmdco:PMD_0025997 obo:OBI_0001931)
 
 # Class: pmdco:PMD_0040001 (length)
 
@@ -1345,5 +1345,5 @@ DisjointClasses(pmdco:PMD_0020102 pmdco:PMD_0020103 pmdco:PMD_0020104)
 DisjointClasses(pmdco:PMD_0020202 pmdco:PMD_0020203 pmdco:PMD_0020204)
 DifferentIndividuals(pmdco:PMD_0020006 pmdco:PMD_0020007 pmdco:PMD_0020008 pmdco:PMD_0020009 pmdco:PMD_0020010 pmdco:PMD_0020011 pmdco:PMD_0020012 pmdco:PMD_0020013 pmdco:PMD_0020014 pmdco:PMD_0020015 pmdco:PMD_0020016 pmdco:PMD_0020017 pmdco:PMD_0020018 pmdco:PMD_0020019)
 DifferentIndividuals(pmdco:PMD_0020117 pmdco:PMD_0020118 pmdco:PMD_0020119 pmdco:PMD_0020120 pmdco:PMD_0020121 pmdco:PMD_0020122 pmdco:PMD_0020123 pmdco:PMD_0020124 pmdco:PMD_0020125)
-SubObjectPropertyOf(ObjectPropertyChain(obo:BFO_0000051 pmdco:PMD_0020137) pmdco:PMD_0020137)
+SubObjectPropertyOf(ObjectPropertyChain(obo:BFO_0000051 pmdco:PMD_0025998) pmdco:PMD_0025998)
 )
