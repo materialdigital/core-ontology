@@ -1270,21 +1270,6 @@ An example of such case can be \"Temperature of during the annealing process was
                skos:example "a relation to between a process attribute an a SDC of some participant in a process."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0020136
-co:PMD_0020136 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf owl:topObjectProperty ;
-               owl:inverseOf co:PMD_0020137 .
-
-
-###  https://w3id.org/pmd/co/PMD_0020137
-co:PMD_0020137 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf owl:topObjectProperty ;
-               rdfs:range obo:BFO_0000145 ;
-               owl:propertyChainAxiom ( obo:BFO_0000051
-                                        co:PMD_0020137
-                                      ) .
-
-
 ###  https://w3id.org/pmd/co/PMD_0020141
 co:PMD_0020141 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000196 ;
@@ -1298,6 +1283,29 @@ co:PMD_0020141 rdf:type owl:ObjectProperty ;
                skos:definition """Integral bearer of is a property chain linking an object or object aggregate O that consits of a portion of matter PM to a SDC Q that inheres in 'portions of matter' only:
 O -consists of-> PM -bearer of-> Q"""@en ;
                skos:example "Talking colloquially about Intensive thermodynamic properties of an object requires this property."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025998
+co:PMD_0025998 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               owl:inverseOf co:PMD_0025999 ;
+               rdfs:range obo:BFO_0000145 ;
+               owl:propertyChainAxiom ( obo:BFO_0000051
+                                        co:PMD_0025998
+                                      ) ;
+               rdfs:label "has relational quality"@en ;
+               skos:definition "a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence"@en ;
+               skos:example "material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025999
+co:PMD_0025999 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               obo:IAO_0000116 """The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
+RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is relevant for most of the SDC -> IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in >=2 ICs. Thus,  'relational quality of'  has the same intention to connect SDC to IC, however, without cardinality constraints."""@en ;
+               rdfs:label "relational quality of"@en ;
+               skos:definition "a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence"@en ;
+               skos:example "mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron"@en .
 
 
 #################################################################
@@ -2619,8 +2627,10 @@ obo:CHEBI_49957 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_59999
 obo:CHEBI_59999 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_24431 ;
+                rdfs:subClassOf obo:CHEBI_24431 ,
+                                co:PMD_0000001 ;
                 obo:IAO_0000115 "A chemical substance is a portion of matter of constant composition, composed of molecular entities of the same type or of different types." ;
+                rdfs:comment "Frequently used for fluidic portions of matter and/or in the context of chemical reactions. Boundary to material not always sharp."@en ;
                 rdfs:label "chemical substance" .
 
 
@@ -2628,7 +2638,10 @@ obo:CHEBI_59999 rdf:type owl:Class ;
 obo:CHEBI_60003 rdf:type owl:Class ;
                 rdfs:subClassOf obo:CHEBI_59999 ;
                 obo:IAO_0000115 "A pure substance is a chemical substance composed of multiple molecules, which are all of the same kind." ;
-                rdfs:label "pure substance" .
+                rdfs:label "pure substance" ;
+                rdfs:seeAlso obo:CHEBI_60003 ;
+                skos:example "Pure water, a portion of iron atoms. In contrast, salt water 'has part' a portion of pure water and a portion of pure NaCl. Steel 'has part' a 'portion of pure iron', a 'portion of pure carbon' and possibly portions of other alloying- and impurity-elements."@en ;
+                co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000003
@@ -3203,20 +3216,6 @@ obo:OBI_0100051 rdf:type owl:Class ;
 obo:UO_0000003 rdf:type owl:Class ;
                rdfs:subClassOf obo:IAO_0000003 ;
                rdfs:label "time unit" .
-
-
-###  http://purl.obolibrary.org/obo/CHEBI:59999
-<http://purl.obolibrary.org/obo/CHEBI:59999> rdf:type owl:Class ;
-                                             rdfs:subClassOf co:PMD_0000001 ;
-                                             rdfs:comment "Frequently used for fluidic portions of matter and/or in the context of chemical reactions. Boundary to material not always sharp."@en .
-
-
-###  http://purl.obolibrary.org/obo/CHEBI:60003
-<http://purl.obolibrary.org/obo/CHEBI:60003> rdf:type owl:Class ;
-                                             rdfs:subClassOf co:PMD_0000001 ;
-                                             rdfs:seeAlso <http://purl.obolibrary.org/obo/CHEBI:60003> ;
-                                             skos:example "Pure water, a portion of iron atoms. In contrast, salt water 'has part' a portion of pure water and a portion of pure NaCl. Steel 'has part' a 'portion of pure iron', a 'portion of pure carbon' and possibly portions of other alloying- and impurity-elements."@en ;
-                                             co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000000
@@ -8788,97 +8787,10 @@ co:PMD_0020129 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020130
 co:PMD_0020130 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0001933 ,
-                               co:PMD_0000008 ,
-                               [ owl:intersectionOf ( obo:OBI_0001933
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:OBI_0001927 ;
-                                                        owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI:60003>
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:OBI_0001927 ;
-                                                        owl:someValuesFrom [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/CHEBI:59999>
-                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty obo:BFO_0000051 ;
-                                                                                                    owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI:60003>
-                                                                                                  ]
-                                                                                                ) ;
-                                                                             rdf:type owl:Class
-                                                                           ]
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                                       ] ;
-                                                        owl:someValuesFrom co:PMD_0020004
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ,
-                               [ owl:intersectionOf ( obo:OBI_0001933
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:OBI_0001927 ;
-                                                        owl:someValuesFrom co:PMD_0020140
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:OBI_0001927 ;
-                                                        owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
-                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty obo:BFO_0000051 ;
-                                                                                                    owl:someValuesFrom co:PMD_0020140
-                                                                                                  ]
-                                                                                                ) ;
-                                                                             rdf:type owl:Class
-                                                                           ]
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                                       ] ;
-                                                        owl:someValuesFrom co:PMD_0020004
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI:60003>
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom co:PMD_0020140
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/CHEBI:59999>
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty obo:BFO_0000051 ;
-                                                                             owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI:60003>
-                                                                           ]
-                                                                         ) ;
-                                                      rdf:type owl:Class
-                                                    ]
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty obo:BFO_0000051 ;
-                                                                             owl:someValuesFrom co:PMD_0020140
-                                                                           ]
-                                                                         ) ;
-                                                      rdf:type owl:Class
-                                                    ]
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                ] ;
-                                 owl:someValuesFrom co:PMD_0020004
-                               ] ;
-               rdfs:label "driving force of phase in system"@en ,
-                          "fraction value specification"@en ;
-               skos:definition "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en ,
-                               "The driving force is the the gradient of the activity of a phase in a thermodynamic system."@en ;
-               skos:example "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en ,
-                            "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0."@en ;
+               rdfs:subClassOf co:PMD_0000008 ;
+               rdfs:label "driving force of phase in system"@en ;
+               skos:definition "The driving force is the the gradient of the activity of a phase in a thermodynamic system."@en ;
+               skos:example "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8925,13 +8837,21 @@ co:PMD_0020135 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020136
 co:PMD_0020136 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000015 .
+               rdfs:subClassOf obo:BFO_0000015 ;
+               rdfs:comment "The number of phases involved can vary as well as the mechanisms involved can be different."@en ;
+               rdfs:label "phase transformation"@en ;
+               skos:definition "A thermodynamic phase transformation is a process in/of a thermodynamic system, that involves the transformation of phases of the system to other phases."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020137
 co:PMD_0020137 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020000 ;
-               owl:disjointWith co:PMD_0020149 .
+               owl:disjointWith co:PMD_0020149 ;
+               rdfs:comment "See metastable phase"@en ;
+               rdfs:label "stable phase"@en ;
+               skos:example "A phase that participates in a phase transformation pt and pt that is not a metastable phase."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020138
@@ -8952,7 +8872,10 @@ co:PMD_0020139 rdf:type owl:Class ;
 
 
 ###  https://w3id.org/pmd/co/PMD_0020140
-co:PMD_0020140 rdf:type owl:Class .
+co:PMD_0020140 rdf:type owl:Class ;
+               rdfs:subClassOf obo:CHEBI_60003 ;
+               rdfs:label "portion of pure chemical element"@en ;
+               skos:definition "A portion of pure chemical element is a pure substance composed of multiple atoms, which are all of the same kind."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020142
@@ -9245,6 +9168,96 @@ co:PMD_0025002 rdf:type owl:Class ;
                skos:definition "Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts)."@en ;
                skos:example "Steel has quality chemical composition , which concretizes the chemical composition specification .The chemical composition specification has parts fraction specifications of iron and carbon. These fraction specifications specify value of portion of iron and portion of carbon respectively. Furthermore, these  fraction specifications are conretized by relational qualities (mass) proportion of iron and (mass) proportion of carbon."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0025997
+co:PMD_0025997 rdf:type owl:Class ;
+               rdfs:subClassOf obo:OBI_0001931 ,
+                               [ owl:intersectionOf ( [ owl:intersectionOf ( obo:OBI_0001933
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo:OBI_0001927 ;
+                                                                               owl:someValuesFrom obo:CHEBI_60003
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo:OBI_0001927 ;
+                                                                               owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_59999
+                                                                                                                         [ rdf:type owl:Restriction ;
+                                                                                                                           owl:onProperty obo:BFO_0000051 ;
+                                                                                                                           owl:someValuesFrom obo:CHEBI_60003
+                                                                                                                         ]
+                                                                                                                       ) ;
+                                                                                                    rdf:type owl:Class
+                                                                                                  ]
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty [ owl:inverseOf obo:RO_0002351
+                                                                                              ] ;
+                                                                               owl:someValuesFrom co:PMD_0020004
+                                                                             ]
+                                                                           ) ;
+                                                        rdf:type owl:Class
+                                                      ]
+                                                      [ owl:intersectionOf ( obo:OBI_0001933
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo:OBI_0001927 ;
+                                                                               owl:someValuesFrom co:PMD_0020140
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo:OBI_0001927 ;
+                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
+                                                                                                                         [ rdf:type owl:Restriction ;
+                                                                                                                           owl:onProperty obo:BFO_0000051 ;
+                                                                                                                           owl:someValuesFrom co:PMD_0020140
+                                                                                                                         ]
+                                                                                                                       ) ;
+                                                                                                    rdf:type owl:Class
+                                                                                                  ]
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty [ owl:inverseOf obo:RO_0002351
+                                                                                              ] ;
+                                                                               owl:someValuesFrom co:PMD_0020004
+                                                                             ]
+                                                                           ) ;
+                                                        rdf:type owl:Class
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:OBI_0001927 ;
+                                 owl:someValuesFrom co:PMD_0020140
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:OBI_0001927 ;
+                                 owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_59999
+                                                                           [ rdf:type owl:Restriction ;
+                                                                             owl:onProperty obo:BFO_0000051 ;
+                                                                             owl:someValuesFrom obo:CHEBI_60003
+                                                                           ]
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ]
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:OBI_0001927 ;
+                                 owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
+                                                                           [ rdf:type owl:Restriction ;
+                                                                             owl:onProperty obo:BFO_0000051 ;
+                                                                             owl:someValuesFrom co:PMD_0020140
+                                                                           ]
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ]
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty [ owl:inverseOf obo:RO_0002351
+                                                ] ;
+                                 owl:someValuesFrom co:PMD_0020004
+                               ] ;
+               rdfs:label "fraction value specification"@en ;
+               skos:definition "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en ;
+               skos:example "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0040001
@@ -10913,26 +10926,6 @@ dce:license rdfs:label "dc:license" .
 
 
 <https://orcid.org/0000-0003-4971-3645> rdfs:label "Philipp von Hartrott" .
-
-
-co:PMD_0020136 obo:IAO_0000116 """The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
-RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is relevant for most of the SDC -> IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in >=2 ICs. Thus,  'relational quality of'  has the same intention to connect SDC to IC, however, without cardinality constraints."""@en ;
-               rdfs:comment "The number of phases involved can vary as well as the mechanisms involved can be different."@en ;
-               rdfs:label "phase transformation"@en ,
-                          "relational quality of"@en ;
-               skos:definition "A thermodynamic phase transformation is a process in/of a thermodynamic system, that involves the transformation of phases of the system to other phases."@en ,
-                               "a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence"@en ;
-               skos:example "mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron"@en ;
-               co:PMD_0000060 "true"^^xsd:boolean .
-
-
-co:PMD_0020137 rdfs:comment "See metastable phase"@en ;
-               rdfs:label "has relational quality"@en ,
-                          "stable phase"@en ;
-               skos:definition "a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence"@en ;
-               skos:example "A phase that participates in a phase transformation pt and pt that is not a metastable phase."@en ,
-                            "material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m"@en ;
-               co:PMD_0000060 "true"^^xsd:boolean .
 
 
 #################################################################
