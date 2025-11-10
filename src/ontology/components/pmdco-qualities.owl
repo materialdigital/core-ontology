@@ -15,8 +15,8 @@ Import(<https://w3id.org/pmd/co/components/pmdco-shared.owl>)
 Annotation(dcterms:title "Platform Material Digital Core Ontology (PMDco) - Qualities Module"@en)
 Annotation(rdfs:comment "Qualities module of the PMD Core Ontology (PMDco). The scope of this module is the description of materials related qualities."@en)
 
-Declaration(Class(<http://purl.obolibrary.org/obo/CHEBI:59999>))
-Declaration(Class(<http://purl.obolibrary.org/obo/CHEBI:60003>))
+Declaration(Class(obo:CHEBI_59999))
+Declaration(Class(obo:CHEBI_60003))
 Declaration(Class(pmdco:PMD_0000000))
 Declaration(Class(pmdco:PMD_0000005))
 Declaration(Class(pmdco:PMD_0000503))
@@ -38,7 +38,6 @@ Declaration(Class(pmdco:PMD_0000537))
 Declaration(Class(pmdco:PMD_0000538))
 Declaration(Class(pmdco:PMD_0000539))
 Declaration(Class(pmdco:PMD_0000547))
-Declaration(Class(pmdco:PMD_0000548))
 Declaration(Class(pmdco:PMD_0000549))
 Declaration(Class(pmdco:PMD_0000551))
 Declaration(Class(pmdco:PMD_0000553))
@@ -70,7 +69,6 @@ Declaration(Class(pmdco:PMD_0000825))
 Declaration(Class(pmdco:PMD_0000848))
 Declaration(Class(pmdco:PMD_0000851))
 Declaration(Class(pmdco:PMD_0000853))
-Declaration(Class(pmdco:PMD_0000857))
 Declaration(Class(pmdco:PMD_0000861))
 Declaration(Class(pmdco:PMD_0000864))
 Declaration(Class(pmdco:PMD_0000869))
@@ -117,13 +115,16 @@ Declaration(Class(pmdco:PMD_0020132))
 Declaration(Class(pmdco:PMD_0020133))
 Declaration(Class(pmdco:PMD_0020134))
 Declaration(Class(pmdco:PMD_0020135))
-Declaration(Class(pmdco:PMD_0020140))
+Declaration(Class(pmdco:PMD_0020136))
 Declaration(Class(pmdco:PMD_0020142))
 Declaration(Class(pmdco:PMD_0020148))
 Declaration(Class(pmdco:PMD_0020150))
 Declaration(Class(pmdco:PMD_0020151))
 Declaration(Class(pmdco:PMD_0020155))
-Declaration(Class(pmdco:PMD_0020199))
+Declaration(Class(pmdco:PMD_0020161))
+Declaration(Class(pmdco:PMD_0020162))
+Declaration(Class(pmdco:PMD_0020163))
+Declaration(Class(pmdco:PMD_0020165))
 Declaration(Class(pmdco:PMD_0020200))
 Declaration(Class(pmdco:PMD_0020201))
 Declaration(Class(pmdco:PMD_0020202))
@@ -133,6 +134,7 @@ Declaration(Class(pmdco:PMD_0020205))
 Declaration(Class(pmdco:PMD_0020207))
 Declaration(Class(pmdco:PMD_0025001))
 Declaration(Class(pmdco:PMD_0025002))
+Declaration(Class(pmdco:PMD_0025997))
 Declaration(Class(pmdco:PMD_0040001))
 Declaration(Class(pmdco:PMD_0050000))
 Declaration(Class(pmdco:PMD_0050001))
@@ -149,8 +151,8 @@ Declaration(ObjectProperty(pmdco:PMD_0001029))
 Declaration(ObjectProperty(pmdco:PMD_0001030))
 Declaration(ObjectProperty(pmdco:PMD_0001031))
 Declaration(ObjectProperty(pmdco:PMD_0020020))
-Declaration(ObjectProperty(pmdco:PMD_0020136))
-Declaration(ObjectProperty(pmdco:PMD_0020137))
+Declaration(ObjectProperty(pmdco:PMD_0025998))
+Declaration(ObjectProperty(pmdco:PMD_0025999))
 Declaration(NamedIndividual(pmdco:PMD_0020006))
 Declaration(NamedIndividual(pmdco:PMD_0020007))
 Declaration(NamedIndividual(pmdco:PMD_0020008))
@@ -228,23 +230,23 @@ SymmetricObjectProperty(pmdco:PMD_0020020)
 ObjectPropertyDomain(pmdco:PMD_0020020 obo:BFO_0000040)
 ObjectPropertyRange(pmdco:PMD_0020020 obo:BFO_0000040)
 
-# Object Property: pmdco:PMD_0020136 (relational quality of)
+# Object Property: pmdco:PMD_0025998 (has relational quality)
 
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020136 "The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
+AnnotationAssertion(rdfs:label pmdco:PMD_0025998 "has relational quality"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025998 "a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence"@en)
+AnnotationAssertion(skos:example pmdco:PMD_0025998 "material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m"@en)
+SubObjectPropertyOf(pmdco:PMD_0025998 owl:topObjectProperty)
+InverseObjectProperties(pmdco:PMD_0025998 pmdco:PMD_0025999)
+ObjectPropertyRange(pmdco:PMD_0025998 obo:BFO_0000145)
+
+# Object Property: pmdco:PMD_0025999 (relational quality of)
+
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0025999 "The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
 RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is relevant for most of the SDC -> IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in >=2 ICs. Thus,  'relational quality of'  has the same intention to connect SDC to IC, however, without cardinality constraints."@en)
-AnnotationAssertion(rdfs:label pmdco:PMD_0020136 "relational quality of"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020136 "a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020136 "mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron"@en)
-SubObjectPropertyOf(pmdco:PMD_0020136 owl:topObjectProperty)
-InverseObjectProperties(pmdco:PMD_0020136 pmdco:PMD_0020137)
-
-# Object Property: pmdco:PMD_0020137 (has relational quality)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0020137 "has relational quality"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020137 "a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020137 "material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m"@en)
-SubObjectPropertyOf(pmdco:PMD_0020137 owl:topObjectProperty)
-ObjectPropertyRange(pmdco:PMD_0020137 obo:BFO_0000145)
+AnnotationAssertion(rdfs:label pmdco:PMD_0025999 "relational quality of"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025999 "a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence"@en)
+AnnotationAssertion(skos:example pmdco:PMD_0025999 "mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron"@en)
+SubObjectPropertyOf(pmdco:PMD_0025999 owl:topObjectProperty)
 
 
 
@@ -402,13 +404,7 @@ SubClassOf(pmdco:PMD_0000539 ObjectAllValuesFrom(obo:RO_0000052 ObjectUnionOf(ob
 AnnotationAssertion(rdfs:label pmdco:PMD_0000547 "change of aggregate state"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000547 "A change of aggregate state is a phase transition (change of phase) involving the collective state of particles in a material, such as melting or condensation."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000547 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000547 pmdco:PMD_0000548)
-
-# Class: pmdco:PMD_0000548 (change of phase)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0000548 "change of phase"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000548 "A change of phase is a process describing the transition of a material from one state of matter to another, such as from solid to liquid or liquid to gas."@en)
-SubClassOf(pmdco:PMD_0000548 obo:BFO_0000015)
+SubClassOf(pmdco:PMD_0000547 pmdco:PMD_0020136)
 
 # Class: pmdco:PMD_0000549 (change of temperature)
 
@@ -420,8 +416,7 @@ SubClassOf(pmdco:PMD_0000549 obo:BFO_0000015)
 # Class: pmdco:PMD_0000551 (chemical composition)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000551 "chemical composition"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000551 "The chemical composition is a morphological quality describing the types and proportions of elements or compounds present in a material."@en)
-AnnotationAssertion(skos:example pmdco:PMD_0000551 "A chemical composition of a steel given in wt.%"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0000551 "The chemical composition is a quality describing the types and proportions of elements or compounds present in a material."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000551 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000551 pmdco:PMD_0025001)
 
@@ -632,18 +627,12 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000851 "The melting point is a ph
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000851 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000851 pmdco:PMD_0000882)
 
-# Class: pmdco:PMD_0000853 (metallographic texture)
+# Class: pmdco:PMD_0000853 (crystallographic texture)
 
-AnnotationAssertion(rdfs:label pmdco:PMD_0000853 "metallographic texture"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000853 "The metallographic texture is a morphological quality describing the arrangement and orientation of grains and phases in a metallic material, observed through metallographic analysis."@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0000853 "crystallographic texture"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0000853 "The crystallographic texture is a morphological quality describing the arrangement and orientation of grains in a metallic material, observed through crystallographic analysis."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000853 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000853 pmdco:PMD_0020131)
-
-# Class: pmdco:PMD_0000857 (microstructure)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0000857 "microstructure"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000857 "The microstructure represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope."@en)
-SubClassOf(pmdco:PMD_0000857 obo:BFO_0000027)
 
 # Class: pmdco:PMD_0000861 (mohs hardness)
 
@@ -700,11 +689,11 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000882 "phase boundary"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000882 "A phase boundary is a morphological property denoting the interface between two distinct phases of a material, such as solid-liquid or liquid-gas boundaries."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000882 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000882 pmdco:PMD_0000864)
-SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001029 pmdco:PMD_0000548))
 SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001029 pmdco:PMD_0000549))
 SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000520))
 SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000522))
 SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000523))
+SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(ObjectInverseOf(obo:BFO_0000055) pmdco:PMD_0000547))
 
 # Class: pmdco:PMD_0000889 (pore growth)
 
@@ -959,14 +948,6 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020129 "A reversible process is a
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020129 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0020129 obo:BFO_0000015)
 
-# Class: pmdco:PMD_0020130 (fraction value specification)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0020130 "fraction value specification"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020130 "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020130 "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en)
-SubClassOf(pmdco:PMD_0020130 ObjectIntersectionOf(obo:OBI_0001933 ObjectSomeValuesFrom(obo:OBI_0001927 <http://purl.obolibrary.org/obo/CHEBI:60003>) ObjectSomeValuesFrom(obo:OBI_0001927 ObjectIntersectionOf(<http://purl.obolibrary.org/obo/CHEBI:59999> ObjectSomeValuesFrom(obo:BFO_0000051 <http://purl.obolibrary.org/obo/CHEBI:60003>))) ObjectSomeValuesFrom(ObjectInverseOf(obo:RO_0002351) pmdco:PMD_0020004)))
-SubClassOf(pmdco:PMD_0020130 ObjectIntersectionOf(obo:OBI_0001933 ObjectSomeValuesFrom(obo:OBI_0001927 pmdco:PMD_0020140) ObjectSomeValuesFrom(obo:OBI_0001927 ObjectIntersectionOf(pmdco:PMD_0000000 ObjectSomeValuesFrom(obo:BFO_0000051 pmdco:PMD_0020140))) ObjectSomeValuesFrom(ObjectInverseOf(obo:RO_0002351) pmdco:PMD_0020004)))
-
 # Class: pmdco:PMD_0020131 (intensive quality)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020131 "intensive quality"@en)
@@ -1039,13 +1020,38 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020155 "Interatomic interaction e
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020155 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0020155 pmdco:PMD_0020148)
 
-# Class: pmdco:PMD_0020199 (Fläche)
+# Class: pmdco:PMD_0020161 (activity of a phase)
 
-AnnotationAssertion(rdfs:label pmdco:PMD_0020199 "Fläche"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0020199 "area"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020199 "Area a two dimesional size"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020199 "Section area or a surface area"@en)
-SubClassOf(pmdco:PMD_0020199 pmdco:PMD_0020132)
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020161 "Definition not final"@en)
+AnnotationAssertion(rdfs:comment pmdco:PMD_0020161 "Typical configuration independent contributions to the free energy are temperature, pressure, chemical composition and magnetic contributions.
+
+Typical configuration dependent contributions are interface energy contributions."@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020161 "activity of a phase"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020161 "Quality of a thermodynamic phase that characterizes its free energy."@en)
+SubClassOf(pmdco:PMD_0020161 pmdco:PMD_0020148)
+
+# Class: pmdco:PMD_0020162 (activation energy)
+
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020162 "Definition not final"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020162 "activation energy"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020162 "Process attribute characterizing the kinetics of a phase transformation (aka chemical reaction)."@en)
+AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020162 "true"^^xsd:boolean)
+SubClassOf(pmdco:PMD_0020162 pmdco:PMD_0000008)
+
+# Class: pmdco:PMD_0020163 (eutectic phase transformation)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020163 "eutectic phase transformation"@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0020163 "A eutectic phase transformation is a phase transformation in which a liquid parent phase decomposes into two distinct solid daughter phases at constant temperature and pressure."@en)
+AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020163 "true"^^xsd:boolean)
+SubClassOf(pmdco:PMD_0020163 pmdco:PMD_0020136)
+
+# Class: pmdco:PMD_0020165 (disposition of a phase to transform)
+
+AnnotationAssertion(rdfs:comment pmdco:PMD_0020165 "The disposition is grounded in the phases activity in the thermodynamic system in question."@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020165 "disposition of a phase to transform"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020165 "The disposition of a phase to transform into another phase in a phase transformation process."@en)
+AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020165 "true"^^xsd:boolean)
+SubClassOf(pmdco:PMD_0020165 obo:BFO_0000016)
 
 # Class: pmdco:PMD_0020200 (force)
 
@@ -1110,6 +1116,13 @@ AnnotationAssertion(skos:example pmdco:PMD_0025002 "Steel has quality chemical c
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0025002 "true"^^xsd:boolean)
 EquivalentClasses(pmdco:PMD_0025002 ObjectIntersectionOf(obo:IAO_0000030 ObjectSomeValuesFrom(obo:RO_0000058 pmdco:PMD_0000551)))
 SubClassOf(pmdco:PMD_0025002 pmdco:PMD_0020004)
+
+# Class: pmdco:PMD_0025997 (fraction value specification)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0025997 "fraction value specification"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025997 "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en)
+AnnotationAssertion(skos:example pmdco:PMD_0025997 "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en)
+SubClassOf(pmdco:PMD_0025997 obo:OBI_0001931)
 
 # Class: pmdco:PMD_0040001 (length)
 
@@ -1332,5 +1345,5 @@ DisjointClasses(pmdco:PMD_0020102 pmdco:PMD_0020103 pmdco:PMD_0020104)
 DisjointClasses(pmdco:PMD_0020202 pmdco:PMD_0020203 pmdco:PMD_0020204)
 DifferentIndividuals(pmdco:PMD_0020006 pmdco:PMD_0020007 pmdco:PMD_0020008 pmdco:PMD_0020009 pmdco:PMD_0020010 pmdco:PMD_0020011 pmdco:PMD_0020012 pmdco:PMD_0020013 pmdco:PMD_0020014 pmdco:PMD_0020015 pmdco:PMD_0020016 pmdco:PMD_0020017 pmdco:PMD_0020018 pmdco:PMD_0020019)
 DifferentIndividuals(pmdco:PMD_0020117 pmdco:PMD_0020118 pmdco:PMD_0020119 pmdco:PMD_0020120 pmdco:PMD_0020121 pmdco:PMD_0020122 pmdco:PMD_0020123 pmdco:PMD_0020124 pmdco:PMD_0020125)
-SubObjectPropertyOf(ObjectPropertyChain(obo:BFO_0000051 pmdco:PMD_0020137) pmdco:PMD_0020137)
+SubObjectPropertyOf(ObjectPropertyChain(obo:BFO_0000051 pmdco:PMD_0025998) pmdco:PMD_0025998)
 )

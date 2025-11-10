@@ -14,7 +14,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-10-31/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-11-07/pmdco.ttl> ;
                                   dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
                                                       <https://orcid.org/0000-0002-3092-0532> ,
                                                       <https://orcid.org/0000-0003-0410-3616> ,
@@ -37,7 +37,7 @@ PMDco at GitHub: https://github.com/materialdigital/core-ontology
 Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2025-10-31" .
+                                  owl:versionInfo "2025-11-07" .
 
 #################################################################
 #    Annotation properties
@@ -1270,29 +1270,6 @@ An example of such case can be \"Temperature of during the annealing process was
                skos:example "a relation to between a process attribute an a SDC of some participant in a process."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0020136
-co:PMD_0020136 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf owl:topObjectProperty ;
-               owl:inverseOf co:PMD_0020137 ;
-               obo:IAO_0000116 """The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
-RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is relevant for most of the SDC -> IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in >=2 ICs. Thus,  'relational quality of'  has the same intention to connect SDC to IC, however, without cardinality constraints."""@en ;
-               rdfs:label "relational quality of"@en ;
-               skos:definition "a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence"@en ;
-               skos:example "mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0020137
-co:PMD_0020137 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf owl:topObjectProperty ;
-               rdfs:range obo:BFO_0000145 ;
-               owl:propertyChainAxiom ( obo:BFO_0000051
-                                        co:PMD_0020137
-                                      ) ;
-               rdfs:label "has relational quality"@en ;
-               skos:definition "a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence"@en ;
-               skos:example "material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m"@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0020141
 co:PMD_0020141 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000196 ;
@@ -1306,6 +1283,29 @@ co:PMD_0020141 rdf:type owl:ObjectProperty ;
                skos:definition """Integral bearer of is a property chain linking an object or object aggregate O that consits of a portion of matter PM to a SDC Q that inheres in 'portions of matter' only:
 O -consists of-> PM -bearer of-> Q"""@en ;
                skos:example "Talking colloquially about Intensive thermodynamic properties of an object requires this property."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025998
+co:PMD_0025998 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               owl:inverseOf co:PMD_0025999 ;
+               rdfs:range obo:BFO_0000145 ;
+               owl:propertyChainAxiom ( obo:BFO_0000051
+                                        co:PMD_0025998
+                                      ) ;
+               rdfs:label "has relational quality"@en ;
+               skos:definition "a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence"@en ;
+               skos:example "material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025999
+co:PMD_0025999 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               obo:IAO_0000116 """The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
+RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is relevant for most of the SDC -> IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in >=2 ICs. Thus,  'relational quality of'  has the same intention to connect SDC to IC, however, without cardinality constraints."""@en ;
+               rdfs:label "relational quality of"@en ;
+               skos:definition "a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence"@en ;
+               skos:example "mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron"@en .
 
 
 #################################################################
@@ -2627,8 +2627,10 @@ obo:CHEBI_49957 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_59999
 obo:CHEBI_59999 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_24431 ;
+                rdfs:subClassOf obo:CHEBI_24431 ,
+                                co:PMD_0000001 ;
                 obo:IAO_0000115 "A chemical substance is a portion of matter of constant composition, composed of molecular entities of the same type or of different types." ;
+                rdfs:comment "Frequently used for fluidic portions of matter and/or in the context of chemical reactions. Boundary to material not always sharp."@en ;
                 rdfs:label "chemical substance" .
 
 
@@ -2636,7 +2638,10 @@ obo:CHEBI_59999 rdf:type owl:Class ;
 obo:CHEBI_60003 rdf:type owl:Class ;
                 rdfs:subClassOf obo:CHEBI_59999 ;
                 obo:IAO_0000115 "A pure substance is a chemical substance composed of multiple molecules, which are all of the same kind." ;
-                rdfs:label "pure substance" .
+                rdfs:label "pure substance" ;
+                rdfs:seeAlso obo:CHEBI_60003 ;
+                skos:example "Pure water, a portion of iron atoms. In contrast, salt water 'has part' a portion of pure water and a portion of pure NaCl. Steel 'has part' a 'portion of pure iron', a 'portion of pure carbon' and possibly portions of other alloying- and impurity-elements."@en ;
+                co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000003
@@ -3211,20 +3216,6 @@ obo:OBI_0100051 rdf:type owl:Class ;
 obo:UO_0000003 rdf:type owl:Class ;
                rdfs:subClassOf obo:IAO_0000003 ;
                rdfs:label "time unit" .
-
-
-###  http://purl.obolibrary.org/obo/CHEBI:59999
-<http://purl.obolibrary.org/obo/CHEBI:59999> rdf:type owl:Class ;
-                                             rdfs:subClassOf co:PMD_0000001 ;
-                                             rdfs:comment "Frequently used for fluidic portions of matter and/or in the context of chemical reactions. Boundary to material not always sharp."@en .
-
-
-###  http://purl.obolibrary.org/obo/CHEBI:60003
-<http://purl.obolibrary.org/obo/CHEBI:60003> rdf:type owl:Class ;
-                                             rdfs:subClassOf co:PMD_0000001 ;
-                                             rdfs:seeAlso <http://purl.obolibrary.org/obo/CHEBI:60003> ;
-                                             skos:example "Pure water, a portion of iron atoms. In contrast, salt water 'has part' a portion of pure water and a portion of pure NaCl. Steel 'has part' a 'portion of pure iron', a 'portion of pure carbon' and possibly portions of other alloying- and impurity-elements."@en ;
-                                             co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000000
@@ -3927,17 +3918,10 @@ co:PMD_0000546 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000547
 co:PMD_0000547 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000548 ;
+               rdfs:subClassOf co:PMD_0020136 ;
                rdfs:label "change of aggregate state"@en ;
                skos:definition "A change of aggregate state is a phase transition (change of phase) involving the collective state of particles in a material, such as melting or condensation."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0000548
-co:PMD_0000548 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000015 ;
-               rdfs:label "change of phase"@en ;
-               skos:definition "A change of phase is a process describing the transition of a material from one state of matter to another, such as from solid to liquid or liquid to gas."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000549
@@ -3966,8 +3950,7 @@ co:PMD_0000550 rdf:type owl:Class ;
 co:PMD_0000551 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0025001 ;
                rdfs:label "chemical composition"@en ;
-               skos:definition "The chemical composition is a morphological quality describing the types and proportions of elements or compounds present in a material."@en ;
-               skos:example "A chemical composition of a steel given in wt.%"@en ;
+               skos:definition "The chemical composition is a quality describing the types and proportions of elements or compounds present in a material."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5804,6 +5787,8 @@ co:PMD_0000836 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000845
 co:PMD_0000845 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
+               owl:disjointWith co:PMD_0020001 ,
+                                co:PMD_0020002 ;
                rdfs:label "matrix role"@en ;
                skos:definition "Matrix is the role of a PortionOfConnectedMatter that implies to host the Filler."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -5876,8 +5861,8 @@ co:PMD_0000852 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000853
 co:PMD_0000853 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020131 ;
-               rdfs:label "metallographic texture"@en ;
-               skos:definition "The metallographic texture is a morphological quality describing the arrangement and orientation of grains and phases in a metallic material, observed through metallographic analysis."@en ;
+               rdfs:label "crystallographic texture"@en ;
+               skos:definition "The crystallographic texture is a morphological quality describing the arrangement and orientation of grains in a metallic material, observed through crystallographic analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5913,7 +5898,8 @@ co:PMD_0000856 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000857
 co:PMD_0000857 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000027 ;
+               rdfs:subClassOf co:PMD_0000001 ;
+               rdfs:comment "The focus of interest when looking at an object throught the microstructure perspective is often its morphology."@en ;
                rdfs:label "microstructure"@en ;
                skos:definition "The microstructure represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -6111,10 +6097,6 @@ co:PMD_0000882 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000864 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty co:PMD_0001029 ;
-                                 owl:someValuesFrom co:PMD_0000548
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001029 ;
                                  owl:someValuesFrom co:PMD_0000549
                                ] ,
                                [ rdf:type owl:Restriction ;
@@ -6128,6 +6110,11 @@ co:PMD_0000882 rdf:type owl:Class ;
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty co:PMD_0001030 ;
                                  owl:someValuesFrom co:PMD_0000523
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty [ owl:inverseOf obo:BFO_0000055
+                                                ] ;
+                                 owl:someValuesFrom co:PMD_0000547
                                ] ;
                rdfs:label "phase boundary"@en ;
                skos:definition "A phase boundary is a morphological property denoting the interface between two distinct phases of a material, such as solid-liquid or liquid-gas boundaries."@en ;
@@ -7423,9 +7410,9 @@ co:PMD_0001999 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020000
 co:PMD_0020000 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000006 ;
-               rdfs:label "phase (spatial)"@en ;
-               skos:definition "A phase is a 3D spatial region occupied by a Portion Of Matter whose qualities or dispositions or Material Properties are (considered) uniform at the length scale of interest."@en ;
+               rdfs:subClassOf obo:BFO_0000040 ;
+               rdfs:label "phase (thermodynamic)"@en ;
+               skos:definition "A thermodynamic phase is portion of matter that is part of a thermodynamic system and has homogeneus thermodynamic properties."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8800,89 +8787,11 @@ co:PMD_0020129 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020130
 co:PMD_0020130 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0001933 ,
-                               [ owl:intersectionOf ( obo:OBI_0001933
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:OBI_0001927 ;
-                                                        owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI:60003>
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:OBI_0001927 ;
-                                                        owl:someValuesFrom [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/CHEBI:59999>
-                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty obo:BFO_0000051 ;
-                                                                                                    owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI:60003>
-                                                                                                  ]
-                                                                                                ) ;
-                                                                             rdf:type owl:Class
-                                                                           ]
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                                       ] ;
-                                                        owl:someValuesFrom co:PMD_0020004
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ,
-                               [ owl:intersectionOf ( obo:OBI_0001933
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:OBI_0001927 ;
-                                                        owl:someValuesFrom co:PMD_0020140
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:OBI_0001927 ;
-                                                        owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
-                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty obo:BFO_0000051 ;
-                                                                                                    owl:someValuesFrom co:PMD_0020140
-                                                                                                  ]
-                                                                                                ) ;
-                                                                             rdf:type owl:Class
-                                                                           ]
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                                       ] ;
-                                                        owl:someValuesFrom co:PMD_0020004
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom co:PMD_0020140
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom [ owl:intersectionOf ( <http://purl.obolibrary.org/obo/CHEBI:59999>
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty obo:BFO_0000051 ;
-                                                                             owl:someValuesFrom <http://purl.obolibrary.org/obo/CHEBI:60003>
-                                                                           ]
-                                                                         ) ;
-                                                      rdf:type owl:Class
-                                                    ]
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty obo:BFO_0000051 ;
-                                                                             owl:someValuesFrom co:PMD_0020140
-                                                                           ]
-                                                                         ) ;
-                                                      rdf:type owl:Class
-                                                    ]
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                ] ;
-                                 owl:someValuesFrom co:PMD_0020004
-                               ] ;
-               rdfs:label "fraction value specification"@en ;
-               skos:definition "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en ;
-               skos:example "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en .
+               rdfs:subClassOf obo:BFO_0000145 ;
+               rdfs:label "driving force of phase in system"@en ;
+               skos:definition "The driving force is the the gradient of the activity of a phase in a thermodynamic system."@en ;
+               skos:example "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020131
@@ -8926,6 +8835,25 @@ co:PMD_0020135 rdf:type owl:Class ;
                skos:definition "See 'Stimulus role'"@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020136
+co:PMD_0020136 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000015 ;
+               rdfs:comment "The number of phases involved can vary as well as the mechanisms involved can be different."@en ;
+               rdfs:label "phase transformation"@en ;
+               skos:definition "A thermodynamic phase transformation is a process in/of a thermodynamic system, that involves the transformation of phases of the system to other phases."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020137
+co:PMD_0020137 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020000 ;
+               owl:disjointWith co:PMD_0020149 ;
+               rdfs:comment "See metastable phase"@en ;
+               rdfs:label "stable phase"@en ;
+               skos:example "A phase that participates in a phase transformation pt and pt that is not a metastable phase."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020138
 co:PMD_0020138 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000027 ;
@@ -8945,9 +8873,9 @@ co:PMD_0020139 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020140
 co:PMD_0020140 rdf:type owl:Class ;
-               rdfs:subClassOf <http://purl.obolibrary.org/obo/CHEBI:60003> ;
-               rdfs:label "portion of single chemical element"@de ;
-               skos:definition "A pure substance that has part only atoms of a single chemical element."@en .
+               rdfs:subClassOf obo:CHEBI_60003 ;
+               rdfs:label "portion of pure chemical element"@en ;
+               skos:definition "A portion of pure chemical element is a pure substance composed of multiple atoms, which are all of the same kind."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020142
@@ -8987,11 +8915,29 @@ co:PMD_0020146 rdf:type owl:Class ;
                skos:definition "Catalyst is the role of a participant in a chemical reaction that does not alter its qualities/realizable entities  after the chemical reaction."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020147
+co:PMD_0020147 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020136 ;
+               rdfs:comment "It is defined on the phase diagram at fixed composition and typically proceeds by diffusion‑controlled nucleation and growth (e.g., γ → α + Fe3C producing pearlite in steels)."@en ;
+               rdfs:label "eutectoid phase transformation"@de ;
+               skos:definition "A eutectoid phase transformation is a phase transformation in which a solid parent phase of eutectoid composition decomposes into two distinct solid daughter phases at constant temperature and pressure."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020148
 co:PMD_0020148 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000019 ;
                rdfs:label "extensive quality"@en ;
                skos:definition "An extensive quality is a qualty that inheres in only object or object aggregate or fiat object part or chemical entity and is dependent on the bearers (system-) size."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020149
+co:PMD_0020149 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020000 ;
+               rdfs:comment "The stability of a phase can only be evaluated in the context of a (possibly unknown) phase transformation process."@en ;
+               rdfs:label "metastable phase"@en ;
+               skos:definition "A metastable phase phase_trans is a phase that has a \"pmd:disposition of a phase to transform\" disp_trans and disp_trans is realized in a \"pmd:phase transformation\" proc_trans and proc_trans has participant sys_trans and sys_trans has part phase_trans."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -9028,11 +8974,100 @@ co:PMD_0020153 rdf:type owl:Class ;
 3. whose continuant parts are some components."""@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020154
+co:PMD_0020154 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020136 ;
+               rdfs:comment "It proceeds by nucleation and growth."@en ;
+               rdfs:label "precipitation (phase)"@de ;
+               skos:definition "Precipitation from a supersaturated solid solution is a phase transformation process in which a single supersaturated parent phase decomposes into a solute‑depleted matrix and dispersed, compositionally distinct precipitate phases."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020155
 co:PMD_0020155 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020148 ;
                rdfs:label "interatomic interaction energy"@en ;
                skos:definition "Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020156
+co:PMD_0020156 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020136 ;
+               rdfs:comment "It is marked on phase diagrams by a peritectic point and proceeds by an interfacial, diffusion‑controlled reaction that is often kinetically sluggish, leading to incomplete transformation or complex microstructures during solidification."@en ;
+               rdfs:label "peritectic phase transformation"@de ;
+               skos:definition "A peritectic phase transformation is a phase transformation in which a liquid parent phase and an existing solid phase react on cooling to form a different solid phase (L + α → β)."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020157
+co:PMD_0020157 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020136 ;
+               rdfs:comment "Unlike nucleation and growth transformations, it has no nucleation barrier and proceeds by uphill diffusion and wavelength‑selective amplification of composition modulations, producing an interconnected, compositionally modulated microstructure that coarsens over time."@en ;
+               rdfs:label "spinodal decomposition"@de ;
+               skos:definition "Spinodal decomposition is a diffusion‑controlled  continuous phase transformation in which a single homogeneous solutionspontaneously separates into two compositionally distinct phases by amplification of infinitesimal concentration fluctuations."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020158
+co:PMD_0020158 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               owl:disjointWith co:PMD_0020159 ;
+               rdfs:label "parent phase role"@de .
+
+
+###  https://w3id.org/pmd/co/PMD_0020159
+co:PMD_0020159 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:label "daughter phase role"@de .
+
+
+###  https://w3id.org/pmd/co/PMD_0020160
+co:PMD_0020160 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000001 ;
+               rdfs:comment "In metallography the term phase is sometimes used to denote microconstituents. To avoid confusion, the term phase should only be used for thermodynamic phases."@en ;
+               rdfs:label "microconstituent (phase mixture)"@en ;
+               skos:definition "A portion of matter that has one or more thermodynamic phases arranged in a characteristic spatial configuration (morphology) as parts."@en ;
+               skos:example """Pearlite is a microconstituent that has as parts the thermodynamic phases ferrite (α-Fe) and cementite (Fe3C) as parts. The characteristic spatial arrangement is in that case the lamellar orientation of the phases.
+
+Martensite is a microconstituent that has as part the thermodynamic ferrite phase with characteristic morphologies and chemistry. Its presence and amount is governed by the processing path and kinetics."""@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020161
+co:PMD_0020161 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020148 ;
+               obo:IAO_0000116 "Definition not final"@en ;
+               rdfs:comment """Typical configuration independent contributions to the free energy are temperature, pressure, chemical composition and magnetic contributions.
+
+Typical configuration dependent contributions are interface energy contributions."""@en ;
+               rdfs:label "activity of a phase"@en ;
+               skos:definition "Quality of a thermodynamic phase that characterizes its free energy."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020162
+co:PMD_0020162 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000008 ;
+               obo:IAO_0000116 "Definition not final"@en ;
+               rdfs:label "activation energy"@en ;
+               skos:definition "Process attribute characterizing the kinetics of a phase transformation (aka chemical reaction)."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020163
+co:PMD_0020163 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020136 ;
+               rdfs:label "eutectic phase transformation"@de ;
+               skos:definition "A eutectic phase transformation is a phase transformation in which a liquid parent phase decomposes into two distinct solid daughter phases at constant temperature and pressure."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020165
+co:PMD_0020165 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000016 ;
+               rdfs:comment "The disposition is grounded in the phases activity in the thermodynamic system in question."@en ;
+               rdfs:label "disposition of a phase to transform"@en ;
+               skos:definition "The disposition of a phase to transform into another phase in a phase transformation process."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -9048,15 +9083,6 @@ co:PMD_0020166 rdf:type owl:Class ;
                                ] ;
                rdfs:label "heat (metallurgy)"@en ;
                skos:definition "A heat is a fixed amount of metallic alloy that may be input to some Manifacturing Process."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0020199
-co:PMD_0020199 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020132 ;
-               rdfs:label "Fläche"@de ,
-                          "area"@en ;
-               skos:definition "Area a two dimesional size"@en ;
-               skos:example "Section area or a surface area"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020200
@@ -9142,6 +9168,96 @@ co:PMD_0025002 rdf:type owl:Class ;
                skos:definition "Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts)."@en ;
                skos:example "Steel has quality chemical composition , which concretizes the chemical composition specification .The chemical composition specification has parts fraction specifications of iron and carbon. These fraction specifications specify value of portion of iron and portion of carbon respectively. Furthermore, these  fraction specifications are conretized by relational qualities (mass) proportion of iron and (mass) proportion of carbon."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0025997
+co:PMD_0025997 rdf:type owl:Class ;
+               rdfs:subClassOf obo:OBI_0001931 ,
+                               [ owl:intersectionOf ( [ owl:intersectionOf ( obo:OBI_0001933
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo:OBI_0001927 ;
+                                                                               owl:someValuesFrom obo:CHEBI_60003
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo:OBI_0001927 ;
+                                                                               owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_59999
+                                                                                                                         [ rdf:type owl:Restriction ;
+                                                                                                                           owl:onProperty obo:BFO_0000051 ;
+                                                                                                                           owl:someValuesFrom obo:CHEBI_60003
+                                                                                                                         ]
+                                                                                                                       ) ;
+                                                                                                    rdf:type owl:Class
+                                                                                                  ]
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty [ owl:inverseOf obo:RO_0002351
+                                                                                              ] ;
+                                                                               owl:someValuesFrom co:PMD_0020004
+                                                                             ]
+                                                                           ) ;
+                                                        rdf:type owl:Class
+                                                      ]
+                                                      [ owl:intersectionOf ( obo:OBI_0001933
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo:OBI_0001927 ;
+                                                                               owl:someValuesFrom co:PMD_0020140
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty obo:OBI_0001927 ;
+                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
+                                                                                                                         [ rdf:type owl:Restriction ;
+                                                                                                                           owl:onProperty obo:BFO_0000051 ;
+                                                                                                                           owl:someValuesFrom co:PMD_0020140
+                                                                                                                         ]
+                                                                                                                       ) ;
+                                                                                                    rdf:type owl:Class
+                                                                                                  ]
+                                                                             ]
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty [ owl:inverseOf obo:RO_0002351
+                                                                                              ] ;
+                                                                               owl:someValuesFrom co:PMD_0020004
+                                                                             ]
+                                                                           ) ;
+                                                        rdf:type owl:Class
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:OBI_0001927 ;
+                                 owl:someValuesFrom co:PMD_0020140
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:OBI_0001927 ;
+                                 owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_59999
+                                                                           [ rdf:type owl:Restriction ;
+                                                                             owl:onProperty obo:BFO_0000051 ;
+                                                                             owl:someValuesFrom obo:CHEBI_60003
+                                                                           ]
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ]
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:OBI_0001927 ;
+                                 owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
+                                                                           [ rdf:type owl:Restriction ;
+                                                                             owl:onProperty obo:BFO_0000051 ;
+                                                                             owl:someValuesFrom co:PMD_0020140
+                                                                           ]
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ]
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty [ owl:inverseOf obo:RO_0002351
+                                                ] ;
+                                 owl:someValuesFrom co:PMD_0020004
+                               ] ;
+               rdfs:label "fraction value specification"@en ;
+               skos:definition "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en ;
+               skos:example "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0040001
@@ -9477,8 +9593,9 @@ co:PMD_0050036 rdf:type owl:Class ;
                                  owl:onProperty obo:RO_0000091 ;
                                  owl:someValuesFrom co:PMD_0200001
                                ] ;
+               rdfs:isDefinedBy co:PMD_0200001 ;
                rdfs:label "biodegradable polymers"@en ;
-               skos:definition "Biodegradable Polymers are Polymers that can be decomposed by biological organisms into environmentally benign substances."@en ;
+               skos:definition "Biodegradable Polymers are Polymers that have the biodegradability disposition. They can be decomposed by biological organisms into environmentally benign substances (carbon dioxide and methane, mineral salts or new biomass) in a non-harmful timescale."@en ;
                co:PMD_0000060 "true"^^xsd:boolean ;
                co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/126" .
 
@@ -10460,7 +10577,8 @@ co:PMD_0200001 rdf:type owl:Class ;
                rdfs:label "Biologische Abbaubarkeit"@de ,
                           "biodegradabilty"@en ;
                skos:definition "\"[Biodegradabilty] [...] is understood as the microbial conversion of all its organic constituents to carbon dioxide (or carbon dioxide and methane in conditions where oxygen is not present), new microbial biomass and mineral salts, within a timescale short enough not to lead to lasting harm or accumulation in the open environment.\""@en ,
-                               "\"[Biologische Abbaubarkeit] [...] beschreibt die mikrobielle Umwandlung all seiner organischen Bestandteile in Kohlendioxid oder – unter sauerstofffreien Bedingungen – in Kohlendioxid und Methan, neue mikrobielle Biomasse und Mineralsalze verstanden, und zwar innerhalb eines Zeitraums, der so kurz ist, dass es nicht zu dauerhaften Schäden oder Anreicherungen in der offenen Umwelt kommt.\""@de ;
+                               "\"[Biologische Abbaubarkeit] [...] beschreibt die mikrobielle Umwandlung all seiner organischen Bestandteile in Kohlendioxid oder – unter sauerstofffreien Bedingungen – in Kohlendioxid und Methan, neue mikrobielle Biomasse und Mineralsalze verstanden, und zwar innerhalb eines Zeitraums, der so kurz ist, dass es nicht zu dauerhaften Schäden oder Anreicherungen in der offenen Umwelt kommt.\""@de ,
+                               "Biodegradability is a disposition of a material which specifies its capability to be fully microbially converted into inorganic end products (CO₂, CH₄, mineral salts, biomass) within an environmentally non-harmful timescale."@en ;
                co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/126" .
 
 
