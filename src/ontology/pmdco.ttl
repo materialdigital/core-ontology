@@ -635,7 +635,6 @@ obo:IAO_0000221 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:IAO_0000136 ;
                 owl:inverseOf obo:IAO_0000417 ;
                 rdfs:domain obo:IAO_0000109 ;
-                rdfs:range obo:BFO_0000019 ;
                 obo:IAO_0000115 "m is a quality measurement of q at t. When q is a quality, there is a measurement process p that has specified output m, a measurement datum, that is about q"@en ;
                 obo:IAO_0000116 "8/6/2009 Alan Ruttenberg: The strategy is to be rather specific with this relationship. There are other kinds of measurements that are not of qualities, such as those that measure time. We will add these as separate properties for the moment and see about generalizing later"@en ,
                                 """From the second IAO workshop [Alan Ruttenberg 8/6/2009: not completely current, though bringing in comparison is probably important]
@@ -742,10 +741,8 @@ obo:OBI_0000299 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000057 ;
                 owl:inverseOf obo:OBI_0000312 ;
                 rdfs:domain obo:OBI_0000011 ;
-                obo:IAO_0000115 "The inverse property of is specified output of"@en ,
-                                "The inverse property of is_specified_output_of"@en ;
-                rdfs:label "has specified output"@en ,
-                           "has_specified_output"@en .
+                obo:IAO_0000115 "The inverse property of is specified output of"@en ;
+                rdfs:label "has specified output"@en .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000312
@@ -753,8 +750,7 @@ obo:OBI_0000312 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000056 ;
                 rdfs:range obo:OBI_0000011 ;
                 obo:IAO_0000115 "A relation between a planned process and a continuant participating in that process. The presence of the continuant at the end of the process is explicitly specified in the objective specification which the process realizes the concretization of."@en ;
-                rdfs:label "is specified output of"@en ,
-                           "is_specified_output_of"@en .
+                rdfs:label "is specified output of"@en .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000417
@@ -1315,6 +1311,7 @@ RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is re
 ###  http://purl.obolibrary.org/obo/IAO_0000004
 obo:IAO_0000004 rdf:type owl:DatatypeProperty ,
                          owl:FunctionalProperty ;
+                rdfs:domain obo:IAO_0000032 ;
                 rdfs:range xsd:double ;
                 rdfs:label "has measurement value"@en .
 
@@ -1351,11 +1348,6 @@ co:PMD_0000006 rdf:type owl:DatatypeProperty ;
 
 ###  http://purl.obolibrary.org/obo/BFO_0000001
 obo:BFO_0000001 rdf:type owl:Class ;
-                obo:IAO_0000112 "Julius Caesar"@en ,
-                                "Verdi’s Requiem"@en ,
-                                "the Second World War"@en ,
-                                "your body mass index"@en ;
-                obo:IAO_0000116 "BFO 2 Reference: In all areas of empirical inquiry we encounter general terms of two sorts. First are general terms which refer to universals or types:animaltuberculosissurgical procedurediseaseSecond, are general terms used to refer to groups of entities which instantiate a given universal but do not correspond to the extension of any subuniversal of that universal because there is nothing intrinsic to the entities in question by virtue of which they – and only they – are counted as belonging to the given group. Examples are: animal purchased by the Emperortuberculosis diagnosed on a Wednesdaysurgical procedure performed on a patient from Stockholmperson identified as candidate for clinical trial #2056-555person who is signatory of Form 656-PPVpainting by Leonardo da VinciSuch terms, which represent what are called ‘specializations’ in [81"@en ;
                 rdfs:label "entity"@en ;
                 skos:definition "(Elucidation) An entity is anything that exists or has existed or will exist"@en ;
                 skos:example "Julius Caesar; the Second World War; your body mass index; Verdi's Requiem"@en .
@@ -1374,7 +1366,6 @@ obo:BFO_0000002 rdf:type owl:Class ;
                                    owl:someValuesFrom obo:BFO_0000003
                                  ] ;
                 obo:IAO_0000115 "An entity that exists in full at any time in which it exists at all, persists through time while maintaining its identity and has no temporal parts."@en ;
-                obo:IAO_0000116 "BFO 2 Reference: Continuant entities are entities which can be sliced to yield parts only along the spatial dimension, yielding for example the parts of your table which we call its legs, its top, its nails. ‘My desk stretches from the window to the door. It has spatial parts, and can be sliced (in space) in two. With respect to time, however, a thing is a continuant.’ [60, p. 240"@en ;
                 rdfs:label "continuant"@en ;
                 skos:definition "(Elucidation) A continuant is an entity that persists, endures, or continues to exist through time while maintaining its identity"@en ;
                 skos:example "A human being; a tennis ball; a cave; a region of space; someone's temperature"@en .
@@ -1392,8 +1383,6 @@ obo:BFO_0000003 rdf:type owl:Class ;
                                    owl:someValuesFrom obo:BFO_0000002
                                  ] ;
                 obo:IAO_0000115 "An entity that has temporal parts and that happens, unfolds or develops through time."@en ;
-                obo:IAO_0000116 "BFO 2 Reference: every occurrent that is not a temporal or spatiotemporal region is s-dependent on some independent continuant that is not a spatial region"@en ,
-                                "BFO 2 Reference: s-dependence obtains between every process and its participants in the sense that, as a matter of necessity, this process could not have existed unless these or those participants existed also. A process may have a succession of participants at different phases of its unfolding. Thus there may be different players on the field at different times during the course of a football game; but the process which is the entire game s-depends_on all of these players nonetheless. Some temporal parts of this process will s-depend_on on only some of the players."@en ;
                 rdfs:label "occurrent"@en ;
                 skos:definition "(Elucidation) An occurrent is an entity that unfolds itself in time or it is the start or end of such an entity or it is a temporal or spatiotemporal region"@en ;
                 skos:example "As for process, history, process boundary, spatiotemporal region, zero-dimensional temporal region, one-dimensional temporal region, temporal interval, temporal instant."@en .
@@ -1408,16 +1397,6 @@ obo:BFO_0000004 rdf:type owl:Class ;
                                 ] ;
                 owl:disjointWith obo:BFO_0000020 ,
                                  obo:BFO_0000031 ;
-                obo:IAO_0000112 "a chair"@en ,
-                                "a heart"@en ,
-                                "a leg"@en ,
-                                "a molecule"@en ,
-                                "a spatial region"@en ,
-                                "an atom"@en ,
-                                "an orchestra."@en ,
-                                "an organism"@en ,
-                                "the bottom right portion of a human torso"@en ,
-                                "the interior of your mouth"@en ;
                 obo:IAO_0000115 "b is an independent continuant = Def. b is a continuant which is such that there is no c and no t such that b s-depends_on c at t. (axiom label in BFO2 Reference: [017-002])"@en ;
                 rdfs:label "independent continuant"@en ;
                 skos:definition "b is an independent continuant =Def b is a continuant & there is no c such that b specifically depends on c or b generically depends on c"@en ;
@@ -1491,15 +1470,7 @@ obo:BFO_0000015 rdf:type owl:Class ;
                                   owl:onProperty obo:BFO_0000139 ;
                                   owl:allValuesFrom obo:BFO_0000015
                                 ] ;
-                obo:IAO_0000112 "a process of cell-division, \\ a beating of the heart"@en ,
-                                "a process of meiosis"@en ,
-                                "a process of sleeping"@en ,
-                                "the course of a disease"@en ,
-                                "the flight of a bird"@en ,
-                                "the life of an organism"@en ,
-                                "your process of aging."@en ;
                 obo:IAO_0000115 "p is a process = Def. p is an occurrent that has temporal proper parts and for some time t, p s-depends_on some material entity at t. (axiom label in BFO2 Reference: [083-003])"@en ;
-                obo:IAO_0000116 "BFO 2 Reference: The realm of occurrents is less pervasively marked by the presence of natural units than is the case in the realm of independent continuants. Thus there is here no counterpart of ‘object’. In BFO 1.0 ‘process’ served as such a counterpart. In BFO 2.0 ‘process’ is, rather, the occurrent counterpart of ‘material entity’. Those natural – as contrasted with engineered, which here means: deliberately executed – units which do exist in the realm of occurrents are typically either parasitic on the existence of natural units on the continuant side, or they are fiat in nature. Thus we can count lives; we can count football games; we can count chemical reactions performed in experiments or in chemical manufacturing. We cannot count the processes taking place, for instance, in an episode of insect mating behavior.Even where natural units are identifiable, for example cycles in a cyclical process such as the beating of a heart or an organism’s sleep/wake cycle, the processes in question form a sequence with no discontinuities (temporal gaps) of the sort that we find for instance where billiard balls or zebrafish or planets are separated by clear spatial gaps. Lives of organisms are process units, but they too unfold in a continuous series from other, prior processes such as fertilization, and they unfold in turn in continuous series of post-life processes such as post-mortem decay. Clear examples of boundaries of processes are almost always of the fiat sort (midnight, a time of death as declared in an operating theater or on a death certificate, the initiation of a state of war)"@en ;
                 rdfs:label "process"@en ;
                 skos:definition "(Elucidation) p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant"@en ;
                 skos:example "An act of selling; the life of an organism; a process of sleeping; a process of cell-division; a beating of the heart; a process of meiosis; the taxiing of an aircraft; the programming of a computer"@en .
@@ -1509,11 +1480,6 @@ obo:BFO_0000015 rdf:type owl:Class ;
 obo:BFO_0000016 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000017 ;
                 owl:disjointWith obo:BFO_0000023 ;
-                obo:IAO_0000112 "an atom of element X has the disposition to decay to an atom of element Y"@en ,
-                                "certain people have a predisposition to colon cancer"@en ,
-                                "children are innately disposed to categorize objects in certain ways."@en ,
-                                "the cell wall is disposed to filter chemicals in endocytosis and exocytosis"@en ;
-                obo:IAO_0000116 "BFO 2 Reference: Dispositions exist along a strength continuum. Weaker forms of disposition are realized in only a fraction of triggering cases. These forms occur in a significant number of cases of a similar type."@en ;
                 rdfs:label "disposition"@en ;
                 skos:definition "(Elucidation) A disposition b is a realizable entity such that if b ceases to exist then its bearer is physically changed & b's realization occurs when and because this bearer is in some special physical circumstances & this realization occurs in virtue of the bearer's physical make-up"@en ;
                 skos:example "An atom of element X has the disposition to decay to an atom of element Y; the cell wall is disposed to transport cellular material through endocytosis and exocytosis; certain people have a predisposition to colon cancer; children are innately disposed to categorize objects in certain ways"@en .
@@ -1527,11 +1493,6 @@ obo:BFO_0000017 rdf:type owl:Class ;
                                   owl:allValuesFrom obo:BFO_0000017
                                 ] ;
                 owl:disjointWith obo:BFO_0000019 ;
-                obo:IAO_0000112 "the disposition of this piece of metal to conduct electricity."@en ,
-                                "the disposition of your blood to coagulate"@en ,
-                                "the function of your reproductive organs"@en ,
-                                "the role of being a doctor"@en ,
-                                "the role of this boundary to delineate where Utah and Colorado meet"@en ;
                 obo:IAO_0000115 "A specifically dependent continuant  that inheres in continuant  entities and are not exhibited in full at every time in which it inheres in an entity or group of entities. The exhibition or actualization of a realizable entity is a particular manifestation, functioning or process that occurs under certain circumstances."@en ;
                 rdfs:label "realizable entity"@en ;
                 skos:definition "(Elucidation) A realizable entity is a specifically dependent continuant that inheres in some independent continuant which is not a spatial region & which is of a type some instances of which are realized in processes of a correlated type"@en ;
@@ -1553,12 +1514,6 @@ obo:BFO_0000019 rdf:type owl:Class ;
                                   owl:onProperty obo:BFO_0000050 ;
                                   owl:allValuesFrom obo:BFO_0000019
                                 ] ;
-                obo:IAO_0000112 "the ambient temperature of this portion of air"@en ,
-                                "the color of a tomato"@en ,
-                                "the length of the circumference of your waist"@en ,
-                                "the mass of this piece of gold."@en ,
-                                "the shape of your nose"@en ,
-                                "the shape of your nostril"@en ;
                 rdfs:label "quality"@en ;
                 skos:definition "(Elucidation) A quality is a specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized"@en ;
                 skos:example "The colour of a tomato; the ambient temperature of this portion of air; the length of the circumference of your waist; the shape of your nose; the shape of your nostril; the mass of this piece of gold"@en .
@@ -1572,17 +1527,6 @@ obo:BFO_0000020 rdf:type owl:Class ;
                                   owl:allValuesFrom obo:BFO_0000020
                                 ] ;
                 owl:disjointWith obo:BFO_0000031 ;
-                obo:IAO_0000112 "Reciprocal specifically dependent continuants: the function of this key to open this lock and the mutually dependent disposition of this lock: to be opened by this key"@en ,
-                                "of one-sided specifically dependent continuants: the mass of this tomato"@en ,
-                                "of relational dependent continuants (multiple bearers): John’s love for Mary, the ownership relation between John and this statue, the relation of authority between John and his subordinates."@en ,
-                                "the disposition of this fish to decay"@en ,
-                                "the function of this heart: to pump blood"@en ,
-                                "the mutual dependence of proton donors and acceptors in chemical reactions [79"@en ,
-                                "the mutual dependence of the role predator and the role prey as played by two organisms in a given interaction"@en ,
-                                "the pink color of a medium rare piece of grilled filet mignon at its center"@en ,
-                                "the role of being a doctor"@en ,
-                                "the shape of this hole."@en ,
-                                "the smell of this portion of mozzarella"@en ;
                 obo:IAO_0000115 "b is a specifically dependent continuant = Def. b is a continuant & there is some independent continuant c which is not a spatial region and which is such that b s-depends_on c at every time t during the course of b’s existence. (axiom label in BFO2 Reference: [050-003])"@en ;
                 rdfs:label "specifically dependent continuant"@en ;
                 skos:definition "b is a specifically dependent continuant =Def b is a continuant & there is some independent continuant c which is not a spatial region & which is such that b specifically depends on c"@en ;
@@ -1593,15 +1537,7 @@ obo:BFO_0000020 rdf:type owl:Class ;
 ###  http://purl.obolibrary.org/obo/BFO_0000023
 obo:BFO_0000023 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000017 ;
-                obo:IAO_0000112 "John’s role of husband to Mary is dependent on Mary’s role of wife to John, and both are dependent on the object aggregate comprising John and Mary as member parts joined together through the relational quality of being married."@en ,
-                                "the priest role"@en ,
-                                "the role of a boundary to demarcate two neighboring administrative territories"@en ,
-                                "the role of a building in serving as a military target"@en ,
-                                "the role of a stone in marking a property boundary"@en ,
-                                "the role of subject in a clinical trial"@en ,
-                                "the student role"@en ;
                 obo:IAO_0000115 "A realizable entity  the manifestation of which brings about some result or end that is not essential to a continuant  in virtue of the kind of thing that it is but that can be served or participated in by that kind of continuant  in some kinds of natural, social or institutional contexts."@en ;
-                obo:IAO_0000116 "BFO 2 Reference: One major family of examples of non-rigid universals involves roles, and ontologies developed for corresponding administrative purposes may consist entirely of representatives of entities of this sort. Thus ‘professor’, defined as follows,b instance_of professor at t =Def. there is some c, c instance_of professor role & c inheres_in b at t.denotes a non-rigid universal and so also do ‘nurse’, ‘student’, ‘colonel’, ‘taxpayer’, and so forth. (These terms are all, in the jargon of philosophy, phase sortals.) By using role terms in definitions, we can create a BFO conformant treatment of such entities drawing on the fact that, while an instance of professor may be simultaneously an instance of trade union member, no instance of the type professor role is also (at any time) an instance of the type trade union member role (any more than any instance of the type color is at any time an instance of the type length).If an ontology of employment positions should be defined in terms of roles following the above pattern, this enables the ontology to do justice to the fact that individuals instantiate the corresponding universals –  professor, sergeant, nurse – only during certain phases in their lives."@en ;
                 rdfs:label "role"@en ;
                 skos:definition "(Elucidation) A role b is a realizable entity such that b exists because there is some single bearer that is in some special physical, social, or institutional set of circumstances in which this bearer does not have to be & b is not such that, if it ceases to exist, then the physical make-up of the bearer is thereby changed"@en ;
                 skos:example "The priest role; the student role; the role of subject in a clinical trial; the role of a stone in marking a property boundary; the role of a boundary to demarcate two neighbouring administrative territories; the role of a building in serving as a military target"@en .
@@ -1662,9 +1598,6 @@ obo:BFO_0000031 rdf:type owl:Class ;
                                   owl:onProperty obo:BFO_0000050 ;
                                   owl:allValuesFrom obo:BFO_0000031
                                 ] ;
-                obo:IAO_0000112 "The entries in your database are patterns instantiated as quality instances in your hard drive. The database itself is an aggregate of such patterns. When you create the database you create a particular instance of the generically dependent continuant type database. Each entry in the database is an instance of the generically dependent continuant type IAO: information content entity."@en ,
-                                "the pdf file on your laptop, the pdf file that is a copy thereof on my laptop"@en ,
-                                "the sequence of this protein molecule; the sequence that is a copy thereof in that protein molecule."@en ;
                 obo:IAO_0000115 "b is a generically dependent continuant = Def. b is a continuant that g-depends_on one or more other entities. (axiom label in BFO2 Reference: [074-001])"@en ;
                 rdfs:label "generically dependent continuant"@en ;
                 skos:definition "(Elucidation) A generically dependent continuant is an entity that exists in virtue of the fact that there is at least one of what may be multiple copies which is the content or the pattern that multiple copies would share"@en ;
@@ -1674,10 +1607,6 @@ obo:BFO_0000031 rdf:type owl:Class ;
 ###  http://purl.obolibrary.org/obo/BFO_0000034
 obo:BFO_0000034 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000016 ;
-                obo:IAO_0000112 "the function of a hammer to drive in nails"@en ,
-                                "the function of a heart pacemaker to regulate the beating of a heart through electricity"@en ,
-                                "the function of amylase in saliva to break down starch into sugar"@en ;
-                obo:IAO_0000116 "BFO 2 Reference: In the past, we have distinguished two varieties of function, artifactual function and biological function. These are not asserted subtypes of BFO:function however, since the same function – for example: to pump, to transport – can exist both in artifacts and in biological entities. The asserted subtypes of function that would be needed in order to yield a separate monoheirarchy are not artifactual function, biological function, etc., but rather transporting function, pumping function, etc."@en ;
                 rdfs:label "function"@en ;
                 skos:definition "(Elucidation) A function is a disposition that exists in virtue of its bearer's physical make-up & this physical make-up is something the bearer possesses because it came into being either through evolution (in the case of natural biological entities) or through intentional design (in the case of artefacts) in order to realize processes of a certain sort"@en ;
                 skos:example "The function of a hammer to drive in nails; the function of a heart pacemaker to regulate the beating of a heart through electricity"@en .
@@ -2739,10 +2668,14 @@ Previous. An information content entity is a non-realizable information entity t
 
 ###  http://purl.obolibrary.org/obo/IAO_0000032
 obo:IAO_0000032 rdf:type owl:Class ;
-                rdfs:subClassOf obo:IAO_0000030 ,
+                rdfs:subClassOf obo:IAO_0000109 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:OBI_0001938 ;
                                   owl:someValuesFrom obo:OBI_0001931
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:IAO_0000004 ;
+                                  owl:minCardinality "1"^^xsd:nonNegativeInteger
                                 ] ;
                 obo:IAO_0000112 "10 feet. 3 ml."@en ;
                 obo:IAO_0000115 "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en ;
@@ -2833,23 +2766,6 @@ obo:IAO_0000109 rdf:type owl:Class ;
                 rdfs:label "measurement datum"@en .
 
 
-###  http://purl.obolibrary.org/obo/IAO_0000225
-obo:IAO_0000225 rdf:type owl:Class ;
-                owl:equivalentClass [ rdf:type owl:Class ;
-                                      owl:oneOf ( obo:IAO_0000103
-                                                  obo:IAO_0000226
-                                                  obo:IAO_0000227
-                                                  obo:IAO_0000228
-                                                  obo:IAO_0000229
-                                                  obo:OMO_0001000
-                                                )
-                                    ] ;
-                rdfs:subClassOf obo:IAO_0000102 ;
-                obo:IAO_0000115 "The reason for which a term has been deprecated. The allowed values come from an enumerated list of predefined terms. See the specification of these instances for more detailed definitions of each enumerated value."@en ;
-                obo:IAO_0000116 "The creation of this class has been inspired in part by Werner Ceusters' paper, Applying evolutionary terminology auditing to the Gene Ontology."@en ;
-                rdfs:label "obsolescence reason specification"@en .
-
-
 ###  http://purl.obolibrary.org/obo/IAO_0000310
 obo:IAO_0000310 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000030 ;
@@ -2874,24 +2790,9 @@ obo:IAO_0000311 rdf:type owl:Class ;
                 rdfs:label "publication"@en .
 
 
-###  http://purl.obolibrary.org/obo/IAO_0000409
-obo:IAO_0000409 rdf:type owl:Class ;
-                owl:equivalentClass [ rdf:type owl:Class ;
-                                      owl:oneOf ( obo:IAO_0000410
-                                                  obo:IAO_0000420
-                                                  obo:IAO_0000421
-                                                )
-                                    ] ;
-                rdfs:subClassOf obo:IAO_0000102 ;
-                obo:IAO_0000112 "The Basic Formal Ontology ontology makes a distinction between Universals and defined classes, where the formal are \"natural kinds\" and the latter arbitrary collections of entities."@en ;
-                obo:IAO_0000115 "A denotator type indicates how a term should be interpreted from an ontological perspective."@en ;
-                obo:IAO_0000119 "Barry Smith, Werner Ceusters"@en ;
-                rdfs:label "denotator type"@en .
-
-
 ###  http://purl.obolibrary.org/obo/IAO_0000416
 obo:IAO_0000416 rdf:type owl:Class ;
-                rdfs:subClassOf obo:IAO_0000109 ,
+                rdfs:subClassOf obo:IAO_0000032 ,
                                 [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                                          owl:onProperty obo:IAO_0000039 ;
                                                          owl:allValuesFrom obo:UO_0000003
@@ -3214,8 +3115,7 @@ obo:OBI_0100051 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/UO_0000003
 obo:UO_0000003 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000003 ;
-               rdfs:label "time unit" .
+               rdfs:subClassOf obo:IAO_0000003 .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000000
@@ -5540,7 +5440,7 @@ co:PMD_0000813 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000814
 co:PMD_0000814 rdf:type owl:Class ;
-               owl:equivalentClass _:genid349 ;
+               owl:equivalentClass _:genid339 ;
                rdfs:subClassOf obo:BFO_0000029 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000087 ;
@@ -5552,7 +5452,7 @@ co:PMD_0000814 rdf:type owl:Class ;
                skos:definition "A place equipped for experimental study in a science or for testing and analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid349 owl:intersectionOf ( obo:BFO_0000029
+_:genid339 owl:intersectionOf ( obo:BFO_0000029
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty obo:RO_0000087 ;
                                    owl:someValuesFrom co:PMD_0000815
@@ -5563,7 +5463,7 @@ _:genid349 owl:intersectionOf ( obo:BFO_0000029
 [ rdf:type owl:Axiom ;
    owl:annotatedSource co:PMD_0000814 ;
    owl:annotatedProperty owl:equivalentClass ;
-   owl:annotatedTarget _:genid349 ;
+   owl:annotatedTarget _:genid339 ;
    co:PMD_0001032 "issue: https://github.com/materialdigital/core-ontology/issues/101"
  ] .
 
@@ -10583,12 +10483,6 @@ obo:IAO_0000002 rdf:type owl:NamedIndividual ;
                 rdfs:label "example to be eventually removed"@en .
 
 
-###  http://purl.obolibrary.org/obo/IAO_0000103
-obo:IAO_0000103 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "The term was used in an attempt to structure part of the ontology but in retrospect failed to do a good job"@en ;
-                rdfs:label "failed exploratory term"@en .
-
-
 ###  http://purl.obolibrary.org/obo/IAO_0000120
 obo:IAO_0000120 rdf:type owl:NamedIndividual ;
                 obo:IAO_0000115 "Class has all its metadata, but is either not guaranteed to be in its final location in the asserted IS_A hierarchy or refers to another class that is not complete."@en ;
@@ -10625,50 +10519,6 @@ obo:IAO_0000125 rdf:type owl:NamedIndividual ;
                 rdfs:label "pending final vetting"@en .
 
 
-###  http://purl.obolibrary.org/obo/IAO_0000226
-obo:IAO_0000226 rdf:type owl:NamedIndividual ;
-                rdfs:label "placeholder removed"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000227
-obo:IAO_0000227 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000116 "An editor note should explain what were the merged terms and the reason for the merge."@en ;
-                rdfs:label "terms merged"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000228
-obo:IAO_0000228 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000116 "This is to be used when the original term has been replaced by a term imported from an other ontology. An editor note should indicate what is the URI of the new term to use."@en ;
-                rdfs:label "term imported"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000229
-obo:IAO_0000229 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000116 "This is to be used when a term has been split in two or more new terms. An editor note should indicate the reason for the split and indicate the URIs of the new terms created."@en ;
-                rdfs:label "term split"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000410
-obo:IAO_0000410 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000116 "Hard to give a definition for. Intuitively a \"natural kind\" rather than a collection of any old things, which a class is able to be, formally. At the meta level, universals are defined as positives, are disjoint with their siblings, have single asserted parents."@en ;
-                obo:IAO_0000119 "A Formal Theory of Substances, Qualities, and Universals, http://ontology.buffalo.edu/bfo/SQU.pdf"@en ;
-                rdfs:label "universal"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000420
-obo:IAO_0000420 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "A defined class is a class that is defined by a set of logically necessary and sufficient conditions but is not a universal"@en ;
-                obo:IAO_0000116 "\"definitions\", in some readings, always are given by necessary and sufficient conditions. So one must be careful (and this is difficult sometimes) to distinguish between defined classes and universal."@en ;
-                rdfs:label "defined class"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000421
-obo:IAO_0000421 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "A named class expression is a logical expression that is given a name. The name can be used in place of the expression."@en ;
-                obo:IAO_0000116 "named class expressions are used in order to have more concise logical definition but their extensions may not be interesting classes on their own. In languages such as OWL, with no provisions for macros, these show up as actuall classes. Tools may with to not show them as such, and to replace uses of the macros with their expansions"@en ;
-                rdfs:label "named class expression"@en .
-
-
 ###  http://purl.obolibrary.org/obo/IAO_0000423
 obo:IAO_0000423 rdf:type owl:NamedIndividual ;
                 obo:IAO_0000115 "Terms with this status should eventually replaced with a term from another ontology."@en ;
@@ -10681,13 +10531,6 @@ obo:IAO_0000428 rdf:type owl:NamedIndividual ;
                 obo:IAO_0000115 "A term that is metadata complete, has been reviewed, and problems have been identified that require discussion before release. Such a term requires editor note(s) to identify the outstanding issues."@en ;
                 obo:IAO_0000119 "group:OBI"@en ;
                 rdfs:label "requires discussion"@en .
-
-
-###  http://purl.obolibrary.org/obo/OMO_0001000
-obo:OMO_0001000 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "The term was added to the ontology on the assumption it was in scope, but it turned out later that it was not."@en ;
-                obo:IAO_0000116 "This obsolesence reason should be used conservatively. Typical valid examples are: un-necessary grouping classes in disease ontologies, a phenotype term added on the assumption it was a disease."@en ;
-                rdfs:label "out of scope" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020006
@@ -10882,6 +10725,45 @@ co:PMD_0020125 rdf:type owl:NamedIndividual ;
 #################################################################
 #    Annotations
 #################################################################
+
+obo:IAO_0000103 obo:IAO_0000115 "The term was used in an attempt to structure part of the ontology but in retrospect failed to do a good job"@en ;
+                rdfs:label "failed exploratory term"@en .
+
+
+obo:IAO_0000226 rdfs:label "placeholder removed"@en .
+
+
+obo:IAO_0000227 obo:IAO_0000116 "An editor note should explain what were the merged terms and the reason for the merge."@en ;
+                rdfs:label "terms merged"@en .
+
+
+obo:IAO_0000228 obo:IAO_0000116 "This is to be used when the original term has been replaced by a term imported from an other ontology. An editor note should indicate what is the URI of the new term to use."@en ;
+                rdfs:label "term imported"@en .
+
+
+obo:IAO_0000229 obo:IAO_0000116 "This is to be used when a term has been split in two or more new terms. An editor note should indicate the reason for the split and indicate the URIs of the new terms created."@en ;
+                rdfs:label "term split"@en .
+
+
+obo:IAO_0000410 obo:IAO_0000116 "Hard to give a definition for. Intuitively a \"natural kind\" rather than a collection of any old things, which a class is able to be, formally. At the meta level, universals are defined as positives, are disjoint with their siblings, have single asserted parents."@en ;
+                obo:IAO_0000119 "A Formal Theory of Substances, Qualities, and Universals, http://ontology.buffalo.edu/bfo/SQU.pdf"@en ;
+                rdfs:label "universal"@en .
+
+
+obo:IAO_0000420 obo:IAO_0000115 "A defined class is a class that is defined by a set of logically necessary and sufficient conditions but is not a universal"@en ;
+                obo:IAO_0000116 "\"definitions\", in some readings, always are given by necessary and sufficient conditions. So one must be careful (and this is difficult sometimes) to distinguish between defined classes and universal."@en ;
+                rdfs:label "defined class"@en .
+
+
+obo:IAO_0000421 obo:IAO_0000115 "A named class expression is a logical expression that is given a name. The name can be used in place of the expression."@en ;
+                obo:IAO_0000116 "named class expressions are used in order to have more concise logical definition but their extensions may not be interesting classes on their own. In languages such as OWL, with no provisions for macros, these show up as actuall classes. Tools may with to not show them as such, and to replace uses of the macros with their expansions"@en ;
+                rdfs:label "named class expression"@en .
+
+
+obo:OMO_0001000 obo:IAO_0000115 "The term was added to the ontology on the assumption it was in scope, but it turned out later that it was not."@en ;
+                obo:IAO_0000116 "This obsolesence reason should be used conservatively. Typical valid examples are: un-necessary grouping classes in disease ontologies, a phenotype term added on the assumption it was a disease."@en ;
+                rdfs:label "out of scope" .
+
 
 dce:license rdfs:label "dc:license" .
 
