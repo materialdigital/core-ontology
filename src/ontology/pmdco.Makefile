@@ -52,6 +52,7 @@ $(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \
 $(IMPORTDIR)/ro_import.owl: $(MIRRORDIR)/ro.owl $(IMPORTDIR)/ro_terms.txt \
 			   $(IMPORTSEED) | all_robot_plugins
 	$(ROBOT) annotate --input $< --remove-annotations \
+	     remove --select "RO:*" --select complement --select "classes"  --axioms annotation \
 		 odk:normalize --add-source true \
 		 extract --term-file $(IMPORTDIR)/ro_terms.txt  \
 		         --force true --copy-ontology-annotations true \
