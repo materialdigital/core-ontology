@@ -30,7 +30,7 @@ PMDco also provides general entities required for representing the fundamental M
 - **Data Integration and Analysis**: Supports the transformation of raw data (e.g., time series) into derived material properties like elastic modulus, fostering reproducibility and transparency.  
 - **Device and Function Modeling**: Links devices (e.g., forming machines) to their specifications and roles within processes, ensuring traceability and compliance.
 
-<!--
+
 ## Competency questions
 To ensure the ontology captures the knowledge we need and supports the right queries, we defined a set of competency questions. These are practical, user-focused questions that the ontology should be able to answer once complete. They guide the development process and later serve as a benchmark to check whether the ontology meets its goals. Examples of these competency questions include:
 
@@ -53,4 +53,3 @@ To ensure the ontology captures the knowledge we need and supports the right que
 	- *14. What are the mechanical properties of material X (e.g., tensile strength, hardness)?*
 	- *15. How does property X of material Y vary with parameter Z (e.g., temperature, pressure)?*
 	- *16. Which instruments or devices were used in process X?*
-  -->
