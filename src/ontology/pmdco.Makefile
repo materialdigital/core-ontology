@@ -68,11 +68,9 @@ $(IMPORTDIR)/ro_import.owl: $(MIRRORDIR)/ro.owl $(IMPORTDIR)/ro_terms.txt \
 
 $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
-		extract -T $(IMPORTDIR)/iao_terms.txt --force true --copy-ontology-annotations true --individuals exclude --method STAR \
+		remove --select "IAO:*" --select complement --select "classes object-properties data-properties"  --axioms annotation \
+		extract --term-file $(IMPORTDIR)/iao_terms.txt  --force true --copy-ontology-annotations true --individuals exclude --intermediates none --method BOT \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
- 		remove --term http://www.w3.org/2002/07/owl#Nothing  --term http://purl.obolibrary.org/obo/PATO_0000001  \
- 		remove --select "RO:*"  \
- 		remove --term IAO:0000032 --select "self" --axioms logical  \
  		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 			  --term-file $(IMPORTDIR)/ro_terms.txt \
 		      --select complement --select annotation-properties \
