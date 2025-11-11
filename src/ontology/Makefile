@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                b17f491714102f1cc1faa4f94bfc39a40d442c35274ad22c612d927b61612565
+CONFIG_HASH=                02611cf5e2162db43445ac56ffe8e13b7ed3d4684f06530d7beca3c12a71e2d4
 
 
 # ----------------------------------------
@@ -58,7 +58,7 @@ OBODATE ?=                  $(shell date +'%d:%m:%Y %H:%M')
 VERSION=                    $(TODAY)
 ANNOTATE_ONTOLOGY_VERSION = annotate -V $(ONTBASE)/releases/$(VERSION)/$@ --annotation owl:versionInfo $(VERSION)
 ANNOTATE_CONVERT_FILE =     annotate --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) convert -f ofn --output $@.tmp.owl && mv $@.tmp.owl $@
-OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-axioms-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-logistics.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl 
+OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-axioms-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl 
 ONTOLOGYTERMS =             $(TMPDIR)/ontologyterms.txt
 EDIT_PREPROCESSED =         $(TMPDIR)/$(ONT)-preprocess.owl
 
@@ -452,24 +452,11 @@ $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
 	@false
 
-## Module for ontology: stato (slme)
-$(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl $(IMPORTDIR)/stato_terms.txt $(IMPORTSEED) | all_robot_plugins
-	$(ROBOT) annotate --input $< --remove-annotations \
-		 odk:normalize --add-source true \
-		 extract --term-file $(IMPORTDIR)/stato_terms.txt $(T_IMPORTSEED) \
-		         --copy-ontology-annotations true --force true \
-		         --individuals exclude \
-		         --method SUBSET \
-		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
-		        --term rdfs:label \
-		        --term IAO:0000115 \
-		        --term OMO:0002000 \
-		        --term-file $(IMPORTDIR)/stato_terms.txt $(T_IMPORTSEED) \
-		        --select complement --select annotation-properties \
-		 odk:normalize --base-iri https://w3id.org/pmd \
-		               --subset-decls true --synonym-decls true \
-		 repair --merge-axiom-annotations true \
-		 $(ANNOTATE_CONVERT_FILE)
+## Module for ontology: stato (custom)
+$(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl
+	@echo "ERROR: You have configured stato as a custom module;"
+	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
+	@false
 
 endif # IMP=true
 
@@ -514,7 +501,6 @@ recreate-components:
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-qualities.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-materials.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-manufacturing.owl \
-		--assume-new=$(TMPDIR)/stamp-component-pmdco-logistics.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-devices.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-datatransformation.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-characterization.owl \
@@ -528,7 +514,6 @@ no-mirror-recreate-components:
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-qualities.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-materials.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-manufacturing.owl \
-		--assume-new=$(TMPDIR)/stamp-component-pmdco-logistics.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-devices.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-datatransformation.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-characterization.owl \
