@@ -16,18 +16,28 @@ export_formats:
   - ttl
 remove_owl_nothing: true
 import_group:
+  # definition source, definiton, editor note, example of usage
+  annotation_properties: ['rdfs:label', 'IAO:0000119','IAO:0000115', 'IAO:0000116', 'IAO:0000112', 'skos:definition', 'skos:example', 'skos:comment' ]
+
   products:
     - id: bfo
-      mirror_from: https://raw.githubusercontent.com/BFO-ontology/BFO-2020/release-2024-01-29/src/owl/bfo-core.ttl
-      module_type: mirror
+      mirror_from: http://purl.obolibrary.org/obo/bfo/2020/notime/bfo.owl
+      module_type: custom
+    - id: ro
+      #mirror_from: http://purl.obolibrary.org/obo/ro/core.owl
+      mirror_from: http://purl.obolibrary.org/obo/ro.owl
+      module_type: custom
     - id: iao
       module_type: custom
     - id: obi
+      use_base: true
       module_type: custom
     - id: chebi
       mirror_from: "https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.obo"
       module_type: custom
       rebuild_if_source_changes: false
+    - id: stato
+      module_type: custom
 
 components:
   products:
@@ -37,6 +47,7 @@ components:
       - filename: pmdco-qualities.owl
       - filename: pmdco-materials.owl
       - filename: pmdco-manufacturing.owl
+      - filename: pmdco-logistics.owl
       - filename: pmdco-devices.owl
       - filename: pmdco-datatransformation.owl
       - filename: pmdco-characterization.owl

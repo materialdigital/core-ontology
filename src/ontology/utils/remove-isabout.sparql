@@ -1,0 +1,26 @@
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX : <https://w3id.org/lehrplan/ontology/>
+
+##
+##  remove the axiom "i.c.e is_about some entity"
+##  we do not want to create shacl shapes for that
+##
+
+PREFIX ontology: <https://w3id.org/lehrplan/ontology/>
+
+DELETE {
+obo:IAO_0000030 rdfs:subClassOf ?s . 
+?s rdf:type owl:Restriction .
+?s owl:onProperty obo:IAO_0000136 .
+?s owl:someValuesFrom obo:BFO_0000001 . }
+
+WHERE {
+obo:IAO_0000030 rdfs:subClassOf ?s . 
+?s rdf:type owl:Restriction .
+?s owl:onProperty obo:IAO_0000136 .
+?s owl:someValuesFrom obo:BFO_0000001 . }

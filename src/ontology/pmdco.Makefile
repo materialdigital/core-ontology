@@ -4,39 +4,103 @@
 ## changes here rather than in the main Makefile
 
 
+#$(IMPORTSEED): $(PRESEED) | $(TMPDIR)
+#	echo "" > $@
+
+
 $(ONTOLOGYTERMS): $(SRCMERGED)
 	$(ROBOT) query -f csv -i $< --query pmdco_terms.sparql $@
 
 
-# we dont want the "curation status annotation" and not the "data item"
-# we dont want RO
-$(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt
-	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
-		remove --term "IAO:0000114" --term "IAO:0000027" --select "self descendants" \
-		extract -T $(IMPORTDIR)/obi_terms.txt --force true --copy-ontology-annotations false --individuals exclude --method BOT \
-		remove --select "RO:*"  \
-		$(ANNOTATE_CONVERT_FILE); fi
+
+$(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl $(IMPORTDIR)/stato_terms.txt \
+			    | all_robot_plugins
+	$(ROBOT) annotate --input $< --remove-annotations \
+		 odk:normalize --add-source true \
+		 extract --term-file $(IMPORTDIR)/stato_terms.txt\
+		         --force true --copy-ontology-annotations true \
+		         --individuals include \
+		         --method SUBSET \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term-file $(IMPORTDIR)/stato_terms.txt $(T_IMPORTSEED) \
+		        --select complement --select annotation-properties \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 repair --merge-axiom-annotations true \
+		 $(ANNOTATE_CONVERT_FILE)
+
+
+$(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \
+			   $(IMPORTSEED) | all_robot_plugins
+	$(ROBOT) annotate --input $< --remove-annotations \
+		 odk:normalize --add-source true \
+		 extract --term-file $(IMPORTDIR)/obi_terms.txt $(T_IMPORTSEED) \
+		         --force true --copy-ontology-annotations true \
+		         --individuals exclude \
+		         --intermediates none \
+		         --method SUBSET \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term-file $(IMPORTDIR)/obi_terms.txt $(T_IMPORTSEED) \
+		        --select complement --select annotation-properties \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 repair --merge-axiom-annotations true \
+		 $(ANNOTATE_CONVERT_FILE)
+
+
+## Default module type (slme)
+$(IMPORTDIR)/ro_import.owl: $(MIRRORDIR)/ro.owl $(IMPORTDIR)/ro_terms.txt \
+			   $(IMPORTSEED) | all_robot_plugins
+	$(ROBOT) annotate --input $< --remove-annotations \
+	     remove --select "RO:*" --select complement --select "classes"  --axioms annotation \
+		 odk:normalize --add-source true \
+		 extract --term-file $(IMPORTDIR)/ro_terms.txt  \
+		         --force true --copy-ontology-annotations true \
+		         --individuals exclude \
+		         --method SUBSET \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term-file $(IMPORTDIR)/ro_terms.txt \
+		        --select complement --select annotation-properties \
+		 remove --term-file $(IMPORTDIR)/unwanted.txt  \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 $(ANNOTATE_CONVERT_FILE)
+
 
 $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
-		extract -T $(IMPORTDIR)/iao_terms.txt --force true --copy-ontology-annotations true --individuals exclude --method BOT \
+		remove --select "IAO:*" --select complement --select "classes object-properties data-properties"  --axioms annotation \
+		extract --term-file $(IMPORTDIR)/iao_terms.txt  --force true --copy-ontology-annotations true --individuals exclude --intermediates none --method BOT \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
- 		remove --term http://www.w3.org/2002/07/owl#Nothing  --term http://purl.obolibrary.org/obo/PATO_0000001\
- 		remove --select "RO:*"  \
+ 		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+			  --term-file $(IMPORTDIR)/ro_terms.txt \
+		      --select complement --select annotation-properties \
 		$(ANNOTATE_CONVERT_FILE); fi
 
 
-#$(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
-#	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
-#		extract --upper-term http://purl.obolibrary.org/obo/CHEBI_24431 --lower-terms $(IMPORTDIR)/chebi_terms.txt --copy-ontology-annotations true --individuals exclude --intermediates none --method MIREOT \
-#		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
-#		$(ANNOTATE_CONVERT_FILE); fi
+$(IMPORTDIR)/bfo_import.owl: $(MIRRORDIR)/bfo.owl $(IMPORTDIR)/bfo_terms.txt
+	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
+		extract -T $(IMPORTDIR)/bfo_terms.txt --force true --copy-ontology-annotations true --method SUBSET \
+		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
+ 		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+			  --term-file $(IMPORTDIR)/bfo_terms.txt \
+		      --select complement --select annotation-properties \
+		$(ANNOTATE_CONVERT_FILE); fi		
 
-$(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
+
+$(IMPORTDIR)/chebi_import.owl: #$(MIRRORDIR)/chebi.owl
 	if [ $(IMP) = true ]; then $(ROBOT) query -i $< --update ../sparql/preprocess-module.ru \
 		filter --term-file $(IMPORTDIR)/chebi_terms.txt --select "self annotations" reduce --reasoner ELK \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
+ 		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+			  --term-file $(IMPORTDIR)/chebi_terms.txt \
+		      --select complement --select annotation-properties \
 		$(ANNOTATE_CONVERT_FILE); fi
+
+
+.PHONY: autoshapes
+autoshapes: 
+	echo "please run manually: sh utils/generate-auto-shapes.sh"
 
 
 ## we import the BFO entirely
