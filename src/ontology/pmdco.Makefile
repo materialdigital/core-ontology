@@ -98,6 +98,10 @@ $(IMPORTDIR)/chebi_import.owl: #$(MIRRORDIR)/chebi.owl
 		$(ANNOTATE_CONVERT_FILE); fi
 
 
+$(IMPORTDIR)/uo_import.owl: $(MIRRORDIR)/uo.owl $(IMPORTDIR)/uo_terms.txt 
+	$(ROBOT) filter --input mirror/uo.owl --term-file imports/uo_terms.txt --allow-punning true --select "annotations self parents" \
+		 $(ANNOTATE_CONVERT_FILE)
+
 .PHONY: autoshapes
 autoshapes: 
 	echo "please run manually: sh utils/generate-auto-shapes.sh"
