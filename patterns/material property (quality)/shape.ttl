@@ -1,0 +1,116 @@
+prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix obi:    <http://purl.obolibrary.org/obo/> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+
+shape:quality 
+    rdf:type sh:NodeShape ;
+    sh:targetClass  obi:BFO_0000019 ; # quality
+    sh:not [ sh:class obi:BFO_0000145 ; ] ;
+    sh:description "Shape describing that quality is quality of some independent continuant and concretizes some value specification. Note that the relational quality is excluded. " ;
+    
+    # quality of independent continuant
+    sh:property 
+        [ 
+
+            sh:path  obi:RO_0000080 ;  # quality of
+            sh:minCount 1 ;
+            sh:maxCount 1 ; 
+            sh:class obi:BFO_0000004 ; # independent continuant
+        ] ;
+
+    # concretizes value specification
+    sh:property
+        [
+            sh:path obi:RO_0000059 ; # concretizes
+            sh:or 
+                (
+                    [ sh:node shape:scalar_value_specification ; ]
+                    [ sh:node shape:categorical_value_specification ; ]
+                ) ;
+        ] ;
+   	sh:property
+		[
+			sh:path obi:BFO_0000108 ; # exists at
+			sh:class obi:BFO_0000008 ; #temporal region
+		] ;
+   #TODO which other triples can be written with SDCs?
+   sh:closed false ;
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+
+shape:behavioral_material_property 
+    rdf:type sh:NodeShape ;
+    sh:targetClass  pmd:PMD_0000005 ; # behavioral material property
+    sh:description "Shape describing that behavioral material property is characteristic of some independent continuant and concretizes some value specification. " ;
+    
+    # characteristic independent continuant
+    sh:property 
+        [ 
+
+            sh:path  obi:RO_0000052 ;  # characteristic of
+            sh:minCount 1 ;
+            sh:maxCount 1 ; 
+            sh:class obi:BFO_0000004 ; # independent continuant
+        ] ;
+
+    # concretizes value specification
+    sh:property
+        [
+            sh:path obi:RO_0000059 ; # concretizes
+            sh:or 
+                (
+                    [ sh:node shape:scalar_value_specification ; ]
+                    [ sh:node shape:categorical_value_specification ; ]
+                ) ;
+        ] ;
+	
+	sh:property
+		[
+			sh:path obi:BFO_0000108 ; # exists at
+			sh:class obi:BFO_0000008 ; #temporal region
+		] ;
+   
+   #TODO which other triples can be written with SDCs?
+   sh:closed false ;
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+   shape:relational_quality 
+   rdf:type sh:NodeShape ;
+   sh:targetClass  obi:BFO_0000145 ; # relational quality
+   sh:description "Shape describing that quality is quality of some independent continuant and concretizes some value specification. Note that the relational quality is excluded. " ;
+   
+   # relational quality of independent continuant
+   sh:property 
+       [ 
+
+           sh:path  pmd:PMD_0025999 ;  # relational quality of
+           sh:minCount 1 ;
+           sh:class obi:BFO_0000004 ; # independent continuant
+       ] ;
+
+   # concretizes value specification
+   sh:property
+       [
+           sh:path obi:RO_0000059 ; # concretizes
+           sh:or 
+               (
+                   [ sh:node shape:scalar_value_specification ; ]
+                   [ sh:node shape:categorical_value_specification ; ]
+                   [ sh:node shape:fraction_value_specification ; ]
+               ) ;
+       ] ;
+
+	sh:property
+		[
+			sh:path obi:BFO_0000108 ; # exists at
+			sh:class obi:BFO_0000008 ; #temporal region
+		] ;
+  #TODO which other triples can be written with SDCs?
+  sh:closed false ;
+  sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
