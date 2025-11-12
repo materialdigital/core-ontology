@@ -118,14 +118,19 @@ ex:object_1 exists_at: ex:some_time .
 
 ## Pattern 2 - Process Chain
 
-- **Purpose**: Represent complex processes, consisting of simultaneous and serial subprocesses. 
+- **Purpose**: Represent processes, consisting of simultaneous and serial subprocesses. 
 - **Core Properties**: 
   - `bfo:precedes` ([BFO_0000063](http://purl.obolibrary.org/obo/BFO_0000063))
   - `ro:has part` ([BFO_0000051](http://purl.obolibrary.org/obo/BFO_0000051))
-  - `pmd:starts with` ([PMD_0060002](https://w3id.org/pmd/co/PMD_0060002))
-  - `pmd:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
-  - `pmd:simultaneous with` ([PMD_0060004](https://w3id.org/pmd/co/PMD_0060004))
-- **Example Use Case**: Specifying the structure of commplex manufacturing processes consisting of several stages.
+  - `ro:starts with` ([RO_0002224](http://purl.obolibrary.org/obo/RO_0002224))
+  - `ro:ends with ` ([RO_0002230](http://purl.obolibrary.org/obo/RO_0002230))
+  - `ro:simultaneous with` ([RO_0002082](http://purl.obolibrary.org/obo/RO_0002082))
+- **Example Use Case**: the pattern defines a hierarchical and temporal relationship among processes: a parent process composed of multiple interconnected stages, where the first step leads into two concurrent middle steps, both of which precede the final one. This structure models a workflow with clear order, parallel execution, and a defined start and end.
+- **Description**: This graph describes a structured process chain that organizes several interrelated process steps within a defined sequence. The graph defines relationships among processes using temporal and structural object properties.
+At the highest level, there is a parent process (ex:process_parent), which serves as the overarching workflow. This process begins with (ex:process_step1) and concludes with (ex:process_step3), as indicated by the starts_with and ends_with relationships. The parent process is composed of several parts — specifically (ex:process_step1), (ex:process_step2a), (ex:process_step2b), and (ex:process_step3) — through the has_part property, defining the hierarchical structure of the process.
+The sequence begins with (ex:process_step1), which acts as the initial phase. This step precedes (ex:process_step2a), (ex:process_step2b), and (ex:process_step3), establishing it as the starting point from which subsequent processes emerge. Among the intermediate steps, (ex:process_step2a) and (ex:process_step2b) are connected not only sequentially but also through simultaneity: (ex:process_step2a) is defined as simultaneous_with (ex:process_step2b), indicating that they occur at the same time within the overall process.
+Finally, both (ex:process_step2a) and (ex:process_step2b) lead to (ex:process_step3), the final step of the chain. This closing process represents the conclusion of the overall workflow, marking the endpoint of the structured and partially parallel sequence defined in the RDF model.
+
 
 ```d2
 direction: up
@@ -157,8 +162,8 @@ tbox.style.fill: transparent
 abox.ex*.class: individual
 abox.label: "___________________________________________________________________________"
 abox: {
-  "ex:process parent" -> "ex:process step1": "pmd:starts_with"
-  "ex:process parent" -> "ex:process step3": "pmd:ends_with"
+  "ex:process parent" -> "ex:process step1": "ro:starts_with"
+  "ex:process parent" -> "ex:process step3": "ro:ends_with"
 
   "ex:process parent" -> "ex:process step1": "ro:has part"
   "ex:process parent" -> "ex:process step2a": "ro:has part"
@@ -170,7 +175,7 @@ abox: {
   "ex:process step1" -> "ex:process step3": "bfo:precedes"
 
   "ex:process step2a" -> "ex:process step3": "bfo:precedes"
-  "ex:process step2a" -> "ex:process step2b": "pmd:simultaneous_with"
+  "ex:process step2a" -> "ex:process step2b": "ro:simultaneous_with"
 }
 
 abox.style.stroke: transparent
@@ -197,9 +202,9 @@ abox."ex:process step3" -> tbox."bfo:process": "rdf:type"
 
 @prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . #ObjectProperty 
 @prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> . #ObjectProperty
-@prefix starts_with: <https://w3id.org/pmd/co/PMD_0060002> . #ObjectProperty
-@prefix ends_with: <https://w3id.org/pmd/co/PMD_0060003> . #ObjectProperty
-@prefix simultaneous_with: <https://w3id.org/pmd/co/PMD_0060004> . #ObjectProperty
+@prefix starts_with: <http://purl.obolibrary.org/obo/RO_0002224> . #ObjectProperty
+@prefix ends_with: <http://purl.obolibrary.org/obo/RO_0002230> . #ObjectProperty
+@prefix simultaneous_with: <http://purl.obolibrary.org/obo/RO_0002082> . #ObjectProperty
 
 <https://w3id.org/pmd/co/test/shape/process_chain> rdf:type owl:Ontology .
 
