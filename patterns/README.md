@@ -16,6 +16,11 @@ Within this folder you will find modules, example files, perhaps SHACL shapes, R
 
 Users of the ontology—developers, data engineers, domain scientists—can pick a pattern from this folder as a starting point, adapt it to their scenario, and thereby ensure that they remain consistent with the ontology’s design, semantics and interoperability goals.
 
+The autoshapes folder contains automatically generated SHACL shapes (or similar shapes/validation artefacts) that are derived from the ontology definitions. These shapes serve to validate that ontology modules and pattern instances conform to expected structure and constraints. In the workflow:
+
+When a pull request or commit happens, the workflow triggers the SHACL validation job (as defined in shacl.yaml).
+
+
 ## Why it’s valuable
 
 Patterns lower the barrier to adoption: instead of designing from first principles, you can use a vetted template aligned with PMDco’s semantics.
@@ -28,9 +33,7 @@ They advance FAIR principles: by providing reusable modelling patterns, the repo
 
 ## Automated processing of patterns
 
-Whenever a commit or pull request is made, a workflow is triggered (via GitHub Actions) to perform validation of the ontology and its patterns.
-
-see: [.github/workflows/shacl.yaml](https://github.com/materialdigital/core-ontology/blob/main/.github/workflows/shacl.yaml)
+Whenever a commit or pull request is made, a workflow is triggered (via GitHub Actions) to perform validation of the ontology and its patterns (see: [.github/workflows/shacl.yaml](https://github.com/materialdigital/core-ontology/blob/main/.github/workflows/shacl.yaml) ).
 
 The workflow executes SHACL validation steps: it runs a SHACL validator against the shapes and data files to check that the modelling patterns conform to the constraints.
 
@@ -38,7 +41,12 @@ If the validation passes, the build continues; if it fails, the workflow reports
 
 Thus the workflow automates quality control of the patterns-folder: ensuring that changes do not break the defined SHACL shapes and that the ontology remains consistent with the modelling patterns.
 
-To include patterns in this automated workflow the documentation of the patterns have to meet the following requirements.
+The `autoshapes` folder contains automatically generated SHACL shapes that are derived from the ontology definitions. These shapes serve to validate that ontology modules and pattern instances conform to expected structure and constraints. 
+The autoshapes are used as part of the validation workflow — they define the constraints that the ontology and pattern artefacts must satisfy.
+
+The `unused` folder holds files (patterns, shapes) that have been deprecated, superseded, or are no longer actively used in the current version of the ontology/patterns. This folder is ignored by the workflow.
+
+To include patterns in the automated workflow the documentation of the patterns have to meet the following requirements.
 
 ## How to document patterns?
 
