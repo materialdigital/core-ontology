@@ -1,0 +1,53 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix obo:    <http://purl.obolibrary.org/obo/> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+@base <https://w3id.org/pmd/co/test/shape_categorical_value_specification#> .
+
+<https://w3id.org/pmd/co/test/shape_categorical_value_specification> 
+    rdf:type owl:Ontology .
+
+### Define prefixes ###
+
+@prefix categorical_value_specification: <http://purl.obolibrary.org/obo/OBI_0001930> . 
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> .
+@prefix ferrite: <https://w3id.org/pmd/co/PMD_0020100> .
+@prefix has_specified_value: <http://purl.obolibrary.org/obo/OBI_0002135> . 
+@prefix has_value: <https://w3id.org/pmd/co/PMD_0000006> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+
+
+
+### Define entities ###
+
+# Example 1
+ex:value_1 a owl:NamedIndividual , 
+             categorical_value_specification: .
+
+ex:ferritic_material a owl:NamedIndividual ,
+                        material: . 
+
+material: rdfs:subClassOf entity: .
+ 
+ex:value_1 has_specified_value: ferrite: .
+ex:value_1  specifies_value_of: ex:ferritic_material .
+
+# Example 2
+ex:value_2 a owl:NamedIndividual , 
+             categorical_value_specification: .
+
+ex:value_2 rdfs:value "category 1" .
+
+# Example 3
+
+ex:value_3 a owl:NamedIndividual , 
+             categorical_value_specification: .
+
+ex:value_3 has_value: ferrite: .

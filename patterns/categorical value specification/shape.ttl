@@ -1,0 +1,70 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix obi:   <http://purl.obolibrary.org/obo/> .
+@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+
+shape:CategoricalValueSpecificationShape 
+    rdf:type sh:NodeShape ;
+    sh:targetClass  obi:OBI_0001930 ; # categorical value specification
+    sh:description "Shape describing that categorical value specification can have only one value which can be either a literal or an IRI." ; 
+
+
+    ### NOTE: JenaSHACL does not support sh:alternativePath
+    # Exactly one property pointing to the categorical value
+    #sh:property [ 
+    
+     #           sh:path  <http://purl.obolibrary.org/obo/OBI_0002135> ;  # has specified value
+    #            sh:alternativePath (
+    #                <http://purl.obolibrary.org/obo/OBI_0002135> # has specified value
+    #                rdfs:value
+    #                <https://w3id.org/pmd/co/PMD_0000006> # has value
+    #    ) ;
+    #            sh:minCount 1 ;
+    #            sh:maxCount 1 ; 
+    #            sh:or 
+    #            (
+    #                [ sh:node sh:IRI ; ]
+    #                [ sh:node sh:Literal ; ]
+    #            ) ;
+    #] ;
+
+    sh:or (
+        # Option 1: Must have exactly 1 obi:OBI_0002135
+        [ sh:property [
+            sh:path obi:OBI_0002135 ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:node sh:IRI ] [ sh:node sh:Literal ] ) ;
+        ] ]
+        
+        # Option 2: Must have exactly 1 rdfs:value
+        [ sh:property [
+            sh:path rdfs:value ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:node sh:IRI ] [ sh:node sh:Literal ] ) ;
+        ] ]
+        
+        # Option 3: Must have exactly 1 pmd:PMD_0000006
+        [ sh:property [
+            sh:path pmd:PMD_0000006 ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:node sh:IRI ] [ sh:node sh:Literal ] ) ;
+        ] ]
+    ) ;
+
+    sh:property [
+        sh:path <http://purl.obolibrary.org/obo/OBI_0001927> ; # specifies value of
+        sh:class <http://purl.obolibrary.org/obo/BFO_0000001> ; #entity
+         
+    ] ;
+   
+   sh:closed false ;
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
