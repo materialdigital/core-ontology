@@ -11,6 +11,7 @@
 @prefix swrl: <http://www.w3.org/2003/11/swrl#> .
 @prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> .
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
@@ -152,6 +153,10 @@ dcterms:source rdf:type owl:AnnotationProperty .
 
 ###  http://purl.org/dc/terms/title
 dcterms:title rdf:type owl:AnnotationProperty .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasExactSynonym
+oboInOwl:hasExactSynonym rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.w3.org/2000/01/rdf-schema#label
@@ -3102,9 +3107,52 @@ obo:OBI_0100051 rdf:type owl:Class ;
                 rdfs:label "specimen"@en .
 
 
+###  http://purl.obolibrary.org/obo/UO_0000000
+obo:UO_0000000 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000003 ;
+               rdfs:comment "\"A unit of measurement is a standardized quantity of a physical quality.\" [Wikipedia:Wikipedia]" ;
+               rdfs:label "unit" .
+
+
 ###  http://purl.obolibrary.org/obo/UO_0000003
 obo:UO_0000003 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000003 .
+               rdfs:subClassOf obo:UO_0000000 ;
+               oboInOwl:hasExactSynonym "time derived unit" ;
+               rdfs:comment "\"A unit which is a standard measure of the dimension in which events occur in sequence.\" [Wikipedia:Wikipedia]" ;
+               rdfs:label "time unit" .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000076
+obo:UO_0000076 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_1000076 .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000163
+obo:UO_0000163 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_1000163 .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000164
+obo:UO_0000164 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_1000164 .
+
+
+###  http://purl.obolibrary.org/obo/UO_1000076
+obo:UO_1000076 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_0000000 ;
+               rdfs:label "mole fraction based unit" .
+
+
+###  http://purl.obolibrary.org/obo/UO_1000163
+obo:UO_1000163 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_0000000 ;
+               rdfs:label "mass percentage based unit" .
+
+
+###  http://purl.obolibrary.org/obo/UO_1000164
+obo:UO_1000164 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_0000000 ;
+               rdfs:label "mass volume percentage based unit" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000000
@@ -10447,6 +10495,18 @@ obo:IAO_0000428 rdf:type owl:NamedIndividual ;
                 rdfs:label "requires discussion"@en .
 
 
+###  http://purl.obolibrary.org/obo/UO_0000076
+obo:UO_0000076 rdf:type owl:NamedIndividual .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000163
+obo:UO_0000163 rdf:type owl:NamedIndividual .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000164
+obo:UO_0000164 rdf:type owl:NamedIndividual .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020006
 co:PMD_0020006 rdf:type owl:NamedIndividual ;
                rdfs:label "bravais lattice triclinic primitve"@en ;
@@ -10677,6 +10737,24 @@ obo:IAO_0000421 obo:IAO_0000115 "A named class expression is a logical expressio
 obo:OMO_0001000 obo:IAO_0000115 "The term was added to the ontology on the assumption it was in scope, but it turned out later that it was not."@en ;
                 obo:IAO_0000116 "This obsolesence reason should be used conservatively. Typical valid examples are: un-necessary grouping classes in disease ontologies, a phenotype term added on the assumption it was a disease."@en ;
                 rdfs:label "out of scope" .
+
+
+obo:UO_0000076 oboInOwl:hasExactSynonym "(x)" ,
+                                        "chi" ;
+               rdfs:comment "\"A concentration unit which denotes the number of moles of solute as a proportion of the total number of moles in a solution.\" [Wikipedia:Wikipedia]" ;
+               rdfs:label "mole fraction" .
+
+
+obo:UO_0000163 oboInOwl:hasExactSynonym "w/w" ,
+                                        "weight-weight percentage" ;
+               rdfs:comment "\"A dimensionless concentration unit which denotes the mass of a substance in a mixture as a percentage of the mass of the entire mixture.\" [Wikipedia:Wikipedia]" ;
+               rdfs:label "mass percentage" .
+
+
+obo:UO_0000164 oboInOwl:hasExactSynonym "(w/v)" ,
+                                        "weight-volume percentage" ;
+               rdfs:comment "\"A dimensionless concentration unit which denotes the mass of the substance in a mixture as a percentage of the volume of the entire mixture.\" [UOC:GVG]" ;
+               rdfs:label "mass volume percentage" .
 
 
 dce:license rdfs:label "dc:license" .
