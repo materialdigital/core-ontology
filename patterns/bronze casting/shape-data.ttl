@@ -1,0 +1,135 @@
+@prefix : <https://w3id.org/pmd/co/test/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test/> .
+
+<https://w3id.org/pmd/co/test/shape/bronze_alloy> rdf:type owl:Ontology .
+
+@prefix portion_of_copper: <https://w3id.org/pmd/co/PMD_0020054> .
+@prefix portion_of_tin: <https://w3id.org/pmd/co/PMD_0020088> .
+@prefix bronze_alloy: <http://example.org/bronze> .
+@prefix metal: <https://w3id.org/pmd/co/PMD_0000852> .
+@prefix furnace: <https://w3id.org/pmd/co/PMD_0000655> .
+@prefix manufacturing_process: <https://w3id.org/pmd/co/PMD_0000833> .
+@prefix melting_process: <https://w3id.org/pmd/co/PMD_0000053> .
+@prefix mixing_process: <https://w3id.org/pmd/co/PMD_0000664> . 
+@prefix solidification_process: <https://w3id.org/pmd/co/PMD_0000906> . 
+@prefix mold_device: <https://w3id.org/pmd/co/PMD_0000075> .
+@prefix cooling_function: <https://w3id.org/pmd/co/PMD_0000055> .
+@prefix melting_function: <https://w3id.org/pmd/co/PMD_0000057> .
+@prefix solid: <https://w3id.org/pmd/co/PMD_0020117> .
+@prefix liquid: <https://w3id.org/pmd/co/PMD_0020118> .
+@prefix aggregate_state: <https://w3id.org/pmd/co/PMD_0000512> .
+
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . 
+@prefix has_participant: <http://purl.obolibrary.org/obo/RO_0000057> . 
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> .
+@prefix has_function: <http://purl.obolibrary.org/obo/RO_0000085> .
+@prefix starts_with: <http://purl.obolibrary.org/obo/RO_0002224> .
+@prefix ends_with: <http://purl.obolibrary.org/obo/RO_0002230> .
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> .
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+
+bronze_alloy: rdfs:subClassOf metal: .
+
+:some_cu a portion_of_copper: .
+:some_tin a portion_of_tin: .
+
+:some_cu_at_t1 a portion_of_copper: ;
+               is_state_of: :some_cu ;
+               has_quality: :q1 ;
+               exists_at: :some_time_before_melting .
+:q1 a aggregate_state:;
+    concretizes: solid: .
+
+:some_cu_at_t2 a portion_of_copper: ;
+               is_state_of: :some_cu ;
+               has_quality: :q2 ;
+               exists_at: :some_time_after_melting .
+
+:q2 a aggregate_state:;
+    concretizes: liquid: .
+
+:some_tin_at_t1 a portion_of_tin: ;
+                is_state_of: :some_tin ;
+                has_quality: :q3 ;
+                exists_at: :some_time_before_melting .
+
+:q3 a aggregate_state:;
+    concretizes: solid: .
+
+:some_tin_at_t3 a portion_of_tin: ;
+                is_state_of: :some_tin ;
+                has_quality: :q4 ;
+                exists_at: :some_other_time_after_melting .
+
+:q4 a aggregate_state:;
+    concretizes: liquid: .
+
+:furnace_1 a furnace: ;
+           has_function: :f1 .
+:f1 a melting_function: .
+
+:furnace_2 a furnace: ;
+           has_function: :f2 .
+:f2 a melting_function: .
+
+:mold a mold_device: ;
+      has_function: :f3 .
+:f3 a cooling_function: .
+
+:bronze_alloy_formation a manufacturing_process: ;
+    has_specified_input: :some_cu, :some_tin ;
+    has_part: :melting_copper , :melting_tin , :mixing_melts , :solidification;
+    has_specified_output: :some_bronze ;
+    starts_with: :melting_copper ;
+    ends_with: :solidification .
+
+:melting_copper a melting_process: ;
+    has_specified_input: :some_cu_at_t1 ;
+    has_participant: :furnace_1 ;
+    has_specified_output: :some_cu_at_t2 ;
+    realizes: :f1 ;
+    precedes: :mixing_metals .
+
+:melting_tin a melting_process: ;
+    has_specified_input: :some_tin_at_t1 ;
+    has_participant: :furnace_2 ;
+    has_specified_output: :some_tin_at_t3 ;
+    realizes: :f2 ;
+    precedes: :mixing_melts .
+
+:mixing_melts a mixing_process: ;
+    has_participant: :mold ;
+    has_specified_input: :some_cu_at_t2 , :some_tin_at_t3 ;
+    has_specified_output: :bronze_at_t4 ;
+    precedes: solidification_process: .
+
+:solidification a solidification_process: ;
+    has_participant: :mold ;
+    realizes: :f3 ;
+    has_specified_input: :bronze_at_t4 ;
+    has_specified_output: :bronze_at_t5 .
+
+:some_bronze a bronze_alloy: .
+:bronze_at_t4 is_state_of: :some_bronze ;
+              has_quality: :q5 ;
+              exists_at: :some_time_after_mixing .
+:bronze_at_t5 is_state_of: :some_bronze ;
+              has_quality: :q6 ;
+              exists_at: :some_time_after_solidification .
+
+:q5 a aggregate_state:;
+    concretizes: liquid: .
+    
+:q6 a aggregate_state:;
+    concretizes: solid: .
+
