@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                b17f491714102f1cc1faa4f94bfc39a40d442c35274ad22c612d927b61612565
+CONFIG_HASH=                2d868959a0d66558013c6aa54f50924bf33605cf9c348db16fbf5416cd3bcebd
 
 
 # ----------------------------------------
@@ -58,7 +58,7 @@ OBODATE ?=                  $(shell date +'%d:%m:%Y %H:%M')
 VERSION=                    $(TODAY)
 ANNOTATE_ONTOLOGY_VERSION = annotate -V $(ONTBASE)/releases/$(VERSION)/$@ --annotation owl:versionInfo $(VERSION)
 ANNOTATE_CONVERT_FILE =     annotate --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) convert -f ofn --output $@.tmp.owl && mv $@.tmp.owl $@
-OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-axioms-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-logistics.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl 
+OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-axioms-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl 
 ONTOLOGYTERMS =             $(TMPDIR)/ontologyterms.txt
 EDIT_PREPROCESSED =         $(TMPDIR)/$(ONT)-preprocess.owl
 
@@ -188,7 +188,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo ro iao obi chebi stato
+IMPORTS =  bfo ro iao obi chebi stato uo
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -452,24 +452,11 @@ $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
 	@false
 
-## Module for ontology: stato (slme)
-$(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl $(IMPORTDIR)/stato_terms.txt $(IMPORTSEED) | all_robot_plugins
-	$(ROBOT) annotate --input $< --remove-annotations \
-		 odk:normalize --add-source true \
-		 extract --term-file $(IMPORTDIR)/stato_terms.txt $(T_IMPORTSEED) \
-		         --copy-ontology-annotations true --force true \
-		         --individuals exclude \
-		         --method SUBSET \
-		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
-		        --term rdfs:label \
-		        --term IAO:0000115 \
-		        --term OMO:0002000 \
-		        --term-file $(IMPORTDIR)/stato_terms.txt $(T_IMPORTSEED) \
-		        --select complement --select annotation-properties \
-		 odk:normalize --base-iri https://w3id.org/pmd \
-		               --subset-decls true --synonym-decls true \
-		 repair --merge-axiom-annotations true \
-		 $(ANNOTATE_CONVERT_FILE)
+## Module for ontology: stato (custom)
+$(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl
+	@echo "ERROR: You have configured stato as a custom module;"
+	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
+	@false
 
 endif # IMP=true
 
@@ -514,7 +501,6 @@ recreate-components:
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-qualities.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-materials.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-manufacturing.owl \
-		--assume-new=$(TMPDIR)/stamp-component-pmdco-logistics.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-devices.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-datatransformation.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-characterization.owl \
@@ -528,7 +514,6 @@ no-mirror-recreate-components:
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-qualities.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-materials.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-manufacturing.owl \
-		--assume-new=$(TMPDIR)/stamp-component-pmdco-logistics.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-devices.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-datatransformation.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-characterization.owl \
@@ -603,6 +588,14 @@ mirror-chebi: | $(TMPDIR)
 mirror-stato: | $(TMPDIR)
 	curl -L $(OBOBASE)/stato.owl --create-dirs -o $(TMPDIR)/stato-download.owl --retry 4 --max-time 200 && \
 	$(ROBOT) convert -i $(TMPDIR)/stato-download.owl -o $(TMPDIR)/$@.owl
+
+
+## ONTOLOGY: uo
+.PHONY: mirror-uo
+.PRECIOUS: $(MIRRORDIR)/uo.owl
+mirror-uo: | $(TMPDIR)
+	curl -L $(OBOBASE)/uo.owl --create-dirs -o $(TMPDIR)/uo-download.owl --retry 4 --max-time 200 && \
+	$(ROBOT) convert -i $(TMPDIR)/uo-download.owl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)

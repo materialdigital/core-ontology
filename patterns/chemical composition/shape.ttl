@@ -35,7 +35,8 @@ shape:chemical_composition
         sh:node shape:chemical_composition_specification ;
     ] ;
     sh:closed true ;
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+    # we also have to ignore RO_0000052 because it is superprop of RO_0000080 and reasoning brings it in
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty obo:RO_0000052) .
 
 shape:chemical_composition_specification
     rdf:type sh:NodeShape ; 
@@ -72,10 +73,10 @@ shape:pure_substance_chemical_element
     rdf:type sh:NodeShape ;
     sh:description "an instance of pure substance (any chemical element) has relational quality an instance of proportion. " ;
     sh:targetClass pmd:PMD_0020140 ; # portion of single chemical element
-#    sh:property [
-#        sh:path pmd:PMD_0025998 ; # has relational quality
-#        sh:node shape:proportion  ;
-#    ] ;
+    sh:property [
+        sh:path pmd:PMD_0025998 ; # has relational quality
+        sh:node shape:proportion  ;
+    ] ;
     sh:property [
         sh:path obo:BFO_0000050 ; # part of
         sh:class pmd:PMD_0000000  ; # material
@@ -86,7 +87,9 @@ shape:pure_substance_chemical_element
     ] ;
     
     sh:closed true ;
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+    # with inverse(OBI_0001927) reasoning brings in is subject of (PMD_0000004), so we have to ignore it
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty pmd:PMD_0000004) .
 
 
 
