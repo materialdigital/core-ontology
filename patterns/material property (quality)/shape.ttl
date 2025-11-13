@@ -4,40 +4,46 @@ prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ex:    <http://www.example.org/#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix obi:    <http://purl.obolibrary.org/obo/> .
+@prefix obo:    <http://purl.obolibrary.org/obo/> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
 @prefix shape:   <https://w3id.org/pmd/co/shapes> .
 
 shape:quality 
     rdf:type sh:NodeShape ;
-    sh:targetClass  obi:BFO_0000019 ; # quality
-    sh:not [ sh:class obi:BFO_0000145 ; ] ;
+    sh:targetClass  obo:BFO_0000019 ; # quality
+    sh:not [ sh:class obo:BFO_0000145 ; ] ; #discarding relational quality
     sh:description "Shape describing that quality is quality of some independent continuant and concretizes some value specification. Note that the relational quality is excluded. " ;
     
     # quality of independent continuant
     sh:property 
         [ 
 
-            sh:path  obi:RO_0000080 ;  # quality of
-            sh:minCount 1 ;
+            sh:path  obo:RO_0000080 ;  # quality of
+            # sh:minCount 1 ;
             sh:maxCount 1 ; 
-            sh:class obi:BFO_0000004 ; # independent continuant
+            sh:class obo:BFO_0000004 ; # independent continuant
+			sh:message "Quality must be a quality of exactly one independent continuant." ;
+
         ] ;
 
     # concretizes value specification
     sh:property
         [
-            sh:path obi:RO_0000059 ; # concretizes
+            sh:path obo:RO_0000059 ; # concretizes
             sh:or 
                 (
                     [ sh:node shape:scalar_value_specification ; ]
                     [ sh:node shape:categorical_value_specification ; ]
                 ) ;
+				sh:message "Quality must concretize some value specification (scalar or categorical). " ;
+
         ] ;
    	sh:property
 		[
-			sh:path obi:BFO_0000108 ; # exists at
-			sh:class obi:BFO_0000008 ; #temporal region
+			sh:path obo:BFO_0000108 ; # exists at
+			sh:class obo:BFO_0000008 ; #temporal region
+			sh:message "Quality must exist at some temporal region." ;
+
 		] ;
    #TODO which other triples can be written with SDCs?
    sh:closed false ;
@@ -53,27 +59,31 @@ shape:behavioral_material_property
     sh:property 
         [ 
 
-            sh:path  obi:RO_0000052 ;  # characteristic of
+            sh:path  obo:RO_0000052 ;  # characteristic of
             sh:minCount 1 ;
             sh:maxCount 1 ; 
-            sh:class obi:BFO_0000004 ; # independent continuant
+            sh:class obo:BFO_0000004 ; # independent continuant
+			sh:message "Behavioral material property must be a characteristic of exactly one independent continuant." ;
         ] ;
 
     # concretizes value specification
     sh:property
         [
-            sh:path obi:RO_0000059 ; # concretizes
+            sh:path obo:RO_0000059 ; # concretizes
             sh:or 
                 (
                     [ sh:node shape:scalar_value_specification ; ]
                     [ sh:node shape:categorical_value_specification ; ]
                 ) ;
+			sh:message "Behavioral material property must concretize some value specification (scalar or categorical). " ;
+
         ] ;
 	
 	sh:property
 		[
-			sh:path obi:BFO_0000108 ; # exists at
-			sh:class obi:BFO_0000008 ; #temporal region
+			sh:path obo:BFO_0000108 ; # exists at
+			sh:class obo:BFO_0000008 ; #temporal region
+			sh:message "Behavioral material property must exist at some temporal region. " ;
 		] ;
    
    #TODO which other triples can be written with SDCs?
@@ -82,7 +92,7 @@ shape:behavioral_material_property
 
    shape:relational_quality 
    rdf:type sh:NodeShape ;
-   sh:targetClass  obi:BFO_0000145 ; # relational quality
+   sh:targetClass  obo:BFO_0000145 ; # relational quality
    sh:description "Shape describing that quality is quality of some independent continuant and concretizes some value specification. Note that the relational quality is excluded. " ;
    
    # relational quality of independent continuant
@@ -91,26 +101,25 @@ shape:behavioral_material_property
 
            sh:path  pmd:PMD_0025999 ;  # relational quality of
            sh:minCount 1 ;
-           sh:class obi:BFO_0000004 ; # independent continuant
+           sh:class obo:BFO_0000004 ; # independent continuant
+		   sh:message "Relational quality must be a relational quality of more than one independent continuant." ;
+
        ] ;
 
    # concretizes value specification
    sh:property
        [
-           sh:path obi:RO_0000059 ; # concretizes
-           sh:or 
+            sh:path obo:RO_0000059 ; # concretizes
+            sh:or 
                (
                    [ sh:node shape:scalar_value_specification ; ]
                    [ sh:node shape:categorical_value_specification ; ]
                    [ sh:node shape:fraction_value_specification ; ]
                ) ;
+			sh:message "Relational quality must concretize some value specification (scalar, categorical, or fraction). " ;
+
        ] ;
 
-	sh:property
-		[
-			sh:path obi:BFO_0000108 ; # exists at
-			sh:class obi:BFO_0000008 ; #temporal region
-		] ;
   #TODO which other triples can be written with SDCs?
   sh:closed false ;
   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .

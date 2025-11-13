@@ -18,6 +18,7 @@
 @prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
 @prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
 @prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
 @prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
 @prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
@@ -28,10 +29,18 @@
 @prefix melting_point: <https://w3id.org/pmd/co/PMD_0000851> .
 @prefix relational_quality: <http://purl.obolibrary.org/obo/BFO_0000145> .
 @prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix gram: <http://purl.obolibrary.org/obo/UO_0000021> . 
+@prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
+@prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
+@prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
+
 
 # Sublcass relations 
 object: rdfs:subClassOf independent_continuant: .
 material: rdfs:subClassOf independent_continuant: .
+portion_of_iron: rdfs:subClassOf independent_continuant: .
 quality: rdfs:subClassOf specifically_dependent_continuant: .
 mass: rdfs:subClassOf quality: .
 density: rdfs:subClassOf quality: .
@@ -43,14 +52,76 @@ melting_point: rdfs:subClassOf behavioral_material_property: .
 # Object properties
 
 @prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
-@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
 @prefix quality_of: <http://purl.obolibrary.org/obo/RO_0000080> .
-@prefix has_characteristic: <http://purl.obolibrary.org/obo/RO_0000053> .
 @prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
+@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
 @prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+
+
 
 ### Instances ###
 
+# Quality
+ex:metal_sheet a owl:NamedIndividual ,
+                  object: .
 
+ex:mass_metal_sheet a owl:NamedIndividual , 
+                      mass: . 
+
+ex:svs_15_g a owl:NamedIndividual ,
+              scalar_value_specification: ;
+            has_specified_numeric_value: "3.3"^^xsd:float ;
+            has_measurement_unit_label: gram: .
+        
+ex:mass_metal_sheet quality_of: ex:metal_sheet ; 
+                    concretizes: ex:svs_15_g .
+
+ex:tqc_steel_material a owl:NamedIndividual ,
+                          material: ,
+                          temporally_qualified_continuant: .
+
+ex:density_steel a owl:NamedIndividual , 
+                      density: .
+
+ex:svs_7_5_g_per_cm a owl:NamedIndividual ,
+              scalar_value_specification: ;
+            has_specified_numeric_value: "7.5"^^xsd:float ;
+            has_measurement_unit_label: gram_per_cubic_centimetre: .
+
+ex:density_steel  quality_of: ex:tqc_steel_material ; 
+                  concretizes: ex:svs_7_5_g_per_cm .
+
+# Behavioral material property
+ex:steel_material a owl:NamedIndividual ,
+                          material: .
+
+ex:svs_1500_deg_c a owl:NamedIndividual ,
+                    scalar_value_specification: ;
+                  has_specified_numeric_value: "1500"^^xsd:float ;
+                  has_measurement_unit_label: degree_celsius: .                  
+
+ex:melting_temperature_steel a owl:NamedIndividual ,
+                                melting_point: ; 
+                                characteristic_of: ex:steel_material ;
+                                concretizes: ex:svs_1500_deg_c .
+
+# Relational quality
+ex:some_iron a owl:NamedIndividual , 
+               portion_of_iron: . 
+
+ex:mass_proportion_iron a owl:NamedIndividual ,
+                          mass_proportion: ;
+                      relational_quality_of: ex:some_iron ;
+                      concretizes: ex:fraction_iron .
+
+ex:fraction_iron a owl:NamedIndividual ,
+                   fraction_value_specification: ;
+                has_specified_numeric_value: "96.7"^^xsd:float ;
+                has_measurement_unit_label: mass_percentage: . 
+                     
+
+              
 
 

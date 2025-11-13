@@ -5,41 +5,40 @@
 @prefix ex:    <http://www.example.org/#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
-@prefix obi:   <http://purl.obolibrary.org/obo/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
 @prefix pmdco: <https://w3id.org/pmd/co/> .
 @prefix shape:   <https://w3id.org/pmd/co/shapes> .
 
 shape:scalar_value_specification
     rdf:type sh:NodeShape ;
-    sh:targetClass  <http://purl.obolibrary.org/obo/OBI_0001931> ; # obi:scalar value specification
-    
-    # Exactly one property pointing to the scalar value
-    sh:or (
-        [
-            sh:path <http://purl.obolibrary.org/obo/OBI_0001937> ; #obi:has specified numeric value
-            sh:minCount 1 ;
-            sh:maxCount 1 
-        ]
-        [
-            sh:path rdfs:value ;
-            sh:minCount 1 ;
-            sh:maxCount 1 
-        ]
-    ) ;
-    
+    sh:targetClass  <http://purl.obolibrary.org/obo/OBI_0001931> ; # obo:scalar value specification
+    sh:property
+    [
+        # Exactly one property pointing to the scalar value
+        sh:path <http://purl.obolibrary.org/obo/OBI_0001937> ; # has specified numeric value
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:or (
+            [ sh:datatype xsd:integer ; ]
+            [ sh:datatype xsd:decimal ; ]
+            [ sh:datatype xsd:float ; ]
+            [ sh:datatype xsd:double ; ]
+        ) ;  
+        sh:message "Scalar value specification must have exactly one numerical value." ;
+      
+    ] ; 
+
     # Exactly one property pointing to the physical unit
-    sh:or (
-        [            
-            sh:path <http://purl.obolibrary.org/obo/IAO_0000039> ; # iao:has measurement unit label
-            sh:minCount 1 ;
-            sh:maxCount 1 
-        ] 
-        [            
-            sh:path pmd:unit ;
-            sh:minCount 1 ;
-            sh:maxCount 1 
-        ] 
-    ) ;
+    sh:property
+    [
+        sh:path <http://purl.obolibrary.org/obo/IAO_0000039> ; # iao:has measurement unit label
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Scalar value specification must have exactly one unit label which must be a URI." ;
+
+    ] ;
    
    sh:closed true ;
-   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty obo:OBI_0001927 obo:IAO_0000418 obo:IAO_0000219 obo:IAO_0000136 ) .
