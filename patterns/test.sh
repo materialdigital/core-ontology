@@ -17,10 +17,11 @@ $ROBOT --catalog tmp/catalog-v001.xml merge --input tmp/merged-pmdco.ttl --input
 echo "reasoning"
 $ROBOT reason --input tmp/merged2.ttl --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" remove --term owl:topObjectProperty --output tmp/shape-data-reasoned.ttl 
 
-eche "testing shacl shapes"
+echo "testing shacl shapes"
 # uncomment if you want to test the provided shapes
 python3 -m pyshacl  -s "$1/shape.ttl" tmp/shape-data-reasoned.ttl
 
+echo "testing shacl shapes autoshapes"
 # uncomment if you want to test autoshapes
 python3 -m pyshacl  -s autoshape/auto-shapes-open.ttl tmp/shape-data-reasoned.ttl
 
