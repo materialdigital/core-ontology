@@ -1,4 +1,4 @@
-prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh:    <http://www.w3.org/ns/shacl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -8,12 +8,27 @@ prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix pmd:   <https://w3id.org/pmd/co/> .
 @prefix shape:   <https://w3id.org/pmd/co/shapes> .
 
+
 shape:quality 
     rdf:type sh:NodeShape ;
-    sh:targetClass  obo:BFO_0000019 ; # quality
-    sh:not [ sh:class obo:BFO_0000145 ; ] ; #discarding relational quality
-    sh:description "Shape describing that quality is quality of some independent continuant and concretizes some value specification. Note that the relational quality is excluded. " ;
-    
+    #sh:targetClass  obo:BFO_0000019 ; # quality
+    sh:description "Shape describing that quality is quality of some independent continuant and some value specification specifies the quality. Note that the relational quality is excluded. " ;
+    sh:target 
+    [
+		a sh:SPARQLTarget ;
+        sh:select """
+        PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+        PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX obo:   <http://purl.obolibrary.org/obo/> 
+        SELECT DISTINCT ?this
+        WHERE {
+            ?this rdf:type/rdfs:subClassOf* obo:BFO_0000019 .
+            MINUS {
+                ?this rdf:type/rdfs:subClassOf* obo:BFO_0000145 .
+            }
+        }
+    """ ;
+    ] ;
     # quality of independent continuant
     sh:property 
         [ 
@@ -29,13 +44,13 @@ shape:quality
     # concretizes value specification
     sh:property
         [
-            sh:path obo:RO_0000059 ; # concretizes
+            sh:path [sh:inversePath obo:OBI_0001927] ; # specifies value of
             sh:or 
                 (
                     [ sh:node shape:scalar_value_specification ; ]
                     [ sh:node shape:categorical_value_specification ; ]
                 ) ;
-				sh:message "Quality must concretize some value specification (scalar or categorical). " ;
+				sh:message "Some value specification (scalar or categorical) can specify the value of a quality. " ;
 
         ] ;
    	sh:property
@@ -46,8 +61,10 @@ shape:quality
 
 		] ;
    #TODO which other triples can be written with SDCs?
-   sh:closed false ;
-   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+   sh:closed true ;
+   # Note: ignoring concretizes because there are not some many cases when material qualities can concretize some GDC.
+   # Note ignoring IAO_0000418 for now
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty obo:RO_0000059 obo:IAO_0000418) .
 
 
 shape:behavioral_material_property 
@@ -69,13 +86,13 @@ shape:behavioral_material_property
     # concretizes value specification
     sh:property
         [
-            sh:path obo:RO_0000059 ; # concretizes
+            sh:path [ sh:inversePath obo:OBI_0001927 ] ; # specifies value of
             sh:or 
                 (
                     [ sh:node shape:scalar_value_specification ; ]
                     [ sh:node shape:categorical_value_specification ; ]
                 ) ;
-			sh:message "Behavioral material property must concretize some value specification (scalar or categorical). " ;
+			sh:message "Some value specification (scalar or categorical) can specify the value of a behavioral material property. " ;
 
         ] ;
 	
@@ -87,8 +104,8 @@ shape:behavioral_material_property
 		] ;
    
    #TODO which other triples can be written with SDCs?
-   sh:closed false ;
-   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+   sh:closed true ;
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty obo:RO_0000059 ) .
 
    shape:relational_quality 
    rdf:type sh:NodeShape ;
@@ -109,17 +126,17 @@ shape:behavioral_material_property
    # concretizes value specification
    sh:property
        [
-            sh:path obo:RO_0000059 ; # concretizes
+            sh:path [ sh:inversePath obo:OBI_0001927 ] ; # specifies value of
             sh:or 
                (
                    [ sh:node shape:scalar_value_specification ; ]
                    [ sh:node shape:categorical_value_specification ; ]
                    [ sh:node shape:fraction_value_specification ; ]
                ) ;
-			sh:message "Relational quality must concretize some value specification (scalar, categorical, or fraction). " ;
+			sh:message "Some value specification (scalar, categorical, or fraction) can specify the value of a relational quality. " ;
 
        ] ;
 
   #TODO which other triples can be written with SDCs?
-  sh:closed false ;
-  sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+  sh:closed true ;
+  sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty obo:RO_0000059 ) .
