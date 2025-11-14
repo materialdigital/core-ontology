@@ -1,0 +1,64 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix obo:    <http://purl.obolibrary.org/obo/> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+@base <https://w3id.org/pmd/co/test/shape_measurement_datum#> .
+
+### Define prefixes ###
+
+# Classes
+@prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix scalar_measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000032> . 
+@prefix value_specification: <http://purl.obolibrary.org/obo/OBI_0001933> . 
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix tensile_testing_process: <https://w3id.org/pmd/co/PMD_0000974> .
+@prefix mega_pa: <http://qudt.org/vocab/unit/MegaPA> .
+@prefix stregnth: <https://w3id.org/pmd/co/PMD_0000952> .
+@prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> .
+
+# Subclass relations
+scalar_measurement_datum: rdfs:subClassOf measurement_datum: .
+scalar_value_specification: rdfs:subClassOf value_specification: . 
+tensile_testing_process: rdfs:subClassOf assay: .
+stregnth: rdfs:subClassOf specifically_dependent_continuant: . 
+specifically_dependent_continuant: rdfs:subClassOf entity: .
+
+# Object proeperties
+@prefix is_specified_output_of: <http://purl.obolibrary.org/obo/OBI_0000312> .
+@prefix is_quality_measurement_of: <http://purl.obolibrary.org/obo/IAO_0000221> .
+@prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+
+
+### Define instances ###
+
+ex:tensile_test a owl:NamedIndividual ,
+				  tensile_testing_process: . 
+
+ex:tensile_strength a owl:NamedIndividual , 
+					  stregnth: .
+					  
+#ex:some_other_tensile_strength a owl:NamedIndividual , 
+#					  stregnth: .
+
+ex:yield_stength_measurement_datum a owl:NamedIndividual ,
+									 scalar_measurement_datum: ; 
+								is_specified_output_of: ex:tensile_test ;
+								has_value_specification: ex:svs_500_mpa ; 
+								is_quality_measurement_of: ex:tensile_strength . 
+
+ex:svs_500_mpa a owl:NamedIndividual ,
+              scalar_value_specification: ;
+            has_specified_numeric_value: "500.0"^^xsd:float ;
+            has_measurement_unit_label: mega_pa: ; 
+			specifies_value_of: ex:tensile_strength .

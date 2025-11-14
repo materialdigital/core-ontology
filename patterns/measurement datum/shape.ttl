@@ -1,0 +1,70 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+
+
+shape:measurement_datum
+	rdf:type sh:NodeShape ;
+    sh:targetClass  obo:IAO_0000109 ; # measurement datum
+	sh:description "Shape defining that measurement datum must be a spesified output from an assay, it is a measuremenr of come quality which is specified by some value specification. " ;  
+
+	sh:property
+	[
+		sh:path obo:OBI_0000312 ; # is specified output of
+		sh:class obo:OBI_0000070 ; # assay
+		sh:minCount 1 ;
+		sh:maxCount 1 ;  
+		sh:message "Measurement datum is a specified output of an assay process. " ;
+	] ; 
+
+	sh:property
+	[
+		sh:path obo:IAO_0000221 ; # is quality measurement of
+	
+  		sh:sparql [
+            sh:message "The value of 'is quality measurement of' (obo:IAO_0000221) must match the value specified by the complex path (has value specification / specifies value of)." ;
+            sh:select """
+				PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+        		PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        		PREFIX obo:   <http://purl.obolibrary.org/obo/> 
+                SELECT $this
+                WHERE {
+                    # Simple Path Value
+                    $this obo:IAO_0000221 ?simpleValue .
+                    
+                    # Complex Path Value (Sequence Path)
+                    $this obo:OBI_0001938/obo:OBI_0001927 ?complexValue .
+                    
+                    # The constraint fails if the two values are NOT EQUAL
+                    FILTER (?simpleValue != ?complexValue)
+                }
+            """ ;
+        ] ;
+		sh:or
+			(
+				[ sh:node shape:quality ; ]
+				[ sh:node shape:behavioral_material_property ; ]
+				[ sh:node  shape:relational_quality ; ]
+				[ sh:class obo:BFO_0000019 ; ] # quality
+				[ sh:class pmd:PMD_0000005 ; ] # behavioral material property
+			) ;
+		sh:message "Measurement datum is quality measurement of (path of has value specification + specifies value of) some quality or behavioral material property. " ;
+	] ; 
+
+	sh:property 
+	[
+		sh:path obo:OBI_0001938 ; # has value specification 
+		sh:class obo:OBI_0001933 ; # value specification
+		sh:maxCount 1 ;
+		sh:message "Measurement datum has value specification some value specification. " ; 
+	] ; 
+
+	sh:closed true ;
+   	sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty obo:IAO_0000136 obo:RO_0000056 obo:BFO_0000051 ) . # ignoring the top level properties
