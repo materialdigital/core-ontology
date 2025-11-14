@@ -15,39 +15,71 @@
 
 ### Define prefixes ###
 
+# Classes
 @prefix categorical_value_specification: <http://purl.obolibrary.org/obo/OBI_0001930> . 
 @prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix melt: <https://w3id.org/pmd/co/PMD_0020139> .
 @prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> .
-@prefix ferrite: <https://w3id.org/pmd/co/PMD_0020100> .
-@prefix has_specified_value: <http://purl.obolibrary.org/obo/OBI_0002135> . 
-@prefix has_value: <https://w3id.org/pmd/co/PMD_0000006> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> . 
+
+@prefix metallic_grain_structure: <https://w3id.org/pmd/co/PMD_0025003> .           # SDC
+@prefix ferrite: <https://w3id.org/pmd/co/PMD_0020100> .                            # Individual
+@prefix metallic_grain_structures: <https://w3id.org/pmd/co/PMD_0020023> .          # Categorical value
+
+@prefix aggregate_state_value: <https://w3id.org/pmd/co/PMD_0020116> .              # Categorical value
+@prefix aggregate_state_liquid: <https://w3id.org/pmd/co/PMD_0020118> .             # Individual
+@prefix aggregate_state: <https://w3id.org/pmd/co/PMD_0000512> .                    # SDC
+
+@prefix crystal_structure: <https://w3id.org/pmd/co/PMD_0000591> .                   # SDC
+@prefix bravais_lattice: <https://w3id.org/pmd/co/PMD_0020099> .                     # Categorical value
+@prefix bravais_lattice_cubic_face_centered: <https://w3id.org/pmd/co/PMD_0020019> . # Individual
+
+
+# Sublcass relations
+
+quality: rdfs:subClassOf entity: .
+crystal_structure: rdfs:subClassOf quality: . 
+aggregate_state: rdfs:subClassOf quality: . 
+metallic_grain_structure: rdfs:subClassOf quality: . 
+
+bravais_lattice: rdfs:subClassOf categorical_value_specification: .
+bravais_lattice_cubic_face_centered: a bravais_lattice: .
+
+aggregate_state_value: rdfs:subClassOf categorical_value_specification: .
+aggregate_state_liquid: a aggregate_state_value: . 
+
+metallic_grain_structures: rdfs:subClassOf categorical_value_specification: .
+ferrite: a metallic_grain_structures: .
+
+# Object properties
+
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
 @prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
-
-
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
 
 ### Define entities ###
 
 # Example 1
-ex:value_1 a owl:NamedIndividual , 
-             categorical_value_specification: .
 
-ex:ferritic_material a owl:NamedIndividual ,
-                        material: . 
+ex:fcc_material a owl:NamedIndividual ,
+                    material: ; 
+                has_quality: ex:crystal_structure_quality ,
+                             ex:grain_structure_quality .
 
-material: rdfs:subClassOf entity: .
- 
-ex:value_1 has_specified_value: ferrite: .
-ex:value_1  specifies_value_of: ex:ferritic_material .
+ex:crystal_structure_quality a owl:NamedIndividual ,
+                                crystal_structure: .
+bravais_lattice_cubic_face_centered: specifies_value_of: ex:crystal_structure_quality .
+
+ex:grain_structure_quality a owl:NamedIndividual ,
+                                metallic_grain_structure: .
+ferrite:  specifies_value_of: ex:grain_structure_quality .
+ferrite: is_about: ex:fcc_material .
 
 # Example 2
-ex:value_2 a owl:NamedIndividual , 
-             categorical_value_specification: .
+ex:steel_melt: a owl:NamedIndividual ,
+                 melt: ; 
+               has_quality: ex:aggregate_state_quality .
 
-ex:value_2 rdfs:value "category 1" .
-
-# Example 3
-
-ex:value_3 a owl:NamedIndividual , 
-             categorical_value_specification: .
-
-ex:value_3 has_value: ferrite: .
+ex:aggregate_state_quality a owl:NamedIndividual ,
+                            aggregate_state: .
+aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
