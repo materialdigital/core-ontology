@@ -51,8 +51,11 @@ Based on the degree of abstraction and formal expressiveness, the ontologies are
 More examples for MSE ontologies can be found in [MatPortal](https://matportal.org/), the ontology repository for materials science.
 
 Read more:
+
 * Beygi Nasrabadi, Hossein, et al. "Performance Evaluation of Upper‐Level Ontologies in Developing Materials Science Ontologies and Knowledge Graphs." Advanced Engineering Materials 27.8 (2025): 2401534.
+  
 * De Baas, Anne, et al. "Review and alignment of domain-level ontologies for materials science." IEEE Access 11 (2023): 120372-120401.
+  
 * Norouzi, Ebrahim, Jörg Waitelonis, and Harald Sack. "The landscape of ontologies in materials science and engineering: A survey and evaluation." arXiv preprint arXiv:2408.06034 (2024).
 
 ## Ontology Language
