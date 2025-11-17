@@ -17,6 +17,7 @@
 # Classes
 @prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> . 
 @prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> .
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
 @prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
 @prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
@@ -36,15 +37,15 @@
 @prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
 @prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
 @prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
-@prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> .
-@prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
-@prefix change_of_aggrate_state: <https://w3id.org/pmd/co/PMD_0000547> .
+@prefix melting_process: <https://w3id.org/pmd/co/PMD_0000053> .
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
 
 
 # Sublcass relations 
-object: rdfs:subClassOf independent_continuant: .
-material: rdfs:subClassOf independent_continuant: .
-portion_of_iron: rdfs:subClassOf independent_continuant: .
+object: rdfs:subClassOf material_entity: .
+material_entity: rdfs:subClassOf independent_continuant: .
+material: rdfs:subClassOf material_entity: .
+portion_of_iron: rdfs:subClassOf material_entity: .
 quality: rdfs:subClassOf specifically_dependent_continuant: .
 mass: rdfs:subClassOf quality: .
 density: rdfs:subClassOf quality: .
@@ -53,9 +54,11 @@ mass_proportion: rdfs:subClassOf relational_quality: .
 behavioral_material_property: rdfs:subClassOf specifically_dependent_continuant: .
 melting_point: rdfs:subClassOf behavioral_material_property: .
 specifically_dependent_continuant: rdfs:subClassOf entity: .
-# Object properties
+melting_process: rdfs:subClassOf process: .
 
+# Object properties
 @prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
 @prefix quality_of: <http://purl.obolibrary.org/obo/RO_0000080> .
 @prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
 @prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
@@ -63,11 +66,10 @@ specifically_dependent_continuant: rdfs:subClassOf entity: .
 @prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
 @prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
 @prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
-@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
 @prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
-@prefix stimulated_by: <https://w3id.org/pmd/co/PMD_0001030> .
-@prefix responds_with: <https://w3id.org/pmd/co/PMD_0001029> .
-
+@prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> .
+@prefix has_participant: <http://purl.obolibrary.org/obo/RO_0000057> .
+has_participant: owl:inverseOf participates_in: .
 
 ### Instances ###
 
@@ -85,13 +87,14 @@ ex:svs_15_g a owl:NamedIndividual ,
             has_measurement_unit_label: gram: ; 
             specifies_value_of: ex:mass_metal_sheet .
 
+ex:tcq_temporal_region a owl:NamedIndividual ,
+                        temporal_region: .
         
 ex:tqc_steel_material a owl:NamedIndividual ,
                           material: ,
-                          temporally_qualified_continuant:;
-                          exists_at: ex:some_temporal_region_1;
-                          is_state_of: ex:steel_material 
-                          .
+                          temporally_qualified_continuant: ; 
+                      exists_at: ex:tcq_temporal_region ; 
+                      is_state_of: ex:steel_material .
 
 ex:density_steel a owl:NamedIndividual , 
                       density: ;
@@ -107,7 +110,8 @@ ex:svs_7_5_g_per_cm a owl:NamedIndividual ,
 
 # Behavioral material property
 ex:steel_material a owl:NamedIndividual ,
-                          material: .
+                          material: ; 
+                  participates_in: ex:melting_process .
 
 ex:svs_1500_deg_c a owl:NamedIndividual ,
                     scalar_value_specification: ;
@@ -117,16 +121,12 @@ ex:svs_1500_deg_c a owl:NamedIndividual ,
 
 ex:melting_temperature_steel a owl:NamedIndividual ,
                                 melting_point: ; 
-                                characteristic_of: ex:steel_material ;
-                                stimulated_by: ex:applying_heat_1 ;
-                                responds_with: ex:change_of_temp_1 ;
-                                has_realization: ex:change_of_aggrate_state_1 
-                                .
+                            characteristic_of: ex:steel_material ;
+                            has_realization: ex:melting_process .
 
-# The processes
-ex:applying_heat_1 a application_of_heat_flux: .  
-ex:change_of_temp_1 a change_of_temperature: .
-ex:change_of_aggrate_state_1 a change_of_aggrate_state: .
+ex:melting_process a owl:NamedIndividual ,
+                      melting_process: .
+
 
 # Relational quality
 ex:some_iron a owl:NamedIndividual , 
