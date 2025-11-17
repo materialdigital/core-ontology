@@ -36,6 +36,9 @@
 @prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
 @prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
 @prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
+@prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> .
+@prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
+@prefix change_of_aggrate_state: <https://w3id.org/pmd/co/PMD_0000547> .
 
 
 # Sublcass relations 
@@ -60,6 +63,10 @@ specifically_dependent_continuant: rdfs:subClassOf entity: .
 @prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
 @prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
 @prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix stimulated_by: <https://w3id.org/pmd/co/PMD_0001030> .
+@prefix responds_with: <https://w3id.org/pmd/co/PMD_0001029> .
 
 
 ### Instances ###
@@ -81,7 +88,10 @@ ex:svs_15_g a owl:NamedIndividual ,
         
 ex:tqc_steel_material a owl:NamedIndividual ,
                           material: ,
-                          temporally_qualified_continuant: .
+                          temporally_qualified_continuant:;
+                          exists_at: ex:some_temporal_region_1;
+                          is_state_of: ex:steel_material 
+                          .
 
 ex:density_steel a owl:NamedIndividual , 
                       density: ;
@@ -107,7 +117,16 @@ ex:svs_1500_deg_c a owl:NamedIndividual ,
 
 ex:melting_temperature_steel a owl:NamedIndividual ,
                                 melting_point: ; 
-                                characteristic_of: ex:steel_material .
+                                characteristic_of: ex:steel_material ;
+                                stimulated_by: ex:applying_heat_1 ;
+                                responds_with: ex:change_of_temp_1 ;
+                                has_realization: ex:change_of_aggrate_state_1 
+                                .
+
+# The processes
+ex:applying_heat_1 a application_of_heat_flux: .  
+ex:change_of_temp_1 a change_of_temperature: .
+ex:change_of_aggrate_state_1 a change_of_aggrate_state: .
 
 # Relational quality
 ex:some_iron a owl:NamedIndividual , 
