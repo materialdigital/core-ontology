@@ -19,10 +19,10 @@ This documentation is designed to guide you through the ontology's structure, fe
 -	Repository: [https://github.com/materialdigital/core-ontology](https://github.com/materialdigital/core-ontology)
 -	Latest version (V.3): [pmdco.owl](https://github.com/materialdigital/core-ontology/blob/main/pmdco.owl)
 -	Widoco documentation: [https://materialdigital.github.io/core-ontology/3.0.0/ ](https://materialdigital.github.io/core-ontology/3.0.0/ )
--	Creators: Jörg Waitelonis, Philipp von Hartrott, Thomas Hanke, Markus Schilling, Bernd Bayerlein, Henk Birkholz, Jannis Grundmann, Fabian Neuhaus, Lars Vogt
--	Contributors: Hossein Beygi Nasrabadi, Kostiantyn Hubaiev, Martin Glauer, Simon Stier
+-	Creators: Jörg Waitelonis, Philipp von Hartrott, Thomas Hanke, Markus Schilling, Hossein Beygi Nasrabadi, Kamilla Zaripova, Bernd Bayerlein, Khashayar Razghandi,
+Henk Birkholz, Felix Thonagel, Kostiantyn Hubaiev, Jannis Grundmann, Simon Stier, Martin Glauer, Fabian Neuhaus, and Lars Vogt.
 -	Related project: [MaterialDigital](https://materialdigital.de/)
--	Funding: German Federal Ministry of Education and Research (BMBF) through project funding no. 13XP5094
+-	Funding: German Federal Ministry of Research, Technology and Space (BMFTR) through project funding no. 13XP5094
 -	License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/) 
 -	Repository citation: Platform Material Digital Ontology. Version 3.0.0, [https://w3id.org/pmd/co/](https://w3id.org/pmd/co/)
 -	Paper citation (PMDco v2.0.8): B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.
