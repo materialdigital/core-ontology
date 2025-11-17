@@ -79,8 +79,28 @@ shape:behavioral_material_property
             sh:path  obo:RO_0000052 ;  # characteristic of
             sh:minCount 1 ;
             sh:maxCount 1 ; 
-            sh:class obo:BFO_0000004 ; # independent continuant
+            sh:class obo:BFO_0000040 ; # material entity
 			sh:message "Behavioral material property must be a characteristic of exactly one independent continuant." ;
+            sh:sparql 
+            [
+                sh:message " Behavioral material property must be a characterisitc of a material entity, which participates in a process, and the same process realizes this behavioral property. " ;
+                sh:select """
+                    PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+                    PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX obo:   <http://purl.obolibrary.org/obo/> 
+                    SELECT $this
+                    WHERE {
+                        # Simple path material entity
+                        $this obo:RO_0000052 ?simpleMaterialEntity .
+                        
+                        # Complex path material entity (Sequence Path)
+                        $this obo:BFO_0000054/obo:RO_0000057 ?complexMaterialEntity .
+                        
+                        # The constraint fails if the two values are NOT EQUAL
+                        FILTER (?simpleMaterialEntity != ?complexMaterialEntity)
+                    }
+                """ ;
+            ] ;
         ] ;
 
     # concretizes value specification
@@ -102,6 +122,13 @@ shape:behavioral_material_property
 			sh:class obo:BFO_0000008 ; #temporal region
 			sh:message "Behavioral material property must exist at some temporal region. " ;
 		] ;
+
+    sh:property 
+        [
+            sh:path obo:BFO_0000054 ; # has realization
+            sh:class obo:BFO_0000015 ; # process
+            sh:message "Behavioral material property must have realization  in some process. " ;
+        ] ;
    
    #TODO which other triples can be written with SDCs?
    sh:closed true ;
