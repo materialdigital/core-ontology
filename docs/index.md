@@ -10,42 +10,20 @@ Welcome to the **Platform MaterialDigital Core Ontology (PMDco)**, your gateway 
 
 This documentation is designed to guide you through the ontology's structure, features, and applications, making it easier to incorporate PMDco into your workflows. Whether you're a researcher, developer, or industry professional, we're excited to support your journey toward smarter, more efficient materials science practices.
 
-### Prefix and namespace
-- Namespace: [https://w3id.org/pmd/co](https://w3id.org/pmd/co)
-- Prefix: pmdco
-
-
-### Important links
-
-
-- The latest version of the ontology can always be found at: [pmdco.owl](https://github.com/materialdigital/core-ontology/tree/main/pmdco.owl)
-- [Beginers Guide Miro Board ](https://miro.com/app/board/uXjVLY9FwGU=/)
-- [Widoco generated List of Classes and Properties](https://materialdigital.github.io/core-ontology/3.0.0/)
-- [Patterns and Active Development Miro Board (Playground)](https://miro.com/app/board/uXjVNOTPrFo=/)
-
-
-### Citation
-
-Please cite the ontology as follows:
-
-*PMDco: Platform Material Digital Ontology. Version 3.0.0, https://w3id.org/pmd/co/*
-
-
-When referring the PMDco 3.0.0 in publications, please also consider to cite the following publication about version 2.0.8, which provides comprehensive details and the foundational rationale behind the development of this ontology: 
-
-> *B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.*
-
-Bibtex:
-```
-@article{PMDco2024,
-  title = {{PMD} {C}ore {O}ntology: {A}chieving semantic interoperability in materials science},
-  journal = {Materials \& Design},
-  volume = {237},
-  pages = {112603},
-  year = {2024},
-  issn = {0264-1275},
-  doi = {https://doi.org/10.1016/j.matdes.2023.112603},
-  author = {Bayerlein, Bernd and Schilling, Markus and Birkholz, Henk and Jung, Matthias and Waitelonis, J{\"o}rg and M{\"a}dler, Lutz and Sack, Harald}
-}
-```
-available at: [Materials & Design](https://doi.org/10.1016/j.matdes.2023.112603).
+### Ontology metadata
+- Title: Platform Material Digital core ontology
+-	Abbreviation: PMDco
+-	Namespace: [https://w3id.org/pmd/co](https://w3id.org/pmd/co)
+-	Prefix: pmdco
+-	Language: OWL
+-	Repository: [https://github.com/materialdigital/core-ontology](https://github.com/materialdigital/core-ontology)
+-	Latest version (V.3): [pmdco.owl](https://github.com/materialdigital/core-ontology/blob/main/pmdco.owl)
+-	Widoco documentation: [https://materialdigital.github.io/core-ontology/3.0.0/ ](https://materialdigital.github.io/core-ontology/3.0.0/ )
+-	Creators: Jörg Waitelonis, Philipp von Hartrott, Thomas Hanke, Markus Schilling, Bernd Bayerlein, Henk Birkholz, Jannis Grundmann, Fabian Neuhaus, Lars Vogt
+-	Contributors: Hossein Beygi Nasrabadi, Kostiantyn Hubaiev, Martin Glauer, Simon Stier
+-	Related project: [MaterialDigital](https://materialdigital.de/)
+-	Funding: German Federal Ministry of Education and Research (BMBF) through project funding no. 13XP5094
+-	License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/) 
+-	Repository citation: Platform Material Digital Ontology. Version 3.0.0, [https://w3id.org/pmd/co/](https://w3id.org/pmd/co/)
+-	Paper citation (PMDco v2.0.8): B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L. Mädler, H. Sack, Materials & Design 2024, 237 112603.
+-	PMDCo in MatPortal: [https://matportal.org/ontologies/PMDCO ](https://matportal.org/ontologies/PMDCO )
