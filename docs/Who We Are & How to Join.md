@@ -1,8 +1,5 @@
 # Who We Are & How to Join
 
-<img width="290" height="135" alt="image" src="https://github.com/user-attachments/assets/9e5c0dc4-f1af-4f18-bad1-72e18a644d3b" />
-
-
 ## Platform MaterialDigital (PMD)
 [Platform MaterialDigital (PMD)](https://www.materialdigital.de/) is a collaborative digitalization initiative launched in July 2019 with funding from the German Federal Ministry of Education and Research (BMBF). Its primary mission is to establish a virtual materials data space that systematizes the handling of hierarchical, process-dependent materials data while ensuring semantic interoperability across decentralized and diverse servers. Rather than acting as a direct service provider, PMD focuses on developing prototype infrastructures and tool solutions to drive the digital transformation in materials science and engineering. It serves as a networking hub and communication interface (organizing webinars, events, and outreach activities) to connect stakeholders and foster collaboration between academic and industrial partners, ultimately strengthening Germany’s international competitiveness in materials digitalization.
   
