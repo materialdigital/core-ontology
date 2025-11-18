@@ -34,9 +34,8 @@ shape:chemical_composition
         # sh:class pmd:PMD_0025002 ; # chemical composition specification
         sh:node shape:chemical_composition_specification ;
     ] ;
-    sh:closed true ;
-    # we also have to ignore RO_0000052 because it is superprop of RO_0000080 and reasoning brings it in
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty obo:RO_0000052) .
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
 shape:chemical_composition_specification
     rdf:type sh:NodeShape ; 
@@ -66,7 +65,7 @@ shape:proportion
         sh:minCount 1 ; 
         sh:class pmd:PMD_0000001 ; # portion of matter TODO:separate between material and chemical elements
     ] ;
-    sh:closed true ;
+    sh:closed false ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
 shape:pure_substance_chemical_element
@@ -86,10 +85,8 @@ shape:pure_substance_chemical_element
         sh:node shape:fraction_value_specification ;
     ] ;
     
-    sh:closed true ;
-
-    # with inverse(OBI_0001927) reasoning brings in is subject of (PMD_0000004), so we have to ignore it
-    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty pmd:PMD_0000004) .
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
 
 

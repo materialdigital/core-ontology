@@ -1,0 +1,25 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+
+shape:categorical_value_specification
+    rdf:type sh:NodeShape ;
+    sh:targetClass  obo:OBI_0001930 ; # categorical value specification
+    sh:description "Shape describing that categorical value specification specifies value of some entity" ;
+    #TODO think of restricting it further
+    sh:property 
+    [
+        sh:path <http://purl.obolibrary.org/obo/OBI_0001927> ; # specifies value of
+        sh:class obo:BFO_0000001 ; # enntity
+        sh:message "Categorical value specification must specify value of some entity. " ;
+    ] ;
+   
+   sh:closed true ;
+   sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty obo:IAO_0000136 ) . # ignore is about
