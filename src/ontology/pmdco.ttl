@@ -15,7 +15,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-11-17/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-11-18/pmdco.ttl> ;
                                   dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
                                                       <https://orcid.org/0000-0002-3092-0532> ,
                                                       <https://orcid.org/0000-0003-0410-3616> ,
@@ -38,7 +38,7 @@ PMDco at GitHub: https://github.com/materialdigital/core-ontology
 Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2025-11-17" .
+                                  owl:versionInfo "2025-11-18" .
 
 #################################################################
 #    Annotation properties
@@ -767,6 +767,7 @@ obo:OBI_0000417 rdf:type owl:ObjectProperty ;
 ###  http://purl.obolibrary.org/obo/OBI_0001927
 obo:OBI_0001927 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:IAO_0000136 ;
+                owl:inverseOf co:PMD_0000077 ;
                 rdfs:domain obo:OBI_0001933 ;
                 obo:IAO_0000115 "A relation between a value specification and an entity which the specification is about."@en ;
                 rdfs:label "specifies value of" .
@@ -1158,6 +1159,12 @@ co:PMD_0000070 rdf:type owl:ObjectProperty ,
                         owl:FunctionalProperty ;
                rdfs:label "is state of"@en ;
                skos:definition "relates a temporally qualified continuant to the unique anchor continuant that it is a temporal phase of" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000077
+co:PMD_0000077 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf co:PMD_0000004 ;
+               rdfs:label "specified by value"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001026
@@ -3521,13 +3528,15 @@ TODO: should move to \"process characteristic\""""@en ;
 ###  https://w3id.org/pmd/co/PMD_0000512
 co:PMD_0000512 rdf:type owl:Class ;
                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                     owl:onProperty obo:RO_0000059 ;
+                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
+                                                    ] ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass co:PMD_0020116
                                    ] ;
                rdfs:subClassOf co:PMD_0020131 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000059 ;
+                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
+                                                ] ;
                                  owl:someValuesFrom co:PMD_0020116
                                ] ;
                rdfs:label "aggregate state"@en ;
@@ -4247,13 +4256,15 @@ co:PMD_0000590 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000591
 co:PMD_0000591 rdf:type owl:Class ;
                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                     owl:onProperty obo:RO_0000059 ;
+                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
+                                                    ] ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass co:PMD_0020099
                                    ] ;
                rdfs:subClassOf co:PMD_0020131 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000059 ;
+                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
+                                                ] ;
                                  owl:someValuesFrom co:PMD_0020099
                                ] ;
                rdfs:label "crystal structure"@en ;
@@ -7267,7 +7278,7 @@ co:PMD_0020023 rdf:type owl:Class ;
                                                  co:PMD_0020111
                                                )
                                    ] ;
-               rdfs:subClassOf co:PMD_0020098 ;
+               rdfs:subClassOf obo:OBI_0001930 ;
                rdfs:label "metallic grain structures"@en ;
                skos:definition "Metallic grain structures are descriptors for the morphology of polycrystalline metallic materials. Polycrystalline metallic materials will typically form their grain structures as one of those categories or a transition or mixture state of those."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -8434,7 +8445,7 @@ co:PMD_0020099 rdf:type owl:Class ;
                                                  co:PMD_0020019
                                                )
                                    ] ;
-               rdfs:subClassOf co:PMD_0020098 ;
+               rdfs:subClassOf obo:OBI_0001930 ;
                rdfs:label "bravais lattice (3d)"@en ;
                skos:definition """The Bravais Lattice is a nature constant that describes the possible geometric arrangement of lattice points in a crystal. The present descriptor is limited to the 14 possible three-dimensional arrangements. 
 
@@ -8553,7 +8564,7 @@ co:PMD_0020116 rdf:type owl:Class ;
                                                  co:PMD_0020125
                                                )
                                    ] ;
-               rdfs:subClassOf co:PMD_0020098 ;
+               rdfs:subClassOf obo:OBI_0001930 ;
                rdfs:label "aggregate state value"@en ;
                skos:definition "The aggregate state type is a nature constant that concretizes the aggregatge state quality."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -8973,6 +8984,25 @@ co:PMD_0025002 rdf:type owl:Class ;
                skos:definition "Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts)."@en ;
                skos:example "Steel has quality chemical composition , which concretizes the chemical composition specification .The chemical composition specification has parts fraction specifications of iron and carbon. These fraction specifications specify value of portion of iron and portion of carbon respectively. Furthermore, these  fraction specifications are conretized by relational qualities (mass) proportion of iron and (mass) proportion of carbon."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0025003
+co:PMD_0025003 rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Restriction ;
+                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
+                                                    ] ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass co:PMD_0020023
+                                   ] ;
+               rdfs:subClassOf co:PMD_0020131 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
+                                                ] ;
+                                 owl:someValuesFrom co:PMD_0020023
+                               ] ;
+               rdfs:label "metallic grain structure"@en ;
+               skos:definition "metallic grain structure characterizes the distinct phases in the microscopic structure of a metallic material. It concretizes ferrite, austenite, martensite, etc."@en ;
+               co:PMD_0000060 "false"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025997
@@ -10820,6 +10850,23 @@ dce:license rdfs:label "dc:license" .
                 co:PMD_0000967
                 co:PMD_0020112
                 co:PMD_0025001
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( co:PMD_0000503
+                co:PMD_0000512
+                co:PMD_0000591
+                co:PMD_0000595
+                co:PMD_0000597
+                co:PMD_0000853
+                co:PMD_0000896
+                co:PMD_0000942
+                co:PMD_0000967
+                co:PMD_0020112
+                co:PMD_0025001
+                co:PMD_0025003
               )
 ] .
 
