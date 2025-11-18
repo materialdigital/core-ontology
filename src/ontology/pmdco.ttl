@@ -11,10 +11,11 @@
 @prefix swrl: <http://www.w3.org/2003/11/swrl#> .
 @prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> .
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-11-11/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-11-17/pmdco.ttl> ;
                                   dcterms:contributor <https://orcid.org/0000-0001-6772-1943> ,
                                                       <https://orcid.org/0000-0002-3092-0532> ,
                                                       <https://orcid.org/0000-0003-0410-3616> ,
@@ -37,7 +38,7 @@ PMDco at GitHub: https://github.com/materialdigital/core-ontology
 Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2025-11-11" .
+                                  owl:versionInfo "2025-11-17" .
 
 #################################################################
 #    Annotation properties
@@ -152,6 +153,10 @@ dcterms:source rdf:type owl:AnnotationProperty .
 
 ###  http://purl.org/dc/terms/title
 dcterms:title rdf:type owl:AnnotationProperty .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasExactSynonym
+oboInOwl:hasExactSynonym rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.w3.org/2000/01/rdf-schema#label
@@ -684,12 +689,7 @@ obo:IAO_0000235 rdf:type owl:ObjectProperty ;
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000413
-obo:IAO_0000413 rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf obo:IAO_0000136 ;
-                rdfs:domain obo:IAO_0000416 ;
-                rdfs:range obo:BFO_0000015 ;
-                obo:IAO_0000115 "relates a process to a time-measurement-datum that represents the duration of the process"@en ;
-                rdfs:label "is duration of"@en .
+obo:IAO_0000413 rdf:type owl:ObjectProperty .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000417
@@ -2658,14 +2658,10 @@ Previous. An information content entity is a non-realizable information entity t
 
 ###  http://purl.obolibrary.org/obo/IAO_0000032
 obo:IAO_0000032 rdf:type owl:Class ;
-                rdfs:subClassOf obo:IAO_0000109 ,
+                rdfs:subClassOf obo:IAO_0000030 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:OBI_0001938 ;
                                   owl:someValuesFrom obo:OBI_0001931
-                                ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:IAO_0000004 ;
-                                  owl:minCardinality "1"^^xsd:nonNegativeInteger
                                 ] ;
                 obo:IAO_0000112 "10 feet. 3 ml."@en ;
                 obo:IAO_0000115 "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en ;
@@ -2778,25 +2774,6 @@ obo:IAO_0000311 rdf:type owl:Class ;
                 obo:IAO_0000112 "journal article, newspaper story, book, etc."@en ;
                 obo:IAO_0000115 "A document that is the output of a publishing process."@en ;
                 rdfs:label "publication"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000416
-obo:IAO_0000416 rdf:type owl:Class ;
-                rdfs:subClassOf obo:IAO_0000032 ,
-                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                         owl:onProperty obo:IAO_0000039 ;
-                                                         owl:allValuesFrom obo:UO_0000003
-                                                       ]
-                                                       [ rdf:type owl:Restriction ;
-                                                         owl:onProperty obo:IAO_0000413 ;
-                                                         owl:allValuesFrom obo:BFO_0000015
-                                                       ]
-                                                     ) ;
-                                  rdf:type owl:Class
-                                ] ;
-                obo:IAO_0000115 "A scalar measurement datum that is the result of measuring a temporal interval"@en ;
-                obo:IAO_0000116 "2009/09/28 Alan Ruttenberg. Fucoidan-use-case"@en ;
-                rdfs:label "time measurement datum"@en .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000444
@@ -3102,9 +3079,52 @@ obo:OBI_0100051 rdf:type owl:Class ;
                 rdfs:label "specimen"@en .
 
 
+###  http://purl.obolibrary.org/obo/UO_0000000
+obo:UO_0000000 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000003 ;
+               rdfs:comment "\"A unit of measurement is a standardized quantity of a physical quality.\" [Wikipedia:Wikipedia]" ;
+               rdfs:label "unit" .
+
+
 ###  http://purl.obolibrary.org/obo/UO_0000003
 obo:UO_0000003 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000003 .
+               rdfs:subClassOf obo:UO_0000000 ;
+               oboInOwl:hasExactSynonym "time derived unit" ;
+               rdfs:comment "\"A unit which is a standard measure of the dimension in which events occur in sequence.\" [Wikipedia:Wikipedia]" ;
+               rdfs:label "time unit" .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000076
+obo:UO_0000076 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_1000076 .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000163
+obo:UO_0000163 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_1000163 .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000164
+obo:UO_0000164 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_1000164 .
+
+
+###  http://purl.obolibrary.org/obo/UO_1000076
+obo:UO_1000076 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_0000000 ;
+               rdfs:label "mole fraction based unit" .
+
+
+###  http://purl.obolibrary.org/obo/UO_1000163
+obo:UO_1000163 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_0000000 ;
+               rdfs:label "mass percentage based unit" .
+
+
+###  http://purl.obolibrary.org/obo/UO_1000164
+obo:UO_1000164 rdf:type owl:Class ;
+               rdfs:subClassOf obo:UO_0000000 ;
+               rdfs:label "mass volume percentage based unit" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000000
@@ -3144,45 +3164,16 @@ co:PMD_0000002 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000005
 co:PMD_0000005 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000017 ,
-                               [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:RO_0000052 ;
-                                                        owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
-                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty obo:RO_0000056 ;
-                                                                                                    owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000915
-                                                                                                                                              [ rdf:type owl:Restriction ;
-                                                                                                                                                owl:onProperty obo:BFO_0000199 ;
-                                                                                                                                                owl:someValuesFrom obo:BFO_0000008
-                                                                                                                                              ]
-                                                                                                                                            ) ;
-                                                                                                                         rdf:type owl:Class
-                                                                                                                       ]
-                                                                                                  ]
-                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty obo:RO_0000056 ;
-                                                                                                    owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000950
-                                                                                                                                              [ rdf:type owl:Restriction ;
-                                                                                                                                                owl:onProperty obo:BFO_0000199 ;
-                                                                                                                                                owl:someValuesFrom obo:BFO_0000008
-                                                                                                                                              ]
-                                                                                                                                            ) ;
-                                                                                                                         rdf:type owl:Class
-                                                                                                                       ]
-                                                                                                  ]
-                                                                                                ) ;
-                                                                             rdf:type owl:Class
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:RO_0000052 ;
+                                 owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
+                                                                           [ rdf:type owl:Restriction ;
+                                                                             owl:onProperty obo:RO_0000056 ;
+                                                                             owl:someValuesFrom obo:BFO_0000015
                                                                            ]
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty co:PMD_0001029 ;
-                                                        owl:someValuesFrom co:PMD_0000915
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty co:PMD_0001030 ;
-                                                        owl:someValuesFrom co:PMD_0000950
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ]
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000052 ;
@@ -3302,7 +3293,8 @@ co:PMD_0000055 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000056
 co:PMD_0000056 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000655
+               rdfs:subClassOf co:PMD_0000780 ,
+                               [ owl:intersectionOf ( co:PMD_0000655
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:RO_0000085 ;
                                                         owl:someValuesFrom co:PMD_0000057
@@ -3408,6 +3400,13 @@ co:PMD_0000068 rdf:type owl:Class ;
                rdfs:label "temporally qualified continuant"@en ;
                skos:definition "A temporally qualified continuant is a continuant that, by reference to a determinate temporal region, is such as to possess its properties only for so long as that period obtains, being otherwise in its essentiality unchanged."@en ;
                co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/185" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000075
+co:PMD_0000075 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000602 ;
+               rdfs:label "mold device"@en ;
+               skos:definition "A form used to cast an object of a desired shape."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000501
@@ -5084,6 +5083,14 @@ co:PMD_0000777 rdf:type owl:Class ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
+###  https://w3id.org/pmd/co/PMD_0000778
+co:PMD_0000778 rdf:type owl:Class ;
+               rdfs:subClassOf obo:OBI_0000011 ;
+               obo:IAO_0000112 "Mixing two fluids. Adding salt into water. Injecting a mouse with PBS." ;
+               rdfs:label "material combination" ;
+               skos:definition "A material processing with the objective to combine two or more material entities as input into a single material entity as output."@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000779
 co:PMD_0000779 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000550 ;
@@ -5099,7 +5106,27 @@ co:PMD_0000779 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000780
 co:PMD_0000780 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000602 ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000602
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:RO_0000085 ;
+                                                            owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                 owl:unionOf ( co:PMD_0000054
+                                                                                               co:PMD_0000055
+                                                                                             )
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf co:PMD_0000602 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:RO_0000085 ;
+                                 owl:someValuesFrom [ rdf:type owl:Class ;
+                                                      owl:unionOf ( co:PMD_0000054
+                                                                    co:PMD_0000055
+                                                                  )
+                                                    ]
+                               ] ;
                rdfs:label "Wärmebehandlungsgerät"@de ,
                           "heat treatment device"@en ;
                skos:definition "A device used for treating materials through heating and cooling processes to alter their properties."@en ,
@@ -7255,6 +7282,14 @@ co:PMD_0020024 rdf:type owl:Class ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
+###  https://w3id.org/pmd/co/PMD_0020025
+co:PMD_0020025 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:label "obstacle role"@en ;
+               skos:definition "An obstacle role is a role of an independent continuant C that is realized in a motion process and indictes that C hinders the motion of a participant in the process."@en ;
+               skos:example "A precipitate or grain boundary may hinder the motion of a dislocation."@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020026
 co:PMD_0020026 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
@@ -9027,7 +9062,7 @@ co:PMD_0025997 rdf:type owl:Class ;
                                ] ;
                rdfs:label "fraction value specification"@en ;
                skos:definition "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en ;
-               skos:example "3.5 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en .
+               skos:example "2.05 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0040001
@@ -10300,15 +10335,6 @@ co:PMD_0050152 rdf:type owl:Class ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
-###  https://w3id.org/pmd/co/PMD_0060005
-co:PMD_0060005 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000109 ;
-               obo:IAO_0000119 "http://purl.obolibrary.org/obo/OBI_0000938" ;
-               rdfs:label "categorical measurement datum"@en ;
-               skos:definition "A measurement datum that is reported on a categorical scale." ;
-               co:PMD_0000060 "true"^^xsd:boolean .
-
-
 ###  https://w3id.org/pmd/co/PMD_0060006
 co:PMD_0060006 rdf:type owl:Class ;
                rdfs:subClassOf obo:IAO_0000033 ;
@@ -10409,6 +10435,18 @@ obo:IAO_0000428 rdf:type owl:NamedIndividual ;
                 obo:IAO_0000115 "A term that is metadata complete, has been reviewed, and problems have been identified that require discussion before release. Such a term requires editor note(s) to identify the outstanding issues."@en ;
                 obo:IAO_0000119 "group:OBI"@en ;
                 rdfs:label "requires discussion"@en .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000076
+obo:UO_0000076 rdf:type owl:NamedIndividual .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000163
+obo:UO_0000163 rdf:type owl:NamedIndividual .
+
+
+###  http://purl.obolibrary.org/obo/UO_0000164
+obo:UO_0000164 rdf:type owl:NamedIndividual .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020006
@@ -10641,6 +10679,24 @@ obo:IAO_0000421 obo:IAO_0000115 "A named class expression is a logical expressio
 obo:OMO_0001000 obo:IAO_0000115 "The term was added to the ontology on the assumption it was in scope, but it turned out later that it was not."@en ;
                 obo:IAO_0000116 "This obsolesence reason should be used conservatively. Typical valid examples are: un-necessary grouping classes in disease ontologies, a phenotype term added on the assumption it was a disease."@en ;
                 rdfs:label "out of scope" .
+
+
+obo:UO_0000076 oboInOwl:hasExactSynonym "(x)" ,
+                                        "chi" ;
+               rdfs:comment "\"A concentration unit which denotes the number of moles of solute as a proportion of the total number of moles in a solution.\" [Wikipedia:Wikipedia]" ;
+               rdfs:label "mole fraction" .
+
+
+obo:UO_0000163 oboInOwl:hasExactSynonym "w/w" ,
+                                        "weight-weight percentage" ;
+               rdfs:comment "\"A dimensionless concentration unit which denotes the mass of a substance in a mixture as a percentage of the mass of the entire mixture.\" [Wikipedia:Wikipedia]" ;
+               rdfs:label "mass percentage" .
+
+
+obo:UO_0000164 oboInOwl:hasExactSynonym "(w/v)" ,
+                                        "weight-volume percentage" ;
+               rdfs:comment "\"A dimensionless concentration unit which denotes the mass of the substance in a mixture as a percentage of the volume of the entire mixture.\" [UOC:GVG]" ;
+               rdfs:label "mass volume percentage" .
 
 
 dce:license rdfs:label "dc:license" .

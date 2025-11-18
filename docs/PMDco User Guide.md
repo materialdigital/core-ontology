@@ -1,6 +1,6 @@
 # PMDco User Guide 
 
-## How to Develop Your Application Ontologies using PMDco and OBO+ODK Best Practices
+## How to Develop Your Application Ontologies Using PMDco and OBO+ODK Best Practices
 
 Although several guidelines and tutorials for ontology development are available (see Ontology Learning Materials for Beginners), we provide here a dedicated list of recommendations for creating application ontologies based on PMDco, making use of PMD guidance, ontology design patterns, OBO principles, and ODK features.
 
@@ -48,7 +48,6 @@ Although several guidelines and tutorials for ontology development are available
 -	Define logical axioms and property constraints (e.g., domain and range), 
 -	Use graphical tools (e.g., Ontopanel or Miro) to visually discuss the modeling issues,
 -	Use our [Ontology Design Patterns](https://github.com/materialdigital/core-ontology/tree/main/patterns) as a guideline for the semantic representation of your concepts,
--	Look at [Beginners Guide Miro Board](https://miro.com/app/board/uXjVLY9FwGU=/) and [PMDco3 Miro Board](https://miro.com/app/board/uXjVNOTPrFo=/), where we created lots of use case modeling examples,
 -	See other PMDco-based application ontologies (listed below this page) for similar modeling concepts.
 -	If you still need support for specific modelling issues, please feel free to mention it in our GitHub [issues](https://github.com/ISE-FIZKarlsruhe/mwo/issues) or [discussion forum](https://github.com/materialdigital/core-ontology/discussions).
 
@@ -76,13 +75,22 @@ Although several guidelines and tutorials for ontology development are available
 -	To enhance your ontology accessibility, please also publish your ontology in [MatPortal](https://matportal.org/) and [PMD DataPortal](https://dataportal.material-digital.de/).
 
 
-## List of Ontologies Developed Based on PMDco V3.x.x:
+## List of Ontologies Reusing PMDco V3.x.x:
 -	**[Logistic Application Ontology (LOG)](https://github.com/materialdigital/logistics-application-ontology)**
+* PMDCo application ontology for logistics and supply chain adopted from iof-supplychain-module
 -	**[Vickers Testing Ontology (VTO)](https://github.com/HosseinBeygiNasrabadi/Vickers-testing-application-ontology)**
--	**[Heat Treatment Ontology (HTO)](https://github.com/materialdigital/heat-treatment-application-ontology)**
+* An Ontology for representing the Vickers testing process, testing equipment requirements, test pieces characteristics, and related testing parameters and their measurement procedure according to DIN EN ISO 6507-1 standard.
 -	**[Tensile testing Ontology (TTO)](https://github.com/materialdigital/tensile-test-ontology)**
+* An ontology for representing tensile testing of metals at room temperature in accordance with the associated testing standard ISO 6892-1:2019-11.
+-	**[Heat Treatment Ontology (HTO)](https://github.com/materialdigital/heat-treatment-application-ontology)**
+* An application ontology of PMDco to model heat treatment processes with a focus on metals.
+
+### Ontologies from the NFDI MatWerk community:
 -	**[NFDI MatWerk Ontology (MWO)](https://github.com/ISE-FIZKarlsruhe/mwo)**
+* Modular extension of NFDIcore ontology for semantically representing the Research Data Management (RDM) in Materials Science and Engineering (MSE). 
 -	**[Bio-inspired Meta Materials Ontology (BiMMO)](https://github.com/HosseinBeygiNasrabadi/Bio-inspired-meta-materials-ontology-bimmo)**
+* An Ontology for representing the structure, property, and processing of bio-inspired meta materials.
 -	**[Reference Dataset Ontology for Creep (RDOC)](https://github.com/HosseinBeygiNasrabadi/Reference-dataset-ontology-rdo)**
+* An application ontology for representing the concepts relevant for the description of a reference dataset, more specifically the creep testing reference dataset. 
 
 A [collection of application ontologies](https://github.com/materialdigital/materialdigital1_ontology_collection) was also developed by PMD projects, planned to be integrated with PMDco V3.x.x soon! 

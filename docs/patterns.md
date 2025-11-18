@@ -14,7 +14,11 @@ The sections below illustrate how to read and apply these patterns. Each pattern
   - `bfo:has first instant ` ([BFO_0000222](http://purl.obolibrary.org/obo/BFO_0000222))
   - `bfo:has last instant ` ([BFO_0000224](http://purl.obolibrary.org/obo/BFO_0000224))
   - `pmd:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
-- **Example Use Case**: Specifying certain moments of time when some industrial process started or ended. 
+- **Example Use Case**: the pattern defines a temporal ontology where processes unfold within bounded durations, those durations may be nested, and continuant entities exist at specific times. It provides a detailed temporal and ontological structure linking processes, periods, instants, and enduring entities in a coherent temporal framework.
+- **Description**: This graph describes a set of temporal and ontological relationships among processes, temporal regions, and continuant entities. The graph models how different kinds of entities relate to time and duration through their association with temporal regions and instants.
+Within this model, there are two processes — (ex:process_1) and (ex:process_2) — each representing an occurrence or event that unfolds over time. Both processes are linked to distinct one-dimensional temporal regions (ex:period_1, ex:period_2), via the occupies_temporal_region property. This expresses that each process extends through a particular temporal duration.
+The temporal structure is further refined through hierarchical and boundary definitions. The region (ex:period_1) is described as a proper_temporal_part_of (ex:period_2), indicating that the first period is entirely contained within the second, but not identical to it. The larger region (ex:period_2) has defined temporal boundaries: it has_first_instant (ex:start) and has_last_instant (ex:end), both of which are represented as zero-dimensional temporal regions, signifying discrete points in time marking the beginning and end of that duration.
+In addition to the processes and periods, the model includes a continuant entity, (ex:object_1), which exists_at a particular temporal region, (ex:some_time). This denotes that the continuant maintains existence at or during a specific time interval, emphasizing persistence or presence within the temporal framework. 
 
 ```d2
 direction: up
@@ -118,14 +122,19 @@ ex:object_1 exists_at: ex:some_time .
 
 ## Pattern 2 - Process Chain
 
-- **Purpose**: Represent complex processes, consisting of simultaneous and serial subprocesses. 
+- **Purpose**: Represent processes, consisting of simultaneous and serial subprocesses. 
 - **Core Properties**: 
   - `bfo:precedes` ([BFO_0000063](http://purl.obolibrary.org/obo/BFO_0000063))
   - `ro:has part` ([BFO_0000051](http://purl.obolibrary.org/obo/BFO_0000051))
-  - `pmd:starts with` ([PMD_0060002](https://w3id.org/pmd/co/PMD_0060002))
-  - `pmd:ends with ` ([PMD_0060003](https://w3id.org/pmd/co/PMD_0060003))
-  - `pmd:simultaneous with` ([PMD_0060004](https://w3id.org/pmd/co/PMD_0060004))
-- **Example Use Case**: Specifying the structure of commplex manufacturing processes consisting of several stages.
+  - `ro:starts with` ([RO_0002224](http://purl.obolibrary.org/obo/RO_0002224))
+  - `ro:ends with ` ([RO_0002230](http://purl.obolibrary.org/obo/RO_0002230))
+  - `ro:simultaneous with` ([RO_0002082](http://purl.obolibrary.org/obo/RO_0002082))
+- **Example Use Case**: the pattern defines a hierarchical and temporal relationship among processes: a parent process composed of multiple interconnected stages, where the first step leads into two concurrent middle steps, both of which precede the final one. This structure models a workflow with clear order, parallel execution, and a defined start and end.
+- **Description**: This graph describes a structured process chain that organizes several interrelated process steps within a defined sequence. The graph defines relationships among processes using temporal and structural object properties.
+At the highest level, there is a parent process (ex:process_parent), which serves as the overarching workflow. This process begins with (ex:process_step1) and concludes with (ex:process_step3), as indicated by the starts_with and ends_with relationships. The parent process is composed of several parts — specifically (ex:process_step1), (ex:process_step2a), (ex:process_step2b), and (ex:process_step3) — through the has_part property, defining the hierarchical structure of the process.
+The sequence begins with (ex:process_step1), which acts as the initial phase. This step precedes (ex:process_step2a), (ex:process_step2b), and (ex:process_step3), establishing it as the starting point from which subsequent processes emerge. Among the intermediate steps, (ex:process_step2a) and (ex:process_step2b) are connected not only sequentially but also through simultaneity: (ex:process_step2a) is defined as simultaneous_with (ex:process_step2b), indicating that they occur at the same time within the overall process.
+Finally, both (ex:process_step2a) and (ex:process_step2b) lead to (ex:process_step3), the final step of the chain. This closing process represents the conclusion of the overall workflow, marking the endpoint of the structured and partially parallel sequence defined in the RDF model.
+
 
 ```d2
 direction: up
@@ -157,8 +166,8 @@ tbox.style.fill: transparent
 abox.ex*.class: individual
 abox.label: "___________________________________________________________________________"
 abox: {
-  "ex:process parent" -> "ex:process step1": "pmd:starts_with"
-  "ex:process parent" -> "ex:process step3": "pmd:ends_with"
+  "ex:process parent" -> "ex:process step1": "ro:starts_with"
+  "ex:process parent" -> "ex:process step3": "ro:ends_with"
 
   "ex:process parent" -> "ex:process step1": "ro:has part"
   "ex:process parent" -> "ex:process step2a": "ro:has part"
@@ -170,7 +179,7 @@ abox: {
   "ex:process step1" -> "ex:process step3": "bfo:precedes"
 
   "ex:process step2a" -> "ex:process step3": "bfo:precedes"
-  "ex:process step2a" -> "ex:process step2b": "pmd:simultaneous_with"
+  "ex:process step2a" -> "ex:process step2b": "ro:simultaneous_with"
 }
 
 abox.style.stroke: transparent
@@ -197,9 +206,9 @@ abox."ex:process step3" -> tbox."bfo:process": "rdf:type"
 
 @prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . #ObjectProperty 
 @prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> . #ObjectProperty
-@prefix starts_with: <https://w3id.org/pmd/co/PMD_0060002> . #ObjectProperty
-@prefix ends_with: <https://w3id.org/pmd/co/PMD_0060003> . #ObjectProperty
-@prefix simultaneous_with: <https://w3id.org/pmd/co/PMD_0060004> . #ObjectProperty
+@prefix starts_with: <http://purl.obolibrary.org/obo/RO_0002224> . #ObjectProperty
+@prefix ends_with: <http://purl.obolibrary.org/obo/RO_0002230> . #ObjectProperty
+@prefix simultaneous_with: <http://purl.obolibrary.org/obo/RO_0002082> . #ObjectProperty
 
 <https://w3id.org/pmd/co/test/shape/process_chain> rdf:type owl:Ontology .
 

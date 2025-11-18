@@ -6,7 +6,7 @@ Modules in ontology are formally defined, self-contained, and reusable fragments
 
 Furthermore, in ODK-based ontology modularization, modules such as import-edit, shared, and axioms-shared play distinct roles. The import-edit module contains external ontology terms and their logical extensions, supporting controlled editing and updates without manual changes to the imported content. The shared module aggregates terms or patterns that must be reused across different ontology parts, promoting interoperability between collections. The axioms-shared module collects logical axioms that are common and essential for reasoning across modules, ensuring consistency and coordination within the ontology system. As seen in below figure, PMDco is eventually created by unifying all mentioned ontology modules.
 
-<img width="538" height="153" alt="image" src="https://github.com/user-attachments/assets/878c1904-4c75-4ad6-926e-9ee4dc85928c" />
+<img width="1407" height="384" alt="Screenshot 2025-11-17 at 11 37 59" src="https://github.com/user-attachments/assets/d647e9b7-b0dc-44ea-ba87-7964ae9f7e53" />
  
 PMDco V3.x.x modularization
 
