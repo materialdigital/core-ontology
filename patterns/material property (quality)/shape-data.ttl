@@ -41,7 +41,7 @@
 @prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> . 
 @prefix stimulating_process: <https://w3id.org/pmd/co/PMD_0000950> .
 @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
-
+@prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
 
 # Sublcass relations 
 object: rdfs:subClassOf material_entity: .
@@ -59,7 +59,7 @@ specifically_dependent_continuant: rdfs:subClassOf entity: .
 melting_process: rdfs:subClassOf process: .
 stimulating_process: rdfs:subClassOf process: .
 application_of_heat_flux: rdfs:subClassOf stimulating_process: .
-
+change_of_temperature: rdfs:subClassOf process: .
 # Object properties
 @prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
 @prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
@@ -134,7 +134,8 @@ ex:melting_temperature_steel a owl:NamedIndividual ,
                                 melting_point: ; 
                             characteristic_of: ex:steel_material ;
                             has_realization: ex:melting_process ; 
-                            stimulated_by: ex:application_of_heat_flux .
+                            stimulated_by: ex:application_of_heat_flux ; 
+                            responds_with: ex:change_of_temperature_during_melting .
 
 ex:melting_process a owl:NamedIndividual ,
                       melting_process: ;
@@ -143,6 +144,10 @@ ex:melting_process a owl:NamedIndividual ,
 
 ex:application_of_heat_flux a owl:NamedIndividual ,
                               application_of_heat_flux: .
+
+ex:change_of_temperature_during_melting a owl:NamedIndividual ,
+                                            change_of_temperature: .
+
 
 # Relational quality
 ex:some_iron a owl:NamedIndividual , 
