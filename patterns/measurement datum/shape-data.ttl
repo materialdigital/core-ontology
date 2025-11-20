@@ -30,7 +30,9 @@
 @prefix test_piece_role: <https://w3id.org/pmd/co/PMD_0000975> .
 @prefix objective_specification: <http://purl.obolibrary.org/obo/IAO_0000005> .
 @prefix application_of_mechanical_load: <https://w3id.org/pmd/co/PMD_0000522> .
-
+@prefix portion_of_carbon: <https://w3id.org/pmd/co/PMD_0020030> .
+@prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> .
 
 # Subclass relations
 scalar_measurement_datum: rdfs:subClassOf measurement_datum: .
@@ -39,7 +41,7 @@ tensile_testing_process: rdfs:subClassOf assay: .
 stregnth: rdfs:subClassOf specifically_dependent_continuant: . 
 specifically_dependent_continuant: rdfs:subClassOf entity: .
 
-# Object proeperties
+# Object properties
 @prefix is_specified_output_of: <http://purl.obolibrary.org/obo/OBI_0000312> .
 @prefix is_quality_measurement_of: <http://purl.obolibrary.org/obo/IAO_0000221> .
 @prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
@@ -54,12 +56,20 @@ specifically_dependent_continuant: rdfs:subClassOf entity: .
 @prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
 @prefix has_output: <http://purl.obolibrary.org/obo/RO_0002234> .
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
-@prefix  achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
 @prefix stimulated_by: <https://w3id.org/pmd/co/PMD_0001030> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+
 ### Define instances ###
 
 ex:some_steel a owl:NamedIndividual , 
-				steel: .
+				steel: ;
+				has_part: portion_of_carbon: ;
+				has_part: portion_of_iron: .
+
+ex:portion_of_carbon a portion_of_carbon: .
+ex:portion_of_iron a portion_of_iron: .
 
 ex:probe_before_the_test a owl:NamedIndividual , 
 							temporally_qualified_continuant: ,
@@ -67,6 +77,8 @@ ex:probe_before_the_test a owl:NamedIndividual ,
 							object: ; 
 						is_state_of: ex:some_steel ; 
 						exists_at: ex:temporal_region_before_test ; 
+						has_part: portion_of_carbon: ;
+						has_part: portion_of_iron: ;
 						has_role: ex:test_piece_role .
 
 
@@ -75,6 +87,8 @@ ex:probe_after_the_test a owl:NamedIndividual ,
 							steel: ,
 							object: ; 
 						is_state_of: ex:some_steel ; 
+						has_part: portion_of_carbon: ;
+						has_part: portion_of_iron: ;
 						exists_at: ex:temporal_region_after_test .
 
 ex:temporal_region_before_test a owl:NamedIndividual ,
@@ -86,16 +100,20 @@ ex:temporal_region_after_test a owl:NamedIndividual ,
 ex:test_piece_role a owl:NamedIndividual , 
 					 test_piece_role: .
 
+ex:test_plan a plan: .
+
 ex:tensile_test a owl:NamedIndividual ,
 				  tensile_testing_process: ; 
 				has_specified_input: ex:probe_before_the_test ;
 				has_output: ex:probe_after_the_test ; 
 				has_specified_output: ex:yield_stength_measurement_datum ; 
 				realizes: ex:test_piece_role ; 
+				realizes: ex:test_plan;
 				achieves_planned_objective: ex:tensile_test_objective_specification .
 
 ex:tensile_test_objective_specification a owl:NamedIndividual ,	
-										  objective_specification: .	
+										  objective_specification: ;
+				is_about: ex:test_plan .	
 
 ex:application_of_mechanical_stress_during_tensile_test a owl:NamedIndividual ,
 														  application_of_mechanical_load: .							  
