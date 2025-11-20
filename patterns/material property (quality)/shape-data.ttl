@@ -38,6 +38,8 @@
 @prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
 @prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
 @prefix melting_process: <https://w3id.org/pmd/co/PMD_0000053> .
+@prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> . 
+@prefix stimulating_process: <https://w3id.org/pmd/co/PMD_0000950> .
 @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
 
 
@@ -55,6 +57,8 @@ behavioral_material_property: rdfs:subClassOf specifically_dependent_continuant:
 melting_point: rdfs:subClassOf behavioral_material_property: .
 specifically_dependent_continuant: rdfs:subClassOf entity: .
 melting_process: rdfs:subClassOf process: .
+stimulating_process: rdfs:subClassOf process: .
+application_of_heat_flux: rdfs:subClassOf stimulating_process: .
 
 # Object properties
 @prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
@@ -69,6 +73,7 @@ melting_process: rdfs:subClassOf process: .
 @prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
 @prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> .
 @prefix has_participant: <http://purl.obolibrary.org/obo/RO_0000057> .
+@prefix stimulated_by: <https://w3id.org/pmd/co/PMD_0001030> .
 has_participant: owl:inverseOf participates_in: .
 
 ### Instances ###
@@ -122,10 +127,15 @@ ex:svs_1500_deg_c a owl:NamedIndividual ,
 ex:melting_temperature_steel a owl:NamedIndividual ,
                                 melting_point: ; 
                             characteristic_of: ex:steel_material ;
-                            has_realization: ex:melting_process .
+                            has_realization: ex:melting_process ; 
+                            stimulated_by: ex:application_of_heat_flux .
 
 ex:melting_process a owl:NamedIndividual ,
                       melting_process: .
+
+ex:application_of_heat_flux a owl:NamedIndividual ,
+                              application_of_heat_flux: .
+
 
 
 # Relational quality
