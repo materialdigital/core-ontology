@@ -74,7 +74,12 @@ application_of_heat_flux: rdfs:subClassOf stimulating_process: .
 @prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> .
 @prefix has_participant: <http://purl.obolibrary.org/obo/RO_0000057> .
 @prefix stimulated_by: <https://w3id.org/pmd/co/PMD_0001030> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+
 has_participant: owl:inverseOf participates_in: .
+has_specified_output: owl:subPropertyOf has_participant: .
+has_specified_input: owl:subPropertyOf has_participant: .
 
 ### Instances ###
 
@@ -131,7 +136,9 @@ ex:melting_temperature_steel a owl:NamedIndividual ,
                             stimulated_by: ex:application_of_heat_flux .
 
 ex:melting_process a owl:NamedIndividual ,
-                      melting_process: .
+                      melting_process: ;
+                    has_specified_output: ex:steel_material ; 
+                    has_specified_input: ex:steel_material .
 
 ex:application_of_heat_flux a owl:NamedIndividual ,
                               application_of_heat_flux: .
