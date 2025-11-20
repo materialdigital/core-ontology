@@ -393,7 +393,7 @@ ex*.class: individual
 "ex:objective 1" -> "ex:object 1": "iao:is about"
 "ex:result 1" -> "ex:object 1": "iao:is about"
 "ex:process 1" -> "pmd:fatigue testing process": "rdf:type"
-"pmd:fatigue testing process: " -> "obi:planned process": "owl:subClassOf"
+"pmd:fatigue testing process:" -> "obi:planned process": "owl:subClassOf"
 "obi:planned process" -> "bfo:process": "owl:subClassOf"
 
 "ex:object 1" -> "bfo:object": "rdf:type"
