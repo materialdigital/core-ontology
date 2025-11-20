@@ -229,8 +229,9 @@ A continuant cannot be part of an occurrent: use 'participates in'. An occurrent
 
 
 ###  http://purl.obolibrary.org/obo/BFO_0000051
-obo:BFO_0000051 rdf:type owl:ObjectProperty ,
-                         owl:TransitiveProperty ;
+obo:BFO_0000051 rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf obo:BFO_0000051 ;
+                rdf:type owl:TransitiveProperty ;
                 obo:IAO_0000112 "my body has part my brain (continuant parthood, two material entities)"@en ,
                                 "my stomach has part my stomach cavity (continuant parthood, material entity has part immaterial entity)"@en ,
                                 "this year has part this day (occurrent parthood)"@en ;
@@ -453,78 +454,6 @@ obo:BFO_0000185 rdf:type owl:ObjectProperty ;
                 rdfs:label "has history"@en ;
                 skos:definition "b has history c =Def c history of b"@en ;
                 skos:example "This organism has history this life"@en .
-
-
-###  http://purl.obolibrary.org/obo/BFO_0000194
-obo:BFO_0000194 rdf:type owl:ObjectProperty ;
-                owl:inverseOf obo:BFO_0000195 ;
-                rdfs:domain [ rdf:type owl:Class ;
-                              owl:unionOf ( obo:BFO_0000020
-                                            [ owl:intersectionOf ( obo:BFO_0000004
-                                                                   [ rdf:type owl:Class ;
-                                                                     owl:complementOf obo:BFO_0000006
-                                                                   ]
-                                                                 ) ;
-                                              rdf:type owl:Class
-                                            ]
-                                          )
-                            ] ;
-                rdfs:range obo:BFO_0000020 ;
-                rdfs:label "specifically depended on by"@en ;
-                skos:definition "b specifically depended on by c =Def c specifically depends on b"@en ;
-                skos:example "Coloured object specifically depended on by colour"@en .
-
-
-###  http://purl.obolibrary.org/obo/BFO_0000195
-obo:BFO_0000195 rdf:type owl:ObjectProperty ;
-                rdfs:domain obo:BFO_0000020 ;
-                rdfs:range [ rdf:type owl:Class ;
-                             owl:unionOf ( obo:BFO_0000020
-                                           [ owl:intersectionOf ( obo:BFO_0000004
-                                                                  [ rdf:type owl:Class ;
-                                                                    owl:complementOf obo:BFO_0000006
-                                                                  ]
-                                                                ) ;
-                                             rdf:type owl:Class
-                                           ]
-                                         )
-                           ] ;
-                rdfs:label "specifically depends on"@en ;
-                skos:definition "(Elucidation) specifically depends on is a relation between a specifically dependent continuant b and specifically dependent continuant or independent continuant that is not a spatial region c such that b and c share no parts in common & b is of a nature such that at all times t it cannot exist unless c exists & b is not a boundary of c"@en ;
-                skos:example "A shape specifically depends on the shaped object; hue, saturation and brightness of a colour sample specifically depends on each other"@en .
-
-
-###  http://purl.obolibrary.org/obo/BFO_0000196
-obo:BFO_0000196 rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf obo:BFO_0000194 ;
-                owl:inverseOf obo:BFO_0000197 ;
-                rdfs:domain [ owl:intersectionOf ( obo:BFO_0000004
-                                                   [ rdf:type owl:Class ;
-                                                     owl:complementOf obo:BFO_0000006
-                                                   ]
-                                                 ) ;
-                              rdf:type owl:Class
-                            ] ;
-                rdfs:range obo:BFO_0000020 ;
-                rdfs:label "bearer of"@en ;
-                skos:definition "b bearer of c =Def c inheres in b"@en ;
-                skos:example "A patch of ink is the bearer of a colour quality; an organism is the bearer of a temperature quality"@en .
-
-
-###  http://purl.obolibrary.org/obo/BFO_0000197
-obo:BFO_0000197 rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf obo:BFO_0000195 ;
-                rdfs:domain obo:BFO_0000020 ;
-                rdfs:range [ owl:intersectionOf ( obo:BFO_0000004
-                                                  [ rdf:type owl:Class ;
-                                                    owl:complementOf obo:BFO_0000006
-                                                  ]
-                                                ) ;
-                             rdf:type owl:Class
-                           ] ;
-                rdfs:label "inheres in"@en ;
-                skos:definition "b inheres in c =Def b is a specifically dependent continuant & c is an independent continuant that is not a spatial region & b specifically depends on c"@en ;
-                skos:example "A shape inheres in a shaped object; a mass inheres in a material entity"@en .
 
 
 ###  http://purl.obolibrary.org/obo/BFO_0000199
@@ -1207,14 +1136,6 @@ co:PMD_0001031 rdf:type owl:ObjectProperty ;
                skos:definition "A relation between a stimulating process and material property, where there is some material entity that is bearer of the material property and participates in the stimulating process, and the material property comes to be realized in the course of the stimulating process."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0020005
-co:PMD_0020005 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf obo:BFO_0000051 ;
-               rdfs:label "consists of"@en ;
-               skos:definition "A continuant part property that relates Material Entity Aggregates in the direction of smaller length-scale."@en ;
-               skos:example "A portion of steel consists of a portion of carbon and a portion of iron."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0020020
 co:PMD_0020020 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf owl:topObjectProperty ;
@@ -1240,21 +1161,6 @@ co:PMD_0020021 rdf:type owl:ObjectProperty ;
                skos:definition "An entity (that is bearer of some stimulation role) causally influences another entity (that is bearer of the stimulation target role) in a process iff  the target objects qualites (and/or realizable entities?) are altered in a manner that is significant in the given context/domain of discourse.."@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0020022
-co:PMD_0020022 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf owl:topObjectProperty ;
-               owl:propertyChainAxiom ( co:PMD_0020005
-                                        obo:BFO_0000196
-                                      ) ;
-               rdfs:comment """TODO: check if we should force the 'o' to be a portion of matter' through:
-http://ontologydesignpatterns.org/wiki/Submissions:N-Ary_Relation_Pattern_%28OWL_2%29
-or
-https://www.w3.org/TR/swbp-n-aryRelations/"""@en ;
-               rdfs:label "intensive bearer of"@en ;
-               skos:definition "Intensive bearer of is a chain that allows to connect objects to intensive properties through \"the matter they consist of\"."@en ;
-               skos:example "This piece of metal intensive bearer of some temperature."@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0020127
 co:PMD_0020127 rdf:type owl:ObjectProperty ;
                rdfs:domain co:PMD_0000008 ;
@@ -1268,21 +1174,6 @@ An example of such case can be \"Temperature of during the annealing process was
                rdfs:label "refers to"@en ;
                skos:definition "a relation between a process attribute and an SDC of some participant in a process"@en ;
                skos:example "a relation to between a process attribute an a SDC of some participant in a process."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0020141
-co:PMD_0020141 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf obo:BFO_0000196 ;
-               rdfs:domain [ rdf:type owl:Class ;
-                             owl:unionOf ( obo:BFO_0000027
-                                           obo:BFO_0000030
-                                         )
-                           ] ;
-               rdfs:range obo:BFO_0000020 ;
-               rdfs:label "integral bearer of"@en ;
-               skos:definition """Integral bearer of is a property chain linking an object or object aggregate O that consits of a portion of matter PM to a SDC Q that inheres in 'portions of matter' only:
-O -consists of-> PM -bearer of-> Q"""@en ;
-               skos:example "Talking colloquially about Intensive thermodynamic properties of an object requires this property."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025998
@@ -4044,7 +3935,7 @@ co:PMD_0000576 rdf:type owl:Class ;
 co:PMD_0000577 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000002
                                                       [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty co:PMD_0020005 ;
+                                                                               owl:onProperty obo:BFO_0000051 ;
                                                                                owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000002
                                                                                                                          [ rdf:type owl:Restriction ;
                                                                                                                            owl:onProperty obo:RO_0000087 ;
@@ -4055,7 +3946,7 @@ co:PMD_0000577 rdf:type owl:Class ;
                                                                                                   ]
                                                                              ]
                                                                              [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty co:PMD_0020005 ;
+                                                                               owl:onProperty obo:BFO_0000051 ;
                                                                                owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000002
                                                                                                                          [ rdf:type owl:Restriction ;
                                                                                                                            owl:onProperty obo:RO_0000087 ;
@@ -4616,9 +4507,9 @@ co:PMD_0000638 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000639
 co:PMD_0000639 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000852 ,
+               rdfs:subClassOf co:PMD_0025004 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0020005 ;
+                                 owl:onProperty obo:BFO_0000051 ;
                                  owl:someValuesFrom co:PMD_0020026
                                ] ;
                rdfs:label "ferrous alloy"@en ;
@@ -4759,11 +4650,9 @@ co:PMD_0000653 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000654
 co:PMD_0000654 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000002 ,
-                               [ owl:intersectionOf ( co:PMD_0000002
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000002
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf co:PMD_0020005
-                                                                       ] ;
+                                                        owl:onProperty obo:BFO_0000050 ;
                                                         owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
                                                                                                   [ rdf:type owl:Restriction ;
                                                                                                     owl:onProperty obo:RO_0000085 ;
@@ -4775,18 +4664,6 @@ co:PMD_0000654 rdf:type owl:Class ;
                                                       ]
                                                     ) ;
                                  rdf:type owl:Class
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf co:PMD_0020005
-                                                ] ;
-                                 owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty obo:RO_0000085 ;
-                                                                             owl:someValuesFrom obo:BFO_0000034
-                                                                           ]
-                                                                         ) ;
-                                                      rdf:type owl:Class
-                                                    ]
                                ] ;
                obo:IAO_0000116 "Classified by the role in a system."@en ;
                rdfs:label "functional material"@en ;
@@ -6495,11 +6372,9 @@ co:PMD_0000953 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000955
 co:PMD_0000955 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000654 ,
-                               [ owl:intersectionOf ( co:PMD_0000654
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000654
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf co:PMD_0020005
-                                                                       ] ;
+                                                        owl:onProperty obo:BFO_0000050 ;
                                                         owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
                                                                                                   [ rdf:type owl:Restriction ;
                                                                                                     owl:onProperty obo:RO_0000085 ;
@@ -6511,18 +6386,6 @@ co:PMD_0000955 rdf:type owl:Class ;
                                                       ]
                                                     ) ;
                                  rdf:type owl:Class
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf co:PMD_0020005
-                                                ] ;
-                                 owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty obo:RO_0000085 ;
-                                                                             owl:someValuesFrom obo:OBI_0000379
-                                                                           ]
-                                                                         ) ;
-                                                      rdf:type owl:Class
-                                                    ]
                                ] ;
                obo:IAO_0000116 "Classified by the role in a system."@en ;
                rdfs:label "structural material"@en ;
@@ -7251,7 +7114,7 @@ co:PMD_0020025 rdf:type owl:Class ;
 co:PMD_0020026 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_18248
                                                           ]
                                                         ) ;
@@ -7267,7 +7130,7 @@ co:PMD_0020026 rdf:type owl:Class ;
 co:PMD_0020028 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30430
                                                           ]
                                                         ) ;
@@ -7283,7 +7146,7 @@ co:PMD_0020028 rdf:type owl:Class ;
 co:PMD_0020029 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_28073
                                                           ]
                                                         ) ;
@@ -7299,7 +7162,7 @@ co:PMD_0020029 rdf:type owl:Class ;
 co:PMD_0020030 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27594
                                                           ]
                                                         ) ;
@@ -7315,7 +7178,7 @@ co:PMD_0020030 rdf:type owl:Class ;
 co:PMD_0020031 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30441
                                                           ]
                                                         ) ;
@@ -7331,7 +7194,7 @@ co:PMD_0020031 rdf:type owl:Class ;
 co:PMD_0020032 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27998
                                                           ]
                                                         ) ;
@@ -7347,7 +7210,7 @@ co:PMD_0020032 rdf:type owl:Class ;
 co:PMD_0020033 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33379
                                                           ]
                                                         ) ;
@@ -7363,7 +7226,7 @@ co:PMD_0020033 rdf:type owl:Class ;
 co:PMD_0020034 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_28685
                                                           ]
                                                         ) ;
@@ -7379,7 +7242,7 @@ co:PMD_0020034 rdf:type owl:Class ;
 co:PMD_0020035 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33344
                                                           ]
                                                         ) ;
@@ -7395,7 +7258,7 @@ co:PMD_0020035 rdf:type owl:Class ;
 co:PMD_0020036 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_49882
                                                           ]
                                                         ) ;
@@ -7411,7 +7274,7 @@ co:PMD_0020036 rdf:type owl:Class ;
 co:PMD_0020037 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30145
                                                           ]
                                                         ) ;
@@ -7427,7 +7290,7 @@ co:PMD_0020037 rdf:type owl:Class ;
 co:PMD_0020038 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_25555
                                                           ]
                                                         ) ;
@@ -7443,7 +7306,7 @@ co:PMD_0020038 rdf:type owl:Class ;
 co:PMD_0020039 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27638
                                                           ]
                                                         ) ;
@@ -7459,7 +7322,7 @@ co:PMD_0020039 rdf:type owl:Class ;
 co:PMD_0020040 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_29287
                                                           ]
                                                         ) ;
@@ -7475,7 +7338,7 @@ co:PMD_0020040 rdf:type owl:Class ;
 co:PMD_0020041 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_49475
                                                           ]
                                                         ) ;
@@ -7491,7 +7354,7 @@ co:PMD_0020041 rdf:type owl:Class ;
 co:PMD_0020042 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_22977
                                                           ]
                                                         ) ;
@@ -7507,7 +7370,7 @@ co:PMD_0020042 rdf:type owl:Class ;
 co:PMD_0020043 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_32594
                                                           ]
                                                         ) ;
@@ -7523,7 +7386,7 @@ co:PMD_0020043 rdf:type owl:Class ;
 co:PMD_0020044 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33348
                                                           ]
                                                         ) ;
@@ -7539,7 +7402,7 @@ co:PMD_0020044 rdf:type owl:Class ;
 co:PMD_0020045 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30513
                                                           ]
                                                         ) ;
@@ -7555,7 +7418,7 @@ co:PMD_0020045 rdf:type owl:Class ;
 co:PMD_0020046 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_26216
                                                           ]
                                                         ) ;
@@ -7571,7 +7434,7 @@ co:PMD_0020046 rdf:type owl:Class ;
 co:PMD_0020047 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_28659
                                                           ]
                                                         ) ;
@@ -7587,7 +7450,7 @@ co:PMD_0020047 rdf:type owl:Class ;
 co:PMD_0020048 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27560
                                                           ]
                                                         ) ;
@@ -7603,7 +7466,7 @@ co:PMD_0020048 rdf:type owl:Class ;
 co:PMD_0020049 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30217
                                                           ]
                                                         ) ;
@@ -7619,7 +7482,7 @@ co:PMD_0020049 rdf:type owl:Class ;
 co:PMD_0020050 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27573
                                                           ]
                                                         ) ;
@@ -7635,7 +7498,7 @@ co:PMD_0020050 rdf:type owl:Class ;
 co:PMD_0020051 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_28112
                                                           ]
                                                         ) ;
@@ -7651,7 +7514,7 @@ co:PMD_0020051 rdf:type owl:Class ;
 co:PMD_0020052 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33331
                                                           ]
                                                         ) ;
@@ -7667,7 +7530,7 @@ co:PMD_0020052 rdf:type owl:Class ;
 co:PMD_0020053 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33342
                                                           ]
                                                         ) ;
@@ -7683,7 +7546,7 @@ co:PMD_0020053 rdf:type owl:Class ;
 co:PMD_0020054 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_28694
                                                           ]
                                                         ) ;
@@ -7699,7 +7562,7 @@ co:PMD_0020054 rdf:type owl:Class ;
 co:PMD_0020055 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33355
                                                           ]
                                                         ) ;
@@ -7715,7 +7578,7 @@ co:PMD_0020055 rdf:type owl:Class ;
 co:PMD_0020056 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_24061
                                                           ]
                                                         ) ;
@@ -7731,7 +7594,7 @@ co:PMD_0020056 rdf:type owl:Class ;
 co:PMD_0020057 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33364
                                                           ]
                                                         ) ;
@@ -7747,7 +7610,7 @@ co:PMD_0020057 rdf:type owl:Class ;
 co:PMD_0020058 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33369
                                                           ]
                                                         ) ;
@@ -7763,7 +7626,7 @@ co:PMD_0020058 rdf:type owl:Class ;
 co:PMD_0020059 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_26833
                                                           ]
                                                         ) ;
@@ -7779,7 +7642,7 @@ co:PMD_0020059 rdf:type owl:Class ;
 co:PMD_0020060 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_25016
                                                           ]
                                                         ) ;
@@ -7795,7 +7658,7 @@ co:PMD_0020060 rdf:type owl:Class ;
 co:PMD_0020061 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_49696
                                                           ]
                                                         ) ;
@@ -7811,7 +7674,7 @@ co:PMD_0020061 rdf:type owl:Class ;
 co:PMD_0020062 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33301
                                                           ]
                                                         ) ;
@@ -7827,7 +7690,7 @@ co:PMD_0020062 rdf:type owl:Class ;
 co:PMD_0020063 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33310
                                                           ]
                                                         ) ;
@@ -7843,7 +7706,7 @@ co:PMD_0020063 rdf:type owl:Class ;
 co:PMD_0020064 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30440
                                                           ]
                                                         ) ;
@@ -7859,7 +7722,7 @@ co:PMD_0020064 rdf:type owl:Class ;
 co:PMD_0020065 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27568
                                                           ]
                                                         ) ;
@@ -7875,7 +7738,7 @@ co:PMD_0020065 rdf:type owl:Class ;
 co:PMD_0020066 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30682
                                                           ]
                                                         ) ;
@@ -7891,7 +7754,7 @@ co:PMD_0020066 rdf:type owl:Class ;
 co:PMD_0020067 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_25107
                                                           ]
                                                         ) ;
@@ -7907,7 +7770,7 @@ co:PMD_0020067 rdf:type owl:Class ;
 co:PMD_0020068 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27363
                                                           ]
                                                         ) ;
@@ -7923,7 +7786,7 @@ co:PMD_0020068 rdf:type owl:Class ;
 co:PMD_0020069 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_25195
                                                           ]
                                                         ) ;
@@ -7939,7 +7802,7 @@ co:PMD_0020069 rdf:type owl:Class ;
 co:PMD_0020070 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_49957
                                                           ]
                                                         ) ;
@@ -7955,7 +7818,7 @@ co:PMD_0020070 rdf:type owl:Class ;
 co:PMD_0020071 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_28984
                                                           ]
                                                         ) ;
@@ -7971,7 +7834,7 @@ co:PMD_0020071 rdf:type owl:Class ;
 co:PMD_0020072 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_26708
                                                           ]
                                                         ) ;
@@ -7987,7 +7850,7 @@ co:PMD_0020072 rdf:type owl:Class ;
 co:PMD_0020073 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_24859
                                                           ]
                                                         ) ;
@@ -8003,7 +7866,7 @@ co:PMD_0020073 rdf:type owl:Class ;
 co:PMD_0020074 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30514
                                                           ]
                                                         ) ;
@@ -8019,7 +7882,7 @@ co:PMD_0020074 rdf:type owl:Class ;
 co:PMD_0020075 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_23116
                                                           ]
                                                         ) ;
@@ -8035,7 +7898,7 @@ co:PMD_0020075 rdf:type owl:Class ;
 co:PMD_0020076 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30512
                                                           ]
                                                         ) ;
@@ -8051,7 +7914,7 @@ co:PMD_0020076 rdf:type owl:Class ;
 co:PMD_0020077 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33374
                                                           ]
                                                         ) ;
@@ -8067,7 +7930,7 @@ co:PMD_0020077 rdf:type owl:Class ;
 co:PMD_0020078 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_18291
                                                           ]
                                                         ) ;
@@ -8083,7 +7946,7 @@ co:PMD_0020078 rdf:type owl:Class ;
 co:PMD_0020079 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27563
                                                           ]
                                                         ) ;
@@ -8099,7 +7962,7 @@ co:PMD_0020079 rdf:type owl:Class ;
 co:PMD_0020080 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30501
                                                           ]
                                                         ) ;
@@ -8115,7 +7978,7 @@ co:PMD_0020080 rdf:type owl:Class ;
 co:PMD_0020081 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_22984
                                                           ]
                                                         ) ;
@@ -8131,7 +7994,7 @@ co:PMD_0020081 rdf:type owl:Class ;
 co:PMD_0020082 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33372
                                                           ]
                                                         ) ;
@@ -8147,7 +8010,7 @@ co:PMD_0020082 rdf:type owl:Class ;
 co:PMD_0020083 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_49637
                                                           ]
                                                         ) ;
@@ -8163,7 +8026,7 @@ co:PMD_0020083 rdf:type owl:Class ;
 co:PMD_0020084 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_30687
                                                           ]
                                                         ) ;
@@ -8179,7 +8042,7 @@ co:PMD_0020084 rdf:type owl:Class ;
 co:PMD_0020085 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_49666
                                                           ]
                                                         ) ;
@@ -8195,7 +8058,7 @@ co:PMD_0020085 rdf:type owl:Class ;
 co:PMD_0020086 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_49631
                                                           ]
                                                         ) ;
@@ -8211,7 +8074,7 @@ co:PMD_0020086 rdf:type owl:Class ;
 co:PMD_0020087 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_22927
                                                           ]
                                                         ) ;
@@ -8227,7 +8090,7 @@ co:PMD_0020087 rdf:type owl:Class ;
 co:PMD_0020088 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27007
                                                           ]
                                                         ) ;
@@ -8243,7 +8106,7 @@ co:PMD_0020088 rdf:type owl:Class ;
 co:PMD_0020089 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33343
                                                           ]
                                                         ) ;
@@ -8259,7 +8122,7 @@ co:PMD_0020089 rdf:type owl:Class ;
 co:PMD_0020090 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27214
                                                           ]
                                                         ) ;
@@ -8275,7 +8138,7 @@ co:PMD_0020090 rdf:type owl:Class ;
 co:PMD_0020091 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_25805
                                                           ]
                                                         ) ;
@@ -8291,7 +8154,7 @@ co:PMD_0020091 rdf:type owl:Class ;
 co:PMD_0020092 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33363
                                                           ]
                                                         ) ;
@@ -8307,7 +8170,7 @@ co:PMD_0020092 rdf:type owl:Class ;
 co:PMD_0020093 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_27698
                                                           ]
                                                         ) ;
@@ -8323,7 +8186,7 @@ co:PMD_0020093 rdf:type owl:Class ;
 co:PMD_0020094 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33330
                                                           ]
                                                         ) ;
@@ -8339,7 +8202,7 @@ co:PMD_0020094 rdf:type owl:Class ;
 co:PMD_0020095 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
                                                           [ rdf:type owl:Restriction ;
-                                                            owl:onProperty co:PMD_0020005 ;
+                                                            owl:onProperty obo:BFO_0000051 ;
                                                             owl:allValuesFrom obo:CHEBI_33341
                                                           ]
                                                         ) ;
@@ -8355,7 +8218,7 @@ co:PMD_0020095 rdf:type owl:Class ;
 co:PMD_0020096 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000639 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0020005 ;
+                                 owl:onProperty obo:BFO_0000051 ;
                                  owl:someValuesFrom co:PMD_0020030
                                ] ;
                rdfs:label "steel"@en ;
@@ -8949,6 +8812,14 @@ co:PMD_0025003 rdf:type owl:Class ;
                rdfs:label "metallic grain structure"@en ;
                skos:definition "metallic grain structure characterizes the distinct phases in the microscopic structure of a metallic material. It concretizes ferrite, austenite, martensite, etc."@en ;
                co:PMD_0000060 "false"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0025004
+co:PMD_0025004 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000852 ;
+               rdfs:label "alloy"@en ;
+               co:PMD_0000060 "An alloy is a material containing any metallic element as its principal element, often combined with other elements for enhanced properties."@en ,
+                              "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025997
