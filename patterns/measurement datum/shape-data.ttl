@@ -23,6 +23,14 @@
 @prefix stregnth: <https://w3id.org/pmd/co/PMD_0000952> .
 @prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
 @prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> .
+@prefix steel: <https://w3id.org/pmd/co/PMD_0020096> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> . 
+@prefix temporally_qualified_continuant: <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> .
+@prefix test_piece_role: <https://w3id.org/pmd/co/PMD_0000975> .
+@prefix objective_specification: <http://purl.obolibrary.org/obo/IAO_0000005> .
+@prefix application_of_mechanical_load: <https://w3id.org/pmd/co/PMD_0000522> .
+
 
 # Subclass relations
 scalar_measurement_datum: rdfs:subClassOf measurement_datum: .
@@ -38,18 +46,65 @@ specifically_dependent_continuant: rdfs:subClassOf entity: .
 @prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
 @prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
 @prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
-
-
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> .
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
+@prefix has_output: <http://purl.obolibrary.org/obo/RO_0002234> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix  achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix stimulated_by: <https://w3id.org/pmd/co/PMD_0001030> .
 ### Define instances ###
 
+ex:some_steel a owl:NamedIndividual , 
+				steel: .
+
+ex:probe_before_the_test a owl:NamedIndividual , 
+							temporally_qualified_continuant: ,
+							steel: ,
+							object: ; 
+						is_state_of: ex:some_steel ; 
+						exists_at: ex:temporal_region_before_test ; 
+						has_role: ex:test_piece_role .
+
+
+ex:probe_after_the_test a owl:NamedIndividual ,
+							temporally_qualified_continuant: ,
+							steel: ,
+							object: ; 
+						is_state_of: ex:some_steel ; 
+						exists_at: ex:temporal_region_after_test .
+
+ex:temporal_region_before_test a owl:NamedIndividual ,
+								temporal_region: .
+
+ex:temporal_region_after_test a owl:NamedIndividual ,
+								temporal_region: .
+
+ex:test_piece_role a owl:NamedIndividual , 
+					 test_piece_role: .
+
 ex:tensile_test a owl:NamedIndividual ,
-				  tensile_testing_process: . 
+				  tensile_testing_process: ; 
+				has_specified_input: ex:probe_before_the_test ;
+				has_output: ex:probe_after_the_test ; 
+				has_specified_output: ex:yield_stength_measurement_datum ; 
+				realizes: ex:test_piece_role ; 
+				achieves_planned_objective: ex:tensile_test_objective_specification .
+
+ex:tensile_test_objective_specification a owl:NamedIndividual ,	
+										  objective_specification: .	
+
+ex:application_of_mechanical_stress_during_tensile_test a owl:NamedIndividual ,
+														  application_of_mechanical_load: .							  
 
 ex:tensile_strength a owl:NamedIndividual , 
-					  stregnth: .
+					  stregnth: ;
+					characteristic_of: ex:some_steel ;
+					stimulated_by: ex:application_of_mechanical_stress_during_tensile_test .
 					  
-#ex:some_other_tensile_strength a owl:NamedIndividual , 
-#					  stregnth: .
 
 ex:yield_stength_measurement_datum a owl:NamedIndividual ,
 									 scalar_measurement_datum: ; 
