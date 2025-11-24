@@ -8,13 +8,6 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 
 
 - **Purpose**: Specifying the boundaries of a process on the time axis. 
-- **Core Properties**: 
-  - `bfo:occupies temporal region` ([BFO_0000199](http://purl.obolibrary.org/obo/BFO_0000199))
-  - `bfo:proper temporal part of ` ([BFO_0000136](http://purl.obolibrary.org/obo/BFO_0000136))
-  - `bfo:has first instant ` ([BFO_0000222](http://purl.obolibrary.org/obo/BFO_0000222))
-  - `bfo:has last instant ` ([BFO_0000224](http://purl.obolibrary.org/obo/BFO_0000224))
-
-- **Example Use Case**: the pattern defines a temporal ontology where processes unfold within bounded durations, those durations may be nested, and continuant entities exist at specific times. It provides a temporal structure linking processes, periods, instants, and enduring entities.
 - **Description**: This graph describes a set of temporal relationships among processes, temporal regions, and continuant entities. The graph models how different kinds of entities relate to time and duration through their association with temporal regions and instants.
 Within this model, there are two processes — (ex:process_1) and (ex:process_2) — each representing an occurrence or event that unfolds over time. Both processes are linked to distinct one-dimensional temporal regions (ex:period_1, ex:period_2), via the occupies_temporal_region property. This expresses that each process extends through a particular temporal duration.
 The temporal structure is further refined through hierarchical and boundary definitions. The region (ex:period_1) is described as a proper_temporal_part_of (ex:period_2), indicating that the first period is entirely contained within the second, but not identical to it. The larger region (ex:period_2) has defined temporal boundaries: it has_first_instant (ex:start) and has_last_instant (ex:end), both of which are represented as zero-dimensional temporal regions, signifying discrete points in time marking the beginning and end of that duration.
@@ -123,13 +116,6 @@ ex:object_1 exists_at: ex:some_time .
 ## Pattern 2 - Process Chain
 
 - **Purpose**: Represent processes, consisting of simultaneous and serial subprocesses. 
-- **Core Properties**: 
-  - `bfo:precedes` ([BFO_0000063](http://purl.obolibrary.org/obo/BFO_0000063))
-  - `ro:has part` ([BFO_0000051](http://purl.obolibrary.org/obo/BFO_0000051))
-  - `ro:starts with` ([RO_0002224](http://purl.obolibrary.org/obo/RO_0002224))
-  - `ro:ends with ` ([RO_0002230](http://purl.obolibrary.org/obo/RO_0002230))
-  - `ro:simultaneous with` ([RO_0002082](http://purl.obolibrary.org/obo/RO_0002082))
-- **Example Use Case**: the pattern defines a hierarchical and temporal relationship among processes: a parent process composed of multiple interconnected stages, where the first step leads into two concurrent middle steps, both of which precede the final one. This structure models a workflow with clear order, parallel execution, and a defined start and end.
 - **Description**: This graph describes a structured process chain that organizes several interrelated process steps within a defined sequence. The graph defines relationships among processes using temporal and structural object properties.
 At the highest level, there is a parent process (ex:process_parent), which serves as the overarching workflow. This process begins with (ex:process_step1) and concludes with (ex:process_step3), as indicated by the starts_with and ends_with relationships. The parent process is composed of several parts — specifically (ex:process_step1), (ex:process_step2a), (ex:process_step2b), and (ex:process_step3) — through the has_part property, defining the hierarchical structure of the process.
 The sequence begins with (ex:process_step1), which acts as the initial phase. This step precedes (ex:process_step2a), (ex:process_step2b), and (ex:process_step3), establishing it as the starting point from which subsequent processes emerge. Among the intermediate steps, (ex:process_step2a) and (ex:process_step2b) are connected not only sequentially but also through simultaneity: (ex:process_step2a) is defined as simultaneous_with (ex:process_step2b), indicating that they occur at the same time within the overall process.
@@ -237,10 +223,7 @@ ex:process_step2a simultaneous_with: ex:process_step2b .
 ## Pattern 3 - Process Inputs and Outputs
 
 - **Purpose**: Describes how to represent inputs and outputs for planned processes typically involving material entities or information-bearing entities.
-- **Core Properties**: 
-  - `obi:has_specified_input` [OBI_0000293](http://purl.obolibrary.org/obo/OBI_0000293)
-  - `obi:has_specified_output` [OBI_0000299](http://purl.obolibrary.org/obo/OBI_0000299)
-- **Example Use Case**: A planned process with possibility of multiple inputs and outputs, e.g., testing properties of a metallic sample, or transforming a piece of material into another product.
+- **Description**: A planned process with possibility of multiple inputs and outputs, e.g., testing properties of a metallic sample, or transforming a piece of material into another product.
 - **Further notes**: There are also the properties [has input](http://purl.obolibrary.org/obo/RO_0002233) and [has output](http://purl.obolibrary.org/obo/RO_0002234) from RO. It is intended to use the OBI [has specified input](http://purl.obolibrary.org/obo/OBI_0000293) and [has specified output](http://purl.obolibrary.org/obo/OBI_0000299) on [planned processes](http://purl.obolibrary.org/obo/OBI_0000011) (as also indicated by the domain of those) and the RO variant on other kinds of processes.  
 
 ```d2
@@ -339,13 +322,8 @@ ex:object3 a object:
 
 ## Pattern 4 - Realizable Entities (Role)
 
-- **Purpose**: Represent characteristics of the objects, brought to existence by a specific situation. E.g. a role, which is relalized in a process.
-- **Core Properties**: 
-  - `ro:has role` [RO_0000087](http://purl.obolibrary.org/obo/RO_0000087)
-  - `bfo:has realization` [BFO_0000054](http://purl.obolibrary.org/obo/BFO_0000054)
-  - `obi:has specified input` [OBI_0000293](http://purl.obolibrary.org/obo/OBI_0000293)
-
-- **Example Use Case**: Specifying the role of a specimen of a material object that participates a process as input. 
+- **Purpose**: Represent characteristics of the objects, brought to existence by a specific situation. E.g. a role, which is realized in a process.
+- **Description**: This example describes how an object participates in a planned experimental process by bearing a specific evaluant role. An object, here ex:object_1, is involved in a fatigue testing process, and this process takes the object as its specified input. The process is linked to an objective, and both the objective and the resulting output are explicitly stated to be about the same object, making clear that the purpose and outcome of the process concern that object. The object is assigned an evaluant role, ex:role_1, and this role is realized in the execution of the fatigue testing process. In this way, the pattern connects object, role, process, objective, and result into a coherent structure showing that the object is the thing being evaluated in the process, and that the process executes and realizes the evaluant role associated with that object.
   
 ```d2
 direction: up
@@ -393,7 +371,7 @@ ex*.class: individual
 "ex:objective 1" -> "ex:object 1": "iao:is about"
 "ex:result 1" -> "ex:object 1": "iao:is about"
 "ex:process 1" -> "pmd:fatigue testing process": "rdf:type"
-"pmd:fatigue testing process:" -> "obi:planned process": "owl:subClassOf"
+"pmd:fatigue testing process" -> "obi:planned process": "owl:subClassOf"
 "obi:planned process" -> "bfo:process": "owl:subClassOf"
 
 "ex:object 1" -> "bfo:object": "rdf:type"
@@ -405,11 +383,9 @@ ex*.class: individual
 #  near: center-left
 # }
 
-
-```
 ```
 
-
+```
 @prefix : <https://w3id.org/pmd/co/test#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -445,10 +421,9 @@ ex:object_1 has_role: ex:role_1 .
 
 ex:role_1 a evaluant_role: .
 ex:role_1 has_realization: ex:process_1  .
-
-
 ```
 
+(see folder: [patterns/realizable entity (role)](https://github.com/materialdigital/core-ontology/tree/main/patterns/realizable%20entity%20(role))
 ---
 
 ## Pattern 5 - Material Properties (Qualities)
@@ -598,9 +573,9 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
             has_specified_numeric_value: "97.7"^^xsd:float ;
             has_measurement_unit_label: mass_percentage: ; 
             specifies_value_of: ex:mass_proportion_iron .
-
-
 ```
+
+(see folder:  [patterns/material property (quality)](https://github.com/materialdigital/core-ontology/tree/main/patterns/material%20property%20(quality)))
 
 ---
 
@@ -687,10 +662,9 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
           is_quality_measurement_of: :my_entities_quality ;
           has_value_specification: :my_measurment_datums_value_specification ;
           has_measurement_value: "1234.0"^^xsd:double .
-
-
-
 ```
+
+(see folder: [patterns/measurement](https://github.com/materialdigital/core-ontology/tree/main/patterns/measurement))
 
 ---
 
@@ -729,34 +703,99 @@ ex:unit_X rdf:type owl:NamedIndividual ,
                    measurement_unit_label: .
 
 ```
+(see folder:     [patterns/scalar value specification/](https://github.com/materialdigital/core-ontology/tree/main/patterns/scalar%20value%20specification) )
+
 
 ---
 
 ## Pattern 8 - Categorical Value Specification
 
-- **Purpose**: Represents object characteristics, described by belonging to some category.
-- **Core Properties**: 
-  - `obi:hasSpecifiedValue`
-  - `iao:isQualityMeasuredAs`
-  - `pmd:hasValueSpecification`
-  - `pmd:specifiesValueOf`
-- **Example Use Case**: Specifying that material belongs to a certain category, e.g., is a polymer.
-  
-![Visualization of Pattern 8](https://github.com/user-attachments/assets/38d70bbd-29d1-47c3-b73b-6e4ebc12feef)
+- **Purpose**: Represents how categorical values such as ferrite, face-centered cubic, and liquid are used to specify the values of material characteristics.
+- **Example Use Case**: The example describes materials and the categorical qualities they might possess. In the first example, `ex:fcc_material` is a material that has both a crystal structure and a grain structure. Its crystal structure quality is assigned the categorical value “face-centered cubic”, and its grain structure quality is assigned the categorical value “ferrite”, which is also explicitly stated to be about this same material. In other words, the material is characterized as having an FCC crystal structure and a ferritic grain structure.
+
+In the second example, ex:steel_melt is described as a melt that has an aggregate state quality. This quality is given the categorical value “liquid”, indicating that the melt is in the liquid state.
+
+
+```
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix obo:    <http://purl.obolibrary.org/obo/> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+@base <https://w3id.org/pmd/co/test/shape_categorical_value_specification#> .
+
+<https://w3id.org/pmd/co/test/shape_categorical_value_specification> 
+    rdf:type owl:Ontology .
+
+### Define prefixes ###
+
+# Classes
+@prefix categorical_value_specification: <http://purl.obolibrary.org/obo/OBI_0001930> . 
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix melt: <https://w3id.org/pmd/co/PMD_0020139> .
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> . 
+
+@prefix metallic_grain_structure: <https://w3id.org/pmd/co/PMD_0025003> .           # SDC
+@prefix ferrite: <https://w3id.org/pmd/co/PMD_0020100> .                            # Individual
+@prefix metallic_grain_structures: <https://w3id.org/pmd/co/PMD_0020023> .          # Categorical value
+
+@prefix aggregate_state_value: <https://w3id.org/pmd/co/PMD_0020116> .              # Categorical value
+@prefix aggregate_state_liquid: <https://w3id.org/pmd/co/PMD_0020118> .             # Individual
+@prefix aggregate_state: <https://w3id.org/pmd/co/PMD_0000512> .                    # SDC
+
+@prefix crystal_structure: <https://w3id.org/pmd/co/PMD_0000591> .                   # SDC
+@prefix bravais_lattice: <https://w3id.org/pmd/co/PMD_0020099> .                     # Categorical value
+@prefix bravais_lattice_cubic_face_centered: <https://w3id.org/pmd/co/PMD_0020019> . # Individual
+@prefix in_minimal: <https://w3id.org/pmd/co/PMD_0000060> . 
+
+
+# Object properties
+
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+
+### Define entities ###
+
+# Example 1
+
+ex:fcc_material a owl:NamedIndividual ,
+                    material: ; 
+                has_quality: ex:crystal_structure_quality ,
+                             ex:grain_structure_quality .
+
+ex:crystal_structure_quality a owl:NamedIndividual ,
+                                crystal_structure: .
+bravais_lattice_cubic_face_centered: specifies_value_of: ex:crystal_structure_quality .
+
+ex:grain_structure_quality a owl:NamedIndividual ,
+                                metallic_grain_structure: .
+ferrite:  specifies_value_of: ex:grain_structure_quality .
+ferrite: is_about: ex:fcc_material .
+
+# Example 2
+ex:steel_melt: a owl:NamedIndividual ,
+                 melt: ; 
+               has_quality: ex:aggregate_state_quality .
+
+ex:aggregate_state_quality a owl:NamedIndividual ,
+                            aggregate_state: .
+aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
+
+```
+(see folder [patterns/categorical value specification](https://github.com/materialdigital/core-ontology/tree/main/patterns/categorical%20value%20specification))
+
 
 ---
-## Pattern 9 - Material and Device Specification
 
-- **Purpose**: Specify the material, from which the object is made, by stating that it complies with the certain material specification. Or, specifying the device in the same manner.
-- **Core Properties**: 
-  - `iao:isQualityMeasuredAs`
-  - `iao:isAbout`
-  - `pmd:hasValueSpecification`
-  - `pmd:specifiesValueOf`
-- **Core Idea**: provide a class pmd:MaterialSpecification/pmd:DeviceSpecification as a subclass of iao:InformationContentEntity, to which the material/device object can adhere.
-- **Example Use Case**: Specifying the material of a steel sheet to be the steel S355J2.
+## More patterns at GitHub
 
-![Visualization of Pattern 9](https://github.com/user-attachments/assets/3414e021-477f-4eab-8174-2e8b2f29560b)
+More patterns can be found in the patterns folder :
 
-
----
+[https://github.com/materialdigital/core-ontology/tree/main/patterns](https://github.com/materialdigital/core-ontology/tree/main/patterns)
