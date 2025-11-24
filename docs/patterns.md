@@ -488,11 +488,35 @@ ex:role_1 has_realization: ex:process_1  .
 - **Core Properties**: 
   - `obi:hasSpecifiedNumericValue`
   - `iao:hasMeasurementUnitLabel`
-  - `pmd:hasValueSpecification`
-  - `pmd:specifiesValueOf`
-- **Example Use Case**: Specifying measurements like length, mass, or time with standard units.
+  - `iao:MeasurementUnitLabel`
 
-![Visualization of Pattern 7](https://github.com/user-attachments/assets/91e5d524-141f-4e49-b110-c98994cb38be)
+- **Example Use Case**: The example describes a scalar value specification, ex:scalar_value_specification_X, which is assigned a numeric value of 135.0 and linked to a measurement unit represented by the individual ex:unit_X. The numeric value is provided via the OBI property has_specified_numeric_value, while the unit is associated through the IAO property has_measurement_unit_label. The unit individual ex:unit_X is typed as a measurement unit label, but in practice this placeholder unit could be replaced by a formally defined unit from established ontologies such as UO (Units of Measurement Ontology) or QUDT (Quantities, Units, Dimensions, and Types). Together, the triples express that a value of 135.0 is specified in some unit, whether a custom one like ex:unit_X or a standard unit drawn from UO or QUDT.
+
+```
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+<https://w3id.org/pmd/co/test/shape2> rdf:type owl:Ontology .
+
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000003> .
+
+
+ex:scalar_value_specification_X rdf:type owl:NamedIndividual ;
+                                has_measurement_unit_label: ex:unit_X ;
+                                has_specified_numeric_value: 135.0 .
+
+ex:unit_X rdf:type owl:NamedIndividual ,
+                   measurement_unit_label: .
+
+```
 
 ---
 
