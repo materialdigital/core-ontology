@@ -793,6 +793,103 @@ aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
 
 
 ---
+## Pattern 9: Simulation input/output 
+
+- **Purpose**: Information content entities as input and output of (simulation-)processes.
+- **Example Use Case**: 
+A challenge arises when working with digital data about material entities, as is the case in simulations. Due to our ontological commitment to BFO, roles (like described in the patterns above) can only inhere in independent continuants, because a role is something that is physically realized when its bearer participates in a process. Information Content Entities (ICEs), such as datasets, specifications, or parameter files used in a simulation are generically dependent continuants. They are abstract contents that rely on some physical carrier (e.g., a hard drive) but do not themselves participate physically in a process. Assigning roles directly to ICEs would require the role to inhere in the ICE rather than in a material entity, which violates BFO’s ontological constraints.
+To preserve the functionality of roles for informational inputs and outputs, we introduce process boundaries as “input/output assignments”. In this pattern, an ICE participates in an input (or output) assignment, which is a dependent entity representing the assignment of that ICE to the process. The assignment itself is then part of the main process. This allows us to capture the role-like semantics of inputs and outputs without violating BFO’s constraint that roles must inhere in material entities. Each assignment can be typed  to specify its intended function in the process, while maintaining ontological consistency. 
+For example, in a division calculation process, two numbers considered as ICE serve as inputs through role-like assignments: one as the numerator, and the other as the denominator. Each number participates in an input assignment that is part of the division process, while the resulting quotient participates in an output assignment. This pattern captures the functional roles of inputs and outputs without requiring the numbers themselves to bear roles directly, maintaining ontological consistency.
+
+
+```
+@prefix : <http://example.org/division#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix hasParticipant: <http://purl.obolibrary.org/obo/RO_0000057> .
+@prefix partOf: <http://purl.obolibrary.org/obo/BFO_0000050> .
+@prefix InformationContentEntity: <http://purl.obolibrary.org/obo/IAO_0000030> .
+@prefix SimulationProcess: <https://w3id.org/pmd/co/PMD_0000933> .
+@prefix InputAssignment: <https://w3id.org/pmd/co/PMD_0000066> .
+@prefix OutputAssignment: <https://w3id.org/pmd/co/PMD_0000067> .
+@prefix hasSpecifiedValue: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix isSpecifiedInputOf: <http://purl.obolibrary.org/obo/OBI_0000295> .
+@prefix isSpecifiedOutputOf: <http://purl.obolibrary.org/obo/OBI_0000312> .
+
+############################
+#   CLASS AXIOMS
+############################
+
+:Number rdf:type owl:Class ;
+        rdfs:subClassOf InformationContentEntity: .
+
+:DivisionProcess rdf:type owl:Class ;
+        rdfs:subClassOf SimulationProcess: .
+
+:NumeratorAssignment rdf:type owl:Class ;
+    rdfs:subClassOf 
+        InputAssignment: ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty hasParticipant: ;
+          owl:someValuesFrom :Number ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty partOf: ;
+          owl:someValuesFrom :DivisionProcess ] .
+
+:DenominatorAssignment rdf:type owl:Class ;
+    rdfs:subClassOf 
+        InputAssignment: ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty hasParticipant: ;
+          owl:someValuesFrom :Number ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty partOf: ;
+          owl:someValuesFrom :DivisionProcess ] .
+
+:QuotientAssignment rdf:type owl:Class ;
+    rdfs:subClassOf 
+        OutputAssignment: ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty hasParticipant: ;
+          owl:someValuesFrom :Number ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty partOf: ;
+          owl:someValuesFrom :DivisionProcess ] .
+
+############################
+#   INDIVIDUALS
+############################
+
+:num1 rdf:type :Number ;
+      hasSpecifiedValue: "10"^^xsd:integer ;
+      isSpecifiedInputOf: :div1 .
+
+:num2 rdf:type :Number ;
+      hasSpecifiedValue: "2"^^xsd:integer ;
+      isSpecifiedInputOf: :div1 .
+
+:quotient1 rdf:type :Number ;
+      hasSpecifiedValue: "5"^^xsd:integer ;
+      isSpecifiedOutputOf: :div1 .
+
+:div1 rdf:type :DivisionProcess .
+
+:numerator_assign rdf:type :NumeratorAssignment ;
+    hasParticipant: :num1 ;
+    partOf: :div1 .
+
+:denominator_assign rdf:type :DenominatorAssignment ;
+    hasParticipant: :num2 ;
+    partOf: :div1 .
+
+:quotient_assign rdf:type :QuotientAssignment ;
+    hasParticipant: :quotient1 ;
+    partOf: :div1 .
+```
+
 
 ## More patterns at GitHub
 
