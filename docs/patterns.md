@@ -517,23 +517,6 @@ The example models three main themes:
 @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
 @prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
 
-# Subclass relations 
-object: rdfs:subClassOf material_entity: .
-material_entity: rdfs:subClassOf independent_continuant: .
-material: rdfs:subClassOf material_entity: .
-portion_of_iron: rdfs:subClassOf material_entity: .
-quality: rdfs:subClassOf specifically_dependent_continuant: .
-mass: rdfs:subClassOf quality: .
-density: rdfs:subClassOf quality: .
-relational_quality: rdfs:subClassOf quality: .
-mass_proportion: rdfs:subClassOf relational_quality: .
-behavioral_material_property: rdfs:subClassOf specifically_dependent_continuant: .
-melting_point: rdfs:subClassOf behavioral_material_property: .
-specifically_dependent_continuant: rdfs:subClassOf entity: .
-melting_process: rdfs:subClassOf process: .
-stimulating_process: rdfs:subClassOf process: .
-application_of_heat_flux: rdfs:subClassOf stimulating_process: .
-change_of_temperature: rdfs:subClassOf process: .
 
 # Object properties
 @prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
@@ -621,20 +604,93 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 
 ---
 
-## Pattern 6 - Scalar Measurement
+## Pattern 6 - Measurement
 
 - **Purpose**: Represent measured value of some material characteristic. 
-- **Core Properties**: 
-  - `iao:isQualityMeasuredAs` 
-  - `bfo:realizes`
-  - `iao:isAbout`
-  - `pmd:hasInput`
-  - `pmd:hasOutput`
-  - `pmd:hasValueSpecification`
-  - `pmd:specifiesValueOf`
-- **Example Use Case**: Specifying the measured heat capacity value of a specimen.
+- **Example Use Case**: This example represents a measurement workflow:
 
-![Visualization of Pattern 6](https://github.com/user-attachments/assets/770530aa-8ac1-49ff-98ec-7aa8c060d6ec)
+	- An assay with an objective assesses a material entity.
+	- The entity has a quality that the assay evaluates, there is also another quality which is not evaluates.
+	- The assay produces a measurement datum representing the measurement result of that quality.
+	- The datum includes a value specification providing numeric value and units. 
+	- The value specification also relates to the quality.
+
+
+```
+@prefix : <https://w3id.org/pmd/co/test/shape3/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test/shape3#> .
+
+@prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
+@prefix realized_in: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> . 
+@prefix quality_is_specified_as: <http://purl.obolibrary.org/obo/IAO_0000419> . 
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> . 
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> . 
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039>  .
+@prefix centimeter: <http://purl.obolibrary.org/obo/UO_0000015> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix scalar_measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000032> .
+@prefix is_quality_measurement_of: <http://purl.obolibrary.org/obo/IAO_0000221> . 
+@prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . 
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix has_measurement_value: <http://purl.obolibrary.org/obo/IAO_0000004> .
+
+<https://w3id.org/pmd/co/test/shape3> rdf:type owl:Ontology  .
+
+
+:my_assay a owl:NamedIndividual , assay: ;
+          realizes: :my_entities_evaluant_role ;
+          has_specified_input: :my_evaluated_entity ;
+          has_specified_output: :my_qualities_measurement_datum ;
+          achieves_planned_objective: :my_objective .
+
+:my_objective is_about: :my_evaluated_entity .
+
+:my_entities_evaluant_role a owl:NamedIndividual , evaluant_role: ;
+          realized_in: :my_assay .
+
+:my_entities_preexising_quality a owl:NamedIndividual , quality: .
+
+:my_entities_quality a owl:NamedIndividual , quality: ;
+          quality_is_specified_as: :my_qualities_measurement_datum .
+
+
+:my_evaluated_entity a owl:NamedIndividual , material_entity: ;
+          has_quality: :my_entities_preexising_quality ,
+          :my_entities_quality ;
+          has_role: :my_entities_evaluant_role .
+
+
+:my_measurment_datums_value_specification a owl:NamedIndividual ;
+          has_measurement_unit_label: centimeter: ;
+          is_about: :my_evaluated_entity ;
+          specifies_value_of: :my_entities_quality ;
+          has_specified_numeric_value: 1.0 .
+
+
+:my_qualities_measurement_datum a owl:NamedIndividual ,
+          scalar_measurement_datum: ;
+          is_about: :my_evaluated_entity ;
+          is_quality_measurement_of: :my_entities_quality ;
+          has_value_specification: :my_measurment_datums_value_specification ;
+          has_measurement_value: "1234.0"^^xsd:double .
+
+
+
+```
 
 ---
 
