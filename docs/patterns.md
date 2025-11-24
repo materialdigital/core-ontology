@@ -451,17 +451,173 @@ ex:role_1 has_realization: ex:process_1  .
 
 ---
 
-## Pattern 5 - Realizable Entities (Qualities)
+## Pattern 5 - Material Properties (Qualities)
 
-- **Purpose**: Represent inherent characteristics of the objects, having certain scalar values at moments/periods of time.
-- **Core Properties**: 
-  - `bfo:bearerOf` 
-  - `bfo:existAt`
-  - `iao:isAbout`
-  - `pmd:derivesFrom`
-- **Example Use Case**: Specifying that value of hardness of a specimen at certain point of time.
+- **Purpose**: Represent materials, their qualities, and their behaviors at different moments/periods of time.
+- **Example Use Case**: 
+This example defines a set of example individuals illustrating how materials, their qualities, and their behaviors can be semantically represented. 
+The example models three main themes:
 
-![Visualization of Pattern 5](https://github.com/user-attachments/assets/a707b8ba-9835-491c-bd5c-48180e1e7cbd)
+	1. Intrinsic material qualities: Examples include mass, and density.
+		
+		- A metal sheet is modeled as a material object that has a mass quality with a given numeric value (3.3 g).
+		- A steel material has an associated density quality (7.5 g/cm³).
+
+	2. Behavioral material properties and processes: These represent how a material behaves under certain conditions.
+		- A steel material has a melting point (1500 °C), which is realized through a melting process.
+		- The melting process is triggered by an application of heat flux and involves a change of temperature as the material responds.
+
+	3. Relational material qualities: These capture qualities that depend on relations between materials and objects.
+		- A mass proportion is expressed between some portion of iron and the metal sheet, with a value of 97.7 %.
+
+
+
+```
+
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+
+<https://w3id.org/pmd/co/test/shape/qualities_and_properties> rdf:type owl:Ontology .
+
+### Define prefixes ###
+
+# Classes
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> . 
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+@prefix behavioral_material_property: <https://w3id.org/pmd/co/PMD_0000005> .
+@prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
+@prefix melting_point: <https://w3id.org/pmd/co/PMD_0000851> .
+@prefix relational_quality: <http://purl.obolibrary.org/obo/BFO_0000145> .
+@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix gram: <http://purl.obolibrary.org/obo/UO_0000021> . 
+@prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
+@prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
+@prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
+@prefix melting_process: <https://w3id.org/pmd/co/PMD_0000053> .
+@prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> . 
+@prefix stimulating_process: <https://w3id.org/pmd/co/PMD_0000950> .
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
+@prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
+
+# Subclass relations 
+object: rdfs:subClassOf material_entity: .
+material_entity: rdfs:subClassOf independent_continuant: .
+material: rdfs:subClassOf material_entity: .
+portion_of_iron: rdfs:subClassOf material_entity: .
+quality: rdfs:subClassOf specifically_dependent_continuant: .
+mass: rdfs:subClassOf quality: .
+density: rdfs:subClassOf quality: .
+relational_quality: rdfs:subClassOf quality: .
+mass_proportion: rdfs:subClassOf relational_quality: .
+behavioral_material_property: rdfs:subClassOf specifically_dependent_continuant: .
+melting_point: rdfs:subClassOf behavioral_material_property: .
+specifically_dependent_continuant: rdfs:subClassOf entity: .
+melting_process: rdfs:subClassOf process: .
+stimulating_process: rdfs:subClassOf process: .
+application_of_heat_flux: rdfs:subClassOf stimulating_process: .
+change_of_temperature: rdfs:subClassOf process: .
+
+# Object properties
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix quality_of: <http://purl.obolibrary.org/obo/RO_0000080> .
+@prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
+@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> .
+@prefix has_participant: <http://purl.obolibrary.org/obo/RO_0000057> .
+@prefix stimulated_by: <https://w3id.org/pmd/co/PMD_0001030> .
+@prefix responds_with: <https://w3id.org/pmd/co/PMD_0001029> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+
+### Instances ###
+
+# Quality example
+ex:metal_sheet a owl:NamedIndividual , object: .
+
+ex:mass_metal_sheet a owl:NamedIndividual , mass: ;
+            quality_of: ex:metal_sheet . 
+
+ex:svs_15_g a owl:NamedIndividual , scalar_value_specification: ;
+            has_specified_numeric_value: "3.3"^^xsd:float ;
+            has_measurement_unit_label: gram: ; 
+            specifies_value_of: ex:mass_metal_sheet .
+
+ex:tcq_temporal_region a owl:NamedIndividual , temporal_region: .
+        
+ex:tqc_steel_material a owl:NamedIndividual , material: , temporally_qualified_continuant: ; 
+            exists_at: ex:tcq_temporal_region ; 
+            is_state_of: ex:steel_material .
+
+ex:density_steel a owl:NamedIndividual , density: ;
+            quality_of: ex:tqc_steel_material . 
+
+
+ex:svs_7_5_g_per_cm a owl:NamedIndividual , scalar_value_specification: ;
+            has_specified_numeric_value: "7.5"^^xsd:float ;
+            has_measurement_unit_label: gram_per_cubic_centimetre: ; 
+            specifies_value_of: ex:density_steel .
+
+
+# Behavioral material property
+ex:steel_material a owl:NamedIndividual , material: ; 
+            participates_in: ex:melting_process .
+
+ex:svs_1500_deg_c a owl:NamedIndividual , scalar_value_specification: ;
+            has_specified_numeric_value: "1500"^^xsd:float ;
+            has_measurement_unit_label: degree_celsius: ; 
+            specifies_value_of: ex:melting_temperature_steel .
+
+ex:melting_temperature_steel a owl:NamedIndividual , melting_point: ; 
+            characteristic_of: ex:steel_material ;
+            has_realization: ex:melting_process ; 
+            stimulated_by: ex:application_of_heat_flux ; 
+            responds_with: ex:change_of_temperature_during_melting .
+
+ex:melting_process a owl:NamedIndividual , melting_process: ;
+            has_specified_output: ex:steel_material ; 
+            has_specified_input: ex:steel_material .
+
+ex:application_of_heat_flux a owl:NamedIndividual , application_of_heat_flux: .
+
+ex:change_of_temperature_during_melting a owl:NamedIndividual , change_of_temperature: .
+
+# Relational quality
+ex:some_iron a owl:NamedIndividual , portion_of_iron: . 
+
+ex:mass_proportion_iron a owl:NamedIndividual , mass_proportion: ;
+            relational_quality_of:  ex:some_iron , ex:metal_sheet .
+
+ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
+            has_specified_numeric_value: "97.7"^^xsd:float ;
+            has_measurement_unit_label: mass_percentage: ; 
+            specifies_value_of: ex:mass_proportion_iron .
+
+
+```
 
 ---
 
