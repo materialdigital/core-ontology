@@ -192,7 +192,7 @@ abox."ex:process step2b" -> tbox."bfo:process": "rdf:type"
 abox."ex:process step3" -> tbox."bfo:process": "rdf:type"
 ```
 
-```
+```turtle
 @prefix : <https://w3id.org/pmd/co/test#> .
 @prefix ex: <https://www.example.org/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -334,7 +334,6 @@ ex:object3 a object:
 ```
 (see folder [patterns/input and output of processes](https://github.com/materialdigital/core-ontology/tree/main/patterns/input%20and%20output%20of%20processes))
 
-
 ---
 
 ## Pattern 4 - Realizable Entities (Role)
@@ -404,12 +403,10 @@ ex*.class: individual
 # "bfo:object": {
 #  near: center-left
 # }
-
-
-```
 ```
 
 
+```turtle
 @prefix : <https://w3id.org/pmd/co/test#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -451,17 +448,211 @@ ex:role_1 has_realization: ex:process_1  .
 
 ---
 
+## Pattern 5 Qualities (structure and state properties)
+
+- **Purpose**:  
+The pattern describes a quality (mass) that inheres in some independent continuant at all times that the object exists and a second quality (density) that inheres in a TQC of the same independent continuant during a specific period. To this end, the independent continuant is seen as an bfo:object throughout its whole existance and bears its mass during the existance. As for the quality that that is specific to some period, the independent continuant is seen as a material (and as a temporally qualified continuant TQC) that will cease to exist with its current qualities (density) once it is sintered.
+  
+  Note that relational qualities are excluded.  
+
+- **Core Properties**:  
+  - `pmd:is state of`  
+  - `bfo:exists at`
+  - `ro:quality of`
+- **Example Use Case**: Specifying that the mass of an object persists over time while the material it is made of (including the density quality) changes.
+
+```d2
+direction: up
+
+classes: {
+  bfoclazz: {
+    style: {
+      fill: "#dd42f5"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  roclazz: {
+    style: {
+      fill: "#dd42f5"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  pmdclazz: {
+    style: {
+      fill: "#7777BB"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  obiclazz: {
+    style: {
+      fill: "#BB7777"
+      shadow: true
+      border-radius: 5
+      font-color: white
+    }
+  }
+  uoclazz: {
+    style: {
+      fill: "#777799"
+      shadow: true
+      stroke-dash: 3
+      font-color: white
+    }
+  }
+  individual: {
+    style: {
+      fill: "lightgrey"
+    }
+  }
+}
+tbox.bfo*.class: bfoclazz
+tbox.ro*.class: roclazz
+tbox.pmd*.class: pmdclazz
+tbox.obi*.class: obiclazz
+tbox.uo*.class: uoclazz
+
+abox.ex*.class: individual
+
+tbox.style.stroke: transparent
+tbox.style.fill: transparent
+
+abox.style.stroke: transparent
+abox.style.fill: transparent
+
+tbox.label: ""
+abox.label: "___________________________________________________________________________________________________________"
+
+tbox."bfo:object": {
+  near: tbox."pmd:TQC"
+}
+
+abox: {
+  "ex:svs 7 g" -> "7": "obi:has_specified_numeric_value"
+  "ex:mass of sintering component" -> "ex:my dental crown": "ro:quality of"
+  "ex:green part material" -> "ex:my dental crown": "pmd:is state of"
+  "ex:green part material" -> "ex:sometime before sintering": "bfo:exists at"
+  "ex:svs 7 g" -> "ex:mass of sintering component": "obi:specifies value of"
+  "ex:density of green part material" -> "ex:green part material": "ro:quality of"
+  "ex:svs 3.5 g per cm3" -> "3.5": "obi:has_specified_numeric_value"
+  "ex:svs 3.5 g per cm3" -> "ex:density of green part material": "obi:specifies value of"
+}
+
+abox."ex:green part material" -> tbox."pmd:TQC": "rdf:type"
+abox."ex:green part material" -> tbox."pmd:material": "rdf:type"
+abox."ex:my dental crown" -> tbox."bfo:object": "rdf:type"
+abox."ex:svs 3.5 g per cm3" -> tbox."obi:scalar value specification": "rdf:type"
+abox."ex:mass of sintering component" -> tbox."pmd:mass": "rdf:type"
+abox."ex:density of green part material" -> tbox."pmd:density": "rdf:type"
+abox."ex:svs 7 g" -> tbox."obi:scalar value specification": "rdf:type"
+abox."ex:svs 7 g" -> tbox."uo:g": "iao:has measurement unit label"
+abox."ex:svs 3.5 g per cm3" -> tbox."uo:g/cm3": "iao:has measurement unit label"
+abox."ex:sometime before sintering" -> tbox."bfo:temporal region": "rdf:type"
+
+```
+
+```turtle
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix si: <https://si-digital-framework.org/SI#> .
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+# Classes
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> . 
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+@prefix behavioral_material_property: <https://w3id.org/pmd/co/PMD_0000005> .
+@prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
+@prefix melting_point: <https://w3id.org/pmd/co/PMD_0000851> .
+@prefix relational_quality: <http://purl.obolibrary.org/obo/BFO_0000145> .
+@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix gram: <http://purl.obolibrary.org/obo/UO_0000021> . 
+@prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
+@prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
+@prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
+@prefix melting_process: <https://w3id.org/pmd/co/PMD_0000053> .
+@prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> . 
+@prefix stimulating_process: <https://w3id.org/pmd/co/PMD_0000950> .
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
+@prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
+
+
+# Quality example
+ex:my_dental_crown a owl:NamedIndividual ,
+                  object: .
+
+ex:mass_of_my_dental_crown a owl:NamedIndividual , 
+                      mass: ;
+                    quality_of: ex:my_dental_crown . 
+
+ex:svs_7_g a owl:NamedIndividual ,
+              scalar_value_specification: ;
+            has_specified_numeric_value: "7"^^xsd:float ;
+            has_measurement_unit_label: gram: ; 
+            specifies_value_of: ex:mass_of_my_dental_crown .
+
+ex:sometime_before_sintering a owl:NamedIndividual ,
+                        temporal_region: .
+        
+ex:green_part_material a owl:NamedIndividual ,
+                          material: ,
+                          temporally_qualified_continuant: ; 
+                      exists_at: ex:sometime_before_sintering ; 
+                      is_state_of: ex:my_dental_crown .
+
+ex:density_of_green_part_material a owl:NamedIndividual , 
+                      density: ;
+                  quality_of: ex:green_part_material . 
+
+
+ex:svs_3_5_g_per_cm3 a owl:NamedIndividual ,
+              scalar_value_specification: ;
+            has_specified_numeric_value: "3.5"^^xsd:float ;
+            has_measurement_unit_label: gram_per_cubic_centimetre: ; 
+            specifies_value_of: ex:density_of_green_part_material .
+
+```
+
+---
+
 ## Pattern 5 - Realizable Entities (Qualities)
 
 - **Purpose**: Represent inherent characteristics of the objects, having certain scalar values at moments/periods of time.
-- **Core Properties**: 
-  - `bfo:bearerOf` 
+- **Core Properties**:  
+  - `bfo:bearerOf`  
   - `bfo:existAt`
   - `iao:isAbout`
   - `pmd:derivesFrom`
 - **Example Use Case**: Specifying that value of hardness of a specimen at certain point of time.
 
 ![Visualization of Pattern 5](https://github.com/user-attachments/assets/a707b8ba-9835-491c-bd5c-48180e1e7cbd)
+
+```turtle
+
+
+```
+
 
 ---
 
