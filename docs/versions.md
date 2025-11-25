@@ -1,6 +1,6 @@
-# Versions
+# Versions and Variants
 
-## Stable release versions
+## Stable Release Versions
 
 The latest version of the ontology can always be found at:
 
@@ -29,7 +29,7 @@ The **"minimal"** artefact only contains a preselected minimal of the terms defi
 The ontology **"main"** file [pmdco.ttl](https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.ttl) contains the full version.
 
 
-## Editors' version
+## Editors' Version
 
 Editors of this ontology should use the edit versions of the differenet modules. You can find them in the components folder.
 
@@ -39,5 +39,4 @@ Editors component files: [src/ontology/components](https://github.com/materialdi
 From the editing main file all release variants are derived by the build workflows.
 
 Editors main file: [src/ontology/pmdco-edit.owl](https://github.com/materialdigital/core-ontology/blob/main/src/ontology/pmdco-edit.owl)
-
 
