@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: main
-        path: v3.0.0-alpha3
+        path: v3.0.0-rc1
     - name: Build HTML for main
       run: |
            # install D2
@@ -22,6 +22,61 @@ jobs:
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
            
            mkdir public
+           mkdir public/3.0.0-rc1
+           java -jar widoco.jar -ontFile v3.0.0-rc1/pmdco.owl -outFolder public/3.0.0-rc1  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.0.0-rc1/doc           
+           cp public/3.0.0-rc1/doc/index-en.html public/3.0.0-rc1/doc/index.html
+           cp public/3.0.0-rc1/doc/ontology.owl public/3.0.0-rc1/doc/ontology.rdf
+
+           pip install mkdocs
+           cd v3.0.0-rc1
+           mkdocs build -f mkdocs.yaml
+
+           cd ..
+           mkdir public/docs
+           mkdir public/3.0.0-rc1/docs
+           cp -r v3.0.0-rc1/site/* public/docs/
+           cp -r v3.0.0-rc1/site/* public/3.0.0-rc1/docs/
+           
+           cp -r public/3.0.0-rc1/doc/* public
+           cp -r public/3.0.0-rc1/doc/* public/3.0.0-rc1
+           mkdir public/3.0.0
+           cp -r public/3.0.0-rc1/doc/* public/3.0.0
+
+
+    - uses: actions/checkout@v3
+      with:
+        ref: v3.0.0-alpha4
+        path: v3.0.0-alpha4
+    - name: Build HTML for 3.0.0-alpha4
+
+      run: |
+           pip install pymdown-extensions
+           mkdir public/3.0.0-alpha4
+           java -jar widoco.jar -ontFile v3.0.0-alpha4/pmdco.owl -outFolder public/3.0.0-alpha4  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.0.0-alpha4/doc           
+           cp public/3.0.0-alpha4/doc/index-en.html public/3.0.0-alpha4/doc/index.html
+           cp public/3.0.0-alpha4/doc/ontology.owl public/3.0.0-alpha4/doc/ontology.rdf
+
+           pip install mkdocs
+           cd v3.0.0-alpha4
+           mkdocs build -f mkdocs.yaml
+
+           cd ..
+           mkdir public/3.0.0-alpha4/docs
+           
+           cp -r v3.0.0-alpha4/site/* public/3.0.0-alpha4/docs/
+           cp -r public/3.0.0-alpha4/doc/* public/3.0.0-alpha4
+
+
+    - uses: actions/checkout@v3
+      with:
+        ref: v3.0.0-alpha3
+        path: v3.0.0-alpha3
+    - name: Build HTML for 3.0.0-alpha3
+
+      run: |
+           pip install pymdown-extensions
            mkdir public/3.0.0-alpha3
            java -jar widoco.jar -ontFile v3.0.0-alpha3/pmdco.owl -outFolder public/3.0.0-alpha3  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
            ls public/3.0.0-alpha3/doc           
@@ -33,15 +88,12 @@ jobs:
            mkdocs build -f mkdocs.yaml
 
            cd ..
-           mkdir public/docs
            mkdir public/3.0.0-alpha3/docs
-           cp -r v3.0.0-alpha3/site/* public/docs/
-           cp -r v3.0.0-alpha3/site/* public/3.0.0-alpha3/docs/
            
-           cp -r public/3.0.0-alpha3/doc/* public
+           cp -r v3.0.0-alpha3/site/* public/3.0.0-alpha3/docs/
            cp -r public/3.0.0-alpha3/doc/* public/3.0.0-alpha3
-           mkdir public/3.0.0
-           cp -r public/3.0.0-alpha3/doc/* public/3.0.0
+
+
 
     - uses: actions/checkout@v3
       with:
