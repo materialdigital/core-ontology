@@ -10,24 +10,28 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-     xmlns:terms="http://purl.org/dc/terms/">
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#">
     <owl:Ontology rdf:about="https://w3id.org/pmd/co/">
-        <owl:versionIRI rdf:resource="https://w3id.org/pmd/co/3.0.0-alpha4"/>
-        <terms:bibliographicCitation>PMDco: Platform Material Digital Ontology. Version 3.0.0-alpha4, https://w3id.org/pmd/co/</terms:bibliographicCitation>
-        <terms:contributor rdf:resource="https://orcid.org/0000-0001-6772-1943"/>
-        <terms:contributor rdf:resource="https://orcid.org/0000-0002-3092-0532"/>
-        <terms:contributor rdf:resource="https://orcid.org/0000-0003-0410-3616"/>
-        <terms:contributor rdf:resource="https://orcid.org/0000-0003-2612-8515"/>
-        <terms:created>2025-10-30</terms:created>
+        <owl:versionIRI rdf:resource="https://w3id.org/pmd/co/3.0.0-rc1"/>
+        <terms:bibliographicCitation>PMDco: Platform Material Digital Ontology. Version 3.0.0-rc1, https://w3id.org/pmd/co/</terms:bibliographicCitation>
+        <terms:created>2025-11-25</terms:created>
+        <terms:creator rdf:resource="https://orcid.org/0000-0001-6772-1943"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0001-7192-7143"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0002-1058-3102"/>
+        <terms:creator rdf:resource="https://orcid.org/0000-0002-3092-0532"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0002-3717-7104"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0002-7094-5371"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0002-8280-0487"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0002-9014-2920"/>
+        <terms:creator rdf:resource="https://orcid.org/0000-0003-0410-3616"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0003-1649-6832"/>
+        <terms:creator rdf:resource="https://orcid.org/0000-0003-2612-8515"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0003-4971-3645"/>
+        <terms:creator>Felix Thonagel</terms:creator>
         <terms:creator>Jannis Grundmann</terms:creator>
+        <terms:creator>Kamilla Zaripova</terms:creator>
+        <terms:creator>Khashayar Razghandi</terms:creator>
         <terms:description xml:lang="en">The Platform MaterialDigital Core Ontology (PMDco) is a mid-level semantic framework for Materials Science and Engineering (MSE). Aligning with the ISO/IEC 21838-2:2021 standard, PMDco constructed on basis of Basic Formal Ontology (BFO) and reuses several BFO-aligned ontologies like RO, IAO, and OBI. The scope of PMDco follows the fundamental paradigm of MSE (processing, structure, and properties) and encompasses the following domains: 
 (*) Processes: Representation of MSE-related process chains, including materials manufacturing, characterization, and simulation processes.
 (*) Structure/state: Description of substances, engineered materials, and specification of materials, their composition, and multiscale structural features.
@@ -37,8 +41,8 @@ PMDco at GitHub: https://github.com/materialdigital/core-ontology
 Documentation: https://materialdigital.github.io/core-ontology/docs/</terms:description>
         <terms:license rdf:resource="https://creativecommons.org/licenses/by/4.0/"/>
         <terms:title>PMD Core Ontology</terms:title>
-        <owl:priorVersion rdf:resource="https://w3id.org/pmd/co/3.0.0-alpha3"/>
-        <owl:versionInfo>3.0.0-alpha4</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://w3id.org/pmd/co/3.0.0-alpha4"/>
+        <owl:versionInfo>3.0.0-rc1</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -197,6 +201,12 @@ We also have the outstanding issue of how to aim different definitions to differ
     
 
 
+    <!-- http://www.geneontology.org/formats/oboInOwl#hasExactSynonym -->
+
+    <owl:AnnotationProperty rdf:about="http://www.geneontology.org/formats/oboInOwl#hasExactSynonym"/>
+    
+
+
     <!-- http://www.w3.org/2000/01/rdf-schema#label -->
 
     <owl:AnnotationProperty rdf:about="http://www.w3.org/2000/01/rdf-schema#label">
@@ -300,6 +310,7 @@ A continuant cannot be part of an occurrent: use &apos;participates in&apos;. An
     <!-- http://purl.obolibrary.org/obo/BFO_0000051 -->
 
     <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000051">
+        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
         <obo:IAO_0000112 xml:lang="en">my body has part my brain (continuant parthood, two material entities)</obo:IAO_0000112>
         <obo:IAO_0000112 xml:lang="en">my stomach has part my stomach cavity (continuant parthood, material entity has part immaterial entity)</obo:IAO_0000112>
@@ -522,50 +533,6 @@ A continuant cannot have an occurrent as part: use &apos;participates in&apos;. 
     
 
 
-    <!-- http://purl.obolibrary.org/obo/BFO_0000194 -->
-
-    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000194">
-        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000195"/>
-        <rdfs:label xml:lang="en">specifically depended on by</rdfs:label>
-        <skos:definition xml:lang="en">b specifically depended on by c =Def c specifically depends on b</skos:definition>
-        <skos:example xml:lang="en">Coloured object specifically depended on by colour</skos:example>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://purl.obolibrary.org/obo/BFO_0000195 -->
-
-    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000195">
-        <rdfs:label xml:lang="en">specifically depends on</rdfs:label>
-        <skos:definition xml:lang="en">(Elucidation) specifically depends on is a relation between a specifically dependent continuant b and specifically dependent continuant or independent continuant that is not a spatial region c such that b and c share no parts in common &amp; b is of a nature such that at all times t it cannot exist unless c exists &amp; b is not a boundary of c</skos:definition>
-        <skos:example xml:lang="en">A shape specifically depends on the shaped object; hue, saturation and brightness of a colour sample specifically depends on each other</skos:example>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://purl.obolibrary.org/obo/BFO_0000196 -->
-
-    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000196">
-        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000194"/>
-        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000197"/>
-        <rdfs:label xml:lang="en">bearer of</rdfs:label>
-        <skos:definition xml:lang="en">b bearer of c =Def c inheres in b</skos:definition>
-        <skos:example xml:lang="en">A patch of ink is the bearer of a colour quality; an organism is the bearer of a temperature quality</skos:example>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://purl.obolibrary.org/obo/BFO_0000197 -->
-
-    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000197">
-        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000195"/>
-        <rdfs:label xml:lang="en">inheres in</rdfs:label>
-        <skos:definition xml:lang="en">b inheres in c =Def b is a specifically dependent continuant &amp; c is an independent continuant that is not a spatial region &amp; b specifically depends on c</skos:definition>
-        <skos:example xml:lang="en">A shape inheres in a shaped object; a mass inheres in a material entity</skos:example>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://purl.obolibrary.org/obo/BFO_0000199 -->
 
     <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000199">
@@ -733,16 +700,6 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
     
 
 
-    <!-- http://purl.obolibrary.org/obo/IAO_0000413 -->
-
-    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000413">
-        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/IAO_0000136"/>
-        <obo:IAO_0000115 xml:lang="en">relates a process to a time-measurement-datum that represents the duration of the process</obo:IAO_0000115>
-        <rdfs:label xml:lang="en">is duration of</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://purl.obolibrary.org/obo/IAO_0000417 -->
 
     <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000417">
@@ -804,9 +761,7 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
         <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/RO_0000057"/>
         <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0000312"/>
         <obo:IAO_0000115 xml:lang="en">The inverse property of is specified output of</obo:IAO_0000115>
-        <obo:IAO_0000115 xml:lang="en">The inverse property of is_specified_output_of</obo:IAO_0000115>
         <rdfs:label xml:lang="en">has specified output</rdfs:label>
-        <rdfs:label xml:lang="en">has_specified_output</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -817,7 +772,6 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
         <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/RO_0000056"/>
         <obo:IAO_0000115 xml:lang="en">A relation between a planned process and a continuant participating in that process. The presence of the continuant at the end of the process is explicitly specified in the objective specification which the process realizes the concretization of.</obo:IAO_0000115>
         <rdfs:label xml:lang="en">is specified output of</rdfs:label>
-        <rdfs:label xml:lang="en">is_specified_output_of</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -838,6 +792,7 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
 
     <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/OBI_0001927">
         <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/IAO_0000136"/>
+        <owl:inverseOf rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
         <obo:IAO_0000115 xml:lang="en">A relation between a value specification and an entity which the specification is about.</obo:IAO_0000115>
         <rdfs:label>specifies value of</rdfs:label>
     </owl:ObjectProperty>
@@ -1284,6 +1239,16 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0000077 -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0000077">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/pmd/co/PMD_0000004"/>
+        <rdfs:label xml:lang="en">specified by value</rdfs:label>
+        <skos:definition xml:lang="en">A relation between an entity and a value specification which is about this entity.</skos:definition>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0001026 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0001026">
@@ -1338,17 +1303,6 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0020005 -->
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0020005">
-        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
-        <rdfs:label xml:lang="en">consists of</rdfs:label>
-        <skos:definition xml:lang="en">A continuant part property that relates Material Entity Aggregates in the direction of smaller length-scale.</skos:definition>
-        <skos:example xml:lang="en">A portion of steel consists of a portion of carbon and a portion of iron.</skos:example>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0020020 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0020020">
@@ -1381,24 +1335,6 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0020022 -->
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0020022">
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020005"/>
-            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000196"/>
-        </owl:propertyChainAxiom>
-        <rdfs:comment xml:lang="en">TODO: check if we should force the &apos;o&apos; to be a portion of matter&apos; through:
-http://ontologydesignpatterns.org/wiki/Submissions:N-Ary_Relation_Pattern_%28OWL_2%29
-or
-https://www.w3.org/TR/swbp-n-aryRelations/</rdfs:comment>
-        <rdfs:label xml:lang="en">intensive bearer of</rdfs:label>
-        <skos:definition xml:lang="en">Intensive bearer of is a chain that allows to connect objects to intensive properties through &quot;the matter they consist of&quot;.</skos:definition>
-        <skos:example xml:lang="en">This piece of metal intensive bearer of some temperature.</skos:example>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0020127 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0020127">
@@ -1416,14 +1352,29 @@ An example of such case can be &quot;Temperature of during the annealing process
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0020141 -->
+    <!-- https://w3id.org/pmd/co/PMD_0025998 -->
 
-    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0020141">
-        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000196"/>
-        <rdfs:label xml:lang="en">integral bearer of</rdfs:label>
-        <skos:definition xml:lang="en">Integral bearer of is a property chain linking an object or object aggregate O that consits of a portion of matter PM to a SDC Q that inheres in &apos;portions of matter&apos; only:
-O -consists of-&gt; PM -bearer of-&gt; Q</skos:definition>
-        <skos:example xml:lang="en">Talking colloquially about Intensive thermodynamic properties of an object requires this property.</skos:example>
+    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025998">
+        <owl:inverseOf rdf:resource="https://w3id.org/pmd/co/PMD_0025999"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000051"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025998"/>
+        </owl:propertyChainAxiom>
+        <rdfs:label xml:lang="en">has relational quality</rdfs:label>
+        <skos:definition xml:lang="en">a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence</skos:definition>
+        <skos:example xml:lang="en">material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m</skos:example>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025999 -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025999">
+        <obo:IAO_0000116 xml:lang="en">The &apos;relational quality of&apos; is more strict that &apos;quality of&apos; from RO, since domain is &apos;relational quality&apos;. The motivtion to introduce an object property for relational qualities is the following:
+RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c. The functionality is relevant for most of the SDC -&gt; IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in &gt;=2 ICs. Thus,  &apos;relational quality of&apos;  has the same intention to connect SDC to IC, however, without cardinality constraints.</obo:IAO_0000116>
+        <rdfs:label xml:lang="en">relational quality of</rdfs:label>
+        <skos:definition xml:lang="en">a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence</skos:definition>
+        <skos:example xml:lang="en">mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron</skos:example>
     </owl:ObjectProperty>
     
 
@@ -1506,18 +1457,6 @@ granularity. At these coarser levels, the individual molecules cannot be differe
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000005">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001029"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000915"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000052"/>
                 <owl:allValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000000"/>
             </owl:Restriction>
@@ -1559,17 +1498,6 @@ Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subcl
         <skos:altLabel xml:lang="en">process characteristic</skos:altLabel>
         <skos:definition xml:lang="en">a process attribute is a dependent occurrent that existentially depends on a process.</skos:definition>
         <skos:example xml:lang="en">Tensile rate in a tensile testing process. Cooling rate in a quenching process</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0000014 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000014">
-        <rdfs:isDefinedBy>http://purl.obolibrary.org/obo/OBI_0000260</rdfs:isDefinedBy>
-        <rdfs:label xml:lang="en">plan</rdfs:label>
-        <skos:definition>A plan is a realizable entity that is the inheres in a bearer who is committed to realizing it as a planned process.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -1638,6 +1566,7 @@ Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subcl
     <!-- https://w3id.org/pmd/co/PMD_0000056 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000056">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000780"/>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -1714,6 +1643,16 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
         <rdfs:label xml:lang="en">temporally qualified continuant</rdfs:label>
         <skos:definition xml:lang="en">A temporally qualified continuant is a continuant that, by reference to a determinate temporal region, is such as to possess its properties only for so long as that period obtains, being otherwise in its essentiality unchanged.</skos:definition>
         <PMD_0001032>https://github.com/materialdigital/core-ontology/issues/185</PMD_0001032>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000075 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000075">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000602"/>
+        <rdfs:label xml:lang="en">mold device</rdfs:label>
+        <skos:definition xml:lang="en">A form used to cast an object of a desired shape.</skos:definition>
     </owl:Class>
     
 
@@ -1846,27 +1785,17 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0000511 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000511">
-        <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0000768"/>
-        <rdfs:label xml:lang="en">age</rdfs:label>
-        <owl:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</owl:deprecated>
-        <skos:definition xml:lang="en">The age is a quality denoting the temporal interval since a material entity came into existance.
-
-TODO: should move to &quot;process characteristic&quot;</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0000512 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000512">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000059"/>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
+                    </rdf:Description>
+                </owl:onProperty>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020116"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -1913,6 +1842,7 @@ TODO: should move to &quot;process characteristic&quot;</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000519 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000519">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">application of electric field</rdfs:label>
         <skos:definition xml:lang="en">An application of (an) electric field is the process of subjecting a material to an electric field to observe its behavior or modify its properties.</skos:definition>
     </owl:Class>
@@ -1922,6 +1852,7 @@ TODO: should move to &quot;process characteristic&quot;</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000520 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000520">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">application of heat flux</rdfs:label>
         <skos:definition xml:lang="en">An application of heat flux describes the process of transferring thermal energy to or from a material, often used in thermal property measurements.</skos:definition>
     </owl:Class>
@@ -1931,6 +1862,7 @@ TODO: should move to &quot;process characteristic&quot;</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000521 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000521">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">application of magnetic field</rdfs:label>
         <skos:definition xml:lang="en">An application of (a) magnetic field is the process of subjecting a material to a magnetic field to study its magnetic properties or induce magnetization.</skos:definition>
     </owl:Class>
@@ -1940,6 +1872,7 @@ TODO: should move to &quot;process characteristic&quot;</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000522 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000522">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">application of mechanical load</rdfs:label>
         <skos:definition xml:lang="en">An application of mechanical load is the process of applying force or stress to a material to observe its response or measure its properties.</skos:definition>
     </owl:Class>
@@ -2210,19 +2143,10 @@ TODO: should move to &quot;process characteristic&quot;</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000547 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000547">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000548"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
         <rdfs:label xml:lang="en">change of aggregate state</rdfs:label>
         <skos:definition xml:lang="en">A change of aggregate state is a phase transition (change of phase) involving the collective state of particles in a material, such as melting or condensation.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0000548 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000548">
-        <rdfs:label xml:lang="en">change of phase</rdfs:label>
-        <skos:definition xml:lang="en">A change of phase is a process describing the transition of a material from one state of matter to another, such as from solid to liquid or liquid to gas.</skos:definition>
     </owl:Class>
     
 
@@ -2257,9 +2181,9 @@ TODO: should move to &quot;process characteristic&quot;</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000551 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000551">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025001"/>
         <rdfs:label xml:lang="en">chemical composition</rdfs:label>
-        <skos:definition xml:lang="en">The chemical composition is a morphological quality describing the types and proportions of elements or compounds present in a material.</skos:definition>
+        <skos:definition xml:lang="en">The chemical composition is a quality describing the types and proportions of elements or compounds present in a material.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -2578,7 +2502,7 @@ TODO: should move to &quot;process characteristic&quot;</skos:definition>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
                             <owl:Restriction>
-                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0020005"/>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
                                 <owl:someValuesFrom>
                                     <owl:Class>
                                         <owl:intersectionOf rdf:parseType="Collection">
@@ -2592,7 +2516,7 @@ TODO: should move to &quot;process characteristic&quot;</skos:definition>
                                 </owl:someValuesFrom>
                             </owl:Restriction>
                             <owl:Restriction>
-                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0020005"/>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
                                 <owl:someValuesFrom>
                                     <owl:Class>
                                         <owl:intersectionOf rdf:parseType="Collection">
@@ -2687,12 +2611,6 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000583 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000583">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000055"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000014"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <obo:IAO_0000116 xml:lang="en">The subclass trees of &quot;Computing Process&quot; are currently still proposals and serve as a working basis for the discussion round with the simulation/workflow domain experts.</obo:IAO_0000116>
         <rdfs:label xml:lang="de">Datenverarbeitung</rdfs:label>
         <rdfs:label xml:lang="de">Rechenprozess</rdfs:label>
@@ -2792,7 +2710,11 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000059"/>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
+                    </rdf:Description>
+                </owl:onProperty>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020099"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -2857,34 +2779,6 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
         <rdfs:label xml:lang="en">density</rdfs:label>
         <skos:definition xml:lang="en">The density is a universal intensive quality representing the unit mass of a portion of matter per unit volume.</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0000598 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000598">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000599"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:label xml:lang="de">Abteilung</rdfs:label>
-        <rdfs:label xml:lang="en">department</rdfs:label>
-        <skos:definition xml:lang="en">Organization that it a distinct part of an organization, typically responsible for a specific area of activity, function, or expertise, and organized under a designated leader or head to carry out its duties in alignment with the broader goals and policies of the organization.</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0000599 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000599">
-        <rdfs:comment xml:lang="en">This role is also an indication that an organization is a sub section of another organization.</rdfs:comment>
-        <rdfs:label xml:lang="en">department role</rdfs:label>
-        <skos:definition xml:lang="en">A department role is a role describing a personal function or position within an organization that defines responsibilities or activities in a specified context.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -3339,10 +3233,10 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000639 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000639">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000852"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025004"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0020005"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020026"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -3858,6 +3752,16 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0000778 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000778">
+        <obo:IAO_0000112>Mixing two fluids. Adding salt into water. Injecting a mouse with PBS.</obo:IAO_0000112>
+        <rdfs:label>material combination</rdfs:label>
+        <skos:definition xml:lang="en">A material processing with the objective to combine two or more material entities as input into a single material entity as output.</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0000779 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000779">
@@ -3878,6 +3782,19 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000780">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000602"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000085"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000054"/>
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000055"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Wärmebehandlungsgerät</rdfs:label>
         <rdfs:label xml:lang="en">heat treatment device</rdfs:label>
         <skos:definition xml:lang="en">A device used for treating materials through heating and cooling processes to alter their properties.</skos:definition>
@@ -4003,15 +3920,6 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
         <rdfs:label xml:lang="en">induction furnace</rdfs:label>
         <skos:definition xml:lang="en">An Induction Furnace is a Furnace that heats materials using electromagnetic induction, generating heat directly within the material.</skos:definition>
         <skos:definition xml:lang="de">Ein Induktionsofen ist ein Ofen, der Materialien durch elektromagnetische Induktion erhitzt, wobei die Wärme direkt im Material erzeugt wird.</skos:definition>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0000793 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000793">
-        <rdfs:label xml:lang="en">initiator role</rdfs:label>
-        <skos:definition xml:lang="en">An initiator role is a role describing the position or function responsible for starting or catalyzing a process, often related to material testing or experiments.</skos:definition>
     </owl:Class>
     
 
@@ -4262,33 +4170,6 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0000814 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000814">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000815"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <obo:IAO_0000119 xml:lang="en">“Laboratory.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/laboratory. Accessed 24 Nov. 2022.</obo:IAO_0000119>
-        <rdfs:label xml:lang="de">Labor</rdfs:label>
-        <rdfs:label xml:lang="en">laboratory</rdfs:label>
-        <skos:definition xml:lang="en">A place equipped for experimental study in a science or for testing and analysis.</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0000815 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000815">
-        <rdfs:label xml:lang="en">laboratory role</rdfs:label>
-        <skos:definition xml:lang="en">A laboratory role is a role specifying the functions or activities specific to experimental and analytical tasks performed in a laboratory setting.</skos:definition>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0000816 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000816">
@@ -4476,12 +4357,6 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000833 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000833">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000055"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000014"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Herstellungsprozess</rdfs:label>
         <rdfs:label xml:lang="en">manufacturing process</rdfs:label>
         <skos:definition xml:lang="en">A planned process that is driven by the primary intent to transform objects
@@ -4531,6 +4406,8 @@ A manufacturing process is always a transformative process.</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000845 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000845">
+        <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0020001"/>
+        <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0020002"/>
         <rdfs:label xml:lang="en">matrix role</rdfs:label>
         <skos:definition xml:lang="en">Matrix is the role of a PortionOfConnectedMatter that implies to host the Filler.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -4627,8 +4504,8 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000853">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
-        <rdfs:label xml:lang="en">metallographic texture</rdfs:label>
-        <skos:definition xml:lang="en">The metallographic texture is a morphological quality describing the arrangement and orientation of grains and phases in a metallic material, observed through metallographic analysis.</skos:definition>
+        <rdfs:label xml:lang="en">crystallographic texture</rdfs:label>
+        <skos:definition xml:lang="en">The crystallographic texture is a morphological quality describing the arrangement and orientation of grains in a metallic material, observed through crystallographic analysis.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -4676,6 +4553,8 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000857 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000857">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000001"/>
+        <rdfs:comment xml:lang="en">The focus of interest when looking at an object throught the microstructure perspective is often its morphology.</rdfs:comment>
         <rdfs:label xml:lang="en">microstructure</rdfs:label>
         <skos:definition xml:lang="en">The microstructure represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -4797,6 +4676,7 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000869 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000869">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000915"/>
         <rdfs:label xml:lang="en">occurence of chemical reaction</rdfs:label>
         <skos:definition xml:lang="en">The occurrence of (a) chemical reaction is the process in which substances interact to form new chemical compounds or alter their molecular structure.</skos:definition>
     </owl:Class>
@@ -4806,6 +4686,7 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000870 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000870">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000915"/>
         <rdfs:label xml:lang="en">occurence of electic field</rdfs:label>
         <skos:definition xml:lang="en">The occurrence of (an) electric field is a process describing the presence or generation of an electric field in a material or system.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -4816,18 +4697,9 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000871 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000871">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000915"/>
         <rdfs:label xml:lang="en">occurence of magnetic field</rdfs:label>
         <skos:definition xml:lang="en">The occurrence of (a) magenetic field is a process describing the presence or generation of a magnetic field in a material or system.</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0000873 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000873">
-        <rdfs:label xml:lang="en">operator role</rdfs:label>
-        <skos:definition xml:lang="en">An operator role is a role indicating responsibility for operating equipment or systems, typically in a laboratory or manufacturing setting.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -4908,24 +4780,14 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0000881 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000881">
-        <rdfs:label xml:lang="en">person</rdfs:label>
-        <skos:definition xml:lang="en">A person is a human being.</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0000882 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000882">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000864"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001029"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000548"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000547"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -5273,24 +5135,6 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0000909 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000909">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000055"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000014"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:label xml:lang="de">Projekt</rdfs:label>
-        <rdfs:label xml:lang="en">project</rdfs:label>
-        <skos:definition xml:lang="en">A series of goal-orientated (intent) activities and interactions to achieve a specific outcome.</skos:definition>
-        <skos:definition xml:lang="de">Eine Reihe von zielorientierten (absichtlichen) Aktivitäten und Interaktionen, um ein bestimmtes Ergebnis zu erzielen.</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0000910 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000910">
@@ -5345,7 +5189,6 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000915 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000915">
-        <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">responding process</rdfs:label>
         <skos:definition xml:lang="en">The responding process is a process describing the reaction of a material or system to an applied stimulus.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -6573,8 +6416,8 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0020000 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020000">
-        <rdfs:label xml:lang="en">phase (spatial)</rdfs:label>
-        <skos:definition xml:lang="en">A phase is a 3D spatial region occupied by a Portion Of Matter whose qualities or dispositions or Material Properties are (considered) uniform at the length scale of interest.</skos:definition>
+        <rdfs:label xml:lang="en">phase (thermodynamic)</rdfs:label>
+        <skos:definition xml:lang="en">A thermodynamic phase is portion of matter that is part of a thermodynamic system and has homogeneus thermodynamic properties.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -6613,9 +6456,15 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0020004 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020004">
-        <rdfs:label xml:lang="en">chemical composition specification</rdfs:label>
-        <skos:definition xml:lang="en">A &apos;chemical composition specification&apos; is an information content entity that &apos;specifies the value of&apos; the chemical components of a material. The chemical components that are quanitfied are the &apos;portions of atomic species&apos; or &apos;portions of matter&apos; that the material &apos;consists of&apos;. A &apos;chemical composition specification&apos; &apos;has continuant parts&apos; that quantify the mass proportions or molar proportions that the material &apos;conists of&apos;.</skos:definition>
-        <skos:example xml:lang="en">A &apos;portion of steel&apos; has a quality &apos;chemical composition CC&apos;. The &apos;chemical composition specification CCS&apos; specifies the value of CC and &apos;has continuant part&apos; some &apos;scalar value specifications SVS_Fe and SVS_C&apos;. SVS_Fe &apos;specifies the value of&apos; the relational property &apos;mass proportion&apos; that inheres in the &apos;portion of steel&apos; as well as the &apos;portion of iron&apos; that the steel &apos;consists of&apos;. SVS_C &apos;specifies the value of&apos; the relational property &apos;mass proportion&apos; that inheres in the &apos;proportion of steel&apos; as well as the &apos;portion of carbon&apos; that the steel &apos;consists of&apos;.</skos:example>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000058"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0025001"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">composition specification</rdfs:label>
+        <skos:definition xml:lang="en">Composition specification is an information content entity that is conretized by  composition of a portion of matter and has memebers fraction specifications of portions of other matters (but not chemical elements) of which the whole portion of matter consists of (has parts).</skos:definition>
+        <skos:example xml:lang="en">Nitric acid solution has quality  composition , which concretizes the composition specification .The composition specification has parts fraction specifications of nitric acid, e.g., 4 vol.%, and distilled water. These fraction specifications specify value of pure substances of nitric acid and distilled water, respectively. Furthermore, these fraction specifications are conretized by relational qualities (volume) proportion of nitric acid and (volume) proportion of distilled water.</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -6624,7 +6473,6 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0020023 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020023">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020098"/>
         <rdfs:label xml:lang="en">metallic grain structures</rdfs:label>
         <skos:definition xml:lang="en">Metallic grain structures are descriptors for the morphology of polycrystalline metallic materials. Polycrystalline metallic materials will typically form their grain structures as one of those categories or a transition or mixture state of those.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -6647,14 +6495,9 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0020025 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020025">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000001"/>
-        <rdfs:comment xml:lang="en">TODO: it is not clear if we really need the &apos;Portion of pure substance&quot; or if we can just refer to the respecitve chemical entity directly (e.g. in chemical composition).</rdfs:comment>
-        <rdfs:label xml:lang="en">pure substance</rdfs:label>
-        <skos:altLabel xml:lang="en">Portion of Chemical Entity</skos:altLabel>
-        <skos:definition xml:lang="en">A Pure Substance is a Portion Of Matter that &apos;has part&apos; only one kind of chebi:chemical entity or other similar entity. It has no structural qualities or realizable entites beyond representing its parts of a single enitiy type.</skos:definition>
-        <skos:example xml:lang="en">Pure water, a portion of iron atoms. Refer to: http://purl.obolibrary.org/obo/CHEBI_24431
-In contrast, salt water &apos;consists of&apos; a portion of pure water and a portion of pure NaCl. Steel &apos;consists of &apos; a &apos;portion of pure iron&apos;, a &apos;portion of pure carbon&apos; and possibly portions of other alloying- and impurity-elements.</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+        <rdfs:label xml:lang="en">obstacle role</rdfs:label>
+        <skos:definition xml:lang="en">An obstacle role is a role of an independent continuant C that is realized in a motion process and indictes that C hinders the motion of a participant in the process.</skos:definition>
+        <skos:example xml:lang="en">A precipitate or grain boundary may hinder the motion of a dislocation.</skos:example>
     </owl:Class>
     
 
@@ -6662,7 +6505,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020026 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020026">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only Iron atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of iron</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Iron&apos; is a &apos;Poriton Of Pure Substance&apos; that &apos;consists of&apos; only chebi:iron atom.</skos:definition>
@@ -6673,7 +6516,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020028 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020028">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only indium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of indium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Indium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:indium atom.</skos:definition>
@@ -6684,7 +6527,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020029 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020029">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only chromium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of chromium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Chromium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:chromium atom.</skos:definition>
@@ -6695,7 +6538,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020030 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020030">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only carbon atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of carbon</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Carbon&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:carbon atom.</skos:definition>
@@ -6706,7 +6549,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020031 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020031">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only germanium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of germanium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Germanium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:germanium atom.</skos:definition>
@@ -6717,7 +6560,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020032 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020032">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only tungsten atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of tungsten</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Tungsten&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:tungsten.</skos:definition>
@@ -6728,7 +6571,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020033 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020033">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only erbium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of erbium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Erbium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:erbium.</skos:definition>
@@ -6739,7 +6582,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020034 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020034">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only molybdenum atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of molybdenum</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Molybdenum&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:molybdenum atom.</skos:definition>
@@ -6750,7 +6593,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020035 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020035">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only niobium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of niobium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Niobium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:niobium atom.</skos:definition>
@@ -6761,7 +6604,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020036 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020036">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only rhenium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of rhenium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Rhenium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:rhenium atom.</skos:definition>
@@ -6772,7 +6615,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020037 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020037">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only lithium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of lithium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Lithium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:lithium atom.</skos:definition>
@@ -6783,7 +6626,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020038 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020038">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only nitrogen atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of nitrogen</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Nitrogen&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:nitrogen atom.</skos:definition>
@@ -6794,7 +6637,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020039 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020039">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only cobalt atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of cobalt</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Cobalt&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:cobalt atom.</skos:definition>
@@ -6805,7 +6648,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020040 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020040">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only gold atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of gold</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Gold&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:gold atom.</skos:definition>
@@ -6816,7 +6659,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020041 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020041">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only argon atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of argon</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Argon&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:argon atom.</skos:definition>
@@ -6827,7 +6670,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020042 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020042">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only cadmium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of cadmium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Cadmium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:cadmium atom.</skos:definition>
@@ -6838,7 +6681,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020043 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020043">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only barium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of barium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Barium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:barium atom.</skos:definition>
@@ -6849,7 +6692,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020044 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020044">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only tantalum atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of tantalum</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Tantalum&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:tantalum atom.</skos:definition>
@@ -6860,7 +6703,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020045 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020045">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only antimony atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of antimony</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Antimony&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:antimony atom.</skos:definition>
@@ -6871,7 +6714,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020046 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020046">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only potassium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of potassium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Potassium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:potassium atom.</skos:definition>
@@ -6882,7 +6725,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020047 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020047">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only phosphorus atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of phosphorus</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Phosphorus&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:phosphorus atom.</skos:definition>
@@ -6893,7 +6736,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020048 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020048">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only boron atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of boron</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Boron&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:boron atom.</skos:definition>
@@ -6904,7 +6747,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020049 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020049">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only helium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of helium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Helium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:helium atom.</skos:definition>
@@ -6915,7 +6758,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020050 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020050">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only silicon atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of silicon</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Silicon&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:silicon atom.</skos:definition>
@@ -6926,7 +6769,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020051 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020051">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only nickel atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of nickel</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Nickel&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:nickel atom.</skos:definition>
@@ -6937,7 +6780,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020052 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020052">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only yttrium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of yttrium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Yttrium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:yttrium atom.</skos:definition>
@@ -6948,7 +6791,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020053 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020053">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only zirconium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of zirconium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Zirconium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:zirconium atom.</skos:definition>
@@ -6959,7 +6802,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020054 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020054">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only copper atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of copper</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Copper&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:copper atom.</skos:definition>
@@ -6970,7 +6813,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020055 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020055">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only bohrium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of bohrium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Bohrium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:bohrium atom.</skos:definition>
@@ -6981,7 +6824,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020056 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020056">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only fluorine atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of fluorine</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Fluorine&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:fluorine atom.</skos:definition>
@@ -6992,7 +6835,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020057 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020057">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only platinum atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of platinum</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Platinum&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:platinum.</skos:definition>
@@ -7003,7 +6846,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020058 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020058">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only cerium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of cerium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Cerium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:cerium.</skos:definition>
@@ -7014,7 +6857,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020059 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020059">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only sulfur atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of sulfur</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Sulfur&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:sulfur atom.</skos:definition>
@@ -7025,7 +6868,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020060 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020060">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only lead atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of lead</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Lead&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:lead atom.</skos:definition>
@@ -7036,7 +6879,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020061 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020061">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only krypton atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of krypton</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Krypton&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:krypton atom.</skos:definition>
@@ -7047,7 +6890,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020062 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020062">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only bismuth atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of bismuth</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Bismuth&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:bismuth atom.</skos:definition>
@@ -7058,7 +6901,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020063 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020063">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only neon atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of neon</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Neon&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:neon atom.</skos:definition>
@@ -7069,7 +6912,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020064 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020064">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only thallium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of thallium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Thallium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:thallium.</skos:definition>
@@ -7080,7 +6923,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020065 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020065">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only selenium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of selenium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Selenium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:selenium atom.</skos:definition>
@@ -7091,7 +6934,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020066 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020066">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only ruthenium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of ruthenium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Ruthenium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:ruthenium atom.</skos:definition>
@@ -7102,7 +6945,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020067 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020067">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only magnesium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of magnesium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Magnesium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:magnesium atom.</skos:definition>
@@ -7113,7 +6956,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020068 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020068">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only zinc atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of zinc</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Zinc&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:zinc atom.</skos:definition>
@@ -7124,7 +6967,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020069 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020069">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only mercury atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of mercury</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Mercury&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:mercury atom.</skos:definition>
@@ -7135,7 +6978,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020070 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020070">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only xenon atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of xenon</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Xenon&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:xenon atom.</skos:definition>
@@ -7146,7 +6989,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020071 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020071">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only aluminium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of aluminium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Aluminium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:aluminium atom.</skos:definition>
@@ -7157,7 +7000,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020072 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020072">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only sodium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of sodium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Sodium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:sodium atom.</skos:definition>
@@ -7168,7 +7011,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020073 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020073">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only iodine atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of iodine</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Iodine&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:iodine atom.</skos:definition>
@@ -7179,7 +7022,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020074 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020074">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only caesium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of caesium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Caesium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:caesium atom.</skos:definition>
@@ -7190,7 +7033,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020075 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020075">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only chlorine atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of chlorine</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Chlorine&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:chlorine atom.</skos:definition>
@@ -7201,7 +7044,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020076 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020076">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only silver atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of silver</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Silver&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:silver atom.</skos:definition>
@@ -7212,7 +7055,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020077 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020077">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only samarium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of samarium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Samarium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:samarium atom.</skos:definition>
@@ -7223,7 +7066,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020078 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020078">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only manganese atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of manganese</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Manganese&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:manganese atom.</skos:definition>
@@ -7234,7 +7077,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020079 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020079">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only arsenic atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of arsenic</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Arsenic&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:arsenic atom.</skos:definition>
@@ -7245,7 +7088,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020080 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020080">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only beryllium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of beryllium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Beryllium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:beryllium atom.</skos:definition>
@@ -7256,7 +7099,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020081 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020081">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only calcium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of calcium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Calcium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:calcium atom.</skos:definition>
@@ -7267,7 +7110,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020082 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020082">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only neodymium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of neodymium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Neodymium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:neodymium atom.</skos:definition>
@@ -7278,7 +7121,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020083 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020083">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only hydrogen atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of hydrogen</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Hydrogen&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:hydrogen atom.</skos:definition>
@@ -7289,7 +7132,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020084 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020084">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only osmium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of osmium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Osmium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:osmium atom.</skos:definition>
@@ -7300,7 +7143,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020085 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020085">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only iridium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of iridium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Iridium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:iridium atom.</skos:definition>
@@ -7311,7 +7154,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020086 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020086">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only gallium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of gallium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Gallium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:gallium atom.</skos:definition>
@@ -7322,7 +7165,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020087 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020087">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only bromine atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of bromine</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Bromine&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:bromine atom.</skos:definition>
@@ -7333,7 +7176,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020088 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020088">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only tin atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of tin</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Tin&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:tin atom.</skos:definition>
@@ -7344,7 +7187,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020089 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020089">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only hafnium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of hafnium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Hafnium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:hafnium atom.</skos:definition>
@@ -7355,7 +7198,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020090 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020090">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only uranium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of uranium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Uranium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:uranium atom.</skos:definition>
@@ -7366,7 +7209,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020091 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020091">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only oxygen atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of oxygen</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Oxygen&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:oxygen atom.</skos:definition>
@@ -7377,7 +7220,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020092 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020092">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only palladium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of palladium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Palladium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:palladium.</skos:definition>
@@ -7388,7 +7231,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020093 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020093">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only vanadium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of vanadium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Vanadium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:vanadium atom.</skos:definition>
@@ -7399,7 +7242,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020094 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020094">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only scandium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of scandium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Scandium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:scandium atom.</skos:definition>
@@ -7410,7 +7253,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020095 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020095">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020025"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
         <rdfs:comment xml:lang="en">A Portion Of Matter that consists of only titanium atoms.</rdfs:comment>
         <rdfs:label xml:lang="en">portion of titanium</rdfs:label>
         <skos:definition xml:lang="en">A &apos;Portion Of Titanium&apos; is a &apos;Portion Of Pure Substance&apos; that &apos;consists of&apos; only chebi:titanium atom.</skos:definition>
@@ -7424,7 +7267,7 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000639"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0020005"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020030"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -7449,7 +7292,6 @@ In contrast, salt water &apos;consists of&apos; a portion of pure water and a po
     <!-- https://w3id.org/pmd/co/PMD_0020099 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020099">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020098"/>
         <rdfs:label xml:lang="en">bravais lattice (3d)</rdfs:label>
         <skos:definition xml:lang="en">The Bravais Lattice is a nature constant that describes the possible geometric arrangement of lattice points in a crystal. The present descriptor is limited to the 14 possible three-dimensional arrangements. 
 
@@ -7588,7 +7430,6 @@ The molar ratio of carbon dioxide to average atmosphere air is 420 ppm as of 202
     <!-- https://w3id.org/pmd/co/PMD_0020116 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020116">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020098"/>
         <rdfs:label xml:lang="en">aggregate state value</rdfs:label>
         <skos:definition xml:lang="en">The aggregate state type is a nature constant that concretizes the aggregatge state quality.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -7626,6 +7467,17 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020129">
         <rdfs:label xml:lang="en">reversible process</rdfs:label>
         <skos:definition xml:lang="en">A reversible process is a process whose participants form a thermodynamic system with an entropy S and S remains constant during the process.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020130 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020130">
+        <rdfs:label xml:lang="en">driving force of phase in system</rdfs:label>
+        <skos:definition xml:lang="en">The driving force is the the gradient of the activity of a phase in a thermodynamic system.</skos:definition>
+        <skos:example xml:lang="en">For α → β: ΔG = G_β − G_α. If ΔG &lt; 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG &gt; 0.</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7684,6 +7536,31 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0020136 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020136">
+        <rdfs:comment xml:lang="en">The number of phases involved can vary as well as the mechanisms involved can be different.</rdfs:comment>
+        <rdfs:label xml:lang="en">phase transformation</rdfs:label>
+        <skos:definition xml:lang="en">A thermodynamic phase transformation is a process in/of a thermodynamic system, that involves the transformation of phases of the system to other phases.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020137 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020137">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020000"/>
+        <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0020149"/>
+        <rdfs:comment xml:lang="en">See metastable phase</rdfs:comment>
+        <rdfs:label xml:lang="en">stable phase</rdfs:label>
+        <skos:definition xml:lang="en">A stable phase is a phase that does not have a &quot;pmd:disposition of a phase to transform&quot; in the &quot;pmd:phase transformation&quot; it participates.</skos:definition>
+        <skos:example xml:lang="en">A phase that participates in a phase transformation pt and pt that is not a metastable phase.</skos:example>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0020138 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020138">
@@ -7702,6 +7579,16 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
         <skos:definition xml:lang="en">A melt is an object (material entity) that exists in a liquid state as a result of the phase transition from solid due to thermal energy input. In materials science, it typically refers to metals, alloys, or other substances maintained above their melting point.</skos:definition>
         <skos:definition xml:lang="de">Eine Schmelze ist ein Objekt (eine materielle Einheit), das aufgrund des Phasenübergangs von einem Festkörper durch thermische Energiezufuhr in einem flüssigen Zustand vorliegt. In der Werkstoffkunde bezieht sich der Begriff in der Regel auf Metalle, Legierungen oder andere Stoffe, die oberhalb ihres Schmelzpunkts gehalten werden.</skos:definition>
         <skos:example xml:lang="en">A pool of molten steel during casting.</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020140 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020140">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000001"/>
+        <rdfs:label xml:lang="en">portion of pure chemical element</rdfs:label>
+        <skos:definition xml:lang="en">A portion of pure chemical element is a pure substance composed of multiple atoms, which are all of the same kind.</skos:definition>
     </owl:Class>
     
 
@@ -7754,11 +7641,35 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0020147 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020147">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
+        <rdfs:comment xml:lang="en">It is defined on the phase diagram at fixed composition and typically proceeds by diffusion‑controlled nucleation and growth (e.g., γ → α + Fe3C producing pearlite in steels).</rdfs:comment>
+        <rdfs:label xml:lang="de">eutectoid phase transformation</rdfs:label>
+        <skos:definition xml:lang="en">A eutectoid phase transformation is a phase transformation in which a solid parent phase of eutectoid composition decomposes into two distinct solid daughter phases at constant temperature and pressure.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0020148 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020148">
         <rdfs:label xml:lang="en">extensive quality</rdfs:label>
         <skos:definition xml:lang="en">An extensive quality is a qualty that inheres in only object or object aggregate or fiat object part or chemical entity and is dependent on the bearers (system-) size.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020149 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020149">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020000"/>
+        <rdfs:comment xml:lang="en">The stability of a phase can only be evaluated in the context of a (possibly unknown) phase transformation process.</rdfs:comment>
+        <rdfs:label xml:lang="en">metastable phase</rdfs:label>
+        <skos:definition xml:lang="en">A metastable phase phase_trans is a phase that has a &quot;pmd:disposition of a phase to transform&quot; disp_trans and disp_trans is realized in a &quot;pmd:phase transformation&quot; proc_trans and proc_trans has participant sys_trans and sys_trans has part phase_trans.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7807,12 +7718,130 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0020154 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020154">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
+        <rdfs:comment xml:lang="en">It proceeds by nucleation and growth.</rdfs:comment>
+        <rdfs:label xml:lang="de">precipitation (phase)</rdfs:label>
+        <skos:definition xml:lang="en">Precipitation from a supersaturated solid solution is a phase transformation process in which a single supersaturated parent phase decomposes into a solute‑depleted matrix and dispersed, compositionally distinct precipitate phases.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0020155 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020155">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020148"/>
         <rdfs:label xml:lang="en">interatomic interaction energy</rdfs:label>
         <skos:definition xml:lang="en">Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020156 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020156">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
+        <rdfs:comment xml:lang="en">It is marked on phase diagrams by a peritectic point and proceeds by an interfacial, diffusion‑controlled reaction that is often kinetically sluggish, leading to incomplete transformation or complex microstructures during solidification.</rdfs:comment>
+        <rdfs:label xml:lang="de">peritectic phase transformation</rdfs:label>
+        <skos:definition xml:lang="en">A peritectic phase transformation is a phase transformation in which a liquid parent phase and an existing solid phase react on cooling to form a different solid phase (L + α → β).</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020157 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020157">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
+        <rdfs:comment xml:lang="en">Unlike nucleation and growth transformations, it has no nucleation barrier and proceeds by uphill diffusion and wavelength‑selective amplification of composition modulations, producing an interconnected, compositionally modulated microstructure that coarsens over time.</rdfs:comment>
+        <rdfs:label xml:lang="de">spinodal decomposition</rdfs:label>
+        <skos:definition xml:lang="en">Spinodal decomposition is a diffusion‑controlled  continuous phase transformation in which a single homogeneous solutionspontaneously separates into two compositionally distinct phases by amplification of infinitesimal concentration fluctuations.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020158 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020158">
+        <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0020159"/>
+        <rdfs:label xml:lang="de">parent phase role</rdfs:label>
+        <skos:definition xml:lang="en">The parent phase role is the role of a phase that dissolves during the phase transformation process. As such, the bearer is a metastable phase.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020159 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020159">
+        <rdfs:label xml:lang="de">daughter phase role</rdfs:label>
+        <skos:definition xml:lang="en">The daugther phase role is the role of a phase that forms during the phase transformation process.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020160 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020160">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000001"/>
+        <rdfs:comment xml:lang="en">In metallography the term phase is sometimes used to denote microconstituents. To avoid confusion, the term phase should only be used for thermodynamic phases.</rdfs:comment>
+        <rdfs:label xml:lang="en">microconstituent (phase mixture)</rdfs:label>
+        <skos:definition xml:lang="en">A portion of matter that has one or more thermodynamic phases arranged in a characteristic spatial configuration (morphology) as parts.</skos:definition>
+        <skos:example xml:lang="en">Pearlite is a microconstituent that has as parts the thermodynamic phases ferrite (α-Fe) and cementite (Fe3C) as parts. The characteristic spatial arrangement is in that case the lamellar orientation of the phases.
+
+Martensite is a microconstituent that has as part the thermodynamic ferrite phase with characteristic morphologies and chemistry. Its presence and amount is governed by the processing path and kinetics.</skos:example>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020161 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020161">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020148"/>
+        <obo:IAO_0000116 xml:lang="en">Definition not final</obo:IAO_0000116>
+        <rdfs:comment xml:lang="en">Typical configuration independent contributions to the free energy are temperature, pressure, chemical composition and magnetic contributions.
+
+Typical configuration dependent contributions are interface energy contributions.</rdfs:comment>
+        <rdfs:label xml:lang="en">activity of a phase</rdfs:label>
+        <skos:definition xml:lang="en">Quality of a thermodynamic phase that characterizes its free energy.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020162 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020162">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000008"/>
+        <obo:IAO_0000116 xml:lang="en">Definition not final</obo:IAO_0000116>
+        <rdfs:label xml:lang="en">activation energy</rdfs:label>
+        <skos:definition xml:lang="en">Process attribute characterizing the kinetics of a phase transformation (aka chemical reaction).</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020163 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020163">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
+        <rdfs:label xml:lang="de">eutectic phase transformation</rdfs:label>
+        <skos:definition xml:lang="en">A eutectic phase transformation is a phase transformation in which a liquid parent phase decomposes into two distinct solid daughter phases at constant temperature and pressure.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020165 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020165">
+        <rdfs:comment xml:lang="en">The disposition is grounded in the phases activity in the thermodynamic system in question.</rdfs:comment>
+        <rdfs:label xml:lang="en">disposition of a phase to transform</rdfs:label>
+        <skos:definition xml:lang="en">The disposition of a phase to transform into another phase in a phase transformation process.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7834,18 +7863,6 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
         </rdfs:subClassOf>
         <rdfs:label xml:lang="en">heat (metallurgy)</rdfs:label>
         <skos:definition xml:lang="en">A heat is a fixed amount of metallic alloy that may be input to some Manifacturing Process.</skos:definition>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0020199 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020199">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020132"/>
-        <rdfs:label xml:lang="de">Fläche</rdfs:label>
-        <rdfs:label xml:lang="en">area</rdfs:label>
-        <skos:definition xml:lang="en">Area a two dimesional size</skos:definition>
-        <skos:example xml:lang="en">Section area or a surface area</skos:example>
     </owl:Class>
     
 
@@ -7920,18 +7937,106 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0020209 -->
+    <!-- https://w3id.org/pmd/co/PMD_0025001 -->
 
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020209">
-        <rdfs:label xml:lang="en">operation</rdfs:label>
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025001">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
+        <rdfs:label xml:lang="en">composition</rdfs:label>
+        <skos:definition xml:lang="en">Composition is a morphological quality describing the types and proportions of compounds (but not chemical elements) present in a portion of matter.</skos:definition>
+        <skos:example xml:lang="en">4 vol.% nitric acid solution, Styrene-Butadiene-Styrene (SBS) Block Copolymer with 50 vol.% of both styrene and butadiene</skos:example>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0020210 -->
+    <!-- https://w3id.org/pmd/co/PMD_0025002 -->
 
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020210">
-        <rdfs:label xml:lang="en">alteration of quality</rdfs:label>
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025002">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020004"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000058"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000551"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">chemical composition specification</rdfs:label>
+        <skos:definition xml:lang="en">Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts).</skos:definition>
+        <skos:example xml:lang="en">Steel has quality chemical composition , which concretizes the chemical composition specification .The chemical composition specification has parts fraction specifications of iron and carbon. These fraction specifications specify value of portion of iron and portion of carbon respectively. Furthermore, these  fraction specifications are conretized by relational qualities (mass) proportion of iron and (mass) proportion of carbon.</skos:example>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025003 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025003">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020023"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">metallic grain structure</rdfs:label>
+        <skos:definition xml:lang="en">metallic grain structure characterizes the distinct phases in the microscopic structure of a metallic material. It concretizes ferrite, austenite, martensite, etc.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025004 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025004">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000852"/>
+        <rdfs:label xml:lang="en">alloy</rdfs:label>
+        <skos:definition xml:lang="en">An alloy is a material containing any metallic element as its principal element, often combined with other elements for enhanced properties.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025997 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025997">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000000"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
+                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0002351"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020004"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">fraction value specification</rdfs:label>
+        <skos:definition xml:lang="en">Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole.</skos:definition>
+        <skos:example xml:lang="en">2.05 wt.% of carbon in steel, 4 vol.% of nictric acid in a solution</skos:example>
     </owl:Class>
     
 
@@ -8375,8 +8480,9 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0200001"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pmd/co/PMD_0200001"/>
         <rdfs:label xml:lang="en">biodegradable polymers</rdfs:label>
-        <skos:definition xml:lang="en">Biodegradable Polymers are Polymers that can be decomposed by biological organisms into environmentally benign substances.</skos:definition>
+        <skos:definition xml:lang="en">Biodegradable Polymers are Polymers that have the biodegradability disposition. They can be decomposed by biological organisms into environmentally benign substances (carbon dioxide and methane, mineral salts or new biomass) in a non-harmful timescale.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
         <PMD_0001032>https://github.com/materialdigital/core-ontology/issues/126</PMD_0001032>
     </owl:Class>
@@ -8534,6 +8640,20 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
         <rdfs:label xml:lang="en">glass-ceramics</rdfs:label>
         <skos:definition xml:lang="en">Glass-Ceramics are Non-Clay Ceramics that are produced by controlled crystallization of glass, combining properties of both glass and ceramics.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0050051 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0050051">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0040001"/>
+        <obo:IAO_0000119>“Diameter.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/diameter. Accessed 5 Dec. 2022.</obo:IAO_0000119>
+        <rdfs:label xml:lang="de">Durchmesser</rdfs:label>
+        <rdfs:label xml:lang="en">diameter</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://w3id.org/pmd/co/2.0.8/Diameter"/>
+        <skos:definition xml:lang="de">Die Länge einer geraden Linie durch den Mittelpunkt eines Objekts oder Raums.</skos:definition>
+        <skos:definition xml:lang="en">The length of a straight line through the center of an object or space.</skos:definition>
     </owl:Class>
     
 
@@ -9655,13 +9775,69 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0060005 -->
+    <!-- https://w3id.org/pmd/co/PMD_0050153 -->
 
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0060005">
-        <obo:IAO_0000119>http://purl.obolibrary.org/obo/OBI_0000938</obo:IAO_0000119>
-        <rdfs:label xml:lang="en">categorical measurement datum</rdfs:label>
-        <skos:definition>A measurement datum that is reported on a categorical scale.</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0050153">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0040001"/>
+        <rdfs:label xml:lang="de">Dicke</rdfs:label>
+        <rdfs:label xml:lang="en">thickness</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://w3id.org/pmd/co/2.0.8/Thickness"/>
+        <skos:definition xml:lang="de">Diese Klasse beschreibt das gemessene Maß in einer Richtung eines Prüfkörpers.</skos:definition>
+        <skos:definition xml:lang="en">This class describes the measured dimension in one direction of a test piece.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0050154 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0050154">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0040001"/>
+        <rdfs:label xml:lang="de">Breite</rdfs:label>
+        <rdfs:label xml:lang="en">width</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://w3id.org/pmd/co/2.0.8/Width"/>
+        <rdfs:seeAlso rdf:resource="https://www.merriam-webster.com/dictionary/width"/>
+        <skos:definition xml:lang="de">Diese Klasse beschreibt eine horizontale Messung eines Objekts, die im rechten Winkel zur Länge des Objekts vorgenommen wird.</skos:definition>
+        <skos:definition xml:lang="en">This class describes a horizontal measurement of an object taken at right angles to the length of the object.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0050155 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0050155">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020148"/>
+        <obo:IAO_0000119>“Shape.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/shape. Accessed 13 Jan. 2023.</obo:IAO_0000119>
+        <rdfs:label xml:lang="de">Form</rdfs:label>
+        <rdfs:label xml:lang="en">shape</rdfs:label>
+        <skos:definition xml:lang="de">Das sichtbare Ausstattungsmerkmal (räumliche Form oder Kontur) eines bestimmten Objektes oder einer Art von Objekt.</skos:definition>
+        <skos:definition xml:lang="en">The visible makeup characteristic (spatial form or contour) of a particular item or kind of item.a</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0050156 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0050156">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0050155"/>
+        <obo:IAO_0000119>DIN EN ISO 6892-1:2019</obo:IAO_0000119>
+        <rdfs:label xml:lang="de">Geometrische Form</rdfs:label>
+        <rdfs:label xml:lang="en">geometry shape</rdfs:label>
+        <skos:definition xml:lang="de">Dieses Konzept beschreibt die geometrischen Abmessungen und das Erscheinungsbild (Form und Abmaße) einer Probe, eines Prüfkörpers oder eines Prüfstücks, wie sie üblicherweise durch eine entsprechende Norm definiert sind. Dementsprechend ist der angegebene Formwert in Übereinstimmung mit der definierenden Norm anzugeben, z. B. &quot;Zugprüfstück Form 1 gemäß Anhang B der Zugversuchsnorm&quot;.</skos:definition>
+        <skos:definition xml:lang="en">This concept describes the geometric dimensions and appearance (shape and dimensions) of a sample, specimen, or test piece as usually defined by a corresponding standard. Accordingly, the shape value given is in accordance with the defining standard, e.g., ‘tensile test piece shape 1 in accordance with annex B of the tensile test standard’.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0050157 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0050157">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0050156"/>
+        <rdfs:label xml:lang="de">3D Geometrie</rdfs:label>
+        <rdfs:label xml:lang="en">shape 3d</rdfs:label>
+        <skos:definition xml:lang="en">A shape 3D is a geometry shape that exists in three dimensions, having length, width, and height, and can be defined by its spatial properties such as volume and surface area.</skos:definition>
+        <skos:definition xml:lang="de">Eine 3D Geometrie ist eine geometrische Form, die in drei Dimensionen existiert, mit Länge, Breite und Höhe, und die durch ihre räumlichen Eigenschaften wie Volumen und Oberfläche definiert werden kann.</skos:definition>
+        <skos:example xml:lang="de">Beispiele sind Formen wie Würfel, Kugeln und Pyramiden.</skos:example>
+        <skos:example xml:lang="en">Examples include shapes like cubes, spheres, and pyramids.</skos:example>
     </owl:Class>
     
 
@@ -9713,6 +9889,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
         <rdfs:label xml:lang="en">biodegradabilty</rdfs:label>
         <skos:definition xml:lang="en">&quot;[Biodegradabilty] [...] is understood as the microbial conversion of all its organic constituents to carbon dioxide (or carbon dioxide and methane in conditions where oxygen is not present), new microbial biomass and mineral salts, within a timescale short enough not to lead to lasting harm or accumulation in the open environment.&quot;</skos:definition>
         <skos:definition xml:lang="de">&quot;[Biologische Abbaubarkeit] [...] beschreibt die mikrobielle Umwandlung all seiner organischen Bestandteile in Kohlendioxid oder – unter sauerstofffreien Bedingungen – in Kohlendioxid und Methan, neue mikrobielle Biomasse und Mineralsalze verstanden, und zwar innerhalb eines Zeitraums, der so kurz ist, dass es nicht zu dauerhaften Schäden oder Anreicherungen in der offenen Umwelt kommt.&quot;</skos:definition>
+        <skos:definition xml:lang="en">Biodegradability is a disposition of a material which specifies its capability to be fully microbially converted into inorganic end products (CO₂, CH₄, mineral salts, biomass) within an environmentally non-harmful timescale.</skos:definition>
         <PMD_0001032>https://github.com/materialdigital/core-ontology/issues/126</PMD_0001032>
     </owl:Class>
     
@@ -10042,6 +10219,39 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000503"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000512"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000591"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000595"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000597"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000853"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000896"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000942"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000967"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020112"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025001"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000503"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000512"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000591"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000595"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000597"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000853"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000896"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000942"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000967"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020112"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025001"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025003"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000519"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000520"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000521"/>
@@ -10103,6 +10313,20 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020142"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020151"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020155"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000553"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000619"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020132"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020133"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020142"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020151"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020155"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020161"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0050155"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
