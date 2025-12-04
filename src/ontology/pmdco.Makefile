@@ -37,7 +37,6 @@ $(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \
 		 extract --term-file $(IMPORTDIR)/obi_terms.txt $(T_IMPORTSEED) \
 		         --force true --copy-ontology-annotations true \
 		         --individuals exclude \
-		         --intermediates none \
 		         --method SUBSET \
 		 remove --term IAO:0000416 \
 		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
