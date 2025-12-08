@@ -15,7 +15,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-11-28/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2025-12-08/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -41,7 +41,7 @@ PMDco at GitHub: https://github.com/materialdigital/core-ontology
 Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2025-11-28" .
+                                  owl:versionInfo "2025-12-08" .
 
 #################################################################
 #    Annotation properties
@@ -528,11 +528,7 @@ obo:BFO_0000224 rdf:type owl:ObjectProperty ,
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000039
-obo:IAO_0000039 rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf obo:BFO_0000051 ;
-                rdf:type owl:FunctionalProperty ;
-                rdfs:range obo:IAO_0000003 ;
-                rdfs:label "has measurement unit label"@en .
+obo:IAO_0000039 rdf:type owl:ObjectProperty .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000136
@@ -1000,6 +996,16 @@ obo:RO_0002234 rdf:type owl:ObjectProperty ;
                rdfs:label "has output"@en .
 
 
+###  http://purl.obolibrary.org/obo/RO_0002350
+obo:RO_0002350 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:BFO_0000050 ;
+               owl:inverseOf obo:RO_0002351 ;
+               obo:IAO_0000112 "An organism that is a member of a population of organisms" ;
+               obo:IAO_0000115 "is member of is a mereological relation between a item and a collection." ;
+               obo:IAO_0000119 "SIO" ;
+               rdfs:label "member of"@en .
+
+
 ###  http://purl.obolibrary.org/obo/RO_0002351
 obo:RO_0002351 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf obo:BFO_0000051 ;
@@ -1057,9 +1063,10 @@ co:PMD_0000004 rdf:type owl:ObjectProperty ;
 
 ###  https://w3id.org/pmd/co/PMD_0000009
 co:PMD_0000009 rdf:type owl:ObjectProperty ;
+               owl:inverseOf co:PMD_0025006 ;
                rdfs:domain obo:BFO_0000015 ;
                rdfs:range co:PMD_0000008 ;
-               rdfs:label "has process attribute"@de ;
+               rdfs:label "has process attribute"@en ;
                rdfs:seeAlso "has process attribute from OEO https://openenergyplatform.org/ontology/oeo/OEO_00000500"@en ;
                skos:definition "A relation between a process and a process attribute that depends on it."@en ;
                skos:example "Tensile testing process has process attribute tensile rate"@en .
@@ -1179,6 +1186,13 @@ An example of such case can be \"Temperature of during the annealing process was
                skos:example "a relation to between a process attribute an a SDC of some participant in a process."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0025006
+co:PMD_0025006 rdf:type owl:ObjectProperty ;
+               rdfs:label "process attribute of"@en ;
+               skos:definition "A relation between a process attribute and a process, which \"bears\" the attribute."@en ;
+               skos:example "Tensile rate is a process attribute of tensile test"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0025998
 co:PMD_0025998 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf owl:topObjectProperty ;
@@ -1195,6 +1209,9 @@ co:PMD_0025998 rdf:type owl:ObjectProperty ;
 ###  https://w3id.org/pmd/co/PMD_0025999
 co:PMD_0025999 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf owl:topObjectProperty ;
+               owl:propertyChainAxiom ( co:PMD_0025999
+                                        obo:BFO_0000050
+                                      ) ;
                obo:IAO_0000116 """The 'relational quality of' is more strict that 'quality of' from RO, since domain is 'relational quality'. The motivtion to introduce an object property for relational qualities is the following:
 RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is relevant for most of the SDC -> IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in >=2 ICs. Thus,  'relational quality of'  has the same intention to connect SDC to IC, however, without cardinality constraints."""@en ;
                rdfs:label "relational quality of"@en ;
@@ -1205,14 +1222,6 @@ RO's 'quality of' is functional i.e., a->b, a->c => b=c. The functionality is re
 #################################################################
 #    Data properties
 #################################################################
-
-###  http://purl.obolibrary.org/obo/IAO_0000004
-obo:IAO_0000004 rdf:type owl:DatatypeProperty ,
-                         owl:FunctionalProperty ;
-                rdfs:domain obo:IAO_0000032 ;
-                rdfs:range xsd:double ;
-                rdfs:label "has measurement value"@en .
-
 
 ###  http://purl.obolibrary.org/obo/OBI_0001937
 obo:OBI_0001937 rdf:type owl:DatatypeProperty ;
@@ -2554,21 +2563,6 @@ Previous. An information content entity is a non-realizable information entity t
                 rdfs:label "information content entity"@en .
 
 
-###  http://purl.obolibrary.org/obo/IAO_0000032
-obo:IAO_0000032 rdf:type owl:Class ;
-                rdfs:subClassOf obo:IAO_0000030 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:OBI_0001938 ;
-                                  owl:someValuesFrom obo:OBI_0001931
-                                ] ;
-                obo:IAO_0000112 "10 feet. 3 ml."@en ;
-                obo:IAO_0000115 "A scalar measurement datum is a measurement datum that is composed of two parts, numerals and a unit label."@en ;
-                obo:IAO_0000116 """2009-03-16: we decided to keep datum singular in scalar measurement datum, as in
-this case we explicitly refer to the singular form"""@en ,
-                                "Would write this as: has_part some 'measurement unit label' and has_part some numeral and has_part exactly 2, except for the fact that this won't let us take advantage of OWL reasoning over the numbers. Instead use has measurment value property to represent the same. Use has measurement unit label (subproperty of has_part) so we can easily say that there is only one of them."@en ;
-                rdfs:label "scalar measurement datum"@en .
-
-
 ###  http://purl.obolibrary.org/obo/IAO_0000033
 obo:IAO_0000033 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000030 ,
@@ -2920,6 +2914,18 @@ obo:OBI_0000835 rdf:type owl:Class ;
                                 ] ;
                 obo:IAO_0000115 "A person or organization that has a manufacturer role."@en ;
                 rdfs:label "manufacturer" .
+
+
+###  http://purl.obolibrary.org/obo/OBI_0000938
+obo:OBI_0000938 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000109 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0001938 ;
+                                  owl:someValuesFrom obo:OBI_0001930
+                                ] ;
+                obo:IAO_0000115 "A measurement datum that is reported on a categorical scale."@en ;
+                obo:IAO_0000119 "Bjoern Peters" ;
+                rdfs:label "categorical measurement datum" .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0001930
@@ -3366,15 +3372,13 @@ co:PMD_0000510 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000512
 co:PMD_0000512 rdf:type owl:Class ;
                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                    ] ;
+                                     owl:onProperty co:PMD_0000077 ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass co:PMD_0020116
                                    ] ;
                rdfs:subClassOf co:PMD_0020131 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                ] ;
+                                 owl:onProperty co:PMD_0000077 ;
                                  owl:someValuesFrom co:PMD_0020116
                                ] ;
                rdfs:label "aggregate state"@en ;
@@ -4087,15 +4091,13 @@ co:PMD_0000590 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000591
 co:PMD_0000591 rdf:type owl:Class ;
                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                    ] ;
+                                     owl:onProperty co:PMD_0000077 ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass co:PMD_0020099
                                    ] ;
                rdfs:subClassOf co:PMD_0020131 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                ] ;
+                                 owl:onProperty co:PMD_0000077 ;
                                  owl:someValuesFrom co:PMD_0020099
                                ] ;
                rdfs:label "crystal structure"@en ;
@@ -5779,20 +5781,13 @@ co:PMD_0000884 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000885
 co:PMD_0000885 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000834 ,
-                               [ owl:intersectionOf ( co:PMD_0000834
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000834
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf obo:RO_0000059
-                                                                       ] ;
+                                                        owl:onProperty obo:RO_0000058 ;
                                                         owl:someValuesFrom co:PMD_0000853
                                                       ]
                                                     ) ;
                                  rdf:type owl:Class
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:RO_0000059
-                                                ] ;
-                                 owl:someValuesFrom co:PMD_0000853
                                ] ;
                rdfs:label "pole figure"@en ;
                skos:definition "A pole figure is a map representing a graphical representation of the orientation of crystallographic planes in a polycrystalline sample."@en ;
@@ -6096,7 +6091,7 @@ co:PMD_0000920 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000922
 co:PMD_0000922 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000855 ;
+               rdfs:subClassOf co:PMD_0000624 ;
                rdfs:label "Rasterelektronenmikroskop"@de ,
                           "scanning electron microscope"@en ;
                skos:definition "A Scanning Electron Microscope (SEM) is a Measuring Device that produces high-resolution images of a sample surface by scanning it with a focused beam of electrons."@en ,
@@ -7048,18 +7043,13 @@ co:PMD_0020003 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020004
 co:PMD_0020004 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( obo:IAO_0000030
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty obo:RO_0000058 ;
-                                                            owl:someValuesFrom co:PMD_0025001
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf obo:IAO_0000030 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000058 ;
-                                 owl:someValuesFrom co:PMD_0025001
+               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000030
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:someValuesFrom co:PMD_0025001
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
                                ] ;
                rdfs:label "composition specification"@en ;
                skos:definition "Composition specification is an information content entity that is conretized by  composition of a portion of matter and has memebers fraction specifications of portions of other matters (but not chemical elements) of which the whole portion of matter consists of (has parts)."@en ;
@@ -7097,7 +7087,7 @@ co:PMD_0020023 rdf:type owl:Class ;
                                    ] ;
                rdfs:subClassOf obo:OBI_0001930 ;
                rdfs:label "metallic grain structures"@en ;
-               skos:definition "Metallic grain structures are descriptors for the morphology of polycrystalline metallic materials. Polycrystalline metallic materials will typically form their grain structures as one of those categories or a transition or mixture state of those."@en ;
+               skos:definition "The metallic grain structures is a categorical value specification that specifies value of the  metallic grain structure quality. It describes the morphology of polycrystalline metallic materials. Polycrystalline metallic materials will typically form their grain structures as one of those categories or a transition or mixture state of those."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8239,7 +8229,7 @@ co:PMD_0020098 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000031 ;
                rdfs:label "nature constant"@en ;
                skos:definition "A nature constant is a generically dependent continuant whose value, magintude or configuration is determined by nature including physics and mathematics."@en ;
-               skos:example "Examples of nature constants are the speed of light, pi, and the 14 Bravais lattices."@en ;
+               skos:example "Examples of nature constants are the speed of light, pi, etc."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8263,12 +8253,11 @@ co:PMD_0020099 rdf:type owl:Class ;
                                                )
                                    ] ;
                rdfs:subClassOf obo:OBI_0001930 ;
-               rdfs:label "bravais lattice (3d)"@en ;
-               skos:definition """The Bravais Lattice is a nature constant that describes the possible geometric arrangement of lattice points in a crystal. The present descriptor is limited to the 14 possible three-dimensional arrangements. 
-
-TODO: possibly extend for 2D (Graphene etc)
+               rdfs:comment """TODO: possibly extend for 2D (Graphene etc)
 
 More elaborate crystal descriptions may be found in http://emmo.info/domain-crystallography/crystallography or https://purls.helmholtz-metadaten.de/disos/cso"""@en ;
+               rdfs:label "bravais lattice (3d)"@en ;
+               skos:definition "The Bravais lattice is a categorical value specification that specifies value of the crystal structure quality. It describes the possible geometric arrangement of lattice points in a crystal. The present descriptor is limited to the 14 possible three-dimensional arrangements."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8383,7 +8372,7 @@ co:PMD_0020116 rdf:type owl:Class ;
                                    ] ;
                rdfs:subClassOf obo:OBI_0001930 ;
                rdfs:label "aggregate state value"@en ;
-               skos:definition "The aggregate state type is a nature constant that concretizes the aggregatge state quality."@en ;
+               skos:definition "The aggregate state value is a categorical value specification that specifies value of the aggregatge state quality."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8558,7 +8547,7 @@ co:PMD_0020146 rdf:type owl:Class ;
 co:PMD_0020147 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:comment "It is defined on the phase diagram at fixed composition and typically proceeds by diffusion‑controlled nucleation and growth (e.g., γ → α + Fe3C producing pearlite in steels)."@en ;
-               rdfs:label "eutectoid phase transformation"@de ;
+               rdfs:label "eutectoid phase transformation"@en ;
                skos:definition "A eutectoid phase transformation is a phase transformation in which a solid parent phase of eutectoid composition decomposes into two distinct solid daughter phases at constant temperature and pressure."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -8590,7 +8579,8 @@ co:PMD_0020150 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020151
 co:PMD_0020151 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020148 ;
+               rdfs:subClassOf co:PMD_0020142 ;
+               owl:disjointWith co:PMD_0020155 ;
                rdfs:label "internal energy"@en ;
                skos:definition "Internal energy is a universal extensive quality that specifies the bearers potential to do work."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -8617,14 +8607,14 @@ co:PMD_0020153 rdf:type owl:Class ;
 co:PMD_0020154 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:comment "It proceeds by nucleation and growth."@en ;
-               rdfs:label "precipitation (phase)"@de ;
+               rdfs:label "precipitation (phase)"@en ;
                skos:definition "Precipitation from a supersaturated solid solution is a phase transformation process in which a single supersaturated parent phase decomposes into a solute‑depleted matrix and dispersed, compositionally distinct precipitate phases."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020155
 co:PMD_0020155 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020148 ;
+               rdfs:subClassOf co:PMD_0020142 ;
                rdfs:label "interatomic interaction energy"@en ;
                skos:definition "Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -8634,7 +8624,7 @@ co:PMD_0020155 rdf:type owl:Class ;
 co:PMD_0020156 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:comment "It is marked on phase diagrams by a peritectic point and proceeds by an interfacial, diffusion‑controlled reaction that is often kinetically sluggish, leading to incomplete transformation or complex microstructures during solidification."@en ;
-               rdfs:label "peritectic phase transformation"@de ;
+               rdfs:label "peritectic phase transformation"@en ;
                skos:definition "A peritectic phase transformation is a phase transformation in which a liquid parent phase and an existing solid phase react on cooling to form a different solid phase (L + α → β)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -8643,7 +8633,7 @@ co:PMD_0020156 rdf:type owl:Class ;
 co:PMD_0020157 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:comment "Unlike nucleation and growth transformations, it has no nucleation barrier and proceeds by uphill diffusion and wavelength‑selective amplification of composition modulations, producing an interconnected, compositionally modulated microstructure that coarsens over time."@en ;
-               rdfs:label "spinodal decomposition"@de ;
+               rdfs:label "spinodal decomposition"@en ;
                skos:definition "Spinodal decomposition is a diffusion‑controlled  continuous phase transformation in which a single homogeneous solutionspontaneously separates into two compositionally distinct phases by amplification of infinitesimal concentration fluctuations."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -8652,14 +8642,14 @@ co:PMD_0020157 rdf:type owl:Class ;
 co:PMD_0020158 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
                owl:disjointWith co:PMD_0020159 ;
-               rdfs:label "parent phase role"@de ;
+               rdfs:label "parent phase role"@en ;
                skos:definition "The parent phase role is the role of a phase that dissolves during the phase transformation process. As such, the bearer is a metastable phase."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020159
 co:PMD_0020159 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000023 ;
-               rdfs:label "daughter phase role"@de ;
+               rdfs:label "daughter phase role"@en ;
                skos:definition "The daugther phase role is the role of a phase that forms during the phase transformation process."@en .
 
 
@@ -8698,7 +8688,7 @@ co:PMD_0020162 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020163
 co:PMD_0020163 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
-               rdfs:label "eutectic phase transformation"@de ;
+               rdfs:label "eutectic phase transformation"@en ;
                skos:definition "A eutectic phase transformation is a phase transformation in which a liquid parent phase decomposes into two distinct solid daughter phases at constant temperature and pressure."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -8792,18 +8782,13 @@ co:PMD_0025001 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025002
 co:PMD_0025002 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( obo:IAO_0000030
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty obo:RO_0000058 ;
-                                                            owl:someValuesFrom co:PMD_0000551
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf co:PMD_0020004 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000058 ;
-                                 owl:someValuesFrom co:PMD_0000551
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0020004
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:someValuesFrom co:PMD_0000551
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
                                ] ;
                rdfs:label "chemical composition specification"@en ;
                skos:definition "Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts)."@en ;
@@ -8814,15 +8799,13 @@ co:PMD_0025002 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0025003
 co:PMD_0025003 rdf:type owl:Class ;
                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                    ] ;
+                                     owl:onProperty co:PMD_0000077 ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass co:PMD_0020023
                                    ] ;
                rdfs:subClassOf co:PMD_0020131 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                ] ;
+                                 owl:onProperty co:PMD_0000077 ;
                                  owl:someValuesFrom co:PMD_0020023
                                ] ;
                rdfs:label "metallic grain structure"@en ;
@@ -8838,90 +8821,55 @@ co:PMD_0025004 rdf:type owl:Class ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
+###  https://w3id.org/pmd/co/PMD_0025005
+co:PMD_0025005 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000030 ;
+               rdfs:label "3D"@en ;
+               skos:definition "A three-dimensional information content entity is a representation or analysis, commonly applied in studying material properties in its volume or describing a dependency of one variable on two other variables."@en ;
+               skos:example "Orientation distribution function (ODF), potential energy landscape"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025007
+co:PMD_0025007 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000008 ;
+               rdfs:label "frequency"@en ;
+               skos:definition "frequency is a process attribute which characterizes the rate per second of oscillation or vibration."@en ;
+               skos:example "Frequency of electromagnetic wave, Frequency of sound wave."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025008
+co:PMD_0025008 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000624 ;
+               rdfs:label "Transmissionselektronenmikroskop"@de ,
+                          "transmission electron microscope"@en ;
+               skos:definition "A Transmission Electron Microscope (SEM) is a Measuring Device that produces high-resolution images of a sample's internal structure by transmitting electrons through the sample."@en ,
+                               "Ein Transmissionselektronenmikroskop (TEM) ist ein Messgerät, das hochauflösende Bilder der inneren Struktur einer Probe erzeugt, indem es Elektronen durch die Probe strahlt."@de .
+
+
 ###  https://w3id.org/pmd/co/PMD_0025997
 co:PMD_0025997 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0001933 ,
-                               [ owl:intersectionOf ( [ owl:intersectionOf ( obo:OBI_0001933
-                                                                             [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty obo:OBI_0001927 ;
-                                                                               owl:someValuesFrom obo:CHEBI_60003
-                                                                             ]
-                                                                             [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty obo:OBI_0001927 ;
-                                                                               owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_59999
-                                                                                                                         [ rdf:type owl:Restriction ;
-                                                                                                                           owl:onProperty obo:BFO_0000051 ;
-                                                                                                                           owl:someValuesFrom obo:CHEBI_60003
-                                                                                                                         ]
-                                                                                                                       ) ;
-                                                                                                    rdf:type owl:Class
-                                                                                                  ]
-                                                                             ]
-                                                                             [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                                                              ] ;
-                                                                               owl:someValuesFrom co:PMD_0020004
-                                                                             ]
-                                                                           ) ;
-                                                        rdf:type owl:Class
-                                                      ]
-                                                      [ owl:intersectionOf ( obo:OBI_0001933
-                                                                             [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty obo:OBI_0001927 ;
-                                                                               owl:someValuesFrom co:PMD_0020140
-                                                                             ]
-                                                                             [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty obo:OBI_0001927 ;
-                                                                               owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
-                                                                                                                         [ rdf:type owl:Restriction ;
-                                                                                                                           owl:onProperty obo:BFO_0000051 ;
-                                                                                                                           owl:someValuesFrom co:PMD_0020140
-                                                                                                                         ]
-                                                                                                                       ) ;
-                                                                                                    rdf:type owl:Class
-                                                                                                  ]
-                                                                             ]
-                                                                             [ rdf:type owl:Restriction ;
-                                                                               owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                                                              ] ;
-                                                                               owl:someValuesFrom co:PMD_0020004
-                                                                             ]
-                                                                           ) ;
-                                                        rdf:type owl:Class
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ,
+               rdfs:subClassOf obo:OBI_0001931 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom co:PMD_0020140
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_59999
+                                 owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0020101
                                                                            [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty obo:BFO_0000051 ;
-                                                                             owl:someValuesFrom obo:CHEBI_60003
+                                                                             owl:onProperty co:PMD_0025999 ;
+                                                                             owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
+                                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                                         owl:onProperty obo:BFO_0000050 ;
+                                                                                                                         owl:someValuesFrom obo:BFO_0000040
+                                                                                                                       ]
+                                                                                                                     ) ;
+                                                                                                  rdf:type owl:Class
+                                                                                                ]
                                                                            ]
                                                                          ) ;
                                                       rdf:type owl:Class
                                                     ]
                                ] ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:OBI_0001927 ;
-                                 owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000000
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty obo:BFO_0000051 ;
-                                                                             owl:someValuesFrom co:PMD_0020140
-                                                                           ]
-                                                                         ) ;
-                                                      rdf:type owl:Class
-                                                    ]
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:RO_0002351
-                                                ] ;
-                                 owl:someValuesFrom co:PMD_0020004
+                                 owl:onProperty obo:RO_0002350 ;
+                                 owl:allValuesFrom co:PMD_0020004
                                ] ;
                rdfs:label "fraction value specification"@en ;
                skos:definition "Fraction value specification is a value specification that contains information about quantative share of a part relative to a specified whole."@en ;
@@ -10292,6 +10240,18 @@ co:PMD_0060009 rdf:type owl:Class ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
+###  https://w3id.org/pmd/co/PMD_0200000
+co:PMD_0200000 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000907 ;
+               dce:source "Official definition can be found in: DIN 8580, group 1.2.1 “Pressformen”."@de ,
+                          "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.1 „Pressformen“."@de ;
+               rdfs:label "Pressformen"@de ,
+                          "compression molding"@en ;
+               skos:altLabel "compression moulding"@en ;
+               skos:definition "A primary shaping process in which a pre-measured, usually preheated molding compound is placed in an open, heated mold cavity and shaped by closing the mold and applying pressure until the material cures or solidifies to the final part geometry."@en ,
+                               "Ein Urformverfahren, bei dem eine dosierte, meist vorgewärmte Formmasse in eine offene, beheizte Formkavität eingelegt und durch Schließen des Werkzeugs unter Druck zur endgültigen Bauteilgeometrie ausgehärtet bzw. erstarrt wird."@de .
+
+
 ###  https://w3id.org/pmd/co/PMD_0200001
 co:PMD_0200001 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000016 ;
@@ -10302,6 +10262,92 @@ co:PMD_0200001 rdf:type owl:Class ;
                                "\"[Biologische Abbaubarkeit] [...] beschreibt die mikrobielle Umwandlung all seiner organischen Bestandteile in Kohlendioxid oder – unter sauerstofffreien Bedingungen – in Kohlendioxid und Methan, neue mikrobielle Biomasse und Mineralsalze verstanden, und zwar innerhalb eines Zeitraums, der so kurz ist, dass es nicht zu dauerhaften Schäden oder Anreicherungen in der offenen Umwelt kommt.\""@de ,
                                "Biodegradability is a disposition of a material which specifies its capability to be fully microbially converted into inorganic end products (CO₂, CH₄, mineral salts, biomass) within an environmentally non-harmful timescale."@en ;
                co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/126" .
+
+
+###  https://w3id.org/pmd/co/PMD_0200002
+co:PMD_0200002 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000907 ;
+               dce:source "Official definition can be found in: DIN 8580, group 1.2.2 “Spritzgießen”."@en ,
+                          "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.2 „Spritzgießen“."@de ;
+               rdfs:label "Spritzgießen"@de ,
+                          "injection molding"@en ;
+               skos:altLabel "injection moulding; plastic injection molding"@en ;
+               skos:definition "A primary shaping process in which plastic granules are plasticised in an injection unit and the melt is injected under high pressure into a closed mold cavity, where it cools and solidifies to the final part shape."@en ,
+                               "Urformverfahren, bei dem Kunststoffgranulat in einem Plastifizieraggregat aufgeschmolzen und die Schmelze mit hohem Druck in einen geschlossenen Formhohlraum eingespritzt wird, wo sie verdichtet, abkühlt und zum Formteil erstarrt."@de ;
+               skos:example "Injection molding of polypropylene housings."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0200003
+co:PMD_0200003 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000907 ;
+               dce:source "Official definition can be found in: DIN 8580, group 1.2.3 “Spritzpressen”."@en ,
+                          "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.3 „Spritzpressen“."@de ;
+               rdfs:label "Spritzpressen"@de ,
+                          "injection-compression molding"@en ;
+               skos:altLabel "injection–compression moulding; transfer molding (Spritzpressen)"@en ;
+               skos:definition "A hybrid primary shaping process that combines injection and compression: a pre-plasticised charge or melt is injected into a closed or partially open mold and then compressed by further mold closure or a plunger so that the material completely fills the cavity and cures or solidifies under heat and pressure."@en ,
+                               "Urformverfahren, bei dem eine vorplastifizierte Formmasse aus einer beheizten Vorkammer bzw. einem Plastifizieraggregat in ein (teil-)geschlossenes Werkzeug eingespritzt und anschließend durch Schließen des Werkzeugs bzw. Nachdrücken verpresst wird, bis der Werkstoff unter Wärme und Druck aushärtet."@de ;
+               skos:example "Injection-compression molding of epoxy-encapsulated electronic components."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0200004
+co:PMD_0200004 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000907 ;
+               dce:source "Official definition can be found in: DIN 8580, group 1.2.4 "@en ,
+                          "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.4 "@de ;
+               rdfs:label "extrusion"@en ,
+                          "strangpressen (extrudieren)"@de ;
+               skos:definition "A primary shaping process in which a plastically deformable material, typically a polymer melt, is continuously forced by pressure through a shaping die to produce an endless strand with constant cross-section, which solidifies by cooling or curing."@en ,
+                               "Ein Urformverfahren, bei dem ein plastifizierter Werkstoff, meist eine Polymerschmelze, kontinuierlich unter Druck durch eine formgebende Düse gepresst wird und dabei einen Strang mit konstantem Querschnitt bildet, der durch Abkühlen oder Aushärten verfestigt wird."@de ;
+               skos:example "Extrusion of PVC window profiles; extrusion of plastic films or pipes from polyethylene melt."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0200005
+co:PMD_0200005 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000907 ;
+               dce:source "Official definition can be found in: DIN 8580, group 1.2.5 "@en ,
+                          "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.5 "@de ;
+               rdfs:label "Ziehformen"@de ,
+                          "drawing forming"@en ;
+               skos:definition "A primary shaping process in which a plastically deformable mass (for example fibre-reinforced resin or glass/plastic strands) is pulled through one or more shaping tools or dies so that the cross-section and surface are formed by tensile forces, while the material solidifies or cures to produce continuous profiles. It is conceptually related to pultrusion / profile drawing."@en ,
+                               "Ein Urformverfahren, bei dem eine plastisch verformbare Masse (z. B. faserverstärkte Harzsysteme oder glasige/kunststoffhaltige Stränge) durch Zugkräfte durch formgebende Düsen oder Werkzeuge gezogen wird, sodass Querschnitt und Oberfläche ausgebildet und der Werkstoff dabei verfestigt bzw. ausgehärtet wird. Das Verfahren ist verwandt mit dem Strangzieh- bzw. Pultrusionsverfahren."@de ;
+               skos:example "Pultrusion of glass-fibre-reinforced polymer profiles; drawing of continuous fibre-reinforced rods through a heated die."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0200006
+co:PMD_0200006 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000907 ;
+               dce:source "Official definition can be found in: DIN 8580, group 1.2.6 "@en ,
+                          "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.6 "@de ;
+               rdfs:label "Kalandrieren"@de ,
+                          "calendering"@en ;
+               skos:definition "A primary shaping process in which a viscous polymer melt or plastic mass is passed through the narrow gaps between several counter-rotating, polished rolls so that it is compressed and rolled out into sheet or film of defined thickness and surface quality, then cooled to solidify."@en ,
+                               "Ein Urformverfahren, bei dem eine zähflüssige Polymerschmelze oder plastische Masse durch enge Spalte zwischen mehreren gegenläufig rotierenden, polierten Walzen geführt wird, wodurch sie verdichtet und zu Platten oder Folien definierter Dicke und Oberflächenqualität ausgewalzt und anschließend verfestigt wird."@de ;
+               skos:example "Calendering of plasticised PVC into rigid or flexible sheets and films; calendering of ABS sheet for thermoforming."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0200007
+co:PMD_0200007 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000907 ;
+               dce:source "Official definition can be found in: DIN 8580, group 1.2.7 "@en ,
+                          "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.7 "@de ;
+               rdfs:label "Blasformen"@de ,
+                          "blow molding"@en ;
+               skos:definition "A primary shaping process in which a tube or preform of molten or plasticised material is enclosed in a mold and expanded by internal gas pressure so that it conforms to the mold cavity, producing hollow bodies which then solidify."@en ,
+                               "Ein Urformverfahren, bei dem ein Schlauch oder ein Vorformling aus geschmolzenem bzw. plastifizierten Werkstoff in ein Werkzeug eingelegt und durch inneren Gasdruck an die Formwand aufgeblasen wird, sodass ein Hohlkörper entsteht, der anschließend verfestigt wird."@de ;
+               skos:example "Extrusion blow molding of HDPE bottles; stretch-blow molding of PET beverage containers; blow molding of fuel tanks for automotive applications."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0200008
+co:PMD_0200008 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000907 ;
+               dce:source "Official definition can be found in: DIN 8580, group 1.2.8 "@en ,
+                          "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.8 "@de ;
+               rdfs:label "Modellieren"@de ,
+                          "modelling"@en ;
+               skos:definition "A primary shaping process in which a manually workable plastic mass (such as clay, wax, plastiline or gypsum paste) is shaped directly by hand and simple tools into a final or intermediate geometry and subsequently hardened, dried or fired to obtain a solid body."@en ,
+                               "Ein Urformverfahren, bei dem eine mit Hand und einfachen Werkzeugen formbare plastische Masse (z. B. Ton, Wachs, Plastilin oder Gipspaste) direkt zur gewünschten Geometrie modelliert und anschließend durch Trocknen, Brennen oder Aushärten zu einem festen Körper verfestigt wird."@de ;
+               skos:example "Hand modelling of clay prior to firing (e.g. pottery, sculptures); modelling of wax or plasticine for casting patterns."@en .
 
 
 #################################################################
@@ -10721,7 +10767,6 @@ dce:license rdfs:label "dc:license" .
 [ rdf:type owl:AllDisjointClasses ;
   owl:members ( co:PMD_0000503
                 co:PMD_0000512
-                co:PMD_0000551
                 co:PMD_0000591
                 co:PMD_0000595
                 co:PMD_0000597
@@ -10729,37 +10774,7 @@ dce:license rdfs:label "dc:license" .
                 co:PMD_0000896
                 co:PMD_0000942
                 co:PMD_0000967
-                co:PMD_0020112
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000503
-                co:PMD_0000512
-                co:PMD_0000591
-                co:PMD_0000595
-                co:PMD_0000597
-                co:PMD_0000853
-                co:PMD_0000896
-                co:PMD_0000942
-                co:PMD_0000967
-                co:PMD_0020112
-                co:PMD_0025001
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000503
-                co:PMD_0000512
-                co:PMD_0000591
-                co:PMD_0000595
-                co:PMD_0000597
-                co:PMD_0000853
-                co:PMD_0000896
-                co:PMD_0000942
-                co:PMD_0000967
+                co:PMD_0020005
                 co:PMD_0020112
                 co:PMD_0025001
                 co:PMD_0025003
@@ -10827,20 +10842,6 @@ dce:license rdfs:label "dc:license" .
                 co:PMD_0020132
                 co:PMD_0020133
                 co:PMD_0020142
-                co:PMD_0020151
-                co:PMD_0020155
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000553
-                co:PMD_0000619
-                co:PMD_0020132
-                co:PMD_0020133
-                co:PMD_0020142
-                co:PMD_0020151
-                co:PMD_0020155
                 co:PMD_0020161
                 co:PMD_0050155
               )
