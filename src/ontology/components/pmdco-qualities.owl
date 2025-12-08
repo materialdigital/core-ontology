@@ -80,7 +80,6 @@ Declaration(Class(pmdco:PMD_0000889))
 Declaration(Class(pmdco:PMD_0000896))
 Declaration(Class(pmdco:PMD_0000910))
 Declaration(Class(pmdco:PMD_0000911))
-Declaration(Class(pmdco:PMD_0000915))
 Declaration(Class(pmdco:PMD_0000924))
 Declaration(Class(pmdco:PMD_0000942))
 Declaration(Class(pmdco:PMD_0000947))
@@ -138,7 +137,9 @@ Declaration(Class(pmdco:PMD_0020207))
 Declaration(Class(pmdco:PMD_0025001))
 Declaration(Class(pmdco:PMD_0025002))
 Declaration(Class(pmdco:PMD_0025003))
-Declaration(Class(pmdco:PMD_0025005))
+Declaration(Class(pmdco:PMD_0025009))
+Declaration(Class(pmdco:PMD_0025010))
+Declaration(Class(pmdco:PMD_0025011))
 Declaration(Class(pmdco:PMD_0025997))
 Declaration(Class(pmdco:PMD_0040001))
 Declaration(Class(pmdco:PMD_0050000))
@@ -157,8 +158,6 @@ Declaration(ObjectProperty(obo:RO_0000056))
 Declaration(ObjectProperty(obo:RO_0000059))
 Declaration(ObjectProperty(pmdco:PMD_0001028))
 Declaration(ObjectProperty(pmdco:PMD_0001029))
-Declaration(ObjectProperty(pmdco:PMD_0001030))
-Declaration(ObjectProperty(pmdco:PMD_0001031))
 Declaration(ObjectProperty(pmdco:PMD_0020020))
 Declaration(ObjectProperty(pmdco:PMD_0025998))
 Declaration(ObjectProperty(pmdco:PMD_0025999))
@@ -213,22 +212,6 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0001029 "responds with"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0001029 "The realizable entity must be \"stimulated\" by some Stimulus in order to respond with the Response. The bearer of the realizable entity must participate in Stimulation as well as in Response.")
 SubObjectPropertyOf(pmdco:PMD_0001029 owl:topObjectProperty)
 ObjectPropertyDomain(pmdco:PMD_0001029 obo:BFO_0000017)
-ObjectPropertyRange(pmdco:PMD_0001029 pmdco:PMD_0000915)
-
-# Object Property: pmdco:PMD_0001030 (stimulated by)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0001030 "stimulated by"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0001030 "inverse of stimulates"@en)
-SubObjectPropertyOf(pmdco:PMD_0001030 obo:BFO_0000054)
-ObjectPropertyRange(pmdco:PMD_0001030 pmdco:PMD_0000950)
-
-# Object Property: pmdco:PMD_0001031 (stimulates)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0001031 "stimulates"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0001031 "A relation between a stimulating process and material property, where there is some material entity that is bearer of the material property and participates in the stimulating process, and the material property comes to be realized in the course of the stimulating process."@en)
-SubObjectPropertyOf(pmdco:PMD_0001031 obo:BFO_0000055)
-ObjectPropertyDomain(pmdco:PMD_0001031 pmdco:PMD_0000950)
-ObjectPropertyRange(pmdco:PMD_0001031 pmdco:PMD_0000005)
 
 # Object Property: pmdco:PMD_0020020 (interacts with)
 
@@ -276,6 +259,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000005 "A property is a material 
 We only deal with intensive (system-size independent) materrial properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000005 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000005 obo:BFO_0000017)
+SubClassOf(pmdco:PMD_0000005 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000950))
 SubClassOf(pmdco:PMD_0000005 ObjectSomeValuesFrom(obo:RO_0000052 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000056 obo:BFO_0000015))))
 
 # Class: pmdco:PMD_0000503 (ASTM grainsize)
@@ -299,7 +283,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000506 "accoustic property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000506 "An accoustic property is a mechanical property representing characteristics of a material that determine its interaction with sound waves, such as absorption, reflection, and transmission."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000506 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000506 pmdco:PMD_0000005)
-SubClassOf(pmdco:PMD_0000506 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000517))
+SubClassOf(pmdco:PMD_0000506 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000517))
 
 # Class: pmdco:PMD_0000512 (aggregate state)
 
@@ -350,7 +334,7 @@ SubClassOf(pmdco:PMD_0000522 pmdco:PMD_0000950)
 AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000523 "Application Of Substance")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000523 "application of substance"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000523 "The application of (a) substance is the process of applying a material or substance to a surface or within a system."@en)
-SubClassOf(pmdco:PMD_0000523 obo:BFO_0000015)
+SubClassOf(pmdco:PMD_0000523 pmdco:PMD_0000950)
 
 # Class: pmdco:PMD_0000526 (atomic structure)
 
@@ -409,7 +393,8 @@ SubClassOf(pmdco:PMD_0000547 pmdco:PMD_0020136)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000549 "change of temperature"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000549 "A change of temperature is a process describing the variation in thermal energy within a material or system over time or due to external influences."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000549 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000549 obo:BFO_0000015)
+SubClassOf(pmdco:PMD_0000549 pmdco:PMD_0000950)
+SubClassOf(pmdco:PMD_0000549 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0000551 (chemical composition)
 
@@ -458,7 +443,7 @@ SubClassOf(pmdco:PMD_0000595 pmdco:PMD_0020131)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000596 "deformation"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000596 "The deformation is a process describing a change in the shape, size, or structure of a material under the influence of stress or force."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000596 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000596 pmdco:PMD_0025005)
+SubClassOf(pmdco:PMD_0000596 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0000597 (density)
 
@@ -511,7 +496,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000621 "electrical property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000621 "An electrical property is a material property that represents the characteristics of a material that determine its behavior under the influence of an electric field, such as conductivity, resistivity, and permittivity."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000621 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000621 pmdco:PMD_0000005)
-SubClassOf(pmdco:PMD_0000621 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000519))
+SubClassOf(pmdco:PMD_0000621 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000519))
 
 # Class: pmdco:PMD_0000627 (emission of accoustic wave)
 
@@ -532,7 +517,7 @@ SubClassOf(pmdco:PMD_0000628 pmdco:PMD_0000629)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000629 "emission of radiation"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000629 "The emission radiation is a process describing the release of energy in the form of electromagnetic waves or particles from a material."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000629 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000629 pmdco:PMD_0025005)
+SubClassOf(pmdco:PMD_0000629 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0000630 (emission of wave radiation)
 
@@ -546,14 +531,14 @@ SubClassOf(pmdco:PMD_0000630 pmdco:PMD_0000629)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000635 "evolution of damage"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000635 "An evolution of damage is a process representing the progression of material degradation under mechanical, thermal, or chemical stresses."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000635 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000635 pmdco:PMD_0025005)
+SubClassOf(pmdco:PMD_0000635 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0000645 (formation of notch or scratch)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000645 "formation of notch or scratch"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000645 "The formation of (a) notch or (a) scratch is a process that describes the creation of small surface imperfections, which can influence a material's mechanical properties."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000645 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000645 pmdco:PMD_0025005)
+SubClassOf(pmdco:PMD_0000645 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0000768 (half-life)
 
@@ -598,7 +583,7 @@ DisjointClasses(pmdco:PMD_0000790 pmdco:PMD_0000911)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000802 "irradiation process"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000802 "An irradiation process is a process in which a radiation source (bearing a stimulus role) emits radiation towards a material entity (bearing the target role)"@en)
-SubClassOf(pmdco:PMD_0000802 obo:BFO_0000015)
+SubClassOf(pmdco:PMD_0000802 pmdco:PMD_0000950)
 
 # Class: pmdco:PMD_0000825 (magnetic property)
 
@@ -606,7 +591,6 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000825 "magnetic property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000825 "A magnetic property is a material property representing characteristics that describe how a material responds to magnetic fields, such as permeability and coercivity."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000825 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000825 pmdco:PMD_0000005)
-SubClassOf(pmdco:PMD_0000825 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000521))
 
 # Class: pmdco:PMD_0000848 (mechanical property)
 
@@ -616,7 +600,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000848 "A mechanical property is 
 TODO: Check general class axiom and defintion altogether !!!"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000848 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000848 pmdco:PMD_0000005)
-SubClassOf(pmdco:PMD_0000848 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000522))
+SubClassOf(pmdco:PMD_0000848 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000522))
 
 # Class: pmdco:PMD_0000851 (melting point)
 
@@ -650,21 +634,21 @@ SubClassOf(pmdco:PMD_0000864 pmdco:PMD_0000005)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000869 "occurence of chemical reaction"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000869 "The occurrence of (a) chemical reaction is the process in which substances interact to form new chemical compounds or alter their molecular structure."@en)
-SubClassOf(pmdco:PMD_0000869 pmdco:PMD_0000915)
+SubClassOf(pmdco:PMD_0000869 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0000870 (occurence of electic field)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000870 "occurence of electic field"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000870 "The occurrence of (an) electric field is a process describing the presence or generation of an electric field in a material or system."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000870 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000870 pmdco:PMD_0000915)
+SubClassOf(pmdco:PMD_0000870 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0000871 (occurence of magnetic field)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000871 "occurence of magnetic field"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000871 "The occurrence of (a) magenetic field is a process describing the presence or generation of a magnetic field in a material or system."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000871 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000871 pmdco:PMD_0000915)
+SubClassOf(pmdco:PMD_0000871 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0000877 (optical property)
 
@@ -672,14 +656,14 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000877 "optical property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000877 "An optical property is a material property representing the characteristics that describe how a material interacts with light, including reflection, refraction, and absorption."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000877 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000877 pmdco:PMD_0000005)
-SubClassOf(pmdco:PMD_0000877 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0001008))
+SubClassOf(pmdco:PMD_0000877 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0001008))
 
 # Class: pmdco:PMD_0000880 (passing of time)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0000880 "passing of time"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000880 "Passing of time is a process that describes the progression of time, which can influence material aging and property changes."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000880 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000880 obo:BFO_0000015)
+SubClassOf(pmdco:PMD_0000880 pmdco:PMD_0000950)
 
 # Class: pmdco:PMD_0000882 (phase boundary)
 
@@ -687,11 +671,9 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000882 "phase boundary"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000882 "A phase boundary is a morphological property denoting the interface between two distinct phases of a material, such as solid-liquid or liquid-gas boundaries."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000882 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000882 pmdco:PMD_0000864)
-SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000547))
-SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001029 pmdco:PMD_0000549))
-SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000520))
-SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000522))
-SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000523))
+SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000520))
+SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000522))
+SubClassOf(pmdco:PMD_0000882 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000523))
 
 # Class: pmdco:PMD_0000889 (pore growth)
 
@@ -723,13 +705,6 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000911 "The reflectivity is an op
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000911 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000911 pmdco:PMD_0000877)
 
-# Class: pmdco:PMD_0000915 (responding process)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0000915 "responding process"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000915 "The responding process is a process describing the reaction of a material or system to an applied stimulus."@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000915 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000915 obo:BFO_0000015)
-
 # Class: pmdco:PMD_0000924 (scratch hardness)
 
 AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0000924 "A measure of a material's resistance to deformation or scratching by a harder material.")
@@ -758,7 +733,6 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000949 "stiffness"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000949 "The stiffness is a mechanical property describing the resistance of a material to deformation under an applied force."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000949 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000949 pmdco:PMD_0000005)
-SubClassOf(pmdco:PMD_0000949 ObjectSomeValuesFrom(obo:RO_0000052 obo:BFO_0000040))
 SubClassOf(pmdco:PMD_0000949 ObjectSomeValuesFrom(pmdco:PMD_0001029 pmdco:PMD_0000596))
 DisjointClasses(pmdco:PMD_0000949 pmdco:PMD_0000952)
 
@@ -768,6 +742,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000950 "stimulating process"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000950 "The stimulating process is a process describing the application of an external influence, such as force, heat, or radiation, to study material response."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000950 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000950 obo:BFO_0000015)
+SubClassOf(pmdco:PMD_0000950 ObjectSomeValuesFrom(obo:BFO_0000055 obo:BFO_0000017))
 
 # Class: pmdco:PMD_0000952 (strength)
 
@@ -814,7 +789,6 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000972 "temporal property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000972 "A temporal property is a material property that represents attributes related to the time-dependent behavior of a material or process."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000972 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000972 pmdco:PMD_0000005)
-SubClassOf(pmdco:PMD_0000972 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000880))
 
 # Class: pmdco:PMD_0000978 (thermal conductivity)
 
@@ -829,7 +803,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000981 "thermal property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000981 "A thermal property is a material property representing attributes of a material that describe its behavior under temperature changes, such as thermal conductivity and expansion."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000981 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000981 pmdco:PMD_0000005)
-SubClassOf(pmdco:PMD_0000981 ObjectSomeValuesFrom(pmdco:PMD_0001030 pmdco:PMD_0000520))
+SubClassOf(pmdco:PMD_0000981 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000520))
 
 # Class: pmdco:PMD_0000996 (triple point)
 
@@ -865,7 +839,7 @@ SubClassOf(pmdco:PMD_0020005 pmdco:PMD_0020131)
 AnnotationAssertion(rdfs:comment pmdco:PMD_0020022 "Corrosion is typically of interest when the change of the material affects the objects ability to fulfill its function."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020022 "corrosion process"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020022 "Corrosion is a process that affects a material by changing it in a slow chemical reaction."@en)
-SubClassOf(pmdco:PMD_0020022 pmdco:PMD_0025005)
+SubClassOf(pmdco:PMD_0020022 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0020023 (metallic grain structures)
 
@@ -1006,7 +980,7 @@ SubClassOf(pmdco:PMD_0020135 obo:BFO_0000023)
 AnnotationAssertion(rdfs:comment pmdco:PMD_0020141 "Fatigue is typically of interest when the change of the material affects the objects ability to fulfill its function."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020141 "fatigue process"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020141 "Fatigue is a process that affects a material by changes in its stress state."@en)
-SubClassOf(pmdco:PMD_0020141 pmdco:PMD_0025005)
+SubClassOf(pmdco:PMD_0020141 pmdco:PMD_0025009)
 
 # Class: pmdco:PMD_0020142 (energy)
 
@@ -1150,13 +1124,25 @@ AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0025003 "false"^^xsd:boolean)
 EquivalentClasses(pmdco:PMD_0025003 ObjectExactCardinality(1 pmdco:PMD_0000077 pmdco:PMD_0020023))
 SubClassOf(pmdco:PMD_0025003 pmdco:PMD_0020131)
 
-# Class: pmdco:PMD_0025005 (naturally occuring process)
+# Class: pmdco:PMD_0025009 (naturally occuring process)
 
-AnnotationAssertion(rdfs:comment pmdco:PMD_0025005 "TODO: think if occurs in material enitity is too borad. Cause probably failure in component happens due to some natural process in a material"@en)
-AnnotationAssertion(rdfs:label pmdco:PMD_0025005 "naturally occuring process"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0025005 "Naturally occuring process is a process which occurs in materials due to external stimulus, which can be part of some planned process"@en)
-SubClassOf(pmdco:PMD_0025005 obo:BFO_0000015)
-SubClassOf(pmdco:PMD_0025005 ObjectSomeValuesFrom(obo:BFO_0000066 obo:BFO_0000040))
+AnnotationAssertion(rdfs:comment pmdco:PMD_0025009 "TODO: think if occurs in material enitity is too borad. Cause probably failure in component happens due to some natural process in a material"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0025009 "naturally occuring process"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025009 "Naturally occuring process is a process which occurs in materials due to external stimulus, which can be part of some planned process"@en)
+SubClassOf(pmdco:PMD_0025009 obo:BFO_0000015)
+SubClassOf(pmdco:PMD_0025009 ObjectSomeValuesFrom(obo:BFO_0000066 obo:BFO_0000040))
+
+# Class: pmdco:PMD_0025010 (heating)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0025010 "heating"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025010 "Heating is a change of temperature which corresponds to the increase of temperature in the system or object."@en)
+SubClassOf(pmdco:PMD_0025010 pmdco:PMD_0000549)
+
+# Class: pmdco:PMD_0025011 (cooling)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0025011 "cooling"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025011 "Cooling is a change of temperature which corresponds to the decrease of temperature in the system or object."@en)
+SubClassOf(pmdco:PMD_0025011 pmdco:PMD_0000549)
 
 # Class: pmdco:PMD_0025997 (fraction value specification)
 
