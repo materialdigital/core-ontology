@@ -75,10 +75,55 @@ Although several guidelines and tutorials for ontology development are available
 -	To enhance your ontology accessibility, please also publish your ontology in [MatPortal](https://matportal.org/) and [PMD DataPortal](https://dataportal.material-digital.de/).
 
 
+## PMDco Workshop
+
+**Hands-on tutorials & learning materials for building your first MSE application ontology**
+
+Looking to get comfortable with ontology development in the MSE domain (especially using PMDco, ODK, design patterns, and our suggested best practices?
+
+Let's participate in our [PMDco workshop]((https://github.com/HosseinBeygiNasrabadi/PMDco-workshop))!
+
+In this workshop, you’ll find:
+
+🎓 Learning Materials: Carefully prepared resources that introduce ontology design principles, PMDco’s structure, and how to think like an ontology engineer in the context of materials science.
+
+🛠️ Hands-On Tutorials: Step-by-step exercises that guide you through designing a small but realistic ontology for a high-temperature tensile testing process.
+The tutorials follow a central use case, helping you understand not just how to model data, but why certain patterns and BFO-aligned decisions matter.
+
+📐 Best Practices Included: We walk you through recommended modeling strategies, reusable design patterns, competency questions, annotation guidelines, and practical workflows to help you build clean, interoperable ontologies for real-world MSE applications.
+
+**Workshop content (10 topics, 4 tutorials):**
+
+- 1- Ontology development and beginners learning materials 
+- 2- Ontology levels
+- 3- Basic Formal Ontology (BFO) classes
+- 4- Platform MaterialDigital Core Ontology (PMDco) classes
+- Tutorial 1: Structure given classes according to PMDco hierarchy (Miro board)
+- 5- Platform MaterialDigital Core Ontology (PMDco) object properties
+- Tutorial 2: Using appropriate object properties (Miro board)
+- 6- How to develop your application ontologies using PMDco and OBO+ODK best practices?
+- 7- Ontology Development Kit (ODK)
+- Tutorial 3: Creating ODK repository for PMDco application ontologies (GitHub)
+- 8- Collaborative ontology development workflow, adding taxonomy and axioms
+- 9- PMDco Ontology Design Patterns (ODPs)
+- Tutorial 4: Ontology editing; adding classes, annotations and axioms (Protege)
+- 10- Ontology evaluation, release, documentation and maintenance 
+
+Whether you’re new to semantic technologies or looking to sharpen your ontology-building workflow, this repo gives you a clear, structured path to learning by doing.
+
+👉 Check it out and start building your own domain ontology today!
+
+* **Workshop repository** [GitHub PMDco Workshop](https://github.com/HosseinBeygiNasrabadi/PMDco-workshop)
+* **Workshop slides** [here](https://docs.google.com/presentation/d/1d5KbN1DxRt59dCp7jPMDCe5q6oSQS4GW/edit?usp=sharing&ouid=115401620435163640303&rtpof=true&sd=true)
+* **Tutorials 1 and 2:** [Miro Board](https://miro.com/app/board/uXjVJnJwyj8=/?share_link_id=939408481172)
+* **Tutorial 3:** [GitHub ODK template](https://github.com/materialdigital/application-ontology-template)
+* **Tutorial 4:** [GitHub PMDco Workshop](https://github.com/HosseinBeygiNasrabadi/PMDco-workshop) and [httto.ttl](https://raw.githubusercontent.com/HosseinBeygiNasrabadi/PMDco-workshop/refs/heads/main/httto.ttl)
+
+
 ## List of Ontologies Reusing PMDco V3.x.x:
 -	**[Logistic Application Ontology (LOG)](https://github.com/materialdigital/logistics-application-ontology)**
 * PMDCo application ontology for logistics and supply chain adopted from iof-supplychain-module
--	**[Vickers Testing Ontology (VTO)](https://github.com/HosseinBeygiNasrabadi/Vickers-testing-application-ontology)**
+-	**[Vickers Testing Ontology (VTO)](https://github.com/materialdigital/vickers-testing-ontology)**
 * An Ontology for representing the Vickers testing process, testing equipment requirements, test pieces characteristics, and related testing parameters and their measurement procedure according to DIN EN ISO 6507-1 standard.
 -	**[Tensile testing Ontology (TTO)](https://github.com/materialdigital/tensile-test-ontology)**
 * An ontology for representing tensile testing of metals at room temperature in accordance with the associated testing standard ISO 6892-1:2019-11.
