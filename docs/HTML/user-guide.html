@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Guide - PMDco Documentation">
+    <title>User Guide | PMDco Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+    <style>
+        /* === CSS VARIABLES === */
+        :root {
+            --color-primary: #00a0e3;
+            --color-primary-dark: #0077b3;
+            --color-primary-light: #33b5eb;
+            --color-accent: #7dd3fc;
+            --color-surface: rgba(255, 255, 255, 0.92);
+            --color-bg-primary: #f7f9fc;
+            --color-bg-secondary: #ffffff;
+            --color-bg-tertiary: #edf2f7;
+            --color-bg-card: #ffffff;
+            --color-bg-hover: rgba(0, 160, 227, 0.08);
+            --color-text-primary: #0f172a;
+            --color-text-secondary: #1f2937;
+            --color-text-muted: #475569;
+            --color-border: rgba(15, 23, 42, 0.1);
+            --color-border-hover: rgba(0, 160, 227, 0.5);
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            --color-info: #3b82f6;
+            --color-code-bg: #f3f4f6;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-family-mono: 'JetBrains Mono', monospace;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 20px rgba(0, 160, 227, 0.3);
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+            --sidebar-width: 280px;
+            --header-height: 64px;
+            --toc-width: 240px;
+            --z-sticky: 200;
+            --z-modal: 300;
+            --z-tooltip: 400;
+        }
+
+        body.theme-dark {
+            --color-bg-primary: #0a1628;
+            --color-bg-secondary: #0d1f35;
+            --color-bg-tertiary: #132743;
+            --color-bg-card: rgba(19, 39, 67, 0.8);
+            --color-bg-hover: rgba(0, 160, 227, 0.1);
+            --color-surface: rgba(10, 22, 40, 0.95);
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #94a3b8;
+            --color-text-muted: #64748b;
+            --color-border: rgba(148, 163, 184, 0.2);
+            --color-code-bg: #1e293b;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            line-height: 1.5;
+            color: var(--color-text-primary);
+            background: var(--color-bg-primary);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 160, 227, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 160, 227, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: var(--font-size-2xl);
+            margin-top: var(--spacing-2xl);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        h3 {
+            font-size: var(--font-size-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-secondary);
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--color-primary-light);
+            text-decoration: underline;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        ul,
+        ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-xl);
+            color: var(--color-text-secondary);
+        }
+
+        code:not(pre code) {
+            padding: 2px 6px;
+            font-size: 0.9em;
+            font-family: var(--font-family-mono);
+            color: var(--color-primary-light);
+            background: var(--color-code-bg);
+            border-radius: var(--radius-sm);
+        }
+
+        pre {
+            margin: var(--spacing-lg) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-code-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+        }
+
+        pre code {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            color: #e2e8f0;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--color-surface);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            z-index: var(--z-sticky);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: var(--spacing-xl);
+            margin-left: auto;
+        }
+
+        .header-nav a {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+
+        .header-nav a:hover {
+            color: var(--color-text-primary);
+            text-decoration: none;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            margin-left: var(--spacing-md);
+            padding: 8px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-secondary);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .theme-toggle:hover {
+            color: var(--color-text-primary);
+            border-color: var(--color-border-hover);
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .theme-label {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            color: var(--color-text-primary);
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--color-bg-secondary);
+            border-right: 1px solid var(--color-border);
+            overflow-y: auto;
+            padding: var(--spacing-lg);
+            z-index: var(--z-sticky);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: var(--radius-full);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: calc(var(--z-modal) - 1);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .nav-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .nav-section-title {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-list li {
+            margin-bottom: 2px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .nav-link:hover {
+            color: var(--color-text-primary);
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            background: rgba(0, 160, 227, 0.15);
+            font-weight: 500;
+        }
+
+        .nav-link svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+
+        /* Search */
+        .search-container {
+            position: relative;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            padding-left: 40px;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 160, 227, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--color-text-muted);
+        }
+
+        .search-shortcut {
+            position: absolute;
+            right: var(--spacing-sm);
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 2px 6px;
+            font-size: var(--font-size-xs);
+            font-family: var(--font-family-mono);
+            color: var(--color-text-muted);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
+            padding: var(--spacing-2xl);
+            flex: 1;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-sm);
+        }
+
+        .breadcrumbs a {
+            color: var(--color-text-muted);
+        }
+
+        .breadcrumbs .current {
+            color: var(--color-text-secondary);
+        }
+
+        /* TOC */
+        .toc {
+            position: fixed;
+            top: calc(var(--header-height) + var(--spacing-2xl));
+            right: var(--spacing-xl);
+            width: var(--toc-width);
+            max-height: calc(100vh - var(--header-height) - 4rem);
+            overflow-y: auto;
+            padding: var(--spacing-md);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(8px);
+        }
+
+        .toc-title {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list a {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-left: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .toc-list a:hover,
+        .toc-list a.active {
+            color: var(--color-primary);
+            border-left-color: var(--color-primary);
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .toc-list .toc-h3 {
+            padding-left: var(--spacing-lg);
+        }
+
+        /* Page Nav */
+        .page-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .page-nav-link {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-lg);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+        }
+
+        .page-nav-link:hover {
+            border-color: var(--color-primary);
+            text-decoration: none;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .page-nav-link.next {
+            text-align: right;
+        }
+
+        .page-nav-label {
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+        }
+
+        .page-nav-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: var(--spacing-2xl);
+            padding: var(--spacing-xl) 0;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-links a {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        .footer-copyright {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        /* === ADVANCED GRAPH STYLES === */
+        .diagram-container {
+            position: relative;
+            margin: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(13, 31, 53, 0.95) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .diagram-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .diagram-title {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .diagram-title::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--color-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .diagram-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .diagram-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 32px;
+            padding: 0 10px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: linear-gradient(180deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .diagram-btn:hover {
+            color: var(--color-text-primary);
+            border-color: var(--color-primary);
+            background: var(--color-bg-hover);
+            box-shadow: 0 0 12px rgba(0, 160, 227, 0.2);
+        }
+
+        .diagram-viewport {
+            position: relative;
+            min-height: 450px;
+            max-height: 650px;
+            background: radial-gradient(ellipse at center, rgba(0, 160, 227, 0.03) 0%, transparent 70%);
+            cursor: grab;
+        }
+
+        .diagram-viewport:active {
+            cursor: grabbing;
+        }
+
+        /* Graph Legend - Premium */
+        .graph-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-full);
+            backdrop-filter: blur(4px);
+        }
+
+        .legend-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .swatch-tbox {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        }
+
+        .swatch-abox {
+            background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+        }
+
+        .swatch-literal {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        .swatch-relation {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+        }
+
+        .swatch-taxonomy {
+            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+        }
+
+        .graph-note {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            background: rgba(0, 0, 0, 0.1);
+            border-top: 1px dashed var(--color-border);
+        }
+
+        /* Advanced Tooltip */
+        .graph-tooltip {
+            position: absolute;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, rgba(19, 39, 67, 0.98) 0%, rgba(13, 31, 53, 0.98) 100%);
+            color: var(--color-text-primary);
+            border: 1px solid rgba(0, 160, 227, 0.3);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            backdrop-filter: blur(12px);
+            font-size: var(--font-size-sm);
+            pointer-events: none;
+            z-index: var(--z-tooltip);
+            min-width: 200px;
+            max-width: 320px;
+            animation: tooltipFade 0.2s ease;
+        }
+
+        @keyframes tooltipFade {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .graph-tooltip strong {
+            color: var(--color-primary-light);
+            font-size: var(--font-size-base);
+        }
+
+        .graph-tooltip .tooltip-type {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 2px 8px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: var(--radius-sm);
+        }
+
+        .graph-tooltip .tooltip-type.tbox {
+            background: rgba(14, 165, 233, 0.2);
+            color: #7dd3fc;
+        }
+
+        .graph-tooltip .tooltip-type.abox {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+        }
+
+        .graph-tooltip .tooltip-type.literal {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        /* Zoom indicator */
+        .zoom-indicator {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            padding: 4px 10px;
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            font-family: var(--font-family-mono);
+            color: var(--color-text-muted);
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: var(--radius-sm);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Search Modal */
+        .search-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: var(--z-modal);
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15vh;
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-modal-content {
+            width: 100%;
+            max-width: 640px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+        }
+
+        .search-modal-header {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .search-modal-input {
+            flex: 1;
+            padding: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+            color: var(--color-text-primary);
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: var(--spacing-sm);
+        }
+
+        .search-result-item {
+            display: block;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: background var(--transition-fast);
+        }
+
+        .search-result-item:hover,
+        .search-result-item.selected {
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .search-result-title {
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .search-result-excerpt {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        .search-result-excerpt mark {
+            background: rgba(0, 160, 227, 0.3);
+            color: var(--color-primary-light);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .search-no-results {
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--color-text-muted);
+        }
+
+        .search-section-label {
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-bg-tertiary);
+        }
+        
+        .search-result-item.selected {
+            background: var(--color-bg-hover);
+            outline: 2px solid var(--color-primary);
+            outline-offset: -2px;
+        }
+        
+        .search-result-title mark,
+        .search-result-excerpt mark {
+            background: rgba(0, 160, 227, 0.3);
+            color: var(--color-primary-light);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .search-footer {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+        }
+
+        .search-footer kbd {
+            padding: 2px 6px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family-mono);
+        }
+
+        /* Responsive */
+        @media (max-width: 1280px) {
+            .toc {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-normal);
+                z-index: var(--z-modal);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: var(--spacing-lg);
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .page-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+  <header class="header">
+    <button class="mobile-menu-btn" aria-label="Toggle menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="./intro.html" class="header-logo">
+      <img src="./Logo_MaterialDigital.svg" alt="MaterialDigital Logo" style="height: 36px; width: auto;">
+      <span>PMDco <span style="color: var(--color-text-muted); font-weight: 400;">Docs</span></span>
+    </a>
+    <nav class="header-nav">
+      <a href="https://materialdigital.de/" target="_blank">About</a>
+      <a href="https://github.com/materialdigital/core-ontology" target="_blank">GitHub</a>
+      <a href="https://materialdigital.github.io/core-ontology/3.0.0/" target="_blank">Widoco</a>
+    </nav>
+    <button class="theme-toggle" aria-label="Toggle theme">
+      <span class="theme-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg></span>
+      <span class="theme-label">Dark</span>
+    </button>
+  </header>
+
+  <div class="sidebar-overlay"></div>
+  <aside class="sidebar">
+    <div class="search-container">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" placeholder="Search docs..." readonly>
+      <span class="search-shortcut">Ctrl+K</span>
+    </div>
+    <nav class="nav-sections">
+      <div class="nav-section">
+        <h3 class="nav-section-title">Getting Started</h3>
+        <ul class="nav-list">
+          <li><a href="./index.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a></li>
+          <li><a href="./intro.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Introduction</a></li>
+          <li><a href="./introduction-to-ontologies.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Ontologies Intro</a></li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-section-title">Ontology Guide</h3>
+        <ul class="nav-list">
+          <li><a href="./ontology-structure.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>Structure</a></li>
+          <li><a href="./patterns.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>Usage Patterns</a></li>
+          <li><a href="./user-guide.html" class="nav-link active"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>User Guide</a></li>
+          <li><a href="./reused-ontologies.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>Reused Ontologies</a></li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-section-title">Development</h3>
+        <ul class="nav-list">
+          <li><a href="./design-and-methodology.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Design</a></li>
+          <li><a href="./ontology-formatting.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>Formatting</a></li>
+          <li><a href="./contributing.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>Contributing</a></li>
+          <li><a href="./migration.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Migration</a></li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-section-title">Resources</h3>
+        <ul class="nav-list">
+          <li><a href="./glossary-and-tools.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Glossary</a></li>
+          <li><a href="./versions.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>Versions</a></li>
+          <li><a href="./publications.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>Publications</a></li>
+          <li><a href="./references.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>References</a></li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-section-title">About</h3>
+        <ul class="nav-list">
+          <li><a href="./about-us.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Who We Are</a></li>
+          <li><a href="./acknowledgements.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>Acknowledgements</a></li>
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+      <nav class="breadcrumbs"><a href="./">Home</a><span>/</span><span class="current">PMDco User Guide</span></nav>
+      <article class="content">
+<h1 id="pmdco-user-guide">PMDco User Guide</h1>
+<h2 id="how-to-develop-your-application-ontologies-using-pmdco-and-oboodk-best-practices">How to Develop Your Application Ontologies Using PMDco and OBO+ODK Best Practices</h2>
+<p>Although several guidelines and tutorials for ontology development are available (see Ontology Learning Materials for Beginners), we provide here a dedicated list of recommendations for creating application ontologies based on PMDco, making use of PMD guidance, ontology design patterns, OBO principles, and ODK features.</p>
+<h3 id="1--define-the-scope-and-domain-of-the-ontology">1-  Define the scope and domain of the ontology</h3>
+<ul>
+<li>Clearly define the domain (e.g., materials testing, patient data, food production)</li>
+<li>Collaborating with the domain experts, specify he use cases or competency questions the ontology should address</li>
+<li>Determine the target audience (e.g., researchers, software agents, data engineers)</li>
+<li>Formulate a narrow and specific ontology scope according to <a href="https://obofoundry.org/principles/fp-005-delineated-content.html">OBO principles</a>.</li>
+</ul>
+<h3 id="2--decide-on-the-level-of-detail-and-sources-for-terminology-collection">2-  Decide on the level of detail and sources for terminology collection</h3>
+<ul>
+<li>Determine whether the ontology will cover a broad area at a general level or focus on a specific topic in more detail,</li>
+<li>Identify reliable sources for terminology and concepts, such as books, scientific publications, domain experts, and relevant standards,</li>
+<li>Through such resources, identify the essential concepts within your domain,</li>
+<li>Provide accurate labels and clear definitions for each class (e.g., documented in a spreadsheet).</li>
+</ul>
+<h3 id="3--create-an-odk-based-ontology-repository">3-  Create an ODK-based ontology repository</h3>
+<ul>
+<li>If you already know ODK, create a GitHub repository for ontology with a reasonable x.yaml file configuration and importing the latest PMDco version,</li>
+<li>If you don’t know ODK or don’t want to install it, we made a template for you. Simply create your repository following the instructions mentioned in <a href="https://github.com/materialdigital/application-ontology-template">“application-ontology-template”</a>. This template applies the same framework used for PMDco and mirrors PMDco with all its modules.</li>
+</ul>
+<h3 id="4--collaborative-ontology-development-workflow">4-  Collaborative ontology development workflow</h3>
+<ul>
+<li>Any person who wants to contribute to the collaborative development of ontology should clone the ODK repository to the local machine,</li>
+<li>In Protégé, open the editable file: src/ontology/*-edit.owl (Any editor can manage an assigned ID range),</li>
+<li>Edit the ontology, like add classes/properties, update definitions, and organize axioms,</li>
+<li>Save and validate locally,</li>
+<li>Commit your edits and push them to your branch,</li>
+<li>Create a Pull Request, submit a PR with a short summary and justification of your changes,</li>
+<li>Team members review; after approval, the PR is merged.</li>
+</ul>
+<h3 id="5--add-your-desired-taxonomy">5-  Add your desired taxonomy</h3>
+<ul>
+<li>Edit ontology in protégé, </li>
+<li>Create new classes, properties, and individuals according to your terminology lists,</li>
+<li>Structure them hierarchically in alignment with reused top- and mid-level ontologies, where subclasses inherit properties from their superclasses,</li>
+<li>Evaluate other OBO Foundry ontologies (e.g., using <a href="https://ontobee.org/">Ontobee</a>) to check for existing classes and to guide your classification. In the case you want to import entities from other ontologies, please follow the instructions <a href="https://oboacademy.github.io/obook/howto/update-import/">here</a>,</li>
+<li>Following <a href="https://obofoundry.org/principles/fp-007-relations.html">OBO principles</a>, build the ontology primarily by extending the class hierarchy and minimizing the introduction of new object properties.</li>
+<li>Add rich annotations for new entities (such as definitions, references, examples, and editorial notes).</li>
+<li>Include comprehensive ontology annotation metadata (e.g., title, label, description, creators, contributors, version info, previous versions, license, and citation). </li>
+</ul>
+<h3 id="6--define-a-richer-semantic-model-with-multiple-relationship-types-rules-and-constraints">6-  Define a richer semantic model with multiple relationship types, rules, and constraints</h3>
+<ul>
+<li>Define logical axioms and property constraints (e.g., domain and range), </li>
+<li>Use graphical tools (e.g., Ontopanel or Miro) to visually discuss the modeling issues,</li>
+<li>Use our <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns">Ontology Design Patterns</a> as a guideline for the semantic representation of your concepts,</li>
+<li>See other PMDco-based application ontologies (listed below this page) for similar modeling concepts.</li>
+<li>If you still need support for specific modelling issues, please feel free to mention it in our GitHub <a href="https://github.com/ISE-FIZKarlsruhe/mwo/issues">issues</a> or <a href="https://github.com/materialdigital/core-ontology/discussions">discussion forum</a>.</li>
+</ul>
+<h3 id="7--ontology-evaluation-and-testing-workflow">7-  Ontology evaluation and testing workflow</h3>
+<ul>
+<li>Plan regular meetings with both ontology and MSE domain experts in your project to assess the ontology’s structure, resolve modeling issues, and ensure its logical correctness, </li>
+<li>Use ODK evaluation and testing workflows through GitHub Actions Continuous Integration to validate the ontology’s structure, syntax, annotation completeness, and logical consistency,</li>
+<li>Use reasoning tools (e.g., reasoners HermiT and Pellet) to ensure logical and technical consistency and identify potential redundancies,</li>
+<li>Analyzes the ontology for common modeling pitfalls, structural issues, and best-practice violations using tools like OOPS! (Ontology Pitfall Scanner!),</li>
+<li>We will be pleased to invite you to present your ontology in one of our “Ontology Playground meetings” (See Section Who We Are &amp; How to Join)</li>
+</ul>
+<h3 id="8--ontology-release-updating-and-versioning-workflow">8-  Ontology release, updating, and versioning workflow</h3>
+<ul>
+<li>Use ODK automated workflow for the release process, which follows these steps: running the release with ODK, reviewing the output, merging changes into the main branch, and creating a GitHub release. </li>
+<li>Track actively the GitHub issue to gather community feedback, recognize bugs, and identify necessary additions and refinements.</li>
+<li>Implement a curation process to assess and prioritize updates based on community needs.</li>
+<li>Employ the robust versioning system hosted on GitHub to ensure clear tracking of changes over time, management of previous versions, and clear tracking of the ontology’s evolution over time.</li>
+</ul>
+<h3 id="9--ontology-documentation-and-publishing">9-  Ontology documentation and publishing</h3>
+<ul>
+<li>Create detailed documentation, including best practices, examples, and guidelines in your ontology GitHub repository.</li>
+<li>Use <a href="https://github.com/dgarijo/Widoco">Widoco template</a>, a documentation generator for ontologies that automatically produces human-readable HTML documentation including metadata, hierarchies of classes, properties, and annotations,</li>
+<li>If interested, create <a href="https://www.mkdocs.org/">MkDocs</a> documentation (like this repository). </li>
+<li>If you are using <a href="https://github.com/materialdigital/application-ontology-template">“application-ontology-template”</a>, your ontology is automatically documented in <a href="https://obofoundry.org/">obofoundary.org</a>, </li>
+<li>To enhance your ontology accessibility, please also publish your ontology in <a href="https://matportal.org/">MatPortal</a> and <a href="https://dataportal.material-digital.de/">PMD DataPortal</a>.</li>
+</ul>
+<h2 id="pmdco-workshop">PMDco Workshop</h2>
+<p><strong>Hands-on tutorials &amp; learning materials for building your first MSE application ontology</strong></p>
+<p>Looking to get comfortable with ontology development in the MSE domain (especially using PMDco, ODK, design patterns, and our suggested best practices?</p>
+<p>Let's participate in our <a href="(https://github.com/HosseinBeygiNasrabadi/PMDco-workshop)">PMDco workshop</a>!</p>
+<p>In this workshop, you’ll find:</p>
+<p>🎓 Learning Materials: Carefully prepared resources that introduce ontology design principles, PMDco’s structure, and how to think like an ontology engineer in the context of materials science.</p>
+<p>🛠️ Hands-On Tutorials: Step-by-step exercises that guide you through designing a small but realistic ontology for a high-temperature tensile testing process.
+The tutorials follow a central use case, helping you understand not just how to model data, but why certain patterns and BFO-aligned decisions matter.</p>
+<p>📐 Best Practices Included: We walk you through recommended modeling strategies, reusable design patterns, competency questions, annotation guidelines, and practical workflows to help you build clean, interoperable ontologies for real-world MSE applications.</p>
+<p><strong>Workshop content (10 topics, 4 tutorials):</strong></p>
+<ul>
+<li>1- Ontology development and beginners learning materials </li>
+<li>2- Ontology levels</li>
+<li>3- Basic Formal Ontology (BFO) classes</li>
+<li>4- Platform MaterialDigital Core Ontology (PMDco) classes</li>
+<li>Tutorial 1: Structure given classes according to PMDco hierarchy (Miro board)</li>
+<li>5- Platform MaterialDigital Core Ontology (PMDco) object properties</li>
+<li>Tutorial 2: Using appropriate object properties (Miro board)</li>
+<li>6- How to develop your application ontologies using PMDco and OBO+ODK best practices?</li>
+<li>7- Ontology Development Kit (ODK)</li>
+<li>Tutorial 3: Creating ODK repository for PMDco application ontologies (GitHub)</li>
+<li>8- Collaborative ontology development workflow, adding taxonomy and axioms</li>
+<li>9- PMDco Ontology Design Patterns (ODPs)</li>
+<li>Tutorial 4: Ontology editing; adding classes, annotations and axioms (Protege)</li>
+<li>10- Ontology evaluation, release, documentation and maintenance </li>
+</ul>
+<p>Whether you’re new to semantic technologies or looking to sharpen your ontology-building workflow, this repo gives you a clear, structured path to learning by doing.</p>
+<p>👉 Check it out and start building your own domain ontology today!</p>
+<ul>
+<li><strong>Workshop repository</strong> <a href="https://github.com/HosseinBeygiNasrabadi/PMDco-workshop">GitHub PMDco Workshop</a></li>
+<li><strong>Workshop slides</strong> <a href="https://docs.google.com/presentation/d/1d5KbN1DxRt59dCp7jPMDCe5q6oSQS4GW/edit?usp=sharing&amp;ouid=115401620435163640303&amp;rtpof=true&amp;sd=true">here</a></li>
+<li><strong>Tutorials 1 and 2:</strong> <a href="https://miro.com/app/board/uXjVJnJwyj8=/?share_link_id=939408481172">Miro Board</a></li>
+<li><strong>Tutorial 3:</strong> <a href="https://github.com/materialdigital/application-ontology-template">GitHub ODK template</a></li>
+<li><strong>Tutorial 4:</strong> <a href="https://github.com/HosseinBeygiNasrabadi/PMDco-workshop">GitHub PMDco Workshop</a> and <a href="https://raw.githubusercontent.com/HosseinBeygiNasrabadi/PMDco-workshop/refs/heads/main/httto.ttl">httto.ttl</a></li>
+</ul>
+<h2 id="list-of-ontologies-reusing-pmdco-v3xx">List of Ontologies Reusing PMDco V3.x.x:</h2>
+<ul>
+<li><strong><a href="https://github.com/materialdigital/logistics-application-ontology">Logistic Application Ontology (LOG)</a></strong></li>
+<li>PMDCo application ontology for logistics and supply chain adopted from iof-supplychain-module</li>
+<li><strong><a href="https://github.com/materialdigital/vickers-testing-ontology">Vickers Testing Ontology (VTO)</a></strong></li>
+<li>An Ontology for representing the Vickers testing process, testing equipment requirements, test pieces characteristics, and related testing parameters and their measurement procedure according to DIN EN ISO 6507-1 standard.</li>
+<li><strong><a href="https://github.com/materialdigital/tensile-test-ontology">Tensile testing Ontology (TTO)</a></strong></li>
+<li>An ontology for representing tensile testing of metals at room temperature in accordance with the associated testing standard ISO 6892-1:2019-11.</li>
+<li><strong><a href="https://github.com/materialdigital/heat-treatment-application-ontology">Heat Treatment Ontology (HTO)</a></strong></li>
+<li>An application ontology of PMDco to model heat treatment processes with a focus on metals.</li>
+</ul>
+<h3 id="ontologies-from-the-nfdi-matwerk-community">Ontologies from the NFDI MatWerk community:</h3>
+<ul>
+<li><strong><a href="https://github.com/ISE-FIZKarlsruhe/mwo">NFDI MatWerk Ontology (MWO)</a></strong></li>
+<li>Modular extension of NFDIcore ontology for semantically representing the Research Data Management (RDM) in Materials Science and Engineering (MSE). </li>
+<li><strong><a href="https://github.com/HosseinBeygiNasrabadi/Bio-inspired-meta-materials-ontology-bimmo">Bio-inspired Meta Materials Ontology (BiMMO)</a></strong></li>
+<li>An Ontology for representing the structure, property, and processing of bio-inspired meta materials.</li>
+<li><strong><a href="https://github.com/HosseinBeygiNasrabadi/Reference-dataset-ontology-rdo">Reference Dataset Ontology for Creep (RDOC)</a></strong></li>
+<li>An application ontology for representing the concepts relevant for the description of a reference dataset, more specifically the creep testing reference dataset. </li>
+</ul>
+<p>A <a href="https://github.com/materialdigital/materialdigital1_ontology_collection">collection of application ontologies</a> was also developed by PMD projects, planned to be integrated with PMDco V3.x.x soon! </p>
+      </article>
+
+      <nav class="page-nav">
+<a href="./patterns.html" class="page-nav-link prev"><span class="page-nav-label">&larr; Previous</span><span class="page-nav-title">Usage Patterns</span></a>
+<a href="./reused-ontologies.html" class="page-nav-link next"><span class="page-nav-label">Next &rarr;</span><span class="page-nav-title">Reused Ontologies</span></a>
+      </nav>
+
+      <footer class="footer">
+        <div class="footer-links">
+          <a href="https://github.com/materialdigital/core-ontology" target="_blank">GitHub</a>
+          <a href="https://materialdigital.de/" target="_blank">MaterialDigital</a>
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>
+        </div>
+        <p class="footer-copyright">© 2024 Platform MaterialDigital. All rights reserved.</p>
+      </footer>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <h4 class="toc-title">On this page</h4>
+    <ul class="toc-list"><li><a href="#pmdco-user-guide">PMDco User Guide</a></li><li><a href="#how-to-develop-your-application-ontologies-using-pmdco-and-oboodk-best-practices">How to Develop Your Application Ontologies Using PMDco and OBO+ODK Best Practices</a></li><li><a href="#1--define-the-scope-and-domain-of-the-ontology" class="toc-h3">1-	Define the scope and domain of the ontology</a></li><li><a href="#2--decide-on-the-level-of-detail-and-sources-for-terminology-collection" class="toc-h3">2-	Decide on the level of detail and sources for terminology collection</a></li><li><a href="#3--create-an-odk-based-ontology-repository" class="toc-h3">3-	Create an ODK-based ontology repository</a></li><li><a href="#4--collaborative-ontology-development-workflow" class="toc-h3">4-	Collaborative ontology development workflow</a></li><li><a href="#5--add-your-desired-taxonomy" class="toc-h3">5-	Add your desired taxonomy</a></li><li><a href="#6--define-a-richer-semantic-model-with-multiple-relationship-types-rules-and-constraints" class="toc-h3">6-	Define a richer semantic model with multiple relationship types, rules, and constraints</a></li><li><a href="#7--ontology-evaluation-and-testing-workflow" class="toc-h3">7-	Ontology evaluation and testing workflow</a></li><li><a href="#8--ontology-release-updating-and-versioning-workflow" class="toc-h3">8-	Ontology release, updating, and versioning workflow</a></li><li><a href="#9--ontology-documentation-and-publishing" class="toc-h3">9-	Ontology documentation and publishing</a></li><li><a href="#pmdco-workshop">PMDco Workshop</a></li><li><a href="#list-of-ontologies-reusing-pmdco-v3xx">List of Ontologies Reusing PMDco V3.x.x:</a></li><li><a href="#ontologies-from-the-nfdi-matwerk-community" class="toc-h3">Ontologies from the NFDI MatWerk community:</a></li></ul>
+  </aside>
+
+  <script>
+        /* === ADVANCED ONTOLOGY GRAPHS === */
+        const GRAPH_CONFIGS = {
+            'process-chain': {
+                title: 'Process Chain Pattern',
+                note: 'Scroll to zoom, drag to pan. Click nodes for details.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 8000, idealEdgeLength: 120, animate: true, animationDuration: 800 },
+                elements: [
+                    { data: { id: 'p-process', label: 'bfo:Process', type: 'tbox', detail: 'Top-level BFO process class' } },
+                    { data: { id: 'p-parent', label: 'ex:process_parent', type: 'abox', detail: 'Parent manufacturing workflow' } },
+                    { data: { id: 'p-1', label: 'ex:step_1', type: 'abox', detail: 'Initial preparation step' } },
+                    { data: { id: 'p-2a', label: 'ex:step_2a', type: 'abox', detail: 'Parallel process A' } },
+                    { data: { id: 'p-2b', label: 'ex:step_2b', type: 'abox', detail: 'Parallel process B' } },
+                    { data: { id: 'p-3', label: 'ex:step_3', type: 'abox', detail: 'Final assembly step' } },
+                    { data: { id: 'lit-time', label: 'duration: 2h', type: 'literal', detail: 'Process duration value' } },
+                    { data: { source: 'p-parent', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-1', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-2a', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-2b', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-3', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-parent', target: 'p-1', label: 'starts_with', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-3', label: 'ends_with', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-1', label: 'has_part', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-2a', label: 'has_part', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-2b', label: 'has_part', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-3', label: 'has_part', kind: 'relation' } },
+                    { data: { source: 'p-1', target: 'p-2a', label: 'precedes', kind: 'relation' } },
+                    { data: { source: 'p-1', target: 'p-2b', label: 'precedes', kind: 'relation' } },
+                    { data: { source: 'p-2a', target: 'p-3', label: 'precedes', kind: 'relation' } },
+                    { data: { source: 'p-2a', target: 'p-2b', label: 'simultaneous', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'lit-time', label: 'has_duration', kind: 'literal' } }
+                ]
+            },
+            'temporal-region': {
+                title: 'Temporal Region Pattern',
+                note: 'Shows temporal relationships between processes and time regions.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 7000, idealEdgeLength: 100, animate: true },
+                elements: [
+                    { data: { id: 't-entity', label: 'bfo:Entity', type: 'tbox' } },
+                    { data: { id: 't-occurrent', label: 'bfo:Occurrent', type: 'tbox' } },
+                    { data: { id: 't-continuant', label: 'bfo:Continuant', type: 'tbox' } },
+                    { data: { id: 't-process', label: 'bfo:Process', type: 'tbox' } },
+                    { data: { id: 't-temp', label: 'bfo:TemporalRegion', type: 'tbox' } },
+                    { data: { id: 'a-proc1', label: 'ex:process_1', type: 'abox' } },
+                    { data: { id: 'a-period1', label: 'ex:period_1', type: 'abox' } },
+                    { data: { id: 'lit-dur', label: 'duration: 2h', type: 'literal' } },
+                    { data: { source: 't-occurrent', target: 't-entity', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 't-continuant', target: 't-entity', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 't-process', target: 't-occurrent', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 't-temp', target: 't-occurrent', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 'a-proc1', target: 't-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'a-proc1', target: 'a-period1', label: 'occupies_temporal_region', kind: 'relation' } },
+                    { data: { source: 'a-period1', target: 'lit-dur', label: 'has_duration', kind: 'literal' } }
+                ]
+            },
+            'process-io': {
+                title: 'Process I/O Pattern',
+                note: 'Manufacturing process with inputs and outputs.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 6000, animate: true },
+                elements: [
+                    { data: { id: 'io-mfg', label: 'pmd:Manufacturing', type: 'tbox' } },
+                    { data: { id: 'io-coating', label: 'pmd:Coating', type: 'tbox' } },
+                    { data: { id: 'io-obj', label: 'bfo:Object', type: 'tbox' } },
+                    { data: { id: 'io-p1', label: 'ex:process_1', type: 'abox' } },
+                    { data: { id: 'io-p2', label: 'ex:process_2', type: 'abox' } },
+                    { data: { id: 'io-o1', label: 'ex:object_1', type: 'abox' } },
+                    { data: { id: 'io-o2', label: 'ex:object_2', type: 'abox' } },
+                    { data: { id: 'io-o3', label: 'ex:object_3', type: 'abox' } },
+                    { data: { source: 'io-coating', target: 'io-mfg', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 'io-p1', target: 'io-mfg', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'io-p2', target: 'io-coating', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'io-o1', target: 'io-obj', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'io-p1', target: 'io-o1', label: 'has_input', kind: 'relation' } },
+                    { data: { source: 'io-p1', target: 'io-o2', label: 'has_output', kind: 'relation' } },
+                    { data: { source: 'io-p2', target: 'io-o2', label: 'has_input', kind: 'relation' } },
+                    { data: { source: 'io-p2', target: 'io-o3', label: 'has_output', kind: 'relation' } }
+                ]
+            },
+            'role-pattern': {
+                title: 'Role Pattern',
+                note: 'Object with evaluant role realized in fatigue testing.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 6500, animate: true },
+                elements: [
+                    { data: { id: 'r-fatigue', label: 'pmd:FatigueTesting', type: 'tbox' } },
+                    { data: { id: 'r-role', label: 'obi:EvaluantRole', type: 'tbox' } },
+                    { data: { id: 'r-obj', label: 'bfo:Object', type: 'tbox' } },
+                    { data: { id: 'r-p1', label: 'ex:fatigue_test', type: 'abox' } },
+                    { data: { id: 'r-o1', label: 'ex:specimen', type: 'abox' } },
+                    { data: { id: 'r-role1', label: 'ex:evaluant_role', type: 'abox' } },
+                    { data: { id: 'r-result', label: 'ex:test_result', type: 'abox' } },
+                    { data: { source: 'r-p1', target: 'r-fatigue', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'r-o1', target: 'r-obj', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'r-role1', target: 'r-role', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'r-p1', target: 'r-o1', label: 'has_input', kind: 'relation' } },
+                    { data: { source: 'r-p1', target: 'r-result', label: 'has_output', kind: 'relation' } },
+                    { data: { source: 'r-o1', target: 'r-role1', label: 'has_role', kind: 'relation' } },
+                    { data: { source: 'r-role1', target: 'r-p1', label: 'realized_in', kind: 'relation' } }
+                ]
+            },
+            'measurement-view': {
+                title: 'Measurement Pattern',
+                note: 'Observation with value and unit literals.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 5500, animate: true },
+                elements: [
+                    { data: { id: 'm-obs', label: 'pmd:Observation', type: 'tbox' } },
+                    { data: { id: 'm-sample', label: 'pmd:Sample', type: 'tbox' } },
+                    { data: { id: 'm-obs1', label: 'obs:hardness', type: 'abox' } },
+                    { data: { id: 'm-s1', label: 'ex:steel_A', type: 'abox' } },
+                    { data: { id: 'm-val', label: 'value: 220.5', type: 'literal' } },
+                    { data: { id: 'm-unit', label: 'unit: HV', type: 'literal' } },
+                    { data: { source: 'm-obs1', target: 'm-obs', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'm-s1', target: 'm-sample', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'm-obs1', target: 'm-s1', label: 'measured_on', kind: 'relation' } },
+                    { data: { source: 'm-obs1', target: 'm-val', label: 'has_value', kind: 'literal' } },
+                    { data: { source: 'm-obs1', target: 'm-unit', label: 'has_unit', kind: 'literal' } }
+                ]
+            }
+        };
+
+        /* Advanced Cytoscape Styles */
+        const GRAPH_STYLE = [
+            {
+                selector: 'node', style: {
+                    'label': 'data(label)',
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                    'font-size': '13px',
+                    'font-weight': '600',
+                    'font-family': 'Inter, sans-serif',
+                    'color': '#ffffff',
+                    'text-outline-color': '#0a1628',
+                    'text-outline-width': 2,
+                    'text-wrap': 'wrap',
+                    'text-max-width': '100px',
+                    'width': 75,
+                    'height': 60,
+                    'background-color': '#0ea5e9',
+                    'background-opacity': 1,
+                    'border-width': 3,
+                    'border-color': 'rgba(255,255,255,0.3)',
+                    'shadow-blur': 20,
+                    'shadow-color': 'rgba(14,165,233,0.5)',
+                    'shadow-offset-x': 0,
+                    'shadow-offset-y': 4,
+                    'shadow-opacity': 0.8,
+                    'transition-property': 'shadow-blur, shadow-opacity, width, height, border-color',
+                    'transition-duration': '0.2s'
+                }
+            },
+            {
+                selector: 'node[type="tbox"]', style: {
+                    'shape': 'round-rectangle',
+                    'background-color': '#0ea5e9',
+                    'shadow-color': 'rgba(14,165,233,0.6)'
+                }
+            },
+            {
+                selector: 'node[type="abox"]', style: {
+                    'shape': 'ellipse',
+                    'background-color': '#8b5cf6',
+                    'shadow-color': 'rgba(139,92,246,0.6)',
+                    'width': 70,
+                    'height': 55
+                }
+            },
+            {
+                selector: 'node[type="literal"]', style: {
+                    'shape': 'round-rectangle',
+                    'background-color': '#f59e0b',
+                    'color': '#1e293b',
+                    'text-outline-color': 'rgba(255,255,255,0.5)',
+                    'text-outline-width': 1,
+                    'shadow-color': 'rgba(245,158,11,0.6)',
+                    'width': 85,
+                    'height': 45,
+                    'font-size': '12px',
+                    'font-weight': '500'
+                }
+            },
+            {
+                selector: 'node:active, node:selected', style: {
+                    'shadow-blur': 35,
+                    'shadow-opacity': 1,
+                    'border-color': '#ffffff',
+                    'border-width': 4
+                }
+            },
+            {
+                selector: 'node:hover', style: {
+                    'shadow-blur': 30,
+                    'shadow-opacity': 1,
+                    'border-color': 'rgba(255,255,255,0.6)'
+                }
+            },
+            {
+                selector: 'edge', style: {
+                    'curve-style': 'bezier',
+                    'target-arrow-shape': 'triangle',
+                    'target-arrow-color': '#22c55e',
+                    'arrow-scale': 1.3,
+                    'line-color': '#22c55e',
+                    'width': 2.5,
+                    'opacity': 0.85,
+                    'label': 'data(label)',
+                    'font-size': '11px',
+                    'font-weight': '500',
+                    'font-family': 'Inter, sans-serif',
+                    'color': '#94a3b8',
+                    'text-rotation': 'autorotate',
+                    'text-background-color': '#0d1f35',
+                    'text-background-opacity': 0.95,
+                    'text-background-padding': '4px',
+                    'text-background-shape': 'roundrectangle',
+                    'text-border-opacity': 0.5,
+                    'text-border-width': 1,
+                    'text-border-color': 'rgba(255,255,255,0.1)',
+                    'transition-property': 'width, opacity, line-color',
+                    'transition-duration': '0.15s'
+                }
+            },
+            {
+                selector: 'edge[kind="taxonomy"]', style: {
+                    'line-style': 'dashed',
+                    'line-dash-pattern': [8, 4],
+                    'line-color': '#64748b',
+                    'target-arrow-color': '#64748b',
+                    'opacity': 0.7
+                }
+            },
+            {
+                selector: 'edge[kind="instance"]', style: {
+                    'line-color': '#0ea5e9',
+                    'target-arrow-color': '#0ea5e9',
+                    'line-style': 'dotted',
+                    'line-dash-pattern': [4, 3]
+                }
+            },
+            {
+                selector: 'edge[kind="literal"]', style: {
+                    'line-color': '#f59e0b',
+                    'target-arrow-color': '#f59e0b',
+                    'target-arrow-shape': 'diamond'
+                }
+            },
+            {
+                selector: 'edge:hover', style: {
+                    'width': 4,
+                    'opacity': 1,
+                    'z-index': 10
+                }
+            }
+        ];
+
+        class AdvancedGraphRenderer {
+            constructor() { this.instances = new Map(); this.init(); }
+
+            init() {
+                document.querySelectorAll('.ontology-graph').forEach(el => this.render(el));
+            }
+
+            render(container) {
+                const id = container.dataset.graphId || 'process-chain';
+                const config = GRAPH_CONFIGS[id];
+                if (!config) { container.innerHTML = '<div class="graph-note">Graph not found: ' + id + '</div>'; return; }
+
+                container.classList.add('diagram-container');
+                container.innerHTML = '';
+
+                // Header
+                const header = document.createElement('div');
+                header.className = 'diagram-header';
+                header.innerHTML = `<span class="diagram-title">${config.title}</span>
+      <div class="diagram-controls">
+        <button class="diagram-btn" data-action="zoom-in" title="Zoom In">+</button>
+        <button class="diagram-btn" data-action="zoom-out" title="Zoom Out">−</button>
+        <button class="diagram-btn" data-action="reset" title="Reset">1:1</button>
+        <button class="diagram-btn" data-action="fit" title="Fit">Fit</button>
+        <button class="diagram-btn" data-action="fullscreen" title="Fullscreen">⛶</button>
+      </div>`;
+                container.appendChild(header);
+
+                // Viewport
+                const viewport = document.createElement('div');
+                viewport.className = 'diagram-viewport';
+                container.appendChild(viewport);
+
+                // Zoom indicator
+                const zoomInd = document.createElement('div');
+                zoomInd.className = 'zoom-indicator';
+                zoomInd.textContent = '100%';
+                viewport.appendChild(zoomInd);
+
+                // Legend
+                const legend = document.createElement('div');
+                legend.className = 'graph-legend';
+                legend.innerHTML = `
+      <span class="legend-item"><span class="legend-swatch swatch-tbox"></span>TBox Class</span>
+      <span class="legend-item"><span class="legend-swatch swatch-abox"></span>ABox Individual</span>
+      <span class="legend-item"><span class="legend-swatch swatch-literal"></span>Literal Value</span>
+      <span class="legend-item"><span class="legend-swatch swatch-relation"></span>Object Property</span>
+      <span class="legend-item"><span class="legend-swatch swatch-taxonomy"></span>Taxonomy</span>`;
+                container.appendChild(legend);
+
+                // Note
+                if (config.note) {
+                    const note = document.createElement('div');
+                    note.className = 'graph-note';
+                    note.textContent = config.note;
+                    container.appendChild(note);
+                }
+
+                // Tooltip
+                const tooltip = document.createElement('div');
+                tooltip.className = 'graph-tooltip';
+                tooltip.style.display = 'none';
+                container.appendChild(tooltip);
+
+                // Initialize Cytoscape
+                const cy = cytoscape({
+                    container: viewport,
+                    elements: config.elements,
+                    style: GRAPH_STYLE,
+                    layout: config.layout,
+                    wheelSensitivity: 0.2,
+                    minZoom: 0.3,
+                    maxZoom: 3
+                });
+
+                this.instances.set(id, cy);
+
+                // Zoom indicator update
+                cy.on('zoom', () => { zoomInd.textContent = Math.round(cy.zoom() * 100) + '%'; });
+
+                // Controls
+                header.querySelectorAll('.diagram-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const action = btn.dataset.action;
+                        if (action === 'zoom-in') cy.zoom({ level: cy.zoom() * 1.25, renderedPosition: { x: viewport.offsetWidth / 2, y: viewport.offsetHeight / 2 } });
+                        if (action === 'zoom-out') cy.zoom({ level: cy.zoom() * 0.8, renderedPosition: { x: viewport.offsetWidth / 2, y: viewport.offsetHeight / 2 } });
+                        if (action === 'reset') { cy.zoom(1); cy.center(); }
+                        if (action === 'fit') cy.fit(50);
+                        if (action === 'fullscreen') container.classList.toggle('fullscreen');
+                    });
+                });
+
+                // Tooltip interactions
+                cy.on('tap', 'node', evt => {
+                    const node = evt.target;
+                    const data = node.data();
+                    const pos = evt.renderedPosition;
+                    const typeClass = data.type || 'tbox';
+                    tooltip.innerHTML = `<strong>${data.label}</strong><br><span class="tooltip-type ${typeClass}">${typeClass.toUpperCase()}</span>${data.detail ? '<br><span style="color:#94a3b8;margin-top:8px;display:block;">' + data.detail + '</span>' : ''}`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = Math.min(pos.x + 15, container.offsetWidth - 250) + 'px';
+                    tooltip.style.top = Math.min(pos.y + 15, container.offsetHeight - 100) + 'px';
+                });
+
+                cy.on('tap', evt => { if (evt.target === cy) tooltip.style.display = 'none'; });
+                container.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+            }
+        }
+
+        /* Theme Manager */
+        class ThemeManager {
+            constructor() {
+                this.toggle = document.querySelector('.theme-toggle');
+                this.init();
+            }
+            init() {
+                const saved = localStorage.getItem('pmdco-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'light' : 'dark');
+                this.apply(saved);
+                if (this.toggle) this.toggle.addEventListener('click', () => this.toggleTheme());
+            }
+            toggleTheme() {
+                const next = document.body.classList.contains('theme-dark') ? 'light' : 'dark';
+                this.apply(next);
+            }
+            apply(theme) {
+                document.body.classList.toggle('theme-light', theme === 'light');
+                localStorage.setItem('pmdco-theme', theme);
+                const label = this.toggle?.querySelector('.theme-label');
+                const icon = this.toggle?.querySelector('.theme-icon');
+                if (label) label.textContent = theme === 'light' ? 'Light' : 'Dark';
+                if (icon) icon.innerHTML = theme === 'light'
+                    ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+                    : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>';
+            }
+        }
+
+        /* Mobile Navigation */
+        class MobileNav {
+            constructor() {
+                this.sidebar = document.querySelector('.sidebar');
+                this.overlay = document.querySelector('.sidebar-overlay');
+                this.btn = document.querySelector('.mobile-menu-btn');
+                if (this.btn) {
+                    this.btn.addEventListener('click', () => this.toggle());
+                    this.overlay?.addEventListener('click', () => this.close());
+                }
+            }
+            toggle() { this.sidebar?.classList.toggle('open'); this.overlay?.classList.toggle('active'); }
+            close() { this.sidebar?.classList.remove('open'); this.overlay?.classList.remove('active'); }
+        }
+
+        /* Enhanced Search with Content Indexing */
+        class Search {
+            constructor() {
+                this.selectedIndex = -1;
+                this.searchIndex = this.buildSearchIndex();
+                this.createModal();
+                this.bindEvents();
+            }
+            
+            buildSearchIndex() {
+                return [
+                    { title: 'Home', path: './index.html', section: 'Getting Started', keywords: 'home welcome pmdco documentation start overview' },
+                    { title: 'Introduction', path: './intro.html', section: 'Getting Started', keywords: 'introduction pmdco core ontology materials science engineering overview purpose goals' },
+                    { title: 'Background & Context', path: './background-and-context.html', section: 'Getting Started', keywords: 'background context history motivation materials digital platform' },
+                    { title: 'Introduction to Ontologies', path: './introduction-to-ontologies.html', section: 'Getting Started', keywords: 'ontology ontologies what is definition semantic web knowledge representation owl rdf class property instance tbox abox bfo emmo fair data interoperability materials science engineering mse lifecycle' },
+                    { title: 'Ontology Structure', path: './ontology-structure.html', section: 'Ontology Guide', keywords: 'structure hierarchy classes properties relations taxonomy organization architecture modules' },
+                    { title: 'Usage Patterns', path: './patterns.html', section: 'Ontology Guide', keywords: 'patterns usage examples templates best practices modeling process chain measurement specimen sample material workflow' },
+                    { title: 'User Guide', path: './user-guide.html', section: 'Ontology Guide', keywords: 'user guide tutorial how to use getting started examples implementation practical' },
+                    { title: 'Reused Ontologies', path: './reused-ontologies.html', section: 'Ontology Guide', keywords: 'reused ontologies imported external bfo obi qudt iao prov ontology dependencies' },
+                    { title: 'Design & Methodology', path: './design-and-methodology.html', section: 'Development', keywords: 'design methodology development approach principles decisions architecture modular competency questions' },
+                    { title: 'Ontology Formatting', path: './ontology-formatting.html', section: 'Development', keywords: 'formatting conventions style guide naming iri uri prefix labels annotations' },
+                    { title: 'Contributing', path: './contributing.html', section: 'Development', keywords: 'contributing contribution guidelines pull request issue github community collaboration' },
+                    { title: 'Migration Guide', path: './migration.html', section: 'Development', keywords: 'migration upgrade version changes breaking compatibility update' },
+                    { title: 'Glossary & Tools', path: './glossary-and-tools.html', section: 'Resources', keywords: 'glossary terms definitions tools software protege ontology editor visualization sparql reasoner' },
+                    { title: 'Versions', path: './versions.html', section: 'Resources', keywords: 'versions changelog release history updates features' },
+                    { title: 'Publications', path: './publications.html', section: 'Resources', keywords: 'publications papers articles research citations academic scholarly' },
+                    { title: 'References', path: './references.html', section: 'Resources', keywords: 'references bibliography links resources external documentation standards' },
+                    { title: 'Who We Are', path: './about-us.html', section: 'About', keywords: 'about us team contributors developers maintainers organization' },
+                    { title: 'Acknowledgements', path: './acknowledgements.html', section: 'About', keywords: 'acknowledgements thanks funding support sponsors contributors' },
+                    ...this.extractPageContent()
+                ];
+            }
+            
+            extractPageContent() {
+                const content = [];
+                document.querySelectorAll('article h1, article h2, article h3').forEach(heading => {
+                    const id = heading.id;
+                    const text = heading.textContent.trim();
+                    const nextSibling = heading.nextElementSibling;
+                    let excerpt = '';
+                    if (nextSibling && (nextSibling.tagName === 'P' || nextSibling.tagName === 'UL')) {
+                        excerpt = nextSibling.textContent.substring(0, 150);
+                    }
+                    if (id && text) {
+                        content.push({ title: text, path: '#' + id, section: 'On this page', keywords: text.toLowerCase() + ' ' + excerpt.toLowerCase(), excerpt: excerpt });
+                    }
+                });
+                return content;
+            }
+            
+            createModal() {
+                const html = `<div class="search-modal" id="search-modal">
+      <div class="search-modal-content">
+        <div class="search-modal-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-modal-input" id="search-input" placeholder="Search documentation..." autocomplete="off">
+          <kbd class="search-shortcut">ESC</kbd>
+        </div>
+        <div class="search-results" id="search-results"><div class="search-no-results">Type to search the documentation...</div></div>
+        <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>ESC</kbd> Close</span></div>
+      </div>
+    </div>`;
+                document.body.insertAdjacentHTML('beforeend', html);
+                this.modal = document.getElementById('search-modal');
+                this.input = document.getElementById('search-input');
+                this.results = document.getElementById('search-results');
+            }
+            
+            bindEvents() {
+                document.addEventListener('keydown', e => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); this.open(); }
+                    if (e.key === 'Escape' && this.modal.classList.contains('active')) this.close();
+                    if (this.modal.classList.contains('active')) {
+                        if (e.key === 'ArrowDown') { e.preventDefault(); this.navigate(1); }
+                        if (e.key === 'ArrowUp') { e.preventDefault(); this.navigate(-1); }
+                        if (e.key === 'Enter') { e.preventDefault(); this.selectCurrent(); }
+                    }
+                });
+                this.modal.addEventListener('click', e => { if (e.target === this.modal) this.close(); });
+                document.querySelector('.search-input')?.addEventListener('focus', e => { e.target.blur(); this.open(); });
+                this.input.addEventListener('input', () => { this.selectedIndex = -1; this.search(this.input.value); });
+            }
+            
+            navigate(direction) {
+                const items = this.results.querySelectorAll('.search-result-item');
+                if (!items.length) return;
+                items.forEach(item => item.classList.remove('selected'));
+                this.selectedIndex = Math.max(-1, Math.min(items.length - 1, this.selectedIndex + direction));
+                if (this.selectedIndex >= 0) {
+                    items[this.selectedIndex].classList.add('selected');
+                    items[this.selectedIndex].scrollIntoView({ block: 'nearest' });
+                }
+            }
+            
+            selectCurrent() {
+                const items = this.results.querySelectorAll('.search-result-item');
+                if (this.selectedIndex >= 0 && items[this.selectedIndex]) {
+                    window.location.href = items[this.selectedIndex].href;
+                } else if (items.length > 0) {
+                    window.location.href = items[0].href;
+                }
+            }
+            
+            search(query) {
+                if (!query.trim()) { this.results.innerHTML = '<div class="search-no-results">Type to search the documentation...</div>'; return; }
+                const q = query.toLowerCase().trim();
+                const words = q.split(/\s+/).filter(w => w.length > 1);
+                const scored = this.searchIndex.map(item => {
+                    let score = 0;
+                    const titleLower = item.title.toLowerCase();
+                    const keywordsLower = item.keywords.toLowerCase();
+                    if (titleLower === q) score += 100;
+                    else if (titleLower.startsWith(q)) score += 50;
+                    else if (titleLower.includes(q)) score += 30;
+                    words.forEach(word => {
+                        if (titleLower.includes(word)) score += 20;
+                        if (keywordsLower.includes(word)) score += 10;
+                    });
+                    if (keywordsLower.includes(q)) score += 15;
+                    return { ...item, score };
+                }).filter(item => item.score > 0).sort((a, b) => b.score - a.score).slice(0, 10);
+                
+                if (!scored.length) { this.results.innerHTML = `<div class="search-no-results">No results found for "<strong>${this.escapeHtml(query)}</strong>"</div>`; return; }
+                
+                const grouped = {};
+                scored.forEach(item => { if (!grouped[item.section]) grouped[item.section] = []; grouped[item.section].push(item); });
+                
+                let html = '';
+                for (const [section, items] of Object.entries(grouped)) {
+                    html += `<div class="search-section-label">${section}</div>`;
+                    items.forEach(item => {
+                        const highlightedTitle = this.highlightMatches(item.title, words);
+                        html += `<a href="${item.path}" class="search-result-item"><div class="search-result-title">${highlightedTitle}</div>${item.excerpt ? `<div class="search-result-excerpt">${this.highlightMatches(item.excerpt.substring(0, 100), words)}...</div>` : ''}</a>`;
+                    });
+                }
+                this.results.innerHTML = html;
+            }
+            
+            highlightMatches(text, words) {
+                let result = this.escapeHtml(text);
+                words.forEach(word => { result = result.replace(new RegExp(`(${word})`, 'gi'), '<mark>$1</mark>'); });
+                return result;
+            }
+            
+            escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+            open() { this.modal.classList.add('active'); this.input.focus(); this.selectedIndex = -1; }
+            close() { this.modal.classList.remove('active'); this.input.value = ''; this.results.innerHTML = '<div class="search-no-results">Type to search the documentation...</div>'; this.selectedIndex = -1; }
+        }
+
+        /* Init */
+        document.addEventListener('DOMContentLoaded', () => {
+            new ThemeManager();
+            new MobileNav();
+            new Search();
+            new AdvancedGraphRenderer();
+        });
+    </script>
+</body>
+</html>

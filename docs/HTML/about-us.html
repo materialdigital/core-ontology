@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Who We Are - PMDco Documentation">
+    <title>Who We Are | PMDco Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+    <style>
+        /* === CSS VARIABLES === */
+        :root {
+            --color-primary: #00a0e3;
+            --color-primary-dark: #0077b3;
+            --color-primary-light: #33b5eb;
+            --color-accent: #7dd3fc;
+            --color-surface: rgba(255, 255, 255, 0.92);
+            --color-bg-primary: #f7f9fc;
+            --color-bg-secondary: #ffffff;
+            --color-bg-tertiary: #edf2f7;
+            --color-bg-card: #ffffff;
+            --color-bg-hover: rgba(0, 160, 227, 0.08);
+            --color-text-primary: #0f172a;
+            --color-text-secondary: #1f2937;
+            --color-text-muted: #475569;
+            --color-border: rgba(15, 23, 42, 0.1);
+            --color-border-hover: rgba(0, 160, 227, 0.5);
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            --color-info: #3b82f6;
+            --color-code-bg: #f3f4f6;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-family-mono: 'JetBrains Mono', monospace;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 20px rgba(0, 160, 227, 0.3);
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+            --sidebar-width: 280px;
+            --header-height: 64px;
+            --toc-width: 240px;
+            --z-sticky: 200;
+            --z-modal: 300;
+            --z-tooltip: 400;
+        }
+
+        body.theme-dark {
+            --color-bg-primary: #0a1628;
+            --color-bg-secondary: #0d1f35;
+            --color-bg-tertiary: #132743;
+            --color-bg-card: rgba(19, 39, 67, 0.8);
+            --color-bg-hover: rgba(0, 160, 227, 0.1);
+            --color-surface: rgba(10, 22, 40, 0.95);
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #94a3b8;
+            --color-text-muted: #64748b;
+            --color-border: rgba(148, 163, 184, 0.2);
+            --color-code-bg: #1e293b;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            line-height: 1.5;
+            color: var(--color-text-primary);
+            background: var(--color-bg-primary);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 160, 227, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 160, 227, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: var(--font-size-2xl);
+            margin-top: var(--spacing-2xl);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        h3 {
+            font-size: var(--font-size-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-secondary);
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--color-primary-light);
+            text-decoration: underline;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        ul,
+        ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-xl);
+            color: var(--color-text-secondary);
+        }
+
+        code:not(pre code) {
+            padding: 2px 6px;
+            font-size: 0.9em;
+            font-family: var(--font-family-mono);
+            color: var(--color-primary-light);
+            background: var(--color-code-bg);
+            border-radius: var(--radius-sm);
+        }
+
+        pre {
+            margin: var(--spacing-lg) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-code-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+        }
+
+        pre code {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            color: #e2e8f0;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--color-surface);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            z-index: var(--z-sticky);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: var(--spacing-xl);
+            margin-left: auto;
+        }
+
+        .header-nav a {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+
+        .header-nav a:hover {
+            color: var(--color-text-primary);
+            text-decoration: none;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            margin-left: var(--spacing-md);
+            padding: 8px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-secondary);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .theme-toggle:hover {
+            color: var(--color-text-primary);
+            border-color: var(--color-border-hover);
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .theme-label {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            color: var(--color-text-primary);
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--color-bg-secondary);
+            border-right: 1px solid var(--color-border);
+            overflow-y: auto;
+            padding: var(--spacing-lg);
+            z-index: var(--z-sticky);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: var(--radius-full);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: calc(var(--z-modal) - 1);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .nav-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .nav-section-title {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-list li {
+            margin-bottom: 2px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .nav-link:hover {
+            color: var(--color-text-primary);
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            background: rgba(0, 160, 227, 0.15);
+            font-weight: 500;
+        }
+
+        .nav-link svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+
+        /* Search */
+        .search-container {
+            position: relative;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            padding-left: 40px;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 160, 227, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--color-text-muted);
+        }
+
+        .search-shortcut {
+            position: absolute;
+            right: var(--spacing-sm);
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 2px 6px;
+            font-size: var(--font-size-xs);
+            font-family: var(--font-family-mono);
+            color: var(--color-text-muted);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
+            padding: var(--spacing-2xl);
+            flex: 1;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-sm);
+        }
+
+        .breadcrumbs a {
+            color: var(--color-text-muted);
+        }
+
+        .breadcrumbs .current {
+            color: var(--color-text-secondary);
+        }
+
+        /* TOC */
+        .toc {
+            position: fixed;
+            top: calc(var(--header-height) + var(--spacing-2xl));
+            right: var(--spacing-xl);
+            width: var(--toc-width);
+            max-height: calc(100vh - var(--header-height) - 4rem);
+            overflow-y: auto;
+            padding: var(--spacing-md);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(8px);
+        }
+
+        .toc-title {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list a {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-left: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .toc-list a:hover,
+        .toc-list a.active {
+            color: var(--color-primary);
+            border-left-color: var(--color-primary);
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .toc-list .toc-h3 {
+            padding-left: var(--spacing-lg);
+        }
+
+        /* Page Nav */
+        .page-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .page-nav-link {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-lg);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+        }
+
+        .page-nav-link:hover {
+            border-color: var(--color-primary);
+            text-decoration: none;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .page-nav-link.next {
+            text-align: right;
+        }
+
+        .page-nav-label {
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+        }
+
+        .page-nav-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: var(--spacing-2xl);
+            padding: var(--spacing-xl) 0;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-links a {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        .footer-copyright {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        /* === ADVANCED GRAPH STYLES === */
+        .diagram-container {
+            position: relative;
+            margin: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(13, 31, 53, 0.95) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .diagram-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .diagram-title {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .diagram-title::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--color-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .diagram-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .diagram-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 32px;
+            padding: 0 10px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: linear-gradient(180deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .diagram-btn:hover {
+            color: var(--color-text-primary);
+            border-color: var(--color-primary);
+            background: var(--color-bg-hover);
+            box-shadow: 0 0 12px rgba(0, 160, 227, 0.2);
+        }
+
+        .diagram-viewport {
+            position: relative;
+            min-height: 450px;
+            max-height: 650px;
+            background: radial-gradient(ellipse at center, rgba(0, 160, 227, 0.03) 0%, transparent 70%);
+            cursor: grab;
+        }
+
+        .diagram-viewport:active {
+            cursor: grabbing;
+        }
+
+        /* Graph Legend - Premium */
+        .graph-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-full);
+            backdrop-filter: blur(4px);
+        }
+
+        .legend-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .swatch-tbox {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        }
+
+        .swatch-abox {
+            background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+        }
+
+        .swatch-literal {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        .swatch-relation {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+        }
+
+        .swatch-taxonomy {
+            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+        }
+
+        .graph-note {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            background: rgba(0, 0, 0, 0.1);
+            border-top: 1px dashed var(--color-border);
+        }
+
+        /* Advanced Tooltip */
+        .graph-tooltip {
+            position: absolute;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, rgba(19, 39, 67, 0.98) 0%, rgba(13, 31, 53, 0.98) 100%);
+            color: var(--color-text-primary);
+            border: 1px solid rgba(0, 160, 227, 0.3);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            backdrop-filter: blur(12px);
+            font-size: var(--font-size-sm);
+            pointer-events: none;
+            z-index: var(--z-tooltip);
+            min-width: 200px;
+            max-width: 320px;
+            animation: tooltipFade 0.2s ease;
+        }
+
+        @keyframes tooltipFade {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .graph-tooltip strong {
+            color: var(--color-primary-light);
+            font-size: var(--font-size-base);
+        }
+
+        .graph-tooltip .tooltip-type {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 2px 8px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: var(--radius-sm);
+        }
+
+        .graph-tooltip .tooltip-type.tbox {
+            background: rgba(14, 165, 233, 0.2);
+            color: #7dd3fc;
+        }
+
+        .graph-tooltip .tooltip-type.abox {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+        }
+
+        .graph-tooltip .tooltip-type.literal {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        /* Zoom indicator */
+        .zoom-indicator {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            padding: 4px 10px;
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            font-family: var(--font-family-mono);
+            color: var(--color-text-muted);
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: var(--radius-sm);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Search Modal */
+        .search-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: var(--z-modal);
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15vh;
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-modal-content {
+            width: 100%;
+            max-width: 640px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+        }
+
+        .search-modal-header {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .search-modal-input {
+            flex: 1;
+            padding: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+            color: var(--color-text-primary);
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: var(--spacing-sm);
+        }
+
+        .search-result-item {
+            display: block;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: background var(--transition-fast);
+        }
+
+        .search-result-item:hover,
+        .search-result-item.selected {
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .search-result-title {
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .search-result-excerpt {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        .search-result-excerpt mark {
+            background: rgba(0, 160, 227, 0.3);
+            color: var(--color-primary-light);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .search-no-results {
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--color-text-muted);
+        }
+
+        .search-footer {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+        }
+
+        .search-footer kbd {
+            padding: 2px 6px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family-mono);
+        }
+
+        /* Responsive */
+        @media (max-width: 1280px) {
+            .toc {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-normal);
+                z-index: var(--z-modal);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: var(--spacing-lg);
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .page-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Viewer Modal */
+        .image-viewer-modal { display: none; position: fixed; inset: 0; z-index: 500; }
+        .image-viewer-modal.active { display: flex; flex-direction: column; }
+        .image-viewer-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.95); }
+        .image-viewer-container { position: relative; display: flex; flex-direction: column; width: 100%; height: 100%; z-index: 1; }
+        .image-viewer-toolbar { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-md) var(--spacing-lg); background: var(--color-bg-secondary); border-bottom: 1px solid var(--color-border); }
+        .iv-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--color-bg-tertiary); border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary); cursor: pointer; transition: all var(--transition-fast); }
+        .iv-btn:hover { background: var(--color-primary); border-color: var(--color-primary); }
+        .iv-close { margin-left: auto; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3); }
+        .iv-close:hover { background: #ef4444; border-color: #ef4444; }
+        .iv-zoom-level { font-size: var(--font-size-sm); font-weight: 500; color: var(--color-text-secondary); min-width: 50px; text-align: center; }
+        .image-viewer-content { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: var(--spacing-lg); }
+        .image-viewer-wrapper { cursor: grab; user-select: none; }
+        .image-viewer-wrapper img, .image-viewer-wrapper svg { max-width: 100%; max-height: 80vh; transform-origin: center center; transition: transform 0.1s ease-out; }
+        article img, article svg, .lifecycle-diagram svg { cursor: zoom-in; transition: opacity var(--transition-fast); }
+        article img:hover, article svg:hover, .lifecycle-diagram svg:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+  <header class="header">
+    <button class="mobile-menu-btn" aria-label="Toggle menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="./intro.html" class="header-logo">
+      <img src="./Logo_MaterialDigital.svg" alt="MaterialDigital Logo" style="height: 36px; width: auto;">
+      <span>PMDco <span style="color: var(--color-text-muted); font-weight: 400;">Docs</span></span>
+    </a>
+    <nav class="header-nav">
+      <a href="https://materialdigital.de/" target="_blank">About</a>
+      <a href="https://github.com/materialdigital/core-ontology" target="_blank">GitHub</a>
+      <a href="https://materialdigital.github.io/core-ontology/3.0.0/" target="_blank">Widoco</a>
+    </nav>
+    <button class="theme-toggle" aria-label="Toggle theme">
+      <span class="theme-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg></span>
+      <span class="theme-label">Dark</span>
+    </button>
+  </header>
+
+  <div class="sidebar-overlay"></div>
+  <aside class="sidebar">
+    <div class="search-container">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" placeholder="Search docs..." readonly>
+      <span class="search-shortcut">Ctrl+K</span>
+    </div>
+    <nav class="nav-sections">
+      <div class="nav-section">
+        <h3 class="nav-section-title">Getting Started</h3>
+        <ul class="nav-list">
+          <li><a href="./index.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a></li>
+          <li><a href="./intro.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Introduction</a></li>
+          <li><a href="./introduction-to-ontologies.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Ontologies Intro</a></li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-section-title">Ontology Guide</h3>
+        <ul class="nav-list">
+          <li><a href="./ontology-structure.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>Structure</a></li>
+          <li><a href="./patterns.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>Usage Patterns</a></li>
+          <li><a href="./user-guide.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>User Guide</a></li>
+          <li><a href="./reused-ontologies.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>Reused Ontologies</a></li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-section-title">Development</h3>
+        <ul class="nav-list">
+          <li><a href="./design-and-methodology.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Design</a></li>
+          <li><a href="./ontology-formatting.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>Formatting</a></li>
+          <li><a href="./contributing.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>Contributing</a></li>
+          <li><a href="./migration.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Migration</a></li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-section-title">Resources</h3>
+        <ul class="nav-list">
+          <li><a href="./glossary-and-tools.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Glossary</a></li>
+          <li><a href="./versions.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>Versions</a></li>
+          <li><a href="./publications.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>Publications</a></li>
+          <li><a href="./references.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>References</a></li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-section-title">About</h3>
+        <ul class="nav-list">
+          <li><a href="./about-us.html" class="nav-link active"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Who We Are</a></li>
+          <li><a href="./acknowledgements.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>Acknowledgements</a></li>
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+      <nav class="breadcrumbs"><a href="./">Home</a><span>/</span><span class="current">Who We Are &amp; How to Join</span></nav>
+      <article class="content">
+<h1 id="who-we-are-amp-how-to-join">Who We Are &amp; How to Join</h1>
+<h2 id="platform-materialdigital-pmd">Platform MaterialDigital (PMD)</h2>
+<p><a href="https://www.materialdigital.de/">Platform MaterialDigital (PMD)</a> is a collaborative digitalization initiative launched in July 2019 with funding from the German Federal Ministry of Education and Research (BMBF). Its primary mission is to establish a virtual materials data space that systematizes the handling of hierarchical, process-dependent materials data while ensuring semantic interoperability across decentralized and diverse servers. Rather than acting as a direct service provider, PMD focuses on developing prototype infrastructures and tool solutions to drive the digital transformation in materials science and engineering. It serves as a networking hub and communication interface (organizing webinars, events, and outreach activities) to connect stakeholders and foster collaboration between academic and industrial partners, ultimately strengthening Germany’s international competitiveness in materials digitalization.</p>
+<p><img width="466" height="294" alt="image" src="https://github.com/user-attachments/assets/2ce81b19-a8c5-458f-a503-948a90dbba43" /></p>
+<h2 id="semantic-interoperability-working-group">Semantic interoperability working group</h2>
+<p>The <a href="https://www.materialdigital.de/ontologies/">Semantic Interoperability Team</a> within the Platform MaterialDigital (PMD) plays a key role in ensuring standardized, cross-domain data integration and communication across materials science initiatives. As the platform’s primary semantic backbone, the team is responsible for the development and maintenance of PMDco, the core ontology of PMD.</p>
+<p>Their work focuses on creating and sustaining frameworks that represent materials data in a consistent and meaningful way, enabling experimental, simulation, and characterization data to be linked, interpreted, and reused without ambiguity. To achieve this, they collaborate closely with ontology experts and materials science specialists to harmonize data models, establish metadata standards, and embed FAIR (Findable, Accessible, Interoperable, and Reusable) principles throughout the PMD infrastructure.</p>
+<p>In addition, the team facilitates active knowledge exchange across the consortium by managing open communication channels and community forums. These spaces allow members to share expertise, address modeling challenges, and propose improvements, ensuring that the platform continuously evolves in response to emerging needs and technological advancements.</p>
+<h2 id="contribute-to-pmdco-development">Contribute to PMDco Development</h2>
+<p>We welcome contributions to the Platform MaterialDigital core ontology (PMDco)!</p>
+<p>To get involved:</p>
+<ul>
+<li>Visit our <a href="https://github.com/ISE-FIZKarlsruhe/mwo">GitHub repository</a>: Explore the latest developments and ongoing discussions.</li>
+<li>Create an <a href="https://github.com/ISE-FIZKarlsruhe/mwo/issues">issue</a>: Report bugs, suggest improvements, or request new features.</li>
+<li>Discuss in the <a href="https://github.com/materialdigital/core-ontology/discussions">discussion forum</a>: Write about your specific modeling concerns, or any other discussable topics.</li>
+</ul>
+<h2 id="participate-in-our-pmd-playground-meetings">Participate in our PMD Playground Meetings</h2>
+<p>Our Ontology Playground, organized online every second Friday from 1-2 pm (CET), is a great opportunity to connect with developers and our proactive community to shape the PMDco. Please register via our <a href="https://www.lists.kit.edu/sympa/subscribe/ontology-playground?previous_action=info">mailing list</a>.</p>
+<h2 id="stay-connected-everywhere">Stay Connected Everywhere</h2>
+<ul>
+<li><strong>Visit our <a href="https://www.materialdigital.de/">website (MaterialDigital.de)</a></strong></li>
+<li><strong>Follow us on <a href="https://www.youtube.com/channel/UCAwf5QXQ6Oa4NPaL3bXFvAA">YouTube</a>, <a href="https://www.linkedin.com/company/plattform-materialdigital/">LinkedIn</a>, and <a href="https://github.com/materialdigital/">GitHub</a></strong></li>
+<li><strong>Subscribe to our <a href="https://www.materialdigital.de/newsletters/">newsletter</a></strong></li>
+<li><strong>See us in related <a href="https://www.materialdigital.de/events/">Events</a></strong></li>
+<li><strong>Take a look at our <a href="https://www.materialdigital.de/publications/">Publications</a> and to the special Issue of <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adem.202500484">“Advanced Engineering Materials”</a> journal assigned to our project!</strong></li>
+</ul>
+      </article>
+
+      <nav class="page-nav">
+<a href="./references.html" class="page-nav-link prev"><span class="page-nav-label">&larr; Previous</span><span class="page-nav-title">References</span></a>
+<a href="./acknowledgements.html" class="page-nav-link next"><span class="page-nav-label">Next &rarr;</span><span class="page-nav-title">Acknowledgements</span></a>
+      </nav>
+
+      <footer class="footer">
+        <div class="footer-links">
+          <a href="https://github.com/materialdigital/core-ontology" target="_blank">GitHub</a>
+          <a href="https://materialdigital.de/" target="_blank">MaterialDigital</a>
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>
+        </div>
+        <p class="footer-copyright">© 2024 Platform MaterialDigital. All rights reserved.</p>
+      </footer>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <h4 class="toc-title">On this page</h4>
+    <ul class="toc-list"><li><a href="#who-we-are-how-to-join">Who We Are & How to Join</a></li><li><a href="#platform-materialdigital-pmd">Platform MaterialDigital (PMD)</a></li><li><a href="#semantic-interoperability-working-group">Semantic interoperability working group</a></li><li><a href="#contribute-to-pmdco-development">Contribute to PMDco Development</a></li><li><a href="#participate-in-our-pmd-playground-meetings">Participate in our PMD Playground Meetings</a></li><li><a href="#stay-connected-everywhere">Stay Connected Everywhere</a></li></ul>
+  </aside>
+
+  <script>
+        /* === ADVANCED ONTOLOGY GRAPHS === */
+        const GRAPH_CONFIGS = {
+            'process-chain': {
+                title: 'Process Chain Pattern',
+                note: 'Scroll to zoom, drag to pan. Click nodes for details.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 8000, idealEdgeLength: 120, animate: true, animationDuration: 800 },
+                elements: [
+                    { data: { id: 'p-process', label: 'bfo:Process', type: 'tbox', detail: 'Top-level BFO process class' } },
+                    { data: { id: 'p-parent', label: 'ex:process_parent', type: 'abox', detail: 'Parent manufacturing workflow' } },
+                    { data: { id: 'p-1', label: 'ex:step_1', type: 'abox', detail: 'Initial preparation step' } },
+                    { data: { id: 'p-2a', label: 'ex:step_2a', type: 'abox', detail: 'Parallel process A' } },
+                    { data: { id: 'p-2b', label: 'ex:step_2b', type: 'abox', detail: 'Parallel process B' } },
+                    { data: { id: 'p-3', label: 'ex:step_3', type: 'abox', detail: 'Final assembly step' } },
+                    { data: { id: 'lit-time', label: 'duration: 2h', type: 'literal', detail: 'Process duration value' } },
+                    { data: { source: 'p-parent', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-1', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-2a', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-2b', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-3', target: 'p-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'p-parent', target: 'p-1', label: 'starts_with', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-3', label: 'ends_with', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-1', label: 'has_part', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-2a', label: 'has_part', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-2b', label: 'has_part', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'p-3', label: 'has_part', kind: 'relation' } },
+                    { data: { source: 'p-1', target: 'p-2a', label: 'precedes', kind: 'relation' } },
+                    { data: { source: 'p-1', target: 'p-2b', label: 'precedes', kind: 'relation' } },
+                    { data: { source: 'p-2a', target: 'p-3', label: 'precedes', kind: 'relation' } },
+                    { data: { source: 'p-2a', target: 'p-2b', label: 'simultaneous', kind: 'relation' } },
+                    { data: { source: 'p-parent', target: 'lit-time', label: 'has_duration', kind: 'literal' } }
+                ]
+            },
+            'temporal-region': {
+                title: 'Temporal Region Pattern',
+                note: 'Shows temporal relationships between processes and time regions.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 7000, idealEdgeLength: 100, animate: true },
+                elements: [
+                    { data: { id: 't-entity', label: 'bfo:Entity', type: 'tbox' } },
+                    { data: { id: 't-occurrent', label: 'bfo:Occurrent', type: 'tbox' } },
+                    { data: { id: 't-continuant', label: 'bfo:Continuant', type: 'tbox' } },
+                    { data: { id: 't-process', label: 'bfo:Process', type: 'tbox' } },
+                    { data: { id: 't-temp', label: 'bfo:TemporalRegion', type: 'tbox' } },
+                    { data: { id: 'a-proc1', label: 'ex:process_1', type: 'abox' } },
+                    { data: { id: 'a-period1', label: 'ex:period_1', type: 'abox' } },
+                    { data: { id: 'lit-dur', label: 'duration: 2h', type: 'literal' } },
+                    { data: { source: 't-occurrent', target: 't-entity', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 't-continuant', target: 't-entity', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 't-process', target: 't-occurrent', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 't-temp', target: 't-occurrent', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 'a-proc1', target: 't-process', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'a-proc1', target: 'a-period1', label: 'occupies_temporal_region', kind: 'relation' } },
+                    { data: { source: 'a-period1', target: 'lit-dur', label: 'has_duration', kind: 'literal' } }
+                ]
+            },
+            'process-io': {
+                title: 'Process I/O Pattern',
+                note: 'Manufacturing process with inputs and outputs.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 6000, animate: true },
+                elements: [
+                    { data: { id: 'io-mfg', label: 'pmd:Manufacturing', type: 'tbox' } },
+                    { data: { id: 'io-coating', label: 'pmd:Coating', type: 'tbox' } },
+                    { data: { id: 'io-obj', label: 'bfo:Object', type: 'tbox' } },
+                    { data: { id: 'io-p1', label: 'ex:process_1', type: 'abox' } },
+                    { data: { id: 'io-p2', label: 'ex:process_2', type: 'abox' } },
+                    { data: { id: 'io-o1', label: 'ex:object_1', type: 'abox' } },
+                    { data: { id: 'io-o2', label: 'ex:object_2', type: 'abox' } },
+                    { data: { id: 'io-o3', label: 'ex:object_3', type: 'abox' } },
+                    { data: { source: 'io-coating', target: 'io-mfg', label: 'subClassOf', kind: 'taxonomy' } },
+                    { data: { source: 'io-p1', target: 'io-mfg', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'io-p2', target: 'io-coating', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'io-o1', target: 'io-obj', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'io-p1', target: 'io-o1', label: 'has_input', kind: 'relation' } },
+                    { data: { source: 'io-p1', target: 'io-o2', label: 'has_output', kind: 'relation' } },
+                    { data: { source: 'io-p2', target: 'io-o2', label: 'has_input', kind: 'relation' } },
+                    { data: { source: 'io-p2', target: 'io-o3', label: 'has_output', kind: 'relation' } }
+                ]
+            },
+            'role-pattern': {
+                title: 'Role Pattern',
+                note: 'Object with evaluant role realized in fatigue testing.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 6500, animate: true },
+                elements: [
+                    { data: { id: 'r-fatigue', label: 'pmd:FatigueTesting', type: 'tbox' } },
+                    { data: { id: 'r-role', label: 'obi:EvaluantRole', type: 'tbox' } },
+                    { data: { id: 'r-obj', label: 'bfo:Object', type: 'tbox' } },
+                    { data: { id: 'r-p1', label: 'ex:fatigue_test', type: 'abox' } },
+                    { data: { id: 'r-o1', label: 'ex:specimen', type: 'abox' } },
+                    { data: { id: 'r-role1', label: 'ex:evaluant_role', type: 'abox' } },
+                    { data: { id: 'r-result', label: 'ex:test_result', type: 'abox' } },
+                    { data: { source: 'r-p1', target: 'r-fatigue', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'r-o1', target: 'r-obj', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'r-role1', target: 'r-role', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'r-p1', target: 'r-o1', label: 'has_input', kind: 'relation' } },
+                    { data: { source: 'r-p1', target: 'r-result', label: 'has_output', kind: 'relation' } },
+                    { data: { source: 'r-o1', target: 'r-role1', label: 'has_role', kind: 'relation' } },
+                    { data: { source: 'r-role1', target: 'r-p1', label: 'realized_in', kind: 'relation' } }
+                ]
+            },
+            'measurement-view': {
+                title: 'Measurement Pattern',
+                note: 'Observation with value and unit literals.',
+                layout: { name: 'cose', padding: 50, nodeRepulsion: 5500, animate: true },
+                elements: [
+                    { data: { id: 'm-obs', label: 'pmd:Observation', type: 'tbox' } },
+                    { data: { id: 'm-sample', label: 'pmd:Sample', type: 'tbox' } },
+                    { data: { id: 'm-obs1', label: 'obs:hardness', type: 'abox' } },
+                    { data: { id: 'm-s1', label: 'ex:steel_A', type: 'abox' } },
+                    { data: { id: 'm-val', label: 'value: 220.5', type: 'literal' } },
+                    { data: { id: 'm-unit', label: 'unit: HV', type: 'literal' } },
+                    { data: { source: 'm-obs1', target: 'm-obs', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'm-s1', target: 'm-sample', label: 'rdf:type', kind: 'instance' } },
+                    { data: { source: 'm-obs1', target: 'm-s1', label: 'measured_on', kind: 'relation' } },
+                    { data: { source: 'm-obs1', target: 'm-val', label: 'has_value', kind: 'literal' } },
+                    { data: { source: 'm-obs1', target: 'm-unit', label: 'has_unit', kind: 'literal' } }
+                ]
+            }
+        };
+
+        /* Advanced Cytoscape Styles */
+        const GRAPH_STYLE = [
+            {
+                selector: 'node', style: {
+                    'label': 'data(label)',
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                    'font-size': '13px',
+                    'font-weight': '600',
+                    'font-family': 'Inter, sans-serif',
+                    'color': '#ffffff',
+                    'text-outline-color': '#0a1628',
+                    'text-outline-width': 2,
+                    'text-wrap': 'wrap',
+                    'text-max-width': '100px',
+                    'width': 75,
+                    'height': 60,
+                    'background-color': '#0ea5e9',
+                    'background-opacity': 1,
+                    'border-width': 3,
+                    'border-color': 'rgba(255,255,255,0.3)',
+                    'shadow-blur': 20,
+                    'shadow-color': 'rgba(14,165,233,0.5)',
+                    'shadow-offset-x': 0,
+                    'shadow-offset-y': 4,
+                    'shadow-opacity': 0.8,
+                    'transition-property': 'shadow-blur, shadow-opacity, width, height, border-color',
+                    'transition-duration': '0.2s'
+                }
+            },
+            {
+                selector: 'node[type="tbox"]', style: {
+                    'shape': 'round-rectangle',
+                    'background-color': '#0ea5e9',
+                    'shadow-color': 'rgba(14,165,233,0.6)'
+                }
+            },
+            {
+                selector: 'node[type="abox"]', style: {
+                    'shape': 'ellipse',
+                    'background-color': '#8b5cf6',
+                    'shadow-color': 'rgba(139,92,246,0.6)',
+                    'width': 70,
+                    'height': 55
+                }
+            },
+            {
+                selector: 'node[type="literal"]', style: {
+                    'shape': 'round-rectangle',
+                    'background-color': '#f59e0b',
+                    'color': '#1e293b',
+                    'text-outline-color': 'rgba(255,255,255,0.5)',
+                    'text-outline-width': 1,
+                    'shadow-color': 'rgba(245,158,11,0.6)',
+                    'width': 85,
+                    'height': 45,
+                    'font-size': '12px',
+                    'font-weight': '500'
+                }
+            },
+            {
+                selector: 'node:active, node:selected', style: {
+                    'shadow-blur': 35,
+                    'shadow-opacity': 1,
+                    'border-color': '#ffffff',
+                    'border-width': 4
+                }
+            },
+            {
+                selector: 'node:hover', style: {
+                    'shadow-blur': 30,
+                    'shadow-opacity': 1,
+                    'border-color': 'rgba(255,255,255,0.6)'
+                }
+            },
+            {
+                selector: 'edge', style: {
+                    'curve-style': 'bezier',
+                    'target-arrow-shape': 'triangle',
+                    'target-arrow-color': '#22c55e',
+                    'arrow-scale': 1.3,
+                    'line-color': '#22c55e',
+                    'width': 2.5,
+                    'opacity': 0.85,
+                    'label': 'data(label)',
+                    'font-size': '11px',
+                    'font-weight': '500',
+                    'font-family': 'Inter, sans-serif',
+                    'color': '#94a3b8',
+                    'text-rotation': 'autorotate',
+                    'text-background-color': '#0d1f35',
+                    'text-background-opacity': 0.95,
+                    'text-background-padding': '4px',
+                    'text-background-shape': 'roundrectangle',
+                    'text-border-opacity': 0.5,
+                    'text-border-width': 1,
+                    'text-border-color': 'rgba(255,255,255,0.1)',
+                    'transition-property': 'width, opacity, line-color',
+                    'transition-duration': '0.15s'
+                }
+            },
+            {
+                selector: 'edge[kind="taxonomy"]', style: {
+                    'line-style': 'dashed',
+                    'line-dash-pattern': [8, 4],
+                    'line-color': '#64748b',
+                    'target-arrow-color': '#64748b',
+                    'opacity': 0.7
+                }
+            },
+            {
+                selector: 'edge[kind="instance"]', style: {
+                    'line-color': '#0ea5e9',
+                    'target-arrow-color': '#0ea5e9',
+                    'line-style': 'dotted',
+                    'line-dash-pattern': [4, 3]
+                }
+            },
+            {
+                selector: 'edge[kind="literal"]', style: {
+                    'line-color': '#f59e0b',
+                    'target-arrow-color': '#f59e0b',
+                    'target-arrow-shape': 'diamond'
+                }
+            },
+            {
+                selector: 'edge:hover', style: {
+                    'width': 4,
+                    'opacity': 1,
+                    'z-index': 10
+                }
+            }
+        ];
+
+        class AdvancedGraphRenderer {
+            constructor() { this.instances = new Map(); this.init(); }
+
+            init() {
+                document.querySelectorAll('.ontology-graph').forEach(el => this.render(el));
+            }
+
+            render(container) {
+                const id = container.dataset.graphId || 'process-chain';
+                const config = GRAPH_CONFIGS[id];
+                if (!config) { container.innerHTML = '<div class="graph-note">Graph not found: ' + id + '</div>'; return; }
+
+                container.classList.add('diagram-container');
+                container.innerHTML = '';
+
+                // Header
+                const header = document.createElement('div');
+                header.className = 'diagram-header';
+                header.innerHTML = `<span class="diagram-title">${config.title}</span>
+      <div class="diagram-controls">
+        <button class="diagram-btn" data-action="zoom-in" title="Zoom In">+</button>
+        <button class="diagram-btn" data-action="zoom-out" title="Zoom Out">−</button>
+        <button class="diagram-btn" data-action="reset" title="Reset">1:1</button>
+        <button class="diagram-btn" data-action="fit" title="Fit">Fit</button>
+        <button class="diagram-btn" data-action="fullscreen" title="Fullscreen">⛶</button>
+      </div>`;
+                container.appendChild(header);
+
+                // Viewport
+                const viewport = document.createElement('div');
+                viewport.className = 'diagram-viewport';
+                container.appendChild(viewport);
+
+                // Zoom indicator
+                const zoomInd = document.createElement('div');
+                zoomInd.className = 'zoom-indicator';
+                zoomInd.textContent = '100%';
+                viewport.appendChild(zoomInd);
+
+                // Legend
+                const legend = document.createElement('div');
+                legend.className = 'graph-legend';
+                legend.innerHTML = `
+      <span class="legend-item"><span class="legend-swatch swatch-tbox"></span>TBox Class</span>
+      <span class="legend-item"><span class="legend-swatch swatch-abox"></span>ABox Individual</span>
+      <span class="legend-item"><span class="legend-swatch swatch-literal"></span>Literal Value</span>
+      <span class="legend-item"><span class="legend-swatch swatch-relation"></span>Object Property</span>
+      <span class="legend-item"><span class="legend-swatch swatch-taxonomy"></span>Taxonomy</span>`;
+                container.appendChild(legend);
+
+                // Note
+                if (config.note) {
+                    const note = document.createElement('div');
+                    note.className = 'graph-note';
+                    note.textContent = config.note;
+                    container.appendChild(note);
+                }
+
+                // Tooltip
+                const tooltip = document.createElement('div');
+                tooltip.className = 'graph-tooltip';
+                tooltip.style.display = 'none';
+                container.appendChild(tooltip);
+
+                // Initialize Cytoscape
+                const cy = cytoscape({
+                    container: viewport,
+                    elements: config.elements,
+                    style: GRAPH_STYLE,
+                    layout: config.layout,
+                    wheelSensitivity: 0.2,
+                    minZoom: 0.3,
+                    maxZoom: 3
+                });
+
+                this.instances.set(id, cy);
+
+                // Zoom indicator update
+                cy.on('zoom', () => { zoomInd.textContent = Math.round(cy.zoom() * 100) + '%'; });
+
+                // Controls
+                header.querySelectorAll('.diagram-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const action = btn.dataset.action;
+                        if (action === 'zoom-in') cy.zoom({ level: cy.zoom() * 1.25, renderedPosition: { x: viewport.offsetWidth / 2, y: viewport.offsetHeight / 2 } });
+                        if (action === 'zoom-out') cy.zoom({ level: cy.zoom() * 0.8, renderedPosition: { x: viewport.offsetWidth / 2, y: viewport.offsetHeight / 2 } });
+                        if (action === 'reset') { cy.zoom(1); cy.center(); }
+                        if (action === 'fit') cy.fit(50);
+                        if (action === 'fullscreen') container.classList.toggle('fullscreen');
+                    });
+                });
+
+                // Tooltip interactions
+                cy.on('tap', 'node', evt => {
+                    const node = evt.target;
+                    const data = node.data();
+                    const pos = evt.renderedPosition;
+                    const typeClass = data.type || 'tbox';
+                    tooltip.innerHTML = `<strong>${data.label}</strong><br><span class="tooltip-type ${typeClass}">${typeClass.toUpperCase()}</span>${data.detail ? '<br><span style="color:#94a3b8;margin-top:8px;display:block;">' + data.detail + '</span>' : ''}`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = Math.min(pos.x + 15, container.offsetWidth - 250) + 'px';
+                    tooltip.style.top = Math.min(pos.y + 15, container.offsetHeight - 100) + 'px';
+                });
+
+                cy.on('tap', evt => { if (evt.target === cy) tooltip.style.display = 'none'; });
+                container.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+            }
+        }
+
+        /* Theme Manager */
+        class ThemeManager {
+            constructor() {
+                this.toggle = document.querySelector('.theme-toggle');
+                this.init();
+            }
+            init() {
+                const saved = localStorage.getItem('pmdco-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'light' : 'dark');
+                this.apply(saved);
+                if (this.toggle) this.toggle.addEventListener('click', () => this.toggleTheme());
+            }
+            toggleTheme() {
+                const next = document.body.classList.contains('theme-dark') ? 'light' : 'dark';
+                this.apply(next);
+            }
+            apply(theme) {
+                document.body.classList.toggle('theme-light', theme === 'light');
+                localStorage.setItem('pmdco-theme', theme);
+                const label = this.toggle?.querySelector('.theme-label');
+                const icon = this.toggle?.querySelector('.theme-icon');
+                if (label) label.textContent = theme === 'light' ? 'Light' : 'Dark';
+                if (icon) icon.innerHTML = theme === 'light'
+                    ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+                    : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>';
+            }
+        }
+
+        /* Mobile Navigation */
+        class MobileNav {
+            constructor() {
+                this.sidebar = document.querySelector('.sidebar');
+                this.overlay = document.querySelector('.sidebar-overlay');
+                this.btn = document.querySelector('.mobile-menu-btn');
+                if (this.btn) {
+                    this.btn.addEventListener('click', () => this.toggle());
+                    this.overlay?.addEventListener('click', () => this.close());
+                }
+            }
+            toggle() { this.sidebar?.classList.toggle('open'); this.overlay?.classList.toggle('active'); }
+            close() { this.sidebar?.classList.remove('open'); this.overlay?.classList.remove('active'); }
+        }
+
+        /* Enhanced Search */
+        class Search {
+            constructor() { this.selectedIndex = -1; this.searchIndex = this.buildSearchIndex(); this.createModal(); this.bindEvents(); }
+            buildSearchIndex() {
+                return [
+                    { title: 'Home', path: './index.html', section: 'Getting Started', keywords: 'home welcome pmdco documentation start overview' },
+                    { title: 'Introduction', path: './intro.html', section: 'Getting Started', keywords: 'introduction pmdco core ontology materials science' },
+                    { title: 'Background & Context', path: './background-and-context.html', section: 'Getting Started', keywords: 'background context history motivation' },
+                    { title: 'Introduction to Ontologies', path: './introduction-to-ontologies.html', section: 'Getting Started', keywords: 'ontology ontologies semantic web owl rdf bfo emmo fair' },
+                    { title: 'Ontology Structure', path: './ontology-structure.html', section: 'Ontology Guide', keywords: 'structure hierarchy classes properties relations' },
+                    { title: 'Usage Patterns', path: './patterns.html', section: 'Ontology Guide', keywords: 'patterns usage examples templates best practices' },
+                    { title: 'User Guide', path: './user-guide.html', section: 'Ontology Guide', keywords: 'user guide tutorial how to use' },
+                    { title: 'Reused Ontologies', path: './reused-ontologies.html', section: 'Ontology Guide', keywords: 'reused ontologies imported external bfo obi' },
+                    { title: 'Design & Methodology', path: './design-and-methodology.html', section: 'Development', keywords: 'design methodology development approach' },
+                    { title: 'Ontology Formatting', path: './ontology-formatting.html', section: 'Development', keywords: 'formatting conventions style guide naming' },
+                    { title: 'Contributing', path: './contributing.html', section: 'Development', keywords: 'contributing contribution guidelines pull request' },
+                    { title: 'Migration Guide', path: './migration.html', section: 'Development', keywords: 'migration upgrade version changes' },
+                    { title: 'Glossary & Tools', path: './glossary-and-tools.html', section: 'Resources', keywords: 'glossary terms definitions tools software' },
+                    { title: 'Versions', path: './versions.html', section: 'Resources', keywords: 'versions changelog release history' },
+                    { title: 'Publications', path: './publications.html', section: 'Resources', keywords: 'publications papers articles research' },
+                    { title: 'References', path: './references.html', section: 'Resources', keywords: 'references bibliography links resources' },
+                    { title: 'Who We Are', path: './about-us.html', section: 'About', keywords: 'about us team contributors' },
+                    { title: 'Acknowledgements', path: './acknowledgements.html', section: 'About', keywords: 'acknowledgements thanks funding' },
+                    ...this.extractPageContent()
+                ];
+            }
+            extractPageContent() { const c = []; document.querySelectorAll('article h1, article h2, article h3').forEach(h => { const id = h.id, t = h.textContent.trim(), n = h.nextElementSibling; let e = ''; if (n && (n.tagName === 'P' || n.tagName === 'UL')) e = n.textContent.substring(0, 150); if (id && t) c.push({ title: t, path: '#' + id, section: 'On this page', keywords: t.toLowerCase() + ' ' + e.toLowerCase(), excerpt: e }); }); return c; }
+            createModal() { const html = `<div class="search-modal" id="search-modal"><div class="search-modal-content"><div class="search-modal-header"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" class="search-modal-input" id="search-input" placeholder="Search documentation..." autocomplete="off"><kbd class="search-shortcut">ESC</kbd></div><div class="search-results" id="search-results"><div class="search-no-results">Type to search...</div></div><div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>ESC</kbd> Close</span></div></div></div>`; document.body.insertAdjacentHTML('beforeend', html); this.modal = document.getElementById('search-modal'); this.input = document.getElementById('search-input'); this.results = document.getElementById('search-results'); }
+            bindEvents() { document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); this.open(); } if (e.key === 'Escape' && this.modal.classList.contains('active')) this.close(); if (this.modal.classList.contains('active')) { if (e.key === 'ArrowDown') { e.preventDefault(); this.navigate(1); } if (e.key === 'ArrowUp') { e.preventDefault(); this.navigate(-1); } if (e.key === 'Enter') { e.preventDefault(); this.selectCurrent(); } } }); this.modal.addEventListener('click', e => { if (e.target === this.modal) this.close(); }); document.querySelector('.search-input')?.addEventListener('focus', e => { e.target.blur(); this.open(); }); this.input.addEventListener('input', () => { this.selectedIndex = -1; this.search(this.input.value); }); this.results.addEventListener('click', e => { const item = e.target.closest('.search-result-item'); if (item) { e.preventDefault(); const href = item.getAttribute('href'); this.close(); if (href.startsWith('#')) { const target = document.querySelector(href); if (target) { target.scrollIntoView({ behavior: 'instant', block: 'start' }); history.pushState(null, '', href); } } else { window.location.href = href; } } }); }
+            navigate(d) { const items = this.results.querySelectorAll('.search-result-item'); if (!items.length) return; items.forEach(i => i.classList.remove('selected')); this.selectedIndex = Math.max(-1, Math.min(items.length - 1, this.selectedIndex + d)); if (this.selectedIndex >= 0) { items[this.selectedIndex].classList.add('selected'); items[this.selectedIndex].scrollIntoView({ block: 'nearest' }); } }
+            selectCurrent() { const items = this.results.querySelectorAll('.search-result-item'); const item = this.selectedIndex >= 0 ? items[this.selectedIndex] : items[0]; if (item) { const href = item.getAttribute('href'); this.close(); if (href.startsWith('#')) { const target = document.querySelector(href); if (target) { target.scrollIntoView({ behavior: 'instant', block: 'start' }); history.pushState(null, '', href); } } else { window.location.href = href; } } }
+            search(query) { if (!query.trim()) { this.results.innerHTML = '<div class="search-no-results">Type to search...</div>'; return; } const q = query.toLowerCase().trim(), words = q.split(/\s+/).filter(w => w.length > 1); const scored = this.searchIndex.map(item => { let score = 0; const tl = item.title.toLowerCase(), kl = item.keywords.toLowerCase(); if (tl === q) score += 100; else if (tl.startsWith(q)) score += 50; else if (tl.includes(q)) score += 30; words.forEach(w => { if (tl.includes(w)) score += 20; if (kl.includes(w)) score += 10; }); if (kl.includes(q)) score += 15; return { ...item, score }; }).filter(i => i.score > 0).sort((a, b) => b.score - a.score).slice(0, 10); if (!scored.length) { this.results.innerHTML = `<div class="search-no-results">No results for "${this.escapeHtml(query)}"</div>`; return; } const grouped = {}; scored.forEach(i => { if (!grouped[i.section]) grouped[i.section] = []; grouped[i.section].push(i); }); let html = ''; for (const [s, items] of Object.entries(grouped)) { html += `<div class="search-section-label">${s}</div>`; items.forEach(i => { html += `<a href="${i.path}" class="search-result-item"><div class="search-result-title">${this.highlightMatches(i.title, words)}</div>${i.excerpt ? `<div class="search-result-excerpt">${this.highlightMatches(i.excerpt.substring(0, 100), words)}...</div>` : ''}</a>`; }); } this.results.innerHTML = html; }
+            highlightMatches(t, w) { let r = this.escapeHtml(t); w.forEach(word => { r = r.replace(new RegExp(`(${word})`, 'gi'), '<mark>$1</mark>'); }); return r; }
+            escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+            open() { this.modal.classList.add('active'); this.input.focus(); this.selectedIndex = -1; }
+            close() { this.modal.classList.remove('active'); this.input.value = ''; this.results.innerHTML = '<div class="search-no-results">Type to search...</div>'; this.selectedIndex = -1; }
+        }
+
+        /* Image Viewer */
+        class ImageViewer {
+            constructor() { this.scale = 1; this.translateX = 0; this.translateY = 0; this.isDragging = false; this.startX = 0; this.startY = 0; this.createModal(); this.bindEvents(); }
+            createModal() { const html = `<div class="image-viewer-modal" id="image-viewer-modal"><div class="image-viewer-backdrop"></div><div class="image-viewer-container"><div class="image-viewer-toolbar"><button class="iv-btn" data-action="zoom-in" title="Zoom In"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></button><button class="iv-btn" data-action="zoom-out" title="Zoom Out"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg></button><button class="iv-btn" data-action="reset" title="Reset"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button><span class="iv-zoom-level">100%</span><button class="iv-btn" data-action="download" title="Download PNG (600 DPI)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button><button class="iv-btn iv-close" data-action="close" title="Close"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="image-viewer-content"><div class="image-viewer-wrapper" id="iv-wrapper"></div></div></div></div>`; document.body.insertAdjacentHTML('beforeend', html); this.modal = document.getElementById('image-viewer-modal'); this.wrapper = document.getElementById('iv-wrapper'); this.zoomLevel = this.modal.querySelector('.iv-zoom-level'); }
+            bindEvents() { document.addEventListener('click', e => { const img = e.target.closest('article img, article svg, .lifecycle-diagram svg'); if (img && !e.target.closest('.iv-btn')) { e.preventDefault(); this.open(img); } }); this.modal.querySelector('.image-viewer-toolbar').addEventListener('click', e => { const btn = e.target.closest('.iv-btn'); if (!btn) return; const action = btn.dataset.action; if (action === 'zoom-in') this.zoom(1.25); if (action === 'zoom-out') this.zoom(0.8); if (action === 'reset') this.resetView(); if (action === 'download') this.download(); if (action === 'close') this.close(); }); this.modal.querySelector('.image-viewer-backdrop').addEventListener('click', () => this.close()); document.addEventListener('keydown', e => { if (e.key === 'Escape' && this.modal.classList.contains('active')) this.close(); if (this.modal.classList.contains('active')) { if (e.key === '+' || e.key === '=') this.zoom(1.25); if (e.key === '-') this.zoom(0.8); if (e.key === '0') this.resetView(); } }); this.wrapper.addEventListener('mousedown', e => this.startDrag(e)); document.addEventListener('mousemove', e => this.drag(e)); document.addEventListener('mouseup', () => this.endDrag()); this.wrapper.addEventListener('wheel', e => { if (this.modal.classList.contains('active')) { e.preventDefault(); this.zoom(e.deltaY > 0 ? 0.9 : 1.1); } }, { passive: false }); }
+            open(el) { this.currentElement = el; this.wrapper.innerHTML = ''; if (el.tagName === 'IMG') { const img = document.createElement('img'); img.src = el.src; img.alt = el.alt || 'Image'; img.draggable = false; this.wrapper.appendChild(img); } else if (el.tagName === 'svg' || el.tagName === 'SVG') { const clone = el.cloneNode(true); clone.style.width = '100%'; clone.style.height = 'auto'; clone.style.maxWidth = '1200px'; this.wrapper.appendChild(clone); } this.resetView(); this.modal.classList.add('active'); }
+            close() { this.modal.classList.remove('active'); }
+            zoom(f) { this.scale = Math.max(0.1, Math.min(10, this.scale * f)); this.updateTransform(); }
+            resetView() { this.scale = 1; this.translateX = 0; this.translateY = 0; this.updateTransform(); }
+            updateTransform() { const c = this.wrapper.firstElementChild; if (c) c.style.transform = `translate(${this.translateX}px, ${this.translateY}px) scale(${this.scale})`; this.zoomLevel.textContent = Math.round(this.scale * 100) + '%'; }
+            startDrag(e) { this.isDragging = true; this.startX = e.clientX - this.translateX; this.startY = e.clientY - this.translateY; this.wrapper.style.cursor = 'grabbing'; }
+            drag(e) { if (!this.isDragging) return; this.translateX = e.clientX - this.startX; this.translateY = e.clientY - this.startY; this.updateTransform(); }
+            endDrag() { this.isDragging = false; this.wrapper.style.cursor = 'grab'; }
+            async download() { const c = this.wrapper.firstElementChild; if (!c) return; const dpiScale = 600 / 72, canvas = document.createElement('canvas'), ctx = canvas.getContext('2d'); if (c.tagName === 'IMG') { canvas.width = c.naturalWidth * dpiScale; canvas.height = c.naturalHeight * dpiScale; ctx.scale(dpiScale, dpiScale); ctx.drawImage(c, 0, 0); } else if (c.tagName === 'svg' || c.tagName === 'SVG') { const r = c.getBoundingClientRect(), w = parseInt(c.getAttribute('width')) || r.width || 800, h = parseInt(c.getAttribute('height')) || r.height || 600; canvas.width = w * dpiScale; canvas.height = h * dpiScale; ctx.scale(dpiScale, dpiScale); ctx.fillStyle = '#0a1628'; ctx.fillRect(0, 0, w, h); const svgData = new XMLSerializer().serializeToString(c), svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' }), url = URL.createObjectURL(svgBlob), img = new Image(); img.onload = () => { ctx.drawImage(img, 0, 0, w, h); URL.revokeObjectURL(url); this.triggerDownload(canvas); }; img.src = url; return; } this.triggerDownload(canvas); }
+            triggerDownload(canvas) { const link = document.createElement('a'); link.download = 'pmdco-diagram-600dpi.png'; link.href = canvas.toDataURL('image/png'); link.click(); }
+        }
+
+        /* Init */
+        document.addEventListener('DOMContentLoaded', () => {
+            new ThemeManager();
+            new MobileNav();
+            new Search();
+            new ImageViewer();
+            new AdvancedGraphRenderer();
+        });
+    </script>
+</body>
+</html>
