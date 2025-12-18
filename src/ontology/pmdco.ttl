@@ -2997,8 +2997,26 @@ obo:UO_1000164 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000000
 co:PMD_0000000 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000001 ;
-               rdfs:comment "Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a Manufacturing Process may be SemiFinishedProdcuts."@en ,
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000001
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000053 ;
+                                                        owl:someValuesFrom co:PMD_0000005
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000086 ;
+                                                        owl:someValuesFrom co:PMD_0020131
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0002353 ;
+                                                        owl:someValuesFrom obo:BFO_0000015
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:comment "Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a manufacturing process may be (subclasses of) objects that bear a 'blank role' in the context of the manufacturing process."@en ,
+                            """Material is defined in terms of the three main perspectives that material specifications rely on: the structure of the material (\"intensive quality\"), the performance of the material (\"behavoiral material property\") and the processing the material must have undergone (\"output of some process\").
+
+When defining specific materials/material taxonomies, these three aspects shall be taken into account in the aristotelian (\"per genus et differentiam\") as differentiation."""@en ,
                             "The sum of portions of matter of the same type form a portion of matter of that type."@en ;
                rdfs:label "Material"@de ,
                           "material"@en ;
@@ -3540,9 +3558,9 @@ co:PMD_0000534 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000535
 co:PMD_0000535 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:subClassOf co:PMD_0020164 ;
                rdfs:label "boiling point"@en ;
-               skos:definition "The boiling point is a phase boundary described by the temperature at which a liquid changes to a gas under standard atmospheric pressure."@en ;
+               skos:definition "The boiling point is a state of matter boundary realized by transition form the liquid state to the gaseous state (or vice versa)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5575,9 +5593,9 @@ co:PMD_0000849 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000851
 co:PMD_0000851 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:subClassOf co:PMD_0020164 ;
                rdfs:label "melting point"@en ;
-               skos:definition "The melting point is a phase boundary described by the temperature at which a solid becomes a liquid under standard atmospheric pressure."@en ;
+               skos:definition "The melting point is a state of matter boundary realized by transition form the solid state to the liquid state (or vice versa)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5691,7 +5709,7 @@ co:PMD_0000862 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000864
 co:PMD_0000864 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000005 ;
+               rdfs:subClassOf obo:BFO_0000019 ;
                rdfs:label "morphological property"@en ;
                skos:definition "A morphological property is a material property representing the characteristics of a material's structure, such as shape, size, and distribution of its features."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -5821,21 +5839,9 @@ co:PMD_0000880 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000882
 co:PMD_0000882 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000864 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000054 ;
-                                 owl:someValuesFrom co:PMD_0000520
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000054 ;
-                                 owl:someValuesFrom co:PMD_0000522
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000054 ;
-                                 owl:someValuesFrom co:PMD_0000523
-                               ] ;
-               rdfs:label "phase boundary"@en ;
-               skos:definition "A phase boundary is a morphological property denoting the interface between two distinct phases of a material, such as solid-liquid or liquid-gas boundaries."@en ;
+               rdfs:subClassOf obo:BFO_0000017 ;
+               rdfs:label "phase boundary (realization)"@en ;
+               skos:definition "A phase boundary is a realizable entity that is realized by the transition between distinct phases."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -6528,9 +6534,9 @@ co:PMD_0000960 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000961
 co:PMD_0000961 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:subClassOf co:PMD_0020164 ;
                rdfs:label "sublimation point"@en ;
-               skos:definition "The sublimation point is a phase boundary that describes the temperature at which a material transitions directly from a solid to a gaseous state without passing through the liquid phase."@en ;
+               skos:definition "The sublimation point is a state of matter boundary realized by transition form the solid state to the gaseous state (or vice versa)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -6856,9 +6862,9 @@ co:PMD_0000995 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000996
 co:PMD_0000996 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:subClassOf co:PMD_0020164 ;
                rdfs:label "triple point"@en ;
-               skos:definition "The triple point is a phase boundary described by the specific temperature and pressure at which three phases of a substance coexist in equilibrium."@en ;
+               skos:definition "The triple point is a state of matter point realized by transition form the solid state to the liquid state or the the gaseous state (or vice versa)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8558,7 +8564,7 @@ co:PMD_0020129 rdf:type owl:Class ;
 co:PMD_0020130 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000145 ;
                rdfs:label "driving force of phase in system"@en ;
-               skos:definition "The driving force is the the gradient of the activity of a phase in a thermodynamic system."@en ;
+               skos:definition "Driving force is relational property between two material entities, the species and the material (system). The driving force is a factor that promotes a physical process or (eletro-)chemical reaction in a material (system) to occur and proceed towards completion. It can be quantified as the gradient of the activity of the participating species."@en ;
                skos:example "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -8817,21 +8823,16 @@ Martensite is a microconstituent that has as part the thermodynamic ferrite phas
 
 ###  https://w3id.org/pmd/co/PMD_0020161
 co:PMD_0020161 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020148 ;
-               obo:IAO_0000116 "Definition not final"@en ;
-               rdfs:comment """Typical configuration independent contributions to the free energy are temperature, pressure, chemical composition and magnetic contributions.
-
-Typical configuration dependent contributions are interface energy contributions."""@en ;
-               rdfs:label "activity of a phase"@en ;
-               skos:definition "Quality of a thermodynamic phase that characterizes its free energy."@en .
+               rdfs:subClassOf obo:BFO_0000145 ;
+               rdfs:label "activity (thermodynamic)"@en ;
+               skos:definition "Activity (a_X) is a relational property between a chemical species X and a non-ideal solution. a_X is a measure of the effective concentration of a chemical species X in the non-ideal solution, accounting for interactions between particles. It is defined as the product of the concentration and an activity coefficient, where the activity coefficient corrects for non-ideal behavior."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020162
 co:PMD_0020162 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000008 ;
-               obo:IAO_0000116 "Definition not final"@en ;
                rdfs:label "activation energy"@en ;
-               skos:definition "Process attribute characterizing the kinetics of a phase transformation (aka chemical reaction)."@en ;
+               skos:definition "Activation energy (E_a) a process attribute characterizing the minimum amount of energy required to initiate a reaction, allowing educts to overcome an energy barrier to transform into products."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8840,6 +8841,14 @@ co:PMD_0020163 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:label "eutectic phase transformation"@en ;
                skos:definition "A eutectic phase transformation is a phase transformation in which a liquid parent phase decomposes into two distinct solid daughter phases at constant temperature and pressure."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020164
+co:PMD_0020164 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:comment "A state of matter boundary is a phase boundary that is realized by the transition from one aggregate state to another aggregate state."@en ;
+               rdfs:label "state of matter boundary"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8864,6 +8873,38 @@ co:PMD_0020166 rdf:type owl:Class ;
                                ] ;
                rdfs:label "heat (metallurgy)"@en ;
                skos:definition "A heat is a fixed amount of metallic alloy that may be input to some Manifacturing Process."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020167
+co:PMD_0020167 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000882 ;
+               obo:IAO_0000115 "Structural phase boundary is a phase boundary that is realized in the transition from one structure to another structure."@en ;
+               rdfs:label "structural boundary"@en ;
+               skos:example "ɑ-Ɣ transformation in iron at 910 °C"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020168
+co:PMD_0020168 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:label "magnetic boundary"@en ;
+               skos:definition "A magnetic boundary is a phase boundary that is realized by the transition from one magnetic ordering to another magnetic ordering."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020169
+co:PMD_0020169 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:label "mixture boundary"@en ;
+               skos:definition "A mixture boundary boundary is a phase boundary that is realized by the transition from one phase to another phase in a system involving also chemical variations."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020171
+co:PMD_0020171 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000146 ;
+               obo:IAO_0000116 "Should it have exactly two phases as member parts?"@en ;
+               rdfs:label "phase boundary (spatial)"@en ;
+               skos:definition "A fiat surface separating one phase from another phase."@en ;
+               skos:example """The phase boundary between liquid and the gaseous phase in at ank. 
+The phase boundary between Fe3C and Fe of a pearlite lamellae."""@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020200
@@ -11069,6 +11110,15 @@ dce:license rdfs:label "dc:license" .
   owl:members ( co:PMD_0020102
                 co:PMD_0020103
                 co:PMD_0020104
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( co:PMD_0020164
+                co:PMD_0020167
+                co:PMD_0020168
+                co:PMD_0020169
               )
 ] .
 
