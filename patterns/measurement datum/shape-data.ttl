@@ -19,7 +19,7 @@
 @prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
 @prefix tensile_testing_process: <https://w3id.org/pmd/co/PMD_0000974> .
 @prefix mega_pa: <http://qudt.org/vocab/unit/MegaPA> .
-@prefix stregnth: <https://w3id.org/pmd/co/PMD_0000952> .
+@prefix strength: <https://w3id.org/pmd/co/PMD_0000952> .
 @prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
 @prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> .
 @prefix steel: <https://w3id.org/pmd/co/PMD_0020096> .
@@ -33,10 +33,10 @@
 @prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> .
 @prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> .
 
-# Subclass relations
+# Subclass relations ::: usually this is not part of the data; we just need them to ease testing in shacl playgrounds
 scalar_value_specification: rdfs:subClassOf value_specification: . 
 tensile_testing_process: rdfs:subClassOf assay: .
-stregnth: rdfs:subClassOf specifically_dependent_continuant: . 
+strength: rdfs:subClassOf specifically_dependent_continuant: . 
 specifically_dependent_continuant: rdfs:subClassOf entity: .
 
 # Object properties
@@ -58,6 +58,8 @@ specifically_dependent_continuant: rdfs:subClassOf entity: .
 @prefix stimulated_by: <https://w3id.org/pmd/co/PMD_0001030> .
 @prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
 @prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+@prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
 
 ### Define instances ###
 
@@ -107,6 +109,7 @@ ex:tensile_test a owl:NamedIndividual ,
 				has_specified_output: ex:yield_stength_measurement_datum ; 
 				realizes: ex:test_piece_role ; 
 				realizes: ex:test_plan;
+				assay_measures_characteristic: ex:tensile_strength;
 				achieves_planned_objective: ex:tensile_test_objective_specification .
 
 ex:tensile_test_objective_specification a owl:NamedIndividual ,	
@@ -117,8 +120,9 @@ ex:application_of_mechanical_stress_during_tensile_test a owl:NamedIndividual ,
 														  application_of_mechanical_load: .							  
 
 ex:tensile_strength a owl:NamedIndividual , 
-					  stregnth: ;
+					  strength: ;
 					characteristic_of: ex:some_steel ;
+					has_realization: ex:tensile_test;
 					stimulated_by: ex:application_of_mechanical_stress_during_tensile_test .
 					  
 
