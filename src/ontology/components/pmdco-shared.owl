@@ -18,15 +18,22 @@ Declaration(Class(:PMD_0000008))
 Declaration(Class(:PMD_0000068))
 Declaration(Class(:PMD_0000501))
 Declaration(Class(:PMD_0000502))
+Declaration(Class(:PMD_0000583))
 Declaration(Class(:PMD_0000834))
 Declaration(Class(:PMD_0000853))
 Declaration(Class(:PMD_0000885))
+Declaration(Class(:PMD_0000933))
 Declaration(Class(:PMD_0000946))
 Declaration(Class(:PMD_0000992))
 Declaration(Class(:PMD_0020113))
 Declaration(Class(:PMD_0020114))
+Declaration(Class(:PMD_0020172))
+Declaration(Class(:PMD_0020173))
+Declaration(Class(:PMD_0020174))
+Declaration(Class(:PMD_0020175))
 Declaration(Class(:PMD_0025005))
 Declaration(Class(:PMD_0025007))
+Declaration(Class(:PMD_0025012))
 Declaration(Class(:PMD_0060009))
 Declaration(ObjectProperty(obo:OBI_0000293))
 Declaration(ObjectProperty(obo:OBI_0000299))
@@ -42,6 +49,16 @@ Declaration(ObjectProperty(:PMD_0000070))
 Declaration(ObjectProperty(:PMD_0000077))
 Declaration(ObjectProperty(:PMD_0001026))
 Declaration(ObjectProperty(:PMD_0020127))
+Declaration(ObjectProperty(:PMD_0020170))
+Declaration(ObjectProperty(:PMD_0020176))
+Declaration(ObjectProperty(:PMD_0020177))
+Declaration(ObjectProperty(:PMD_0020178))
+Declaration(ObjectProperty(:PMD_0020179))
+Declaration(ObjectProperty(:PMD_0020180))
+Declaration(ObjectProperty(:PMD_0020181))
+Declaration(ObjectProperty(:PMD_0020182))
+Declaration(ObjectProperty(:PMD_0020183))
+Declaration(ObjectProperty(:PMD_0020184))
 Declaration(ObjectProperty(:PMD_0025006))
 Declaration(DataProperty(:PMD_0000006))
 Declaration(AnnotationProperty(<http://www.w3.org/2004/02/skos/core#altLabel>))
@@ -89,13 +106,20 @@ SubAnnotationPropertyOf(:PMD_0050117 <http://www.w3.org/2004/02/skos/core#altLab
 
 InverseObjectProperties(obo:IAO_0000136 :PMD_0000004)
 
+# Object Property: obo:IAO_0000221 (is quality measurement of)
+
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#altLabel> obo:IAO_0000221 "is SDC measurement of"@en)
+
 # Object Property: obo:OBI_0001927 (specifies value of)
 
+AnnotationAssertion(rdfs:comment obo:OBI_0001927 "This relation implies \"aboutness\". Not to be confounded with 'has value specification', OBI:0001938 which implies parthood."@en)
 InverseObjectProperties(obo:OBI_0001927 :PMD_0000077)
 
 # Object Property: obo:OBI_0001938 (has value specification)
 
+AnnotationAssertion(rdfs:comment obo:OBI_0001938 "This relation implies parthood of the value specificatin to an information content entity. Not to be confounded with 'specifies value of', OBI:0001927 which implies \"aboutness\"."@en)
 SubObjectPropertyOf(obo:OBI_0001938 obo:BFO_0000051)
+InverseObjectProperties(obo:OBI_0001938 :PMD_0020170)
 
 # Object Property: :PMD_0000004 (is subject of)
 
@@ -157,6 +181,79 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020127 "
 ObjectPropertyDomain(:PMD_0020127 :PMD_0000008)
 ObjectPropertyRange(:PMD_0020127 obo:BFO_0000020)
 
+# Object Property: :PMD_0020170 (is value specification in)
+
+AnnotationAssertion(rdfs:label :PMD_0020170 "is value specification in"@en)
+SubObjectPropertyOf(:PMD_0020170 obo:BFO_0000050)
+
+# Object Property: :PMD_0020176 (is SDC computation of)
+
+AnnotationAssertion(rdfs:label :PMD_0020176 "is SDC computation of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020176 "An 'is about' relation that relates an 'computed datum' (a data item that is ouput of a computing process) to a SDC to create a truthful statement about that SDC."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020176 "The mass of an part number 4 is computed based on its volume and density."@en)
+SubObjectPropertyOf(:PMD_0020176 obo:IAO_0000136)
+ObjectPropertyDomain(:PMD_0020176 :PMD_0020172)
+
+# Object Property: :PMD_0020177 (is SDC simulation of)
+
+AnnotationAssertion(rdfs:label :PMD_0020177 "is SDC simulation of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020177 "An 'is SDC computation of' relation that relates an 'simulated datum' (a data item that is ouput of a simulating process) to a SDC to create a truthful statement about that SDC."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020177 "The bulk modulus of a crystal structure is computed by the means of a Murnaghan simulation."@en)
+SubObjectPropertyOf(:PMD_0020177 :PMD_0020176)
+ObjectPropertyDomain(:PMD_0020177 :PMD_0020173)
+
+# Object Property: :PMD_0020178 (is SDC calculation of)
+
+AnnotationAssertion(rdfs:label :PMD_0020178 "is SDC calculation of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020178 "An 'is SDC computation of' relation that relates an 'calculated datum' (a data item that is ouput of a analytical calculation process) to a SDC to create a truthful statement about that SDC."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020178 "The mass of an object aggregate is calculated as the mass of the sum of its members."@en)
+SubObjectPropertyOf(:PMD_0020178 :PMD_0020176)
+ObjectPropertyDomain(:PMD_0020178 :PMD_0020174)
+
+# Object Property: :PMD_0020179 (is SDC attribution of)
+
+AnnotationAssertion(rdfs:label :PMD_0020179 "is SDC attribution of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020179 "An 'is about' relation that relates an 'attributed datum' (a data item that is ouput of an attribution process) to a SDC to create a truthful statement about that SDC."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020179 "Three identical parts from the lot had a tensile strength with a value of 1 kN. An attribution process attributes the value to the four and fifth part of the lot. 
+The attribution process can conveneniently relate to the three assays that determined the value of the sibblings/twins."@en)
+SubObjectPropertyOf(:PMD_0020179 obo:IAO_0000136)
+ObjectPropertyDomain(:PMD_0020179 :PMD_0020175)
+
+# Object Property: :PMD_0020180 (specifies measured value of)
+
+AnnotationAssertion(rdfs:label :PMD_0020180 "specifies measured value of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020180 "A 'specifies value of' relation pointing to a SDC which implies that the value specification is part of a measurement datum."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020180 "The scalar value specification 75.5 kg 'specifies measured value of' mass of lot of 5 parts (object aggregate)."@en)
+SubObjectPropertyOf(:PMD_0020180 obo:OBI_0001927)
+
+# Object Property: :PMD_0020181 (specifies attributed value of)
+
+AnnotationAssertion(rdfs:label :PMD_0020181 "specifies attributed value of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020181 "A 'specifies value of' relation pointing to a SDC which implies that the value specification is part of an attributed datum."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020181 "The scalar value specification 1 kN 'specifies attributed value of' tensile strength of part number 4."@en)
+SubObjectPropertyOf(:PMD_0020181 obo:OBI_0001927)
+
+# Object Property: :PMD_0020182 (specifies computed value of)
+
+AnnotationAssertion(rdfs:label :PMD_0020182 "specifies computed value of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020182 "A 'specifies value of' relation pointing to a SDC which implies that the value specification is part of a computed datum."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020182 "The scalar value specification 15 kg 'specifies computed value of' mass of part number 4."@en)
+SubObjectPropertyOf(:PMD_0020182 obo:OBI_0001927)
+
+# Object Property: :PMD_0020183 (specifies simulated value of)
+
+AnnotationAssertion(rdfs:label :PMD_0020183 "specifies simulated value of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020183 "A 'specifies computed value of' relation pointing to a SDC which implies that the value specification is part of a simulation datum."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020183 "The scalar value specification 75 GPa 'specifies simulated value of' bulk modulus of crystal structure x."@en)
+SubObjectPropertyOf(:PMD_0020183 :PMD_0020182)
+
+# Object Property: :PMD_0020184 (specifies calculated value of)
+
+AnnotationAssertion(rdfs:label :PMD_0020184 "specifies calculated value of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020184 "A 'specifies computed value of' relation pointing to a SDC which implies that the value specification is part of a calculated datum."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020184 "The scalar value specification 75 kg 'specifies calculated value of' mass of lot of 5 parts (object aggregate)."@en)
+SubObjectPropertyOf(:PMD_0020184 :PMD_0020182)
+
 # Object Property: :PMD_0025006 (process attribute of)
 
 AnnotationAssertion(rdfs:label :PMD_0025006 "process attribute of"@en)
@@ -179,6 +276,12 @@ DataPropertyDomain(:PMD_0000006 obo:IAO_0000030)
 ############################
 #   Classes
 ############################
+
+# Class: obo:IAO_0000102 (data about an ontology part)
+
+
+# Class: obo:IAO_0000109 (measurement datum)
+
 
 # Class: :PMD_0000007 (vector field specification)
 
@@ -266,6 +369,40 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_002011
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020114 "Air in the air cooling process, N2 atmosphere in a furnace cooling process, oil in a quenching process, crystal lattice in a solid state diffusion"@en)
 SubClassOf(:PMD_0020114 obo:BFO_0000023)
 
+# Class: :PMD_0020172 (computed datum)
+
+AnnotationAssertion(rdfs:comment :PMD_0020172 "This type of data item should be used if we want to give details about the computing process which was used \"to produce (approximately) truthful statements\", see definition of 'iao:data item'."@en)
+AnnotationAssertion(rdfs:label :PMD_0020172 "computed datum"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#altLabel> :PMD_0020172 "computed data item"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020172 "A data item that is ouput of a computing process."@en)
+SubClassOf(:PMD_0020172 ObjectIntersectionOf(obo:IAO_0000027 ObjectSomeValuesFrom(obo:OBI_0000312 :PMD_0000583)))
+
+# Class: :PMD_0020173 (simulated datum)
+
+AnnotationAssertion(rdfs:comment :PMD_0020173 "This type of data item should be used if we want to give details about the simulation process which was used \"to produce (approximately) truthful statements\", see definition of 'iao:data item'."@en)
+AnnotationAssertion(rdfs:label :PMD_0020173 "simulated datum"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#altLabel> :PMD_0020173 "simulated data item"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020173 "A computed datum that is output of a simulation processs."@en)
+SubClassOf(:PMD_0020173 ObjectIntersectionOf(:PMD_0020172 ObjectSomeValuesFrom(obo:OBI_0000312 :PMD_0000933)))
+DisjointClasses(:PMD_0020173 :PMD_0020174)
+
+# Class: :PMD_0020174 (calculated datum)
+
+AnnotationAssertion(rdfs:comment :PMD_0020174 "This type of data item should be used if we want to give details about the analytical calculation process which was used \"to produce (approximately) truthful statements\", see definition of 'iao:data item'."@en)
+AnnotationAssertion(rdfs:label :PMD_0020174 "calculated datum"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#altLabel> :PMD_0020174 "calculated data item"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020174 "A computed datum that is output of an analytical calculation."@en)
+SubClassOf(:PMD_0020174 ObjectIntersectionOf(:PMD_0020172 ObjectSomeValuesFrom(obo:OBI_0000312 :PMD_0025012)))
+
+# Class: :PMD_0020175 (attributed datum)
+
+AnnotationAssertion(rdfs:comment :PMD_0020175 "This type of data item should be used if we want to give details about the attribution process which was used \"to produce (approximately) truthful statements\", see definition of 'iao:data item'. 
+It may be useful if we want talk about the provenannce of the attribution, e.g. by attributing/transfering property values from twins/siblings. If the data item is computed or measured, specific data item subclasses are available."@en)
+AnnotationAssertion(rdfs:label :PMD_0020175 "attributed datum"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#altLabel> :PMD_0020175 "attributed data item"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020175 "A data item that is output of an attribution process"@en)
+SubClassOf(:PMD_0020175 ObjectIntersectionOf(obo:IAO_0000027 ObjectSomeValuesFrom(obo:OBI_0000312 obo:OBI_0000011)))
+
 # Class: :PMD_0025005 (3D)
 
 AnnotationAssertion(rdfs:label :PMD_0025005 "3D"@en)
@@ -288,5 +425,11 @@ AnnotationAssertion(:PMD_0000060 :PMD_0060009 "true"^^xsd:boolean)
 SubClassOf(:PMD_0060009 obo:IAO_0000027)
 
 
+DisjointClasses(obo:IAO_0000102 obo:IAO_0000109 :PMD_0020172 :PMD_0020175 :PMD_0060009)
+SubObjectPropertyOf(ObjectPropertyChain(:PMD_0020170 obo:IAO_0000221) :PMD_0020180)
+SubObjectPropertyOf(ObjectPropertyChain(:PMD_0020170 :PMD_0020176) :PMD_0020182)
+SubObjectPropertyOf(ObjectPropertyChain(:PMD_0020170 :PMD_0020177) :PMD_0020183)
+SubObjectPropertyOf(ObjectPropertyChain(:PMD_0020170 :PMD_0020178) :PMD_0020184)
+SubObjectPropertyOf(ObjectPropertyChain(:PMD_0020170 :PMD_0020179) :PMD_0020181)
 AnnotationAssertion(:PMD_0000064 obo:OBI_0000417 "https://github.com/search?q=repo%3Amaterialdigital%2Fcore-ontology+path%3A%2F%5Epatterns%5C%2F%2F+OBI_0000417&type=code")
 )
