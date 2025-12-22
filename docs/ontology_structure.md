@@ -1,6 +1,5 @@
 # Ontology Structure
 <!--@Document_indicator: Text,links -->
-
 ## BFO as top level ontology
 
 The Basic Formal Ontology (BFO) is a **top-level ontology** that provides a structured framework for organizing entities based on their fundamental nature. It does not include domain-specific content but instead defines **high-level categories** that support the development of specialized ontologies like NFDIcore.  
@@ -96,8 +95,7 @@ PMDco defines several primary categories central to materials science and engine
 
 We provide a few examples from each category below:
 
-**1. Materials module**
-<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-materials.owl -->: This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.
+**1. Materials module**: This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.
 
 Examples:
 
@@ -118,8 +116,7 @@ pmd:Metal - A metal is an engineered material representing a class of materials 
 
 pmd:Ceramics - Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.
 
-**2. Qualities module**
-<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-qualities.owl-->: Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.
+**2. Qualities module**: Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.
 
 Main BFO superclasses:
 
@@ -141,8 +138,7 @@ Some concrete properties:
 
 ``pmd:Yield Strength`` – The stress at which a material transitions from elastic to plastic deformation.
 
-**3. Manufacturing module** 
-<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-manufacturing.owl-->: This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.
+**3. Manufacturing module**: This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.
 
 The superclass for industrial processes:
 
@@ -152,6 +148,75 @@ More specific examples:
 
 ``pmd:Coating`` – A manufacturing process that aims to deposit a permanently adhering layer of a material without a form onto a workpiece, whereby the immediate state of the coating material directly before 
 application is essential.
+
+``pmd:Forming`` - A manufacturing process that changes the shape of a solid body through plastic deformation while retaining both mass and structural integrity.
+
+``pmd:Joining`` - A manufacturing process that enables the continuous bonding or joining of two or more workpieces with a specific, fixed shape or of such workpieces with a shapeless material, whereby the cohesion 
+is created at specific points and reinforced overall.
+
+** 4. Material Characterization**: Material characterization involves methods and devices used to analyze the physical, mechanical, and chemical properties of materials.
+
+Main BFO superclass:
+
+``bfo:process`` - p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant
+
+The superclass for characterization processes:
+
+``pmd:Assay`` - A planned process that has the objective to produce information about a material entity (the evaluant) by examining it. (Imported from OBI ontology)
+
+More specific examples:
+
+``pmd:Acoustical Property Analyzing Process`` - An assay that measures the acoustic properties of materials by analyzing how sound waves interact with the material. This process involves generating sound waves and observing their reflection, transmission, absorption, or scattering to determine properties such as acoustic impedance, absorption coefficient, and sound speed.
+
+``pmd:Mechanical Property Analyzing Process`` - An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.
+
+``pmd:Tensile Testing Process`` – A Mechanical Property Analyzing Process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.
+
+**5. Data Transformation module**: This category includes processes that involve computational simulations and digital transformations related to material properties and behaviors.
+
+Main BFO superclass:
+
+``bfo:process`` - p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant
+
+Examples:
+
+``pmd:Computing Process`` - A planned process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or 
+engineering goals.
+
+``pmd:Simulation Process`` - A Computing Process that models the behavior of a system over time using mathematical or computational techniques.
+
+``pmd:Monte Carlo Simulation`` - A Simulation Process that uses random sampling to solve physical and mathematical problems.
+
+**6. Devices module**: This category includes devices performing certain functions in industrial processes.
+
+Main BFO superclass:
+
+``bfo:object`` - An object is a material entity which manifests causal unity & is of a type instances of which are maximal relative to the sort of causal unity manifested.
+
+Examples:
+
+``pmd:Device`` - A physical or virtual entity used to perform a specific function or task, often involving measurement, manipulation, or analysis of materials.
+
+``pmd:Furnace`` - An enclosed structure in which heat is produced (as for heating a house or for reducing ore).
+
+``pmd:Creep Testing Device`` - A device used to test the creep behavior of materials under constant stress at high temperatures.
+
+
+### Properties
+PMDco includes properties that define relationships and attributes:
+
+- **Object Properties**:
+  - **stimulates**: A relation between a stimulating process and material property, where there is some material entity that is bearer of the material property and participates in the stimulating process, and the material property comes to be realized in the course of the stimulating process.
+  - **interacts with**: A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants.
+  - **consists of**: A continuant part property that relates Material Entity Aggregates in the direction of smaller length-scale.
+
+- **Data Properties**:
+  - **has specified value**: Assigns a specific value to a property, such as a numerical measurement.
+  - **has unit**: Specifies the unit of measurement for a given value.
+
+### Individuals
+While PMDco serves as a mid-level ontology and may not define specific instances, it provides a framework for users to instantiate individuals pertinent to their domain. Therefore, it mostly does not contain individuals in its pure form. <br/>
+The only individuals present in the PMDco are the ones belonging to the subclasses of a ``pmd:Nature Constant`` class, defined in the Qualities module: <br/>
 ``pmd:Aggregate State Value`` - solid, liquid, etc. <br/>
 ``pmd:Bravias Lattice (3D)`` - cubic body-centered, monoclinic primitive, etc. <br/>
 ``pmd:Metallic Grain Structures`` - austenite, ferrite, etc.
