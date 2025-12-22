@@ -803,7 +803,8 @@ aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
 
 
 ---
-## Pattern 9: Simulation input/output 
+## Pattern 9: Simulation input/output
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/simulation%20inout%20simple/shape-data.ttl--> 
 
 - **Purpose**: Information content entities as input and output of (simulation-)processes.
 - **Example Use Case**: 
