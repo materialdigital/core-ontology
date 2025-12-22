@@ -1,0 +1,4720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Usage Patterns - PMDco Documentation" name="description" />
+    <title>Usage Patterns | PMDco Documentation</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Merriweather:wght@400;700&family=Source+Serif+Pro:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        /* =====================================================
+       PMDco DOCUMENTATION STYLES
+       =====================================================
+       
+       OVERVIEW:
+       This stylesheet controls the entire documentation appearance including:
+       - CSS Variables (lines ~15-100): Color themes, spacing, typography
+       - Theme switching (lines ~80-180): Light/dark mode overrides
+       - Layout components: Header, Sidebar, Main content, TOC
+       - Mermaid graph containers: Interactive diagram styling
+       - Edge/Arrow colors: Theme-dependent stroke colors
+       - Edge labels: Theme-dependent text colors (black in light, white in dark)
+       
+       KEY PATTERNS:
+       - Use CSS variables (--color-*) for consistent theming
+       - body:not(.theme-dark) class toggles light mode styles
+       - Graph edges use !important to override Mermaid defaults
+       
+       CRITICAL SECTIONS:
+       - Lines ~125-180: Edge and arrow color overrides for light/dark modes
+       - Lines ~825-875: Edge label color overrides for light/dark modes
+       
+       ===================================================== */
+
+        /* === CSS VARIABLES - Core design tokens === */
+        :root {
+            --color-primary: #00a0e3;
+            --color-primary-dark: #0077b3;
+            --color-primary-light: #33b5eb;
+            --color-accent: #7dd3fc;
+            --color-surface: rgba(255, 255, 255, 0.92);
+            --color-bg-primary: #f7f9fc;
+            --color-bg-secondary: #ffffff;
+            --color-bg-tertiary: #edf2f7;
+            --color-bg-card: #ffffff;
+            --color-bg-hover: rgba(0, 160, 227, 0.08);
+            --color-text-primary: #0f172a;
+            --color-text-secondary: #1f2937;
+            --color-text-muted: #475569;
+            --color-border: rgba(15, 23, 42, 0.1);
+            --color-border-hover: rgba(0, 160, 227, 0.5);
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            --color-info: #3b82f6;
+            --color-code-bg: #f3f4f6;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-family-heading: 'Source Serif Pro', Georgia, 'Times New Roman', serif;
+            --font-family-body: 'Merriweather', Georgia, serif;
+            --font-family-mono: 'JetBrains Mono', monospace;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 20px rgba(0, 160, 227, 0.3);
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+            --sidebar-width: 280px;
+            --header-height: 64px;
+            --toc-width: 240px;
+            --z-sticky: 200;
+            --z-modal: 300;
+            --z-tooltip: 400;
+
+            /* Mermaid graph variables */
+            --dim: 0.12;
+            --pop-header: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+            --pop-header-text: #ffffff;
+            --card-bg: #f1f5f9;
+            --card-border: #cbd5e1;
+            --card-hover: #e2e8f0;
+            --pred-color: #475569;
+            --val-color: #1e293b;
+        }
+
+        body.theme-dark {
+            --color-bg-primary: #0a1628;
+            --color-bg-secondary: #0d1f35;
+            --color-bg-tertiary: #132743;
+            --color-bg-card: rgba(19, 39, 67, 0.8);
+            --color-bg-hover: rgba(0, 160, 227, 0.1);
+            --color-surface: rgba(10, 22, 40, 0.95);
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #94a3b8;
+            --color-text-muted: #64748b;
+            --color-border: rgba(148, 163, 184, 0.2);
+            --color-code-bg: #1e293b;
+            --card-bg: #0f172a;
+            --card-border: #475569;
+            --card-hover: #334155;
+            --pred-color: #94a3b8;
+            --val-color: #e2e8f0;
+        }
+
+        /* ===========================================
+       LIGHT MODE GRAPH CONTAINER OVERRIDES
+       Pure white backgrounds per user preference.
+       Ensures clean, professional appearance for diagrams.
+       =========================================== */
+        body:not(.theme-dark) .mermaid-graph-container {
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        body:not(.theme-dark) .graph-header {
+            background: #ffffff;
+        }
+
+        body:not(.theme-dark) .graph-viewport {
+            background: #ffffff;
+        }
+
+        body:not(.theme-dark) .graph-legend {
+            background: #ffffff;
+        }
+
+        body:not(.theme-dark) .zoom-controls {
+            background: #ffffff;
+        }
+
+        body:not(.theme-dark) .zoom-btn {
+            background: #f8fafc;
+        }
+
+        /* ===========================================
+       EDGE AND ARROW COLOR OVERRIDES
+       =========================================== 
+       
+       CRITICAL: These styles override Mermaid's default edge colors
+       to ensure proper visibility in both light and dark themes.
+       
+       Dark mode (default): White edges (#ffffff) on dark backgrounds
+       Light mode: Black edges (#1e293b) on white backgrounds
+       
+       The !important flag is necessary to override Mermaid's inline styles.
+       
+       Components affected:
+       - path.flowchart-link: Main edge lines connecting nodes
+       - .edgePath path: Alternative edge path selector
+       - marker path: Arrowheads at edge endpoints
+       
+       Both .graph-wrapper (inline view) and .fullscreen-wrapper 
+       (fullscreen modal) need separate rules.
+       =========================================== */
+
+        /* DARK MODE EDGES (default) - White for visibility on dark backgrounds */
+        .graph-wrapper svg path.flowchart-link {
+            stroke: #ffffff !important;
+        }
+
+        .graph-wrapper svg .edgePath path {
+            stroke: #ffffff !important;
+        }
+
+        /* Dark mode arrowheads */
+        .graph-wrapper svg marker path {
+            fill: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+
+        /* Fullscreen modal - dark mode edges */
+        .fullscreen-wrapper svg path.flowchart-link {
+            stroke: #ffffff !important;
+        }
+
+        .fullscreen-wrapper svg .edgePath path {
+            stroke: #ffffff !important;
+        }
+
+        .fullscreen-wrapper svg marker path {
+            fill: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+
+        /* LIGHT MODE EDGES - Black (#1e293b) for visibility on white backgrounds */
+        body:not(.theme-dark) .graph-wrapper svg path.flowchart-link {
+            stroke: #1e293b !important;
+        }
+
+        body:not(.theme-dark) .graph-wrapper svg .edgePath path {
+            stroke: #1e293b !important;
+        }
+
+        /* Light mode arrowheads */
+        body:not(.theme-dark) .graph-wrapper svg marker path {
+            fill: #1e293b !important;
+            stroke: #1e293b !important;
+        }
+
+        /* Fullscreen modal - light mode edges */
+        body:not(.theme-dark) .fullscreen-wrapper svg path.flowchart-link {
+            stroke: #1e293b !important;
+        }
+
+        body:not(.theme-dark) .fullscreen-wrapper svg .edgePath path {
+            stroke: #1e293b !important;
+        }
+
+        body:not(.theme-dark) .fullscreen-wrapper svg marker path {
+            fill: #1e293b !important;
+            stroke: #1e293b !important;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            line-height: 1.5;
+            color: var(--color-text-primary);
+            background: var(--color-bg-primary);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 160, 227, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 160, 227, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: var(--font-size-2xl);
+            margin-top: var(--spacing-2xl);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        h3 {
+            font-size: var(--font-size-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-secondary);
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--color-primary-light);
+            text-decoration: underline;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        ul,
+        ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-xl);
+            color: var(--color-text-secondary);
+        }
+
+        code:not(pre code) {
+            padding: 2px 6px;
+            font-size: 0.9em;
+            font-family: var(--font-family-mono);
+            color: var(--color-primary-light);
+            background: var(--color-code-bg);
+            border-radius: var(--radius-sm);
+        }
+
+        pre {
+            margin: var(--spacing-lg) 0;
+            padding: var(--spacing-lg);
+            background: var(--color-code-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+        }
+
+        pre code {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            color: #e2e8f0;
+        }
+
+        body:not(.theme-dark) pre code {
+            color: #1e293b;
+        }
+
+        body:not(.theme-dark) pre {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--color-border);
+            margin: var(--spacing-xl) 0;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--color-surface);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            z-index: var(--z-sticky);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: var(--spacing-xl);
+            margin-left: auto;
+        }
+
+        .header-nav a {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+
+        .header-nav a:hover {
+            color: var(--color-text-primary);
+            text-decoration: none;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            margin-left: var(--spacing-md);
+            padding: 8px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-secondary);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .theme-toggle:hover {
+            color: var(--color-text-primary);
+            border-color: var(--color-border-hover);
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .theme-label {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            color: var(--color-text-primary);
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--color-bg-secondary);
+            border-right: 1px solid var(--color-border);
+            overflow-y: auto;
+            padding: var(--spacing-lg);
+            z-index: var(--z-sticky);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: var(--radius-full);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: calc(var(--z-modal) - 1);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .nav-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .nav-section-title {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .nav-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .nav-list li {
+            margin-bottom: 2px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .nav-link:hover {
+            color: var(--color-text-primary);
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            background: rgba(0, 160, 227, 0.15);
+            font-weight: 500;
+        }
+
+        .nav-link svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+
+        /* Search - Modern & Classic Design */
+        .search-container {
+            position: relative;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-left: 44px;
+            padding-right: 70px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-primary);
+            background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .search-input::placeholder {
+            color: var(--color-text-muted);
+            font-weight: 400;
+        }
+
+        .search-input:hover {
+            border-color: var(--color-primary);
+            background: var(--color-bg-secondary);
+            box-shadow: 0 2px 8px rgba(0, 160, 227, 0.1);
+        }
+
+        .search-input:focus {
+            border-color: var(--color-primary);
+            background: var(--color-bg-secondary);
+            box-shadow: 0 0 0 3px rgba(0, 160, 227, 0.15), 0 4px 12px rgba(0, 160, 227, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--color-text-muted);
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        .search-container:hover .search-icon,
+        .search-input:focus ~ .search-icon {
+            color: var(--color-primary);
+        }
+
+        .search-shortcut {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 4px 8px;
+            font-size: 11px;
+            font-family: var(--font-family-mono);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--color-text-muted);
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Search Modal */
+        .search-modal {
+            position: fixed;
+            inset: 0;
+            z-index: var(--z-modal);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15vh;
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-modal-content {
+            width: 100%;
+            max-width: 640px;
+            max-height: 70vh;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-modal-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-bg-tertiary);
+        }
+
+        .search-modal-header svg {
+            flex-shrink: 0;
+            color: var(--color-primary);
+        }
+
+        .search-modal-input {
+            flex: 1;
+            padding: var(--spacing-sm) 0;
+            font-size: var(--font-size-lg);
+            font-weight: 500;
+            color: var(--color-text-primary);
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+        
+        .search-modal-input::placeholder {
+            color: var(--color-text-muted);
+            font-weight: 400;
+        }
+
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: var(--spacing-sm);
+        }
+
+        .search-result-item {
+            display: block;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: background var(--transition-fast);
+        }
+
+        .search-result-item:hover,
+        .search-result-item.selected {
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .search-result-title {
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .search-result-path {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        .search-no-results {
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--color-text-muted);
+        }
+
+        .search-section-label {
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-bg-tertiary);
+        }
+
+        .search-result-title mark {
+            background: rgba(0, 160, 227, 0.3);
+            color: var(--color-primary-light);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .search-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+        
+            flex-wrap: wrap;}
+
+        
+        .search-index-status {
+            margin-left: auto;
+            white-space: nowrap;
+            opacity: 0.9;
+        }
+.search-footer kbd {
+            padding: 2px 6px;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family-mono);
+        }
+
+        /* Search Target Flash - visual feedback when navigating to search result */
+        .search-target-flash {
+            outline: 3px solid rgba(0, 160, 227, 0.4);
+            outline-offset: 4px;
+            border-radius: 8px;
+            transition: outline-color 0.6s ease;
+            animation: flash-fade 1.5s ease-out forwards;
+        }
+
+        @keyframes flash-fade {
+            0% { outline-color: rgba(0, 160, 227, 0.6); }
+            100% { outline-color: transparent; }
+        }
+
+        /* Smooth scrolling for the entire page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Enhanced focus states for accessibility */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        /* Image Viewer */
+        .image-viewer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-viewer-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            cursor: grab;
+        }
+
+        .image-viewer-container:active {
+            cursor: grabbing;
+        }
+
+        .image-viewer-container img,
+        .image-viewer-container svg {
+            max-width: 95vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transform-origin: center center;
+            transition: transform 0.05s ease-out;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: auto;
+        }
+
+        .image-viewer-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10001;
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 12px 16px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .image-viewer-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .image-viewer-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .image-viewer-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10001;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .image-viewer-close:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .content img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: var(--spacing-lg) auto;
+            cursor: zoom-in;
+            transition: transform 0.2s;
+            border-radius: var(--radius-md);
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        .content img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Image caption styling */
+        .content img + em,
+        .content p > img + br + em {
+            display: block;
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+            margin-top: calc(-1 * var(--spacing-md));
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* Ontology Tree Styles */
+        .ontology-tree-container {
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .ontology-tree {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+        }
+
+        .ontology-tree ul {
+            list-style: none;
+            padding-left: 20px;
+            margin: 0;
+            border-left: 1px dashed var(--color-border);
+            margin-left: 8px;
+        }
+
+        .ontology-tree li { margin: 4px 0; position: relative; }
+
+        .tree-node {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            cursor: default;
+            transition: background var(--transition-fast);
+        }
+
+        .tree-node:hover { background: var(--color-bg-hover); }
+
+        .tree-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border: none;
+            background: var(--color-bg-secondary);
+            color: var(--color-text-muted);
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        .tree-toggle:hover { background: var(--color-primary); color: white; }
+        .tree-toggle.collapsed::before { content: '▶'; }
+        .tree-toggle.expanded::before { content: '▼'; }
+        .tree-toggle-placeholder { width: 18px; height: 18px; flex-shrink: 0; }
+        .tree-prefix { color: var(--color-text-muted); font-size: 0.85em; }
+        .tree-label { color: var(--color-primary-light); font-weight: 500; }
+        .tree-node.has-definition { cursor: help; }
+        .tree-node.has-definition .tree-label { border-bottom: 1px dotted var(--color-text-muted); }
+        .tree-children { overflow: hidden; transition: max-height 0.2s ease-out; }
+        .tree-children.collapsed { max-height: 0 !important; }
+
+        .tree-toolbar {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--color-border);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .tree-toolbar-btn {
+            padding: 6px 12px;
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+
+        .tree-toolbar-btn:hover { color: var(--color-text-primary); border-color: var(--color-primary); }
+
+        .tree-search {
+            flex: 1;
+            max-width: 250px;
+            padding: 6px 12px;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            outline: none;
+        }
+
+        .tree-search:focus { border-color: var(--color-primary); }
+        .tree-stats { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-left: auto; }
+        .tree-node.search-match .tree-label { background: rgba(0, 160, 227, 0.3); padding: 0 2px; border-radius: 2px; }
+
+        .tree-tooltip {
+            position: fixed;
+            z-index: 1000;
+            max-width: 400px;
+            padding: 12px 16px;
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            font-size: var(--font-size-sm);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .tree-tooltip.visible { opacity: 1; }
+        .tree-tooltip-title { font-weight: 600; color: var(--color-text-primary); margin-bottom: 6px; }
+        .tree-tooltip-uri { font-family: var(--font-family-mono); font-size: var(--font-size-xs); color: var(--color-text-muted); word-break: break-all; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--color-border); }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
+            padding: var(--spacing-2xl);
+            flex: 1;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-sm);
+        }
+
+        .breadcrumbs a {
+            color: var(--color-text-muted);
+        }
+
+        .breadcrumbs .current {
+            color: var(--color-text-secondary);
+        }
+
+        /* Content Box with Background */
+        .content, .article-content {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .content h1, .content h2, .content h3, .article-content h1, .article-content h2, .article-content h3 {
+            font-family: var(--font-family-heading);
+            letter-spacing: -0.02em;
+        }
+
+        .content p, .content li, .article-content p, .article-content li {
+            font-family: var(--font-family-body);
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+        }
+
+        /* TOC */
+        .toc {
+            position: fixed;
+            top: calc(var(--header-height) + var(--spacing-2xl));
+            right: var(--spacing-xl);
+            width: var(--toc-width);
+            max-height: calc(100vh - var(--header-height) - 4rem);
+            overflow-y: auto;
+            padding: var(--spacing-md);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(8px);
+        }
+
+        .toc-title {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc-list a {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-left: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .toc-list a:hover,
+        .toc-list a.active {
+            color: var(--color-primary);
+            border-left-color: var(--color-primary);
+            background: var(--color-bg-hover);
+            text-decoration: none;
+        }
+
+        .toc-list .toc-h3 {
+            padding-left: var(--spacing-lg);
+        }
+
+        /* Page Nav */
+        .page-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .page-nav-link {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-lg);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+        }
+
+        .page-nav-link:hover {
+            border-color: var(--color-primary);
+            text-decoration: none;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .page-nav-link.next {
+            text-align: right;
+        }
+
+        .page-nav-label {
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+        }
+
+        .page-nav-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: var(--spacing-2xl);
+            padding: var(--spacing-xl) 0;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-links a {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        .footer-copyright {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+        }
+
+        /* === MERMAID GRAPH CONTAINER === */
+        .mermaid-graph-container {
+            position: relative;
+            margin: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(13, 31, 53, 0.95) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .graph-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+            border-bottom: 1px solid var(--color-border);
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .graph-title {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .graph-title::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--color-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .graph-controls {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .graph-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 32px;
+            padding: 0 10px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: linear-gradient(180deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .graph-btn:hover {
+            color: var(--color-text-primary);
+            border-color: var(--color-primary);
+            background: var(--color-bg-hover);
+            box-shadow: 0 0 12px rgba(0, 160, 227, 0.2);
+        }
+
+        .graph-viewport {
+            position: relative;
+            min-height: 450px;
+            max-height: 600px;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, rgba(0, 160, 227, 0.03) 0%, transparent 70%);
+            cursor: grab;
+        }
+
+        .graph-viewport:active {
+            cursor: grabbing;
+        }
+
+        .graph-wrapper {
+            transform-origin: 0 0;
+            transition: transform 0.05s;
+            will-change: transform;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        .graph-wrapper svg {
+            max-width: none;
+            display: block;
+            overflow: visible;
+            min-width: 100px;
+            min-height: 100px;
+        }
+
+        .mermaid-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        .mermaid-diagram svg {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        
+        /* Graphviz (Viz.js) edge & label theming */
+        :root {
+            --graph-edge-color: #ffffff;
+            --graph-edge-label-color: #ffffff;
+        }
+
+        body:not(.theme-dark) {
+            --graph-edge-color: #1e293b;
+            --graph-edge-label-color: #1e293b;
+        }
+
+        /* Graphviz uses g.edge, g.node (similar to Mermaid), but with different internal shapes */
+        .graph-wrapper svg g.edge path,
+        .fullscreen-wrapper svg g.edge path {
+            stroke: var(--graph-edge-color) !important;
+        }
+
+        .graph-wrapper svg g.edge polygon,
+        .fullscreen-wrapper svg g.edge polygon {
+            fill: var(--graph-edge-color) !important;
+            stroke: var(--graph-edge-color) !important;
+        }
+
+        .graph-wrapper svg g.edge text,
+        .graph-wrapper svg g.edge tspan,
+        .fullscreen-wrapper svg g.edge text,
+        .fullscreen-wrapper svg g.edge tspan {
+            fill: var(--graph-edge-label-color) !important;
+        }
+
+        /* Focus + search states */
+        .graph-wrapper svg g.edge.dimmed,
+        .fullscreen-wrapper svg g.edge.dimmed {
+            opacity: 0.12 !important;
+        }
+
+        .graph-wrapper svg g.edge.highlight-edge path,
+        .fullscreen-wrapper svg g.edge.highlight-edge path {
+            stroke: var(--color-primary) !important;
+            stroke-width: 2.5px !important;
+        }
+
+        .graph-wrapper svg g.edge.highlight-edge polygon,
+        .fullscreen-wrapper svg g.edge.highlight-edge polygon {
+            fill: var(--color-primary) !important;
+            stroke: var(--color-primary) !important;
+        }
+
+        .graph-wrapper svg g.node.search-match rect,
+        .graph-wrapper svg g.node.search-match polygon,
+        .graph-wrapper svg g.node.search-match ellipse {
+            stroke: var(--color-success) !important;
+            stroke-width: 3px !important;
+            filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.55));
+        }
+
+        /* Search UI */
+        .graph-search {
+            height: 32px;
+            min-width: 160px;
+            padding: 0 10px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+            outline: none;
+            font-size: var(--font-size-sm);
+        }
+
+        .graph-search:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 160, 227, 0.15);
+        }
+
+        .graph-search-clear {
+            min-width: 32px;
+            padding: 0 8px;
+            opacity: 0.8;
+        }
+
+        .graph-search-clear:hover {
+            opacity: 1;
+        }
+
+/* Mermaid node styles */
+        .graph-wrapper svg g.node {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .graph-wrapper svg g.node:hover {
+            filter: brightness(1.1);
+        }
+
+        .graph-wrapper svg g.node.selected rect,
+        .graph-wrapper svg g.node.selected polygon,
+        .graph-wrapper svg g.node.selected ellipse {
+            stroke-width: 3px !important;
+            filter: drop-shadow(0 0 8px var(--color-primary));
+        }
+
+        .graph-wrapper svg g.node.dim {
+            opacity: var(--dim) !important;
+        }
+
+        .graph-wrapper svg g.node.hovered rect,
+        .graph-wrapper svg g.node.hovered polygon,
+        .graph-wrapper svg g.node.hovered ellipse {
+            stroke: var(--color-primary) !important;
+            stroke-width: 3px !important;
+            filter: drop-shadow(0 0 10px var(--color-primary));
+        }
+
+        .graph-wrapper svg g.node.ancestor rect,
+        .graph-wrapper svg g.node.ancestor polygon,
+        .graph-wrapper svg g.node.ancestor ellipse {
+            stroke: var(--color-primary) !important;
+            stroke-width: 2.5px !important;
+            stroke-dasharray: 6 4;
+        }
+
+        /* ===========================================
+       EDGE LABEL STYLES
+       Controls the text color of relationship labels on graph edges.
+       - Dark mode: white labels for visibility on dark backgrounds
+       - Light mode: black labels for visibility on white backgrounds
+       =========================================== */
+
+        /* Dark mode edge labels - white text (default) */
+        .graph-wrapper svg g.edgeLabel text,
+        .graph-wrapper svg g.edgeLabel tspan {
+            fill: #ffffff !important;
+        }
+
+        .fullscreen-wrapper svg g.edgeLabel text,
+        .fullscreen-wrapper svg g.edgeLabel tspan {
+            fill: #ffffff !important;
+        }
+
+        /* Light mode edge labels - black text */
+        body:not(.theme-dark) .graph-wrapper svg g.edgeLabel text,
+        body:not(.theme-dark) .graph-wrapper svg g.edgeLabel tspan {
+            fill: #1e293b !important;
+        }
+
+        body:not(.theme-dark) .fullscreen-wrapper svg g.edgeLabel text,
+        body:not(.theme-dark) .fullscreen-wrapper svg g.edgeLabel tspan {
+            fill: #1e293b !important;
+        }
+
+        /* Edge dimming for focus/highlight interactions */
+        .graph-wrapper svg g.edgePath.dim {
+            opacity: var(--dim) !important;
+        }
+
+        .graph-wrapper svg g.edgeLabel.dim {
+            opacity: var(--dim) !important;
+        }
+
+        .graph-wrapper svg g.edgePath.dim path {
+            opacity: var(--dim) !important;
+        }
+
+        /* Edge highlighting when connected nodes are selected */
+        .graph-wrapper svg g.edgePath.highlight {
+            opacity: 1 !important;
+        }
+
+        .graph-wrapper svg g.edgePath.highlight path {
+            opacity: 1 !important;
+        }
+
+        .graph-wrapper svg g.edgeLabel.highlight {
+            opacity: 1 !important;
+        }
+
+        .graph-wrapper svg g.edgePath.highlight path {
+            stroke: var(--color-primary) !important;
+            stroke-width: 2.5px !important;
+        }
+
+        .graph-wrapper svg g.edgeLabel.highlight text,
+        .graph-wrapper svg g.edgeLabel.highlight tspan {
+            fill: var(--color-primary) !important;
+            font-weight: 700;
+        }
+
+        .graph-wrapper svg g.edgePath.typeEdge path {
+            stroke-dasharray: 1.2 6 !important;
+            stroke-linecap: round !important;
+        }
+
+        .graph-wrapper svg g.edgeLabel.typeEdge text,
+        .graph-wrapper svg g.edgeLabel.typeEdge tspan {
+            fill: var(--color-primary) !important;
+        }
+
+        .zoom-controls {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: var(--color-bg-secondary);
+            padding: 8px;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--color-border);
+            z-index: 100;
+        }
+
+        .zoom-btn {
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            color: var(--color-text-primary);
+            user-select: none;
+        }
+
+        .zoom-btn:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .zoom-level {
+            text-align: center;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            padding: 4px;
+            font-weight: 500;
+        }
+
+        /* Fullscreen modal */
+        .fullscreen-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--color-bg-primary);
+            display: none;
+            flex-direction: column;
+        }
+
+        .fullscreen-overlay.active {
+            display: flex;
+        }
+
+        .fullscreen-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--color-bg-secondary);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .fullscreen-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .fullscreen-close {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: 8px 16px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-primary);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .fullscreen-close:hover {
+            background: var(--color-error);
+            border-color: var(--color-error);
+            color: white;
+        }
+
+        .fullscreen-viewport {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .fullscreen-viewport:active {
+            cursor: grabbing;
+        }
+
+        .fullscreen-wrapper {
+            transform-origin: 0 0;
+            transition: transform 0.05s;
+            will-change: transform;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        .fullscreen-wrapper svg {
+            max-width: none;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .fullscreen-zoom-controls {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: var(--color-bg-secondary);
+            padding: 10px;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--color-border);
+            z-index: 100;
+        }
+
+        .fullscreen-zoom-btn {
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            color: var(--color-text-primary);
+            user-select: none;
+        }
+
+        .fullscreen-zoom-btn:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .fullscreen-zoom-level {
+            text-align: center;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+            padding: 6px;
+            font-weight: 500;
+        }
+
+        /* Popover */
+        .graph-popover {
+            position: fixed;
+            z-index: 1000;
+            display: none;
+            min-width: 340px;
+            max-width: 420px;
+            max-height: 70vh;
+            overflow-y: auto;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: popIn 0.2s;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .graph-popover.visible {
+            display: block;
+        }
+
+        .pop-head {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--color-border);
+            background: var(--pop-header);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            color: var(--pop-header-text);
+            position: relative;
+        }
+
+        .pop-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--pop-header-text);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .pop-uri {
+            font-size: 11px;
+            opacity: 0.85;
+            word-break: break-all;
+            font-family: var(--font-family-mono);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .pop-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        .pop-body {
+            padding: 16px 20px;
+        }
+
+        .section {
+            margin-bottom: 16px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .sec-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .count {
+            background: var(--color-primary);
+            color: white;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .trips {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .trip {
+            background: var(--card-bg);
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            transition: all 0.2s;
+        }
+
+        .trip:hover {
+            border-color: var(--color-primary);
+            background: var(--card-hover);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .pred {
+            font-size: 10px;
+            color: var(--pred-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .val {
+            font-size: 13px;
+            color: var(--val-color);
+            font-weight: 500;
+            font-family: var(--font-family-mono);
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+            color: var(--color-text-muted);
+            font-size: 12px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px dashed var(--card-border);
+        }
+
+        /* Toast */
+        .graph-toast {
+            position: fixed;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.92);
+            color: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            display: none;
+            z-index: 2000;
+            backdrop-filter: blur(6px);
+            max-width: min(520px, calc(100% - 24px));
+            text-align: center;
+        }
+
+        body:not(.theme-dark) .graph-toast {
+            background: rgba(255, 255, 255, 0.94);
+            color: rgba(0, 0, 0, 0.86);
+            border: 1px solid rgba(0, 0, 0, 0.10);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Legend */
+        .graph-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-full);
+        }
+
+        .legend-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .swatch-class {
+            background: linear-gradient(135deg, #b34dff 0%, #4a148c 100%);
+        }
+
+        .swatch-individual {
+            background: linear-gradient(135deg, #e8f0ff 0%, #1e40af 100%);
+        }
+
+        .swatch-literal {
+            background: linear-gradient(135deg, #fef3c7 0%, #d97706 100%);
+        }
+
+        .swatch-categorical {
+            background: linear-gradient(135deg, #d1fae5 0%, #059669 100%);
+        }
+
+        .swatch-subclass {
+            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+        }
+
+        .swatch-type {
+            background: linear-gradient(135deg, #00a0e3 0%, #0077b3 100%);
+        }
+
+        .swatch-bfo {
+            background: linear-gradient(135deg, #b34dff 0%, #7c3aed 100%);
+        }
+
+        .swatch-obi {
+            background: linear-gradient(135deg, #a78bbc 0%, #7c5c8f 100%);
+        }
+
+        .swatch-pmd {
+            background: linear-gradient(135deg, #6b7fa3 0%, #4a5568 100%);
+        }
+
+        .swatch-shacl {
+            background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
+        }
+
+        .swatch-constraint {
+            background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+        }
+
+        /* Responsive */
+        @media (max-width: 1280px) {
+            .toc {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-normal);
+                z-index: var(--z-modal);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: var(--spacing-lg);
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .page-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Viewer */
+        .image-viewer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .image-viewer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-viewer-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .image-viewer-container:active {
+            cursor: grabbing;
+        }
+
+        .image-viewer-container img,
+        .image-viewer-container svg {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            transform-origin: center center;
+            transition: transform 0.1s ease-out;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .image-viewer-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10001;
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 12px 16px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .image-viewer-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .image-viewer-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .image-viewer-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10001;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .image-viewer-close:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .viewable-image,
+        .article-content svg {
+            cursor: zoom-in;
+            transition: transform 0.2s;
+        }
+
+        .viewable-image:hover,
+        .article-content svg:hover {
+            transform: scale(1.02);
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+    
+
+        /* Search enhancements */
+        .search-result-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+        }
+        .search-result-badge {
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
+            padding: 2px 8px;
+            border-radius: 999px;
+            flex: 0 0 auto;
+            user-select: none;
+        }
+        .search-result-snippet {
+            margin-top: 6px;
+            font-size: var(--font-size-sm);
+            line-height: 1.45;
+            color: var(--color-text-secondary);
+        }
+        .search-target-flash {
+            outline: 3px solid rgba(124, 58, 237, 0.35);
+            outline-offset: 4px;
+            border-radius: 12px;
+            transition: outline-color 0.6s ease;
+        }
+
+        /* Collapsible code blocks */
+        details.code-block {
+            margin: var(--spacing-lg) 0;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            background: var(--color-code-bg);
+            overflow: hidden;
+        }
+
+        details.code-block summary {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-bg-tertiary);
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-muted);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            user-select: none;
+            transition: all var(--transition-fast);
+        }
+
+        details.code-block summary:hover {
+            background: var(--color-bg-hover);
+            color: var(--color-text-primary);
+        }
+
+        details.code-block summary::marker,
+        details.code-block summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.code-block summary::before {
+            content: '▶';
+            font-size: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        details.code-block[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        details.code-block pre {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            max-height: 400px;
+            overflow: auto;
+        }
+
+        details.code-block code {
+            font-size: var(--font-size-sm);
+        }
+
+</style>
+</head>
+
+<body>
+    <header class="header">
+        <button aria-label="Toggle menu" class="mobile-menu-btn">
+            <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
+                <line x1="3" x2="21" y1="12" y2="12"></line>
+                <line x1="3" x2="21" y1="6" y2="6"></line>
+                <line x1="3" x2="21" y1="18" y2="18"></line>
+            </svg>
+        </button>
+        <a class="header-logo" href="./intro.html">
+            <img src="./Logo.svg" alt="MaterialDigital Logo" style="height: 36px; width: auto;">
+            <span style="display: flex; align-items: baseline; gap: 0.25rem;">
+                <span style="font-weight: 700; background: linear-gradient(135deg, #00a0e3 0%, #0077b3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">PMD</span><span style="font-weight: 600; color: var(--color-text-primary);">co</span>
+                <span style="font-size: 0.8em; font-weight: 500; color: var(--color-text-muted); margin-left: 0.15rem;">Documentation</span>
+            </span>
+        </a>
+        <nav class="header-nav" style="display: flex; gap: 0.5rem; align-items: center;">
+            <a href="https://materialdigital.de/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0, 160, 227, 0.1) 0%, rgba(0, 119, 179, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(0, 160, 227, 0.2);">
+                <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20 M12 16v-4 M12 8h.01"></path></svg>
+                About
+            </a>
+            <a href="https://github.com/materialdigital/core-ontology" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(45, 55, 72, 0.1) 0%, rgba(26, 32, 44, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(45, 55, 72, 0.2);">
+                <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+            </a>
+            <a href="https://materialdigital.github.io/core-ontology" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(16, 185, 129, 0.2);">
+                <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                Widoco
+            </a>
+        </nav>
+        <button aria-label="Toggle theme" class="theme-toggle">
+            <span class="theme-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
+                </svg>
+            </span>
+            <span class="theme-label">Dark</span>
+        </button>
+    </header>
+
+    <div class="sidebar-overlay"></div>
+    <aside class="sidebar">
+        <div class="search-container">
+            <svg class="search-icon" fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                width="18">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+            </svg>
+            <input class="search-input" placeholder="Search docs..." readonly="" type="text" />
+            <span class="search-shortcut">Ctrl+K</span>
+        </div>
+        <nav class="nav-sections">
+            <div class="nav-section">
+                <h3 class="nav-section-title">Getting Started</h3>
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="./index.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path>
+</svg>
+                            Home
+                        </a></li>
+                    <li><a class="nav-link" href="./intro.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20"></path><path d="M12 16v-4"></path><path d="M12 8h.01"></path>
+</svg>
+                            Introduction
+                        </a></li>
+                    <li><a class="nav-link active" href="./introduction-to-ontologies.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path>
+</svg>
+                            Introduction to Ontologies
+                        </a></li>
+                </ul>
+            </div>
+            <div class="nav-section">
+                <h3 class="nav-section-title">Ontology Guide</h3>
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="./ontology-structure.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M3 3h7v7H3z"></path><path d="M14 3h7v7h-7z"></path><path d="M14 14h7v7h-7z"></path><path d="M3 14h7v7H3z"></path>
+</svg>
+                            Ontology Structure
+                        </a></li>
+                    <li><a class="nav-link" href="./patterns.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+</svg>
+                            Usage Patterns
+                        </a></li>
+                    <li><a class="nav-link" href="./pmdco-user-guide.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M2 4h7a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"></path><path d="M22 4h-7a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h8z"></path>
+</svg>
+                            User Guide
+                        </a></li>
+                    <li><a class="nav-link" href="./reused-ontologies.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M8.59 13.51l6.83 3.98"></path><path d="M15.41 6.51l-6.82 3.98"></path>
+</svg>
+                            Reused Ontologies
+                        </a></li>
+                </ul>
+            </div>
+            <div class="nav-section">
+                <h3 class="nav-section-title">Development</h3>
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="./glossary-and-tools.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+</svg>
+                            Glossary &amp; Tools
+                        </a></li>
+                    <li><a class="nav-link" href="./migration.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path>
+</svg>
+                            Migration
+                        </a></li>
+                </ul>
+            </div>
+            <div class="nav-section">
+                <h3 class="nav-section-title">Resources</h3>
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="./versions.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20"></path><path d="M12 6v6l4 2"></path>
+</svg>
+                            Versions
+                        </a></li>
+                    <li><a class="nav-link" href="./publications.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"></path><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"></path>
+</svg>
+                            Publications
+                        </a></li>
+                    <li><a class="nav-link" href="./references.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg>
+                            References
+                        </a></li>
+                </ul>
+            </div>
+            <div class="nav-section">
+                <h3 class="nav-section-title">About</h3>
+                <ul class="nav-list">
+                    <li><a class="nav-link" href="./who-we-are.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><path d="M9 7a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"></path><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg>
+                            Who We Are
+                        </a></li>
+                    <li><a class="nav-link" href="./acknowledgements.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+</svg>
+                            Acknowledgements
+                        </a></li>
+                </ul>
+            </div></nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="content-wrapper">
+            <nav class="breadcrumbs">
+                <a href="./">Home</a><span>/</span><span class="current">Usage Patterns</span>
+            </nav>
+
+            <article class="content">
+                <h1 id="introduction-to-ontologies-beginners-guide">Introduction to Ontologies (Beginners' Guide)</h1>
+
+<h2 id="what-is-an-ontology">What is an Ontology?</h2>
+
+<p>An ontology is a formally defined logical structure that represents concepts, categories, properties, and relationships within a specific scientific domain using standardized definitions and naming conventions. Ontologies provide a common language to describe data consistently, making raw information easier to organize, interpret, and share across different experiments, databases, and research disciplines. </p>
+
+<p>Read more:</p>
+
+<ul>
+<li>Guarino, Nicola, Daniel Oberle, and Steffen Staab. "What is an ontology?." Handbook on ontologies. Berlin, Heidelberg: Springer Berlin Heidelberg, 2009. 1-17.</li>
+</ul>
+
+<h2 id="why-do-we-need-ontologies">Why do we Need Ontologies?</h2>
+
+<p>Ontologies are crucial for modern data management and digitalization because they provide a shared conceptual framework that defines relationships between data entities, ensuring interoperability and consistency across diverse systems. By organizing data using a formal structure, ontologies make information easier to integrate, search, and analyze, helping organizations transform raw, heterogeneous datasets into coherent digital knowledge assets. They support effective data governance by enabling clear definitions, data lineage tracking, and quality control throughout digital infrastructures.
+In the context of digital transformation, ontologies act as a universal language that connects data, systems, and processes across business domains, reducing silos and enabling automation, advanced analytics, and AI-driven decision-making. They are also integral to realizing the FAIR data principles (Findable, Accessible, Interoperable, and Reusable) by embedding semantic meaning directly into data models, which promotes transparency, reproducibility, and long-term data sustainability. Without ontologies, organizations face fragmented data landscapes where digital information cannot be effectively reused or shared, hindering collaboration and innovation.</p>
+
+<h2 id="motivation-for-developing-ontologies-in-materials-science-and-engineering-mse">Motivation for Developing Ontologies in Materials Science and Engineering (MSE)</h2>
+
+<p>The motivation for developing MSE ontologies arises from the increasing demand to organize, integrate, and exploit the rapidly growing volume of heterogeneous data produced across the field. MSE is undergoing a major digital transformation, driven by the need for data-driven innovation, sustainability, and accelerated materials discovery. As an interdisciplinary domain, MSE combines physics, chemistry, and engineering to understand and optimize the relationships between material processing, structure, properties, and performance (PSPP). It spans the full materials lifecycle (from raw material extraction to product design, manufacturing, and end-of-life recycling) and supports key technological sectors including energy, aerospace, electronics, automotive, and healthcare.</p>
+
+<p><img width="468" height="276" alt="image" src="https://github.com/user-attachments/assets/2700f632-dafb-46d4-84de-00e14885e176" /></p>
+
+<p>Motivation for the Semantic Representation of Materials Life Cycle via PMDco</p>
+
+<p>This complexity leads to diverse experimental methods, simulation techniques, and industrial processes, all generating data with different formats, terminologies, and metadata requirements. Without a shared semantic foundation, such diversity makes it difficult to connect, compare, or reuse data across laboratories, instruments, and software tools. As a result, valuable knowledge remains siloed, limiting reproducibility and slowing down scientific progress.</p>
+
+<p>Ontologies address these challenges by providing standardized vocabularies and formal semantic relationships that ensure consistent description of materials and their behaviors. By harmonizing data models and bridging conceptual and domain-specific knowledge, ontologies enable semantic interoperability, allowing data to be seamlessly exchanged, integrated, and interpreted across scales, methods, and organizations. This is essential for applying the FAIR principles, ensuring that MSE data becomes both human-understandable and machine-actionable for advanced analytics, automation, and AI-driven research.</p>
+
+<p>In addition, ontology-based data representation improves data quality by capturing dependencies (e.g., process–structure relationships), enforcing consistency, and reducing ambiguity in interpretation. Enhanced provenance and metadata standards further support reproducibility, traceability, and credibility in research outcomes. These capabilities are crucial for emerging digital concepts such as materials informatics, workflow automation, and digital twins, which rely on robust links between experimental and computational knowledge.</p>
+
+<p>The development of PMDco specifically targets several critical challenges within the MSE landscape:</p>
+
+<ul>
+<li>Heterogeneous terminology, stemming from diverse subdomains and industrial practices</li>
+<li>Lack of standardized data structures, especially across experimental, simulation, and manufacturing environments</li>
+<li>Sparse or missing metadata, which restricts data reuse and reproducibility</li>
+<li>Semantic misalignment between generic models and specialized domain knowledge, limiting cross-disciplinary collaboration</li>
+</ul>
+
+<p>By functioning as a mid-level ontology for MSE, PMDco provides a common semantic backbone for the Platform MaterialDigital ecosystem. It supports automated data integration, harmonizes terminology and processes, and enables coherent knowledge representation throughout the materials lifecycle.</p>
+
+<p>Ultimately, the development of MSE ontologies represents a strategic step toward a more efficient, connected, and intelligent research ecosystem — accelerating innovation while promoting sustainable and FAIR data practices.</p>
+
+<h2 id="ontology-levels-and-example-mse-related-ontologies">Ontology Levels and Example MSE-Related Ontologies</h2>
+
+<p>Based on the degree of abstraction and formal expressiveness, the ontologies are classified into the following four levels: </p>
+
+<p><strong>1) Top-level ontologies (TLOs)</strong> describe common general concepts across various domains at the highest possible level of abstraction. TLOs establish semantic standards and incorporate universal and fundamental concepts to ensure the connection and interoperability of a wide range of conceivable domain ontologies. <a href="https://github.com/bfo-ontology/BFO-2020">Basic Formal Ontology (BFO)</a>, <a href="https://emmo-repo.github.io/">Eelementary Multiperspective mMaterial Ontology (EMMO)</a>, <a href="https://www.loa.istc.cnr.it/index.php/dolce/">descriptive ontology for linguistic and cognitive engineering (DOLCE)</a>, <a href="https://github.com/ontologyportal/sumo">suggested upper merged ontology (SUMO)</a>, and <a href="https://github.com/MaastrichtU-IDS/semanticscience">semanticscience integrated ontology (SIO)</a> are TLOs that were mostly reused for developing the ontologies in the MSE domain. </p>
+
+<p><strong>2) Mid-level ontologies (MLOs)</strong> add finer granular entities to the TLOs and make them more modular to enable interconnecting of the complex and expressive domain-level ontologies (DLOs). For example, <a href="https://obi-ontology.org/">ontology of biomedical investigations (OBI)</a>, <a href="https://github.com/ISE-FIZKarlsruhe/nfdicore">NFDIcore ontology</a>, and <a href="https://github.com/iofoundry/ontology">industrial ontologies foundry (IOF) core</a> are the MLOs that are established based on the BFO TPO. </p>
+
+<p><strong>3) Domain-level ontologies (DLOs)</strong> contain highly expressive and explicit expert knowledge and represent concepts, definitions, facts, statements, axioms, rules, and relations that belong to specific domains. Until now, a variety of DLOs were introduced in the domain of materials science, which were designed based on different types of TLOs and MLOs. For instance, <a href="https://github.com/Mat-O-Lab/MSEO">MSEO</a> is a DLO that reuses BFO and IOF core and represents extensive semantics in the domain of materials science and engineering. </p>
+
+<p><strong>4) Application-level ontologies (ALOs)</strong> provide highly detailed semantics for specific use cases and support the development of knowledge graphs. For example, tensile test ontology (TTO), fatigue testing ontology (FTO), and Vickers testing ontology (VTO) in the domain of materials mechanical testing. </p>
+
+<p>More examples for MSE ontologies can be found in <a href="https://matportal.org/">MatPortal</a>, the ontology repository for materials science.</p>
+
+<p>Read more:</p>
+
+<ul>
+<li><p>Beygi Nasrabadi, Hossein, et al. "Performance Evaluation of Upper‐Level Ontologies in Developing Materials Science Ontologies and Knowledge Graphs." Advanced Engineering Materials 27.8 (2025): 2401534.</p></li>
+<li><p>De Baas, Anne, et al. "Review and alignment of domain-level ontologies for materials science." IEEE Access 11 (2023): 120372-120401.</p></li>
+<li><p>Norouzi, Ebrahim, Jörg Waitelonis, and Harald Sack. "The landscape of ontologies in materials science and engineering: A survey and evaluation." arXiv preprint arXiv:2408.06034 (2024).</p></li>
+</ul>
+
+<h2 id="ontology-language">Ontology Language</h2>
+
+<p>The ontology is implemented in the <a href="https://www.w3.org/OWL/">Web Ontology Language (OWL)</a>, a powerful and widely used language for creating complex and interoperable ontologies. OWL supports logical reasoning and facilitates the integration of machine-readable data with semantic web technologies. Furthermore, different notations and formats may be used. Typically, PMDco is also provided in <a href="https://www.w3.org/TR/turtle/">Turtle (TTL)</a> syntax.</p>
+
+<h2 id="key-components-of-an-ontology">Key Components of an Ontology</h2>
+
+<ul>
+<li><strong>Class</strong>: A class provides an abstraction mechanism for grouping resources with similar characteristics. Every class is associated with a set of individuals, called the class extension. The individuals in the class extension are called the instances of the class. A class has an intentional meaning i.e., the underlying concept.</li>
+<li><strong>Object Property</strong>:  The relationship of an individual to another individual. An object property is defined as an instance of the built-in OWL class owl:ObjectProperty.</li>
+<li><strong>Datatype Property</strong>: Datatype properties link individuals to data values. A datatype property is defined as an instance of the built-in OWL class owl:DatatypeProperty.</li>
+<li><strong>Instance</strong>: Individual realization of a concept. For example, the concept tensile test may be instantiated with a particular tensile test that occurred at a particular time at a particular location and with particular parameters. All instantiations together represent the ontology A-Box, where statements are made about instances using the terminology defined in the T-Box.
+Read more: MaterialDigital Initiative Glossary (a comprehensive glossary for the ontology-related terms).</li>
+</ul>
+
+<h2 id="ontology-development-tools-and-resources">Ontology Development Tools and Resources</h2>
+
+<ul>
+<li><a href="https://protege.stanford.edu/software.php">Protégé</a> - A versatile ontology editor that supports OWL 2. It enables visualization, editing, and reasoning over ontology structures.</li>
+<li><a href="https://github.com/INCATools/ontology-development-kit">ODK</a> - The Ontology development kit (ODK) is an incredibly great tool to manage your ontology's life cycle. The ODK is: i) a toolbox of various ontology related tools such as ROBOT, owltools, dosdp-tools and many more, bundled as a docker image, and ii) a set of executable workflows for managing your ontology's continuous integration, quality control, releases and dynamic imports.</li>
+<li><a href="https://www.drawio.com/">Draw.io</a> - Online tool for visual diagrams construction.</li>
+<li><a href="https://yuechenbam.github.io/src/main/webapp/index.html">OntoPanel</a> - A graphical plug-in for diagrams.net that simplifies ontology development and visualization for domain experts.</li>
+<li><a href="https://chowlk.linkeddata.es/">Chowlk Converter</a> - Chowlk Converter is a web application that takes as input an ontology conceptualization made with diagrams.net and generates its implementation in OWL.</li>
+<li><a href="https://ottr.xyz/">OTTR</a> - language with supporting tools for representing and instantiating RDF graph and OWL ontology modelling patterns. Provides an abstraction level on top of basic RDF functionality.</li>
+<li><a href="https://oops.linkeddata.es/">OOPS!</a> - OOPS! is a web-based tool, independent of any ontology development environment, for detecting potential pitfalls that could lead to modelling errors.</li>
+<li><a href="https://www.ldf.fi/service/rdf-grapher">RDF Grapher</a> - RDF grapher is a web service for parsing RDF data and visualizing it as a graph.</li>
+<li><a href="http://ontoology.linkeddata.es/">OnToology</a> - A system to automate part of the collaborative ontology development process. Given a repository with an owl file, OnToology will survey it and produce diagrams, a complete documentation and validation based on common pitfalls. </li>
+<li><a href="http://robot.obolibrary.org/">ROBOT</a> - ROBOT is a tool for working with Open Biomedical Ontologies. It can be used as a command-line tool or as a library for any language on the Java Virtual Machine.</li>
+<li><strong>Python Libraries</strong> - Libraries such as <code>rdflib</code> and <code>Owlready2</code> are mostly employed for semantic data processing, integration, and validation.</li>
+<li><strong>Version Control and Collaboration</strong> - GitHub is useing for version control, issue tracking, and collaborative development, ensuring transparency and structured updates.</li>
+</ul>
+
+<h2 id="ontology-learning-materials-for-beginners">Ontology Learning Materials for Beginners</h2>
+
+<ul>
+<li><a href="https://github.com/scientific-ontology-network/ontology-development-guide/releases/download/v0.1.0/ontology-guide.pdf">A Practical Ontology Development Guide</a>: In cooperation with participants in the MaterialDigital initiative, a guide for the development of ontologies in general was created, which contains basic aspects and recommended procedures. This guide may be expanded and developed further and is hosted at <a href="https://scientific-ontology-network.github.io/">The Scientific Ontology Network</a>.</li>
+<li><a href="https://protege.stanford.edu/publications/ontology_development/ontology101.pdf">Ontology Development 101</a>: Stanford University's guide provides a foundational, step-by-step methodology for creating your first ontology.</li>
+<li><a href="https://drive.google.com/file/d/1A3Y8T6nIfXQ_UQOpCAr_HFSCwpTqELeP/view">Pizza Tutorial</a>: A practical guide to building OWL ontologies using Protégé 5.5 and plugins</li>
+<li><a href="https://oboacademy.github.io/obook/lesson/ontology-design/">OBO Academy’s Ontology Design Course</a>: An interactive, free curriculum that provides lessons on ontology construction, reasoning, and design principles (based on the OBO Foundry and Semantic Web standards)</li>
+<li><a href="https://www.youtube.com/channel/UCjkkhNSNuXrJpMYZoeSBw6Q/">ISE FIZ YouTube channel</a>: <a href="https://www.youtube.com/playlist?list=PLNXdQl4kBgzubTOfY5cbtxZCgg9UTe-uF">Playlist of Lectures "Knowledge Graphs - Foundations and Applications</a>"</li>
+<li><a href="https://www.youtube.com/@BarrySmithOntology/playlists">Barry Smith's YouTube channel</a></li>
+<li><a href="https://www.youtube.com/channel/UCAwf5QXQ6Oa4NPaL3bXFvAA">PMD YouTube channel</a></li>
+</ul>
+
+            </article>
+
+            <nav class="page-nav">
+                <a class="page-nav-link prev" href="./intro.html">
+                    <span class="page-nav-label">&larr; Previous</span>
+                    <span class="page-nav-title">Introduction</span>
+                </a>
+                <a class="page-nav-link next" href="./ontology-structure.html">
+                    <span class="page-nav-label">Next &rarr;</span>
+                    <span class="page-nav-title">Ontology Structure</span>
+                </a></nav>
+
+            <footer class="footer">
+                <div class="footer-links">
+                    <a href="https://github.com/materialdigital/core-ontology" target="_blank">GitHub</a>
+                    <a href="https://materialdigital.de/" target="_blank">MaterialDigital</a>
+                    <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>
+                </div>
+                <p class="footer-copyright">© 2024 Platform MaterialDigital. All rights reserved.</p>
+            </footer>
+        </div>
+    </main>
+
+    <aside class="toc">
+        <h4 class="toc-title">On this page</h4>
+        <ul class="toc-list">
+                        <li><a href="#what-is-an-ontology">What is an Ontology?</a></li>
+            <li><a href="#why-do-we-need-ontologies">Why do we Need Ontologies?</a></li>
+            <li><a href="#motivation-for-developing-ontologies-in-materials-science-and-engineering-mse">Motivation for Developing Ontologies in Materials Science and Engineering (MSE)</a></li>
+            <li><a href="#ontology-levels-and-example-mse-related-ontologies">Ontology Levels and Example MSE-Related Ontologies</a></li>
+            <li><a href="#ontology-language">Ontology Language</a></li>
+            <li><a href="#key-components-of-an-ontology">Key Components of an Ontology</a></li>
+            <li><a href="#ontology-development-tools-and-resources">Ontology Development Tools and Resources</a></li>
+            <li><a href="#ontology-learning-materials-for-beginners">Ontology Learning Materials for Beginners</a></li>
+        </ul>
+    </aside>
+
+    <!-- Global popover and toast elements -->
+    <div class="graph-popover" id="global-popover"></div>
+    <div class="graph-toast" id="global-toast"></div>
+
+    <!-- Fullscreen overlay -->
+    <div class="fullscreen-overlay" id="fullscreen-overlay">
+        <div class="fullscreen-header">
+            <div class="fullscreen-title" id="fullscreen-title">Graph</div>
+            <button class="fullscreen-close" id="fullscreen-close">
+                <span>✕</span> Close
+            </button>
+        </div>
+        <div class="fullscreen-viewport" id="fullscreen-viewport">
+            <div class="fullscreen-wrapper" id="fullscreen-wrapper"></div>
+            <div class="fullscreen-zoom-controls">
+                <button class="fullscreen-zoom-btn" id="fs-zoom-in">+</button>
+                <div class="fullscreen-zoom-level" id="fs-zoom-level">100%</div>
+                <button class="fullscreen-zoom-btn" id="fs-zoom-out">−</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Viz.js (Graphviz) -->
+    <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.js"></script>
+
+<script type="module">
+// ========== GRAPHVIZ (VIZ.JS) DIAGRAMS ==========
+        const dotDiagrams = {};
+
+const nodeData = {};
+
+        // ========== GRAPH VIEWER CLASS ==========
+
+
+        // ========== VIZ.JS RENDERING ==========
+        // Viz.js v2.1.2 (Graphviz compiled to JS/WASM). We load viz.js + full.render.js as classic scripts.
+        // This module relies on global Viz / Module / render injected by those scripts.
+        const createViz = () => {
+            try {
+                if (typeof Module !== 'undefined' && typeof render !== 'undefined') {
+                    return new Viz({ Module, render });
+                }
+            } catch (_) { /* ignore */ }
+            return new Viz();
+        };
+
+        let viz = createViz();
+
+                const CSS_DPI = 96; // browser/CSS pixel density baseline
+        const DEFAULT_EXPORT_DPI = 1200; // requested production export setting
+        const MAX_EXPORT_PIXELS = 80_000_000; // safety cap (~320MB RGBA)
+
+                function normalizeDot(dot) {
+            if (!dot) return dot;
+
+            // Fix a common JS-escaping pitfall: DOT snippets that include `\"` in source
+            // may end up as double-quoted attribute values at runtime (e.g., label=""sh:or"").
+            // Graphviz treats this as a broken string and typically errors near the first ':'.
+            //
+            // Normalize: label=""..."" -> label="..."
+            // Apply to a small allowlist of attributes that commonly carry human text.
+            dot = dot.replace(/\b(label|tooltip|xlabel)\s*=\s*""([^"\n]*?)""/g, '$1="$2"');
+
+            // Defensive normalization for DOT emitted by diverse toolchains.
+            // Primary fix: attribute values containing ':' (e.g., sh:targetClass) MUST be quoted in DOT when unquoted.
+            // Secondary: some generators emit unquoted attribute values with spaces; DOT requires quoting.
+            // Strategy: quote attribute values up to the next ',', ']' or ';' when they contain ':' or whitespace.
+            return dot.replace(/(=)\s*([^"\[\]<>][^,\]\n;]*)/g, (m, eq, rawVal) => {
+                const v = String(rawVal).trim();
+                if (!v) return m;
+
+                // leave numerics/booleans as-is
+                if (/^[+-]?\d+(\.\d+)?$/.test(v)) return `${eq}${v}`;
+                if (/^(true|false)$/i.test(v)) return `${eq}${v}`;
+
+                // HTML-like values are valid without quotes: label=<...>
+                if (v.startsWith('<') && v.endsWith('>')) return `${eq}${v}`;
+
+                const needsQuotes = v.includes(':') || /\s/.test(v) || v.includes('//');
+                if (!needsQuotes) return `${eq}${v}`;
+
+                const escaped = v.replace(/"/g, '\\"');
+                return `${eq}"${escaped}"`;
+            });
+        }
+
+        async function renderDotToSvg(dot) {
+            const normalized = normalizeDot(dot);
+            try {
+                return await viz.renderSVGElement(normalized);
+            } catch (err) {
+                // Viz instances can become unusable after a render error; recreate and retry once.
+                viz = createViz();
+                return await viz.renderSVGElement(normalized);
+            }
+        }
+
+        function sanitizeGraphSvg(svg) {
+            // Prevent navigation: remove all hyperlink targets/hrefs injected by DOT URL/href attributes.
+            svg.querySelectorAll('a').forEach(a => {
+                a.removeAttribute('href');
+                a.removeAttribute('xlink:href');
+                a.removeAttribute('target');
+                a.style.cursor = 'pointer';
+            });
+
+            // Make sure SVG is well-formed for downloads.
+            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            svg.style.maxWidth = 'none';
+            svg.style.overflow = 'visible';
+
+            // Improve text rendering consistency.
+            svg.querySelectorAll('text').forEach(t => {
+                t.style.userSelect = 'none';
+            });
+        }
+
+        
+
+        // ---------- High-resolution PNG export (1200 DPI default) ----------
+        function parseSvgLengthToPx(lenStr) {
+            if (!lenStr) return null;
+            const s = String(lenStr).trim();
+            const m = s.match(/^([+-]?\d*\.?\d+)([a-z%]*)$/i);
+            if (!m) return null;
+            const value = parseFloat(m[1]);
+            const unit = (m[2] || '').toLowerCase();
+            if (!isFinite(value)) return null;
+
+            // CSS px baseline is 96 DPI.
+            switch (unit) {
+                case '':
+                case 'px': return value;
+                case 'pt': return value * (CSS_DPI / 72);
+                case 'pc': return value * (CSS_DPI / 6);
+                case 'in': return value * CSS_DPI;
+                case 'cm': return value * (CSS_DPI / 2.54);
+                case 'mm': return value * (CSS_DPI / 25.4);
+                default: return value; // fallback
+            }
+        }
+
+        function getSvgSizePx(svg) {
+            const wAttr = svg.getAttribute('width');
+            const hAttr = svg.getAttribute('height');
+            const w = parseSvgLengthToPx(wAttr);
+            const h = parseSvgLengthToPx(hAttr);
+            if (w && h) return { width: w, height: h };
+
+            const vb = svg.getAttribute('viewBox');
+            if (vb) {
+                const parts = vb.trim().split(/\s+/).map(Number);
+                if (parts.length === 4 && parts.every(n => isFinite(n))) {
+                    return { width: Math.abs(parts[2]), height: Math.abs(parts[3]) };
+                }
+            }
+
+            const rect = svg.getBoundingClientRect?.();
+            if (rect && rect.width && rect.height) return { width: rect.width, height: rect.height };
+            return { width: 1200, height: 800 };
+        }
+
+        function crc32(buf) {
+            let crc = 0xFFFFFFFF;
+            for (let i = 0; i < buf.length; i++) {
+                crc ^= buf[i];
+                for (let k = 0; k < 8; k++) {
+                    const mask = -(crc & 1);
+                    crc = (crc >>> 1) ^ (0xEDB88320 & mask);
+                }
+            }
+            return (crc ^ 0xFFFFFFFF) >>> 0;
+        }
+
+        function makePngChunk(type, data) {
+            const t = new TextEncoder().encode(type);
+            const len = data.length;
+            const chunk = new Uint8Array(8 + len + 4);
+            chunk[0] = (len >>> 24) & 255;
+            chunk[1] = (len >>> 16) & 255;
+            chunk[2] = (len >>> 8) & 255;
+            chunk[3] = (len) & 255;
+            chunk.set(t, 4);
+            chunk.set(data, 8);
+
+            const crcBuf = new Uint8Array(t.length + data.length);
+            crcBuf.set(t, 0);
+            crcBuf.set(data, t.length);
+            const crc = crc32(crcBuf);
+
+            const o = 8 + len;
+            chunk[o + 0] = (crc >>> 24) & 255;
+            chunk[o + 1] = (crc >>> 16) & 255;
+            chunk[o + 2] = (crc >>> 8) & 255;
+            chunk[o + 3] = (crc) & 255;
+            return chunk;
+        }
+
+        async function setPngDpi(blob, dpi) {
+            try {
+                const ab = await blob.arrayBuffer();
+                const bytes = new Uint8Array(ab);
+                const sig = [137, 80, 78, 71, 13, 10, 26, 10];
+                for (let i = 0; i < sig.length; i++) if (bytes[i] !== sig[i]) return blob;
+
+                const ppm = Math.max(1, Math.round(dpi / 0.0254));
+                const data = new Uint8Array(9);
+                data[0] = (ppm >>> 24) & 255;
+                data[1] = (ppm >>> 16) & 255;
+                data[2] = (ppm >>> 8) & 255;
+                data[3] = (ppm) & 255;
+                data[4] = data[0];
+                data[5] = data[1];
+                data[6] = data[2];
+                data[7] = data[3];
+                data[8] = 1;
+
+                const pHYs = makePngChunk('pHYs', data);
+
+                const out = [];
+                out.push(bytes.slice(0, 8));
+
+                let offset = 8;
+                let inserted = false;
+
+                while (offset + 8 <= bytes.length) {
+                    const len = (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
+                    const type = String.fromCharCode(bytes[offset + 4], bytes[offset + 5], bytes[offset + 6], bytes[offset + 7]);
+                    const chunkTotal = 8 + len + 4;
+                    const chunkBytes = bytes.slice(offset, offset + chunkTotal);
+
+                    out.push(chunkBytes);
+
+                    if (!inserted && type === 'IHDR') {
+                        out.push(pHYs);
+                        inserted = true;
+                    }
+                    offset += chunkTotal;
+                    if (type === 'IEND') break;
+                }
+
+                const mergedLen = out.reduce((a, b) => a + b.length, 0);
+                const merged = new Uint8Array(mergedLen);
+                let p = 0;
+                for (const part of out) { merged.set(part, p); p += part.length; }
+
+                return new Blob([merged], { type: 'image/png' });
+            } catch (_) {
+                return blob;
+            }
+        }
+
+        function loadImageFromUrl(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.decoding = 'async';
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+                img.src = url;
+            });
+        }
+
+        async function exportSvgToPng(svg, { dpi = DEFAULT_EXPORT_DPI, background = null } = {}) {
+            const size = getSvgSizePx(svg);
+            const baseW = Math.max(1, size.width);
+            const baseH = Math.max(1, size.height);
+
+            let scale = dpi / CSS_DPI;
+            let outW = Math.round(baseW * scale);
+            let outH = Math.round(baseH * scale);
+
+            const basePixels = baseW * baseH;
+            const desiredPixels = outW * outH;
+
+            let actualDpi = dpi;
+            if (desiredPixels > MAX_EXPORT_PIXELS) {
+                const safeScale = Math.sqrt(MAX_EXPORT_PIXELS / basePixels);
+                scale = Math.max(1, safeScale);
+                outW = Math.round(baseW * scale);
+                outH = Math.round(baseH * scale);
+                actualDpi = Math.round(scale * CSS_DPI);
+            }
+
+            const svgText = new XMLSerializer().serializeToString(svg);
+            const svgBlob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+
+            try {
+                const img = await loadImageFromUrl(url);
+                const canvas = document.createElement('canvas');
+                canvas.width = outW;
+                canvas.height = outH;
+                const ctx = canvas.getContext('2d', { alpha: true });
+                if (!ctx) throw new Error('Canvas not available');
+
+                if (background) {
+                    ctx.fillStyle = background;
+                    ctx.fillRect(0, 0, outW, outH);
+                } else {
+                    ctx.clearRect(0, 0, outW, outH);
+                }
+
+                ctx.imageSmoothingEnabled = true;
+                ctx.setTransform(scale, 0, 0, scale, 0, 0);
+                ctx.drawImage(img, 0, 0);
+
+                const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+                if (!blob) throw new Error('PNG generation failed');
+
+                const dpiBlob = await setPngDpi(blob, actualDpi);
+                return { blob: dpiBlob, dpi: actualDpi, width: outW, height: outH };
+            } finally {
+                URL.revokeObjectURL(url);
+            }
+        }
+
+function parseEdgeTitle(title) {
+            const raw = (title || '').trim();
+            const m1 = raw.match(/^(.+?)->(.+?)$/);
+            if (m1) return { src: m1[1].trim(), dst: m1[2].trim(), directed: true };
+            const m2 = raw.match(/^(.+?)--(.+?)$/);
+            if (m2) return { src: m2[1].trim(), dst: m2[2].trim(), directed: false };
+            return null;
+        }
+
+        function getNodeIdFromG(g) {
+            const t = g.querySelector('title')?.textContent?.trim();
+            return t || null;
+        }
+
+        function getNodeLabelFromG(g) {
+            const texts = Array.from(g.querySelectorAll('text')).map(t => (t.textContent || '').trim()).filter(Boolean);
+            return texts.join(' ');
+        }
+
+        function getNodeMetaFromG(g) {
+            const id = getNodeIdFromG(g) || g.getAttribute('id') || '';
+            const label = getNodeLabelFromG(g) || id;
+            const a = g.closest('a');
+            const tooltip = a?.getAttribute('xlink:title') || a?.getAttribute('title') || null;
+            return { id, label, tooltip };
+        }
+
+        // ========== FULLSCREEN MANAGER (ROBUST CLOSE) ==========
+        const FullscreenManager = (() => {
+            const overlay = document.getElementById('fullscreen-overlay');
+            const wrapper = document.getElementById('fullscreen-wrapper');
+            const titleEl = document.getElementById('fullscreen-title');
+            const viewport = document.getElementById('fullscreen-viewport');
+            const zoomLevel = document.getElementById('fs-zoom-level');
+            const closeBtn = document.getElementById('fullscreen-close');
+            const zoomInBtn = document.getElementById('fs-zoom-in');
+            const zoomOutBtn = document.getElementById('fs-zoom-out');
+
+            let fsScale = 1, fsTx = 0, fsTy = 0, fsDrag = false, fsSx = 0, fsSy = 0;
+            let currentSvg = null;
+            let onNodeClick = null;
+
+            const update = () => {
+                wrapper.style.transform = `translate(${fsTx}px, ${fsTy}px) scale(${fsScale})`;
+                zoomLevel.textContent = `${Math.round(fsScale * 100)}%`;
+            };
+
+            const fit = () => {
+                if (!currentSvg) return;
+                const sr = currentSvg.getBoundingClientRect();
+                const vr = viewport.getBoundingClientRect();
+                if (!sr.width || !sr.height) return;
+                fsScale = Math.min(vr.width / sr.width, vr.height / sr.height, 2) * 0.92;
+                fsTx = (vr.width - sr.width * fsScale) / 2;
+                fsTy = (vr.height - sr.height * fsScale) / 2;
+                update();
+            };
+
+            const close = () => {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                wrapper.innerHTML = '';
+                currentSvg = null;
+                onNodeClick = null;
+            };
+
+            // Bind once (fixes "close button not working" across repeated opens).
+            closeBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); close(); });
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+            zoomInBtn.addEventListener('click', () => { fsScale = Math.min(5, fsScale * 1.2); update(); });
+            zoomOutBtn.addEventListener('click', () => { fsScale = Math.max(0.1, fsScale / 1.2); update(); });
+
+            viewport.addEventListener('wheel', (e) => {
+                if (!overlay.classList.contains('active')) return;
+                e.preventDefault();
+                const ns = Math.max(0.1, Math.min(5, fsScale * (e.deltaY > 0 ? 0.9 : 1.1)));
+                const r = viewport.getBoundingClientRect();
+                const mx = e.clientX - r.left;
+                const my = e.clientY - r.top;
+                const sd = ns - fsScale;
+                fsTx -= (mx - fsTx) * (sd / fsScale);
+                fsTy -= (my - fsTy) * (sd / fsScale);
+                fsScale = ns;
+                update();
+            }, { passive: false });
+
+            viewport.addEventListener('mousedown', (e) => {
+                if (!overlay.classList.contains('active')) return;
+                if (e.target.closest('g.node')) return;
+                fsDrag = true;
+                fsSx = e.clientX - fsTx;
+                fsSy = e.clientY - fsTy;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!overlay.classList.contains('active')) return;
+                if (!fsDrag) return;
+                fsTx = e.clientX - fsSx;
+                fsTy = e.clientY - fsSy;
+                update();
+            });
+
+            window.addEventListener('mouseup', () => { fsDrag = false; });
+
+            window.addEventListener('keydown', (e) => {
+                if (!overlay.classList.contains('active')) return;
+                if (e.key === 'Escape') close();
+            });
+
+            wrapper.addEventListener('click', (e) => {
+                if (!overlay.classList.contains('active')) return;
+                const node = e.target.closest('g.node');
+                if (!node) return;
+                if (e.target.closest('a')) e.preventDefault();
+                e.stopPropagation();
+                onNodeClick?.(node, e.clientX, e.clientY);
+            }, true);
+
+            return {
+                open({ svg, title, onNodeClick: handler }) {
+                    if (!svg) return;
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    titleEl.textContent = title || 'Graph View';
+
+                    wrapper.innerHTML = '';
+                    const clone = svg.cloneNode(true);
+                    wrapper.appendChild(clone);
+                    currentSvg = clone;
+                    onNodeClick = handler || null;
+
+                    sanitizeGraphSvg(clone);
+
+                    fsScale = 1; fsTx = 0; fsTy = 0; fsDrag = false; fsSx = 0; fsSy = 0;
+                    update();
+                    setTimeout(fit, 50);
+                },
+                close
+            };
+        })();
+
+        // ========== GRAPH VIEWER (DOT -> SVG) ==========
+        class GraphvizGraphViewer {
+            constructor(containerId, diagramId, dotCode, data) {
+                this.container = document.getElementById(containerId);
+                this.diagramId = diagramId;
+                this.dotCode = dotCode;
+                this.nodeData = data || {};
+                this.scale = 1;
+                this.tx = 0;
+                this.ty = 0;
+                this.drag = false;
+                this.sx = 0;
+                this.sy = 0;
+
+                this.wrapper = this.container.querySelector('.graph-wrapper');
+                this.viewport = this.container.querySelector('.graph-viewport');
+                this.diagramEl = this.container.querySelector('.mermaid-diagram'); // keep existing markup class
+                this.zoomLevel = this.container.querySelector('.zoom-level');
+                this.popover = document.getElementById('global-popover');
+                this.toast = document.getElementById('global-toast');
+
+                this.nodeIndex = new Map();
+                this.edges = [];
+                this.neighbors = new Map();
+
+                this.searchState = { query: '', matches: [], idx: 0 };
+                this.injectSearchUI();
+
+                this.init();
+            }
+
+            injectSearchUI() {
+                const header = this.container.querySelector('.graph-header .graph-controls');
+                if (!header) return;
+                if (header.querySelector('.graph-search')) return;
+
+                const input = document.createElement('input');
+                input.className = 'graph-search';
+                input.type = 'search';
+                input.placeholder = 'Search nodes…';
+                input.autocomplete = 'off';
+                input.spellcheck = false;
+
+                const clear = document.createElement('button');
+                clear.className = 'graph-btn graph-search-clear';
+                clear.type = 'button';
+                clear.title = 'Clear search';
+                clear.textContent = '✕';
+
+                header.prepend(clear);
+                header.prepend(input);
+
+                input.addEventListener('input', () => this.applySearch(input.value));
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') { e.preventDefault(); this.jumpToNextMatch(); }
+                    if (e.key === 'Escape') { input.value = ''; this.applySearch(''); input.blur(); }
+                });
+
+                clear.addEventListener('click', () => { input.value = ''; this.applySearch(''); input.focus(); });
+            }
+
+            async init() {
+                try {
+                    const svg = await renderDotToSvg(this.dotCode);
+                    this.diagramEl.innerHTML = '';
+                    this.diagramEl.appendChild(svg);
+                    sanitizeGraphSvg(svg);
+
+                    this.indexSvg(svg);
+                    this.bindEvents();
+                    setTimeout(() => this.fitView(), 80);
+                } catch (e) {
+                    console.error('Viz.js render error:', e);
+                    this.diagramEl.innerHTML = `<div style="color: var(--color-error); padding: 20px;">Error rendering diagram: ${e?.message || e}</div>`;
+                }
+            }
+
+            indexSvg(svg) {
+                this.nodeIndex.clear();
+                this.edges = [];
+                this.neighbors.clear();
+
+                svg.querySelectorAll('g.node').forEach(g => {
+                    const id = getNodeIdFromG(g);
+                    if (!id) return;
+                    const label = getNodeLabelFromG(g) || id;
+                    this.nodeIndex.set(id, { g, label });
+                });
+
+                svg.querySelectorAll('g.edge').forEach(g => {
+                    const title = g.querySelector('title')?.textContent || '';
+                    const parsed = parseEdgeTitle(title);
+                    if (!parsed) return;
+                    this.edges.push({ g, src: parsed.src, dst: parsed.dst, directed: parsed.directed });
+
+                    if (!this.neighbors.has(parsed.src)) this.neighbors.set(parsed.src, new Set());
+                    if (!this.neighbors.has(parsed.dst)) this.neighbors.set(parsed.dst, new Set());
+                    this.neighbors.get(parsed.src).add(parsed.dst);
+                    this.neighbors.get(parsed.dst).add(parsed.src);
+                });
+            }
+
+            update() {
+                this.wrapper.style.transform = `translate(${this.tx}px, ${this.ty}px) scale(${this.scale})`;
+                this.zoomLevel.textContent = `${Math.round(this.scale * 100)}%`;
+            }
+
+            zoomIn() { this.scale = Math.min(3, this.scale * 1.2); this.hidePop(); this.update(); }
+            zoomOut() { this.scale = Math.max(0.2, this.scale / 1.2); this.hidePop(); this.update(); }
+
+            resetView() { this.clearFocus(); this.hidePop(); this.fitView(); }
+
+            fitView() {
+                const svg = this.diagramEl.querySelector('svg');
+                if (!svg) return;
+                const sr = svg.getBoundingClientRect();
+                const wr = this.viewport.getBoundingClientRect();
+                if (!sr.width || !sr.height) return;
+                this.scale = Math.min(wr.width / sr.width, wr.height / sr.height, 1) * 0.88;
+                this.tx = (wr.width - sr.width * this.scale) / 2;
+                this.ty = (wr.height - sr.height * this.scale) / 2;
+                this.clearFocus();
+                this.hidePop();
+                this.update();
+            }
+
+            showToast(msg) {
+                this.toast.textContent = msg;
+                this.toast.style.display = 'block';
+                clearTimeout(this._toastTimeout);
+                this._toastTimeout = setTimeout(() => this.toast.style.display = 'none', 1800);
+            }
+
+            async copyText(text) {
+                try { await navigator.clipboard.writeText(text); this.showToast('Copied to clipboard'); }
+                catch { this.showToast('Copy failed'); }
+            }
+
+            showPopForNode(nodeG, x, y) {
+                const meta = getNodeMetaFromG(nodeG);
+                const nodeId = meta.id;
+
+                const data = this.nodeData[nodeId];
+                const label = data?.label || meta.label || nodeId;
+                const uri = data?.uri || meta.tooltip || null;
+
+                let cat;
+                switch (data?.type) {
+                    case 'Class': cat = 'Class (TBox)'; break;
+                    case 'Literal': cat = 'Literal'; break;
+                    case 'Categorical': cat = 'Categorical Value'; break;
+                    case 'SHACL Shape': cat = 'SHACL Shape'; break;
+                    case 'Constraint': cat = 'SHACL Constraint'; break;
+                    case undefined: cat = 'Node'; break;
+                    default: cat = 'Individual (ABox)';
+                }
+
+                this.popover.innerHTML = `<div class="pop-head">
+                    <button class="close-btn" type="button">×</button>
+                    <div class="pop-title">${label}<span class="badge">${cat}</span></div>
+                    <div class="pop-uri">${uri || 'No URI available'}</div>
+                    <div class="pop-actions">
+                        <button class="chip" type="button" data-copy="label">📋 Copy Label</button>
+                        ${uri ? '<button class="chip" type="button" data-copy="uri">🔗 Copy URI</button>' : ''}
+                        <button class="chip" type="button" data-copy="id">🆔 Copy ID</button>
+                    </div>
+                </div>`;
+
+                this.popover.querySelector('.close-btn')?.addEventListener('click', () => this.popover.classList.remove('visible'));
+                this.popover.querySelector('[data-copy="label"]')?.addEventListener('click', () => this.copyText(label));
+                this.popover.querySelector('[data-copy="uri"]')?.addEventListener('click', () => uri && this.copyText(uri));
+                this.popover.querySelector('[data-copy="id"]')?.addEventListener('click', () => this.copyText(nodeId));
+
+                this.popover.classList.add('visible');
+                const pr = this.popover.getBoundingClientRect();
+                this.popover.style.left = Math.max(10, Math.min(x + 10, window.innerWidth - pr.width - 10)) + 'px';
+                this.popover.style.top = Math.max(10, Math.min(y + 10, window.innerHeight - pr.height - 10)) + 'px';
+            }
+
+            hidePop() {
+                this.popover.classList.remove('visible');
+                this.diagramEl.querySelectorAll('g.node.selected').forEach(n => n.classList.remove('selected'));
+            }
+
+            downloadSVG() {
+                const svg = this.diagramEl.querySelector('svg');
+                if (!svg) return this.showToast('SVG not ready');
+                const clone = svg.cloneNode(true);
+                sanitizeGraphSvg(clone);
+                const svgText = new XMLSerializer().serializeToString(clone);
+                const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${this.diagramId}.svg`;
+                a.click();
+                URL.revokeObjectURL(url);
+                this.showToast('Downloading SVG…');
+            }
+
+            async downloadPNG() {
+                const svg = this.diagramEl.querySelector('svg');
+                if (!svg) return this.showToast('PNG not ready');
+
+                const clone = svg.cloneNode(true);
+                sanitizeGraphSvg(clone);
+
+                // Always use transparent background for PNG export
+                const background = null;
+
+                try {
+                    const { blob, dpi } = await exportSvgToPng(clone, { dpi: DEFAULT_EXPORT_DPI, background });
+                    const pngUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = pngUrl;
+                    a.download = `${this.diagramId}-${dpi}dpi.png`;
+                    a.click();
+                    setTimeout(() => URL.revokeObjectURL(pngUrl), 2000);
+
+                    if (dpi === DEFAULT_EXPORT_DPI) this.showToast(`Downloading PNG (${dpi} DPI)…`);
+                    else this.showToast(`Downloading PNG (~${dpi} DPI)…`);
+                } catch (e) {
+                    console.error('PNG export failed', e);
+                    this.showToast('PNG export failed');
+                }
+            }openFullscreen() {
+                const svg = this.diagramEl.querySelector('svg');
+                if (!svg) return this.showToast('Graph not ready');
+                const graphTitle = this.container.querySelector('.graph-title');
+                const title = graphTitle ? graphTitle.textContent : 'Graph View';
+
+                FullscreenManager.open({
+                    svg,
+                    title,
+                    onNodeClick: (nodeG, x, y) => this.showPopForNode(nodeG, x, y)
+                });
+            }
+
+            applySearch(query) {
+                this.searchState.query = (query || '').trim().toLowerCase();
+                this.searchState.matches = [];
+                this.searchState.idx = 0;
+
+                const q = this.searchState.query;
+                this.diagramEl.querySelectorAll('g.node.search-match').forEach(n => n.classList.remove('search-match'));
+                if (!q) return;
+
+                for (const [id, info] of this.nodeIndex.entries()) {
+                    if (info.label.toLowerCase().includes(q) || id.toLowerCase().includes(q)) {
+                        info.g.classList.add('search-match');
+                        this.searchState.matches.push(id);
+                    }
+                }
+            }
+
+            jumpToNextMatch() {
+                const matches = this.searchState.matches;
+                if (!matches.length) return this.showToast('No matches');
+                const id = matches[this.searchState.idx % matches.length];
+                this.searchState.idx = (this.searchState.idx + 1) % matches.length;
+                const info = this.nodeIndex.get(id);
+                if (!info) return;
+                this.selectNode(info.g);
+                this.panToNode(info.g);
+            }
+
+            panToNode(nodeG) {
+                const vr = this.viewport.getBoundingClientRect();
+                const nr = nodeG.getBoundingClientRect();
+                const cx = (nr.left + nr.right) / 2;
+                const cy = (nr.top + nr.bottom) / 2;
+                const tx = vr.left + vr.width / 2;
+                const ty = vr.top + vr.height / 2;
+                this.tx += (tx - cx);
+                this.ty += (ty - cy);
+                this.update();
+            }
+
+            selectNode(nodeG) {
+                this.diagramEl.querySelectorAll('g.node.selected').forEach(n => n.classList.remove('selected'));
+                nodeG.classList.add('selected');
+            }
+
+            setFocus(nodeId) {
+                const keep = new Set([nodeId]);
+                const neigh = this.neighbors.get(nodeId);
+                if (neigh) neigh.forEach(x => keep.add(x));
+
+                this.diagramEl.querySelectorAll('g.node').forEach(g => {
+                    const id = getNodeIdFromG(g);
+                    if (!id) return;
+                    g.classList.toggle('dimmed', !keep.has(id));
+                });
+
+                this.diagramEl.querySelectorAll('g.edge').forEach(g => g.classList.add('dimmed'));
+                this.edges.forEach(e => {
+                    const hit = e.src === nodeId || e.dst === nodeId;
+                    e.g.classList.toggle('highlight-edge', hit);
+                    e.g.classList.toggle('dimmed', !hit);
+                });
+            }
+
+            clearFocus() {
+                this.diagramEl.querySelectorAll('g.node.dimmed').forEach(g => g.classList.remove('dimmed'));
+                this.diagramEl.querySelectorAll('g.edge.dimmed').forEach(g => g.classList.remove('dimmed'));
+                this.diagramEl.querySelectorAll('g.edge.highlight-edge').forEach(g => g.classList.remove('highlight-edge'));
+            }
+
+            bindEvents() {
+                this.container.querySelectorAll('.zoom-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const action = btn.dataset.action;
+                        if (action === 'zoom-in') this.zoomIn();
+                        if (action === 'zoom-out') this.zoomOut();
+                    });
+                });
+
+                this.container.querySelectorAll('.graph-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const action = btn.dataset.action;
+                        if (action === 'fit') this.fitView();
+                        if (action === 'reset') this.resetView();
+                        if (action === 'svg') this.downloadSVG();
+                        if (action === 'png') this.downloadPNG();
+                        if (action === 'fullscreen') this.openFullscreen();
+                    });
+                });
+
+                this.viewport.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    const ns = Math.max(0.2, Math.min(3, this.scale * (e.deltaY > 0 ? 0.9 : 1.1)));
+                    const r = this.viewport.getBoundingClientRect();
+                    const mx = e.clientX - r.left;
+                    const my = e.clientY - r.top;
+                    const sd = ns - this.scale;
+                    this.tx -= (mx - this.tx) * (sd / this.scale);
+                    this.ty -= (my - this.ty) * (sd / this.scale);
+                    this.scale = ns;
+                    this.hidePop();
+                    this.update();
+                }, { passive: false });
+
+                this.viewport.addEventListener('mousedown', (e) => {
+                    if (e.target.closest('g.node')) return;
+                    this.drag = true;
+                    this.sx = e.clientX - this.tx;
+                    this.sy = e.clientY - this.ty;
+                    this.hidePop();
+                });
+
+                window.addEventListener('mousemove', (e) => {
+                    if (!this.drag) return;
+                    this.tx = e.clientX - this.sx;
+                    this.ty = e.clientY - this.sy;
+                    this.update();
+                });
+
+                window.addEventListener('mouseup', () => { this.drag = false; });
+
+                this.diagramEl.addEventListener('click', (e) => {
+                    if (e.target.closest('a')) e.preventDefault();
+                    const node = e.target.closest('g.node');
+                    if (node) {
+                        const id = getNodeIdFromG(node);
+                        if (id) {
+                            this.selectNode(node);
+                            this.setFocus(id);
+                            this.showPopForNode(node, e.clientX, e.clientY);
+                        }
+                        e.stopPropagation();
+                    } else {
+                        this.clearFocus();
+                        this.hidePop();
+                    }
+                }, true);
+
+                this.diagramEl.addEventListener('mouseover', (e) => {
+                    const node = e.target.closest('g.node');
+                    if (node) node.classList.add('hovered');
+                });
+
+                this.diagramEl.addEventListener('mouseout', (e) => {
+                    const node = e.target.closest('g.node');
+                    if (node) node.classList.remove('hovered');
+                });
+
+                this.diagramEl.addEventListener('dblclick', (e) => { e.preventDefault(); this.fitView(); });
+
+                this.container.addEventListener('mouseenter', () => this._active = true);
+                this.container.addEventListener('mouseleave', () => this._active = false);
+                window.addEventListener('keydown', (e) => {
+                    if (!this._active) return;
+                    if (e.key === 'f') this.fitView();
+                    if (e.key === 'r') this.resetView();
+                    if (e.key === 'Escape') { this.clearFocus(); this.hidePop(); }
+                });
+            }
+        }
+
+        // Create viewers sequentially to avoid Viz render conflicts
+        async function initAllDiagrams() {
+            const entries = Object.entries(dotDiagrams);
+            for (const [id, dot] of entries) {
+                const containerId = `graph-${id}`;
+                const diagramId = `diagram-${id}`;
+                const data = nodeData[id] || {};
+                new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                await new Promise(resolve => setTimeout(resolve, 30));
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAllDiagrams);
+        } else {
+            initAllDiagrams();
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') document.getElementById('global-popover')?.classList.remove('visible');
+        });
+
+    </script>
+
+    <script>
+        // ========== SITE UX (SIDEBAR, THEME, TOC) ==========
+        (() => {
+            const $ = (s, e = document) => e.querySelector(s);
+            const $$ = (s, e = document) => Array.from(e.querySelectorAll(s));
+
+            // Mobile sidebar
+            const menuBtn = $('.mobile-menu-btn');
+            const sidebar = $('.sidebar');
+            const overlay = $('.sidebar-overlay');
+
+            const closeSidebar = () => {
+                sidebar?.classList.remove('open');
+                overlay?.classList.remove('active');
+                document.body?.classList.remove('no-scroll');
+            };
+
+            const openSidebar = () => {
+                sidebar?.classList.add('open');
+                overlay?.classList.add('active');
+                document.body?.classList.add('no-scroll');
+            };
+
+            if (menuBtn && sidebar && overlay) {
+                menuBtn.addEventListener('click', () => {
+                    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+                });
+                overlay.addEventListener('click', closeSidebar);
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeSidebar();
+                });
+            }
+
+            // Theme toggle
+            const themeBtn = $('.theme-toggle');
+            const themeLabel = $('.theme-label');
+            const THEME_KEY = 'pmd_theme';
+
+            const applyTheme = (t) => {
+                if (t === 'dark') {
+                    document.body.classList.add('theme-dark');
+                    if (themeLabel) themeLabel.textContent = 'Dark';
+                } else {
+                    document.body.classList.remove('theme-dark');
+                    if (themeLabel) themeLabel.textContent = 'Light';
+                }
+            };
+
+            try {
+                const saved = localStorage.getItem(THEME_KEY);
+                if (saved) applyTheme(saved);
+            } catch (_) { }
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = document.body.classList.contains('theme-dark');
+                    const next = isDark ? 'light' : 'dark';
+                    applyTheme(next);
+                    try { localStorage.setItem(THEME_KEY, next); } catch (_) { }
+                });
+            }
+
+            // TOC active section highlight
+            const tocEl = $('.toc');
+            const content = $('.content');
+
+            if (tocEl && content) {
+                const links = $$('a[href^="#"]', tocEl);
+                const byId = new Map();
+
+                for (const a of links) {
+                    const id = (a.getAttribute('href') || '').slice(1);
+                    if (id) byId.set(id, a);
+                }
+
+                const headings = $$('h2[id], h3[id]', content).filter(h => byId.has(h.id));
+
+                const clear = () => links.forEach(a => a.classList.remove('active'));
+                const setActive = (id) => {
+                    clear();
+                    const a = byId.get(id);
+                    if (a) a.classList.add('active');
+                };
+
+                if ('IntersectionObserver' in window && headings.length) {
+                    let currentActive = null;
+
+                    const updateActiveOnScroll = () => {
+                        const scrollY = window.scrollY + 120;
+                        let found = null;
+
+                        for (let i = headings.length - 1; i >= 0; i--) {
+                            const h = headings[i];
+                            if (h.offsetTop <= scrollY) {
+                                found = h.id;
+                                break;
+                            }
+                        }
+
+                        if (!found && headings.length > 0) {
+                            found = headings[0].id;
+                        }
+
+                        if (found !== currentActive) {
+                            currentActive = found;
+                            setActive(found);
+                        }
+                    };
+
+                    window.addEventListener('scroll', updateActiveOnScroll, { passive: true });
+                    updateActiveOnScroll();
+                }
+            }
+        })();
+
+                /* Search */
+        class DocSearchEngine {
+            constructor(docs) {
+                this.docs = docs;
+                this.docById = new Map(docs.map(d => [d.id, d]));
+                this.index = new Map(); // token -> Map(docId -> tf)
+                this.df = new Map();    // token -> document frequency
+                this.idf = new Map();   // token -> inverse document frequency
+                this.docLen = new Map();// docId -> length (tokens)
+                this.vocab = [];
+                this.trigram = new Map(); // trigram -> Set(token)
+                this.avgLen = 1;
+                this._build();
+            }
+
+            _normalizeText(t) {
+                return (t || '')
+                    .toLowerCase()
+                    .normalize('NFKD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .replace(/['’`]/g, '')
+                    .replace(/[^a-z0-9]+/g, ' ')
+                    .trim();
+            }
+
+            _tokenize(t) {
+                const n = this._normalizeText(t);
+                if (!n) return [];
+                const tokens = n.split(/\s+/).filter(w => w.length >= 2);
+                return tokens;
+            }
+
+            _addToken(token, docId) {
+                let posting = this.index.get(token);
+                if (!posting) { posting = new Map(); this.index.set(token, posting); }
+                posting.set(docId, (posting.get(docId) || 0) + 1);
+            }
+
+            _buildTrigramsForToken(token) {
+                const padded = `  ${token}  `;
+                for (let i = 0; i < padded.length - 2; i++) {
+                    const tri = padded.slice(i, i + 3);
+                    let set = this.trigram.get(tri);
+                    if (!set) { set = new Set(); this.trigram.set(tri, set); }
+                    set.add(token);
+                }
+            }
+
+            _build() {
+                let totalLen = 0;
+
+                for (const d of this.docs) {
+                    const id = d.id;
+                    const all = `${d.title || ''}\n${d.section || ''}\n${d.content || ''}`;
+                    const tokens = this._tokenize(all);
+
+                    this.docLen.set(id, tokens.length);
+                    totalLen += tokens.length;
+
+                    const seen = new Set();
+                    for (const tok of tokens) {
+                        this._addToken(tok, id);
+                        if (!seen.has(tok)) {
+                            seen.add(tok);
+                            this.df.set(tok, (this.df.get(tok) || 0) + 1);
+                        }
+                    }
+                }
+
+                this.avgLen = Math.max(1, totalLen / Math.max(1, this.docs.length));
+
+                // Build vocab + trigram index for fuzzy expansion
+                this.vocab = Array.from(this.index.keys());
+                for (const tok of this.vocab) this._buildTrigramsForToken(tok);
+
+                // Precompute IDF (BM25-like)
+                const N = Math.max(1, this.docs.length);
+                for (const [tok, df] of this.df.entries()) {
+                    const idf = Math.log(1 + (N - df + 0.5) / (df + 0.5));
+                    this.idf.set(tok, idf);
+                }
+            }
+
+            _levenshteinMax2(a, b) {
+                // Early-exit Levenshtein (max 2); tuned for short query tokens
+                if (a === b) return 0;
+                const la = a.length, lb = b.length;
+                const diff = Math.abs(la - lb);
+                if (diff > 2) return 3;
+
+                // DP rows
+                let prev = new Array(lb + 1);
+                let curr = new Array(lb + 1);
+                for (let j = 0; j <= lb; j++) prev[j] = j;
+
+                for (let i = 1; i <= la; i++) {
+                    curr[0] = i;
+                    let rowMin = curr[0];
+                    const ca = a.charCodeAt(i - 1);
+                    for (let j = 1; j <= lb; j++) {
+                        const cost = ca === b.charCodeAt(j - 1) ? 0 : 1;
+                        const v = Math.min(
+                            prev[j] + 1,
+                            curr[j - 1] + 1,
+                            prev[j - 1] + cost
+                        );
+                        curr[j] = v;
+                        if (v < rowMin) rowMin = v;
+                    }
+                    if (rowMin > 2) return 3;
+                    [prev, curr] = [curr, prev];
+                }
+                return prev[lb];
+            }
+
+            _expandToken(q) {
+                const token = this._normalizeText(q);
+                if (!token) return [];
+
+                // Exact
+                if (this.index.has(token)) return [token];
+
+                // Prefix candidates
+                const pref = [];
+                const maxPref = 40;
+                for (const v of this.vocab) {
+                    if (v.startsWith(token)) {
+                        pref.push(v);
+                        if (pref.length >= maxPref) break;
+                    }
+                }
+                if (pref.length) return pref;
+
+                // Fuzzy (trigram intersection + Levenshtein <=2)
+                if (token.length < 4) return [];
+                const padded = `  ${token}  `;
+                const candidates = new Map(); // token -> overlap
+                for (let i = 0; i < padded.length - 2; i++) {
+                    const tri = padded.slice(i, i + 3);
+                    const set = this.trigram.get(tri);
+                    if (!set) continue;
+                    for (const t of set) candidates.set(t, (candidates.get(t) || 0) + 1);
+                }
+
+                // Take top overlaps then filter by edit distance
+                const ranked = Array.from(candidates.entries())
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 80)
+                    .map(([t]) => t);
+
+                const fuzzy = [];
+                for (const t of ranked) {
+                    if (Math.abs(t.length - token.length) > 2) continue;
+                    const dist = this._levenshteinMax2(token, t);
+                    if (dist <= 2) fuzzy.push(t);
+                    if (fuzzy.length >= 20) break;
+                }
+                return fuzzy;
+            }
+
+            search(query, { limit = 30 } = {}) {
+                const raw = (query || '').trim();
+                if (!raw) return [];
+
+                const parts = [];
+                const re = /"([^"]+)"|(\S+)/g;
+                let m;
+                while ((m = re.exec(raw)) !== null) parts.push(m[1] || m[2]);
+
+                const phrases = parts.filter(p => p.includes(' ') && !p.startsWith('type:') && !p.startsWith('section:'));
+                const tokens = parts.filter(p => !p.includes(' ') && !p.startsWith('type:') && !p.startsWith('section:'));
+
+                // Optional filters: type:graph / type:section / type:page, section:<text>
+                const typeFilter = (parts.find(p => p.startsWith('type:')) || '').slice(5).toLowerCase();
+                const sectionFilter = (parts.find(p => p.startsWith('section:')) || '').slice(8).toLowerCase();
+
+                const scores = new Map();
+                const matchedTokens = new Map(); // docId -> Set(tokens)
+
+                for (const qt of tokens) {
+                    const expanded = this._expandToken(qt);
+                    for (const tok of expanded) {
+                        const posting = this.index.get(tok);
+                        if (!posting) continue;
+
+                        const idf = this.idf.get(tok) || 0.1;
+                        for (const [docId, tf] of posting.entries()) {
+                            const d = this.docById.get(docId);
+                            if (!d) continue;
+
+                            if (typeFilter && String(d.type || '').toLowerCase() !== typeFilter) continue;
+                            if (sectionFilter && !String(d.section || '').toLowerCase().includes(sectionFilter)) continue;
+
+                            const len = this.docLen.get(docId) || 1;
+                            const tfNorm = tf / (0.5 + 0.5 * (len / this.avgLen));
+                            const base = (scores.get(docId) || 0) + (tfNorm * idf);
+                            scores.set(docId, base);
+
+                            let s = matchedTokens.get(docId);
+                            if (!s) { s = new Set(); matchedTokens.set(docId, s); }
+                            s.add(qt);
+                        }
+                    }
+                }
+
+                // Phrase filtering + boost
+                const qLower = this._normalizeText(raw);
+                const results = [];
+                for (const [docId, score0] of scores.entries()) {
+                    const d = this.docById.get(docId);
+                    if (!d) continue;
+
+                    const normTitle = this._normalizeText(d.title || '');
+                    const normContent = this._normalizeText(d.content || '');
+
+                    let score = score0;
+
+                    // Title boost
+                    if (qLower && normTitle.includes(qLower)) score *= 2.0;
+                    else {
+                        // partial boost
+                        for (const qt of tokens) {
+                            const nt = this._normalizeText(qt);
+                            if (nt && normTitle.includes(nt)) score *= 1.25;
+                        }
+                    }
+
+                    // Phrase requirement: every phrase must appear in title or content
+                    let ok = true;
+                    for (const ph of phrases) {
+                        const np = this._normalizeText(ph);
+                        if (!np) continue;
+                        if (!normTitle.includes(np) && !normContent.includes(np)) { ok = false; break; }
+                        score *= 1.15;
+                    }
+                    if (!ok) continue;
+
+                    results.push({ doc: d, score, matched: Array.from(matchedTokens.get(docId) || []) });
+                }
+
+                results.sort((a, b) => b.score - a.score);
+                return results.slice(0, limit);
+            }
+        }
+
+        function slugify(text) {
+            return (text || '')
+                .toLowerCase()
+                .trim()
+                .replace(/[\s]+/g, '-')
+                .replace(/[^a-z0-9\-]/g, '')
+                .replace(/\-+/g, '-')
+                .replace(/^\-+|\-+$/g, '');
+        }
+
+        function extractDotIndexText(dot) {
+            if (!dot) return '';
+            const out = new Set();
+
+            // Node/edge labels
+            const re = /label\s*=\s*"((?:\\.|[^"\\])*)"/g;
+            let m;
+            while ((m = re.exec(dot)) !== null) {
+                const s = m[1].replace(/\\n/g, ' ').replace(/\\\"/g, '"').trim();
+                if (s) out.add(s);
+            }
+
+            // Node IDs in quotes
+            const reId = /"([^"]+)"\s*\[/g;
+            while ((m = reId.exec(dot)) !== null) {
+                const s = m[1].trim();
+                if (s) out.add(s);
+            }
+
+            return Array.from(out).join(' · ');
+        }
+
+        function buildSearchDocuments() {
+            const docs = [];
+            const article = document.querySelector('article.content') || document.querySelector('.content') || document.body;
+
+            const pageTitle = document.querySelector('h1')?.textContent?.trim() || document.title || 'Documentation';
+            const pagePath = location.pathname.split('/').pop() || 'index.html';
+
+            // Whole-page entry
+            docs.push({
+                id: `page:${pagePath}`,
+                type: 'page',
+                title: pageTitle,
+                section: 'This page',
+                path: `./${pagePath}`,
+                content: (article?.innerText || '').trim()
+            });
+
+            // Section entries (h2/h3)
+            const headings = Array.from(article.querySelectorAll('h2, h3'));
+            headings.forEach((h, idx) => {
+                const level = Number(h.tagName.substring(1)) || 2;
+                const title = h.textContent.trim();
+                if (!title) return;
+
+                if (!h.id) h.id = `${slugify(title) || 'section'}-${idx + 1}`;
+                const id = `sec:${pagePath}#${h.id}`;
+
+                const parts = [];
+                let el = h.nextElementSibling;
+                while (el) {
+                    const isHeading = /H[1-6]/.test(el.tagName);
+                    if (isHeading) {
+                        const nextLevel = Number(el.tagName.substring(1)) || 6;
+                        if (nextLevel <= level) break;
+                    }
+                    // exclude scripts/styles
+                    if (el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') parts.push(el.innerText || el.textContent || '');
+                    el = el.nextElementSibling;
+                }
+
+                const content = parts.join('\n').trim();
+                docs.push({
+                    id,
+                    type: 'section',
+                    title,
+                    section: pageTitle,
+                    path: `./${pagePath}#${h.id}`,
+                    content
+                });
+            });
+
+            // Graph entries (node labels + edge labels + ids)
+            document.querySelectorAll('.mermaid-graph-container').forEach((container) => {
+                const title = container.querySelector('.graph-title')?.textContent?.trim() || 'Graph';
+                const graphId = container.id || '';
+                const key = graphId.startsWith('graph-') ? graphId.slice(6) : graphId;
+                const dot = (typeof dotDiagrams !== 'undefined' && dotDiagrams[key]) ? dotDiagrams[key] : '';
+
+                const graphText = extractDotIndexText(dot);
+                if (!graphText.trim()) return;
+
+                docs.push({
+                    id: `graph:${pagePath}#${graphId || key}`,
+                    type: 'graph',
+                    title,
+                    section: pageTitle,
+                    path: graphId ? `./${pagePath}#${graphId}` : `./${pagePath}`,
+                    content: graphText
+                });
+            });
+
+            // Navigation pages from sidebar links
+            document.querySelectorAll('.nav-link[href]').forEach((a) => {
+                const t = (a.textContent || '').trim();
+                const href = a.getAttribute('href');
+                if (!t || !href) return;
+                docs.push({
+                    id: `nav:${href}`,
+                    type: 'page',
+                    title: t,
+                    section: 'Pages',
+                    path: href,
+                    content: `Navigate to ${t}`
+                });
+            });
+
+            return docs;
+        }
+
+        // ---- Cross-page search helpers (site-wide indexing) ----
+        async function mapLimit(items, limit, fn) {
+            const results = new Array(items.length);
+            let idx = 0;
+
+            const workers = new Array(Math.min(limit, items.length)).fill(0).map(async () => {
+                while (true) {
+                    const i = idx++;
+                    if (i >= items.length) break;
+                    results[i] = await fn(items[i], i, items.length);
+                }
+            });
+
+            await Promise.all(workers);
+            return results;
+        }
+
+        function extractDocsFromHtml(htmlText, href) {
+            const docs = [];
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+
+                const pageTitle = doc.querySelector('h1')?.textContent?.trim() || doc.title || (href || 'Page');
+                const pagePath = (href || '').split('#')[0].split('/').pop() || href || 'page';
+
+                const article = doc.querySelector('article.content') || doc.querySelector('.content') || doc.body;
+                const pageText = (article?.innerText || '').trim();
+
+                docs.push({
+                    id: `page:${pagePath}`,
+                    type: 'page',
+                    title: pageTitle,
+                    section: 'Pages',
+                    path: href,
+                    content: pageText
+                });
+
+                // Sections (h2/h3 with IDs)
+                const headings = Array.from(doc.querySelectorAll('h2[id], h3[id]'));
+                headings.forEach((h) => {
+                    const title = (h.textContent || '').trim();
+                    if (!title) return;
+
+                    const level = Number(h.tagName.substring(1)) || 6;
+                    const parts = [];
+                    let el = h.nextElementSibling;
+                    while (el) {
+                        if (/^H[1-6]$/.test(el.tagName)) {
+                            const nextLevel = Number(el.tagName.substring(1)) || 6;
+                            if (nextLevel <= level) break;
+                        }
+                        if (el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
+                            parts.push(el.innerText || el.textContent || '');
+                        }
+                        el = el.nextElementSibling;
+                    }
+
+                    const content = parts.join('\n').trim();
+                    const id = `section:${pagePath}#${h.id}`;
+
+                    docs.push({
+                        id,
+                        type: 'section',
+                        title,
+                        section: pageTitle,
+                        path: `${href}#${h.id}`,
+                        content
+                    });
+                });
+
+                // Best-effort DOT indexing if the page embeds dotDiagrams (Graphviz).
+                try {
+                    const m = htmlText.match(/const\s+dotDiagrams\s*=\s*\{([\s\S]*?)\n\s*\};/);
+                    if (m && m[1]) {
+                        const body = m[1];
+                        const re = /"([^"]+)"\s*:\s*`([\s\S]*?)`\s*,?/g;
+                        let mm;
+                        while ((mm = re.exec(body)) !== null) {
+                            const key = mm[1];
+                            const dot = mm[2] || '';
+                            const graphText = extractDotIndexText(dot);
+                            if (!graphText.trim()) continue;
+                            docs.push({
+                                id: `graph:${pagePath}:${key}`,
+                                type: 'graph',
+                                title: `Graph: ${key}`,
+                                section: pageTitle,
+                                path: href,
+                                content: graphText
+                            });
+                        }
+                    }
+                } catch (e) { /* ignore */ }
+
+            } catch (e) {
+                return [];
+            }
+            return docs;
+        }
+
+
+        function makeSnippet(text, query, maxLen = 180) {
+            if (!text) return '';
+            const t = String(text).replace(/\s+/g, ' ').trim();
+            if (!t) return '';
+
+            const q = (query || '').trim();
+            if (!q) return t.slice(0, maxLen);
+
+            const nText = t.toLowerCase();
+            const nQuery = q.toLowerCase().replace(/['’`]/g, '');
+
+            let idx = nText.indexOf(nQuery);
+            if (idx < 0) {
+                // try token-based
+                const tokens = nQuery.split(/\s+/).filter(Boolean);
+                for (const tok of tokens) {
+                    const j = nText.indexOf(tok);
+                    if (j >= 0) { idx = j; break; }
+                }
+            }
+            if (idx < 0) idx = 0;
+
+            const start = Math.max(0, idx - Math.floor(maxLen / 3));
+            const end = Math.min(t.length, start + maxLen);
+            const prefix = start > 0 ? '…' : '';
+            const suffix = end < t.length ? '…' : '';
+            return prefix + t.slice(start, end) + suffix;
+        }
+
+        function highlightHtml(text, query) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            let safe = div.innerHTML;
+
+            const q = (query || '').trim();
+            if (!q) return safe;
+
+            // Highlight up to first 8 distinct tokens
+            const tokens = Array.from(new Set(q.split(/\s+/).filter(w => w.length >= 2))).slice(0, 8);
+            for (const tok of tokens) {
+                const re = new RegExp(`(${tok.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')})`, 'ig');
+                safe = safe.replace(re, '<mark>$1</mark>');
+            }
+            return safe;
+        }
+
+        class Search {
+            constructor() {
+                this.selectedIndex = -1;
+                this.docs = buildSearchDocuments();
+                this.engine = new DocSearchEngine(this.docs);
+                this.createModal();
+                this.bindEvents();
+                this.bootstrapCrossPageIndex();
+            }
+
+            createModal() {
+                const html = `<div class="search-modal" id="search-modal" aria-hidden="true">
+            <div class="search-modal-content" role="dialog" aria-modal="true" aria-label="Search">
+                <div class="search-modal-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" class="search-modal-input" id="search-input" placeholder="Search this documentation…  (tips: \"phrase\", type:graph, section:patterns)" autocomplete="off" spellcheck="false">
+                    <kbd class="search-shortcut">ESC</kbd>
+                </div>
+                <div class="search-results" id="search-results"><div class="search-no-results">Type to search…</div></div>
+                <div class="search-footer">
+                    <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+                    <span><kbd>↵</kbd> Open</span>
+                    <span><kbd>ESC</kbd> Close</span>
+                </div>
+            </div>
+        </div>`;
+                document.body.insertAdjacentHTML('beforeend', html);
+                this.modal = document.getElementById('search-modal');
+                this.input = document.getElementById('search-input');
+                this.resultsContainer = document.getElementById('search-results');
+
+                // Index status (updated as cross-page indexing progresses)
+                this.footer = this.modal.querySelector('.search-footer');
+                this.statusEl = document.createElement('span');
+                this.statusEl.id = 'search-index-status';
+                this.statusEl.className = 'search-index-status';
+                this.statusEl.textContent = 'Index: current page';
+                if (this.footer) this.footer.appendChild(this.statusEl);
+
+
+                // Sidebar search input (kept for layout, opens modal)
+                document.querySelector('.search-input')?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
+            }
+
+            bindEvents() {
+                document.addEventListener('keydown', (e) => {
+                    // Open: Ctrl/Cmd + K
+                    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                        e.preventDefault();
+                        this.open();
+                        return;
+                    }
+
+                    if (!this.modal.classList.contains('active')) return;
+
+                    if (e.key === 'Escape') { e.preventDefault(); this.close(); return; }
+                    if (e.key === 'ArrowDown') { e.preventDefault(); this.navigate(1); return; }
+                    if (e.key === 'ArrowUp') { e.preventDefault(); this.navigate(-1); return; }
+                    if (e.key === 'Enter') { e.preventDefault(); this.selectCurrent(); return; }
+                });
+
+                this.modal.addEventListener('click', (e) => { if (e.target === this.modal) this.close(); });
+
+                this.input.addEventListener('input', () => {
+                    this.selectedIndex = -1;
+                    this.search(this.input.value);
+                });
+            }
+
+            navigate(dir) {
+                const items = Array.from(this.resultsContainer.querySelectorAll('.search-result-item'));
+                if (!items.length) return;
+                this.selectedIndex = Math.max(0, Math.min(items.length - 1, this.selectedIndex + dir));
+                items.forEach((el, i) => el.classList.toggle('selected', i === this.selectedIndex));
+                items[this.selectedIndex]?.scrollIntoView({ block: 'nearest' });
+            }
+
+            selectCurrent() {
+                const items = Array.from(this.resultsContainer.querySelectorAll('.search-result-item'));
+                if (!items.length) return;
+                const idx = this.selectedIndex >= 0 ? this.selectedIndex : 0;
+                const item = items[idx];
+                const path = item?.dataset?.path;
+                if (!path) return;
+
+                this.close();
+
+                // In-page navigation: preserve smooth scroll and flash target
+                if (path.includes('#') && path.split('#')[0].endsWith(location.pathname.split('/').pop() || '')) {
+                    const id = path.split('#')[1];
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        el.classList.add('search-target-flash');
+                        setTimeout(() => el.classList.remove('search-target-flash'), 900);
+                        return;
+                    }
+                }
+
+                window.location.href = path;
+            }
+
+            render(results, query) {
+                if (!query.trim()) {
+                    this.resultsContainer.innerHTML = `<div class="search-no-results">Type to search…</div>`;
+                    return;
+                }
+
+                if (!results.length) {
+                    this.resultsContainer.innerHTML = `<div class="search-no-results">No results for “${this.escapeHtml(query)}”.</div>`;
+                    return;
+                }
+
+                const html = results.map((r, i) => {
+                    const d = r.doc;
+                    const badge = String(d.type || 'result').toUpperCase();
+                    const snippet = makeSnippet(d.content || '', query, 190);
+
+                    return `<div class="search-result-item ${i === 0 ? 'selected' : ''}" data-index="${i}" data-path="${this.escapeHtml(d.path)}">
+                        <div class="search-result-header">
+                            <div class="search-result-title">${highlightHtml(d.title || '', query)}</div>
+                            <span class="search-result-badge">${badge}</span>
+                        </div>
+                        <div class="search-result-section">${this.escapeHtml(d.section || '')}</div>
+                        <div class="search-result-snippet">${highlightHtml(snippet, query)}</div>
+                    </div>`;
+                }).join('');
+
+                this.resultsContainer.innerHTML = html;
+                this.selectedIndex = 0;
+
+                this.resultsContainer.querySelectorAll('.search-result-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        this.selectedIndex = Number(item.dataset.index || 0);
+                        this.selectCurrent();
+                    });
+                });
+            }
+
+            search(query) {
+                const results = this.engine.search(query, { limit: 30 });
+                this.render(results, query);
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text || '';
+                return div.innerHTML;
+            }
+
+            open() {
+                this.modal.classList.add('active');
+                this.modal.setAttribute('aria-hidden', 'false');
+                this.input.focus();
+                this.input.select();
+                this.search(this.input.value || '');
+            }
+
+            close() {
+                this.modal.classList.remove('active');
+                this.modal.setAttribute('aria-hidden', 'true');
+                this.input.blur();
+            }
+
+            _setIndexStatus(msg) {
+                if (!this.statusEl) return;
+                this.statusEl.textContent = msg;
+            }
+
+            async bootstrapCrossPageIndex() {
+                // Load pre-built search index for efficient cross-page search
+                try {
+                    const protocol = (location && location.protocol) ? location.protocol : '';
+                    if (protocol === 'file:') {
+                        this._setIndexStatus('Index: current page (open via http(s) for site-wide search)');
+                        return;
+                    }
+
+                    this._setIndexStatus('Loading search index...');
+                    
+                    // Try to load the pre-built search index
+                    const indexUrl = new URL('./search-index.json', location.href);
+                    const res = await fetch(indexUrl.toString(), { credentials: 'same-origin', cache: 'default' });
+                    
+                    if (!res.ok) {
+                        this._setIndexStatus('Index: current page');
+                        return;
+                    }
+                    
+                    const searchIndex = await res.json();
+                    
+                    if (!Array.isArray(searchIndex) || !searchIndex.length) {
+                        this._setIndexStatus('Index: current page');
+                        return;
+                    }
+                    
+                    // Convert search index entries to docs format
+                    const extraDocs = [];
+                    for (const entry of searchIndex) {
+                        // Add page entry
+                        extraDocs.push({
+                            id: `page-${entry.href}`,
+                            title: entry.title,
+                            section: entry.section,
+                            path: entry.href,
+                            content: entry.content || '',
+                            type: 'page'
+                        });
+                        
+                        // Add heading entries for section-level search with content snippets
+                        if (entry.headings && Array.isArray(entry.headings)) {
+                            for (const h of entry.headings) {
+                                extraDocs.push({
+                                    id: `heading-${entry.href}-${h.slug}`,
+                                    title: h.text,
+                                    section: entry.title,
+                                    path: `${entry.href}#${h.slug}`,
+                                    content: h.content || '',  // Use section content from enhanced index
+                                    type: 'section'
+                                });
+                            }
+                        }
+                    }
+                    
+                    if (extraDocs.length) {
+                        // Merge with existing docs, avoiding duplicates
+                        const byId = new Map(this.docs.map(d => [d.id, d]));
+                        for (const d of extraDocs) byId.set(d.id, d);
+                        this.docs = Array.from(byId.values());
+                        this.engine = new DocSearchEngine(this.docs);
+
+                        if (this.modal && this.modal.classList.contains('active')) {
+                            const q = (this.input?.value || '').trim();
+                            if (q) this.search(q);
+                        }
+                    }
+
+                    const pagesIndexed = searchIndex.length;
+                    const sectionsIndexed = extraDocs.length - pagesIndexed;
+                    this._setIndexStatus(`Index: ${pagesIndexed} pages, ${sectionsIndexed} sections`);
+                } catch (e) {
+                    this._setIndexStatus('Index: current page');
+                }
+            }
+
+        }
+
+        /* Image Viewer */
+        class ImageViewer {
+            constructor() {
+                this.scale = 1;
+                this.translateX = 0;
+                this.translateY = 0;
+                this.isDragging = false;
+                this.startX = 0;
+                this.startY = 0;
+                this.currentElement = null;
+                this.createOverlay();
+                this.bindEvents();
+            }
+
+            createOverlay() {
+                const html = `
+            <div class="image-viewer-overlay" id="image-viewer">
+                <button class="image-viewer-close">&times;</button>
+                <div class="image-viewer-container" id="image-viewer-container"></div>
+                <div class="image-viewer-controls">
+                    <button class="image-viewer-btn" id="zoom-in">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                        Zoom In
+                    </button>
+                    <button class="image-viewer-btn" id="zoom-out">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                        Zoom Out
+                    </button>
+                    <button class="image-viewer-btn" id="zoom-reset">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Reset
+                    </button>
+                    <button class="image-viewer-btn" id="download-png">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download PNG
+                    </button>
+                </div>
+            </div>`;
+                document.body.insertAdjacentHTML('beforeend', html);
+                this.overlay = document.getElementById('image-viewer');
+                this.container = document.getElementById('image-viewer-container');
+            }
+
+            bindEvents() {
+                document.querySelectorAll('.content img, .content svg, .viewable-image').forEach(el => {
+                    el.style.cursor = 'zoom-in';
+                    el.addEventListener('click', e => {
+                        e.preventDefault();
+                        this.open(el);
+                    });
+                });
+
+                this.overlay.querySelector('.image-viewer-close').addEventListener('click', () => this.close());
+                this.overlay.addEventListener('click', e => { if (e.target === this.overlay) this.close(); });
+                document.getElementById('zoom-in').addEventListener('click', () => this.zoom(0.25));
+                document.getElementById('zoom-out').addEventListener('click', () => this.zoom(-0.25));
+                document.getElementById('zoom-reset').addEventListener('click', () => this.reset());
+                document.getElementById('download-png').addEventListener('click', () => this.downloadPNG());
+
+                this.container.addEventListener('wheel', e => {
+                    e.preventDefault();
+                    this.zoom(e.deltaY > 0 ? -0.1 : 0.1);
+                });
+
+                this.container.addEventListener('mousedown', e => {
+                    this.isDragging = true;
+                    this.startX = e.clientX - this.translateX;
+                    this.startY = e.clientY - this.translateY;
+                    this.container.style.cursor = 'grabbing';
+                });
+
+                document.addEventListener('mousemove', e => {
+                    if (!this.isDragging) return;
+                    this.translateX = e.clientX - this.startX;
+                    this.translateY = e.clientY - this.startY;
+                    this.updateTransform();
+                });
+
+                document.addEventListener('mouseup', () => {
+                    this.isDragging = false;
+                    this.container.style.cursor = 'grab';
+                });
+
+                document.addEventListener('keydown', e => {
+                    if (!this.overlay.classList.contains('active')) return;
+                    if (e.key === 'Escape') this.close();
+                    if (e.key === '+' || e.key === '=') this.zoom(0.25);
+                    if (e.key === '-') this.zoom(-0.25);
+                    if (e.key === '0') this.reset();
+                });
+            }
+
+            open(element) {
+                this.currentElement = element;
+                this.reset();
+
+                if (element.tagName === 'IMG') {
+                    const img = document.createElement('img');
+                    img.src = element.src;
+                    img.alt = element.alt || 'Image';
+                    // Let CSS handle sizing - don't override with inline styles
+                    this.container.innerHTML = '';
+                    this.container.appendChild(img);
+                } else if (element.tagName === 'svg' || element.tagName === 'SVG') {
+                    const clone = element.cloneNode(true);
+                    // Reset any inline dimensions from the original
+                    clone.removeAttribute('width');
+                    clone.removeAttribute('height');
+                    clone.style.width = '';
+                    clone.style.height = '';
+                    this.container.innerHTML = '';
+                    this.container.appendChild(clone);
+                }
+
+                this.overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            close() {
+                this.overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            zoom(delta) {
+                // Allow much wider zoom range for detailed images (0.1x to 20x)
+                this.scale = Math.max(0.1, Math.min(20, this.scale + delta));
+                this.updateTransform();
+            }
+
+            reset() {
+                this.scale = 1;
+                this.translateX = 0;
+                this.translateY = 0;
+                this.updateTransform();
+            }
+
+            updateTransform() {
+                const el = this.container.querySelector('img, svg');
+                if (el) el.style.transform = `translate(${this.translateX}px, ${this.translateY}px) scale(${this.scale})`;
+            }
+
+            async downloadPNG() {
+                const el = this.container.querySelector('img, svg');
+                if (!el) return;
+
+                if (el.tagName === 'IMG') {
+                    // For regular images, download the original file directly
+                    // This avoids canvas tainting issues with local files
+                    try {
+                        const response = await fetch(el.src);
+                        const blob = await response.blob();
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        // Extract filename from src or use default
+                        const srcParts = el.src.split('/');
+                        const originalName = srcParts[srcParts.length - 1].split('?')[0] || 'image';
+                        link.download = originalName.includes('.') ? originalName : originalName + '.png';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                    } catch (err) {
+                        // Fallback for file:// protocol or CORS issues - open image source
+                        console.warn('Image download failed, opening source:', err);
+                        const link = document.createElement('a');
+                        link.href = el.src;
+                        link.download = 'image.png';
+                        link.target = '_blank';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                } else {
+                    // For SVG - render to PNG with TRANSPARENT background
+                    try {
+                        const svgData = new XMLSerializer().serializeToString(el);
+                        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                        const url = URL.createObjectURL(svgBlob);
+
+                        const img = new Image();
+                        img.src = url;
+                        await new Promise((resolve, reject) => {
+                            img.onload = resolve;
+                            img.onerror = reject;
+                        });
+
+                        const width = el.viewBox?.baseVal?.width || el.getBoundingClientRect().width || 800;
+                        const height = el.viewBox?.baseVal?.height || el.getBoundingClientRect().height || 600;
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width * 2;  // 2x for better quality
+                        canvas.height = height * 2;
+                        const ctx = canvas.getContext('2d');
+                        // TRANSPARENT background - don't fill with white
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.scale(2, 2);
+                        ctx.drawImage(img, 0, 0, width, height);
+                        URL.revokeObjectURL(url);
+
+                        const link = document.createElement('a');
+                        link.download = 'pmdco-diagram.png';
+                        link.href = canvas.toDataURL('image/png');
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    } catch (err) {
+                        // Fallback: download as SVG
+                        console.warn('PNG conversion failed, downloading as SVG:', err);
+                        const svgData = new XMLSerializer().serializeToString(el);
+                        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                        const url = URL.createObjectURL(svgBlob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = 'pmdco-diagram.svg';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                    }
+                }
+            }
+        }
+
+        // Initialize Search and ImageViewer
+        new Search();
+        new ImageViewer();
+
+        // ========== ONTOLOGY TREE MANAGER ==========
+        class OntologyTreeManager {
+            constructor() {
+                this.tooltip = null;
+                this.init();
+            }
+
+            init() {
+                if (!document.querySelector('.ontology-tree-container')) return;
+                this.createTooltip();
+                this.bindEvents();
+            }
+
+            createTooltip() {
+                this.tooltip = document.createElement('div');
+                this.tooltip.className = 'tree-tooltip';
+                document.body.appendChild(this.tooltip);
+            }
+
+            bindEvents() {
+                document.querySelectorAll('.tree-toggle').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.toggleNode(btn);
+                    });
+                });
+
+                document.querySelectorAll('.tree-expand-all').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const container = btn.closest('.ontology-tree-container');
+                        this.expandAll(container);
+                    });
+                });
+
+                document.querySelectorAll('.tree-collapse-all').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const container = btn.closest('.ontology-tree-container');
+                        this.collapseAll(container);
+                    });
+                });
+
+                document.querySelectorAll('.tree-search').forEach(input => {
+                    input.addEventListener('input', (e) => {
+                        const container = input.closest('.ontology-tree-container');
+                        this.filterTree(container, e.target.value);
+                    });
+                });
+
+                document.querySelectorAll('.tree-node.has-definition').forEach(node => {
+                    node.addEventListener('mouseenter', (e) => this.showTooltip(e, node));
+                    node.addEventListener('mouseleave', () => this.hideTooltip());
+                    node.addEventListener('mousemove', (e) => this.moveTooltip(e));
+                });
+            }
+
+            toggleNode(btn) {
+                const li = btn.closest('li');
+                const children = li.querySelector(':scope > .tree-children');
+                if (!children) return;
+
+                const isCollapsed = btn.classList.contains('collapsed');
+                if (isCollapsed) {
+                    btn.classList.remove('collapsed');
+                    btn.classList.add('expanded');
+                    children.classList.remove('collapsed');
+                    children.style.maxHeight = children.scrollHeight + 'px';
+                } else {
+                    btn.classList.remove('expanded');
+                    btn.classList.add('collapsed');
+                    children.classList.add('collapsed');
+                }
+            }
+
+            expandAll(container) {
+                container.querySelectorAll('.tree-toggle.collapsed').forEach(btn => {
+                    btn.classList.remove('collapsed');
+                    btn.classList.add('expanded');
+                });
+                container.querySelectorAll('.tree-children').forEach(children => {
+                    children.classList.remove('collapsed');
+                    children.style.maxHeight = 'none';
+                });
+            }
+
+            collapseAll(container) {
+                container.querySelectorAll('.tree-toggle.expanded').forEach(btn => {
+                    btn.classList.remove('expanded');
+                    btn.classList.add('collapsed');
+                });
+                container.querySelectorAll('.tree-children').forEach(children => {
+                    children.classList.add('collapsed');
+                });
+            }
+
+            filterTree(container, query) {
+                const tree = container.querySelector('.ontology-tree');
+                const nodes = tree.querySelectorAll('.tree-node');
+                const q = query.toLowerCase().trim();
+
+                if (!q) {
+                    nodes.forEach(node => {
+                        node.classList.remove('search-match');
+                        node.closest('li').style.display = '';
+                    });
+                    return;
+                }
+
+                const matchedLis = new Set();
+                nodes.forEach(node => {
+                    const label = node.querySelector('.tree-label')?.textContent.toLowerCase() || '';
+                    const prefix = node.querySelector('.tree-prefix')?.textContent.toLowerCase() || '';
+                    const isMatch = label.includes(q) || prefix.includes(q);
+                    node.classList.toggle('search-match', isMatch);
+                    if (isMatch) {
+                        let li = node.closest('li');
+                        while (li) {
+                            matchedLis.add(li);
+                            li = li.parentElement?.closest('li');
+                        }
+                    }
+                });
+
+                tree.querySelectorAll('li').forEach(li => {
+                    if (matchedLis.has(li)) {
+                        li.style.display = '';
+                        const toggle = li.querySelector(':scope > .tree-node .tree-toggle');
+                        if (toggle && toggle.classList.contains('collapsed')) {
+                            this.toggleNode(toggle);
+                        }
+                    } else {
+                        li.style.display = 'none';
+                    }
+                });
+            }
+
+            showTooltip(e, node) {
+                const definition = node.dataset.definition;
+                const uri = node.dataset.uri;
+                const label = node.querySelector('.tree-label')?.textContent || '';
+
+                let tooltipHtml = '<div class="tree-tooltip-title">' + this.escapeHtml(label) + '</div>';
+                if (definition) tooltipHtml += '<div>' + this.escapeHtml(definition) + '</div>';
+                if (uri) tooltipHtml += '<div class="tree-tooltip-uri">' + this.escapeHtml(uri) + '</div>';
+
+                this.tooltip.innerHTML = tooltipHtml;
+                this.tooltip.classList.add('visible');
+                this.moveTooltip(e);
+            }
+
+            hideTooltip() { this.tooltip.classList.remove('visible'); }
+
+            moveTooltip(e) {
+                const x = e.clientX + 15;
+                const y = e.clientY + 15;
+                const rect = this.tooltip.getBoundingClientRect();
+                const maxX = window.innerWidth - rect.width - 20;
+                const maxY = window.innerHeight - rect.height - 20;
+                this.tooltip.style.left = Math.min(x, maxX) + 'px';
+                this.tooltip.style.top = Math.min(y, maxY) + 'px';
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        }
+
+        // Initialize OntologyTreeManager
+        new OntologyTreeManager();
+    </script>
+</body>
+
+</html>

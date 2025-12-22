@@ -1,4 +1,5 @@
 # Introduction to the PMD Ontology (PMDco v3.x.x)  
+<!--@Document_indicator: Text,links --> 
 
 The **Platform MaterialDigital Core Ontology (PMDco)** is a mid-level ontology specifically developed to support the digital transformation of the Materials Science and Engineering (MSE) domain. With its latest version (v3.x.x), PMDco integrates a modular approach, aligning with the Basic Formal Ontology (BFO) standard to provide a comprehensive and interoperable framework for modeling materials, processes, and data.
 

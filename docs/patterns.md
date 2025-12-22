@@ -1,10 +1,13 @@
 # Usage Patterns
+<!--@Document_indicator: Text,links, Patterns -->
 
 In ontology development and usage, **usage patterns** play a critical role in addressing recurring modeling requirements. These patterns provide standardized, reusable semantic snippets that facilitate consistent representation of relationships between instances and entities. Furthermore, such patterns may be used to create SHACL shapes to include constraints in a knowledge representation. By following usage patterns, ontology users and developers can ensure uniformity, clarity, and reusability in their models.
 
 The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and example.
 
 ## Pattern 1 - Temporal Region
+<!--Please provide the link to the pattern (raw data ttl file) in the repository-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
 
 
 - **Purpose**: Specifying the boundaries of a process on the time axis. 
@@ -114,6 +117,7 @@ ex:object_1 exists_at: ex:some_time .
 ---
 
 ## Pattern 2 - Process Chain
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/shape-data.ttl-->
 
 - **Purpose**: Represent processes, consisting of simultaneous and serial subprocesses. 
 - **Description**: This graph describes a structured process chain that organizes several interrelated process steps within a defined sequence. The graph defines relationships among processes using temporal and structural object properties.
@@ -221,6 +225,7 @@ ex:process_step2a simultaneous_with: ex:process_step2b .
 ---
 
 ## Pattern 3 - Process Inputs and Outputs
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/shape-data.ttl-->
 
 - **Purpose**: Describes how to represent inputs and outputs for planned processes typically involving material entities or information-bearing entities.
 - **Description**: A planned process with possibility of multiple inputs and outputs, e.g., testing properties of a metallic sample, or transforming a piece of material into another product.
@@ -321,6 +326,7 @@ ex:object3 a object:
 ---
 
 ## Pattern 4 - Realizable Entities (Role)
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/shape-data.ttl-->
 
 - **Purpose**: Represent characteristics of the objects, brought to existence by a specific situation. E.g. a role, which is realized in a process.
 - **Description**: This example describes how an object participates in a planned experimental process by bearing a specific evaluant role. An object, here ex:object_1, is involved in a fatigue testing process, and this process takes the object as its specified input. The process is linked to an objective, and both the objective and the resulting output are explicitly stated to be about the same object, making clear that the purpose and outcome of the process concern that object. The object is assigned an evaluant role, ex:role_1, and this role is realized in the execution of the fatigue testing process. In this way, the pattern connects object, role, process, objective, and result into a coherent structure showing that the object is the thing being evaluated in the process, and that the process executes and realizes the evaluant role associated with that object.
@@ -427,6 +433,7 @@ ex:role_1 has_realization: ex:process_1  .
 ---
 
 ## Pattern 5 - Material Properties (Qualities)
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data.ttl-->
 
 - **Purpose**: Represent materials, their qualities, and their behaviors at different moments/periods of time.
 - **Example Use Case**: 
@@ -580,6 +587,7 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 ---
 
 ## Pattern 6 - Measurement
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/measurement/shape-data.ttl-->
 
 - **Purpose**: Represent measured value of some material characteristic. 
 - **Example Use Case**: This example represents a measurement workflow:
@@ -669,6 +677,7 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 ---
 
 ## Pattern 7 - Scalar Value Specification
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/shape-data.ttl-->
 
 - **Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
 - **Core Properties**: 
@@ -709,6 +718,7 @@ ex:unit_X rdf:type owl:NamedIndividual ,
 ---
 
 ## Pattern 8 - Categorical Value Specification
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/categorical%20value%20specification/shape-data.ttl-->
 
 - **Purpose**: Represents how categorical values such as ferrite, face-centered cubic, and liquid are used to specify the values of material characteristics.
 - **Example Use Case**: The example describes materials and the categorical qualities they might possess. In the first example, `ex:fcc_material` is a material that has both a crystal structure and a grain structure. Its crystal structure quality is assigned the categorical value “face-centered cubic”, and its grain structure quality is assigned the categorical value “ferrite”, which is also explicitly stated to be about this same material. In other words, the material is characterized as having an FCC crystal structure and a ferritic grain structure.
