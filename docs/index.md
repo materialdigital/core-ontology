@@ -1,5 +1,5 @@
 # PMD Core Ontology (PMDco)
-
+<!--@Document_indicator: Text,links -->
 
 
 Welcome to the **Platform MaterialDigital Core Ontology (PMDco)**, your gateway to advancing the digital transformation of Materials Science and Engineering (MSE)! As the field evolves, managing complex workflows, integrating diverse datasets, and achieving semantic interoperability are more critical than ever. PMDco provides a standardized framework to address these challenges, enabling seamless data modeling, enhanced collaboration, and reproducibility across the MSE domain.
