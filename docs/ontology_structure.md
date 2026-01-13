@@ -1,5 +1,5 @@
 # Ontology Structure
-
+<!--@Document_indicator: Text,links -->
 ## BFO as top level ontology
 
 The Basic Formal Ontology (BFO) is a **top-level ontology** that provides a structured framework for organizing entities based on their fundamental nature. It does not include domain-specific content but instead defines **high-level categories** that support the development of specialized ontologies like NFDIcore.  

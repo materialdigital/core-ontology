@@ -1,5 +1,5 @@
 # Introduction to Ontologies (Beginners' Guide)
-
+<!--@Document_indicator: Text,links,image -->
 ## What is an Ontology?
 
 An ontology is a formally defined logical structure that represents concepts, categories, properties, and relationships within a specific scientific domain using standardized definitions and naming conventions. Ontologies provide a common language to describe data consistently, making raw information easier to organize, interpret, and share across different experiments, databases, and research disciplines. 

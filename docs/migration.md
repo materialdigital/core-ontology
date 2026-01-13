@@ -1,5 +1,5 @@
 # Migraton from Version 2.x
-
+<!--@Document_indicator: Text, links -->
 
 Because PMDco 3.x is based on BFO, the migration is not a simple translation but a re-modeling of the class hierarchy. The safest approach is to relocate each major conceptual block of the old ontology into the appropriate BFO branch and then check whether PMDco 3.x already provides an equivalent class or modeling pattern.
 

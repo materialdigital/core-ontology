@@ -1,5 +1,5 @@
 # Ontology Structure
-
+<!--@Document_indicator: Text,links -->
 
 ## Modularization
 Modules in ontology are formally defined, self-contained, and reusable fragments of an ontology that represent specific conceptual subdomains. They are engineered to support logic-based reasoning, interoperability, and tractable querying, allowing large or complex ontologies to be efficiently developed, understood, and maintained by dividing them into coherent, manageable parts. These modules make it possible to approach ontology engineering in a divide-and-conquer manner, facilitating reuse and integration across different domains and applications. PMDco defines six primary modules central to MSE, naming material, material qualities, material manufacturing, material characterization, data transformation, and devices. 
@@ -20,7 +20,7 @@ The following section provide example concepts related to different ontology mod
 ## Classes
 
 **1. Materials module**
-
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-materials.owl -->
 This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.
 
 <img width="321" height="527" alt="image" src="https://github.com/user-attachments/assets/4757e92c-9b9b-4509-ad59-a04aa595d008" />
@@ -47,6 +47,7 @@ Some concrete materials definitions:
 
 
 **2. Qualities module**
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-qualities.owl-->
 
 Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.
 
@@ -88,7 +89,7 @@ Examples from PMD:
 
 
 **3. Manufacturing module** 
-
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-manufacturing.owl-->
 This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.
 
 <img width="296" height="474" alt="image" src="https://github.com/user-attachments/assets/75559de5-2d35-48e6-bb4b-0488f17ef8b2" />
@@ -109,7 +110,7 @@ application is essential.
 is created at specific points and reinforced overall.
 
 **4. Material characterization module** 
-
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-characterization.owl-->
 Material characterization involves methods and devices used to analyze the physical, mechanical, and chemical properties of materials.
 
 <img width="276" height="443" alt="image" src="https://github.com/user-attachments/assets/f7b3aa6c-ab41-41af-83e1-c83a76dec822" />
@@ -132,7 +133,7 @@ More specific examples:
 ``pmd:Tensile Testing Process`` – A Mechanical Property Analyzing Process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.
 
 **5. Data transformation module** 
-
+<!--@module_indicator: https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-datatransformation.owl-->
 This category includes processes that involve computational simulations and digital transformations related to material properties and behaviors.
 
 <img width="287" height="460" alt="image" src="https://github.com/user-attachments/assets/4662af0a-cde3-465c-a63a-b573ea20605e" />
@@ -146,7 +147,7 @@ engineering goals.
 ``pmd:Monte Carlo Simulation`` - A Simulation Process that uses random sampling to solve physical and mathematical problems.
 
 **6. Devices module**
-
+<!--@module_indicator: https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-devices.owl-->
 This category includes devices performing certain functions in industrial processes.
 
 <img width="351" height="564" alt="image" src="https://github.com/user-attachments/assets/f5063956-e3b6-47f6-ab4e-cff8556d1acc" />
@@ -166,6 +167,7 @@ Examples:
 
 
 ## Object Properties
+<!--@property_indicator: object -->
 While most of PMDco object properties are driven from ro, bfo, iao and obi, many object properties also defined to represents more specific MSE relations. A portion of PMDco object properties hierarchy is shown here. As examples, we also introduced some object properties below:
  
 <img width="329" height="528" alt="image" src="https://github.com/user-attachments/assets/0c384fca-4c65-44ad-9601-7511ed79156a" />
@@ -192,7 +194,7 @@ Note that PMDco uses specific constraints and rules to ensure logical consistenc
 
 
 ## Data Properties
-
+<!--@property_indicator: data -->
 ``iao:has measurement value`` –
 
 ``obi:has specified value`` – A relation between a value specification and a literal.
