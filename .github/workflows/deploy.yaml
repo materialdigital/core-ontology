@@ -36,7 +36,6 @@ jobs:
            cp -r v3.0.0-rc2/docs/docs_HTML/HTML_Docs/* public/docs/
            cp -r v3.0.0-rc2/docs/docs_HTML/HTML_Docs/* public/3.0.0-rc2/docs/
 
-
     - uses: actions/checkout@v3
       with:
         ref: main
@@ -46,12 +45,7 @@ jobs:
            # install D2
            curl -fsSL https://d2lang.com/install.sh | sh -s --
            pip install mkdocs-d2-plugin
-
-
-           wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
-           
-           mkdir public
-           mkdir public/3.0.0-rc1
+          
            java -jar widoco.jar -ontFile v3.0.0-rc1/pmdco.owl -outFolder public/3.0.0-rc1  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
            ls public/3.0.0-rc1/doc           
            cp public/3.0.0-rc1/doc/index-en.html public/3.0.0-rc1/doc/index.html
@@ -62,16 +56,9 @@ jobs:
            mkdocs build -f mkdocs.yaml
 
            cd ..
-           mkdir public/docs
            mkdir public/3.0.0-rc1/docs
-           #cp -r v3.0.0-rc1/site/* public/docs/
            cp -r v3.0.0-rc1/site/* public/3.0.0-rc1/docs/
-           
-           #cp -r public/3.0.0-rc1/doc/* public
            cp -r public/3.0.0-rc1/doc/* public/3.0.0-rc1
-           #mkdir public/3.0.0
-           #cp -r public/3.0.0-rc1/doc/* public/3.0.0
-
 
     - uses: actions/checkout@v3
       with:
