@@ -15,7 +15,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-14/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-15/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -41,7 +41,7 @@ PMDco at GitHub: https://github.com/materialdigital/core-ontology
 Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
-                                  owl:versionInfo "2026-01-14" .
+                                  owl:versionInfo "2026-01-15" .
 
 #################################################################
 #    Annotation properties
@@ -2107,6 +2107,12 @@ obo:CHEBI_33330 rdf:type owl:Class ;
 obo:CHEBI_33331 rdf:type owl:Class ;
                 rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "yttrium atom" .
+
+
+###  http://purl.obolibrary.org/obo/CHEBI_33336
+obo:CHEBI_33336 rdf:type owl:Class ;
+                rdfs:subClassOf obo:CHEBI_33319 ;
+                rdfs:label "lanthanum atom" .
 
 
 ###  http://purl.obolibrary.org/obo/CHEBI_33337
@@ -4788,9 +4794,11 @@ co:PMD_0000662 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000663
 co:PMD_0000663 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020003 ;
-               rdfs:label "Korn"@de ,
-                          "crystal grain"@en ;
-               skos:definition "A crystal grain is a crystal that is continuant part of a polycrystal."@en ;
+               rdfs:label "crystallite"@en ,
+                          "kristallit"@de ;
+               skos:altLabel "Korn"@de ,
+                             "grain"@en ;
+               skos:definition "A crystal grain is a crystal that is part of a polycrystal."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5611,7 +5619,11 @@ co:PMD_0000852 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000853
 co:PMD_0000853 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020131 ;
+               rdfs:subClassOf co:PMD_0020131 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:RO_0000080 ;
+                                 owl:someValuesFrom co:PMD_0020106
+                               ] ;
                rdfs:label "crystallographic texture"@en ;
                skos:definition "The crystallographic texture is a morphological quality describing the arrangement and orientation of grains in a metallic material, observed through crystallographic analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -8453,9 +8465,14 @@ co:PMD_0020105 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020106
 co:PMD_0020106 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000027 ;
+               rdfs:subClassOf co:PMD_0000890 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000051 ;
+                                 owl:someValuesFrom co:PMD_0000663
+                               ] ;
                rdfs:label "polycrystal"@en ;
-               skos:definition "Polycrystal is an object aggregate that has continuant part some crystal grains"@en ;
+               skos:altLabel "Polycrystalline structure"@en ;
+               skos:definition "Polycrystal is a connected object aggregate that has continuant part some crystal grains"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -9093,6 +9110,21 @@ co:PMD_0025012 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000583 ;
                rdfs:label "analytical calculation"@en ;
                skos:definition "Analytical calculation is a computing process which has value specification or measurement datum as a specified output. It applies a closed-form mathematical expression or formula to a set it specified inputs (value specifications) without requiring stochastic sampling, iterative numerical solving, or data-driven training."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025014
+co:PMD_0025014 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020003 ;
+               rdfs:comment "Single crystal is a crystal which is not part of a polycrystal and its boundaries are its exteral surfaces."@en ;
+               rdfs:label "single crystal"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025015
+co:PMD_0025015 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020140 ;
+               rdfs:comment "'portion of pure chemical element' and 'has part' only CHEBI:33336" ;
+               rdfs:label "portion of lanthanum"@en ;
+               skos:definition "A portion of lanthanum is a portion of pure substance that has parts only chebi:lanthanum atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025997
