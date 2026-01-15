@@ -12,11 +12,11 @@
 @base <https://w3id.org/pmd/co/> .
 
 <https://w3id.org/pmd/co/> rdf:type owl:Ontology ;
-                            owl:versionIRI <https://w3id.org/pmd/co/3.0.0-rc1> ;
-                            <http://purl.org/dc/terms/bibliographicCitation> "PMDco: Platform Material Digital Ontology. Version 3.0.0-rc1, https://w3id.org/pmd/co/" ;
-                            <http://purl.org/dc/terms/created> "2025-11-25" ;
-                            owl:priorVersion <https://w3id.org/pmd/co/3.0.0-alpha4> ;
-                            owl:versionInfo "3.0.0-rc1" .
+                            owl:versionIRI <https://w3id.org/pmd/co/3.0.0-rc2> ;
+                            <http://purl.org/dc/terms/bibliographicCitation> "PMDco: Platform Material Digital Ontology. Version 3.0.0-rc2, https://w3id.org/pmd/co/" ;
+                            <http://purl.org/dc/terms/created> "2026-01-15" ;
+                            owl:priorVersion <https://w3id.org/pmd/co/3.0.0-rc1> ;
+                            owl:versionInfo "3.0.0-rc2" .
 
 #################################################################
 #    Annotation properties
@@ -376,6 +376,21 @@ obo:RO_0000092 rdf:type owl:ObjectProperty ;
                rdfs:label "disposition of"@en .
 
 
+###  http://purl.obolibrary.org/obo/RO_0002234
+obo:RO_0002234 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:RO_0000057 ;
+               owl:inverseOf obo:RO_0002353 ;
+               obo:IAO_0000115 "p has output c iff c is a participant in p, c is present at the end of p, and c is not present in the same state at the beginning of p." ;
+               rdfs:label "has output"@en .
+
+
+###  http://purl.obolibrary.org/obo/RO_0002353
+obo:RO_0002353 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:RO_0000056 ;
+               obo:IAO_0000115 "inverse of has output" ;
+               rdfs:label "output of"@en .
+
+
 ###  http://purl.obolibrary.org/obo/STATO_0000102
 obo:STATO_0000102 rdf:type owl:ObjectProperty ;
                   owl:propertyChainAxiom ( obo:BFO_0000055
@@ -410,17 +425,8 @@ co:PMD_0001028 rdf:type owl:ObjectProperty ;
 co:PMD_0001029 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf owl:topObjectProperty ;
                rdfs:domain obo:BFO_0000017 ;
-               rdfs:range co:PMD_0000915 ;
                rdfs:label "responds with"@en ;
                skos:definition "The realizable entity must be \"stimulated\" by some Stimulus in order to respond with the Response. The bearer of the realizable entity must participate in Stimulation as well as in Response." .
-
-
-###  https://w3id.org/pmd/co/PMD_0001030
-co:PMD_0001030 rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf obo:BFO_0000054 ;
-               rdfs:range co:PMD_0000950 ;
-               rdfs:label "stimulated by"@en ;
-               skos:definition "inverse of stimulates"@en .
 
 
 #################################################################
@@ -1276,8 +1282,26 @@ obo:OBI_0001930 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000000
 co:PMD_0000000 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000001 ;
-               rdfs:comment "Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a Manufacturing Process may be SemiFinishedProdcuts."@en ,
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000001
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000053 ;
+                                                        owl:someValuesFrom co:PMD_0000005
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000086 ;
+                                                        owl:someValuesFrom co:PMD_0020131
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0002353 ;
+                                                        owl:someValuesFrom obo:BFO_0000015
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:comment "Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a manufacturing process may be (subclasses of) objects that bear a 'blank role' in the context of the manufacturing process."@en ,
+                            """Material is defined in terms of the three main perspectives that material specifications rely on: the structure of the material (\"intensive quality\"), the performance of the material (\"behavoiral material property\") and the processing the material must have undergone (\"output of some process\").
+
+When defining specific materials/material taxonomies, these three aspects shall be taken into account in the aristotelian (\"per genus et differentiam\") as differentiation."""@en ,
                             "The sum of portions of matter of the same type form a portion of matter of that type."@en ;
                rdfs:label "Material"@de ,
                           "material"@en ;
@@ -1312,6 +1336,10 @@ co:PMD_0000002 rdf:type owl:Class ;
 co:PMD_0000005 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000017 ,
                                [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000054 ;
+                                 owl:someValuesFrom co:PMD_0000950
+                               ] ,
+                               [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000052 ;
                                  owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
                                                                            [ rdf:type owl:Restriction ;
@@ -1321,10 +1349,6 @@ co:PMD_0000005 rdf:type owl:Class ;
                                                                          ) ;
                                                       rdf:type owl:Class
                                                     ]
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000052 ;
-                                 owl:allValuesFrom co:PMD_0000000
                                ] ;
                rdfs:comment """Technical materials are complex object aggregates. The properties that are determined for those object aggregates are intrinsically associated with the methodologies employed in the measurement process. This is in contrast to typical 'physical' properties, which like e.g. mass that can be determined to high accuracy independently of the measurement process. 
 As a consequence, the behavoiral material properties in the ontology are differeciated according to their measurement method, e.g. Brinell hardness and Vickers hardness are different types of indentation hardness rather than different measures/quantification (GDC) of the materials property 'indentation hardness'.
@@ -1394,7 +1418,7 @@ co:PMD_0000505 rdf:type owl:Class ;
 co:PMD_0000506 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000005 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001030 ;
+                                 owl:onProperty obo:BFO_0000054 ;
                                  owl:someValuesFrom co:PMD_0000517
                                ] ;
                rdfs:label "accoustic property"@en ;
@@ -1405,15 +1429,13 @@ co:PMD_0000506 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000512
 co:PMD_0000512 rdf:type owl:Class ;
                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                    ] ;
+                                     owl:onProperty co:PMD_0000077 ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass co:PMD_0020116
                                    ] ;
                rdfs:subClassOf co:PMD_0020131 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                ] ;
+                                 owl:onProperty co:PMD_0000077 ;
                                  owl:someValuesFrom co:PMD_0020116
                                ] ;
                rdfs:label "aggregate state"@en ;
@@ -1423,28 +1445,28 @@ co:PMD_0000512 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000517
 co:PMD_0000517 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000950 ;
+               rdfs:subClassOf obo:BFO_0000015 ;
                rdfs:label "application of accoustic wave"@en ;
                skos:definition "An application of (an) acoustic wave is an application of (a) mechanical load describing the use of sound waves in a material or system for testing or functional purposes."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000519
 co:PMD_0000519 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000950 ;
+               rdfs:subClassOf obo:BFO_0000015 ;
                rdfs:label "application of electric field"@en ;
                skos:definition "An application of (an) electric field is the process of subjecting a material to an electric field to observe its behavior or modify its properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000520
 co:PMD_0000520 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000950 ;
+               rdfs:subClassOf obo:BFO_0000015 ;
                rdfs:label "application of heat flux"@en ;
                skos:definition "An application of heat flux describes the process of transferring thermal energy to or from a material, often used in thermal property measurements."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000521
 co:PMD_0000521 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000950 ;
+               rdfs:subClassOf obo:BFO_0000015 ;
                rdfs:label "application of magnetic field"@en ;
                skos:definition "An application of (a) magnetic field is the process of subjecting a material to a magnetic field to study its magnetic properties or induce magnetization."@en .
 
@@ -1467,9 +1489,9 @@ co:PMD_0000526 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000535
 co:PMD_0000535 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:subClassOf co:PMD_0020164 ;
                rdfs:label "boiling point"@en ;
-               skos:definition "The boiling point is a phase boundary described by the temperature at which a liquid changes to a gas under standard atmospheric pressure."@en ;
+               skos:definition "The boiling point is a state of matter boundary realized by transition form the liquid state to the gaseous state (or vice versa)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -1659,15 +1681,13 @@ co:PMD_0000587 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000591
 co:PMD_0000591 rdf:type owl:Class ;
                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                    ] ;
+                                     owl:onProperty co:PMD_0000077 ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass co:PMD_0020099
                                    ] ;
                rdfs:subClassOf co:PMD_0020131 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                ] ;
+                                 owl:onProperty co:PMD_0000077 ;
                                  owl:someValuesFrom co:PMD_0020099
                                ] ;
                rdfs:label "crystal structure"@en ;
@@ -1813,7 +1833,7 @@ co:PMD_0000620 rdf:type owl:Class ;
 co:PMD_0000621 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000005 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001030 ;
+                                 owl:onProperty obo:BFO_0000054 ;
                                  owl:someValuesFrom co:PMD_0000519
                                ] ;
                rdfs:label "electrical property"@en ;
@@ -1927,9 +1947,11 @@ co:PMD_0000661 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000663
 co:PMD_0000663 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020003 ;
-               rdfs:label "Korn"@de ,
-                          "crystal grain"@en ;
-               skos:definition "A crystal grain is a crystal that is continuant part of a polycrystal."@en ;
+               rdfs:label "crystallite"@en ,
+                          "kristallit"@de ;
+               skos:altLabel "Korn"@de ,
+                             "grain"@en ;
+               skos:definition "A crystal grain is a crystal that is part of a polycrystal."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -2020,11 +2042,7 @@ co:PMD_0000812 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000825
 co:PMD_0000825 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000005 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001030 ;
-                                 owl:someValuesFrom co:PMD_0000521
-                               ] ;
+               rdfs:subClassOf co:PMD_0000005 ;
                rdfs:label "magnetic property"@en ;
                skos:definition "A magnetic property is a material property representing characteristics that describe how a material responds to magnetic fields, such as permeability and coercivity."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -2055,11 +2073,19 @@ co:PMD_0000833 rdf:type owl:Class ;
                owl:equivalentClass [ owl:intersectionOf ( obo:OBI_0000011
                                                           [ rdf:type owl:Restriction ;
                                                             owl:onProperty obo:OBI_0000293 ;
-                                                            owl:someValuesFrom obo:BFO_0000040
+                                                            owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                 owl:unionOf ( obo:BFO_0000027
+                                                                                               obo:BFO_0000030
+                                                                                             )
+                                                                               ]
                                                           ]
                                                           [ rdf:type owl:Restriction ;
                                                             owl:onProperty obo:OBI_0000299 ;
-                                                            owl:someValuesFrom obo:BFO_0000040
+                                                            owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                 owl:unionOf ( obo:BFO_0000027
+                                                                                               obo:BFO_0000030
+                                                                                             )
+                                                                               ]
                                                           ]
                                                         ) ;
                                      rdf:type owl:Class
@@ -2067,12 +2093,23 @@ co:PMD_0000833 rdf:type owl:Class ;
                rdfs:subClassOf obo:OBI_0000011 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:OBI_0000293 ;
-                                 owl:someValuesFrom obo:BFO_0000040
+                                 owl:someValuesFrom [ rdf:type owl:Class ;
+                                                      owl:unionOf ( obo:BFO_0000027
+                                                                    obo:BFO_0000030
+                                                                  )
+                                                    ]
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:OBI_0000299 ;
-                                 owl:someValuesFrom obo:BFO_0000040
+                                 owl:someValuesFrom [ rdf:type owl:Class ;
+                                                      owl:unionOf ( obo:BFO_0000027
+                                                                    obo:BFO_0000030
+                                                                  )
+                                                    ]
                                ] ;
+               rdfs:comment """Manufacturing processes alternate qualities of materials, i.e., a value specification of some quality of a material entity, which is a specified input to the process, cannot be the same as a value specification of the same quality of another material entity, which is a specified output of the process. 
+
+Unfortunately is is not possible to write down such axiom based on OWL. Semi-working solution are the temporally qualified continuants + SPARQL constrains."""@en ;
                rdfs:label "Herstellungsprozess"@de ,
                           "manufacturing process"@en ;
                skos:definition """A planned process that is driven by the primary intent to transform objects
@@ -2121,9 +2158,9 @@ TODO: Check general class axiom and defintion altogether !!!"""@en ;
 
 ###  https://w3id.org/pmd/co/PMD_0000851
 co:PMD_0000851 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:subClassOf co:PMD_0020164 ;
                rdfs:label "melting point"@en ;
-               skos:definition "The melting point is a phase boundary described by the temperature at which a solid becomes a liquid under standard atmospheric pressure."@en ;
+               skos:definition "The melting point is a state of matter boundary realized by transition form the solid state to the liquid state (or vice versa)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -2152,7 +2189,11 @@ co:PMD_0000852 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000853
 co:PMD_0000853 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020131 ;
+               rdfs:subClassOf co:PMD_0020131 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:RO_0000080 ;
+                                 owl:someValuesFrom co:PMD_0020106
+                               ] ;
                rdfs:label "crystallographic texture"@en ;
                skos:definition "The crystallographic texture is a morphological quality describing the arrangement and orientation of grains in a metallic material, observed through crystallographic analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -2177,7 +2218,7 @@ co:PMD_0000861 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000864
 co:PMD_0000864 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000005 ;
+               rdfs:subClassOf obo:BFO_0000019 ;
                rdfs:label "morphological property"@en ;
                skos:definition "A morphological property is a material property representing the characteristics of a material's structure, such as shape, size, and distribution of its features."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -2193,14 +2234,14 @@ co:PMD_0000868 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000869
 co:PMD_0000869 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000915 ;
+               rdfs:subClassOf obo:BFO_0000015 ;
                rdfs:label "occurence of chemical reaction"@en ;
                skos:definition "The occurrence of (a) chemical reaction is the process in which substances interact to form new chemical compounds or alter their molecular structure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000870
 co:PMD_0000870 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000915 ;
+               rdfs:subClassOf obo:BFO_0000015 ;
                rdfs:label "occurence of electic field"@en ;
                skos:definition "The occurrence of (an) electric field is a process describing the presence or generation of an electric field in a material or system."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -2208,7 +2249,7 @@ co:PMD_0000870 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000871
 co:PMD_0000871 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000915 ;
+               rdfs:subClassOf obo:BFO_0000015 ;
                rdfs:label "occurence of magnetic field"@en ;
                skos:definition "The occurrence of (a) magenetic field is a process describing the presence or generation of a magnetic field in a material or system."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -2218,7 +2259,7 @@ co:PMD_0000871 rdf:type owl:Class ;
 co:PMD_0000877 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000005 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001030 ;
+                                 owl:onProperty obo:BFO_0000054 ;
                                  owl:someValuesFrom co:PMD_0001008
                                ] ;
                rdfs:label "optical property"@en ;
@@ -2236,25 +2277,9 @@ co:PMD_0000880 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000882
 co:PMD_0000882 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000864 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:BFO_0000054 ;
-                                 owl:someValuesFrom co:PMD_0000547
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001029 ;
-                                 owl:someValuesFrom co:PMD_0000549
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001030 ;
-                                 owl:someValuesFrom co:PMD_0000520
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001030 ;
-                                 owl:someValuesFrom co:PMD_0000523
-                               ] ;
-               rdfs:label "phase boundary"@en ;
-               skos:definition "A phase boundary is a morphological property denoting the interface between two distinct phases of a material, such as solid-liquid or liquid-gas boundaries."@en ;
+               rdfs:subClassOf obo:BFO_0000017 ;
+               rdfs:label "phase boundary (realization)"@en ;
+               skos:definition "A phase boundary is a realizable entity that is realized by the transition between distinct phases."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -2268,23 +2293,16 @@ co:PMD_0000884 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000885
 co:PMD_0000885 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000834 ,
-                               [ owl:intersectionOf ( co:PMD_0000834
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000834
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty [ owl:inverseOf obo:RO_0000059
-                                                                       ] ;
+                                                        owl:onProperty obo:RO_0000058 ;
                                                         owl:someValuesFrom co:PMD_0000853
                                                       ]
                                                     ) ;
                                  rdf:type owl:Class
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:RO_0000059
-                                                ] ;
-                                 owl:someValuesFrom co:PMD_0000853
                                ] ;
                rdfs:label "pole figure"@en ;
-               skos:definition "A pole figure is a map representing a graphical representation of the orientation of crystallographic planes in a polycrystalline sample."@en ;
+               skos:definition "A pole figure is a map depicting a 2D stereographic projection which represents crystallographic orientations of grains in a polycrystalline material in respect to the sample's reference frame."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -2364,14 +2382,6 @@ co:PMD_0000911 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000877 ;
                rdfs:label "reflectivity"@en ;
                skos:definition "The reflectivity is an optical property that describes the proportion of incident light or radiation that a material reflects."@en ;
-               co:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0000915
-co:PMD_0000915 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000015 ;
-               rdfs:label "responding process"@en ;
-               skos:definition "The responding process is a process describing the reaction of a material or system to an applied stimulus."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -2474,7 +2484,41 @@ co:PMD_0000949 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000950
 co:PMD_0000950 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000015 ;
+               owl:equivalentClass [ owl:intersectionOf ( obo:BFO_0000015
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:BFO_0000055 ;
+                                                            owl:someValuesFrom [ owl:intersectionOf ( [ rdf:type owl:Class ;
+                                                                                                        owl:unionOf ( obo:BFO_0000016
+                                                                                                                      co:PMD_0000005
+                                                                                                                    )
+                                                                                                      ]
+                                                                                                      [ rdf:type owl:Restriction ;
+                                                                                                        owl:onProperty obo:RO_0000052 ;
+                                                                                                        owl:someValuesFrom co:PMD_0000001
+                                                                                                      ]
+                                                                                                    ) ;
+                                                                                 rdf:type owl:Class
+                                                                               ]
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf obo:BFO_0000015 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000055 ;
+                                 owl:someValuesFrom [ owl:intersectionOf ( [ rdf:type owl:Class ;
+                                                                             owl:unionOf ( obo:BFO_0000016
+                                                                                           co:PMD_0000005
+                                                                                         )
+                                                                           ]
+                                                                           [ rdf:type owl:Restriction ;
+                                                                             owl:onProperty obo:RO_0000052 ;
+                                                                             owl:someValuesFrom co:PMD_0000001
+                                                                           ]
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ]
+                               ] ;
                rdfs:label "stimulating process"@en ;
                skos:definition "The stimulating process is a process describing the application of an external influence, such as force, heat, or radiation, to study material response."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -2539,9 +2583,9 @@ co:PMD_0000960 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000961
 co:PMD_0000961 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:subClassOf co:PMD_0020164 ;
                rdfs:label "sublimation point"@en ;
-               skos:definition "The sublimation point is a phase boundary that describes the temperature at which a material transitions directly from a solid to a gaseous state without passing through the liquid phase."@en ;
+               skos:definition "The sublimation point is a state of matter boundary realized by transition form the solid state to the gaseous state (or vice versa)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -2594,11 +2638,7 @@ co:PMD_0000971 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000972
 co:PMD_0000972 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000005 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001030 ;
-                                 owl:someValuesFrom co:PMD_0000880
-                               ] ;
+               rdfs:subClassOf co:PMD_0000005 ;
                rdfs:label "temporal property"@en ;
                skos:definition "A temporal property is a material property that represents attributes related to the time-dependent behavior of a material or process."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -2636,7 +2676,7 @@ co:PMD_0000980 rdf:type owl:Class ;
 co:PMD_0000981 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000005 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty co:PMD_0001030 ;
+                                 owl:onProperty obo:BFO_0000054 ;
                                  owl:someValuesFrom co:PMD_0000520
                                ] ;
                rdfs:label "thermal property"@en ;
@@ -2654,9 +2694,9 @@ co:PMD_0000992 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000996
 co:PMD_0000996 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:subClassOf co:PMD_0020164 ;
                rdfs:label "triple point"@en ;
-               skos:definition "The triple point is a phase boundary described by the specific temperature and pressure at which three phases of a substance coexist in equilibrium."@en ;
+               skos:definition "The triple point is a state of matter point realized by transition form the solid state to the liquid state or the the gaseous state (or vice versa)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -2675,25 +2715,6 @@ co:PMD_0001013 rdf:type owl:Class ;
                skos:definition "A subfunction of joining performed to fuse materials together using welding techniques."@en ,
                                "Eine Unterfunktion des Verbindens, die durchgeführt wird, um Materialien durch Schweißtechniken zu verbinden."@de ;
                co:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0001998
-co:PMD_0001998 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0000602
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty obo:RO_0000085 ;
-                                                            owl:someValuesFrom co:PMD_0000592
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf co:PMD_0000602 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000085 ;
-                                 owl:someValuesFrom co:PMD_0000592
-                               ] ;
-               rdfs:label "cutting device"@en ;
-               skos:definition "A device designed to cut, slice, divide, or sever objects."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020000
@@ -2730,22 +2751,25 @@ co:PMD_0020003 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020004
 co:PMD_0020004 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( obo:IAO_0000030
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty obo:RO_0000058 ;
-                                                            owl:someValuesFrom co:PMD_0025001
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf obo:IAO_0000030 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000058 ;
-                                 owl:someValuesFrom co:PMD_0025001
+               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000030
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:someValuesFrom co:PMD_0025001
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
                                ] ;
                rdfs:label "composition specification"@en ;
                skos:definition "Composition specification is an information content entity that is conretized by  composition of a portion of matter and has memebers fraction specifications of portions of other matters (but not chemical elements) of which the whole portion of matter consists of (has parts)."@en ;
                skos:example "Nitric acid solution has quality  composition , which concretizes the composition specification .The composition specification has parts fraction specifications of nitric acid, e.g., 4 vol.%, and distilled water. These fraction specifications specify value of pure substances of nitric acid and distilled water, respectively. Furthermore, these fraction specifications are conretized by relational qualities (volume) proportion of nitric acid and (volume) proportion of distilled water."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020005
+co:PMD_0020005 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0020131 ;
+               rdfs:label "porosity"@en ;
+               skos:definition "The porosity is a quality describing the fraction of the materials (enclosing) spatial region occupied by pores."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -2763,7 +2787,7 @@ co:PMD_0020023 rdf:type owl:Class ;
                                    ] ;
                rdfs:subClassOf obo:OBI_0001930 ;
                rdfs:label "metallic grain structures"@en ;
-               skos:definition "Metallic grain structures are descriptors for the morphology of polycrystalline metallic materials. Polycrystalline metallic materials will typically form their grain structures as one of those categories or a transition or mixture state of those."@en ;
+               skos:definition "The metallic grain structures is a categorical value specification that specifies value of the  metallic grain structure quality. It describes the morphology of polycrystalline metallic materials. Polycrystalline metallic materials will typically form their grain structures as one of those categories or a transition or mixture state of those."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -3897,7 +3921,7 @@ co:PMD_0020098 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000031 ;
                rdfs:label "nature constant"@en ;
                skos:definition "A nature constant is a generically dependent continuant whose value, magintude or configuration is determined by nature including physics and mathematics."@en ;
-               skos:example "Examples of nature constants are the speed of light, pi, and the 14 Bravais lattices."@en ;
+               skos:example "Examples of nature constants are the speed of light, pi, etc."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -3921,12 +3945,11 @@ co:PMD_0020099 rdf:type owl:Class ;
                                                )
                                    ] ;
                rdfs:subClassOf obo:OBI_0001930 ;
-               rdfs:label "bravais lattice (3d)"@en ;
-               skos:definition """The Bravais Lattice is a nature constant that describes the possible geometric arrangement of lattice points in a crystal. The present descriptor is limited to the 14 possible three-dimensional arrangements. 
-
-TODO: possibly extend for 2D (Graphene etc)
+               rdfs:comment """TODO: possibly extend for 2D (Graphene etc)
 
 More elaborate crystal descriptions may be found in http://emmo.info/domain-crystallography/crystallography or https://purls.helmholtz-metadaten.de/disos/cso"""@en ;
+               rdfs:label "bravais lattice (3d)"@en ;
+               skos:definition "The Bravais lattice is a categorical value specification that specifies value of the crystal structure quality. It describes the possible geometric arrangement of lattice points in a crystal. The present descriptor is limited to the 14 possible three-dimensional arrangements."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -3978,9 +4001,14 @@ co:PMD_0020105 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020106
 co:PMD_0020106 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000027 ;
+               rdfs:subClassOf co:PMD_0000890 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000051 ;
+                                 owl:someValuesFrom co:PMD_0000663
+                               ] ;
                rdfs:label "polycrystal"@en ;
-               skos:definition "Polycrystal is an object aggregate that has continuant part some crystal grains"@en ;
+               skos:altLabel "Polycrystalline structure"@en ;
+               skos:definition "Polycrystal is a connected object aggregate that has continuant part some crystal grains"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4026,7 +4054,7 @@ co:PMD_0020116 rdf:type owl:Class ;
                                    ] ;
                rdfs:subClassOf obo:OBI_0001930 ;
                rdfs:label "aggregate state value"@en ;
-               skos:definition "The aggregate state type is a nature constant that concretizes the aggregatge state quality."@en ;
+               skos:definition "The aggregate state value is a categorical value specification that specifies value of the aggregatge state quality."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4062,7 +4090,7 @@ co:PMD_0020129 rdf:type owl:Class ;
 co:PMD_0020130 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000145 ;
                rdfs:label "driving force of phase in system"@en ;
-               skos:definition "The driving force is the the gradient of the activity of a phase in a thermodynamic system."@en ;
+               skos:definition "Driving force is relational property between two material entities, the species and the material (system). The driving force is a factor that promotes a physical process or (eletro-)chemical reaction in a material (system) to occur and proceed towards completion. It can be quantified as the gradient of the activity of the participating species."@en ;
                skos:example "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -4134,7 +4162,7 @@ co:PMD_0020142 rdf:type owl:Class ;
 co:PMD_0020147 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:comment "It is defined on the phase diagram at fixed composition and typically proceeds by diffusion‑controlled nucleation and growth (e.g., γ → α + Fe3C producing pearlite in steels)."@en ;
-               rdfs:label "eutectoid phase transformation"@de ;
+               rdfs:label "eutectoid phase transformation"@en ;
                skos:definition "A eutectoid phase transformation is a phase transformation in which a solid parent phase of eutectoid composition decomposes into two distinct solid daughter phases at constant temperature and pressure."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -4166,7 +4194,8 @@ co:PMD_0020150 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020151
 co:PMD_0020151 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020148 ;
+               rdfs:subClassOf co:PMD_0020142 ;
+               owl:disjointWith co:PMD_0020155 ;
                rdfs:label "internal energy"@en ;
                skos:definition "Internal energy is a universal extensive quality that specifies the bearers potential to do work."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -4176,14 +4205,14 @@ co:PMD_0020151 rdf:type owl:Class ;
 co:PMD_0020154 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:comment "It proceeds by nucleation and growth."@en ;
-               rdfs:label "precipitation (phase)"@de ;
+               rdfs:label "precipitation (phase)"@en ;
                skos:definition "Precipitation from a supersaturated solid solution is a phase transformation process in which a single supersaturated parent phase decomposes into a solute‑depleted matrix and dispersed, compositionally distinct precipitate phases."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020155
 co:PMD_0020155 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020148 ;
+               rdfs:subClassOf co:PMD_0020142 ;
                rdfs:label "interatomic interaction energy"@en ;
                skos:definition "Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -4193,7 +4222,7 @@ co:PMD_0020155 rdf:type owl:Class ;
 co:PMD_0020156 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:comment "It is marked on phase diagrams by a peritectic point and proceeds by an interfacial, diffusion‑controlled reaction that is often kinetically sluggish, leading to incomplete transformation or complex microstructures during solidification."@en ;
-               rdfs:label "peritectic phase transformation"@de ;
+               rdfs:label "peritectic phase transformation"@en ;
                skos:definition "A peritectic phase transformation is a phase transformation in which a liquid parent phase and an existing solid phase react on cooling to form a different solid phase (L + α → β)."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -4202,7 +4231,7 @@ co:PMD_0020156 rdf:type owl:Class ;
 co:PMD_0020157 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
                rdfs:comment "Unlike nucleation and growth transformations, it has no nucleation barrier and proceeds by uphill diffusion and wavelength‑selective amplification of composition modulations, producing an interconnected, compositionally modulated microstructure that coarsens over time."@en ;
-               rdfs:label "spinodal decomposition"@de ;
+               rdfs:label "spinodal decomposition"@en ;
                skos:definition "Spinodal decomposition is a diffusion‑controlled  continuous phase transformation in which a single homogeneous solutionspontaneously separates into two compositionally distinct phases by amplification of infinitesimal concentration fluctuations."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -4221,29 +4250,32 @@ Martensite is a microconstituent that has as part the thermodynamic ferrite phas
 
 ###  https://w3id.org/pmd/co/PMD_0020161
 co:PMD_0020161 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020148 ;
-               obo:IAO_0000116 "Definition not final"@en ;
-               rdfs:comment """Typical configuration independent contributions to the free energy are temperature, pressure, chemical composition and magnetic contributions.
-
-Typical configuration dependent contributions are interface energy contributions."""@en ;
-               rdfs:label "activity of a phase"@en ;
-               skos:definition "Quality of a thermodynamic phase that characterizes its free energy."@en .
+               rdfs:subClassOf obo:BFO_0000145 ;
+               rdfs:label "activity (thermodynamic)"@en ;
+               skos:definition "Activity (a_X) is a relational property between a chemical species X and a non-ideal solution. a_X is a measure of the effective concentration of a chemical species X in the non-ideal solution, accounting for interactions between particles. It is defined as the product of the concentration and an activity coefficient, where the activity coefficient corrects for non-ideal behavior."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020162
 co:PMD_0020162 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0000008 ;
-               obo:IAO_0000116 "Definition not final"@en ;
                rdfs:label "activation energy"@en ;
-               skos:definition "Process attribute characterizing the kinetics of a phase transformation (aka chemical reaction)."@en ;
+               skos:definition "Activation energy (E_a) a process attribute characterizing the minimum amount of energy required to initiate a reaction, allowing educts to overcome an energy barrier to transform into products."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020163
 co:PMD_0020163 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020136 ;
-               rdfs:label "eutectic phase transformation"@de ;
+               rdfs:label "eutectic phase transformation"@en ;
                skos:definition "A eutectic phase transformation is a phase transformation in which a liquid parent phase decomposes into two distinct solid daughter phases at constant temperature and pressure."@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020164
+co:PMD_0020164 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000882 ;
+               rdfs:label "state of matter boundary"@en ;
+               skos:definition "A state of matter boundary is a phase boundary that is realized by the transition from one aggregate state to another aggregate state."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4308,18 +4340,13 @@ co:PMD_0025001 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025002
 co:PMD_0025002 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( obo:IAO_0000030
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty obo:RO_0000058 ;
-                                                            owl:someValuesFrom co:PMD_0000551
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:subClassOf co:PMD_0020004 ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty obo:RO_0000058 ;
-                                 owl:someValuesFrom co:PMD_0000551
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0020004
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:someValuesFrom co:PMD_0000551
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
                                ] ;
                rdfs:label "chemical composition specification"@en ;
                skos:definition "Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts)."@en ;
@@ -4330,15 +4357,13 @@ co:PMD_0025002 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0025003
 co:PMD_0025003 rdf:type owl:Class ;
                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                     owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                    ] ;
+                                     owl:onProperty co:PMD_0000077 ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass co:PMD_0020023
                                    ] ;
                rdfs:subClassOf co:PMD_0020131 ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf obo:OBI_0001927
-                                                ] ;
+                                 owl:onProperty co:PMD_0000077 ;
                                  owl:someValuesFrom co:PMD_0020023
                                ] ;
                rdfs:label "metallic grain structure"@en ;
@@ -5941,7 +5966,6 @@ co:PMD_0020125 rdf:type owl:NamedIndividual ;
 [ rdf:type owl:AllDisjointClasses ;
   owl:members ( co:PMD_0000503
                 co:PMD_0000512
-                co:PMD_0000551
                 co:PMD_0000591
                 co:PMD_0000595
                 co:PMD_0000597
@@ -5949,37 +5973,7 @@ co:PMD_0020125 rdf:type owl:NamedIndividual ;
                 co:PMD_0000896
                 co:PMD_0000942
                 co:PMD_0000967
-                co:PMD_0020112
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000503
-                co:PMD_0000512
-                co:PMD_0000591
-                co:PMD_0000595
-                co:PMD_0000597
-                co:PMD_0000853
-                co:PMD_0000896
-                co:PMD_0000942
-                co:PMD_0000967
-                co:PMD_0020112
-                co:PMD_0025001
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000503
-                co:PMD_0000512
-                co:PMD_0000591
-                co:PMD_0000595
-                co:PMD_0000597
-                co:PMD_0000853
-                co:PMD_0000896
-                co:PMD_0000942
-                co:PMD_0000967
+                co:PMD_0020005
                 co:PMD_0020112
                 co:PMD_0025001
                 co:PMD_0025003
@@ -6009,36 +6003,11 @@ co:PMD_0020125 rdf:type owl:NamedIndividual ;
 
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000549
-                co:PMD_0000596
-                co:PMD_0000629
-                co:PMD_0000869
-                co:PMD_0000870
-                co:PMD_0000871
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
   owl:members ( co:PMD_0000553
                 co:PMD_0000619
                 co:PMD_0020132
                 co:PMD_0020133
                 co:PMD_0020142
-                co:PMD_0020151
-                co:PMD_0020155
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( co:PMD_0000553
-                co:PMD_0000619
-                co:PMD_0020132
-                co:PMD_0020133
-                co:PMD_0020142
-                co:PMD_0020151
-                co:PMD_0020155
                 co:PMD_0020161
                 co:PMD_0050155
               )

@@ -8,14 +8,15 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:doap="http://usefulinc.com/ns/doap#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:terms="http://purl.org/dc/terms/"
      xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#">
     <owl:Ontology rdf:about="https://w3id.org/pmd/co/">
-        <owl:versionIRI rdf:resource="https://w3id.org/pmd/co/3.0.0-rc1"/>
-        <terms:bibliographicCitation>PMDco: Platform Material Digital Ontology. Version 3.0.0-rc1, https://w3id.org/pmd/co/</terms:bibliographicCitation>
-        <terms:created>2025-11-25</terms:created>
+        <owl:versionIRI rdf:resource="https://w3id.org/pmd/co/3.0.0-rc2"/>
+        <terms:bibliographicCitation>PMDco: Platform Material Digital Ontology. Version 3.0.0-rc2, https://w3id.org/pmd/co/</terms:bibliographicCitation>
+        <terms:created>2026-01-15</terms:created>
         <terms:creator rdf:resource="https://orcid.org/0000-0001-6772-1943"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0001-7192-7143"/>
         <terms:creator rdf:resource="https://orcid.org/0000-0002-1058-3102"/>
@@ -41,8 +42,9 @@ PMDco at GitHub: https://github.com/materialdigital/core-ontology
 Documentation: https://materialdigital.github.io/core-ontology/docs/</terms:description>
         <terms:license rdf:resource="https://creativecommons.org/licenses/by/4.0/"/>
         <terms:title>PMD Core Ontology</terms:title>
-        <owl:priorVersion rdf:resource="https://w3id.org/pmd/co/3.0.0-alpha4"/>
-        <owl:versionInfo>3.0.0-rc1</owl:versionInfo>
+        <doap:repository rdf:resource="https://github.com/materialdigital/core-ontology"/>
+        <owl:priorVersion rdf:resource="https://w3id.org/pmd/co/3.0.0-rc1"/>
+        <owl:versionInfo>3.0.0-rc2</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -198,6 +200,12 @@ We also have the outstanding issue of how to aim different definitions to differ
     <!-- http://purl.org/dc/terms/title -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
+    
+
+
+    <!-- http://usefulinc.com/ns/doap#repository -->
+
+    <owl:AnnotationProperty rdf:about="http://usefulinc.com/ns/doap#repository"/>
     
 
 
@@ -1129,6 +1137,19 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
     
 
 
+    <!-- http://purl.obolibrary.org/obo/RO_0002350 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/RO_0002350">
+        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000050"/>
+        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0002351"/>
+        <obo:IAO_0000112>An organism that is a member of a population of organisms</obo:IAO_0000112>
+        <obo:IAO_0000115>is member of is a mereological relation between a item and a collection.</obo:IAO_0000115>
+        <obo:IAO_0000119>SIO</obo:IAO_0000119>
+        <rdfs:label xml:lang="en">member of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://purl.obolibrary.org/obo/RO_0002351 -->
 
     <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/RO_0002351">
@@ -1207,8 +1228,9 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
     <!-- https://w3id.org/pmd/co/PMD_0000009 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0000009">
+        <owl:inverseOf rdf:resource="https://w3id.org/pmd/co/PMD_0025006"/>
         <rdfs:range rdf:resource="https://w3id.org/pmd/co/PMD_0000008"/>
-        <rdfs:label xml:lang="de">has process attribute</rdfs:label>
+        <rdfs:label xml:lang="en">has process attribute</rdfs:label>
         <rdfs:seeAlso xml:lang="en">has process attribute from OEO https://openenergyplatform.org/ontology/oeo/OEO_00000500</rdfs:seeAlso>
         <skos:definition xml:lang="en">A relation between a process and a process attribute that depends on it.</skos:definition>
         <skos:example xml:lang="en">Tensile testing process has process attribute tensile rate</skos:example>
@@ -1273,32 +1295,8 @@ Werner suggests a solution based on &quot;Magnitudes&quot; a proposal for which 
     <!-- https://w3id.org/pmd/co/PMD_0001029 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0001029">
-        <rdfs:range rdf:resource="https://w3id.org/pmd/co/PMD_0000915"/>
         <rdfs:label xml:lang="en">responds with</rdfs:label>
         <skos:definition>The realizable entity must be &quot;stimulated&quot; by some Stimulus in order to respond with the Response. The bearer of the realizable entity must participate in Stimulation as well as in Response.</skos:definition>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0001030 -->
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0001030">
-        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
-        <rdfs:range rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
-        <rdfs:label xml:lang="en">stimulated by</rdfs:label>
-        <skos:definition xml:lang="en">inverse of stimulates</skos:definition>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0001031 -->
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0001031">
-        <rdfs:subPropertyOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000055"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
-        <rdfs:range rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
-        <rdfs:label xml:lang="en">stimulates</rdfs:label>
-        <skos:definition xml:lang="en">A relation between a stimulating process and material property, where there is some material entity that is bearer of the material property and participates in the stimulating process, and the material property comes to be realized in the course of the stimulating process.</skos:definition>
     </owl:ObjectProperty>
     
 
@@ -1352,6 +1350,25 @@ An example of such case can be &quot;Temperature of during the annealing process
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0025006 -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025006">
+        <rdfs:label xml:lang="en">process attribute of</rdfs:label>
+        <skos:definition xml:lang="en">A relation between a process attribute and a process, which &quot;bears&quot; the attribute.</skos:definition>
+        <skos:example xml:lang="en">Tensile rate is a process attribute of tensile test</skos:example>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025013 -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025013">
+        <rdfs:label xml:lang="en">changes quality</rdfs:label>
+        <skos:definition xml:lang="en">indicates that a process changes a quality</skos:definition>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0025998 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025998">
@@ -1370,6 +1387,10 @@ An example of such case can be &quot;Temperature of during the annealing process
     <!-- https://w3id.org/pmd/co/PMD_0025999 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025999">
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025999"/>
+            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000050"/>
+        </owl:propertyChainAxiom>
         <obo:IAO_0000116 xml:lang="en">The &apos;relational quality of&apos; is more strict that &apos;quality of&apos; from RO, since domain is &apos;relational quality&apos;. The motivtion to introduce an object property for relational qualities is the following:
 RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c. The functionality is relevant for most of the SDC -&gt; IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in &gt;=2 ICs. Thus,  &apos;relational quality of&apos;  has the same intention to connect SDC to IC, however, without cardinality constraints.</obo:IAO_0000116>
         <rdfs:label xml:lang="en">relational quality of</rdfs:label>
@@ -1399,6 +1420,26 @@ RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c.
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0001857 -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/pmd/co/PMD_0001857">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/pmd/co/PMD_0000006"/>
+        <rdfs:label xml:lang="en">has parameter position</rdfs:label>
+        <skos:definition xml:lang="en">specifies the position of a parameter in a programming function</skos:definition>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0001877 -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/pmd/co/PMD_0001877">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/pmd/co/PMD_0000006"/>
+        <rdfs:label xml:lang="en">has default literal value</rdfs:label>
+        <skos:definition xml:lang="en">specifies a default value</skos:definition>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1414,7 +1455,22 @@ RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c.
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000000">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000001"/>
-        <rdfs:comment xml:lang="en">Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a Manufacturing Process may be SemiFinishedProdcuts.</rdfs:comment>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000053"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Instances of Portions Of Matter whose shape is relevant for their dispostion to participate in a manufacturing process may be (subclasses of) objects that bear a &apos;blank role&apos; in the context of the manufacturing process.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Material is defined in terms of the three main perspectives that material specifications rely on: the structure of the material (&quot;intensive quality&quot;), the performance of the material (&quot;behavoiral material property&quot;) and the processing the material must have undergone (&quot;output of some process&quot;).
+
+When defining specific materials/material taxonomies, these three aspects shall be taken into account in the aristotelian (&quot;per genus et differentiam&quot;) as differentiation.</rdfs:comment>
         <rdfs:comment xml:lang="en">The sum of portions of matter of the same type form a portion of matter of that type.</rdfs:comment>
         <rdfs:label xml:lang="de">Material</rdfs:label>
         <rdfs:label xml:lang="en">material</rdfs:label>
@@ -1457,8 +1513,8 @@ granularity. At these coarser levels, the individual molecules cannot be differe
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000005">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000052"/>
-                <owl:allValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000000"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment xml:lang="en">Technical materials are complex object aggregates. The properties that are determined for those object aggregates are intrinsically associated with the methodologies employed in the measurement process. This is in contrast to typical &apos;physical&apos; properties, which like e.g. mass that can be determined to high accuracy independently of the measurement process. 
@@ -1503,6 +1559,104 @@ Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subcl
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0000010 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000010">
+        <rdfs:label xml:lang="en">workflow function</rdfs:label>
+        <skos:definition xml:lang="en">A plan specification representing a callable software method that prescribes a specific computational action, including execution instructions and a defined set of input and output specifications.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000011 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000011">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000583"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000066"/>
+                                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000067"/>
+                                </owl:unionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000059"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000010"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">workflow node</rdfs:label>
+        <skos:definition xml:lang="en">A computing process that executes a workflow function within a workflow run, consuming input data and producing output data according to the function’s specifications.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000012 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000012">
+        <rdfs:label xml:lang="en">workflow definition</rdfs:label>
+        <skos:definition xml:lang="en">A plan specification that prescribes the ordered application of one or more workflow functions, including their interconnections via input and output specifications, in order to achieve a specified computational objective.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000013 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000013">
+        <rdfs:label xml:lang="en">parameter specification</rdfs:label>
+        <skos:definition xml:lang="en">A directive information entity that specifies a parameter required or produced by a workflow function, including its intended role, position, and constraints.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000014 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000014">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000013"/>
+        <rdfs:label xml:lang="en">input specification</rdfs:label>
+        <skos:definition xml:lang="en">A parameter specification that prescribes a data item required as input for the execution of a workflow function.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000015 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000015">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000013"/>
+        <rdfs:label xml:lang="en">output specification</rdfs:label>
+        <skos:definition xml:lang="en">A parameter specification that prescribes a data item intended to be produced as output by the execution of a workflow function.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000016 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000016">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000583"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000059"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000012"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">workflow run</rdfs:label>
+        <skos:definition xml:lang="en">A computing process that realizes a workflow definition by executing its prescribed workflow nodes in a concrete temporal order, consuming and producing specific data items.</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0000051 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000051">
@@ -1521,7 +1675,7 @@ Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subcl
     <!-- https://w3id.org/pmd/co/PMD_0000053 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000053">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000833"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000547"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/OBI_0000299"/>
@@ -1724,7 +1878,7 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000517"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -1738,6 +1892,12 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
     <!-- https://w3id.org/pmd/co/PMD_0000507 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000507">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000506"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Akustische Eigenschaften Analyseverfahren</rdfs:label>
         <rdfs:label xml:lang="en">acoustical property analyzing process</rdfs:label>
         <skos:definition xml:lang="en">An assay, that measures the acoustic properties of materials by analyzing how sound waves interact with the material. This process involves generating sound waves and observing their reflection, transmission, absorption, or scattering to determine properties such as acoustic impedance, absorption coefficient, and sound speed.</skos:definition>
@@ -1791,11 +1951,7 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty>
-                    <rdf:Description>
-                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
-                    </rdf:Description>
-                </owl:onProperty>
+                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020116"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -1842,7 +1998,6 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
     <!-- https://w3id.org/pmd/co/PMD_0000519 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000519">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">application of electric field</rdfs:label>
         <skos:definition xml:lang="en">An application of (an) electric field is the process of subjecting a material to an electric field to observe its behavior or modify its properties.</skos:definition>
     </owl:Class>
@@ -1852,7 +2007,6 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
     <!-- https://w3id.org/pmd/co/PMD_0000520 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000520">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">application of heat flux</rdfs:label>
         <skos:definition xml:lang="en">An application of heat flux describes the process of transferring thermal energy to or from a material, often used in thermal property measurements.</skos:definition>
     </owl:Class>
@@ -1862,7 +2016,6 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
     <!-- https://w3id.org/pmd/co/PMD_0000521 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000521">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">application of magnetic field</rdfs:label>
         <skos:definition xml:lang="en">An application of (a) magnetic field is the process of subjecting a material to a magnetic field to study its magnetic properties or induce magnetization.</skos:definition>
     </owl:Class>
@@ -1872,7 +2025,6 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
     <!-- https://w3id.org/pmd/co/PMD_0000522 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000522">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000950"/>
         <rdfs:label xml:lang="en">application of mechanical load</rdfs:label>
         <skos:definition xml:lang="en">An application of mechanical load is the process of applying force or stress to a material to observe its response or measure its properties.</skos:definition>
     </owl:Class>
@@ -2011,9 +2163,9 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
     <!-- https://w3id.org/pmd/co/PMD_0000535 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000535">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000882"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020164"/>
         <rdfs:label xml:lang="en">boiling point</rdfs:label>
-        <skos:definition xml:lang="en">The boiling point is a phase boundary described by the temperature at which a liquid changes to a gas under standard atmospheric pressure.</skos:definition>
+        <skos:definition xml:lang="en">The boiling point is a state of matter boundary realized by transition form the liquid state to the gaseous state (or vice versa).</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -2193,6 +2345,12 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000552">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000957"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000551"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Analyseverfahren für die chemische Zusammensetzung</rdfs:label>
         <rdfs:label xml:lang="en">chemical composition analyzing process</rdfs:label>
         <skos:definition xml:lang="en">A Structural Property Analyzing Process that determines the chemical composition of a material by identifying and quantifying its constituent elements and compounds.</skos:definition>
@@ -2239,6 +2397,18 @@ https://github.com/pyiron/semantikon/pull/278</PMD_0001032>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000556">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000957"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020101"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0025001"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Chromatographieverfahren</rdfs:label>
         <rdfs:label xml:lang="en">chromatography process</rdfs:label>
         <skos:definition xml:lang="en">A Structural Property Analyzing Process that enables the separation and analysis of compounds in a mixture by their distribution between a mobile and a stationary phase.</skos:definition>
@@ -2710,11 +2880,7 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty>
-                    <rdf:Description>
-                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
-                    </rdf:Description>
-                </owl:onProperty>
+                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020099"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -2916,6 +3082,12 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000611">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000957"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020132"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Dimensions Messprozess</rdfs:label>
         <rdfs:label xml:lang="en">dimension measuring process</rdfs:label>
         <skos:definition xml:lang="en">A Structural Property Analyzing Process that determines the physical dimensions of a material or object, such as length, width, height, diameter, and thickness, with high accuracy and precision.</skos:definition>
@@ -3042,7 +3214,7 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000519"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -3056,6 +3228,12 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000622 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000622">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000621"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Elektrische Eigenschaften Analyseverfahren</rdfs:label>
         <rdfs:label xml:lang="en">electrical property analyzing process</rdfs:label>
         <skos:definition xml:lang="en">An assay that determines the electrical properties of materials, including electrical conductivity, resistivity, dielectric strength, and electrical charge storage capabilities.</skos:definition>
@@ -3107,6 +3285,12 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000626">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000945"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000595"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Elektronenspektroskopie</rdfs:label>
         <rdfs:label xml:lang="en">electron spectroscopy</rdfs:label>
         <skos:definition xml:lang="en">A Spectroscopy Process, that studies the energy distribution of electrons emitted from a sample when it is irradiated with electromagnetic radiation or bombarded with particles.</skos:definition>
@@ -3534,9 +3718,11 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000663">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020003"/>
-        <rdfs:label xml:lang="de">Korn</rdfs:label>
-        <rdfs:label xml:lang="en">crystal grain</rdfs:label>
-        <skos:definition xml:lang="en">A crystal grain is a crystal that is continuant part of a polycrystal.</skos:definition>
+        <rdfs:label xml:lang="en">crystallite</rdfs:label>
+        <rdfs:label xml:lang="de">kristallit</rdfs:label>
+        <skos:altLabel xml:lang="de">Korn</skos:altLabel>
+        <skos:altLabel xml:lang="en">grain</skos:altLabel>
+        <skos:definition xml:lang="en">A crystal grain is a crystal that is part of a polycrystal.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -3558,6 +3744,18 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000666">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000957"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020102"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020133"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Gravimetrisches Analyseverfahren</rdfs:label>
         <rdfs:label xml:lang="en">gravimetrical analyzing process</rdfs:label>
         <skos:definition xml:lang="en">A Structural Property Analyzing Process that measures the quantity of a substance by its mass, often involving the precipitation, filtration, drying, and weighing of the substance.</skos:definition>
@@ -3977,6 +4175,12 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000798">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000856"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0025001"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Ionenmikroskopie</rdfs:label>
         <rdfs:label xml:lang="en">ion microscopy</rdfs:label>
         <skos:definition xml:lang="en">A Microscopy Process that uses a focused beam of ions to image a specimen, providing high-resolution images and compositional information, often used for surface analysis and depth profiling.</skos:definition>
@@ -4161,7 +4365,17 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000813 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000813">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001998"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000602"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000085"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000592"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Messer</rdfs:label>
         <rdfs:label xml:lang="en">knife</rdfs:label>
         <skos:definition xml:lang="en">A tool with a sharp edge, typically made of metal, used for cutting food, materials, or other substances.</skos:definition>
@@ -4174,6 +4388,18 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000816">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000945"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000512"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000591"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Laserspektroskopie</rdfs:label>
         <rdfs:label xml:lang="en">laser spectroscopy</rdfs:label>
         <skos:definition xml:lang="en">A Spectroscopy Process, that uses laser light to probe the properties of materials.</skos:definition>
@@ -4186,7 +4412,17 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000817 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000817">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001998"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000602"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000085"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000592"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Laserschneider</rdfs:label>
         <rdfs:label xml:lang="en">lasercutter</rdfs:label>
         <skos:definition xml:lang="en">A device that utilizes laser beams to create precise cuts in various materials such as wood, plastic, metal, etc.</skos:definition>
@@ -4280,12 +4516,6 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000825">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000521"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">magnetic property</rdfs:label>
         <skos:definition xml:lang="en">A magnetic property is a material property representing characteristics that describe how a material responds to magnetic fields, such as permeability and coercivity.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -4334,6 +4564,12 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000829 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000829">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000825"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Magnetische Elektrische Eigenschaften Analyseverfahren</rdfs:label>
         <rdfs:label xml:lang="en">magneto electrical property analyzing process</rdfs:label>
         <skos:definition xml:lang="en">An assay that investigates the magnetic and electrical properties of materials, including conductivity, resistivity, permittivity, permeability, and magnetization.</skos:definition>
@@ -4357,6 +4593,9 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
     <!-- https://w3id.org/pmd/co/PMD_0000833 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000833">
+        <rdfs:comment xml:lang="en">Manufacturing processes alternate qualities of materials, i.e., a value specification of some quality of a material entity, which is a specified input to the process, cannot be the same as a value specification of the same quality of another material entity, which is a specified output of the process. 
+
+Unfortunately is is not possible to write down such axiom based on OWL. Semi-working solution are the temporally qualified continuants + SPARQL constrains.</rdfs:comment>
         <rdfs:label xml:lang="de">Herstellungsprozess</rdfs:label>
         <rdfs:label xml:lang="en">manufacturing process</rdfs:label>
         <skos:definition xml:lang="en">A planned process that is driven by the primary intent to transform objects
@@ -4394,6 +4633,12 @@ A manufacturing process is always a transformative process.</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000836">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000945"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000597"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Massenspektroskopie</rdfs:label>
         <rdfs:label xml:lang="en">mass spectrometry</rdfs:label>
         <skos:definition xml:lang="en">A Spectroscopy Process, that measures the mass-to-charge ratio of ions to identify and quantify molecules in a sample.</skos:definition>
@@ -4433,7 +4678,7 @@ A manufacturing process is always a transformative process.</skos:definition>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000522"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -4449,6 +4694,12 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000849 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000849">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000848"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Mechanische Eigenschaften Analyseverfahren</rdfs:label>
         <rdfs:label xml:lang="en">mechanical property analyzing process</rdfs:label>
         <skos:definition xml:lang="en">An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.</skos:definition>
@@ -4460,9 +4711,9 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000851 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000851">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000882"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020164"/>
         <rdfs:label xml:lang="en">melting point</rdfs:label>
-        <skos:definition xml:lang="en">The melting point is a phase boundary described by the temperature at which a solid becomes a liquid under standard atmospheric pressure.</skos:definition>
+        <skos:definition xml:lang="en">The melting point is a state of matter boundary realized by transition form the solid state to the liquid state (or vice versa).</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -4504,6 +4755,12 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000853">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000080"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020106"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">crystallographic texture</rdfs:label>
         <skos:definition xml:lang="en">The crystallographic texture is a morphological quality describing the arrangement and orientation of grains in a metallic material, observed through crystallographic analysis.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -4615,7 +4872,6 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000864 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000864">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
         <rdfs:label xml:lang="en">morphological property</rdfs:label>
         <skos:definition xml:lang="en">A morphological property is a material property representing the characteristics of a material&apos;s structure, such as shape, size, and distribution of its features.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -4676,7 +4932,6 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000869 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000869">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000915"/>
         <rdfs:label xml:lang="en">occurence of chemical reaction</rdfs:label>
         <skos:definition xml:lang="en">The occurrence of (a) chemical reaction is the process in which substances interact to form new chemical compounds or alter their molecular structure.</skos:definition>
     </owl:Class>
@@ -4686,7 +4941,6 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000870 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000870">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000915"/>
         <rdfs:label xml:lang="en">occurence of electic field</rdfs:label>
         <skos:definition xml:lang="en">The occurrence of (an) electric field is a process describing the presence or generation of an electric field in a material or system.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -4697,7 +4951,6 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000871 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000871">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000915"/>
         <rdfs:label xml:lang="en">occurence of magnetic field</rdfs:label>
         <skos:definition xml:lang="en">The occurrence of (a) magenetic field is a process describing the presence or generation of a magnetic field in a material or system.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -4748,7 +5001,7 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0001008"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -4762,6 +5015,12 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000878 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000878">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000877"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Optische Eigenschaften Analyseverfahren</rdfs:label>
         <rdfs:label xml:lang="en">optical property analyzing process</rdfs:label>
         <skos:definition xml:lang="en">An assay that assesses the optical characteristics of materials, such as refractive index, absorption, transmission, reflectivity, and luminescence.</skos:definition>
@@ -4783,39 +5042,8 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000882 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000882">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000864"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000547"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001029"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000549"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000520"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000522"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000523"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:label xml:lang="en">phase boundary</rdfs:label>
-        <skos:definition xml:lang="en">A phase boundary is a morphological property denoting the interface between two distinct phases of a material, such as solid-liquid or liquid-gas boundaries.</skos:definition>
+        <rdfs:label xml:lang="en">phase boundary (realization)</rdfs:label>
+        <skos:definition xml:lang="en">A phase boundary is a realizable entity that is realized by the transition between distinct phases.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -4848,34 +5076,19 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     <!-- https://w3id.org/pmd/co/PMD_0000885 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000885">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000834"/>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000834"/>
                     <owl:Restriction>
-                        <owl:onProperty>
-                            <rdf:Description>
-                                <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0000059"/>
-                            </rdf:Description>
-                        </owl:onProperty>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000058"/>
                         <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000853"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty>
-                    <rdf:Description>
-                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0000059"/>
-                    </rdf:Description>
-                </owl:onProperty>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000853"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">pole figure</rdfs:label>
-        <skos:definition xml:lang="en">A pole figure is a map representing a graphical representation of the orientation of crystallographic planes in a polycrystalline sample.</skos:definition>
+        <skos:definition xml:lang="en">A pole figure is a map depicting a 2D stereographic projection which represents crystallographic orientations of grains in a polycrystalline material in respect to the sample&apos;s reference frame.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -5186,16 +5399,6 @@ TODO: Check general class axiom and defintion altogether !!!</skos:definition>
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0000915 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000915">
-        <rdfs:label xml:lang="en">responding process</rdfs:label>
-        <skos:definition xml:lang="en">The responding process is a process describing the reaction of a material or system to an applied stimulus.</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0000916 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000916">
@@ -5253,7 +5456,17 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0000920 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000920">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001998"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000602"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000085"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000592"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">saw</rdfs:label>
         <skos:definition xml:lang="en">A saw is a device used to cut materials, especially wood. It usually consists of a thin, sharp metal blade fitted with teeth and a handle or frame that allows the user to guide the saw. There are different types of saws designed for different applications, including handsaws, circular saws, hacksaws and band saws. Each type of saw is designed for specific tasks and materials to enable efficient cutting.</skos:definition>
         <skos:definition xml:lang="de">Eine Säge ist ein Gerät, das zum Zerteilen von Materialien, insbesondere von Holz, verwendet wird. Sie besteht in der Regel aus einem dünnen, scharfen Metallblatt, das mit Zähnen versehen ist, und einem Griff oder Rahmen, der es dem Benutzer ermöglicht, die Säge zu führen. Es gibt verschiedene Arten von Sägen, die für verschiedene Anwendungen konzipiert sind, darunter Handsägen, Kreissägen, Bügelsägen und Bandsägen. Jede Art von Säge ist auf bestimmte Aufgaben und Materialien abgestimmt, um effizientes Schneiden zu ermöglichen.</skos:definition>
@@ -5265,7 +5478,7 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0000922 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000922">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000855"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000624"/>
         <rdfs:label xml:lang="de">Rasterelektronenmikroskop</rdfs:label>
         <rdfs:label xml:lang="en">scanning electron microscope</rdfs:label>
         <skos:definition xml:lang="en">A Scanning Electron Microscope (SEM) is a Measuring Device that produces high-resolution images of a sample surface by scanning it with a focused beam of electrons.</skos:definition>
@@ -5277,7 +5490,17 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0000923 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000923">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001998"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000602"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000085"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000592"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Schere</rdfs:label>
         <rdfs:label xml:lang="en">pair of scissors</rdfs:label>
         <skos:definition xml:lang="en">A tool with two sharp blades that are brought together by pressure on the handles to cut paper, fabric, or other materials.</skos:definition>
@@ -5516,6 +5739,12 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000945">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000957"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0025001"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Spektroskopie Verfahren</rdfs:label>
         <rdfs:label xml:lang="en">spectroscopy process</rdfs:label>
         <skos:definition xml:lang="en">A Structural Property Analyzing Process that measures the interaction of electromagnetic radiation with matter to determine e.g. the composition, structure, and other properties of materials.</skos:definition>
@@ -5672,9 +5901,9 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0000961 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000961">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000882"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020164"/>
         <rdfs:label xml:lang="en">sublimation point</rdfs:label>
-        <skos:definition xml:lang="en">The sublimation point is a phase boundary that describes the temperature at which a material transitions directly from a solid to a gaseous state without passing through the liquid phase.</skos:definition>
+        <skos:definition xml:lang="en">The sublimation point is a state of matter boundary realized by transition form the solid state to the gaseous state (or vice versa).</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -5795,12 +6024,6 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000972">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000880"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">temporal property</rdfs:label>
         <skos:definition xml:lang="en">A temporal property is a material property that represents attributes related to the time-dependent behavior of a material or process.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -5922,7 +6145,7 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0001030"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000520"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -5936,6 +6159,12 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0000982 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000982">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000981"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Thermische Eigenschaften Analyseverfahren</rdfs:label>
         <rdfs:label xml:lang="en">thermal property analyzing process</rdfs:label>
         <skos:definition xml:lang="en">An assay that measures the thermal behavior of materials, including heat capacity, thermal conductivity, thermal expansion, and phase transitions in response to temperature changes.</skos:definition>
@@ -6087,9 +6316,9 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0000996 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000996">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000882"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020164"/>
         <rdfs:label xml:lang="en">triple point</rdfs:label>
-        <skos:definition xml:lang="en">The triple point is a phase boundary described by the specific temperature and pressure at which three phases of a substance coexist in equilibrium.</skos:definition>
+        <skos:definition xml:lang="en">The triple point is a state of matter point realized by transition form the solid state to the liquid state or the the gaseous state (or vice versa).</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -6173,7 +6402,17 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0001007 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0001007">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001998"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000602"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000085"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000592"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Wasserstrahlschneider</rdfs:label>
         <rdfs:label xml:lang="en">waterjet cutter</rdfs:label>
         <skos:definition xml:lang="en">A device that utilizes a high-pressure stream of water or a water stream with abrasive particles to cut materials such as metal, stone, plastic, etc.</skos:definition>
@@ -6258,6 +6497,18 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0001015">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001014"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020132"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0050155"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Röntgen-Computertomographie</rdfs:label>
         <rdfs:label xml:lang="en">x-ray computed tomography</rdfs:label>
         <skos:definition xml:lang="en">A X-ray Analyzing Process, that uses X-rays to create detailed cross-sectional images of an object.</skos:definition>
@@ -6272,6 +6523,18 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0001016">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001014"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000591"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000853"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Beugungsprozess</rdfs:label>
         <rdfs:label xml:lang="en">x-ray diffraction process</rdfs:label>
         <skos:definition xml:lang="en">An X-ray Analyzing Process, that involves the interaction of X-rays with the crystalline structure of a material.</skos:definition>
@@ -6286,6 +6549,12 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0001017">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001014"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000551"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Röntgen-Mapping</rdfs:label>
         <rdfs:label xml:lang="en">x-ray mapping</rdfs:label>
         <skos:definition xml:lang="en">An X-ray Analyzing Process that generates a spatial distribution map of the elements within a specimen by scanning the sample with an electron or X-ray beam and detecting the emitted X-rays, providing detailed compositional information across the sample&apos;s surface.</skos:definition>
@@ -6299,6 +6568,12 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0001018">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0001014"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000551"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="de">Röntgen-Mikroanalyse</rdfs:label>
         <rdfs:label xml:lang="en">x-ray microanalysis</rdfs:label>
         <skos:definition xml:lang="en">An X-ray Analyzing Process that determines the elemental composition and chemical properties of a specimen by detecting and analyzing the characteristic X-rays emitted from the sample when it is irradiated with a focused electron beam.</skos:definition>
@@ -6384,12 +6659,16 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0001998 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0001998">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000602"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000085"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000592"/>
-            </owl:Restriction>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000602"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000085"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000592"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
         </rdfs:subClassOf>
         <rdfs:label xml:lang="en">cutting device</rdfs:label>
         <skos:definition xml:lang="en">A device designed to cut, slice, divide, or sever objects.</skos:definition>
@@ -6470,11 +6749,32 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0020005 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020005">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
+        <rdfs:label xml:lang="en">porosity</rdfs:label>
+        <skos:definition xml:lang="en">The porosity is a quality describing the fraction of the materials (enclosing) spatial region occupied by pores.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020022 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020022">
+        <rdfs:comment xml:lang="en">Corrosion is typically of interest when the change of the material affects the objects ability to fulfill its function.</rdfs:comment>
+        <rdfs:label xml:lang="en">corrosion process</rdfs:label>
+        <skos:definition xml:lang="en">Corrosion is a process that affects a material by changing it in a slow chemical reaction.</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0020023 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020023">
         <rdfs:label xml:lang="en">metallic grain structures</rdfs:label>
-        <skos:definition xml:lang="en">Metallic grain structures are descriptors for the morphology of polycrystalline metallic materials. Polycrystalline metallic materials will typically form their grain structures as one of those categories or a transition or mixture state of those.</skos:definition>
+        <skos:definition xml:lang="en">The metallic grain structures is a categorical value specification that specifies value of the  metallic grain structure quality. It describes the morphology of polycrystalline metallic materials. Polycrystalline metallic materials will typically form their grain structures as one of those categories or a transition or mixture state of those.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7283,7 +7583,7 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020098">
         <rdfs:label xml:lang="en">nature constant</rdfs:label>
         <skos:definition xml:lang="en">A nature constant is a generically dependent continuant whose value, magintude or configuration is determined by nature including physics and mathematics.</skos:definition>
-        <skos:example xml:lang="en">Examples of nature constants are the speed of light, pi, and the 14 Bravais lattices.</skos:example>
+        <skos:example xml:lang="en">Examples of nature constants are the speed of light, pi, etc.</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7292,12 +7592,11 @@ NOTE: The wording used in EN 10021 was generalized.</obo:IAO_0000116>
     <!-- https://w3id.org/pmd/co/PMD_0020099 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020099">
+        <rdfs:comment xml:lang="en">TODO: possibly extend for 2D (Graphene etc)
+
+More elaborate crystal descriptions may be found in http://emmo.info/domain-crystallography/crystallography or https://purls.helmholtz-metadaten.de/disos/cso</rdfs:comment>
         <rdfs:label xml:lang="en">bravais lattice (3d)</rdfs:label>
-        <skos:definition xml:lang="en">The Bravais Lattice is a nature constant that describes the possible geometric arrangement of lattice points in a crystal. The present descriptor is limited to the 14 possible three-dimensional arrangements. 
-
-TODO: possibly extend for 2D (Graphene etc)
-
-More elaborate crystal descriptions may be found in http://emmo.info/domain-crystallography/crystallography or https://purls.helmholtz-metadaten.de/disos/cso</skos:definition>
+        <skos:definition xml:lang="en">The Bravais lattice is a categorical value specification that specifies value of the crystal structure quality. It describes the possible geometric arrangement of lattice points in a crystal. The present descriptor is limited to the 14 possible three-dimensional arrangements.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7366,8 +7665,16 @@ The molar ratio of carbon dioxide to average atmosphere air is 420 ppm as of 202
     <!-- https://w3id.org/pmd/co/PMD_0020106 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020106">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000890"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000663"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">polycrystal</rdfs:label>
-        <skos:definition xml:lang="en">Polycrystal is an object aggregate that has continuant part some crystal grains</skos:definition>
+        <skos:altLabel xml:lang="en">Polycrystalline structure</skos:altLabel>
+        <skos:definition xml:lang="en">Polycrystal is a connected object aggregate that has continuant part some crystal grains</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7431,7 +7738,7 @@ The molar ratio of carbon dioxide to average atmosphere air is 420 ppm as of 202
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020116">
         <rdfs:label xml:lang="en">aggregate state value</rdfs:label>
-        <skos:definition xml:lang="en">The aggregate state type is a nature constant that concretizes the aggregatge state quality.</skos:definition>
+        <skos:definition xml:lang="en">The aggregate state value is a categorical value specification that specifies value of the aggregatge state quality.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7476,7 +7783,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020130">
         <rdfs:label xml:lang="en">driving force of phase in system</rdfs:label>
-        <skos:definition xml:lang="en">The driving force is the the gradient of the activity of a phase in a thermodynamic system.</skos:definition>
+        <skos:definition xml:lang="en">Driving force is relational property between two material entities, the species and the material (system). The driving force is a factor that promotes a physical process or (eletro-)chemical reaction in a material (system) to occur and proceed towards completion. It can be quantified as the gradient of the activity of the participating species.</skos:definition>
         <skos:example xml:lang="en">For α → β: ΔG = G_β − G_α. If ΔG &lt; 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG &gt; 0.</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
@@ -7593,6 +7900,16 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0020141 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020141">
+        <rdfs:comment xml:lang="en">Fatigue is typically of interest when the change of the material affects the objects ability to fulfill its function.</rdfs:comment>
+        <rdfs:label xml:lang="en">fatigue process</rdfs:label>
+        <skos:definition xml:lang="en">Fatigue is a process that affects a material by changes in its stress state.</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0020142 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020142">
@@ -7646,7 +7963,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020147">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
         <rdfs:comment xml:lang="en">It is defined on the phase diagram at fixed composition and typically proceeds by diffusion‑controlled nucleation and growth (e.g., γ → α + Fe3C producing pearlite in steels).</rdfs:comment>
-        <rdfs:label xml:lang="de">eutectoid phase transformation</rdfs:label>
+        <rdfs:label xml:lang="en">eutectoid phase transformation</rdfs:label>
         <skos:definition xml:lang="en">A eutectoid phase transformation is a phase transformation in which a solid parent phase of eutectoid composition decomposes into two distinct solid daughter phases at constant temperature and pressure.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
@@ -7689,7 +8006,8 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <!-- https://w3id.org/pmd/co/PMD_0020151 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020151">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020148"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020142"/>
+        <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0020155"/>
         <rdfs:label xml:lang="en">internal energy</rdfs:label>
         <skos:definition xml:lang="en">Internal energy is a universal extensive quality that specifies the bearers potential to do work.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -7723,7 +8041,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020154">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
         <rdfs:comment xml:lang="en">It proceeds by nucleation and growth.</rdfs:comment>
-        <rdfs:label xml:lang="de">precipitation (phase)</rdfs:label>
+        <rdfs:label xml:lang="en">precipitation (phase)</rdfs:label>
         <skos:definition xml:lang="en">Precipitation from a supersaturated solid solution is a phase transformation process in which a single supersaturated parent phase decomposes into a solute‑depleted matrix and dispersed, compositionally distinct precipitate phases.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
@@ -7733,7 +8051,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <!-- https://w3id.org/pmd/co/PMD_0020155 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020155">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020148"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020142"/>
         <rdfs:label xml:lang="en">interatomic interaction energy</rdfs:label>
         <skos:definition xml:lang="en">Interatomic interaction energy is added/removed from the atom aggregate if one atom is moved infinitely away from the rest of the aggregate.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -7746,7 +8064,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020156">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
         <rdfs:comment xml:lang="en">It is marked on phase diagrams by a peritectic point and proceeds by an interfacial, diffusion‑controlled reaction that is often kinetically sluggish, leading to incomplete transformation or complex microstructures during solidification.</rdfs:comment>
-        <rdfs:label xml:lang="de">peritectic phase transformation</rdfs:label>
+        <rdfs:label xml:lang="en">peritectic phase transformation</rdfs:label>
         <skos:definition xml:lang="en">A peritectic phase transformation is a phase transformation in which a liquid parent phase and an existing solid phase react on cooling to form a different solid phase (L + α → β).</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
@@ -7758,7 +8076,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020157">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
         <rdfs:comment xml:lang="en">Unlike nucleation and growth transformations, it has no nucleation barrier and proceeds by uphill diffusion and wavelength‑selective amplification of composition modulations, producing an interconnected, compositionally modulated microstructure that coarsens over time.</rdfs:comment>
-        <rdfs:label xml:lang="de">spinodal decomposition</rdfs:label>
+        <rdfs:label xml:lang="en">spinodal decomposition</rdfs:label>
         <skos:definition xml:lang="en">Spinodal decomposition is a diffusion‑controlled  continuous phase transformation in which a single homogeneous solutionspontaneously separates into two compositionally distinct phases by amplification of infinitesimal concentration fluctuations.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
@@ -7769,7 +8087,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020158">
         <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0020159"/>
-        <rdfs:label xml:lang="de">parent phase role</rdfs:label>
+        <rdfs:label xml:lang="en">parent phase role</rdfs:label>
         <skos:definition xml:lang="en">The parent phase role is the role of a phase that dissolves during the phase transformation process. As such, the bearer is a metastable phase.</skos:definition>
     </owl:Class>
     
@@ -7778,7 +8096,7 @@ Depending of the interconnectedness of the pores the foam is open- or closed-cel
     <!-- https://w3id.org/pmd/co/PMD_0020159 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020159">
-        <rdfs:label xml:lang="de">daughter phase role</rdfs:label>
+        <rdfs:label xml:lang="en">daughter phase role</rdfs:label>
         <skos:definition xml:lang="en">The daugther phase role is the role of a phase that forms during the phase transformation process.</skos:definition>
     </owl:Class>
     
@@ -7802,13 +8120,8 @@ Martensite is a microconstituent that has as part the thermodynamic ferrite phas
     <!-- https://w3id.org/pmd/co/PMD_0020161 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020161">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020148"/>
-        <obo:IAO_0000116 xml:lang="en">Definition not final</obo:IAO_0000116>
-        <rdfs:comment xml:lang="en">Typical configuration independent contributions to the free energy are temperature, pressure, chemical composition and magnetic contributions.
-
-Typical configuration dependent contributions are interface energy contributions.</rdfs:comment>
-        <rdfs:label xml:lang="en">activity of a phase</rdfs:label>
-        <skos:definition xml:lang="en">Quality of a thermodynamic phase that characterizes its free energy.</skos:definition>
+        <rdfs:label xml:lang="en">activity (thermodynamic)</rdfs:label>
+        <skos:definition xml:lang="en">Activity (a_X) is a relational property between a chemical species X and a non-ideal solution. a_X is a measure of the effective concentration of a chemical species X in the non-ideal solution, accounting for interactions between particles. It is defined as the product of the concentration and an activity coefficient, where the activity coefficient corrects for non-ideal behavior.</skos:definition>
     </owl:Class>
     
 
@@ -7817,9 +8130,8 @@ Typical configuration dependent contributions are interface energy contributions
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020162">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000008"/>
-        <obo:IAO_0000116 xml:lang="en">Definition not final</obo:IAO_0000116>
         <rdfs:label xml:lang="en">activation energy</rdfs:label>
-        <skos:definition xml:lang="en">Process attribute characterizing the kinetics of a phase transformation (aka chemical reaction).</skos:definition>
+        <skos:definition xml:lang="en">Activation energy (E_a) a process attribute characterizing the minimum amount of energy required to initiate a reaction, allowing educts to overcome an energy barrier to transform into products.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7829,8 +8141,19 @@ Typical configuration dependent contributions are interface energy contributions
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020163">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020136"/>
-        <rdfs:label xml:lang="de">eutectic phase transformation</rdfs:label>
+        <rdfs:label xml:lang="en">eutectic phase transformation</rdfs:label>
         <skos:definition xml:lang="en">A eutectic phase transformation is a phase transformation in which a liquid parent phase decomposes into two distinct solid daughter phases at constant temperature and pressure.</skos:definition>
+        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020164 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020164">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000882"/>
+        <rdfs:label xml:lang="en">state of matter boundary</rdfs:label>
+        <skos:definition xml:lang="en">A state of matter boundary is a phase boundary that is realized by the transition from one aggregate state to another aggregate state.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -7863,6 +8186,49 @@ Typical configuration dependent contributions are interface energy contributions
         </rdfs:subClassOf>
         <rdfs:label xml:lang="en">heat (metallurgy)</rdfs:label>
         <skos:definition xml:lang="en">A heat is a fixed amount of metallic alloy that may be input to some Manifacturing Process.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020167 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020167">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000882"/>
+        <rdfs:label xml:lang="en">structural boundary</rdfs:label>
+        <skos:definition xml:lang="en">Structural phase boundary is a phase boundary that is realized in the transition from one structure to another structure.</skos:definition>
+        <skos:example xml:lang="en">ɑ-Ɣ transformation in iron at 910 °C</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020168 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020168">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000882"/>
+        <rdfs:label xml:lang="en">magnetic boundary</rdfs:label>
+        <skos:definition xml:lang="en">A magnetic boundary is a phase boundary that is realized by the transition from one magnetic ordering to another magnetic ordering.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020169 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020169">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000882"/>
+        <rdfs:label xml:lang="en">mixture boundary</rdfs:label>
+        <skos:definition xml:lang="en">A mixture boundary boundary is a phase boundary that is realized by the transition from one phase to another phase in a system involving also chemical variations.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020171 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020171">
+        <obo:IAO_0000116 xml:lang="en">Should it have exactly two phases as member parts?</obo:IAO_0000116>
+        <rdfs:label xml:lang="en">phase boundary (spatial)</rdfs:label>
+        <skos:definition xml:lang="en">A fiat surface separating one phase from another phase.</skos:definition>
+        <skos:example xml:lang="en">The phase boundary between liquid and the gaseous phase in at ank. 
+The phase boundary between Fe3C and Fe of a pearlite lamellae.</skos:example>
     </owl:Class>
     
 
@@ -7952,12 +8318,16 @@ Typical configuration dependent contributions are interface energy contributions
     <!-- https://w3id.org/pmd/co/PMD_0025002 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025002">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020004"/>
         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000058"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000551"/>
-            </owl:Restriction>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020004"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000058"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000551"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
         </rdfs:subClassOf>
         <rdfs:label xml:lang="en">chemical composition specification</rdfs:label>
         <skos:definition xml:lang="en">Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts).</skos:definition>
@@ -7973,11 +8343,7 @@ Typical configuration dependent contributions are interface energy contributions
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020131"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty>
-                    <rdf:Description>
-                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
-                    </rdf:Description>
-                </owl:onProperty>
+                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020023"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -7999,39 +8365,136 @@ Typical configuration dependent contributions are interface energy contributions
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0025005 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025005">
+        <rdfs:label xml:lang="en">3D</rdfs:label>
+        <skos:definition xml:lang="en">A three-dimensional information content entity is a representation or analysis, commonly applied in studying material properties in its volume or describing a dependency of one variable on two other variables.</skos:definition>
+        <skos:example xml:lang="en">Orientation distribution function (ODF), potential energy landscape</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025007 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025007">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000008"/>
+        <rdfs:label xml:lang="en">frequency</rdfs:label>
+        <skos:definition xml:lang="en">frequency is a process attribute which characterizes the rate per second of oscillation or vibration.</skos:definition>
+        <skos:example xml:lang="en">Frequency of electromagnetic wave, Frequency of sound wave.</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025008 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025008">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000624"/>
+        <rdfs:label xml:lang="de">Transmissionselektronenmikroskop</rdfs:label>
+        <rdfs:label xml:lang="en">transmission electron microscope</rdfs:label>
+        <skos:definition xml:lang="en">A Transmission Electron Microscope (SEM) is a Measuring Device that produces high-resolution images of a sample&apos;s internal structure by transmitting electrons through the sample.</skos:definition>
+        <skos:definition xml:lang="de">Ein Transmissionselektronenmikroskop (TEM) ist ein Messgerät, das hochauflösende Bilder der inneren Struktur einer Probe erzeugt, indem es Elektronen durch die Probe strahlt.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025009 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025009">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000066"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000001"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">material reacting process</rdfs:label>
+        <skos:definition xml:lang="en">Material reacting process is a process which occurs in a portion of matter due to some of its disposition or behavioral material property which has realization in some  stimulating process. Both the material reacting process and stimulating process must be occurent parts of a planned process, if the planned process takes place.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025010 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025010">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000549"/>
+        <rdfs:label xml:lang="en">heating</rdfs:label>
+        <skos:definition xml:lang="en">Heating is a change of temperature which corresponds to the increase of temperature in the system or object.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025011 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025011">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000549"/>
+        <rdfs:label xml:lang="en">cooling</rdfs:label>
+        <skos:definition xml:lang="en">Cooling is a change of temperature which corresponds to the decrease of temperature in the system or object.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025012 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025012">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000583"/>
+        <rdfs:label xml:lang="en">analytical calculation</rdfs:label>
+        <skos:definition xml:lang="en">Analytical calculation is a computing process which has value specification or measurement datum as a specified output. It applies a closed-form mathematical expression or formula to a set it specified inputs (value specifications) without requiring stochastic sampling, iterative numerical solving, or data-driven training.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025014 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025014">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020003"/>
+        <rdfs:label xml:lang="en">single crystal</rdfs:label>
+        <skos:definition xml:lang="en">Single crystal is a crystal which is not part of a polycrystal and its boundaries are its exteral surfaces.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025015 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025015">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
+        <rdfs:comment>&apos;portion of pure chemical element&apos; and &apos;has part&apos; only CHEBI:33336</rdfs:comment>
+        <rdfs:label xml:lang="en">portion of lanthanum</rdfs:label>
+        <skos:definition xml:lang="en">A portion of lanthanum is a portion of pure substance that has parts only chebi:lanthanum atom.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025016 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025016">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0050051"/>
+        <rdfs:label xml:lang="de">Innendurchmesser</rdfs:label>
+        <rdfs:label xml:lang="en">inner diameter</rdfs:label>
+        <skos:definition xml:lang="de">Der Innendurchmesser ist die Länge einer geraden Linie von einer Innenfläche eines Objekts oder Raums zur anderen Seite seiner Innenfläche durch den Mittelpunkt eines Objekts oder Raums, wenn es eine Innen- und Außenfläche hat.</skos:definition>
+        <skos:definition xml:lang="en">Inner diameter is a length of a straight line from one inner surface of an object or space to the other side of its inner surface through the center of an object or space when it has the inside and outside surface.</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025017 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025017">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0050051"/>
+        <rdfs:label xml:lang="de">Außendurchmesser</rdfs:label>
+        <rdfs:label xml:lang="en">outer diameter</rdfs:label>
+        <skos:definition xml:lang="de">Der Außendurchmesser ist die Länge einer geraden Linie von einer Außenfläche eines Objekts oder Raums zur anderen Seite seiner Außenfläche durch den Mittelpunkt eines Objekts oder Raums, wenn es eine Innen- und Außenfläche hat.</skos:definition>
+        <skos:definition xml:lang="en">Outer diameter is a length of a straight line from one outer surface of an object or space to the other side of its outer surface through the center of an object or space when it has the inside and outside surface.</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0025997 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025997">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/OBI_0001927"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000000"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
-                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020140"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty>
-                    <rdf:Description>
-                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0002351"/>
-                    </rdf:Description>
-                </owl:onProperty>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020004"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002350"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:label xml:lang="en">fraction value specification</rdfs:label>
@@ -9881,6 +10344,21 @@ Typical configuration dependent contributions are interface energy contributions
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0200000 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200000">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000907"/>
+        <dc:source xml:lang="de">Official definition can be found in: DIN 8580, group 1.2.1 “Pressformen”.</dc:source>
+        <dc:source xml:lang="de">Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.1 „Pressformen“.</dc:source>
+        <rdfs:label xml:lang="de">Pressformen</rdfs:label>
+        <rdfs:label xml:lang="en">compression molding</rdfs:label>
+        <skos:altLabel xml:lang="en">compression moulding</skos:altLabel>
+        <skos:definition xml:lang="en">A primary shaping process in which a pre-measured, usually preheated molding compound is placed in an open, heated mold cavity and shaped by closing the mold and applying pressure until the material cures or solidifies to the final part geometry.</skos:definition>
+        <skos:definition xml:lang="de">Ein Urformverfahren, bei dem eine dosierte, meist vorgewärmte Formmasse in eine offene, beheizte Formkavität eingelegt und durch Schließen des Werkzeugs unter Druck zur endgültigen Bauteilgeometrie ausgehärtet bzw. erstarrt wird.</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0200001 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200001">
@@ -9891,6 +10369,113 @@ Typical configuration dependent contributions are interface energy contributions
         <skos:definition xml:lang="de">&quot;[Biologische Abbaubarkeit] [...] beschreibt die mikrobielle Umwandlung all seiner organischen Bestandteile in Kohlendioxid oder – unter sauerstofffreien Bedingungen – in Kohlendioxid und Methan, neue mikrobielle Biomasse und Mineralsalze verstanden, und zwar innerhalb eines Zeitraums, der so kurz ist, dass es nicht zu dauerhaften Schäden oder Anreicherungen in der offenen Umwelt kommt.&quot;</skos:definition>
         <skos:definition xml:lang="en">Biodegradability is a disposition of a material which specifies its capability to be fully microbially converted into inorganic end products (CO₂, CH₄, mineral salts, biomass) within an environmentally non-harmful timescale.</skos:definition>
         <PMD_0001032>https://github.com/materialdigital/core-ontology/issues/126</PMD_0001032>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0200002 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200002">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000907"/>
+        <dc:source xml:lang="en">Official definition can be found in: DIN 8580, group 1.2.2 “Spritzgießen”.</dc:source>
+        <dc:source xml:lang="de">Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.2 „Spritzgießen“.</dc:source>
+        <rdfs:label xml:lang="de">Spritzgießen</rdfs:label>
+        <rdfs:label xml:lang="en">injection molding</rdfs:label>
+        <skos:altLabel xml:lang="en">injection moulding; plastic injection molding</skos:altLabel>
+        <skos:definition xml:lang="en">A primary shaping process in which plastic granules are plasticised in an injection unit and the melt is injected under high pressure into a closed mold cavity, where it cools and solidifies to the final part shape.</skos:definition>
+        <skos:definition xml:lang="de">Urformverfahren, bei dem Kunststoffgranulat in einem Plastifizieraggregat aufgeschmolzen und die Schmelze mit hohem Druck in einen geschlossenen Formhohlraum eingespritzt wird, wo sie verdichtet, abkühlt und zum Formteil erstarrt.</skos:definition>
+        <skos:example xml:lang="en">Injection molding of polypropylene housings.</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0200003 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200003">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000907"/>
+        <dc:source xml:lang="en">Official definition can be found in: DIN 8580, group 1.2.3 “Spritzpressen”.</dc:source>
+        <dc:source xml:lang="de">Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.3 „Spritzpressen“.</dc:source>
+        <rdfs:label xml:lang="de">Spritzpressen</rdfs:label>
+        <rdfs:label xml:lang="en">injection-compression molding</rdfs:label>
+        <skos:altLabel xml:lang="en">injection–compression moulding; transfer molding (Spritzpressen)</skos:altLabel>
+        <skos:definition xml:lang="en">A hybrid primary shaping process that combines injection and compression: a pre-plasticised charge or melt is injected into a closed or partially open mold and then compressed by further mold closure or a plunger so that the material completely fills the cavity and cures or solidifies under heat and pressure.</skos:definition>
+        <skos:definition xml:lang="de">Urformverfahren, bei dem eine vorplastifizierte Formmasse aus einer beheizten Vorkammer bzw. einem Plastifizieraggregat in ein (teil-)geschlossenes Werkzeug eingespritzt und anschließend durch Schließen des Werkzeugs bzw. Nachdrücken verpresst wird, bis der Werkstoff unter Wärme und Druck aushärtet.</skos:definition>
+        <skos:example xml:lang="en">Injection-compression molding of epoxy-encapsulated electronic components.</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0200004 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200004">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000907"/>
+        <dc:source xml:lang="en">Official definition can be found in: DIN 8580, group 1.2.4 </dc:source>
+        <dc:source xml:lang="de">Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.4 </dc:source>
+        <rdfs:label xml:lang="en">extrusion</rdfs:label>
+        <rdfs:label xml:lang="de">strangpressen (extrudieren)</rdfs:label>
+        <skos:definition xml:lang="en">A primary shaping process in which a plastically deformable material, typically a polymer melt, is continuously forced by pressure through a shaping die to produce an endless strand with constant cross-section, which solidifies by cooling or curing.</skos:definition>
+        <skos:definition xml:lang="de">Ein Urformverfahren, bei dem ein plastifizierter Werkstoff, meist eine Polymerschmelze, kontinuierlich unter Druck durch eine formgebende Düse gepresst wird und dabei einen Strang mit konstantem Querschnitt bildet, der durch Abkühlen oder Aushärten verfestigt wird.</skos:definition>
+        <skos:example xml:lang="en">Extrusion of PVC window profiles; extrusion of plastic films or pipes from polyethylene melt.</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0200005 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200005">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000907"/>
+        <dc:source xml:lang="en">Official definition can be found in: DIN 8580, group 1.2.5 </dc:source>
+        <dc:source xml:lang="de">Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.5 </dc:source>
+        <rdfs:label xml:lang="de">Ziehformen</rdfs:label>
+        <rdfs:label xml:lang="en">drawing forming</rdfs:label>
+        <skos:definition xml:lang="en">A primary shaping process in which a plastically deformable mass (for example fibre-reinforced resin or glass/plastic strands) is pulled through one or more shaping tools or dies so that the cross-section and surface are formed by tensile forces, while the material solidifies or cures to produce continuous profiles. It is conceptually related to pultrusion / profile drawing.</skos:definition>
+        <skos:definition xml:lang="de">Ein Urformverfahren, bei dem eine plastisch verformbare Masse (z. B. faserverstärkte Harzsysteme oder glasige/kunststoffhaltige Stränge) durch Zugkräfte durch formgebende Düsen oder Werkzeuge gezogen wird, sodass Querschnitt und Oberfläche ausgebildet und der Werkstoff dabei verfestigt bzw. ausgehärtet wird. Das Verfahren ist verwandt mit dem Strangzieh- bzw. Pultrusionsverfahren.</skos:definition>
+        <skos:example xml:lang="en">Pultrusion of glass-fibre-reinforced polymer profiles; drawing of continuous fibre-reinforced rods through a heated die.</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0200006 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200006">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000907"/>
+        <dc:source xml:lang="en">Official definition can be found in: DIN 8580, group 1.2.6 </dc:source>
+        <dc:source xml:lang="de">Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.6 </dc:source>
+        <rdfs:label xml:lang="de">Kalandrieren</rdfs:label>
+        <rdfs:label xml:lang="en">calendering</rdfs:label>
+        <skos:definition xml:lang="en">A primary shaping process in which a viscous polymer melt or plastic mass is passed through the narrow gaps between several counter-rotating, polished rolls so that it is compressed and rolled out into sheet or film of defined thickness and surface quality, then cooled to solidify.</skos:definition>
+        <skos:definition xml:lang="de">Ein Urformverfahren, bei dem eine zähflüssige Polymerschmelze oder plastische Masse durch enge Spalte zwischen mehreren gegenläufig rotierenden, polierten Walzen geführt wird, wodurch sie verdichtet und zu Platten oder Folien definierter Dicke und Oberflächenqualität ausgewalzt und anschließend verfestigt wird.</skos:definition>
+        <skos:example xml:lang="en">Calendering of plasticised PVC into rigid or flexible sheets and films; calendering of ABS sheet for thermoforming.</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0200007 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200007">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000907"/>
+        <dc:source xml:lang="en">Official definition can be found in: DIN 8580, group 1.2.7 </dc:source>
+        <dc:source xml:lang="de">Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.7 </dc:source>
+        <rdfs:label xml:lang="de">Blasformen</rdfs:label>
+        <rdfs:label xml:lang="en">blow molding</rdfs:label>
+        <skos:definition xml:lang="en">A primary shaping process in which a tube or preform of molten or plasticised material is enclosed in a mold and expanded by internal gas pressure so that it conforms to the mold cavity, producing hollow bodies which then solidify.</skos:definition>
+        <skos:definition xml:lang="de">Ein Urformverfahren, bei dem ein Schlauch oder ein Vorformling aus geschmolzenem bzw. plastifizierten Werkstoff in ein Werkzeug eingelegt und durch inneren Gasdruck an die Formwand aufgeblasen wird, sodass ein Hohlkörper entsteht, der anschließend verfestigt wird.</skos:definition>
+        <skos:example xml:lang="en">Extrusion blow molding of HDPE bottles; stretch-blow molding of PET beverage containers; blow molding of fuel tanks for automotive applications.</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0200008 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0200008">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000907"/>
+        <dc:source xml:lang="en">Official definition can be found in: DIN 8580, group 1.2.8 </dc:source>
+        <dc:source xml:lang="de">Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.8 </dc:source>
+        <rdfs:label xml:lang="de">Modellieren</rdfs:label>
+        <rdfs:label xml:lang="en">modelling</rdfs:label>
+        <skos:definition xml:lang="en">A primary shaping process in which a manually workable plastic mass (such as clay, wax, plastiline or gypsum paste) is shaped directly by hand and simple tools into a final or intermediate geometry and subsequently hardened, dried or fired to obtain a solid body.</skos:definition>
+        <skos:definition xml:lang="de">Ein Urformverfahren, bei dem eine mit Hand und einfachen Werkzeugen formbare plastische Masse (z. B. Ton, Wachs, Plastilin oder Gipspaste) direkt zur gewünschten Geometrie modelliert und anschließend durch Trocknen, Brennen oder Aushärten zu einem festen Körper verfestigt wird.</skos:definition>
+        <skos:example xml:lang="en">Hand modelling of clay prior to firing (e.g. pottery, sculptures); modelling of wax or plasticine for casting patterns.</skos:example>
     </owl:Class>
     
 
@@ -10205,7 +10790,6 @@ Typical configuration dependent contributions are interface energy contributions
         <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000503"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000512"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000551"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000591"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000595"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000597"/>
@@ -10213,37 +10797,7 @@ Typical configuration dependent contributions are interface energy contributions
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000896"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000942"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000967"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020112"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000503"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000512"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000591"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000595"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000597"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000853"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000896"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000942"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000967"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020112"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025001"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000503"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000512"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000591"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000595"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000597"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000853"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000896"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000942"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000967"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020005"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020112"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025001"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025003"/>
@@ -10295,36 +10849,11 @@ Typical configuration dependent contributions are interface energy contributions
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000549"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000596"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000629"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000869"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000870"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000871"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000553"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000619"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020132"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020133"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020142"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020151"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020155"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000553"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000619"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020132"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020133"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020142"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020151"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020155"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020161"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0050155"/>
         </owl:members>
@@ -10343,6 +10872,15 @@ Typical configuration dependent contributions are interface energy contributions
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020102"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020103"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020104"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020164"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020167"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020168"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020169"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
