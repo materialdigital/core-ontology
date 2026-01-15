@@ -19,7 +19,7 @@ These are the current imports in PMDCO
 | bfo | http://purl.obolibrary.org/obo/bfo/2020/notime/bfo.owl | custom |
 | ro | http://purl.obolibrary.org/obo/ro.owl | custom |
 | iao | http://purl.obolibrary.org/obo/iao.owl | custom |
-| obi | http://purl.obolibrary.org/obo/obi.owl | custom |
+| obi | https://raw.githubusercontent.com/obi-ontology/obi/refs/tags/v2025-10-14/views/obi-base.owl | custom |
 | chebi | https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.obo | custom |
 | stato | http://purl.obolibrary.org/obo/stato.owl | custom |
 | uo | http://purl.obolibrary.org/obo/uo.owl | slme |
