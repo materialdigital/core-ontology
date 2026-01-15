@@ -1099,6 +1099,16 @@ co:PMD_0000077 rdf:type owl:ObjectProperty ;
                skos:definition "A relation between an entity and a value specification which is about this entity."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0000855
+co:PMD_0000855 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:BFO_0000051 .
+
+
+###  https://w3id.org/pmd/co/PMD_0000856
+co:PMD_0000856 rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf obo:BFO_0000051 .
+
+
 ###  https://w3id.org/pmd/co/PMD_0001026
 co:PMD_0001026 rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf co:PMD_0000004 ;
@@ -1233,6 +1243,12 @@ co:PMD_0000006 rdf:type owl:DatatypeProperty ;
                rdfs:domain obo:IAO_0000030 ;
                rdfs:label "has value"@en ;
                skos:definition "data property that relates an information content entity to a literal"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000857
+co:PMD_0000857 rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf co:PMD_0000006 ;
+               rdfs:range xsd:int .
 
 
 #################################################################
@@ -2506,6 +2522,16 @@ obo:IAO_0000009 rdf:type owl:Class ;
                 rdfs:label "datum label"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000010
+obo:IAO_0000010 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000104 ;
+                obo:IAO_0000115 """Software is a plan specification composed of a series of instructions that can be 
+interpreted by or directly executed by a processing unit."""@en ;
+                obo:IAO_0000116 "see sourceforge tracker discussion at http://sourceforge.net/tracker/index.php?func=detail&aid=1958818&group_id=177891&atid=886178"@en ;
+                obo:IAO_0000119 "GROUP: OBI"@en ;
+                rdfs:label "software"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0000027
 obo:IAO_0000027 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000030 ;
@@ -2666,6 +2692,14 @@ obo:IAO_0000444 rdf:type owl:Class ;
                 obo:IAO_0000115 "A planned process of making information, such as literature, music, and software etc., available to the public for sale or for free."@en ;
                 obo:IAO_0000119 "https://en.wikipedia.org/wiki/Publishing" ;
                 rdfs:label "publishing process"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000591
+obo:IAO_0000591 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000010 ;
+                obo:IAO_0000115 "A software method (also called subroutine, subprogram, procedure, method, function, or routine) is software designed to execute a specific task."@en ;
+                obo:IAO_0000119 "https://github.com/information-artifact-ontology/IAO/issues/80"@en ;
+                rdfs:label "software method"@en .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0020000
@@ -3092,6 +3126,83 @@ Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subcl
                skos:definition "a process attribute is a dependent occurrent that existentially depends on a process."@en ;
                skos:example "Tensile rate in a tensile testing process. Cooling rate in a quenching process"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0000010
+co:PMD_0000010 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000591 ;
+               rdfs:label "workflow function"@en ;
+               skos:definition "A plan specification representing a callable software method that prescribes a specific computational action, including execution instructions and a defined set of input and output specifications."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000011
+co:PMD_0000011 rdf:type owl:Class ;
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000583
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:BFO_0000051 ;
+                                                        owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                             owl:unionOf ( co:PMD_0000066
+                                                                                           co:PMD_0000067
+                                                                                         )
+                                                                           ]
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000059 ;
+                                                        owl:someValuesFrom co:PMD_0000010
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:label "workflow node"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000012
+co:PMD_0000012 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000104 ;
+               rdfs:label "workflow definition"@en ;
+               skos:definition "A plan specification that prescribes the ordered application of one or more workflow functions, including their interconnections via input and output specifications, in order to achieve a specified computational objective."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000013
+co:PMD_0000013 rdf:type owl:Class ;
+               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000033
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:BFO_0000051 ;
+                                                        owl:someValuesFrom obo:IAO_0000027
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:label "parameter specification"@en ;
+               skos:definition "A directive information entity that specifies a parameter required or produced by a workflow function, including its intended role, position, and constraints."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000014
+co:PMD_0000014 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000013 ;
+               rdfs:label "input specification"@en ;
+               skos:definition "A parameter specification that prescribes a data item required as input for the execution of a workflow function."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000015
+co:PMD_0000015 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000013 ;
+               rdfs:label "output specification"@en ;
+               skos:definition "A parameter specification that prescribes a data item intended to be produced as output by the execution of a workflow function."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000016
+co:PMD_0000016 rdf:type owl:Class ;
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000583
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000059 ;
+                                                        owl:someValuesFrom co:PMD_0000012
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:label "workflow run"@en ;
+               skos:definition "A planned process that realizes a workflow definition by executing its prescribed workflow nodes in a concrete temporal order, consuming and producing specific data items."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000051
@@ -5641,31 +5752,17 @@ co:PMD_0000854 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000855
 co:PMD_0000855 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000602 ;
-               rdfs:label "Mikroskop"@de ,
-                          "microscope"@en ;
-               skos:definition "A device used to magnify and view small objects or details that are not visible to the naked eye."@en ,
-                               "Ein Gerät zur Vergrößerung und Betrachtung kleiner Objekte oder Details, die mit bloßem Auge nicht sichtbar sind."@de .
+               rdfs:subClassOf co:PMD_0000602 .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000856
 co:PMD_0000856 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000957 ;
-               rdfs:label "Mikroskopie Verfahren"@de ,
-                          "microscopy process"@en ;
-               skos:definition "A Structural Property Analyzing Process that uses various types of microscopy techniques to visualize and analyze the microstructure and morphology of materials at different scales."@en ,
-                               "Ein Struktur Eigenschaften Analyseverfahren, das verschiedene Arten von Mikroskopietechniken verwendet, um die Mikrostruktur und Morphologie von Materialien auf verschiedenen Ebenen zu visualisieren und zu analysieren."@de ;
-               skos:example "Examples of Microscopy Processes include Electron Microscopy, which provides detailed images at high resolution; Ion Microscopy, which offers high-precision imaging and material milling capabilites; and Optical Microscopy, which uses visible light to study e.g. the microstructure of materials."@en ;
-               co:PMD_0050117 "Mikroskopie"@de .
+               rdfs:subClassOf co:PMD_0000957 .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000857
 co:PMD_0000857 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000001 ;
-               rdfs:comment "The focus of interest when looking at an object throught the microstructure perspective is often its morphology."@en ;
-               rdfs:label "microstructure"@en ;
-               skos:definition "The microstructure represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope."@en ;
-               co:PMD_0000060 "true"^^xsd:boolean .
+               rdfs:subClassOf co:PMD_0000001 .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000858
@@ -10988,6 +11085,30 @@ dce:license rdfs:label "dc:license" .
 
 
 <https://orcid.org/0000-0003-4971-3645> rdfs:label "Philipp von Hartrott" .
+
+
+co:PMD_0000855 rdfs:label "Mikroskop"@de ,
+                          "has output specification"@en ,
+                          "microscope"@en ;
+               skos:definition "A device used to magnify and view small objects or details that are not visible to the naked eye."@en ,
+                               "Ein Gerät zur Vergrößerung und Betrachtung kleiner Objekte oder Details, die mit bloßem Auge nicht sichtbar sind."@de .
+
+
+co:PMD_0000856 rdfs:label "Mikroskopie Verfahren"@de ,
+                          "has input specification"@en ,
+                          "microscopy process"@en ;
+               skos:definition "A Structural Property Analyzing Process that uses various types of microscopy techniques to visualize and analyze the microstructure and morphology of materials at different scales."@en ,
+                               "Ein Struktur Eigenschaften Analyseverfahren, das verschiedene Arten von Mikroskopietechniken verwendet, um die Mikrostruktur und Morphologie von Materialien auf verschiedenen Ebenen zu visualisieren und zu analysieren."@de ;
+               skos:example "Examples of Microscopy Processes include Electron Microscopy, which provides detailed images at high resolution; Ion Microscopy, which offers high-precision imaging and material milling capabilites; and Optical Microscopy, which uses visible light to study e.g. the microstructure of materials."@en ;
+               co:PMD_0050117 "Mikroskopie"@de .
+
+
+co:PMD_0000857 rdfs:comment "The focus of interest when looking at an object throught the microstructure perspective is often its morphology."@en ;
+               rdfs:label "has parameter position"@en ,
+                          "microstructure"@en ;
+               skos:definition "The microstructure represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope."@en ,
+                               "sepcifies the position of a parameter in a programming function"@en ;
+               co:PMD_0000060 "true"^^xsd:boolean .
 
 
 #################################################################
