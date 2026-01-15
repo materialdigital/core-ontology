@@ -11,6 +11,13 @@ Import(<https://w3id.org/pmd/co/components/pmdco-shared.owl>)
 Annotation(<http://purl.org/dc/terms/title> "Platform Material Digital Core Ontology (PMDco) - Data Transformation Module"@en)
 Annotation(rdfs:comment "Data transformation module of the PMD Core Ontology (PMDco). The scope of this module is the description of processes and methods of transforming materials related data algorithmically, e.g. for simulations."@en)
 
+Declaration(Class(:PMD_0000010))
+Declaration(Class(:PMD_0000011))
+Declaration(Class(:PMD_0000012))
+Declaration(Class(:PMD_0000013))
+Declaration(Class(:PMD_0000014))
+Declaration(Class(:PMD_0000015))
+Declaration(Class(:PMD_0000016))
 Declaration(Class(:PMD_0000051))
 Declaration(Class(:PMD_0000066))
 Declaration(Class(:PMD_0000067))
@@ -39,6 +46,8 @@ Declaration(Class(:PMD_0000956))
 Declaration(Class(:PMD_0000964))
 Declaration(Class(:PMD_0001003))
 Declaration(Class(:PMD_0025012))
+Declaration(DataProperty(:PMD_0001857))
+Declaration(DataProperty(:PMD_0001877))
 Declaration(AnnotationProperty(<http://purl.org/dc/terms/bibliographicCitation>))
 Declaration(AnnotationProperty(<http://purl.org/dc/terms/created>))
 Declaration(AnnotationProperty(<http://purl.org/dc/terms/title>))
@@ -46,10 +55,70 @@ Declaration(AnnotationProperty(<http://www.w3.org/2004/02/skos/core#definition>)
 Declaration(AnnotationProperty(<http://www.w3.org/2004/02/skos/core#example>))
 
 
+############################
+#   Data Properties
+############################
+
+# Data Property: :PMD_0001857 (has parameter position)
+
+AnnotationAssertion(rdfs:label :PMD_0001857 "has parameter position"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0001857 "specifies the position of a parameter in a programming function"@en)
+SubDataPropertyOf(:PMD_0001857 :PMD_0000006)
+DataPropertyRange(:PMD_0001857 xsd:int)
+
+# Data Property: :PMD_0001877 (has default literal value)
+
+AnnotationAssertion(rdfs:label :PMD_0001877 "has default literal value"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0001877 "specifies a default value"@en)
+SubDataPropertyOf(:PMD_0001877 :PMD_0000006)
+
+
 
 ############################
 #   Classes
 ############################
+
+# Class: :PMD_0000010 (workflow function)
+
+AnnotationAssertion(rdfs:label :PMD_0000010 "workflow function"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000010 "A plan specification representing a callable software method that prescribes a specific computational action, including execution instructions and a defined set of input and output specifications."@en)
+SubClassOf(:PMD_0000010 <http://purl.obolibrary.org/obo/IAO_0000591>)
+
+# Class: :PMD_0000011 (workflow node)
+
+AnnotationAssertion(rdfs:label :PMD_0000011 "workflow node"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000011 "A computing process that executes a workflow function within a workflow run, consuming input data and producing output data according to the function’s specifications."@en)
+SubClassOf(:PMD_0000011 ObjectIntersectionOf(:PMD_0000583 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/BFO_0000051> ObjectUnionOf(:PMD_0000066 :PMD_0000067)) ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/RO_0000059> :PMD_0000010)))
+
+# Class: :PMD_0000012 (workflow definition)
+
+AnnotationAssertion(rdfs:label :PMD_0000012 "workflow definition"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000012 "A plan specification that prescribes the ordered application of one or more workflow functions, including their interconnections via input and output specifications, in order to achieve a specified computational objective."@en)
+SubClassOf(:PMD_0000012 <http://purl.obolibrary.org/obo/IAO_0000104>)
+
+# Class: :PMD_0000013 (parameter specification)
+
+AnnotationAssertion(rdfs:label :PMD_0000013 "parameter specification"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000013 "A directive information entity that specifies a parameter required or produced by a workflow function, including its intended role, position, and constraints."@en)
+SubClassOf(:PMD_0000013 ObjectIntersectionOf(<http://purl.obolibrary.org/obo/IAO_0000033> ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/BFO_0000051> <http://purl.obolibrary.org/obo/IAO_0000027>)))
+
+# Class: :PMD_0000014 (input specification)
+
+AnnotationAssertion(rdfs:label :PMD_0000014 "input specification"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000014 "A parameter specification that prescribes a data item required as input for the execution of a workflow function."@en)
+SubClassOf(:PMD_0000014 :PMD_0000013)
+
+# Class: :PMD_0000015 (output specification)
+
+AnnotationAssertion(rdfs:label :PMD_0000015 "output specification"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000015 "A parameter specification that prescribes a data item intended to be produced as output by the execution of a workflow function."@en)
+SubClassOf(:PMD_0000015 :PMD_0000013)
+
+# Class: :PMD_0000016 (workflow run)
+
+AnnotationAssertion(rdfs:label :PMD_0000016 "workflow run"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000016 "A computing process that realizes a workflow definition by executing its prescribed workflow nodes in a concrete temporal order, consuming and producing specific data items."@en)
+SubClassOf(:PMD_0000016 ObjectIntersectionOf(:PMD_0000583 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/RO_0000059> :PMD_0000012)))
 
 # Class: :PMD_0000051 (simulation entity role)
 

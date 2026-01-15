@@ -527,10 +527,6 @@ obo:BFO_0000224 rdf:type owl:ObjectProperty ,
                 skos:example "The last hour of a year has last instant midnight December 31"@en .
 
 
-###  http://purl.obolibrary.org/obo/IAO_0000039
-obo:IAO_0000039 rdf:type owl:ObjectProperty .
-
-
 ###  http://purl.obolibrary.org/obo/IAO_0000136
 obo:IAO_0000136 rdf:type owl:ObjectProperty ;
                 owl:inverseOf co:PMD_0000004 ;
@@ -642,8 +638,9 @@ obo:IAO_0000419 rdf:type owl:ObjectProperty ;
 obo:OBI_0000293 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000057 ;
                 owl:inverseOf obo:OBI_0000295 ;
+                rdfs:domain obo:OBI_0000011 ;
                 obo:IAO_0000112 "see is_input_of example_of_usage"@en ;
-                obo:IAO_0000115 "The inverse property of is specified input of" ;
+                obo:IAO_0000115 "The inverse property of is specified input of"@en ;
                 obo:IAO_0000116 "8/17/09: specified inputs of one process are not necessarily specified inputs of a larger process that it is part of. This is in contrast to how 'has participant' works." ;
                 rdfs:label "has specified input"@en .
 
@@ -651,8 +648,9 @@ obo:OBI_0000293 rdf:type owl:ObjectProperty ;
 ###  http://purl.obolibrary.org/obo/OBI_0000295
 obo:OBI_0000295 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000056 ;
+                rdfs:range obo:OBI_0000011 ;
                 obo:IAO_0000112 "some Autologous EBV(Epstein-Barr virus)-transformed B-LCL (B lymphocyte cell line) is_input_for instance of Chromum Release Assay described at https://wiki.cbil.upenn.edu/obiwiki/index.php/Chromium_Release_assay"@en ;
-                obo:IAO_0000115 "A relation between a completely executed planned process and a continuant participating in that process that is not created during the process. The presence of the continuant during the process is explicitly specified in the plan specification which the process realizes the concretization of." ;
+                obo:IAO_0000115 "A relation between a planned process and a continuant participating in that process that is not created during  the process. The presence of the continuant during the process is explicitly specified in the plan specification which the process realizes the concretization of."@en ;
                 rdfs:label "is specified input of"@en .
 
 
@@ -663,7 +661,7 @@ obo:OBI_0000299 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000057 ;
                 owl:inverseOf obo:OBI_0000312 ;
                 rdfs:domain obo:OBI_0000011 ;
-                obo:IAO_0000115 "The inverse property of is specified output of" ;
+                obo:IAO_0000115 "The inverse property of is specified output of"@en ;
                 rdfs:label "has specified output"@en .
 
 
@@ -671,12 +669,13 @@ obo:OBI_0000299 rdf:type owl:ObjectProperty ;
 obo:OBI_0000312 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000056 ;
                 rdfs:range obo:OBI_0000011 ;
-                obo:IAO_0000115 "A relation between a completely executed planned process and a continuant participating in that process. The presence of the continuant at the end of the process is explicitly specified in the objective specification which the process realizes the concretization of."@en ;
+                obo:IAO_0000115 "A relation between a planned process and a continuant participating in that process. The presence of the continuant at the end of the process is explicitly specified in the objective specification which the process realizes the concretization of."@en ;
                 rdfs:label "is specified output of"@en .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000417
 obo:OBI_0000417 rdf:type owl:ObjectProperty ;
+                rdfs:domain obo:OBI_0000011 ;
                 rdfs:range obo:IAO_0000005 ;
                 obo:IAO_0000112 "A cell sorting process achieves the objective specification 'material separation objective'" ;
                 obo:IAO_0000115 "This relation obtains between a planned process and a objective specification when the criteria specified in the objective specification are met at the end of the planned process."@en ;
@@ -1236,6 +1235,21 @@ co:PMD_0000006 rdf:type owl:DatatypeProperty ;
                skos:definition "data property that relates an information content entity to a literal"@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0001857
+co:PMD_0001857 rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf co:PMD_0000006 ;
+               rdfs:range xsd:int ;
+               rdfs:label "has parameter position"@en ;
+               skos:definition "specifies the position of a parameter in a programming function"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0001877
+co:PMD_0001877 rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf co:PMD_0000006 ;
+               rdfs:label "has default literal value"@en ;
+               skos:definition "specifies a default value"@en .
+
+
 #################################################################
 #    Classes
 #################################################################
@@ -1735,6 +1749,7 @@ obo:CHEBI_23116 rdf:type owl:Class ;
 obo:CHEBI_23367 rdf:type owl:Class ;
                 rdfs:subClassOf obo:CHEBI_24431 ;
                 obo:IAO_0000115 "Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity." ;
+                obo:IAO_0000116 "We are assuming that every molecular entity has to be completely connected by chemical bonds. This excludes protein complexes, which are comprised of minimally two separate molecular entities. We will follow up with Chebi to ensure this is their understanding as well"@en ;
                 rdfs:label "molecular entity" .
 
 
@@ -2506,6 +2521,16 @@ obo:IAO_0000009 rdf:type owl:Class ;
                 rdfs:label "datum label"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000010
+obo:IAO_0000010 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000104 ;
+                obo:IAO_0000115 """Software is a plan specification composed of a series of instructions that can be 
+interpreted by or directly executed by a processing unit."""@en ;
+                obo:IAO_0000116 "see sourceforge tracker discussion at http://sourceforge.net/tracker/index.php?func=detail&aid=1958818&group_id=177891&atid=886178"@en ;
+                obo:IAO_0000119 "GROUP: OBI"@en ;
+                rdfs:label "software"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0000027
 obo:IAO_0000027 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000030 ;
@@ -2668,6 +2693,14 @@ obo:IAO_0000444 rdf:type owl:Class ;
                 rdfs:label "publishing process"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000591
+obo:IAO_0000591 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000010 ;
+                obo:IAO_0000115 "A software method (also called subroutine, subprogram, procedure, method, function, or routine) is software designed to execute a specific task."@en ;
+                obo:IAO_0000119 "https://github.com/information-artifact-ontology/IAO/issues/80"@en ;
+                rdfs:label "software method"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0020000
 obo:IAO_0020000 rdf:type owl:Class ;
                 owl:equivalentClass [ owl:intersectionOf ( obo:IAO_0000030
@@ -2706,8 +2739,7 @@ obo:IAO_0020010 rdf:type owl:Class ;
                                                          ) ;
                                       rdf:type owl:Class
                                     ] ;
-                rdfs:subClassOf obo:BFO_0000003 ,
-                                obo:OBI_0000011 ,
+                rdfs:subClassOf obo:OBI_0000011 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:OBI_0000299 ;
                                   owl:someValuesFrom obo:IAO_0020000
@@ -2724,13 +2756,29 @@ obo:NCBITaxon_9606 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0000011
 obo:OBI_0000011 rdf:type owl:Class ;
+                owl:equivalentClass [ rdf:type owl:Restriction ;
+                                      owl:onProperty obo:BFO_0000055 ;
+                                      owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                           owl:onProperty obo:RO_0000059 ;
+                                                           owl:someValuesFrom obo:IAO_0000104
+                                                         ]
+                                    ] ;
+                rdfs:subClassOf obo:BFO_0000015 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000055 ;
+                                  owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                       owl:onProperty obo:RO_0000059 ;
+                                                       owl:someValuesFrom obo:IAO_0000104
+                                                     ]
+                                ] ;
                 owl:disjointWith co:PMD_0025009 ;
                 obo:IAO_0000112 "Injecting mice with a vaccine in order to test its efficacy" ;
                 obo:IAO_0000115 "A process that realizes a plan which is the concretization of a plan specification."@en ;
                 obo:IAO_0000116 "'Plan' includes a future direction sense. That can be problematic if plans are changed during their execution. There are however implicit contingencies for protocols that an agent has in his mind that can be considered part of the plan, even if the agent didn't have them in mind before. Therefore, a planned process can diverge from what the agent would have said the plan was before executing it, by adjusting to problems encountered during execution (e.g. choosing another reagent with equivalent properties, if the originally planned one has run out.)" ,
-                                "We are only considering successfully completed planned processes. A plan may be modified, and details added during execution. For a given planned process, the associated realized plan specification is the one encompassing all changes made during execution. This means that all processes in which an agent acts towards achieving some objectives is a planned process." ;
+                                """We are only considering successfully completed planned processes. A plan may be modified, and details added during execution. For a given planned process, the associated realized plan specification is the one encompassing all changes made during execution. This means that all processes in which an agent acts towards achieving some 
+objectives is a planned process.""" ;
                 obo:IAO_0000119 "branch derived" ;
-                rdfs:label "obsolete planned process" .
+                rdfs:label "planned process"@en .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000067
@@ -2754,8 +2802,7 @@ obo:OBI_0000067 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0000070
 obo:OBI_0000070 rdf:type owl:Class ;
-                rdfs:subClassOf obo:BFO_0000015 ,
-                                obo:OBI_0000011 ,
+                rdfs:subClassOf obo:OBI_0000011 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000055 ;
                                   owl:someValuesFrom obo:OBI_0000067
@@ -2849,7 +2896,7 @@ for now."""@en ;
 obo:OBI_0000260 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000017 ;
                 obo:IAO_0000112 "The plan of researcher X to perform an experiment according to a protocol." ;
-                obo:IAO_0000115 "A plan is a realizable entity that is the inheres in a bearer who is committed to realizing it as a completely executed planned process."@en ;
+                obo:IAO_0000115 "A plan is a realizable entity that is the inheres in a bearer who is committed to realizing it as a planned process."@en ;
                 obo:IAO_0000116 "This class is included to make clear how the plan specification, the plan, and the planned process relate. OBI will however only subclass and work under the 'plan specification', and 'planned process' class, as we want to avoid to get deep into discussions of 'intend' etc." ;
                 obo:IAO_0000119 "branch derived"@en ;
                 rdfs:label "plan"@en .
@@ -2901,18 +2948,6 @@ obo:OBI_0000835 rdf:type owl:Class ;
                                 ] ;
                 obo:IAO_0000115 "A person or organization that has a manufacturer role."@en ;
                 rdfs:label "manufacturer" .
-
-
-###  http://purl.obolibrary.org/obo/OBI_0000938
-obo:OBI_0000938 rdf:type owl:Class ;
-                rdfs:subClassOf obo:IAO_0000109 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:OBI_0001938 ;
-                                  owl:someValuesFrom obo:OBI_0001930
-                                ] ;
-                obo:IAO_0000115 "A measurement datum that is reported on a categorical scale."@en ;
-                obo:IAO_0000119 "Bjoern Peters" ;
-                rdfs:label "categorical measurement datum" .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0001930
@@ -3090,6 +3125,84 @@ Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subcl
                skos:definition "a process attribute is a dependent occurrent that existentially depends on a process."@en ;
                skos:example "Tensile rate in a tensile testing process. Cooling rate in a quenching process"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0000010
+co:PMD_0000010 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000591 ;
+               rdfs:label "workflow function"@en ;
+               skos:definition "A plan specification representing a callable software method that prescribes a specific computational action, including execution instructions and a defined set of input and output specifications."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000011
+co:PMD_0000011 rdf:type owl:Class ;
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000583
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:BFO_0000051 ;
+                                                        owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                             owl:unionOf ( co:PMD_0000066
+                                                                                           co:PMD_0000067
+                                                                                         )
+                                                                           ]
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000059 ;
+                                                        owl:someValuesFrom co:PMD_0000010
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:label "workflow node"@en ;
+               skos:definition "A computing process that executes a workflow function within a workflow run, consuming input data and producing output data according to the function’s specifications."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000012
+co:PMD_0000012 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000104 ;
+               rdfs:label "workflow definition"@en ;
+               skos:definition "A plan specification that prescribes the ordered application of one or more workflow functions, including their interconnections via input and output specifications, in order to achieve a specified computational objective."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000013
+co:PMD_0000013 rdf:type owl:Class ;
+               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000033
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:BFO_0000051 ;
+                                                        owl:someValuesFrom obo:IAO_0000027
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:label "parameter specification"@en ;
+               skos:definition "A directive information entity that specifies a parameter required or produced by a workflow function, including its intended role, position, and constraints."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000014
+co:PMD_0000014 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000013 ;
+               rdfs:label "input specification"@en ;
+               skos:definition "A parameter specification that prescribes a data item required as input for the execution of a workflow function."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000015
+co:PMD_0000015 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000013 ;
+               rdfs:label "output specification"@en ;
+               skos:definition "A parameter specification that prescribes a data item intended to be produced as output by the execution of a workflow function."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000016
+co:PMD_0000016 rdf:type owl:Class ;
+               rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000583
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000059 ;
+                                                        owl:someValuesFrom co:PMD_0000012
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+               rdfs:label "workflow run"@en ;
+               skos:definition "A computing process that realizes a workflow definition by executing its prescribed workflow nodes in a concrete temporal order, consuming and producing specific data items."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000051
@@ -4038,8 +4151,7 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
 ###  https://w3id.org/pmd/co/PMD_0000583
 co:PMD_0000583 rdf:type owl:Class ;
-               rdfs:subClassOf obo:BFO_0000003 ,
-                               obo:OBI_0000011 ,
+               rdfs:subClassOf obo:OBI_0000011 ,
                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:OBI_0000293 ;
                                                         owl:someValuesFrom obo:IAO_0000030
@@ -5479,8 +5591,7 @@ co:PMD_0000833 rdf:type owl:Class ;
                                                         ) ;
                                      rdf:type owl:Class
                                    ] ;
-               rdfs:subClassOf obo:BFO_0000003 ,
-                               obo:OBI_0000011 ,
+               rdfs:subClassOf obo:OBI_0000011 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:OBI_0000293 ;
                                  owl:someValuesFrom [ rdf:type owl:Class ;
@@ -6220,8 +6331,7 @@ co:PMD_0000927 rdf:type owl:Class ;
                                                         ) ;
                                      rdf:type owl:Class
                                    ] ;
-               rdfs:subClassOf obo:BFO_0000015 ,
-                               co:PMD_0000833 ,
+               rdfs:subClassOf co:PMD_0000833 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:BFO_0000055 ;
                                  owl:someValuesFrom co:PMD_0000592
