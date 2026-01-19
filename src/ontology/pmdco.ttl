@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-16/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-19/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-01-16" .
+                                  owl:versionInfo "2026-01-19" .
 
 #################################################################
 #    Annotation properties
@@ -162,6 +162,10 @@ dcterms:title rdf:type owl:AnnotationProperty .
 
 ###  http://usefulinc.com/ns/doap#repository
 doap:repository rdf:type owl:AnnotationProperty .
+
+
+###  http://www.geneontology.org/formats/oboInOwl#hasDbXref
+oboInOwl:hasDbXref rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.geneontology.org/formats/oboInOwl#hasExactSynonym
@@ -3000,16 +3004,30 @@ obo:OBI_0001933 rdf:type owl:Class ;
 ###  http://purl.obolibrary.org/obo/UO_0000000
 obo:UO_0000000 rdf:type owl:Class ;
                rdfs:subClassOf obo:IAO_0000003 ;
-               rdfs:comment "\"A unit of measurement is a standardized quantity of a physical quality.\" [Wikipedia:Wikipedia]" ;
+               obo:IAO_0000115 "A unit of measurement is a standardized quantity of a physical quality." ;
                rdfs:label "unit" .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:UO_0000000 ;
+   owl:annotatedProperty obo:IAO_0000115 ;
+   owl:annotatedTarget "A unit of measurement is a standardized quantity of a physical quality." ;
+   oboInOwl:hasDbXref "Wikipedia:Wikipedia"
+ ] .
 
 
 ###  http://purl.obolibrary.org/obo/UO_0000003
 obo:UO_0000003 rdf:type owl:Class ;
                rdfs:subClassOf obo:UO_0000000 ;
+               obo:IAO_0000115 "A unit which is a standard measure of the dimension in which events occur in sequence." ;
                oboInOwl:hasExactSynonym "time derived unit" ;
-               rdfs:comment "\"A unit which is a standard measure of the dimension in which events occur in sequence.\" [Wikipedia:Wikipedia]" ;
                rdfs:label "time unit" .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:UO_0000003 ;
+   owl:annotatedProperty obo:IAO_0000115 ;
+   owl:annotatedTarget "A unit which is a standard measure of the dimension in which events occur in sequence." ;
+   oboInOwl:hasDbXref "Wikipedia:Wikipedia"
+ ] .
 
 
 ###  http://purl.obolibrary.org/obo/UO_0000076
@@ -9324,6 +9342,14 @@ co:PMD_0025017 rdf:type owl:Class ;
                                "Outer diameter is a length of a straight line from one outer surface of an object or space to the other side of its outer surface through the center of an object or space when it has the inside and outside surface."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0025018
+co:PMD_0025018 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000145 ;
+               rdfs:label "geometric relational quality"@en ;
+               skos:definition "Geometric relational quality is a relational quality describing the geometric relation between two or more independent continuants."@en ;
+               skos:example "Elongation of a specimen after a tensile step, i.e., the specimen before and after the test. Angle between a rolling direction of a rolled material and the longitudinal side of a specimen."@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0025997
 co:PMD_0025997 rdf:type owl:Class ;
                rdfs:subClassOf obo:OBI_0001931 ,
@@ -11131,22 +11157,43 @@ obo:OMO_0001000 obo:IAO_0000115 "The term was added to the ontology on the assum
                 rdfs:label "out of scope" .
 
 
-obo:UO_0000076 oboInOwl:hasExactSynonym "(x)" ,
+obo:UO_0000076 obo:IAO_0000115 "A concentration unit which denotes the number of moles of solute as a proportion of the total number of moles in a solution." ;
+               oboInOwl:hasExactSynonym "(x)" ,
                                         "chi" ;
-               rdfs:comment "\"A concentration unit which denotes the number of moles of solute as a proportion of the total number of moles in a solution.\" [Wikipedia:Wikipedia]" ;
                rdfs:label "mole fraction" .
 
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:UO_0000076 ;
+   owl:annotatedProperty obo:IAO_0000115 ;
+   owl:annotatedTarget "A concentration unit which denotes the number of moles of solute as a proportion of the total number of moles in a solution." ;
+   oboInOwl:hasDbXref "Wikipedia:Wikipedia"
+ ] .
 
-obo:UO_0000163 oboInOwl:hasExactSynonym "w/w" ,
+
+obo:UO_0000163 obo:IAO_0000115 "A dimensionless concentration unit which denotes the mass of a substance in a mixture as a percentage of the mass of the entire mixture." ;
+               oboInOwl:hasExactSynonym "w/w" ,
                                         "weight-weight percentage" ;
-               rdfs:comment "\"A dimensionless concentration unit which denotes the mass of a substance in a mixture as a percentage of the mass of the entire mixture.\" [Wikipedia:Wikipedia]" ;
                rdfs:label "mass percentage" .
 
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:UO_0000163 ;
+   owl:annotatedProperty obo:IAO_0000115 ;
+   owl:annotatedTarget "A dimensionless concentration unit which denotes the mass of a substance in a mixture as a percentage of the mass of the entire mixture." ;
+   oboInOwl:hasDbXref "Wikipedia:Wikipedia"
+ ] .
 
-obo:UO_0000164 oboInOwl:hasExactSynonym "(w/v)" ,
+
+obo:UO_0000164 obo:IAO_0000115 "A dimensionless concentration unit which denotes the mass of the substance in a mixture as a percentage of the volume of the entire mixture." ;
+               oboInOwl:hasExactSynonym "(w/v)" ,
                                         "weight-volume percentage" ;
-               rdfs:comment "\"A dimensionless concentration unit which denotes the mass of the substance in a mixture as a percentage of the volume of the entire mixture.\" [UOC:GVG]" ;
                rdfs:label "mass volume percentage" .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource obo:UO_0000164 ;
+   owl:annotatedProperty obo:IAO_0000115 ;
+   owl:annotatedTarget "A dimensionless concentration unit which denotes the mass of the substance in a mixture as a percentage of the volume of the entire mixture." ;
+   oboInOwl:hasDbXref "UOC:GVG"
+ ] .
 
 
 dce:license rdfs:label "dc:license" .
