@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-22/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-23/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-01-22" .
+                                  owl:versionInfo "2026-01-23" .
 
 #################################################################
 #    Annotation properties
@@ -3458,7 +3458,7 @@ co:PMD_0000123 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000501
 co:PMD_0000501 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000030 ;
+               rdfs:subClassOf obo:IAO_0000027 ;
                rdfs:label "1D"@en ;
                skos:definition "1-D is an information content entity representing a one-dimensional structure or model representing a single linear dimension, often used in material science simulations or analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -3466,7 +3466,7 @@ co:PMD_0000501 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000502
 co:PMD_0000502 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000030 ;
+               rdfs:subClassOf obo:IAO_0000027 ;
                rdfs:label "2D"@en ;
                skos:definition "A two-dimensional information content entity is a representation or analysis, commonly applied in studying planar material properties or surface phenomena."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -6064,7 +6064,7 @@ co:PMD_0000884 rdf:type owl:Class ;
 co:PMD_0000885 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000834
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:onProperty obo:IAO_0000136 ;
                                                         owl:someValuesFrom co:PMD_0000853
                                                       ]
                                                     ) ;
@@ -7394,16 +7394,17 @@ co:PMD_0020003 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020004
 co:PMD_0020004 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000030
+               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000027
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:onProperty obo:IAO_0000136 ;
                                                         owl:someValuesFrom co:PMD_0025001
                                                       ]
                                                     ) ;
                                  rdf:type owl:Class
                                ] ;
-               rdfs:label "composition specification"@en ;
-               skos:definition "Composition specification is an information content entity that is conretized by  composition of a portion of matter and has memebers fraction specifications of portions of other matters (but not chemical elements) of which the whole portion of matter consists of (has parts)."@en ;
+               rdfs:label "composition data item"@en ;
+               skos:altLabel "composition specification"@en ;
+               skos:definition "Composition data item is an information content entity that is about composition of a portion of matter, and it has memebers fraction specifications of portions of other matters (but not chemical elements), which are parts of the whole portion of matter."@en ;
                skos:example "Nitric acid solution has quality  composition , which concretizes the composition specification .The composition specification has parts fraction specifications of nitric acid, e.g., 4 vol.%, and distilled water. These fraction specifications specify value of pure substances of nitric acid and distilled water, respectively. Furthermore, these fraction specifications are conretized by relational qualities (volume) proportion of nitric acid and (volume) proportion of distilled water."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -9349,14 +9350,15 @@ co:PMD_0025001 rdf:type owl:Class ;
 co:PMD_0025002 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0020004
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:onProperty obo:IAO_0000136 ;
                                                         owl:someValuesFrom co:PMD_0000551
                                                       ]
                                                     ) ;
                                  rdf:type owl:Class
                                ] ;
-               rdfs:label "chemical composition specification"@en ;
-               skos:definition "Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts)."@en ;
+               rdfs:label "chemical composition data item"@en ;
+               skos:altLabel "chemical composition specification"@en ;
+               skos:definition "Chemical composition data item is an information content entity that is about chemical composition of a material and has memebers fraction specifications of portions of chemical elements, which are parts of the material."@en ;
                skos:example "Steel has quality chemical composition , which concretizes the chemical composition specification .The chemical composition specification has parts fraction specifications of iron and carbon. These fraction specifications specify value of portion of iron and portion of carbon respectively. Furthermore, these  fraction specifications are conretized by relational qualities (mass) proportion of iron and (mass) proportion of carbon."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -9388,7 +9390,7 @@ co:PMD_0025004 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025005
 co:PMD_0025005 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000030 ;
+               rdfs:subClassOf obo:IAO_0000027 ;
                rdfs:label "3D"@en ;
                skos:definition "A three-dimensional information content entity is a representation or analysis, commonly applied in studying material properties in its volume or describing a dependency of one variable on two other variables."@en ;
                skos:example "Orientation distribution function (ODF), potential energy landscape"@en .
@@ -9490,6 +9492,14 @@ co:PMD_0025014 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025015
 co:PMD_0025015 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:BFO_0000051 ;
+                                                            owl:allValuesFrom obo:CHEBI_33336
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
                rdfs:subClassOf co:PMD_0020140 ;
                rdfs:comment "'portion of pure chemical element' and 'has part' only CHEBI:33336" ;
                rdfs:label "portion of lanthanum"@en ;
@@ -10910,9 +10920,11 @@ co:PMD_0060008 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0060009
 co:PMD_0060009 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000027 ;
+               rdfs:subClassOf obo:IAO_0000033 ;
+               rdfs:comment "The intend of the specification datum is to express the \"Sollwert\" of some qualitiy or behavioral material property. Then, the specification datum can be further specified by  some value specification."@en ;
                rdfs:label "specification datum"@en ;
-               skos:definition "A data item that provides specification for entities" ;
+               skos:definition "Specification datum is a data item that provides an information of a setpoint of some value, i.e., it is an intended value."@en ;
+               skos:example "The setpoint value of a ultimate tensile strength of some steel material"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
