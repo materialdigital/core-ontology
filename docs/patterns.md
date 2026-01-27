@@ -430,6 +430,7 @@ ex:role_1 has_realization: ex:process_1  .
 ```
 
 (see folder: [patterns/realizable entity (role)](https://github.com/materialdigital/core-ontology/tree/main/patterns/realizable%20entity%20(role))
+
 ---
 
 ## Pattern 5 - Material Properties (Qualities)
