@@ -1,0 +1,30 @@
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix pattern: <https://w3id.org/pmd/co/pattern/duality_object_material/> .
+@prefix : <https://w3id.org/pmd/co/pattern/duality_object_material/> .
+@base <https://w3id.org/pmd/co/pattern/duality_object_material/> .
+
+pattern: a owl:Ontology;
+	owl:imports <https://w3id.org/pmd/co/> .
+
+# material entity types
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+@prefix portion_of_steel: <https://w3id.org/pmd/co/PMD_0020096> .
+
+# quality types
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix chemical_composition: <https://w3id.org/pmd/co/PMD_0000551> .
+
+# properties
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+
+ex:my_dual_ingot_and_portion_of_steel a ingot: , portion_of_steel: ;
+            has_quality: ex:my_ingots_mass, ex:my_steels_composition .
+
+ex:my_ingots_mass a mass: .
+ex:my_steels_composition a chemical_composition: .

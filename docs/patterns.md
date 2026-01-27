@@ -5,8 +5,18 @@ In ontology development and usage, **usage patterns** play a critical role in ad
 
 The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and example.
 
-## Pattern 1 - Temporal Region
+## Pattern 1 - Duality of object and material
 <!--Please provide the link to the pattern (raw data ttl file) in the repository-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/shape-data.ttl-->
+
+
+
+(see folder:     [patterns/duality object material/](https://github.com/materialdigital/core-ontology/tree/main/patterns/duality%20object%20material) )
+
+
+---
+
+## Pattern 2 - Temporal Region
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
 
 
@@ -116,7 +126,7 @@ ex:object_1 exists_at: ex:some_time .
 
 ---
 
-## Pattern 2 - Process Chain
+## Pattern 3 - Process Chain
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/shape-data.ttl-->
 
 - **Purpose**: Represent processes, consisting of simultaneous and serial subprocesses. 
@@ -224,7 +234,7 @@ ex:process_step2a simultaneous_with: ex:process_step2b .
 
 ---
 
-## Pattern 3 - Process Inputs and Outputs
+## Pattern 4 - Process Inputs and Outputs
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/shape-data.ttl-->
 
 - **Purpose**: Describes how to represent inputs and outputs for planned processes typically involving material entities or information-bearing entities.
@@ -325,7 +335,7 @@ ex:object3 a object:
 
 ---
 
-## Pattern 4 - Realizable Entities (Role)
+## Pattern 5 - Realizable Entities (Role)
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/shape-data.ttl-->
 
 - **Purpose**: Represent characteristics of the objects, brought to existence by a specific situation. E.g. a role, which is realized in a process.
@@ -433,7 +443,7 @@ ex:role_1 has_realization: ex:process_1  .
 
 ---
 
-## Pattern 5 - Material Properties (Qualities)
+## Pattern 6 - Material Properties (Qualities)
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data.ttl-->
 
 - **Purpose**: Represent materials, their qualities, and their behaviors at different moments/periods of time.
@@ -587,7 +597,7 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 
 ---
 
-## Pattern 6 - Measurement
+## Pattern 7 - Measurement
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/measurement/shape-data.ttl-->
 
 - **Purpose**: Represent measured value of some material characteristic. 
@@ -677,7 +687,7 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 
 ---
 
-## Pattern 7 - Scalar Value Specification
+## Pattern 8 - Scalar Value Specification
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/shape-data.ttl-->
 
 - **Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
@@ -718,7 +728,7 @@ ex:unit_X rdf:type owl:NamedIndividual ,
 
 ---
 
-## Pattern 8 - Categorical Value Specification
+## Pattern 9 - Categorical Value Specification
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/categorical%20value%20specification/shape-data.ttl-->
 
 - **Purpose**: Represents how categorical values such as ferrite, face-centered cubic, and liquid are used to specify the values of material characteristics.
@@ -799,7 +809,7 @@ aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
 
 
 ---
-## Pattern 9: Simulation input/output
+## Pattern 10: Simulation input/output
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/simulation%20inout%20simple/shape-data.ttl--> 
 
 - **Purpose**: Information content entities as input and output of (simulation-)processes.
