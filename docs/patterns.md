@@ -776,27 +776,22 @@ In the second example, ex:steel_melt is described as a melt that has an aggregat
 
 # Example 1
 
-ex:fcc_material a owl:NamedIndividual ,
-                    material: ; 
+ex:fcc_material a material: ; 
                 has_quality: ex:crystal_structure_quality ,
                              ex:grain_structure_quality .
 
-ex:crystal_structure_quality a owl:NamedIndividual ,
-                                crystal_structure: .
+ex:crystal_structure_quality a crystal_structure: .
 bravais_lattice_cubic_face_centered: specifies_value_of: ex:crystal_structure_quality .
 
-ex:grain_structure_quality a owl:NamedIndividual ,
-                                metallic_grain_structure: .
+ex:grain_structure_quality a metallic_grain_structure: .
 ferrite:  specifies_value_of: ex:grain_structure_quality .
 ferrite: is_about: ex:fcc_material .
 
 # Example 2
-ex:steel_melt: a owl:NamedIndividual ,
-                 melt: ; 
+ex:steel_melt: a melt: ; 
                has_quality: ex:aggregate_state_quality .
 
-ex:aggregate_state_quality a owl:NamedIndividual ,
-                            aggregate_state: .
+ex:aggregate_state_quality a aggregate_state: .
 aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
 
 ```
