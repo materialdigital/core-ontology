@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-21/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-27/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-01-21" .
+                                  owl:versionInfo "2026-01-27" .
 
 #################################################################
 #    Annotation properties
@@ -2688,6 +2688,14 @@ obo:IAO_0000109 rdf:type owl:Class ;
                 rdfs:label "measurement datum"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000129
+obo:IAO_0000129 rdf:type owl:Class ;
+                rdfs:subClassOf obo:IAO_0000028 ;
+                obo:IAO_0000115 "A version number is an information content entity which is a sequence of characters borne by part of each of a class of manufactured products or its packaging and indicates its order within a set of other products having the same name."@en ;
+                obo:IAO_0000116 "Note: we feel that at the moment we are happy with a general version number, and that we will subclass as needed in the future. For example, see 7. genome sequence version"@en ;
+                rdfs:label "version number"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0000300
 obo:IAO_0000300 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000030 ;
@@ -3458,7 +3466,7 @@ co:PMD_0000123 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000501
 co:PMD_0000501 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000030 ;
+               rdfs:subClassOf obo:IAO_0000027 ;
                rdfs:label "1D"@en ;
                skos:definition "1-D is an information content entity representing a one-dimensional structure or model representing a single linear dimension, often used in material science simulations or analysis."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -3466,7 +3474,7 @@ co:PMD_0000501 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000502
 co:PMD_0000502 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000030 ;
+               rdfs:subClassOf obo:IAO_0000027 ;
                rdfs:label "2D"@en ;
                skos:definition "A two-dimensional information content entity is a representation or analysis, commonly applied in studying planar material properties or surface phenomena."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -4536,7 +4544,7 @@ co:PMD_0000617 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000618
 co:PMD_0000618 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000949 ,
+               rdfs:subClassOf co:PMD_0025019 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:RO_0000052 ;
                                  owl:someValuesFrom [ rdf:type owl:Class ;
@@ -4685,6 +4693,13 @@ co:PMD_0000633 rdf:type owl:Class ;
                           "environmental chamber"@en ;
                skos:definition "A device used to simulate environmental conditions such as temperature, humidity, and pressure to test materials and devices."@en ,
                                "Ein Gerät zur Simulation von Umweltbedingungen wie Temperatur, Feuchtigkeit und Druck zur Prüfung von Materialien und Geräten."@de .
+
+
+###  https://w3id.org/pmd/co/PMD_0000634
+co:PMD_0000634 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000023 ;
+               rdfs:label "workflow executor role"@de ;
+               skos:definition "A role that inheres in an agent and is realized by the agent’s participation in a workflow run, in which the agent carries out, controls, or is responsible for the execution of a workflow according to a workflow definition."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000635
@@ -5790,10 +5805,17 @@ co:PMD_0000852 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000002
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:BFO_0000051 ;
-                                                        owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0020003
+                                                        owl:someValuesFrom [ owl:intersectionOf ( co:PMD_0000663
                                                                                                   [ rdf:type owl:Restriction ;
-                                                                                                    owl:onProperty obo:RO_0000053 ;
-                                                                                                    owl:someValuesFrom co:PMD_0050002
+                                                                                                    owl:onProperty obo:BFO_0000051 ;
+                                                                                                    owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_33521
+                                                                                                                                              [ rdf:type owl:Restriction ;
+                                                                                                                                                owl:onProperty co:PMD_0025998 ;
+                                                                                                                                                owl:someValuesFrom co:PMD_0050002
+                                                                                                                                              ]
+                                                                                                                                            ) ;
+                                                                                                                         rdf:type owl:Class
+                                                                                                                       ]
                                                                                                   ]
                                                                                                 ) ;
                                                                              rdf:type owl:Class
@@ -6057,7 +6079,7 @@ co:PMD_0000884 rdf:type owl:Class ;
 co:PMD_0000885 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0000834
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:onProperty obo:IAO_0000136 ;
                                                         owl:someValuesFrom co:PMD_0000853
                                                       ]
                                                     ) ;
@@ -7387,16 +7409,17 @@ co:PMD_0020003 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020004
 co:PMD_0020004 rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000030
+               rdfs:subClassOf [ owl:intersectionOf ( obo:IAO_0000027
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:onProperty obo:IAO_0000136 ;
                                                         owl:someValuesFrom co:PMD_0025001
                                                       ]
                                                     ) ;
                                  rdf:type owl:Class
                                ] ;
-               rdfs:label "composition specification"@en ;
-               skos:definition "Composition specification is an information content entity that is conretized by  composition of a portion of matter and has memebers fraction specifications of portions of other matters (but not chemical elements) of which the whole portion of matter consists of (has parts)."@en ;
+               rdfs:label "composition data item"@en ;
+               skos:altLabel "composition specification"@en ;
+               skos:definition "Composition data item is an information content entity that is about composition of a portion of matter, and it has memebers fraction specifications of portions of other matters (but not chemical elements), which are parts of the whole portion of matter."@en ;
                skos:example "Nitric acid solution has quality  composition , which concretizes the composition specification .The composition specification has parts fraction specifications of nitric acid, e.g., 4 vol.%, and distilled water. These fraction specifications specify value of pure substances of nitric acid and distilled water, respectively. Furthermore, these fraction specifications are conretized by relational qualities (volume) proportion of nitric acid and (volume) proportion of distilled water."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -9230,6 +9253,50 @@ co:PMD_0020185 rdf:type owl:Class ;
                                "Ein Walzstock ist ein Teil eines Walzwerks, hat als Teil Arbeitswalzen und nimmt Teil an einen Walzstich."@de .
 
 
+###  https://w3id.org/pmd/co/PMD_0020186
+co:PMD_0020186 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0025004 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000051 ;
+                                 owl:someValuesFrom co:PMD_0020071
+                               ] ;
+               rdfs:label "aluminum alloy"@en ;
+               skos:definition "An aluminum alloy is an alloy that contains signifcant amounts of aluminum."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020187
+co:PMD_0020187 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0025004 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000051 ;
+                                 owl:someValuesFrom co:PMD_0020054
+                               ] ;
+               rdfs:label "copper alloy"@en ;
+               skos:definition "A copper alloy is an alloy that contains signifcant amounts of copper."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020188
+co:PMD_0020188 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0025004 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000051 ;
+                                 owl:someValuesFrom co:PMD_0020051
+                               ] ;
+               rdfs:label "nickel alloy"@en ;
+               skos:definition "A nickel alloy is an alloy that contains signifcant amounts of nickel."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020189
+co:PMD_0020189 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0025004 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000051 ;
+                                 owl:someValuesFrom co:PMD_0020095
+                               ] ;
+               rdfs:label "titanium alloy"@en ;
+               skos:definition "A titanium alloy is an alloy that contains signifcant amounts of titanium."@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020200
 co:PMD_0020200 rdf:type owl:Class ;
                rdfs:subClassOf obo:BFO_0000017 ;
@@ -9298,14 +9365,15 @@ co:PMD_0025001 rdf:type owl:Class ;
 co:PMD_0025002 rdf:type owl:Class ;
                rdfs:subClassOf [ owl:intersectionOf ( co:PMD_0020004
                                                       [ rdf:type owl:Restriction ;
-                                                        owl:onProperty obo:RO_0000058 ;
+                                                        owl:onProperty obo:IAO_0000136 ;
                                                         owl:someValuesFrom co:PMD_0000551
                                                       ]
                                                     ) ;
                                  rdf:type owl:Class
                                ] ;
-               rdfs:label "chemical composition specification"@en ;
-               skos:definition "Chemical composition specification is an information content entity that is conretized by chemical composition of a material and has memebers fraction specifications of portions of chemical elements of which the material consists of (has parts)."@en ;
+               rdfs:label "chemical composition data item"@en ;
+               skos:altLabel "chemical composition specification"@en ;
+               skos:definition "Chemical composition data item is an information content entity that is about chemical composition of a material and has memebers fraction specifications of portions of chemical elements, which are parts of the material."@en ;
                skos:example "Steel has quality chemical composition , which concretizes the chemical composition specification .The chemical composition specification has parts fraction specifications of iron and carbon. These fraction specifications specify value of portion of iron and portion of carbon respectively. Furthermore, these  fraction specifications are conretized by relational qualities (mass) proportion of iron and (mass) proportion of carbon."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
@@ -9337,7 +9405,7 @@ co:PMD_0025004 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025005
 co:PMD_0025005 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000030 ;
+               rdfs:subClassOf obo:IAO_0000027 ;
                rdfs:label "3D"@en ;
                skos:definition "A three-dimensional information content entity is a representation or analysis, commonly applied in studying material properties in its volume or describing a dependency of one variable on two other variables."@en ;
                skos:example "Orientation distribution function (ODF), potential energy landscape"@en .
@@ -9439,6 +9507,14 @@ co:PMD_0025014 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025015
 co:PMD_0025015 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( co:PMD_0020140
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty obo:BFO_0000051 ;
+                                                            owl:allValuesFrom obo:CHEBI_33336
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
                rdfs:subClassOf co:PMD_0020140 ;
                rdfs:comment "'portion of pure chemical element' and 'has part' only CHEBI:33336" ;
                rdfs:label "portion of lanthanum"@en ;
@@ -9469,6 +9545,18 @@ co:PMD_0025018 rdf:type owl:Class ;
                rdfs:label "geometric relational quality"@en ;
                skos:definition "Geometric relational quality is a relational quality describing the geometric relation between two or more independent continuants."@en ;
                skos:example "Elongation of a specimen after a tensile step, i.e., the specimen before and after the test. Angle between a rolling direction of a rolled material and the longitudinal side of a specimen."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025019
+co:PMD_0025019 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0000949 ;
+               obo:IAO_0000119 "DIN EN ISO 6892-1:2019" ;
+               rdfs:isDefinedBy "https://w3id.org/pmd/tto" ;
+               rdfs:label "Steigung des elastischen Bereichs"@de ,
+                          "slope of the elastic part"@en ;
+               rdfs:seeAlso "https://w3id.org/pmd/tto/SlopeOfTheElasticPart" ;
+               skos:definition "Dieses Konzept beschreibt den Wert der Steigung des ersten linear ansteigenden Teils (\"elastischer Teil\") in der bei einem Zugversuch erhaltenen Spannungs-Dehnungs-Kurve. Im elastischen Teil der Spannungs-Dehnungs-Kurve muss der Wert der Steigung nicht unbedingt dem Elastizitätsmodul entsprechen. Dieser Wert kann mit dem Wert des Elastizitätsmoduls (nur) sehr gut übereinstimmen, wenn optimale Bedingungen herrschten."@de ,
+                               "This concept describes the value of the slope of the first linear increasing part (‘elastic part’) in the stress-percentage extension curve obtained during a tensile test. In the elastic part of the stress‐percentage extension curve, the value of the slope may not necessarily represent the modulus of elasticity. This value may closely agree with the value of the modulus of elasticity if optimal conditions were used."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025997
@@ -9513,7 +9601,7 @@ co:PMD_0040001 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050000
 co:PMD_0050000 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0020200 ;
+               rdfs:subClassOf obo:BFO_0000145 ;
                rdfs:label "bond"@en ;
                skos:definition "A bond is a relational quality describing the force interaction between atoms."@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
@@ -10859,9 +10947,11 @@ co:PMD_0060008 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0060009
 co:PMD_0060009 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000027 ;
+               rdfs:subClassOf obo:IAO_0000033 ;
+               rdfs:comment "The intend of the specification datum is to express the \"Sollwert\" of some qualitiy or behavioral material property. Then, the specification datum can be further specified by  some value specification."@en ;
                rdfs:label "specification datum"@en ;
-               skos:definition "A data item that provides specification for entities" ;
+               skos:definition "Specification datum is a data item that provides an information of a setpoint of some value, i.e., it is an intended value."@en ;
+               skos:example "The setpoint value of a ultimate tensile strength of some steel material"@en ;
                co:PMD_0000060 "true"^^xsd:boolean .
 
 
