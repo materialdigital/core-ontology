@@ -1,20 +1,26 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ex: <http://www.example.org/#> .
+@prefix obi: <http://purl.obolibrary.org/obo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix pmd: <https://w3id.org/pmd/co/> .
-@prefix obi: <http://purl.obolibrary.org/obo/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix shape: <https://w3id.org/pmd/co/shapes/device_identifier/> .
+@prefix : shape: .
+@base shape: .
 
-ex:Shape6 a sh:NodeShape ;
+shape:
+  rdf:type owl:Ontology ;
+  owl:imports sh: .
+  
+shape:device a sh:NodeShape ;
 	sh:targetClass obi:OBI_0000968 ; ### device	
 	sh:or (
-      ex:Shape6_identifier
-      ex:Shape6_symbol
+      shape:device_identifier
+      shape:device_symbol
     ) .
 
-ex:Shape6_identifier a sh:NodeShape ;
+shape:device_identifier a sh:NodeShape ;
 	sh:property [
       sh:path obi:IAO_0000235 ; ### denoted by
       sh:qualifiedValueShape [
@@ -32,7 +38,7 @@ ex:Shape6_identifier a sh:NodeShape ;
 		sh:minCount 1 ;
 	] .
 
-ex:Shape6_symbol a sh:NodeShape ;
+shape:device_symbol a sh:NodeShape ;
 	sh:property [
       sh:path obi:IAO_0000235 ; ### denoted by
       sh:qualifiedValueShape [

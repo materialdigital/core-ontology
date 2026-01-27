@@ -1,13 +1,18 @@
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix sh:    <http://www.w3.org/ns/shacl#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ex:    <http://www.example.org/#> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix obi:   <http://purl.obolibrary.org/obo/> .
-@prefix pmdco: <https://w3id.org/pmd/co/> .
-@prefix shape:   <https://w3id.org/pmd/co/shapes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix shape: <https://w3id.org/pmd/co/shapes/change_of_quality_with_tqc/> .
+@prefix : shape: .
+@base shape: .
 
+shape:
+  rdf:type owl:Ontology ;
+  owl:imports sh: .
+  
 
 shape:independent_continuant_anchor
     a sh:NodeShape ;
@@ -34,7 +39,7 @@ shape:independent_continuant_anchor
 
     sh:property  
     [
-        sh:path pmdco:PMD_0000069 ; # has state
+        sh:path pmd:PMD_0000069 ; # has state
         sh:node shape:temporally_qualified_continuant ;
     ] ;
 
@@ -44,14 +49,14 @@ shape:independent_continuant_anchor
     [
         a sh:SPARQLConstraint ;
         sh:select """
-        PREFIX pmdco: <https://w3id.org/pmd/co/> 
+        PREFIX pmd: <https://w3id.org/pmd/co/> 
         PREFIX obi:   <http://purl.obolibrary.org/obo/> 
         PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
 
         SELECT DISTINCT $ic ?tqc ?anchorQualityClass ?temporalQualityClass
         WHERE {
             # STEP 1. IC has state TQC --> finding the TQC
-            ?ic pmdco:PMD_0000069 ?tqc . 
+            ?ic pmd:PMD_0000069 ?tqc . 
             
             # STEP 2. IC has quality Quality --> finding IC's quality and checking its type/class, selecting the lowest avaliable quality class
             ?ic obi:RO_0000086 ?icQuality .
@@ -84,7 +89,7 @@ shape:independent_continuant_anchor
 
 shape:temporally_qualified_continuant
     a sh:NodeShape ;
-    sh:targetClass pmdco:PMD_0000068 ; # temporally qualified continuant
+    sh:targetClass pmd:PMD_0000068 ; # temporally qualified continuant
     sh:description "Shape specifying that temporally qualified continuant has qualities and is a state of at least one anchor (independent continuant). " ;
 
     sh:property
@@ -95,7 +100,7 @@ shape:temporally_qualified_continuant
     ] ;
     # sh:property
     # [
-    #     sh:path pmdco:PMD_0000070 ; # is state of
+    #     sh:path pmd:PMD_0000070 ; # is state of
     #     sh:node shape:independent_continuant_anchor ;
     #     sh:minCount 1 ;
     # ] ;

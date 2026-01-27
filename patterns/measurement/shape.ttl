@@ -1,14 +1,18 @@
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix sh:    <http://www.w3.org/ns/shacl#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ex:    <http://www.example.org/> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix pmd:   <https://w3id.org/pmd/co/> .
-@prefix obi:   <http://purl.obolibrary.org/obo/> .
-@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix shape: <https://w3id.org/pmd/co/shapes/measurement/> .
+@prefix : shape: .
+@base shape: .
 
-ex:Shape3 rdf:type sh:NodeShape ;
+shape:
+  rdf:type owl:Ontology ;
+  owl:imports sh: .
+  
+shape:assay rdf:type sh:NodeShape ;
           sh:targetClass  <http://purl.obolibrary.org/obo/OBI_0000070> ; # obi:assay
     
     # One property pointing to the output ...
@@ -50,5 +54,5 @@ ex:Shape3 rdf:type sh:NodeShape ;
    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
 
-ex:Shape_bfo_object rdf:type sh:NodeShape ;
+shape:object rdf:type sh:NodeShape ;
           sh:targetClass  <http://purl.obolibrary.org/obo/BFO_0000030> .
