@@ -46,7 +46,7 @@ jobs:
                    echo "   resoning"
 
                    ## we have to separate the commands, because robot seems not to do reasoning completely on multiple inputs
-                   java -jar robot.jar --catalog catalog-v001.xml merge --input merged-pmdco.ttl --input "$DATAFILE" remove --select imports --output merged2.ttl
+                   java -jar robot.jar --catalog catalog-v001.xml merge --input merged-pmdco.owl --input "$DATAFILE" remove --select imports --output merged2.ttl
                    java -jar robot.jar reason --input merged2.ttl --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" --output shape-data-reasoned.ttl
                    
 
@@ -70,7 +70,7 @@ jobs:
                    #echo "iris in a-box"
                    #cat ids2.txt
                    #echo "testing missing IRIs 3"
-                   grep -Fof ids2.txt merged-pmdco.ttl  | sort -u | grep  -Fvf - ids2.txt | grep -v "example.org" > missing.txt || :
+                   grep -Fof ids2.txt merged-pmdco.owl  | sort -u | grep  -Fvf - ids2.txt | grep -v "example.org" > missing.txt || :
                    #echo "testing missing IRIs 4"
                    #echo "missing iris"
                    #cat missing.txt
