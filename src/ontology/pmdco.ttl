@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-27/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-01-28/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-01-27" .
+                                  owl:versionInfo "2026-01-28" .
 
 #################################################################
 #    Annotation properties
@@ -219,6 +219,14 @@ co:PMD_0050117 rdf:type owl:AnnotationProperty ;
                skos:definition "A textual annotation used to specify a commonly accepted abbreviation, acronym, or shortened form of a class label. This property is intended to support concise referencing of ontology classes, especially when standard abbreviations are widely used in practice."@en ;
                skos:example "\"DNA\" for \"Deoxyribonucleic Acid\""@en ;
                rdfs:subPropertyOf skos:altLabel .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2000/01/rdf-schema#Literal
+rdfs:Literal rdf:type rdfs:Datatype .
 
 
 #################################################################
@@ -3004,7 +3012,11 @@ obo:OBI_0001930 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0001931
 obo:OBI_0001931 rdf:type owl:Class ;
-                rdfs:subClassOf obo:OBI_0001933 ;
+                rdfs:subClassOf obo:OBI_0001933 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0001937 ;
+                                  owl:minCardinality "1"^^xsd:nonNegativeInteger
+                                ] ;
                 obo:IAO_0000115 "A value specification that consists of two parts: a numeral and a unit label"@en ;
                 rdfs:label "scalar value specification" .
 
@@ -3456,9 +3468,45 @@ co:PMD_0000075 rdf:type owl:Class ;
                skos:definition "A form used to cast an object of a desired shape."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0000100
+co:PMD_0000100 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000300 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:IAO_0000219 ;
+                                 owl:someValuesFrom co:PMD_0000010
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty co:PMD_0000006 ;
+                                 owl:someValuesFrom rdfs:Literal
+                               ] ;
+               rdfs:label "function name"@en ;
+               skos:definition "A textual entity that denotes a workflow function"@en ;
+               co:PMD_0001032 <https://github.com/materialdigital/core-ontology/issues/280> .
+
+
+###  https://w3id.org/pmd/co/PMD_0000101
+co:PMD_0000101 rdf:type owl:Class ;
+               rdfs:subClassOf obo:IAO_0000300 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:IAO_0000219 ;
+                                 owl:someValuesFrom co:PMD_0000010
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty co:PMD_0000006 ;
+                                 owl:someValuesFrom rdfs:Literal
+                               ] ;
+               rdfs:label "import path"@en ;
+               skos:definition "A textual entity that denotes a workflow function via import resolution rules"@en ;
+               co:PMD_0001032 <https://github.com/materialdigital/core-ontology/issues/280> .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000123
 co:PMD_0000123 rdf:type owl:Class ;
-               rdfs:subClassOf obo:IAO_0000300 ;
+               rdfs:subClassOf obo:IAO_0000300 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty co:PMD_0000006 ;
+                                 owl:someValuesFrom rdfs:Literal
+                               ] ;
                rdfs:label "doc string"@en ;
                skos:definition "A docstring is a textual entity that describes an associated section of some source code"@en ;
                co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/270" .
