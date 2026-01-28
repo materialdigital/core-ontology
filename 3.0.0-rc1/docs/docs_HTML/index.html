@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>PMDco Documentation Builder - PMD Core Ontology</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/stylesheets/mkdocs_d2_plugin.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "PMDco Documentation Builder";
+        var mkdocs_page_input_path = "docs_HTML/README.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> PMD Core Ontology
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Welcome</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Introduction%20to%20Ontologies/">Introduction to Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction to PMDco v3.x.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Reused%20ontologies/">Reused Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Ontology_structure2/">Ontology Structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../patterns/">Patterns</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../PMDco%20User%20Guide/">PMDco User Guide</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../versions/">Versions and Variants</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../migration/">Migration from 2.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Who%20We%20Are%20%26%20How%20to%20Join/">Who We Are & How to Join</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../publications/">Publications</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../acknowledgements/">Acknowledgements</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">PMD Core Ontology</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">PMDco Documentation Builder</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="pmdco-documentation-builder">PMDco Documentation Builder</h1>
+<p>A comprehensive static site builder for generating production-ready HTML documentation from Markdown files. This system powers the <strong>Platform MaterialDigital Core Ontology (PMDco)</strong> documentation website.</p>
+<hr />
+<h2 id="project-structure">📁 Project Structure</h2>
+<div class="highlight"><pre><span></span><code>docs/
+├── navigator.yaml                    # Navigation configuration (REQUIRED)
+├── patterns.md                       # Usage patterns with Graphviz diagrams
+├── ontology_structure.md             # Ontology structure with class trees
+├── index.md                          # Home page
+├── intro.md                          # Introduction
+├── ...
+│
+├── docs_HTML/
+│   ├── scripts/
+│   │   ├── build_all.py              # Main unified builder script
+│   │   ├── run_all.py                # Batch builder for all pages
+│   │   └── ttl_to_graphviz.py        # TTL to Graphviz converter
+│   │
+│   ├── HTML_Docs/                    # Generated HTML files
+│   │   ├── patterns.html
+│   │   ├── index.html
+│   │   ├── Logo.svg                  # Copied logo asset
+│   │   └── ...
+│   │
+│   └── README.md                     # This documentation
+└── ...
+</code></pre></div>
+<hr />
+<h2 id="getting-started">🚀 Getting Started</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Install required Python packages:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>markdown2<span class="w"> </span>rdflib<span class="w"> </span>pyyaml
+</code></pre></div>
+<h3 id="build-all-documentation-pages">Build All Documentation Pages</h3>
+<p>Navigate to the project root or scripts directory:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># From docs/docs_HTML/scripts/</span>
+<span class="nb">cd</span><span class="w"> </span>docs/docs_HTML/scripts
+python<span class="w"> </span>run_all.py
+</code></pre></div>
+<p>This reads <code>navigator.yaml</code> from the <code>docs/</code> directory and builds HTML for every page defined in it.</p>
+<p><strong>New Default Output:</strong> The generated HTML files will be placed in <code>docs/docs_HTML/HTML_Docs</code> by default.</p>
+<h3 id="build-a-single-page">Build a Single Page</h3>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>build_all.py<span class="w"> </span>--markdown<span class="w"> </span><span class="s2">&quot;../../patterns.md&quot;</span><span class="w"> </span>--out<span class="w"> </span><span class="s2">&quot;../HTML_Docs/patterns.html&quot;</span>
+</code></pre></div>
+<p>For pages with diagrams, specify the diagrams root:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>build_all.py<span class="w"> </span>--markdown<span class="w"> </span><span class="s2">&quot;../../patterns.md&quot;</span><span class="w"> </span>--out<span class="w"> </span><span class="s2">&quot;../HTML_Docs/patterns.html&quot;</span><span class="w"> </span>--diagrams-root<span class="w"> </span><span class="s2">&quot;../../&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="navigator-configuration-navigatoryaml">📋 Navigator Configuration (<code>navigator.yaml</code>)</h2>
+<p>The <code>docs/navigator.yaml</code> file is the <strong>single source of truth</strong> for the entire website structure. The build system reads this file to:</p>
+<ol>
+<li><strong>Generate the sidebar navigation</strong> with icons and section groupings</li>
+<li><strong>Calculate previous/next page links</strong> based on page order</li>
+<li><strong>Map markdown files to HTML outputs</strong> for batch building</li>
+<li><strong>Define the full ontology path</strong> for class/property enrichment</li>
+<li><strong>Provide icon definitions</strong> for the UI</li>
+</ol>
+<h3 id="complete-schema-reference">Complete Schema Reference</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Version identifier for compatibility</span>
+<span class="nt">schema</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pmdco-nav/v1&quot;</span>
+
+<span class="c1"># Default icons that rotate automatically for pages without explicit icons</span>
+<span class="nt">defaults</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">icons</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">file-text</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">document</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">compass</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">star</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zap</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">globe</span>
+
+<span class="c1"># Path to the full ontology TTL file for enriching class labels and definitions</span>
+<span class="nt">full_ontology_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/pmdco.ttl&quot;</span>
+
+<span class="c1"># Navigation sections</span>
+<span class="nt">sections</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">getting-started</span>
+<span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Getting</span><span class="nv"> </span><span class="s">Started&quot;</span>
+<span class="w">    </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home</span>
+<span class="w">    </span><span class="nt">pages</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Home</span>
+<span class="w">        </span><span class="nt">href</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index.html</span>
+<span class="w">        </span><span class="nt">md</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index.md</span>
+<span class="w">        </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ontology-guide</span>
+<span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ontology</span><span class="nv"> </span><span class="s">Guide&quot;</span>
+<span class="w">    </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">layers</span>
+<span class="w">    </span><span class="nt">pages</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Usage Patterns</span>
+<span class="w">        </span><span class="nt">href</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">patterns.html</span>
+<span class="w">        </span><span class="nt">md</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">patterns.md</span>
+<span class="w">        </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zap</span>
+
+<span class="c1"># Icon catalog</span>
+<span class="nt">icons</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">home</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;...&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="markdown-tags-reference">📝 Markdown Tags Reference</h2>
+<p>The build system recognizes special HTML comment tags in your Markdown files. These tags tell the builder to generate dynamic content.</p>
+<h3 id="1-graphviz_renderer-interactive-ontology-diagrams">1. <code>@Graphviz_renderer</code> — Interactive Ontology Diagrams</h3>
+<p><strong>Purpose:</strong> Renders TTL (Turtle) or SHACL shape files as interactive Graphviz diagrams with zoom, pan, tooltips, and export capabilities.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>&lt;!--@Graphviz_renderer:PATH_OR_URL_TO_TTL_FILE--&gt;
+</code></pre></div></p>
+<p><strong>Real Example from <code>patterns.md</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="gu">## Pattern 1 - Temporal Region</span>
+&lt;!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl--&gt;
+</code></pre></div>
+<h3 id="2-module_indicator-ontology-class-hierarchy-trees">2. <code>@module_indicator</code> — Ontology Class Hierarchy Trees</h3>
+<p><strong>Purpose:</strong> Fetches an OWL ontology file and generates an interactive, expandable class hierarchy tree.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>&lt;!--@module_indicator:URL_TO_OWL_FILE--&gt;
+</code></pre></div></p>
+<p><strong>Real Example from <code>ontology_structure.md</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="gu">## BFO Module Classes</span>
+&lt;!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/modules/bfo_module.owl--&gt;
+</code></pre></div>
+<h3 id="3-property_indicator-property-hierarchy-trees">3. <code>@property_indicator</code> — Property Hierarchy Trees</h3>
+<p><strong>Purpose:</strong> Generates interactive property trees showing object, data, or annotation properties.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>&lt;!--@property_indicator:PROPERTY_TYPE--&gt;
+</code></pre></div></p>
+<p><strong>Property Types:</strong> <code>object</code>, <code>data</code>, <code>annotation</code></p>
+<p><strong>Real Example from <code>ontology_structure.md</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="gu">## Object Properties</span>
+&lt;!--@property_indicator:object--&gt;
+</code></pre></div>
+<hr />
+<h2 id="branding-assets">🎨 Branding &amp; Assets</h2>
+<h3 id="logo">Logo</h3>
+<p>The build system expects a logo file named <code>Logo.svg</code> in the source documentation directory (<code>docs/Logo.svg</code>).
+During the build process, this file is automatically copied to the output directory (<code>HTML_Docs/Logo.svg</code>) and linked in the website header.</p>
+<hr />
+<h2 id="command-line-reference">📌 Command Line Reference</h2>
+<h3 id="build_allpy"><code>build_all.py</code></h3>
+<p>Main builder script for single pages.</p>
+<div class="highlight"><pre><span></span><code>Usage: python build_all.py [OPTIONS]
+
+Required Arguments:
+  --markdown, -m PATH      Source Markdown file path
+  --out, -o PATH           Output HTML file path
+
+Optional Arguments:
+  --mode, -M MODE          Build mode: docs, patterns, auto (default: auto)
+  --diagrams-root, -d PATH Base directory for Graphviz_renderer paths
+  --title, -t TEXT         Override page title
+  --no-strict              Don&#39;t fail if diagrams can&#39;t be resolved
+</code></pre></div>
+<h3 id="run_allpy"><code>run_all.py</code></h3>
+<p>Batch builder that builds all pages defined in <code>navigator.yaml</code>.</p>
+<div class="highlight"><pre><span></span><code>Usage: python run_all.py [OPTIONS]
+
+Optional Arguments:
+  --md-dir PATH            Markdown source directory (default: ../../)
+  --out-dir PATH           HTML output directory (default: ../HTML_Docs)
+  --diagrams-root PATH     Base directory for diagrams (default: ../../)
+  --quiet, -q              Suppress detailed progress output
+</code></pre></div>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build all documentation pages to default HTML_Docs/</span>
+python<span class="w"> </span>run_all.py
+
+<span class="c1"># Build to custom output directory</span>
+python<span class="w"> </span>run_all.py<span class="w"> </span>--out-dir<span class="w"> </span><span class="s2">&quot;../custom_output&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="license">📄 License</h2>
+<p>Part of the <strong>Platform MaterialDigital (PMD)</strong> project.</p>
+<p>Funded by the German Federal Ministry of Education and Research (BMBF).</p>
+<p>See <a href="https://materialdigital.de/">materialdigital.de</a> for more information.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
