@@ -59,7 +59,8 @@ obo:IAO_0000112 rdf:type owl:AnnotationProperty ;
 
 ###  http://purl.obolibrary.org/obo/IAO_0000115
 obo:IAO_0000115 rdf:type owl:AnnotationProperty ;
-                obo:IAO_0000115 "The official definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ;
+                obo:IAO_0000115 "The official OBI definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ,
+                                "The official definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ;
                 obo:IAO_0000116 """2012-04-05: 
 Barry Smith
 
@@ -102,7 +103,8 @@ Personally, I am more comfortable weakening definition to documentation, with in
 We also have the outstanding issue of how to aim different definitions to different audiences. A clinical audience reading chebi wants a different sort of definition documentation/definition from a chemistry trained audience, and similarly there is a need for a definition that is adequate for an ontologist to work with.  """@en ;
                 obo:IAO_0000119 "GROUP:OBI:<http://purl.obolibrary.org/obo/obi>"@en ;
                 rdfs:label "definition" ,
-                           "definition"@en .
+                           "definition"@en ,
+                           "textual definition" .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000116
@@ -124,7 +126,8 @@ obo:IAO_0000119 rdf:type owl:AnnotationProperty ;
 
 ###  http://purl.org/dc/elements/1.1/source
 dce:source rdf:type owl:AnnotationProperty ;
-           rdfs:label "Source" .
+           rdfs:label "Source" ,
+                      "Source"@en-us .
 
 
 ###  http://purl.org/dc/terms/bibliographicCitation
@@ -165,11 +168,18 @@ doap:repository rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.geneontology.org/formats/oboInOwl#hasDbXref
-oboInOwl:hasDbXref rdf:type owl:AnnotationProperty .
+oboInOwl:hasDbXref rdf:type owl:AnnotationProperty ;
+                   obo:IAO_0000112 "disease characteristic (MONDO:0021125) has cross-reference (http://www.geneontology.org/formats/oboInOwl#hasDbXref) \"NCIT:C41009\"^^xsd:string" ;
+                   obo:IAO_0000115 "An annotation property that links an ontology entity or a statement to a prefixed identifier or URI." ;
+                   dcterms:contributor <https://orcid.org/0000-0002-7356-1779> ;
+                   dcterms:created "2024-03-18"^^xsd:date ;
+                   rdfs:label "has cross-reference" .
 
 
 ###  http://www.geneontology.org/formats/oboInOwl#hasExactSynonym
-oboInOwl:hasExactSynonym rdf:type owl:AnnotationProperty .
+oboInOwl:hasExactSynonym rdf:type owl:AnnotationProperty ;
+                         obo:IAO_0000115 "An alternative label for a class or property which has the exact same meaning than the preferred name/primary label." ;
+                         rdfs:label "has exact synonym"@en .
 
 
 ###  http://www.w3.org/2000/01/rdf-schema#label
@@ -229,6 +239,10 @@ co:PMD_0050117 rdf:type owl:AnnotationProperty ;
 rdfs:Literal rdf:type rdfs:Datatype .
 
 
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+
 #################################################################
 #    Object Properties
 #################################################################
@@ -270,7 +284,8 @@ obo:BFO_0000054 rdf:type owl:ObjectProperty ;
                 owl:inverseOf obo:BFO_0000055 ;
                 rdfs:domain obo:BFO_0000017 ;
                 rdfs:range obo:BFO_0000015 ;
-                rdfs:label "has realization"@en ;
+                rdfs:label "has realization"@en ,
+                           "realized in"@en ;
                 skos:definition "b has realization c =Def c realizes b"@en ;
                 skos:example "As for realizes"@en .
 
@@ -279,6 +294,7 @@ obo:BFO_0000054 rdf:type owl:ObjectProperty ;
 obo:BFO_0000055 rdf:type owl:ObjectProperty ;
                 rdfs:domain obo:BFO_0000015 ;
                 rdfs:range obo:BFO_0000017 ;
+                obo:IAO_0000115 "Paraphrase of elucidation: a relation between a process and a realizable entity, where there is some material entity that is bearer of the realizable entity and participates in the process, and the realizable entity comes to be realized in the course of the process"@en ;
                 rdfs:label "realizes"@en ;
                 skos:definition "(Elucidation) realizes is a relation between a process b and realizable entity c such that c inheres in some d & for all t, if b has participant d then c exists & the type instantiated by b is correlated with the type instantiated by c"@en ;
                 skos:example "A balding process realizes a disposition to go bald; a studying process realizes a student role; a process of pumping blood realizes the pumping function of a heart"@en .
@@ -290,6 +306,7 @@ obo:BFO_0000062 rdf:type owl:ObjectProperty ;
                 rdf:type owl:TransitiveProperty ;
                 rdfs:domain obo:BFO_0000003 ;
                 rdfs:range obo:BFO_0000003 ;
+                obo:IAO_0000115 "x is preceded by y if and only if the time point at which y ends is before or equivalent to the time point at which x starts. Formally: x preceded by y iff ω(y) <= α(x), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point."@en ;
                 rdfs:label "preceded by"@en ;
                 skos:definition "b preceded by c =Def b precedes c"@en ;
                 skos:example "The temporal region occupied by the second half of the match is preceded by the temporal region occupied by the first half of the match"@en .
@@ -300,6 +317,7 @@ obo:BFO_0000063 rdf:type owl:ObjectProperty ,
                          owl:TransitiveProperty ;
                 rdfs:domain obo:BFO_0000003 ;
                 rdfs:range obo:BFO_0000003 ;
+                obo:IAO_0000115 "x precedes y if and only if the time point at which x ends is before or equivalent to the time point at which y starts. Formally: x precedes y iff ω(x) <= α(y), where α is a function that maps a process to a start point, and ω is a function that maps a process to an end point."@en ;
                 rdfs:label "precedes"@en ;
                 skos:definition "(Elucidation) precedes is a relation between occurrents o, o' such that if t is the temporal extent of o & t' is the temporal extent of o' then either the last instant of o is before the first instant of o' or the last instant of o is the first instant of o' & neither o nor o' are temporal instants"@en ;
                 skos:example "The temporal region occupied by Mary's birth precedes the temporal region occupied by Mary's death."@en .
@@ -664,9 +682,9 @@ obo:IAO_0000419 rdf:type owl:ObjectProperty ;
 obo:OBI_0000293 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000057 ;
                 owl:inverseOf obo:OBI_0000295 ;
-                rdfs:domain obo:OBI_0000011 ;
+                rdfs:domain obo:COB_0000035 ;
                 obo:IAO_0000112 "see is_input_of example_of_usage"@en ;
-                obo:IAO_0000115 "The inverse property of is specified input of"@en ;
+                obo:IAO_0000115 "The inverse property of is specified input of" ;
                 obo:IAO_0000116 "8/17/09: specified inputs of one process are not necessarily specified inputs of a larger process that it is part of. This is in contrast to how 'has participant' works." ;
                 rdfs:label "has specified input"@en .
 
@@ -674,9 +692,9 @@ obo:OBI_0000293 rdf:type owl:ObjectProperty ;
 ###  http://purl.obolibrary.org/obo/OBI_0000295
 obo:OBI_0000295 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000056 ;
-                rdfs:range obo:OBI_0000011 ;
+                rdfs:range obo:COB_0000035 ;
                 obo:IAO_0000112 "some Autologous EBV(Epstein-Barr virus)-transformed B-LCL (B lymphocyte cell line) is_input_for instance of Chromum Release Assay described at https://wiki.cbil.upenn.edu/obiwiki/index.php/Chromium_Release_assay"@en ;
-                obo:IAO_0000115 "A relation between a planned process and a continuant participating in that process that is not created during  the process. The presence of the continuant during the process is explicitly specified in the plan specification which the process realizes the concretization of."@en ;
+                obo:IAO_0000115 "A relation between a completely executed planned process and a continuant participating in that process that is not created during the process. The presence of the continuant during the process is explicitly specified in the plan specification which the process realizes the concretization of." ;
                 rdfs:label "is specified input of"@en .
 
 
@@ -686,8 +704,8 @@ obo:OBI_0000299 rdf:type owl:ObjectProperty ;
                                        ] ;
                 rdfs:subPropertyOf obo:RO_0000057 ;
                 owl:inverseOf obo:OBI_0000312 ;
-                rdfs:domain obo:OBI_0000011 ;
-                obo:IAO_0000115 "The inverse property of is specified output of"@en ;
+                rdfs:domain obo:COB_0000035 ;
+                obo:IAO_0000115 "The inverse property of is specified output of" ;
                 rdfs:label "has specified output"@en .
 
 
@@ -703,14 +721,14 @@ obo:OBI_0000304 rdf:type owl:ObjectProperty ;
 ###  http://purl.obolibrary.org/obo/OBI_0000312
 obo:OBI_0000312 rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf obo:RO_0000056 ;
-                rdfs:range obo:OBI_0000011 ;
-                obo:IAO_0000115 "A relation between a planned process and a continuant participating in that process. The presence of the continuant at the end of the process is explicitly specified in the objective specification which the process realizes the concretization of."@en ;
+                rdfs:range obo:COB_0000035 ;
+                obo:IAO_0000115 "A relation between a completely executed planned process and a continuant participating in that process. The presence of the continuant at the end of the process is explicitly specified in the objective specification which the process realizes the concretization of."@en ;
                 rdfs:label "is specified output of"@en .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000417
 obo:OBI_0000417 rdf:type owl:ObjectProperty ;
-                rdfs:domain obo:OBI_0000011 ;
+                rdfs:domain obo:COB_0000035 ;
                 rdfs:range obo:IAO_0000005 ;
                 obo:IAO_0000112 "A cell sorting process achieves the objective specification 'material separation objective'" ;
                 obo:IAO_0000115 "This relation obtains between a planned process and a objective specification when the criteria specified in the objective specification are met at the end of the planned process."@en ;
@@ -797,7 +815,8 @@ obo:RO_0000058 rdf:type owl:ObjectProperty ;
                           ] ;
                obo:IAO_0000112 "A journal article is an information artifact that inheres in some number of printed journals. For each copy of the printed journal there is some quality that carries the journal article, such as a pattern of ink. The journal article (a generically dependent continuant) is concretized as the quality (a specifically dependent continuant), and both depend on that copy of the printed journal (an independent continuant)."@en ,
                                "An investigator reads a protocol and forms a plan to carry out an assay. The plan is a realizable entity (a specifically dependent continuant) that concretizes the protocol (a generically dependent continuant), and both depend on the investigator (an independent continuant). The plan is then realized by the assay (a process)."@en ;
-               obo:IAO_0000115 "A relationship between a generically dependent continuant and a specifically dependent continuant or process, in which the generically dependent continuant depends on some independent continuant or process in virtue of the fact that the specifically dependent continuant or process also depends on that same independent continuant. A generically dependent continuant may be concretized as multiple specifically dependent continuants or processes."@en ;
+               obo:IAO_0000115 "A relationship between a generically dependent continuant and a specifically dependent continuant or process, in which the generically dependent continuant depends on some independent continuant or process in virtue of the fact that the specifically dependent continuant or process also depends on that same independent continuant. A generically dependent continuant may be concretized as multiple specifically dependent continuants or processes."@en ,
+                               "A relationship between a generically dependent continuant and a specifically dependent continuant, in which the generically dependent continuant depends on some independent continuant in virtue of the fact that the specifically dependent continuant also depends on that same independent continuant. A generically dependent continuant may be concretized as multiple specifically dependent continuants."@en ;
                rdfs:label "is concretized as"@en .
 
 
@@ -811,7 +830,8 @@ obo:RO_0000059 rdf:type owl:ObjectProperty ;
                rdfs:range obo:BFO_0000031 ;
                obo:IAO_0000112 "A journal article is an information artifact that inheres in some number of printed journals. For each copy of the printed journal there is some quality that carries the journal article, such as a pattern of ink. The quality (a specifically dependent continuant) concretizes the journal article (a generically dependent continuant), and both depend on that copy of the printed journal (an independent continuant)."@en ,
                                "An investigator reads a protocol and forms a plan to carry out an assay. The plan is a realizable entity (a specifically dependent continuant) that concretizes the protocol (a generically dependent continuant), and both depend on the investigator (an independent continuant). The plan is then realized by the assay (a process)."@en ;
-               obo:IAO_0000115 "A relationship between a specifically dependent continuant or process and a generically dependent continuant, in which the generically dependent continuant depends on some independent continuant in virtue of the fact that the specifically dependent continuant or process also depends on that same independent continuant. Multiple specifically dependent continuants or processes can concretize the same generically dependent continuant."@en ;
+               obo:IAO_0000115 "A relationship between a specifically dependent continuant and a generically dependent continuant, in which the generically dependent continuant depends on some independent continuant in virtue of the fact that the specifically dependent continuant also depends on that same independent continuant. Multiple specifically dependent continuants can concretize the same generically dependent continuant."@en ,
+                               "A relationship between a specifically dependent continuant or process and a generically dependent continuant, in which the generically dependent continuant depends on some independent continuant in virtue of the fact that the specifically dependent continuant or process also depends on that same independent continuant. Multiple specifically dependent continuants or processes can concretize the same generically dependent continuant."@en ;
                rdfs:label "concretizes"@en .
 
 
@@ -1604,6 +1624,8 @@ obo:BFO_0000038 rdf:type owl:Class ;
 obo:BFO_0000040 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000004 ;
                 owl:disjointWith obo:BFO_0000141 ;
+                obo:IAO_0000115 "An independent continuant that is spatially extended whose identity is independent of that of other entities and can be maintained through time."@en ;
+                obo:IAO_0000116 "Elucidation: An independent continuant that is spatially extended whose identity is independent of that of other entities and can be maintained through time."@en ;
                 rdfs:label "material entity"@en ;
                 skos:definition "(Elucidation) A material entity is an independent continuant has some portion of matter as continuant part"@en ;
                 skos:example "A human being; the undetached arm of a human being; an aggregate of human beings"@en .
@@ -1784,7 +1806,6 @@ obo:CHEBI_23116 rdf:type owl:Class ;
 obo:CHEBI_23367 rdf:type owl:Class ;
                 rdfs:subClassOf obo:CHEBI_24431 ;
                 obo:IAO_0000115 "Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity." ;
-                obo:IAO_0000116 "We are assuming that every molecular entity has to be completely connected by chemical bonds. This excludes protein complexes, which are comprised of minimally two separate molecular entities. We will follow up with Chebi to ensure this is their understanding as well"@en ;
                 rdfs:label "molecular entity" .
 
 
@@ -2061,7 +2082,11 @@ obo:CHEBI_30514 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_30682
 obo:CHEBI_30682 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:BFO_0000040
+                                ] ;
                 rdfs:label "ruthenium atom" .
 
 
@@ -2239,7 +2264,11 @@ obo:CHEBI_33357 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_33359
 obo:CHEBI_33359 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:BFO_0000040
+                                ] ;
                 obo:IAO_0000115 "A cobalt group element atom of atomic number 45." ;
                 rdfs:label "rhodium atom" .
 
@@ -2302,13 +2331,21 @@ obo:CHEBI_33374 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_33375
 obo:CHEBI_33375 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_33319 ;
+                rdfs:subClassOf obo:CHEBI_33319 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:BFO_0000040
+                                ] ;
                 rdfs:label "gadolinium atom" .
 
 
 ###  http://purl.obolibrary.org/obo/CHEBI_33376
 obo:CHEBI_33376 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_33319 ;
+                rdfs:subClassOf obo:CHEBI_33319 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:BFO_0000040
+                                ] ;
                 rdfs:label "terbium atom" .
 
 
@@ -2512,6 +2549,31 @@ obo:CHEBI_60003 rdf:type owl:Class ;
                 co:PMD_0000060 "true"^^xsd:boolean .
 
 
+###  http://purl.obolibrary.org/obo/COB_0000035
+obo:COB_0000035 rdf:type owl:Class ;
+                rdfs:subClassOf obo:COB_0000082 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000055 ;
+                                  owl:someValuesFrom obo:OBI_0000260
+                                ] ;
+                owl:disjointWith obo:COB_0000083 ;
+                rdfs:label "completely executed planned process"@en .
+
+
+###  http://purl.obolibrary.org/obo/COB_0000082
+obo:COB_0000082 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000015 ;
+                owl:disjointWith co:PMD_0025009 ;
+                obo:IAO_0000115 "A process that is initiated by an agent who intends to carry out a plan to achieve an objective through one or more actions as described in a plan specification."@en ;
+                rdfs:label "planned process"@en .
+
+
+###  http://purl.obolibrary.org/obo/COB_0000083
+obo:COB_0000083 rdf:type owl:Class ;
+                rdfs:subClassOf obo:COB_0000082 ;
+                rdfs:label "failed planned process"@en .
+
+
 ###  http://purl.obolibrary.org/obo/IAO_0000003
 obo:IAO_0000003 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000009 ;
@@ -2608,6 +2670,7 @@ obo:IAO_0000030 rdf:type owl:Class ;
                 obo:IAO_0000112 "Examples of information content entites include journal articles, data, graphical layouts, and graphs."@en ;
                 obo:IAO_0000115 "A generically dependent continuant that is about some thing."@en ;
                 obo:IAO_0000116 "2014-03-10: The use of \"thing\" is intended to be general enough to include universals and configurations (see https://groups.google.com/d/msg/information-ontology/GBxvYZCk1oc/-L6B5fSBBTQJ)."@en ,
+                                "Pier: 'data, information or knowledge'. OR 'representation'"@en ,
                                 """information_content_entity 'is_encoded_in' some digital_entity in obi before split (040907). information_content_entity 'is_encoded_in' some physical_document in obi before split (040907).
 
 Previous. An information content entity is a non-realizable information entity that 'is encoded in' some digital or physical entity."""@en ;
@@ -2740,7 +2803,7 @@ obo:IAO_0000311 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/IAO_0000444
 obo:IAO_0000444 rdf:type owl:Class ;
-                rdfs:subClassOf obo:OBI_0000011 ;
+                rdfs:subClassOf obo:COB_0000035 ;
                 obo:IAO_0000115 "A planned process of making information, such as literature, music, and software etc., available to the public for sale or for free."@en ;
                 obo:IAO_0000119 "https://en.wikipedia.org/wiki/Publishing" ;
                 rdfs:label "publishing process"@en .
@@ -2784,7 +2847,7 @@ obo:IAO_0020000 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/IAO_0020010
 obo:IAO_0020010 rdf:type owl:Class ;
-                owl:equivalentClass [ owl:intersectionOf ( obo:OBI_0000011
+                owl:equivalentClass [ owl:intersectionOf ( obo:COB_0000035
                                                            [ rdf:type owl:Restriction ;
                                                              owl:onProperty obo:OBI_0000299 ;
                                                              owl:someValuesFrom obo:IAO_0020000
@@ -2792,7 +2855,7 @@ obo:IAO_0020010 rdf:type owl:Class ;
                                                          ) ;
                                       rdf:type owl:Class
                                     ] ;
-                rdfs:subClassOf obo:OBI_0000011 ,
+                rdfs:subClassOf obo:COB_0000035 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:OBI_0000299 ;
                                   owl:someValuesFrom obo:IAO_0020000
@@ -2804,34 +2867,19 @@ obo:IAO_0020010 rdf:type owl:Class ;
 ###  http://purl.obolibrary.org/obo/NCBITaxon_9606
 obo:NCBITaxon_9606 rdf:type owl:Class ;
                    rdfs:subClassOf obo:BFO_0000040 ;
-                   rdfs:label "homo sapiens" .
+                   rdfs:label "Homo sapiens" ,
+                              "homo sapiens" .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000011
 obo:OBI_0000011 rdf:type owl:Class ;
-                owl:equivalentClass [ rdf:type owl:Restriction ;
-                                      owl:onProperty obo:BFO_0000055 ;
-                                      owl:someValuesFrom [ rdf:type owl:Restriction ;
-                                                           owl:onProperty obo:RO_0000059 ;
-                                                           owl:someValuesFrom obo:IAO_0000104
-                                                         ]
-                                    ] ;
-                rdfs:subClassOf obo:BFO_0000015 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000055 ;
-                                  owl:someValuesFrom [ rdf:type owl:Restriction ;
-                                                       owl:onProperty obo:RO_0000059 ;
-                                                       owl:someValuesFrom obo:IAO_0000104
-                                                     ]
-                                ] ;
-                owl:disjointWith co:PMD_0025009 ;
                 obo:IAO_0000112 "Injecting mice with a vaccine in order to test its efficacy" ;
                 obo:IAO_0000115 "A process that realizes a plan which is the concretization of a plan specification."@en ;
                 obo:IAO_0000116 "'Plan' includes a future direction sense. That can be problematic if plans are changed during their execution. There are however implicit contingencies for protocols that an agent has in his mind that can be considered part of the plan, even if the agent didn't have them in mind before. Therefore, a planned process can diverge from what the agent would have said the plan was before executing it, by adjusting to problems encountered during execution (e.g. choosing another reagent with equivalent properties, if the originally planned one has run out.)" ,
-                                """We are only considering successfully completed planned processes. A plan may be modified, and details added during execution. For a given planned process, the associated realized plan specification is the one encompassing all changes made during execution. This means that all processes in which an agent acts towards achieving some 
-objectives is a planned process.""" ;
+                                "We are only considering successfully completed planned processes. A plan may be modified, and details added during execution. For a given planned process, the associated realized plan specification is the one encompassing all changes made during execution. This means that all processes in which an agent acts towards achieving some objectives is a planned process." ;
                 obo:IAO_0000119 "branch derived" ;
-                rdfs:label "planned process"@en .
+                rdfs:label "obsolete planned process" ;
+                owl:deprecated "true"^^xsd:boolean .
 
 
 ###  http://purl.obolibrary.org/obo/OBI_0000067
@@ -2855,7 +2903,18 @@ obo:OBI_0000067 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0000070
 obo:OBI_0000070 rdf:type owl:Class ;
-                rdfs:subClassOf obo:OBI_0000011 ,
+                rdfs:subClassOf obo:COB_0000035 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:OBI_0000293 ;
+                                                         owl:someValuesFrom obo:BFO_0000040
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:OBI_0000299 ;
+                                                         owl:someValuesFrom obo:IAO_0000027
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000055 ;
                                   owl:someValuesFrom obo:OBI_0000067
@@ -2947,9 +3006,13 @@ for now."""@en ;
 
 ###  http://purl.obolibrary.org/obo/OBI_0000260
 obo:OBI_0000260 rdf:type owl:Class ;
-                rdfs:subClassOf obo:BFO_0000017 ;
+                rdfs:subClassOf obo:BFO_0000017 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000059 ;
+                                  owl:someValuesFrom obo:IAO_0000104
+                                ] ;
                 obo:IAO_0000112 "The plan of researcher X to perform an experiment according to a protocol." ;
-                obo:IAO_0000115 "A plan is a realizable entity that is the inheres in a bearer who is committed to realizing it as a planned process."@en ;
+                obo:IAO_0000115 "A plan is a realizable entity that is the inheres in a bearer who is committed to realizing it as a completely executed planned process."@en ;
                 obo:IAO_0000116 "This class is included to make clear how the plan specification, the plan, and the planned process relate. OBI will however only subclass and work under the 'plan specification', and 'planned process' class, as we want to avoid to get deep into discussions of 'intend' etc." ;
                 obo:IAO_0000119 "branch derived"@en ;
                 rdfs:label "plan"@en .
@@ -2966,6 +3029,10 @@ obo:OBI_0000379 rdf:type owl:Class ;
 ###  http://purl.obolibrary.org/obo/OBI_0000571
 obo:OBI_0000571 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000023 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000052 ;
+                                  owl:someValuesFrom obo:BFO_0000040
+                                ] ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:RO_0000052 ;
                                   owl:someValuesFrom [ rdf:type owl:Class ;
@@ -3310,7 +3377,7 @@ co:PMD_0000051 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000053
 co:PMD_0000053 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0000011 ,
+               rdfs:subClassOf obo:COB_0000035 ,
                                [ owl:intersectionOf ( co:PMD_0000547
                                                       [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:OBI_0000293 ;
@@ -4273,7 +4340,7 @@ Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine
 
 ###  https://w3id.org/pmd/co/PMD_0000583
 co:PMD_0000583 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0000011 ,
+               rdfs:subClassOf obo:COB_0000035 ,
                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                                         owl:onProperty obo:OBI_0000293 ;
                                                         owl:someValuesFrom obo:IAO_0000030
@@ -5217,7 +5284,7 @@ co:PMD_0000777 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000778
 co:PMD_0000778 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0000011 ;
+               rdfs:subClassOf obo:COB_0000082 ;
                obo:IAO_0000112 "Mixing two fluids. Adding salt into water. Injecting a mouse with PBS." ;
                rdfs:label "material combination" ;
                skos:definition "A material processing with the objective to combine two or more material entities as input into a single material entity as output."@en .
@@ -5720,7 +5787,7 @@ co:PMD_0000832 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000833
 co:PMD_0000833 rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( obo:OBI_0000011
+               owl:equivalentClass [ owl:intersectionOf ( obo:COB_0000082
                                                           [ rdf:type owl:Restriction ;
                                                             owl:onProperty obo:OBI_0000293 ;
                                                             owl:someValuesFrom [ rdf:type owl:Class ;
@@ -5740,7 +5807,7 @@ co:PMD_0000833 rdf:type owl:Class ;
                                                         ) ;
                                      rdf:type owl:Class
                                    ] ;
-               rdfs:subClassOf obo:OBI_0000011 ,
+               rdfs:subClassOf obo:COB_0000035 ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty obo:OBI_0000293 ;
                                  owl:someValuesFrom [ rdf:type owl:Class ;
@@ -7446,7 +7513,7 @@ co:PMD_0001038 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0001039
 co:PMD_0001039 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0000011 ;
+               rdfs:subClassOf obo:COB_0000082 ;
                rdfs:label "calibration process"@en ;
                skos:definition "A process of comparing measurement values delivered by an instrument or system with known reference standards to ensure accuracy and traceability." ;
                co:PMD_0001032 <https://github.com/materialdigital/core-ontology/issues/278> .
@@ -7454,7 +7521,7 @@ co:PMD_0001039 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0001040
 co:PMD_0001040 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0000011 ;
+               rdfs:subClassOf obo:COB_0000082 ;
                rdfs:label "expriment designing process"@en ;
                skos:definition "A planned process of planning and structuring experimental methods, conditions, and variables to reliably test hypotheses or obtain data." ;
                co:PMD_0001032 <https://github.com/materialdigital/core-ontology/issues/278> .
@@ -7462,7 +7529,7 @@ co:PMD_0001040 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0001041
 co:PMD_0001041 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0000011 ;
+               rdfs:subClassOf obo:COB_0000082 ;
                rdfs:label "measuring process"@en ;
                skos:definition "A planned process of determining the value of a physical quantity by comparing it with a defined unit or standard." ;
                co:PMD_0001032 <https://github.com/materialdigital/core-ontology/issues/278> .
@@ -7470,7 +7537,7 @@ co:PMD_0001041 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0001042
 co:PMD_0001042 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0000011 ;
+               rdfs:subClassOf obo:COB_0000082 ;
                obo:IAO_0000119 "https://www.britannica.com/science/sample-preparation" ;
                rdfs:label "test piece preparation process"@en ;
                skos:definition "A planned processes in which a representative piece of material is extracted from a larger amount and readied for analysis. " ;
@@ -7479,7 +7546,7 @@ co:PMD_0001042 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0001043
 co:PMD_0001043 rdf:type owl:Class ;
-               rdfs:subClassOf obo:OBI_0000011 ;
+               rdfs:subClassOf obo:COB_0000082 ;
                rdfs:label "verification process"@en ;
                skos:definition "A process of evaluating whether a system, component, or result meets specified requirements or standards." ;
                co:PMD_0001032 <https://github.com/materialdigital/core-ontology/issues/278> .
