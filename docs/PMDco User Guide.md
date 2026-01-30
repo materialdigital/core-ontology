@@ -71,7 +71,6 @@ Although several guidelines and tutorials for ontology development are available
 ### 9-	Ontology documentation and publishing
 -	Create detailed documentation, including best practices, examples, and guidelines in your ontology GitHub repository.
 -	Use [Widoco template](https://github.com/dgarijo/Widoco), a documentation generator for ontologies that automatically produces human-readable HTML documentation including metadata, hierarchies of classes, properties, and annotations,
--	If interested, create [MkDocs](https://www.mkdocs.org/) documentation (like this repository). 
 -	If you are using [“application-ontology-template”](https://github.com/materialdigital/application-ontology-template), your ontology is automatically documented in [obofoundary.org](https://obofoundry.org/), 
 -	To enhance your ontology accessibility, please also publish your ontology in [MatPortal](https://matportal.org/) and [PMD DataPortal](https://dataportal.material-digital.de/).
 

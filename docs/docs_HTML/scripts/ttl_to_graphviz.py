@@ -1,53 +1,125 @@
 #!/usr/bin/env python3
 """
-ttl_to_mermaid.py
+ttl_to_graphviz.py - RDF/TTL to Diagram Converter for PMDco
+============================================================
 
-Generate diagram sources from RDF Turtle (.ttl) files in either:
-  - Mermaid flowchart format ("mermaid")
-  - Graphviz DOT format ("dot")
+This module converts RDF Turtle (.ttl) ontology pattern files into visual
+diagrams in either Graphviz DOT or Mermaid flowchart format. It is the core
+diagram generation engine used by the PMDco documentation build system.
 
-Primary outputs:
-- Diagram source suitable for embedding in HTML (as a string).
-- (Optional) a JS file that defines:
-    const diagrams = { "<id>": `...source...`, ... };
-    const nodeData = { "<id>": { "<nodeId>": {label,type,uri}, ... }, ... };
+Architecture Overview
+---------------------
+The converter operates in three main phases:
 
-Integration:
-- Can patch a patterns.html-style file by replacing its `const diagrams = {...}` and
-  `const nodeData = {...}` blocks.
+1. **RDF Parsing**: Load TTL files using rdflib, handling various encoding
+   issues and prefix conventions common in ontology files.
 
-Dependency:
-  pip install rdflib
+2. **Graph Analysis**: Extract classes, individuals, properties, SHACL shapes,
+   and relationships. Optionally enrich with labels and hierarchy from:
+   - Local *_full.ttl ontology files (preferred)
+   - Remote OBO Foundry ontologies (BFO, OBI, IAO, RO, etc.)
 
-Examples:
-  # Print Mermaid for a single TTL file
-  python ttl_to_mermaid.py --ttl ./patterns/temporal-region.ttl --format mermaid
+3. **Diagram Rendering**: Generate visual representation as either:
+   - Graphviz DOT: For high-quality static SVG rendering
+   - Mermaid: For interactive web-based rendering
 
-  # Print DOT for a single TTL file
-  python ttl_to_mermaid.py --ttl ./patterns/temporal-region.ttl --format dot
+Visual Style Guide
+------------------
+Nodes are color-coded by ontology source for easy identification:
 
-  # Generate a JS file for all TTLs in a directory (DOT)
-  python ttl_to_mermaid.py --ttl-dir ./patterns --format dot --out-js ./generated_diagrams.js
+    BFO (Basic Formal Ontology):  #F556CB (pink)
+    OBI (Ontology for Biomedical Investigations):  #F5D5B1 (peach)
+    IAO (Information Artifact Ontology):  #F6A252 (orange)
+    RO (Relation Ontology):  #F43F5E (rose)
+    COB (Core Ontology for Biology):  #93AFF3 (periwinkle)
+    PMD/PMDco (Materials Data Ontology):  #46CAD3 (cyan)
+    QUDT (Quantities, Units, Dimensions):  #C9DBFE (light blue)
+    Generic Class:  #FDFDC8 (light yellow)
+    Individual (ABox):  #E6E6E6 (light gray)
+    Literal:  #93D053 (green)
+    SHACL Shape:  #A5F3FC (cyan)
+    Constraint:  #FED7AA (orange)
 
-  # Patch patterns.html in-place (only generates diagrams for IDs present in the HTML)
-  python ttl_to_mermaid.py --ttl-dir ./patterns --format mermaid --html ./patterns.html --patch-html
+Node shapes indicate semantic role:
+    - Box/Square: TBox (Classes, Named Individuals)
+    - Ellipse/Oval: ABox (Instance data)
+    - Hexagon: SHACL Shapes
+    - Diamond: Constraints
+    - Note: Literals
 
-Optional enrichment:
-  --enrich enables best-effort downloading/caching of selected ontologies (BFO/OBI/IAO/RO/UO)
-  to resolve rdfs:label and superclass chains. If downloads fail, the script falls back to
-  QName-based labels.
+Usage Examples
+--------------
+Command-line usage for a single TTL file::
 
-Local ontology enrichment (recommended for completeness):
-  Place one or more *_full.ttl files alongside patterns. These are auto-discovered and used to:
-    - resolve rdfs:label for IRIs
-    - expand rdfs:subClassOf chains up to a root (default BFO entity)
+    # Output DOT format to stdout
+    python ttl_to_graphviz.py --ttl pattern.ttl --format dot
 
-Notes on Turtle prefix style:
-Some pattern TTLs define prefixes that point to a *single term IRI*:
-    @prefix process: <.../BFO_0000015> .
-and then use the empty-local QName `process:`. rdflib does not normalize these into QNames.
-This script detects such "exact-prefix" definitions and uses the prefix token (e.g., "process")
-for labels and stable node IDs.
+    # Output Mermaid format to stdout
+    python ttl_to_graphviz.py --ttl pattern.ttl --format mermaid
+
+Batch processing with JS output::
+
+    # Generate JS file with all diagrams from a directory
+    python ttl_to_graphviz.py --ttl-dir ./patterns --format dot --out-js diagrams.js
+
+Integration with build_all.py::
+
+    # The build system imports and uses this module programmatically
+    from ttl_to_graphviz import RdfToDiagram, load_full_ontology_index
+
+    # Load the full PMDco ontology for hierarchy resolution
+    index = load_full_ontology_index([Path("pmdco_full.ttl")])
+
+    # Create converter with hierarchy expansion enabled
+    converter = RdfToDiagram(
+        output_format="dot",
+        full_ontology=index,
+        use_full_hierarchy=True,
+    )
+
+    # Render a pattern file
+    result = converter.render_graph(Path("pattern.ttl"))
+    print(result.source)  # DOT code
+
+Prefix Handling
+---------------
+Ontology TTL files often use special prefix conventions that require
+careful handling:
+
+1. **Exact-prefix tokens**: Some patterns define prefixes pointing to a
+   single term IRI::
+
+       @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
+
+   The empty local QName `process:` is then used to reference this term.
+   rdflib doesn't normalize these into QNames, so we detect and handle
+   them specially.
+
+2. **OBO Foundry prefixes**: Standard OBO URIs like
+   `http://purl.obolibrary.org/obo/BFO_0000001` are parsed to extract
+   the prefix (BFO) for styling and labeling.
+
+Dependencies
+------------
+Required:
+    - rdflib: RDF parsing and graph operations
+
+Optional (for enhanced label resolution):
+    - Network access for downloading OBO ontologies when --enrich is used
+
+Module Exports
+--------------
+Main classes and functions for programmatic use:
+
+    RdfToDiagram: Main converter class
+    DiagramResult: Container for rendered diagram output
+    FullOntologyIndex: Index over local *_full.ttl files
+    load_full_ontology_index: Load and index local ontology files
+    slugify: Convert strings to URL-safe identifiers
+    js_escape_template_literal: Escape strings for JS template literals
+
+Author: PMDco Documentation Team
+License: CC BY 4.0
 """
 
 from __future__ import annotations
@@ -66,71 +138,138 @@ from rdflib import BNode, Graph, Literal, Namespace, RDF, RDFS, URIRef
 from rdflib.collection import Collection
 from rdflib.namespace import OWL
 
-# SHACL namespace (used if present)
+# =============================================================================
+# NAMESPACE DEFINITIONS
+# =============================================================================
+
+# SHACL namespace for constraint validation shapes
 SH = Namespace("http://www.w3.org/ns/shacl#")
 
-LOG = logging.getLogger("ttl_to_mermaid")
+# Module logger - use logging.basicConfig() to configure output
+LOG = logging.getLogger("ttl_to_graphviz")
 
-# -----------------------------
-# Styling (Mermaid classDefs)
-# -----------------------------
+
+# =============================================================================
+# STYLING CONFIGURATION
+# =============================================================================
+# Color schemes and visual styles for diagram nodes and edges.
+# Each ontology source gets a distinct color for easy visual identification.
+# =============================================================================
+
+# Mermaid classDef styles - CSS-like styling for Mermaid flowcharts
+# Format: "fill:COLOR,stroke:BORDER,stroke-width:WIDTH,color:TEXT"
 CLASSDEF_STYLES: Dict[str, str] = {
-    # Generic
-    "cls": "fill:#b34dff,stroke:#4a148c,stroke-width:2px,color:#fff",
-    "ind": "fill:#e8f0ff,stroke:#1e40af,stroke-width:2px,color:#0b1220",
-    "lit": "fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f",
-    "cat": "fill:#d1fae5,stroke:#059669,stroke-width:2px,color:#064e3b",
-    "shacl": "fill:#22d3ee,stroke:#0891b2,stroke-width:2px,color:#042f2e",
-    "constraint": "fill:#fb923c,stroke:#ea580c,stroke-width:2px,color:#431407",
-    # Ontology buckets (commonly used in patterns)
-    "bfo": "fill:#b34dff,stroke:#7c3aed,stroke-width:2px,color:#fff",
-    "obi": "fill:#a78bbc,stroke:#7c5c8f,stroke-width:2px,color:#fff",
-    "pmd": "fill:#6b7fa3,stroke:#4a5568,stroke-width:2px,color:#fff",
+    # Generic node types
+    "cls": "fill:#FDFDC8,stroke:#D4D48A,stroke-width:2px,color:#333333",       # Default class (light yellow)
+    "ind": "fill:#E6E6E6,stroke:#AAAAAA,stroke-width:2px,color:#333333",       # ABox individual (light gray)
+    "lit": "fill:#93D053,stroke:#6BA33A,stroke-width:2px,color:#333333",       # Literal value (green)
+    "cat": "fill:#99F6E4,stroke:#0D9488,stroke-width:2px,color:#134E4A",       # Categorical value (teal)
+    "shacl": "fill:#A5F3FC,stroke:#0891B2,stroke-width:2px,color:#164E63",     # SHACL Shape (cyan)
+    "constraint": "fill:#FED7AA,stroke:#EA580C,stroke-width:2px,color:#7C2D12",# Constraint (orange)
+    # Ontology-specific styles for TBox classes
+    "bfo": "fill:#F556CB,stroke:#C93DA0,stroke-width:2px,color:#333333",       # BFO (pink)
+    "obi": "fill:#F5D5B1,stroke:#D4B08A,stroke-width:2px,color:#333333",       # OBI (warm peach)
+    "cob": "fill:#93AFF3,stroke:#6B8AD6,stroke-width:2px,color:#333333",       # COB (periwinkle blue)
+    "pmd": "fill:#46CAD3,stroke:#2EA0A8,stroke-width:2px,color:#333333",       # PMD (cyan)
+    "pmdco": "fill:#46CAD3,stroke:#2EA0A8,stroke-width:2px,color:#333333",     # PMDco (same as PMD)
+    "iao": "fill:#F6A252,stroke:#D4803A,stroke-width:2px,color:#333333",       # IAO (orange)
+    "ro": "fill:#F43F5E,stroke:#C4283F,stroke-width:2px,color:#FFFFFF",        # RO (rose)
+    "qudt": "fill:#C9DBFE,stroke:#8AAAD6,stroke-width:2px,color:#333333",      # QUDT (light blue)
 }
 
-# -----------------------------
-# Styling (Graphviz nodes)
-# -----------------------------
+# Graphviz DOT node styles - attribute dictionaries for node styling
+# Keys match CLASSDEF_STYLES for consistency between formats
 GRAPHVIZ_NODE_STYLES: Dict[str, Dict[str, str]] = {
-    "cls": {"fillcolor": "#b34dff", "color": "#4a148c", "penwidth": "2", "fontcolor": "#ffffff"},
-    "ind": {"fillcolor": "#e8f0ff", "color": "#1e40af", "penwidth": "2", "fontcolor": "#0b1220"},
-    "lit": {"fillcolor": "#fef3c7", "color": "#d97706", "penwidth": "2", "fontcolor": "#78350f"},
-    "cat": {"fillcolor": "#d1fae5", "color": "#059669", "penwidth": "2", "fontcolor": "#064e3b"},
-    "shacl": {"fillcolor": "#22d3ee", "color": "#0891b2", "penwidth": "2", "fontcolor": "#042f2e"},
-    "constraint": {"fillcolor": "#fb923c", "color": "#ea580c", "penwidth": "2", "fontcolor": "#431407"},
-    "bfo": {"fillcolor": "#b34dff", "color": "#7c3aed", "penwidth": "2", "fontcolor": "#ffffff"},
-    "obi": {"fillcolor": "#a78bbc", "color": "#7c5c8f", "penwidth": "2", "fontcolor": "#ffffff"},
-    "pmd": {"fillcolor": "#6b7fa3", "color": "#4a5568", "penwidth": "2", "fontcolor": "#ffffff"},
+    # Generic node types
+    "cls": {"fillcolor": "#FDFDC8", "color": "#D4D48A", "penwidth": "2", "fontcolor": "#333333"},
+    "ind": {"fillcolor": "#E6E6E6", "color": "#AAAAAA", "penwidth": "2", "fontcolor": "#333333"},
+    "lit": {"fillcolor": "#93D053", "color": "#6BA33A", "penwidth": "2", "fontcolor": "#333333"},
+    "cat": {"fillcolor": "#99F6E4", "color": "#0D9488", "penwidth": "2", "fontcolor": "#134E4A"},
+    "shacl": {"fillcolor": "#A5F3FC", "color": "#0891B2", "penwidth": "2", "fontcolor": "#164E63"},
+    "constraint": {"fillcolor": "#FED7AA", "color": "#EA580C", "penwidth": "2", "fontcolor": "#7C2D12"},
+    # Ontology-specific styles
+    "bfo": {"fillcolor": "#F556CB", "color": "#C93DA0", "penwidth": "2", "fontcolor": "#333333"},
+    "obi": {"fillcolor": "#F5D5B1", "color": "#D4B08A", "penwidth": "2", "fontcolor": "#333333"},
+    "cob": {"fillcolor": "#93AFF3", "color": "#6B8AD6", "penwidth": "2", "fontcolor": "#333333"},
+    "pmd": {"fillcolor": "#46CAD3", "color": "#2EA0A8", "penwidth": "2", "fontcolor": "#333333"},
+    "pmdco": {"fillcolor": "#46CAD3", "color": "#2EA0A8", "penwidth": "2", "fontcolor": "#333333"},
+    "iao": {"fillcolor": "#F6A252", "color": "#D4803A", "penwidth": "2", "fontcolor": "#333333"},
+    "ro": {"fillcolor": "#F43F5E", "color": "#C4283F", "penwidth": "2", "fontcolor": "#FFFFFF"},
+    "qudt": {"fillcolor": "#C9DBFE", "color": "#8AAAD6", "penwidth": "2", "fontcolor": "#333333"},
 }
 
-# Ontology download targets (best-effort; only used with --enrich)
+# Remote ontology download URLs for enrichment (--enrich flag)
+# These are fetched on-demand and cached locally
 DEFAULT_ONTOLOGY_URLS: Dict[str, str] = {
     "bfo": "http://purl.obolibrary.org/obo/bfo.owl",
     "obi": "http://purl.obolibrary.org/obo/obi.owl",
     "iao": "http://purl.obolibrary.org/obo/iao.owl",
     "ro": "http://purl.obolibrary.org/obo/ro.owl",
     "uo": "http://purl.obolibrary.org/obo/uo.owl",
+    "cob": "http://purl.obolibrary.org/obo/cob.owl",
 }
 
-# Root class for BFO (entity)
+# BFO Entity - the root class for ontology hierarchies
 BFO_ENTITY_IRI = "http://purl.obolibrary.org/obo/BFO_0000001"
 
-# -----------------------------
-# Parsing hardening
-# -----------------------------
+# Implicit top-level classes that should be excluded from diagrams
+# Every class is implicitly a subclass of these, so showing them adds noise
+_IMPLICIT_TOP_CLASSES: set = {
+    URIRef("http://www.w3.org/2002/07/owl#Thing"),
+    URIRef("http://www.w3.org/2000/01/rdf-schema#Resource"),
+}
+
+
+# =============================================================================
+# TURTLE PARSING UTILITIES
+# =============================================================================
+
 def parse_turtle_safely(g: Graph, path: Path) -> None:
-    """
-    Parse Turtle content with light hardening.
-    Normalizes non-breaking spaces (U+00A0) to spaces to avoid rdflib parser issues.
+    """Parse a Turtle file with encoding normalization.
+
+    Handles common encoding issues in ontology files:
+    - Non-breaking spaces (U+00A0) that cause rdflib parser errors
+    - UTF-8 encoding with error replacement for invalid sequences
+
+    Args:
+        g: RDFLib Graph to parse into (will be modified in-place).
+        path: Path to the Turtle (.ttl) file to parse.
+
+    Raises:
+        Exception: If the file cannot be parsed as valid Turtle syntax.
+
+    Note:
+        The file's URI is used as the publicID for relative IRI resolution.
     """
     data = path.read_text(encoding="utf-8", errors="replace").replace("\u00a0", " ")
     g.parse(data=data, format="turtle", publicID=str(path.resolve().as_uri()))
 
 
-# -----------------------------
-# Helpers
-# -----------------------------
+# =============================================================================
+# STRING UTILITIES
+# =============================================================================
+
 def slugify(stem: str) -> str:
+    """Convert a string to a URL-safe slug identifier.
+
+    Transforms the input string by:
+    1. Converting to lowercase
+    2. Replacing non-word characters with hyphens
+    3. Collapsing multiple consecutive hyphens
+    4. Stripping leading/trailing hyphens
+
+    Args:
+        stem: The string to convert (e.g., a filename or title).
+
+    Returns:
+        A URL-safe slug string, or "diagram" if the result would be empty.
+
+    Examples:
+        >>> slugify("Temporal Region Pattern")
+        'temporal-region-pattern'
+        >>> slugify("BFO_0000015")
+        'bfo-0000015'
+    """
     s = stem.strip().lower()
     s = re.sub(r"[^\w\-]+", "-", s)
     s = re.sub(r"-{2,}", "-", s).strip("-")
@@ -138,8 +277,19 @@ def slugify(stem: str) -> str:
 
 
 def escape_mermaid_label(label: str) -> str:
-    """
-    Escape label for Mermaid node/edge text.
+    """Escape a string for use in Mermaid node/edge labels.
+
+    Escapes special characters that have meaning in Mermaid syntax:
+    - Ampersand (&) for HTML entities
+    - Quotes (") for attribute values
+    - Brackets ([]) for node definitions
+    - Newlines for multi-line labels
+
+    Args:
+        label: The raw label text to escape.
+
+    Returns:
+        The escaped label safe for Mermaid syntax.
     """
     label = label.replace("&", "&amp;")
     label = label.replace('"', "&quot;")
@@ -149,8 +299,18 @@ def escape_mermaid_label(label: str) -> str:
 
 
 def escape_dot_label(label: str) -> str:
-    """
-    Escape label for Graphviz DOT quoted strings.
+    """Escape a string for use in Graphviz DOT quoted strings.
+
+    Escapes special characters that have meaning in DOT syntax:
+    - Backslash (\\) as escape character
+    - Quotes (") for string delimiters
+    - Newlines for multi-line labels
+
+    Args:
+        label: The raw label text to escape.
+
+    Returns:
+        The escaped label safe for DOT quoted strings.
     """
     label = label.replace("\\", "\\\\")
     label = label.replace('"', '\\"')
@@ -160,44 +320,160 @@ def escape_dot_label(label: str) -> str:
 
 
 def dot_attrs(attrs: Dict[str, str]) -> str:
-    """
-    Build DOT attribute list: [k="v",...]
+    """Build a DOT attribute list from a dictionary.
+
+    Formats the attributes as: [key1="value1",key2="value2",...]
+
+    Special handling:
+    - HTML-like labels (starting with < and ending with >) are not quoted
+    - All other values are escaped and double-quoted
+
+    Args:
+        attrs: Dictionary of attribute name-value pairs.
+
+    Returns:
+        DOT attribute list string, or empty string if attrs is empty.
+
+    Example:
+        >>> dot_attrs({"shape": "box", "label": "Node"})
+        ' [label="Node",shape="box"]'
     """
     if not attrs:
         return ""
     parts = []
     for k in sorted(attrs.keys()):
-        parts.append(f'{k}="{escape_dot_label(str(attrs[k]))}"')
+        val = str(attrs[k])
+        # HTML-like labels should not be quoted
+        if k == "label" and val.startswith("<") and val.endswith(">"):
+            parts.append(f'{k}={val}')
+        else:
+            parts.append(f'{k}="{escape_dot_label(val)}"')
     return " [" + ",".join(parts) + "]"
 
 
 def chunked(items: List[str], n: int = 10) -> Iterable[List[str]]:
+    """Split a list into chunks of size n.
+
+    Args:
+        items: List to split into chunks.
+        n: Maximum size of each chunk (default: 10).
+
+    Yields:
+        Lists of up to n items each.
+    """
     for i in range(0, len(items), n):
         yield items[i : i + n]
 
 
 def uri_local_name(uri: str) -> str:
+    """Extract the local name from a URI.
+
+    Extracts the fragment identifier after # if present, otherwise
+    the last path segment after /.
+
+    Args:
+        uri: Full URI string.
+
+    Returns:
+        The local name portion of the URI.
+
+    Examples:
+        >>> uri_local_name("http://example.org/ns#LocalName")
+        'LocalName'
+        >>> uri_local_name("http://example.org/ns/LocalName")
+        'LocalName'
+    """
     if "#" in uri:
         return uri.rsplit("#", 1)[1]
     return uri.rstrip("/").rsplit("/", 1)[-1]
 
 
 def obo_prefix_for_iri(iri: str) -> Optional[str]:
+    """Detect the ontology source from an IRI and return its prefix.
+
+    Recognizes IRIs from various ontology sources and returns a lowercase
+    prefix token that can be used for styling and labeling.
+
+    Supported sources:
+    - OBO Foundry: BFO, OBI, IAO, RO, UO, CHEBI, GO, PATO, etc.
+    - PMD: pmd, pmdco
+    - QUDT: units, quantities
+    - W3C vocabularies: dcterms, dc, foaf, skos, prov, schema
+
+    Args:
+        iri: The IRI to analyze.
+
+    Returns:
+        Lowercase prefix string (e.g., 'bfo', 'obi', 'pmd') or None if
+        the ontology source cannot be determined.
+
+    Examples:
+        >>> obo_prefix_for_iri("http://purl.obolibrary.org/obo/BFO_0000001")
+        'bfo'
+        >>> obo_prefix_for_iri("https://w3id.org/pmd/co/Process")
+        'pmdco'
     """
-    Detect common ontology bucket based on IRI patterns.
-    Returns token (bfo, obi, iao, ro, uo, pmd) or None.
-    """
+    # OBO Foundry pattern: http://purl.obolibrary.org/obo/PREFIX_nnnnnnn
     if "purl.obolibrary.org/obo/" in iri:
         local = iri.split("/obo/", 1)[1]
+        # Match patterns like BFO_0000001, OBI_0000245, RO_0000056
         m = re.match(r"^([A-Za-z]+)_\d+$", local)
         if m:
             return m.group(1).lower()
+        # Handle hash-based OBO IRIs
+        m2 = re.match(r"^([A-Za-z]+)_", local)
+        if m2:
+            return m2.group(1).lower()
+
+    # PMD ontologies
     if "w3id.org/pmd/" in iri:
+        if "/pmdco/" in iri or "/pmdco#" in iri:
+            return "pmdco"
         return "pmd"
+
+    # QUDT (Quantities, Units, Dimensions)
+    if "qudt.org/" in iri:
+        return "qudt"
+
+    # Dublin Core
+    if "purl.org/dc/terms/" in iri:
+        return "dcterms"
+    if "purl.org/dc/elements/" in iri:
+        return "dc"
+
+    # Schema.org
+    if "schema.org/" in iri:
+        return "schema"
+
+    # FOAF
+    if "xmlns.com/foaf/" in iri:
+        return "foaf"
+
+    # SKOS
+    if "w3.org/2004/02/skos/" in iri:
+        return "skos"
+
+    # PROV-O
+    if "w3.org/ns/prov" in iri:
+        return "prov"
+
     return None
 
 
 def safe_mermaid_id(raw: str) -> str:
+    """Convert a string to a valid Mermaid node identifier.
+
+    Mermaid node IDs must:
+    - Contain only alphanumeric characters and underscores
+    - Not start with a digit
+    - Not be empty
+
+    Args:
+        raw: The raw string to convert.
+
+    Returns:
+        A valid Mermaid node ID.
+    """
     s = re.sub(r"[^A-Za-z0-9_]", "_", raw)
     s = re.sub(r"_+", "_", s).strip("_")
     if not s:
@@ -207,21 +483,47 @@ def safe_mermaid_id(raw: str) -> str:
     return s
 
 
-# -----------------------------
-# Ontology cache (optional enrichment)
-# -----------------------------
+# =============================================================================
+# ONTOLOGY CACHE - REMOTE ENRICHMENT
+# =============================================================================
+
 class OntologyCache:
+    """Cache manager for remote ontology files used in enrichment.
+
+    Downloads and caches OWL ontology files from OBO Foundry and other
+    sources. Used when the --enrich flag is enabled to resolve labels
+    and superclass chains for external ontology terms.
+
+    Attributes:
+        cache_dir: Local directory for storing cached ontology files.
+        ontology_urls: Mapping of prefix keys to download URLs.
+
+    Note:
+        Prefer using local *_full.ttl files for enrichment as they provide
+        curated labels and hierarchy specific to the PMDco context.
+    """
+
     def __init__(self, cache_dir: Path, ontology_urls: Dict[str, str]) -> None:
+        """Initialize the ontology cache.
+
+        Args:
+            cache_dir: Directory for storing downloaded ontology files.
+                Created if it doesn't exist.
+            ontology_urls: Dictionary mapping prefix keys (e.g., 'bfo')
+                to their download URLs.
+        """
         self.cache_dir = cache_dir
         self.ontology_urls = ontology_urls
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self._graphs: Dict[str, Graph] = {}
 
     def _cached_path(self, key: str, url: str) -> Path:
+        """Generate the cache file path for an ontology."""
         h = re.sub(r"[^a-zA-Z0-9]+", "_", url)[:40]
         return self.cache_dir / f"{key}-{h}.rdf"
 
     def ensure_loaded(self, key: str) -> Optional[Graph]:
+        """Ensure an ontology is loaded into memory, downloading if needed."""
         if key in self._graphs:
             return self._graphs[key]
 
@@ -250,6 +552,7 @@ class OntologyCache:
         return g
 
     def label_for(self, uri: URIRef) -> Optional[str]:
+        """Get the rdfs:label for a URI from cached ontologies."""
         iri = str(uri)
         key = obo_prefix_for_iri(iri)
         if not key:
@@ -263,6 +566,7 @@ class OntologyCache:
         return None
 
     def superclasses(self, cls: URIRef, max_depth: int) -> Set[Tuple[URIRef, URIRef]]:
+        """Get superclass edges for a class up to a maximum depth."""
         iri = str(cls)
         key = obo_prefix_for_iri(iri)
         if not key:
@@ -279,7 +583,7 @@ class OntologyCache:
             if depth >= max_depth:
                 continue
             for parent in g.objects(cur, RDFS.subClassOf):
-                if isinstance(parent, URIRef):
+                if isinstance(parent, URIRef) and parent not in _IMPLICIT_TOP_CLASSES:
                     edges.add((cur, parent))
                     if parent not in seen:
                         seen.add(parent)
@@ -287,34 +591,45 @@ class OntologyCache:
         return edges
 
 
-# -----------------------------
-# Full-ontology index (local *_full.ttl)
-# -----------------------------
+# =============================================================================
+# FULL ONTOLOGY INDEX - LOCAL ENRICHMENT
+# =============================================================================
+
 @dataclass
 class FullOntologyIndex:
-    """
-    Lightweight index over one or more '*_full.ttl' ontology files.
+    """Lightweight index over local '*_full.ttl' ontology files.
 
-    Indexes:
-      - rdfs:label for IRIs (language-pref)
-      - rdfs:subClassOf edges between named classes
+    Provides efficient lookup for rdfs:label annotations and
+    rdfs:subClassOf relationships for hierarchy expansion.
+
+    Attributes:
+        labels: Mapping of URI strings to their label strings.
+        parents: Mapping of URI strings to sets of parent URI strings.
     """
 
     labels: Dict[str, str]
     parents: Dict[str, Set[str]]
 
     def label_for(self, uri: URIRef) -> Optional[str]:
+        """Get the label for a URI."""
         return self.labels.get(str(uri))
 
     def parents_of(self, uri: URIRef) -> Set[URIRef]:
+        """Get the direct parent classes of a URI."""
         return {URIRef(p) for p in self.parents.get(str(uri), set())}
 
 
 def discover_full_ontology_files(base_dir: Path) -> List[Path]:
+    """Discover all '*_full.ttl' ontology files in a directory."""
     return sorted([p for p in base_dir.glob("*_full.ttl") if p.is_file()])
 
 
 def best_label(literals: List[Literal]) -> Optional[str]:
+    """Select the best label from a list of literal values.
+
+    Prefers English labels or labels without language tags,
+    and shorter labels for concise display.
+    """
     if not literals:
         return None
 
@@ -327,6 +642,14 @@ def best_label(literals: List[Literal]) -> Optional[str]:
 
 
 def load_full_ontology_index(paths: List[Path]) -> Optional[FullOntologyIndex]:
+    """Load and index one or more '*_full.ttl' ontology files.
+
+    Args:
+        paths: List of paths to ontology files to load.
+
+    Returns:
+        FullOntologyIndex containing merged data, or None if no paths.
+    """
     if not paths:
         return None
 
@@ -357,6 +680,7 @@ def load_full_ontology_index(paths: List[Path]) -> Optional[FullOntologyIndex]:
 
 
 def resolve_hierarchy_root(root: str) -> URIRef:
+    """Resolve a hierarchy root specification to a URI."""
     r = root.strip()
     if not r:
         return URIRef(BFO_ENTITY_IRI)
@@ -376,34 +700,47 @@ def resolve_hierarchy_root(root: str) -> URIRef:
     return URIRef(r)
 
 
-# -----------------------------
-# Core generation
-# -----------------------------
+# =============================================================================
+# CORE DATA STRUCTURES
+# =============================================================================
+
 Node = Union[URIRef, BNode, Literal]
 
 
 @dataclass(frozen=True)
 class NodeInfo:
+    """Metadata about a node in the diagram."""
     node_id: str
     label: str
     kind: str  # Class | Individual | Literal | Categorical | SHACL Shape | Constraint
-    uri: str   # "" for literals/bnodes
+    uri: str
 
 
 @dataclass
 class DiagramResult:
+    """Container for the output of diagram rendering."""
     diagram_id: str
-    source: str           # Mermaid or DOT source
-    format: str           # "mermaid" | "dot"
-    node_data: Dict[str, Dict[str, str]]  # node_id -> {label,type,uri}
+    source: str
+    format: str
+    node_data: Dict[str, Dict[str, str]]
 
     @property
     def mermaid(self) -> str:
-        # Backward-compatible alias: existing callers expecting .mermaid still work.
+        """Backward-compatible alias for source."""
         return self.source
 
 
+# =============================================================================
+# MAIN CONVERTER CLASS
+# =============================================================================
+
 class RdfToDiagram:
+    """Converter for transforming RDF/TTL files into visual diagrams.
+
+    This is the main class for diagram generation. See module docstring
+    for comprehensive usage examples.
+    """
+
     def __init__(
         self,
         direction: str = "BT",
@@ -420,6 +757,23 @@ class RdfToDiagram:
         max_nodes: int = 500,
         max_edges: int = 1500,
     ) -> None:
+        """Initialize the RDF to diagram converter.
+
+        Args:
+            direction: Graph layout direction ('BT', 'TD', 'LR', 'RL').
+            output_format: Diagram format ('dot' or 'mermaid').
+            include_bnodes: Include blank nodes in output.
+            enrich: Enable remote ontology enrichment.
+            superclass_depth: Levels of remote superclasses to fetch.
+            ontology_cache_dir: Cache directory for downloaded ontologies.
+            ontology_urls: Custom prefix-to-URL mapping.
+            full_ontology: Pre-loaded FullOntologyIndex for local enrichment.
+            use_full_hierarchy: Expand hierarchy from local index.
+            full_hierarchy_root: Root class for hierarchy expansion.
+            full_hierarchy_max_depth: Maximum hierarchy depth.
+            max_nodes: Safety cap on nodes per diagram.
+            max_edges: Safety cap on edges per diagram.
+        """
         self.direction = direction
         self.output_format = output_format.lower().strip()
         if self.output_format not in ("mermaid", "dot"):
@@ -444,8 +798,8 @@ class RdfToDiagram:
         else:
             self.ont = None
 
-    # -------- labels / IDs --------
     def _exact_prefix_token(self, g: Graph, uri: URIRef) -> Optional[str]:
+        """Get prefix token if URI exactly matches a namespace."""
         u = str(uri)
         for prefix, ns in g.namespace_manager.namespaces():
             if str(ns) == u:
@@ -454,11 +808,13 @@ class RdfToDiagram:
 
     @staticmethod
     def _normalize_label(lbl: str) -> str:
+        """Normalize a label for use in node IDs."""
         lbl = re.sub(r"\s+", "_", lbl.strip())
         lbl = re.sub(r"[^\w\-]+", "_", lbl).strip("_")
         return lbl or "node"
 
     def _node_label(self, g: Graph, node: Node) -> str:
+        """Generate a human-readable label for a node."""
         if isinstance(node, Literal):
             return str(node)
 
@@ -467,28 +823,31 @@ class RdfToDiagram:
 
         assert isinstance(node, URIRef)
 
+        prefix = obo_prefix_for_iri(str(node))
+
         token = self._exact_prefix_token(g, node)
         if token:
+            if prefix and ":" not in token:
+                return f"{prefix}:{token}"
             return token
 
         local_lits: List[Literal] = [l for l in g.objects(node, RDFS.label) if isinstance(l, Literal)]
         lbl0 = best_label(local_lits)
         if lbl0:
-            return self._normalize_label(lbl0)
+            core = self._normalize_label(lbl0)
+            return f"{prefix}:{core}" if prefix else core
 
         if self.full_ontology is not None:
             lbl1 = self.full_ontology.label_for(node)
             if lbl1:
-                pref = obo_prefix_for_iri(str(node))
                 core = self._normalize_label(lbl1)
-                return f"{pref}:{core}" if pref else core
+                return f"{prefix}:{core}" if prefix else core
 
         if self.ont is not None:
             lbl2 = self.ont.label_for(node)
             if lbl2:
-                pref = obo_prefix_for_iri(str(node))
                 core = self._normalize_label(lbl2)
-                return f"{pref}:{core}" if pref else core
+                return f"{prefix}:{core}" if prefix else core
 
         try:
             qname = g.namespace_manager.normalizeUri(node)
@@ -496,34 +855,43 @@ class RdfToDiagram:
             qname = f"<{node}>"
 
         if qname.startswith("<") and qname.endswith(">"):
-            return uri_local_name(str(node))
+            local = uri_local_name(str(node))
+            return f"{prefix}:{local}" if prefix else local
         if qname.endswith(":"):
             return qname[:-1]
         return qname
 
     def _predicate_label(self, g: Graph, pred: URIRef) -> str:
+        """Generate a human-readable label for a predicate."""
         if pred == RDF.type:
             return "rdf:type"
         if pred == RDFS.subClassOf:
             return "rdfs:subClassOf"
 
+        prefix = obo_prefix_for_iri(str(pred))
+
         local_lits: List[Literal] = [l for l in g.objects(pred, RDFS.label) if isinstance(l, Literal)]
         lbl0 = best_label(local_lits)
         if lbl0:
-            return self._normalize_label(lbl0)
+            core = self._normalize_label(lbl0)
+            return f"{prefix}:{core}" if prefix else core
 
         if self.full_ontology is not None:
             lbl1 = self.full_ontology.label_for(pred)
             if lbl1:
-                return self._normalize_label(lbl1)
+                core = self._normalize_label(lbl1)
+                return f"{prefix}:{core}" if prefix else core
 
         if self.ont is not None:
             lbl2 = self.ont.label_for(pred)
             if lbl2:
-                return self._normalize_label(lbl2)
+                core = self._normalize_label(lbl2)
+                return f"{prefix}:{core}" if prefix else core
 
         token = self._exact_prefix_token(g, pred)
         if token:
+            if prefix and ":" not in token:
+                return f"{prefix}:{token}"
             return token
 
         try:
@@ -532,17 +900,16 @@ class RdfToDiagram:
             qname = f"<{pred}>"
 
         if qname.startswith("<") and qname.endswith(">"):
-            return uri_local_name(str(pred))
+            local = uri_local_name(str(pred))
+            return f"{prefix}:{local}" if prefix else local
 
         if qname.endswith(":"):
             return qname[:-1]
 
-        # for edges, prefer the local part if qname-like
-        if ":" in qname:
-            return qname.split(":", 1)[1]
         return qname
 
     def _kind_for_uri(self, uri: URIRef, classes: Set[URIRef], shapes: Set[URIRef], categorical: Set[URIRef]) -> str:
+        """Determine the semantic kind of a URI node."""
         if uri in shapes:
             return "SHACL Shape"
         if uri in classes:
@@ -552,6 +919,7 @@ class RdfToDiagram:
         return "Individual"
 
     def _style_bucket_for_node(self, uri: Optional[URIRef], kind: str) -> str:
+        """Determine the style bucket for a node."""
         if kind == "Literal":
             return "lit"
         if kind == "Constraint":
@@ -565,24 +933,25 @@ class RdfToDiagram:
 
         if uri is not None:
             bucket = obo_prefix_for_iri(str(uri))
-            if bucket in ("bfo", "obi", "pmd"):
+            if bucket in CLASSDEF_STYLES:
                 return bucket
         return "cls"
 
     def _extract_list_items(self, g: Graph, head: BNode) -> Optional[List[Node]]:
+        """Extract items from an RDF list."""
         try:
             col = Collection(g, head)
             return list(col)
         except Exception:
             return None
 
-    # -------- hierarchy enrichment --------
     def _add_full_hierarchy(
         self,
         classes: Set[URIRef],
         nodes: Set[Node],
         edges: List[Tuple[Node, URIRef, Node]],
     ) -> None:
+        """Expand class hierarchy using the local full ontology index."""
         if not self.use_full_hierarchy or self.full_ontology is None:
             return
 
@@ -604,7 +973,7 @@ class RdfToDiagram:
                     continue
 
                 for parent in self.full_ontology.parents_of(cur):
-                    if not isinstance(parent, URIRef):
+                    if not isinstance(parent, URIRef) or parent in _IMPLICIT_TOP_CLASSES:
                         continue
 
                     triple = (cur, RDFS.subClassOf, parent)
@@ -624,17 +993,16 @@ class RdfToDiagram:
                         visited.add(parent)
                         frontier.append((parent, depth + 1))
 
-    # -------- collect graph content --------
     def _collect_schema_and_instances(
         self, g: Graph
     ) -> Tuple[Set[URIRef], Set[URIRef], Set[URIRef], Set[Node], List[Tuple[Node, URIRef, Node]]]:
+        """Extract all relevant nodes and edges from an RDF graph."""
         classes: Set[URIRef] = set()
         shapes: Set[URIRef] = set()
         categorical: Set[URIRef] = set()
         nodes: Set[Node] = set()
         edges: List[Tuple[Node, URIRef, Node]] = []
 
-        # Identify classes/shapes
         for s, _, o in g.triples((None, RDF.type, None)):
             if isinstance(o, URIRef):
                 if o in (SH.NodeShape, SH.PropertyShape, SH.Shape):
@@ -643,16 +1011,17 @@ class RdfToDiagram:
                 if o in (OWL.Class, RDFS.Class):
                     if isinstance(s, URIRef):
                         classes.add(s)
-                # also treat "type objects" as classes for TBOX visibility
-                classes.add(o)
+                if o not in _IMPLICIT_TOP_CLASSES:
+                    classes.add(o)
 
         for s, _, o in g.triples((None, RDFS.subClassOf, None)):
+            if isinstance(o, URIRef) and o in _IMPLICIT_TOP_CLASSES:
+                continue
             if isinstance(s, URIRef):
                 classes.add(s)
             if isinstance(o, URIRef):
                 classes.add(o)
 
-        # sh:in items are categorical values
         for _, _, o in g.triples((None, SH["in"], None)):
             if isinstance(o, BNode):
                 items = self._extract_list_items(g, o)
@@ -667,15 +1036,16 @@ class RdfToDiagram:
             if not isinstance(p, URIRef):
                 continue
 
-            # Skip list structure
             if p in (RDF.first, RDF.rest):
                 continue
 
-            # Skip ontology declaration
             if p == RDF.type and o == OWL.Ontology:
                 continue
 
-            # Expand selected SHACL list predicates
+            if (isinstance(s, URIRef) and s in _IMPLICIT_TOP_CLASSES) or \
+               (isinstance(o, URIRef) and o in _IMPLICIT_TOP_CLASSES):
+                continue
+
             if p in SHACL_LIST_PREDICATES and isinstance(o, BNode):
                 items = self._extract_list_items(g, o)
                 if items:
@@ -692,7 +1062,6 @@ class RdfToDiagram:
             nodes.add(s)
             nodes.add(o)
 
-        # Size caps
         if len(nodes) > self.max_nodes:
             LOG.warning("Node count %d exceeds max_nodes=%d; truncating.", len(nodes), self.max_nodes)
             ordered = sorted(nodes, key=lambda n: (0 if isinstance(n, URIRef) else 1 if isinstance(n, BNode) else 2, str(n)))
@@ -702,19 +1071,19 @@ class RdfToDiagram:
             LOG.warning("Edge count %d exceeds max_edges=%d; truncating.", len(edges), self.max_edges)
             edges = edges[: self.max_edges]
 
-        # Remote enrichment: superclass edges
         if self.enrich and self.superclass_depth > 0 and self.ont is not None:
             extra: Set[Tuple[URIRef, URIRef]] = set()
             for c in list(classes):
                 extra |= self.ont.superclasses(c, self.superclass_depth)
             for child, parent in extra:
+                if parent in _IMPLICIT_TOP_CLASSES:
+                    continue
                 edges.append((child, RDFS.subClassOf, parent))
                 nodes.add(child)
                 nodes.add(parent)
                 classes.add(child)
                 classes.add(parent)
 
-        # Local full ontology hierarchy expansion
         if self.use_full_hierarchy:
             self._add_full_hierarchy(classes, nodes, edges)
 
@@ -729,6 +1098,7 @@ class RdfToDiagram:
         categorical: Set[URIRef],
         nodes: Set[Node],
     ) -> Tuple[Dict[Node, NodeInfo], Dict[str, Dict[str, str]]]:
+        """Assign unique IDs and collect metadata for all nodes."""
         def node_sort_key(n: Node) -> Tuple[int, str]:
             if isinstance(n, URIRef):
                 return (0, str(n))
@@ -786,17 +1156,18 @@ class RdfToDiagram:
         return node_infos, node_data
 
     def _set_predicate_cache(self, g: Graph, edges: List[Tuple[Node, URIRef, Node]]) -> None:
+        """Pre-compute labels for all predicates."""
         self._pred_label_cache = {}
         for _, p, _ in edges:
             if isinstance(p, URIRef):
                 self._pred_label_cache[str(p)] = self._predicate_label(g, p)
 
-    # -------- Mermaid rendering --------
     def _build_mermaid(
         self,
         node_infos: Dict[Node, NodeInfo],
         edges: List[Tuple[Node, URIRef, Node]],
     ) -> str:
+        """Build Mermaid flowchart source from nodes and edges."""
         class_nodes: List[NodeInfo] = []
         shape_nodes: List[NodeInfo] = []
         constraint_nodes: List[NodeInfo] = []
@@ -886,12 +1257,12 @@ class RdfToDiagram:
 
         return "\n".join(lines)
 
-    # -------- Graphviz rendering --------
     def _build_graphviz(
         self,
         node_infos: Dict[Node, NodeInfo],
         edges: List[Tuple[Node, URIRef, Node]],
     ) -> str:
+        """Build Graphviz DOT source from nodes and edges."""
         class_nodes: List[NodeInfo] = []
         shape_nodes: List[NodeInfo] = []
         constraint_nodes: List[NodeInfo] = []
@@ -947,11 +1318,17 @@ class RdfToDiagram:
                 bucket = style_bucket_by_id.get(info.node_id, "cls")
                 style = GRAPHVIZ_NODE_STYLES.get(bucket, GRAPHVIZ_NODE_STYLES["cls"])
                 attrs: Dict[str, str] = {
-                    "label": info.label,
                     "shape": kind_shape(info.kind),
                     "style": "filled",
+                    "margin": "0.2,0.1",
                     **style,
                 }
+                if info.kind == "Class":
+                    escaped_label = info.label.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                    font_color = style.get("fontcolor", "#333333")
+                    attrs["label"] = f'<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="{font_color}">{escaped_label}</FONT></B></TD></TR></TABLE>>'
+                else:
+                    attrs["label"] = info.label
                 if info.uri:
                     attrs["tooltip"] = info.uri
                     attrs["URL"] = info.uri
@@ -978,7 +1355,6 @@ class RdfToDiagram:
         if abox_nodes:
             emit_cluster("ABOX", abox_nodes)
 
-        # Literals outside clusters
         emit_nodes(lit_nodes)
 
         filtered: List[Tuple[str, str, str, bool]] = []
@@ -1001,28 +1377,58 @@ class RdfToDiagram:
         lines.append("}")
         return "\n".join(lines)
 
-    def render_graph(self, ttl_path: Path, diagram_id: Optional[str] = None) -> DiagramResult:
-        g = Graph()
-        parse_turtle_safely(g, ttl_path)
+    def render_graph(
+        self,
+        ttl_path: Path,
+        diagram_id: Optional[str] = None,
+        use_full_hierarchy: Optional[bool] = None,
+        full_hierarchy_max_depth: Optional[int] = None,
+    ) -> DiagramResult:
+        """Render a TTL file to a diagram.
 
-        did = diagram_id or slugify(ttl_path.stem)
+        Args:
+            ttl_path: Path to the Turtle file to render.
+            diagram_id: Custom diagram identifier (default: derived from filename).
+            use_full_hierarchy: Override instance setting for this call.
+            full_hierarchy_max_depth: Override instance setting for this call.
 
-        classes, shapes, categorical, nodes, edges = self._collect_schema_and_instances(g)
-        node_infos, node_data = self._assign_ids_and_metadata(g, did, classes, shapes, categorical, nodes)
-        self._set_predicate_cache(g, edges)
+        Returns:
+            DiagramResult containing the rendered source and metadata.
+        """
+        orig_use = self.use_full_hierarchy
+        orig_depth = self.full_hierarchy_max_depth
+        try:
+            if use_full_hierarchy is not None:
+                self.use_full_hierarchy = bool(use_full_hierarchy and self.full_ontology is not None)
+            if full_hierarchy_max_depth is not None:
+                self.full_hierarchy_max_depth = max(1, int(full_hierarchy_max_depth))
 
-        if self.output_format == "dot":
-            src = self._build_graphviz(node_infos, edges)
-        else:
-            src = self._build_mermaid(node_infos, edges)
+            g = Graph()
+            parse_turtle_safely(g, ttl_path)
 
-        return DiagramResult(diagram_id=did, source=src, format=self.output_format, node_data=node_data)
+            did = diagram_id or slugify(ttl_path.stem)
+
+            classes, shapes, categorical, nodes, edges = self._collect_schema_and_instances(g)
+            node_infos, node_data = self._assign_ids_and_metadata(g, did, classes, shapes, categorical, nodes)
+            self._set_predicate_cache(g, edges)
+
+            if self.output_format == "dot":
+                src = self._build_graphviz(node_infos, edges)
+            else:
+                src = self._build_mermaid(node_infos, edges)
+
+            return DiagramResult(diagram_id=did, source=src, format=self.output_format, node_data=node_data)
+        finally:
+            self.use_full_hierarchy = orig_use
+            self.full_hierarchy_max_depth = orig_depth
 
 
-# -----------------------------
-# JS and HTML integration
-# -----------------------------
+# =============================================================================
+# JAVASCRIPT AND HTML INTEGRATION
+# =============================================================================
+
 def js_escape_template_literal(s: str) -> str:
+    """Escape a string for use in JavaScript template literals."""
     s = s.replace("\\", "\\\\")
     s = s.replace("`", "\\`")
     s = s.replace("${", "\\${")
@@ -1030,8 +1436,9 @@ def js_escape_template_literal(s: str) -> str:
 
 
 def write_js(diagrams: Dict[str, str], node_data: Dict[str, Dict[str, Dict[str, str]]], out_js: Path) -> None:
+    """Write diagrams and node data to a JavaScript file."""
     lines: List[str] = []
-    lines.append("// Auto-generated by ttl_to_mermaid.py. Do not edit manually.")
+    lines.append("// Auto-generated by ttl_to_graphviz.py. Do not edit manually.")
     lines.append("const diagrams = {")
     for k in sorted(diagrams.keys()):
         code = js_escape_template_literal(diagrams[k])
@@ -1048,6 +1455,7 @@ def write_js(diagrams: Dict[str, str], node_data: Dict[str, Dict[str, Dict[str, 
 
 
 def patch_html(html_path: Path, diagrams_js_block: str, node_data_js_block: str, out_path: Optional[Path] = None) -> Path:
+    """Patch an HTML file with new diagram and node data blocks."""
     text = html_path.read_text(encoding="utf-8")
 
     m1 = re.search(r"\bconst\s+diagrams\s*=\s*\{", text)
@@ -1084,6 +1492,7 @@ def patch_html(html_path: Path, diagrams_js_block: str, node_data_js_block: str,
 
 
 def discover_graph_ids_from_html(html_path: Path) -> List[str]:
+    """Extract graph container IDs from an HTML file."""
     text = html_path.read_text(encoding="utf-8")
     ids = re.findall(r'id="graph-([a-zA-Z0-9\-]+)"', text)
     seen: Set[str] = set()
@@ -1096,6 +1505,7 @@ def discover_graph_ids_from_html(html_path: Path) -> List[str]:
 
 
 def resolve_ttl_for_id(ttl_dir: Path, diagram_id: str) -> Optional[Path]:
+    """Find a TTL file matching a diagram ID."""
     exact = ttl_dir / f"{diagram_id}.ttl"
     if exact.exists():
         return exact
@@ -1110,12 +1520,26 @@ def resolve_ttl_for_id(ttl_dir: Path, diagram_id: str) -> Optional[Path]:
     return None
 
 
-# -----------------------------
-# CLI
-# -----------------------------
+# =============================================================================
+# COMMAND-LINE INTERFACE
+# =============================================================================
+
 def build_arg_parser() -> argparse.ArgumentParser:
+    """Build the argument parser for command-line usage."""
     p = argparse.ArgumentParser(
-        description="Convert Turtle (.ttl) patterns into Mermaid diagrams or Graphviz DOT and embeddable JS/HTML."
+        description="Convert Turtle (.ttl) ontology patterns into Mermaid or Graphviz DOT diagrams.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Print DOT for a single TTL file
+  python ttl_to_graphviz.py --ttl pattern.ttl --format dot
+
+  # Generate JS file for all TTLs in a directory
+  python ttl_to_graphviz.py --ttl-dir ./patterns --format dot --out-js diagrams.js
+
+  # Patch patterns.html with generated diagrams
+  python ttl_to_graphviz.py --ttl-dir ./patterns --format dot --html patterns.html --patch-html
+        """
     )
     src = p.add_mutually_exclusive_group(required=True)
     src.add_argument("--ttl", type=Path, help="Single TTL file to convert.")
@@ -1125,25 +1549,24 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--direction", default="BT", choices=["BT", "TD", "LR", "RL"], help="Diagram flow direction.")
     p.add_argument("--no-bnodes", action="store_true", help="Exclude blank nodes (BNodes) from diagrams.")
 
-    p.add_argument("--enrich", action="store_true", help="Best-effort enrichment using cached ontologies (labels and superclasses).")
-    p.add_argument("--superclass-depth", type=int, default=0, help="When --enrich, include up to N rdfs:subClassOf superclasses.")
+    p.add_argument("--enrich", action="store_true", help="Enable remote ontology enrichment.")
+    p.add_argument("--superclass-depth", type=int, default=0, help="With --enrich, include up to N rdfs:subClassOf levels.")
     p.add_argument("--ontology-cache", type=Path, default=Path(".ontology_cache"), help="Cache directory for downloaded ontologies.")
 
     p.add_argument(
         "--full-ontology",
         type=Path,
         action="append",
-        help="Path to local '*_full.ttl' ontology file(s) for labels and rdfs:subClassOf hierarchy. "
-             "May be provided multiple times. If omitted, '*_full.ttl' files are auto-discovered in the input folder.",
+        help="Path to local '*_full.ttl' ontology file(s).",
     )
-    p.add_argument("--no-full-hierarchy", action="store_true", help="Disable adding superclass chains from local full ontology files.")
-    p.add_argument("--hierarchy-root", default="bfo:entity", help="Root IRI/CURIE to stop superclass expansion (default: bfo:entity).")
-    p.add_argument("--hierarchy-max-depth", type=int, default=50, help="Maximum rdfs:subClassOf hops when adding local full hierarchy.")
+    p.add_argument("--no-full-hierarchy", action="store_true", help="Disable hierarchy expansion from local ontology files.")
+    p.add_argument("--hierarchy-root", default="bfo:entity", help="Root IRI/CURIE for hierarchy expansion.")
+    p.add_argument("--hierarchy-max-depth", type=int, default=50, help="Maximum rdfs:subClassOf hops.")
 
-    p.add_argument("--out-js", type=Path, help="Write a JS file with const diagrams/nodeData for embedding.")
-    p.add_argument("--html", type=Path, help="HTML file to patch (patterns.html style).")
-    p.add_argument("--patch-html", action="store_true", help="Patch --html in-place with generated diagrams/nodeData blocks.")
-    p.add_argument("--out-html", type=Path, help="Write patched HTML to this path instead of in-place.")
+    p.add_argument("--out-js", type=Path, help="Write JavaScript file with diagrams/nodeData.")
+    p.add_argument("--html", type=Path, help="HTML file to patch.")
+    p.add_argument("--patch-html", action="store_true", help="Patch --html in-place.")
+    p.add_argument("--out-html", type=Path, help="Write patched HTML to this path.")
 
     p.add_argument("--max-nodes", type=int, default=500, help="Safety cap on nodes per diagram.")
     p.add_argument("--max-edges", type=int, default=1500, help="Safety cap on edges per diagram.")
@@ -1152,10 +1575,10 @@ def build_arg_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Optional[List[str]] = None) -> int:
+    """Main entry point for command-line usage."""
     args = build_arg_parser().parse_args(argv)
     logging.basicConfig(level=getattr(logging, args.log_level), format="%(levelname)s: %(message)s")
 
-    # Local full ontology discovery/loading
     base_dir = args.ttl.parent if args.ttl is not None else args.ttl_dir
     if base_dir is None:
         LOG.error("Cannot determine input base directory.")
@@ -1195,7 +1618,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         diagrams[res.diagram_id] = res.source
         node_data[res.diagram_id] = res.node_data
 
-        # If no embedding outputs were requested, print diagram source and exit.
         if not args.out_js and not (args.html and args.patch_html):
             sys.stdout.write(res.source + "\n")
             return 0
@@ -1208,7 +1630,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         if args.html and args.patch_html:
             ids = discover_graph_ids_from_html(args.html)
             if not ids:
-                LOG.warning("No graph container IDs found in %s. Falling back to all TTL files.", args.html)
+                LOG.warning("No graph container IDs found in %s. Processing all TTL files.", args.html)
                 ttl_files = sorted([p for p in ttl_dir.glob("*.ttl") if not p.name.endswith("_full.ttl")])
                 for f in ttl_files:
                     res = gen.render_graph(f)

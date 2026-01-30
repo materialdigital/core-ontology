@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                78c650da649b7d78cee58b076fb245717f13929757b742edcda62b1939c66518
+CONFIG_HASH=                58c72cdb4cf4b430db203d2dc3ee3c9660b35bdad88ff07d9a0bd7f6567a3ea1
 
 
 # ----------------------------------------
@@ -188,7 +188,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo ro iao obi chebi stato uo
+IMPORTS =  bfo ro iao obi chebi stato uo cob
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -458,6 +458,12 @@ $(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl
 	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
 	@false
 
+## Module for ontology: cob (custom)
+$(IMPORTDIR)/cob_import.owl: $(MIRRORDIR)/cob.owl
+	@echo "ERROR: You have configured cob as a custom module;"
+	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
+	@false
+
 endif # IMP=true
 
 .PHONY: refresh-imports
@@ -571,7 +577,8 @@ mirror-iao: | $(TMPDIR)
 .PHONY: mirror-obi
 .PRECIOUS: $(MIRRORDIR)/obi.owl
 mirror-obi: | $(TMPDIR)
-	$(ROBOT) convert -I https://raw.githubusercontent.com/obi-ontology/obi/refs/tags/v2025-10-14/views/obi-base.owl -o $(TMPDIR)/$@.owl
+	curl -L $(OBOBASE)/obi.owl --create-dirs -o $(TMPDIR)/obi-download.owl --retry 4 --max-time 200 && \
+	$(ROBOT) convert -i $(TMPDIR)/obi-download.owl -o $(TMPDIR)/$@.owl
 
 
 ## ONTOLOGY: chebi
@@ -595,6 +602,14 @@ mirror-stato: | $(TMPDIR)
 mirror-uo: | $(TMPDIR)
 	curl -L $(OBOBASE)/uo.owl --create-dirs -o $(TMPDIR)/uo-download.owl --retry 4 --max-time 200 && \
 	$(ROBOT) convert -i $(TMPDIR)/uo-download.owl -o $(TMPDIR)/$@.owl
+
+
+## ONTOLOGY: cob
+.PHONY: mirror-cob
+.PRECIOUS: $(MIRRORDIR)/cob.owl
+mirror-cob: | $(TMPDIR)
+	curl -L $(OBOBASE)/cob/cob-base.owl --create-dirs -o $(TMPDIR)/cob-download.owl --retry 4 --max-time 200 && \
+	$(ROBOT) convert -i $(TMPDIR)/cob-download.owl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)

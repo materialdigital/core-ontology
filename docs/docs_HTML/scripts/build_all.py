@@ -1,27 +1,162 @@
 #!/usr/bin/env python3
 """
-build_all.py - Unified static site builder for PMDco documentation
+build_all.py - Unified Static Site Builder for PMDCore Documentation
+===================================================================
 
-This script combines the functionality of build_docs.py and build_html.py into a single
-unified builder that can handle:
-- Simple markdown documents with @module_indicator and @property_indicator tags
-- Pattern pages with @Graphviz_renderer diagrams
+A comprehensive documentation builder that transforms markdown files into
+interactive HTML pages with support for ontology visualization, diagrams,
+and semantic web technologies.
 
-Usage:
-    # Mode 1: Simple docs (processes ontology trees)
-    python build_all.py --mode docs --markdown Md_docs/index.md --out output/index.html
+Architecture Overview
+---------------------
+This script is the main page builder in the PMDCore documentation pipeline:
 
-    # Mode 2: Patterns with diagrams (processes Graphviz diagrams)
-    python build_all.py --mode patterns --markdown patterns.md --diagrams-root ./patterns --out patterns.html
-    
-    # Mode 3: Auto-detect based on content (default)
+1. **run_all.py** - Batch orchestrator (calls this script for each page)
+2. **build_all.py** (this file) - Individual page builder
+3. **ttl_to_graphviz.py** - TTL to diagram conversion (used by patterns mode)
+
+The builder supports two primary modes:
+
+1. **Docs Mode**: Standard documentation pages with:
+   - Interactive ontology class trees
+   - Property hierarchy trees
+   - Remote content injection
+
+2. **Patterns Mode**: Pattern visualization pages with:
+   - Auto-generated Graphviz diagrams from TTL files
+   - SHACL constraint visualization
+   - Interactive pan/zoom viewers
+
+Usage Examples
+--------------
+Auto-detect mode based on content (recommended)::
+
     python build_all.py --markdown input.md --out output.html
 
-Features:
-- @module_indicator: Fetches OWL files and generates interactive ontology class trees
-- @property_indicator: Generates property trees (object/data/annotation properties)  
-- @Graphviz_renderer: Converts TTL/SHACL files to interactive Graphviz diagrams
-- Common styling: Header, sidebar, TOC, search, theme toggle
+Explicit docs mode::
+
+    python build_all.py --mode docs --markdown Md_docs/index.md --out output/index.html
+
+Explicit patterns mode with TTL diagram source::
+
+    python build_all.py --mode patterns --markdown patterns.md \\
+        --diagrams-root ./patterns --out patterns.html
+
+Supported Markdown Extensions
+-----------------------------
+Ontology Visualization:
+    ``@module_indicator:URL``
+        Fetch OWL file from URL and generate interactive class hierarchy tree.
+        Example: <!--@module_indicator:https://example.org/ontology.owl-->
+
+    ``@property_indicator:TYPE``
+        Generate property tree where TYPE is 'object', 'data', or 'annotation'.
+        Example: <!--@property_indicator:object-->
+
+Diagram Rendering:
+    ``@Graphviz_renderer:PATH``
+        Convert TTL/SHACL file at PATH to interactive Graphviz diagram.
+        Requires patterns mode and --diagrams-root argument.
+        Example: <!--@Graphviz_renderer:temporal-region-->
+
+    ``@Graphviz_renderer_manual:TITLE``
+        Render embedded DOT code following the tag as a Graphviz diagram.
+        Works in any mode without external TTL files.
+        Example:
+            <!--@Graphviz_renderer_manual: My Diagram -->
+            ```dot
+            digraph G { A -> B }
+            ```
+
+    ``@Mermaid_renderer_manual:TITLE``
+        Render embedded Mermaid code following the tag as a diagram.
+        Works in any mode without external dependencies.
+        Example:
+            <!--@Mermaid_renderer_manual: Process Flow -->
+            ```mermaid
+            graph TD
+                A --> B
+            ```
+
+Content Injection:
+    ``@md_file_renderer:URL``
+        Fetch markdown from URL and inject inline before HTML conversion.
+        Example: <!--@md_file_renderer:https://example.org/section.md-->
+
+    ``@source_code_renderer:URL``
+        Fetch source code from URL and inject as fenced code block.
+        Language is auto-detected from file extension.
+        Example: <!--@source_code_renderer:https://example.org/example.ttl-->
+
+Output Features
+---------------
+Layout:
+    - Responsive design with mobile-first sidebar
+    - Header with logo, navigation links, and theme toggle
+    - Sidebar with search and hierarchical navigation
+    - Table of contents (TOC) with scroll-spy highlighting
+    - Previous/next page navigation
+
+Interactivity:
+    - Light/dark theme toggle with localStorage persistence
+    - Full-text search with fuzzy matching and result highlighting
+    - Collapsible ontology/property trees with expand/collapse all
+    - Pan/zoom diagrams with mouse wheel and drag
+    - SVG and PNG export for all diagrams
+    - Fullscreen diagram viewer
+    - Node tooltips with URI information
+
+Directory Structure
+-------------------
+Expected project layout::
+
+    docs/
+    ├── navigator.yaml          # Site structure configuration
+    ├── *.md                    # Markdown source files
+    ├── patterns/               # TTL pattern files (for patterns mode)
+    │   ├── *.ttl              # Individual pattern definitions
+    │   └── *_full.ttl         # Full ontology for label resolution
+    └── docs_HTML/
+        ├── scripts/
+        │   ├── run_all.py     # Batch orchestrator
+        │   ├── build_all.py   # This file
+        │   └── ttl_to_graphviz.py  # Diagram generator
+        └── HTML_Docs/         # Generated output
+
+Dependencies
+------------
+Required:
+    - Python 3.8+
+    - markdown2: Markdown to HTML conversion
+
+Optional (for full functionality):
+    - rdflib: RDF/XML, Turtle, OWL parsing for ontology trees
+    - pyyaml: navigator.yaml configuration loading
+
+Configuration
+-------------
+The navigator.yaml file controls site structure:
+
+.. code-block:: yaml
+
+    schema: "pmdco-nav/v1"
+    full_ontology_path: "https://raw.githubusercontent.com/..."
+    sections:
+      - id: getting-started
+        title: "Getting Started"
+        pages:
+          - title: Home
+            href: index.html
+            md: index.md
+            icon: home
+
+Exit Codes
+----------
+    0 - Page built successfully
+    1 - Build failed (invalid arguments, missing files, etc.)
+
+Author: PMDCore Team
+License: CC BY 4.0
 """
 
 from __future__ import annotations
@@ -61,14 +196,35 @@ except ImportError:
 
 
 # =============================================================================
-# NAVBAR CONFIGURATION AND SIDEBAR GENERATION
+# SECTION 1: NAVIGATION AND SIDEBAR CONFIGURATION
+# =============================================================================
+# Functions for loading navigator.yaml and generating dynamic sidebar HTML,
+# page navigation, and search index. The navigator.yaml file defines the
+# site structure, page titles, and icon assignments.
 # =============================================================================
 
-# Cache for navbar configuration
+# Global cache for navigator configuration (loaded once per process)
 _NAVIGATOR_CONFIG = None
 
 def get_feather_icon_svg(icon_name: str, navigator_config: dict) -> str:
-    """Generate SVG for a Feather icon from the navbar config."""
+    """Generate inline SVG markup for a Feather icon.
+
+    Looks up the icon definition in navigator.yaml's icons section and
+    generates the corresponding SVG element. Icons are rendered at 18x18px
+    with stroke-based rendering (no fill).
+
+    Args:
+        icon_name: The icon identifier (e.g., 'home', 'file-text', 'book').
+        navigator_config: The parsed navigator.yaml configuration dict.
+
+    Returns:
+        SVG element string ready for HTML embedding. Falls back to a
+        default file icon if the specified icon is not found.
+
+    Note:
+        Icon paths in navigator.yaml support multi-path definitions
+        separated by ' M' for complex icons composed of multiple shapes.
+    """
     icons = navigator_config.get('icons', {})
     icon_data = icons.get(icon_name, {})
     path_data = icon_data.get('path', '')
@@ -90,7 +246,29 @@ def get_feather_icon_svg(icon_name: str, navigator_config: dict) -> str:
 
 
 def load_NAVIGATOR_CONFIG(script_dir: Path = None) -> dict:
-    """Load the navbar configuration from navigator.yaml."""
+    """Load and cache the navigator.yaml configuration.
+
+    Searches for navigator.yaml in multiple locations relative to the
+    script directory and caches the result for subsequent calls.
+
+    Search order:
+        1. {script_dir}/../../navigator.yaml (docs/ directory)
+        2. {script_dir}/../Md_docs/navigator.yaml
+        3. {script_dir}/../navigator.yaml
+        4. {script_dir}/navigator.yaml
+
+    Args:
+        script_dir: Base directory for path resolution. Defaults to the
+            directory containing this script.
+
+    Returns:
+        Parsed YAML configuration as a dictionary. Returns empty dict
+        if YAML is unavailable or the file cannot be found/parsed.
+
+    Note:
+        Results are cached globally (_NAVIGATOR_CONFIG) to avoid
+        repeated file I/O across multiple page builds.
+    """
     global _NAVIGATOR_CONFIG
     
     if _NAVIGATOR_CONFIG is not None:
@@ -132,7 +310,32 @@ def load_NAVIGATOR_CONFIG(script_dir: Path = None) -> dict:
 
 
 def generate_sidebar_html(active_page: str = None, script_dir: Path = None) -> str:
-    """Generate dynamic sidebar HTML from navigator.yaml configuration."""
+    """Generate dynamic sidebar navigation HTML from navigator.yaml.
+
+    Creates a hierarchical navigation menu organized by sections, with
+    visual indicators for the currently active page and icons for each
+    navigation item.
+
+    Args:
+        active_page: Filename of the currently active page (e.g., 'index.html').
+            Used to apply the 'active' CSS class for visual highlighting.
+        script_dir: Base directory for loading navigator.yaml configuration.
+
+    Returns:
+        Complete HTML string for the sidebar navigation, wrapped in a
+        <nav class="nav-sections"> element. Falls back to a minimal
+        single-link sidebar if navigator.yaml is unavailable.
+
+    Generated Structure:
+        <nav class="nav-sections">
+          <div class="nav-section">
+            <h3 class="nav-section-title">Section Name</h3>
+            <ul class="nav-list">
+              <li><a class="nav-link [active]" href="...">...</a></li>
+            </ul>
+          </div>
+        </nav>
+    """
     config = load_NAVIGATOR_CONFIG(script_dir)
     
     if not config:
@@ -288,6 +491,24 @@ def generate_page_nav_html(active_page: str, script_dir: Path = None) -> str:
     return ''.join(nav_parts)
 
 
+# =============================================================================
+# SECTION 2: HTML TEMPLATE
+# =============================================================================
+# The main HTML template containing:
+# - CSS variables and theme definitions (light/dark mode)
+# - Layout styles (header, sidebar, content area, TOC)
+# - Interactive component styles (trees, graphs, search modal)
+# - JavaScript for Graphviz rendering, pan/zoom, search, and theme toggle
+#
+# Placeholders replaced during build:
+# - __SIDEBAR_HTML__: Dynamic navigation from navigator.yaml
+# - __ARTICLE_CONTENT__: Rendered markdown content
+# - __TOC_LIST_ITEMS__: Table of contents links
+# - __PAGE_NAV__: Previous/next page navigation
+# - __DIAGRAMS_OBJECT__: Graphviz DOT source code (patterns mode)
+# - __NODEDATA_OBJECT__: Node metadata for graph tooltips (patterns mode)
+# =============================================================================
+
 TEMPLATE_HTML = r'''<!DOCTYPE html>
 <html lang="en">
 
@@ -391,7 +612,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             --card-bg: #f1f5f9;
             --card-border: #cbd5e1;
             --card-hover: #e2e8f0;
-            --pred-color: #475569;
+            --pred-color: #0079BA;  /* EXACT Protege blue for object properties */
             --val-color: #1e293b;
         }
 
@@ -410,7 +631,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             --card-bg: #0f172a;
             --card-border: #475569;
             --card-hover: #334155;
-            --pred-color: #94a3b8;
+            --pred-color: #5BC0EB;  /* Lighter Protege blue for dark mode visibility */
             --val-color: #e2e8f0;
         }
 
@@ -773,7 +994,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
         /* Navigation */
         .nav-section {
-            margin-bottom: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
         }
 
         .nav-section-title {
@@ -782,7 +1003,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--color-text-muted);
-            margin-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-xs);
         }
 
         .nav-list {
@@ -1317,18 +1538,28 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         .tree-tooltip-title { font-weight: 600; color: var(--color-text-primary); margin-bottom: 6px; }
         .tree-tooltip-uri { font-family: var(--font-family-mono); font-size: var(--font-size-xs); color: var(--color-text-muted); word-break: break-all; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--color-border); }
 
-        /* Main Content */
+        /* Main Content - Optimized spacing for better use of screen real estate */
         .main-content {
             margin-left: var(--sidebar-width);
             margin-top: var(--header-height);
-            padding: var(--spacing-2xl);
+            padding: var(--spacing-xl) var(--spacing-lg);
+            padding-right: calc(var(--toc-width) + var(--spacing-xl) + var(--spacing-lg));
             flex: 1;
             min-height: calc(100vh - var(--header-height));
+            display: flex;
+            justify-content: center;
         }
 
         .content-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* When TOC is hidden, reclaim the right padding */
+        @media (max-width: 1280px) {
+            .main-content {
+                padding-right: var(--spacing-lg);
+            }
         }
 
         .breadcrumbs {
@@ -1619,12 +1850,12 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         /* Graphviz (Viz.js) edge & label theming */
         :root {
             --graph-edge-color: #ffffff;
-            --graph-edge-label-color: #ffffff;
+            --graph-edge-label-color: #5BC0EB;  /* Lighter Protege blue for dark mode */
         }
 
         body:not(.theme-dark) {
             --graph-edge-color: #1e293b;
-            --graph-edge-label-color: #1e293b;
+            --graph-edge-label-color: #0079BA;  /* EXACT Protege blue for object properties */
         }
 
         /* Graphviz uses g.edge, g.node (similar to Mermaid), but with different internal shapes */
@@ -1744,26 +1975,26 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
        - Light mode: black labels for visibility on white backgrounds
        =========================================== */
 
-        /* Dark mode edge labels - white text (default) */
+        /* Dark mode edge labels - lighter Protege blue for visibility */
         .graph-wrapper svg g.edgeLabel text,
         .graph-wrapper svg g.edgeLabel tspan {
-            fill: #ffffff !important;
+            fill: #5BC0EB !important;
         }
 
         .fullscreen-wrapper svg g.edgeLabel text,
         .fullscreen-wrapper svg g.edgeLabel tspan {
-            fill: #ffffff !important;
+            fill: #5BC0EB !important;
         }
 
-        /* Light mode edge labels - black text */
+        /* Light mode edge labels - EXACT Protege blue #0079BA */
         body:not(.theme-dark) .graph-wrapper svg g.edgeLabel text,
         body:not(.theme-dark) .graph-wrapper svg g.edgeLabel tspan {
-            fill: #1e293b !important;
+            fill: #0079BA !important;
         }
 
         body:not(.theme-dark) .fullscreen-wrapper svg g.edgeLabel text,
         body:not(.theme-dark) .fullscreen-wrapper svg g.edgeLabel tspan {
-            fill: #1e293b !important;
+            fill: #0079BA !important;
         }
 
         /* Edge dimming for focus/highlight interactions */
@@ -2239,68 +2470,201 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         }
 
         .legend-swatch {
-            width: 14px;
-            height: 14px;
-            border-radius: 4px;
+            width: 16px;
+            height: 16px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .swatch-class {
-            background: linear-gradient(135deg, #b34dff 0%, #4a148c 100%);
+        /* Shape indicators: square for TBox classes, oval for ABox individuals */
+        .legend-swatch.shape-square {
+            border-radius: 3px;
         }
 
-        .swatch-individual {
-            background: linear-gradient(135deg, #e8f0ff 0%, #1e40af 100%);
+        .legend-swatch.shape-oval {
+            border-radius: 50%;
         }
 
-        .swatch-literal {
-            background: linear-gradient(135deg, #fef3c7 0%, #d97706 100%);
+        .legend-swatch.shape-note {
+            border-radius: 3px;
+            clip-path: polygon(0 0, 75% 0, 100% 25%, 100% 100%, 0 100%);
         }
 
-        .swatch-categorical {
-            background: linear-gradient(135deg, #d1fae5 0%, #059669 100%);
-        }
-
-        .swatch-subclass {
-            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
-        }
-
-        .swatch-type {
-            background: linear-gradient(135deg, #00a0e3 0%, #0077b3 100%);
-        }
-
+        /* Legend swatches – ontology color scheme */
         .swatch-bfo {
-            background: linear-gradient(135deg, #b34dff 0%, #7c3aed 100%);
+            background: #F556CB;  /* BFO - pink rgba(245,86,203) */
+        }
+
+        .swatch-iao {
+            background: #F6A252;  /* IAO - orange rgba(246,162,82) */
         }
 
         .swatch-obi {
-            background: linear-gradient(135deg, #a78bbc 0%, #7c5c8f 100%);
+            background: #F5D5B1;  /* OBI - warm peach rgba(245,213,177) */
+        }
+
+        .swatch-cob {
+            background: #93AFF3;  /* COB - periwinkle blue rgba(147,175,243) */
+        }
+
+        .swatch-individual {
+            background: #E6E6E6;  /* ABox - light gray rgba(230,230,230) */
+        }
+
+        .swatch-literal {
+            background: #93D053;  /* Literals - green rgba(147,208,83) */
+        }
+
+        .swatch-qudt {
+            background: #C9DBFE;  /* QUDT - light blue rgba(201,219,254) */
         }
 
         .swatch-pmd {
-            background: linear-gradient(135deg, #6b7fa3 0%, #4a5568 100%);
+            background: #46CAD3;  /* PMD - cyan rgba(70,202,211) */
+        }
+
+        .swatch-ro {
+            background: #F43F5E;  /* RO - rose */
+        }
+
+        .swatch-class {
+            background: #FDFDC8;  /* Default class - light yellow rgba(253,253,200) */
+        }
+
+        .swatch-property {
+            background: var(--graph-edge-label-color, #0079BA);  /* Object Property - matches edge label color */
+        }
+
+        .swatch-type {
+            background: var(--graph-edge-color, #1e293b);  /* rdf:type - matches edge line color (dashed) */
+        }
+
+        .swatch-categorical {
+            background: #99F6E4;  /* Teal - Categorical */
         }
 
         .swatch-shacl {
-            background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
+            background: #A5F3FC;  /* Cyan - SHACL */
         }
 
         .swatch-constraint {
-            background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+            background: #FED7AA;  /* Orange - Constraints */
         }
 
-        /* Responsive */
+        /* ===========================================
+           RESPONSIVE DESIGN - Multi-breakpoint Layout
+           ===========================================
+           Breakpoints:
+           - 1600px+: Full layout with TOC
+           - 1280-1600px: Content expands, TOC visible
+           - 1024-1280px: No TOC, optimized content width
+           - 768-1024px: Tablet mode, narrower sidebar
+           - <768px: Mobile mode, collapsed sidebar
+           =========================================== */
+
+        /* Extra large screens (1600px+) - Full layout */
+        @media (min-width: 1600px) {
+            :root {
+                --sidebar-width: 300px;
+                --toc-width: 260px;
+            }
+
+            .content-wrapper {
+                max-width: 1200px;
+            }
+        }
+
+        /* Large screens (1280-1600px) - Slightly compact */
+        @media (max-width: 1600px) and (min-width: 1280px) {
+            :root {
+                --sidebar-width: 260px;
+                --toc-width: 220px;
+            }
+
+            .content-wrapper {
+                max-width: 1000px;
+                padding: 0 var(--spacing-md);
+            }
+
+            .main-content {
+                padding: var(--spacing-xl);
+            }
+        }
+
+        /* Medium-large screens (1024-1280px) - No TOC */
         @media (max-width: 1280px) {
             .toc {
                 display: none;
             }
+
+            :root {
+                --sidebar-width: 250px;
+            }
+
+            .content-wrapper {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .main-content {
+                padding: var(--spacing-xl) var(--spacing-lg);
+                margin-right: 0;
+            }
         }
 
+        /* Tablet screens (768-1024px) - Narrower sidebar */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            :root {
+                --sidebar-width: 220px;
+            }
+
+            .sidebar {
+                padding: var(--spacing-md);
+            }
+
+            .nav-link {
+                padding: var(--spacing-xs) var(--spacing-sm);
+                font-size: var(--font-size-xs);
+            }
+
+            .main-content {
+                padding: var(--spacing-lg);
+            }
+
+            .content, .article-content {
+                padding: var(--spacing-xl);
+            }
+
+            h1 {
+                font-size: var(--font-size-3xl);
+            }
+
+            h2 {
+                font-size: var(--font-size-xl);
+            }
+
+            .graph-header {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+
+            .graph-controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        /* Mobile screens (<768px) - Collapsed sidebar */
         @media (max-width: 768px) {
+            :root {
+                --header-height: 56px;
+            }
+
             .sidebar {
                 transform: translateX(-100%);
                 transition: transform var(--transition-normal);
                 z-index: var(--z-modal);
+                width: 280px;
             }
 
             .sidebar.open {
@@ -2309,7 +2673,12 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
             .main-content {
                 margin-left: 0;
+                padding: var(--spacing-md);
+            }
+
+            .content, .article-content {
                 padding: var(--spacing-lg);
+                border-radius: var(--radius-lg);
             }
 
             .header-nav {
@@ -2322,6 +2691,97 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
             .page-nav {
                 grid-template-columns: 1fr;
+            }
+
+            .page-nav-link {
+                padding: var(--spacing-md);
+            }
+
+            h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            h2 {
+                font-size: var(--font-size-lg);
+                margin-top: var(--spacing-xl);
+            }
+
+            h3 {
+                font-size: var(--font-size-base);
+            }
+
+            .mermaid-graph-container {
+                margin: var(--spacing-md) calc(-1 * var(--spacing-lg));
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .graph-viewport {
+                min-height: 300px;
+            }
+
+            .search-modal-content {
+                margin: var(--spacing-sm);
+                max-height: calc(100vh - var(--spacing-lg));
+                border-radius: var(--radius-lg);
+            }
+
+            .search-modal {
+                padding-top: var(--spacing-md);
+            }
+
+            .ontology-tree-container {
+                margin: var(--spacing-md) calc(-1 * var(--spacing-lg));
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                max-height: 350px;
+            }
+
+            .tree-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .tree-search {
+                max-width: none;
+            }
+
+            .tree-stats {
+                margin-left: 0;
+                margin-top: var(--spacing-sm);
+            }
+        }
+
+        /* Small mobile screens (<480px) */
+        @media (max-width: 480px) {
+            .main-content {
+                padding: var(--spacing-sm);
+            }
+
+            .content, .article-content {
+                padding: var(--spacing-md);
+            }
+
+            .header-logo span {
+                font-size: var(--font-size-base);
+            }
+
+            .theme-toggle {
+                padding: 6px 10px;
+            }
+
+            .theme-label {
+                display: none;
+            }
+
+            pre {
+                padding: var(--spacing-md);
+                font-size: var(--font-size-xs);
+                margin-left: calc(-1 * var(--spacing-md));
+                margin-right: calc(-1 * var(--spacing-md));
+                border-radius: 0;
             }
         }
 
@@ -2440,36 +2900,180 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         }
     
 
-        /* Search enhancements */
+        /* ===========================================
+           ENHANCED SEARCH RESULTS STYLING
+           =========================================== */
         .search-result-header {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             justify-content: space-between;
-            gap: var(--spacing-md);
+            gap: var(--spacing-sm);
         }
+
         .search-result-badge {
-            font-size: 11px;
-            letter-spacing: 0.06em;
+            font-size: 10px;
+            letter-spacing: 0.08em;
             font-weight: 700;
-            color: var(--color-text-muted);
-            background: var(--color-bg-tertiary);
-            border: 1px solid var(--color-border);
+            text-transform: uppercase;
+            color: var(--color-primary);
+            background: rgba(0, 160, 227, 0.1);
+            border: 1px solid rgba(0, 160, 227, 0.3);
             padding: 2px 8px;
             border-radius: 999px;
             flex: 0 0 auto;
             user-select: none;
         }
-        .search-result-snippet {
-            margin-top: 6px;
-            font-size: var(--font-size-sm);
-            line-height: 1.45;
-            color: var(--color-text-secondary);
+
+        .search-result-badge.page {
+            color: var(--color-primary);
+            background: rgba(0, 160, 227, 0.1);
+            border-color: rgba(0, 160, 227, 0.3);
         }
+
+        .search-result-badge.section {
+            color: var(--color-success);
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .search-result-badge.graph {
+            color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .search-result-section {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            margin-top: 2px;
+        }
+
+        .search-result-snippet {
+            margin-top: 8px;
+            font-size: var(--font-size-sm);
+            line-height: 1.5;
+            color: var(--color-text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .search-result-snippet mark {
+            background: rgba(0, 160, 227, 0.25);
+            color: var(--color-primary-light);
+            padding: 1px 3px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .search-result-item {
+            display: block;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            border-left: 3px solid transparent;
+        }
+
+        .search-result-item:hover,
+        .search-result-item.selected {
+            background: var(--color-bg-hover);
+            text-decoration: none;
+            border-left-color: var(--color-primary);
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--color-text-primary);
+            font-size: var(--font-size-base);
+        }
+
+        .search-result-title mark {
+            background: rgba(0, 160, 227, 0.3);
+            color: var(--color-primary);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .search-results {
+            max-height: 450px;
+            overflow-y: auto;
+            padding: var(--spacing-xs) 0;
+        }
+
+        .search-results::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .search-results::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: var(--radius-full);
+        }
+
+        .search-no-results {
+            padding: var(--spacing-2xl);
+            text-align: center;
+            color: var(--color-text-muted);
+        }
+
+        .search-no-results svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.4;
+        }
+
         .search-target-flash {
-            outline: 3px solid rgba(124, 58, 237, 0.35);
+            outline: 3px solid rgba(0, 160, 227, 0.4);
             outline-offset: 4px;
-            border-radius: 12px;
-            transition: outline-color 0.6s ease;
+            border-radius: 8px;
+            animation: search-flash 1.5s ease-out forwards;
+        }
+
+        @keyframes search-flash {
+            0% {
+                outline-color: rgba(0, 160, 227, 0.6);
+                background: rgba(0, 160, 227, 0.1);
+            }
+            100% {
+                outline-color: transparent;
+                background: transparent;
+            }
+        }
+
+        /* Search keyboard hints */
+        .search-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            flex-wrap: wrap;
+            background: var(--color-bg-tertiary);
+        }
+
+        .search-footer kbd {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            padding: 2px 6px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family-mono);
+            font-size: 11px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-index-status {
+            margin-left: auto;
+            white-space: nowrap;
+            opacity: 0.8;
+            font-size: 11px;
         }
 
         /* Collapsible code blocks */
@@ -2528,10 +3132,1102 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             font-size: var(--font-size-sm);
         }
 
+        /* ===========================================
+           HIGH-END UI ENHANCEMENTS
+           Premium micro-interactions and polish
+           =========================================== */
+
+        /* === SCROLL PROGRESS INDICATOR === */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 50%, var(--color-accent) 100%);
+            z-index: calc(var(--z-sticky) + 10);
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(0, 160, 227, 0.5);
+        }
+
+        /* === BACK TO TOP BUTTON === */
+        .back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 160, 227, 0.4);
+            z-index: var(--z-sticky);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 160, 227, 0.5);
+        }
+
+        .back-to-top:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .back-to-top svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s ease;
+        }
+
+        .back-to-top:hover svg {
+            transform: translateY(-2px);
+        }
+
+        /* === TABLE STYLING - Elegant & Professional === */
+        .content table,
+        .article-content table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--spacing-xl) 0;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .content table thead,
+        .article-content table thead {
+            background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+        }
+
+        .content table th,
+        .article-content table th {
+            padding: var(--spacing-md) var(--spacing-lg);
+            text-align: left;
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .content table td,
+        .article-content table td {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            border-bottom: 1px solid var(--color-border);
+            transition: background var(--transition-fast);
+        }
+
+        .content table tbody tr,
+        .article-content table tbody tr {
+            transition: all var(--transition-fast);
+        }
+
+        .content table tbody tr:hover,
+        .article-content table tbody tr:hover {
+            background: var(--color-bg-hover);
+        }
+
+        .content table tbody tr:last-child td,
+        .article-content table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Zebra striping for tables */
+        .content table tbody tr:nth-child(even),
+        .article-content table tbody tr:nth-child(even) {
+            background: rgba(0, 0, 0, 0.015);
+        }
+
+        body.theme-dark .content table tbody tr:nth-child(even),
+        body.theme-dark .article-content table tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* === BLOCKQUOTE STYLING === */
+        .content blockquote,
+        .article-content blockquote {
+            position: relative;
+            margin: var(--spacing-xl) 0;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            padding-left: calc(var(--spacing-xl) + 4px);
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.05) 0%, rgba(0, 160, 227, 0.02) 100%);
+            border-left: 4px solid var(--color-primary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            font-style: italic;
+            color: var(--color-text-secondary);
+        }
+
+        .content blockquote::before,
+        .article-content blockquote::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            font-size: 4rem;
+            font-family: Georgia, serif;
+            color: var(--color-primary);
+            opacity: 0.2;
+            line-height: 1;
+        }
+
+        .content blockquote p:last-child,
+        .article-content blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* === ENHANCED LINK STYLING === */
+        .content a:not(.nav-link):not(.page-nav-link):not(.header-logo),
+        .article-content a:not(.nav-link):not(.page-nav-link):not(.header-logo) {
+            position: relative;
+            text-decoration: none;
+            background-image: linear-gradient(var(--color-primary), var(--color-primary));
+            background-size: 0% 2px;
+            background-position: 0 100%;
+            background-repeat: no-repeat;
+            transition: background-size 0.3s ease, color 0.2s ease;
+        }
+
+        .content a:not(.nav-link):not(.page-nav-link):not(.header-logo):hover,
+        .article-content a:not(.nav-link):not(.page-nav-link):not(.header-logo):hover {
+            background-size: 100% 2px;
+            text-decoration: none;
+        }
+
+        /* External link indicator */
+        .content a[href^="http"]:not([href*="materialdigital"])::after,
+        .article-content a[href^="http"]:not([href*="materialdigital"])::after {
+            content: '↗';
+            display: inline-block;
+            margin-left: 3px;
+            font-size: 0.75em;
+            opacity: 0.7;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .content a[href^="http"]:not([href*="materialdigital"]):hover::after,
+        .article-content a[href^="http"]:not([href*="materialdigital"]):hover::after {
+            transform: translate(2px, -2px);
+            opacity: 1;
+        }
+
+        /* === PAGE LOAD ANIMATION === */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-wrapper {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* === SIDEBAR MICRO-INTERACTIONS === */
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--color-primary);
+            transform: scaleY(0);
+            transition: transform 0.2s ease;
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            transform: scaleY(1);
+        }
+
+        .nav-link svg {
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-link:hover svg {
+            transform: scale(1.1);
+            color: var(--color-primary);
+        }
+
+        /* === TOC ENHANCED INTERACTIONS === */
+        .toc-list a {
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toc-list a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4px solid var(--color-primary);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .toc-list a.active::before {
+            opacity: 1;
+        }
+
+        .toc-list a:hover {
+            padding-left: calc(var(--spacing-sm) + 8px);
+        }
+
+        /* === HEADER ENHANCEMENT === */
+        .header {
+            transition: box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .header.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-logo {
+            transition: transform 0.2s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.02);
+        }
+
+        /* === ENHANCED CODE BLOCKS === */
+        pre {
+            position: relative;
+        }
+
+        pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light), var(--color-accent));
+            opacity: 0.6;
+        }
+
+        /* Code copy button */
+        pre:hover::after {
+            opacity: 0.6;
+        }
+
+        /* === CARD HOVER EFFECTS === */
+        .content, .article-content {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* === PAGE NAV ENHANCED === */
+        .page-nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .page-nav-link.next::before {
+            transform-origin: right;
+        }
+
+        .page-nav-link:hover::before {
+            transform: scaleX(1);
+        }
+
+        .page-nav-link:hover .page-nav-title {
+            transform: translateX(4px);
+        }
+
+        .page-nav-link.next:hover .page-nav-title {
+            transform: translateX(-4px);
+        }
+
+        .page-nav-title {
+            transition: transform 0.2s ease;
+        }
+
+        /* === BUTTON RIPPLE EFFECT === */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.3s ease;
+        }
+
+        .btn-ripple:active::after {
+            transform: scale(2);
+            opacity: 1;
+            transition: transform 0s, opacity 0s;
+        }
+
+        /* === SEARCH MODAL ENHANCEMENT === */
+        .search-modal-content {
+            animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .search-result-item {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .search-result-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--color-primary);
+            transform: scaleY(0);
+            transition: transform 0.2s ease;
+        }
+
+        .search-result-item:hover::before,
+        .search-result-item.selected::before {
+            transform: scaleY(1);
+        }
+
+        /* === THEME TOGGLE ENHANCEMENT === */
+        .theme-toggle {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 1;
+        }
+
+        .theme-toggle svg {
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover svg {
+            transform: rotate(15deg);
+        }
+
+        /* === SKELETON LOADING === */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg,
+                var(--color-bg-tertiary) 25%,
+                var(--color-bg-secondary) 50%,
+                var(--color-bg-tertiary) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        /* === FOCUS RING ENHANCEMENT === */
+        :focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 3px;
+            border-radius: var(--radius-sm);
+        }
+
+        /* === SELECTION STYLING === */
+        ::selection {
+            background: rgba(0, 160, 227, 0.3);
+            color: var(--color-text-primary);
+        }
+
+        /* === SMOOTH SCROLL OFFSET FOR ANCHORS === */
+        :target {
+            scroll-margin-top: calc(var(--header-height) + var(--spacing-lg));
+        }
+
+        /* === TOOLTIP STYLING === */
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            padding: 6px 12px;
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-xs);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-md);
+            z-index: var(--z-tooltip);
+        }
+
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-4px);
+        }
+
+        /* === NOTIFICATION BADGE PULSE === */
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .badge-pulse {
+            animation: badgePulse 2s infinite;
+        }
+
+        /* === LOADING SPINNER === */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--color-border);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* ===========================================
+           PREMIUM MODERN UI ENHANCEMENTS
+           High-end production-ready styling
+           =========================================== */
+
+        /* === GLASSMORPHISM EFFECTS === */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        body.theme-dark .sidebar {
+            background: rgba(13, 31, 53, 0.9);
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+        }
+
+        body.theme-dark .header {
+            background: rgba(10, 22, 40, 0.85);
+        }
+
+        .toc {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        body.theme-dark .toc {
+            background: rgba(13, 31, 53, 0.9);
+        }
+
+        /* === LAYERED SHADOW SYSTEM === */
+        .content, .article-content {
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.02),
+                0 2px 4px rgba(0, 0, 0, 0.02),
+                0 4px 8px rgba(0, 0, 0, 0.02),
+                0 8px 16px rgba(0, 0, 0, 0.02),
+                0 16px 32px rgba(0, 0, 0, 0.02);
+        }
+
+        body.theme-dark .content,
+        body.theme-dark .article-content {
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.1),
+                0 2px 4px rgba(0, 0, 0, 0.1),
+                0 4px 8px rgba(0, 0, 0, 0.1),
+                0 8px 16px rgba(0, 0, 0, 0.08),
+                0 16px 32px rgba(0, 0, 0, 0.06);
+        }
+
+        /* === PREMIUM TYPOGRAPHY === */
+        .content h1, .article-content h1 {
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .content h2, .article-content h2 {
+            font-size: clamp(1.5rem, 3vw, 1.875rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            position: relative;
+            padding-bottom: var(--spacing-md);
+        }
+
+        .content h2::after, .article-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+            border-radius: 2px;
+        }
+
+        .content h3, .article-content h3 {
+            font-size: clamp(1.125rem, 2vw, 1.375rem);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--color-text-primary);
+        }
+
+        .content p, .article-content p {
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            color: var(--color-text-secondary);
+        }
+
+        /* === PREMIUM LIST STYLING === */
+        /* Exclude ontology-tree from premium list styling */
+        .content ul:not(.ontology-tree), .article-content ul:not(.ontology-tree),
+        .content ol, .article-content ol {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
+        .content ol > li, .article-content ol > li {
+            position: relative;
+            padding-left: 1.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.7;
+        }
+
+        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before,
+        .content ol > li::before, .article-content ol > li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            width: 6px;
+            height: 6px;
+            background: var(--color-primary);
+            border-radius: 50%;
+        }
+
+        /* Ensure ontology-tree nested lists have no bullets */
+        .ontology-tree li::before,
+        .ontology-tree ul li::before {
+            display: none !important;
+            content: none !important;
+        }
+
+        /* === ENHANCED HORIZONTAL RULE === */
+        .content hr, .article-content hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-border), var(--color-primary), var(--color-border), transparent);
+            margin: var(--spacing-2xl) 0;
+            opacity: 0.6;
+        }
+
+        /* === PREMIUM CODE BLOCKS === */
+        pre {
+            position: relative;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            overflow-x: auto;
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light), var(--color-accent));
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        /* Code block window dots */
+        pre::after {
+            content: '● ● ●';
+            position: absolute;
+            top: 12px;
+            left: 16px;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        pre code {
+            display: block;
+            padding-top: var(--spacing-md);
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            tab-size: 2;
+        }
+
+        body:not(.theme-dark) pre {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border-color: #e2e8f0;
+        }
+
+        body:not(.theme-dark) pre code {
+            color: #334155;
+        }
+
+        body:not(.theme-dark) pre::after {
+            color: rgba(0, 0, 0, 0.15);
+        }
+
+        /* === INLINE CODE ENHANCEMENT === */
+        code:not(pre code) {
+            padding: 3px 8px;
+            font-size: 0.875em;
+            font-weight: 500;
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.08) 0%, rgba(0, 160, 227, 0.04) 100%);
+            border: 1px solid rgba(0, 160, 227, 0.15);
+            border-radius: 6px;
+            color: var(--color-primary-dark);
+            transition: all 0.2s ease;
+        }
+
+        code:not(pre code):hover {
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.12) 0%, rgba(0, 160, 227, 0.08) 100%);
+            border-color: rgba(0, 160, 227, 0.25);
+        }
+
+        body.theme-dark code:not(pre code) {
+            color: var(--color-primary-light);
+        }
+
+        /* === STAGGERED FADE-IN ANIMATION === */
+        @keyframes staggerFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content h2, .content h3,
+        .article-content h2, .article-content h3 {
+            animation: staggerFadeIn 0.5s ease-out backwards;
+        }
+
+        .content h2:nth-of-type(1), .article-content h2:nth-of-type(1) { animation-delay: 0.1s; }
+        .content h2:nth-of-type(2), .article-content h2:nth-of-type(2) { animation-delay: 0.15s; }
+        .content h2:nth-of-type(3), .article-content h2:nth-of-type(3) { animation-delay: 0.2s; }
+        .content h2:nth-of-type(4), .article-content h2:nth-of-type(4) { animation-delay: 0.25s; }
+        .content h2:nth-of-type(5), .article-content h2:nth-of-type(5) { animation-delay: 0.3s; }
+
+        /* === PREMIUM CARD HOVER === */
+        .content, .article-content {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* === ENHANCED SEARCH INPUT === */
+        .search-input {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+            border: 2px solid transparent;
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.02),
+                0 4px 8px rgba(0, 0, 0, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        body.theme-dark .search-input {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.95) 100%);
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.1),
+                0 4px 8px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .search-input:focus {
+            border-color: var(--color-primary);
+            box-shadow:
+                0 0 0 4px rgba(0, 160, 227, 0.1),
+                0 4px 12px rgba(0, 160, 227, 0.15);
+        }
+
+        /* === PREMIUM NAV LINKS === */
+        .nav-link {
+            border-radius: var(--radius-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover {
+            transform: translateX(4px);
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.08) 0%, rgba(0, 160, 227, 0.04) 100%);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.15) 0%, rgba(0, 160, 227, 0.08) 100%);
+            box-shadow: 0 2px 8px rgba(0, 160, 227, 0.15);
+        }
+
+        /* === PREMIUM PAGE NAV CARDS === */
+        .page-nav-link {
+            background: linear-gradient(135deg, var(--color-bg-card) 0%, var(--color-bg-secondary) 100%);
+            border: 1px solid var(--color-border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-nav-link:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-primary);
+            box-shadow:
+                0 8px 24px rgba(0, 160, 227, 0.15),
+                0 4px 12px rgba(0, 160, 227, 0.1);
+        }
+
+        .page-nav-link.prev:hover {
+            transform: translateY(-4px) translateX(-4px);
+        }
+
+        .page-nav-link.next:hover {
+            transform: translateY(-4px) translateX(4px);
+        }
+
+        /* === PREMIUM THEME TOGGLE === */
+        .theme-toggle {
+            background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            padding: 10px 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.98);
+        }
+
+        /* === ENHANCED BACK TO TOP === */
+        .back-to-top {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow:
+                0 4px 12px rgba(0, 160, 227, 0.3),
+                0 8px 24px rgba(0, 160, 227, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-6px) scale(1.1);
+            box-shadow:
+                0 8px 20px rgba(0, 160, 227, 0.4),
+                0 16px 40px rgba(0, 160, 227, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* === PREMIUM SCROLL PROGRESS === */
+        .scroll-progress {
+            height: 4px;
+            background: linear-gradient(90deg,
+                var(--color-primary-dark) 0%,
+                var(--color-primary) 40%,
+                var(--color-primary-light) 70%,
+                var(--color-accent) 100%);
+            box-shadow:
+                0 0 10px rgba(0, 160, 227, 0.5),
+                0 0 20px rgba(0, 160, 227, 0.3),
+                0 0 30px rgba(0, 160, 227, 0.1);
+        }
+
+        /* === ENHANCED SEARCH MODAL === */
+        .search-modal {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .search-modal-content {
+            background: var(--color-bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 24px 48px rgba(0, 0, 0, 0.2),
+                0 12px 24px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+        }
+
+        .search-result-item {
+            border-radius: var(--radius-lg);
+            margin: 4px 8px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-result-item:hover,
+        .search-result-item.selected {
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.1) 0%, rgba(0, 160, 227, 0.05) 100%);
+            transform: translateX(4px);
+        }
+
+        /* === ENHANCED IMAGES === */
+        .content img, .article-content img {
+            border-radius: var(--radius-xl);
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.04),
+                0 8px 16px rgba(0, 0, 0, 0.04),
+                0 16px 32px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content img:hover, .article-content img:hover {
+            transform: scale(1.02) translateY(-4px);
+            box-shadow:
+                0 8px 16px rgba(0, 0, 0, 0.08),
+                0 16px 32px rgba(0, 0, 0, 0.08),
+                0 24px 48px rgba(0, 0, 0, 0.06);
+        }
+
+        /* === PREMIUM SECTION DIVIDERS === */
+        .nav-section:not(:first-child) {
+            margin-top: var(--spacing-sm);
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--color-border);
+        }
+
+        /* === MODERN TOC STYLING === */
+        .toc {
+            border-radius: var(--radius-xl);
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.04),
+                0 8px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .toc-list a {
+            border-radius: var(--radius-md);
+            margin: 2px 0;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toc-list a:hover {
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.08) 0%, rgba(0, 160, 227, 0.04) 100%);
+            transform: translateX(4px);
+        }
+
+        .toc-list a.active {
+            background: linear-gradient(135deg, rgba(0, 160, 227, 0.12) 0%, rgba(0, 160, 227, 0.06) 100%);
+            color: var(--color-primary);
+            font-weight: 600;
+            border-left-width: 3px;
+        }
+
+        /* === SMOOTH CONTENT ENTRANCE === */
+        @keyframes contentReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+                filter: blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .content-wrapper {
+            animation: contentReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* === GRADIENT TEXT FOR BRANDING === */
+        .header-logo span:first-child {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 50%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* === SUBTLE NOISE TEXTURE === */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.015;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            z-index: 9998;
+        }
+
+        body.theme-dark::after {
+            opacity: 0.03;
+        }
+
+        /* === PREMIUM FOOTER === */
+        .footer {
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 160, 227, 0.02) 100%);
+            border-top: 1px solid var(--color-border);
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .footer-links a {
+            position: relative;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            background: rgba(0, 160, 227, 0.08);
+            color: var(--color-primary);
+        }
+
+        /* === PRINT STYLES === */
+        @media print {
+            .header, .sidebar, .toc, .back-to-top, .scroll-progress, .page-nav {
+                display: none !important;
+            }
+
+            .main-content {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .content, .article-content {
+                box-shadow: none !important;
+                border: none !important;
+            }
+        }
+
+        /* === HIGH CONTRAST MODE SUPPORT === */
+        @media (prefers-contrast: high) {
+            :root {
+                --color-border: rgba(0, 0, 0, 0.3);
+            }
+
+            body.theme-dark {
+                --color-border: rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        /* === REDUCED MOTION SUPPORT === */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
 </style>
 </head>
 
 <body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
     <header class="header">
         <button aria-label="Toggle menu" class="mobile-menu-btn">
             <svg fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
@@ -2543,7 +4239,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         <a class="header-logo" href="./intro.html">
             <img src="./Logo.svg" alt="MaterialDigital Logo" style="height: 36px; width: auto;">
             <span style="display: flex; align-items: baseline; gap: 0.25rem;">
-                <span style="font-weight: 700; background: linear-gradient(135deg, #00a0e3 0%, #0077b3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">PMD</span><span style="font-weight: 600; color: var(--color-text-primary);">co</span>
+                <span style="font-weight: 700; background: linear-gradient(135deg, #00a0e3 0%, #0077b3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">PMD</span><span style="font-weight: 600; color: var(--color-text-primary);">Core</span>
                 <span style="font-size: 0.8em; font-weight: 500; color: var(--color-text-muted); margin-left: 0.15rem;">Documentation</span>
             </span>
         </a>
@@ -2579,7 +4275,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
             </svg>
-            <input class="search-input" placeholder="Search docs..." readonly="" type="text" />
+            <input class="search-input" id="sidebar-search" name="sidebar-search" placeholder="Search docs..." readonly="" type="text" aria-label="Search documentation" />
             <span class="search-shortcut">Ctrl+K</span>
         </div>
         __SIDEBAR_HTML__
@@ -2621,33 +4317,39 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
     <div class="graph-toast" id="global-toast"></div>
 
     <!-- Fullscreen overlay -->
-    <div class="fullscreen-overlay" id="fullscreen-overlay">
+    <div class="fullscreen-overlay" id="fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen graph viewer">
         <div class="fullscreen-header">
             <div class="fullscreen-title" id="fullscreen-title">Graph</div>
-            <button class="fullscreen-close" id="fullscreen-close">
-                <span>✕</span> Close
+            <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
+                <span aria-hidden="true">✕</span> Close
             </button>
         </div>
         <div class="fullscreen-viewport" id="fullscreen-viewport">
             <div class="fullscreen-wrapper" id="fullscreen-wrapper"></div>
             <div class="fullscreen-zoom-controls">
-                <button class="fullscreen-zoom-btn" id="fs-zoom-in">+</button>
-                <div class="fullscreen-zoom-level" id="fs-zoom-level">100%</div>
-                <button class="fullscreen-zoom-btn" id="fs-zoom-out">−</button>
+                <button class="fullscreen-zoom-btn" id="fs-zoom-in" aria-label="Zoom in">+</button>
+                <div class="fullscreen-zoom-level" id="fs-zoom-level" aria-live="polite">100%</div>
+                <button class="fullscreen-zoom-btn" id="fs-zoom-out" aria-label="Zoom out">−</button>
             </div>
         </div>
     </div>
 
-    
+
     <!-- Viz.js (Graphviz) -->
     <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.js"></script>
+
+    <!-- Mermaid.js for diagram rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 
 <script type="module">
 // ========== GRAPHVIZ (VIZ.JS) DIAGRAMS ==========
         const dotDiagrams = __DIAGRAMS_OBJECT__;
 
 const nodeData = __NODEDATA_OBJECT__;
+
+// ========== MERMAID DIAGRAMS ==========
+const mermaidDiagrams = __MERMAID_DIAGRAMS_OBJECT__;
 
         // ========== GRAPH VIEWER CLASS ==========
 
@@ -2733,6 +4435,128 @@ const nodeData = __NODEDATA_OBJECT__;
             svg.querySelectorAll('text').forEach(t => {
                 t.style.userSelect = 'none';
             });
+
+            // Rotate edge labels to follow the edge direction
+            rotateEdgeLabels(svg);
+        }
+
+        function rotateEdgeLabels(svg) {
+            // Find all edge groups in the SVG
+            svg.querySelectorAll('g.edge').forEach(edgeGroup => {
+                // Get the path element (the edge line)
+                const path = edgeGroup.querySelector('path');
+                // Get the text element (the label)
+                const text = edgeGroup.querySelector('text');
+                
+                if (!path || !text) return;
+                
+                // Get the path's d attribute
+                const d = path.getAttribute('d');
+                if (!d) return;
+                
+                // Parse the path to get start and end points
+                // Graphviz paths typically use M (moveto) and C (curveto) or L (lineto)
+                const points = parsePathPoints(d);
+                if (points.length < 2) return;
+                
+                // Get the text position
+                const textX = parseFloat(text.getAttribute('x')) || 0;
+                const textY = parseFloat(text.getAttribute('y')) || 0;
+                
+                // Find the closest segment to the text label
+                const angle = calculateAngleAtPoint(points, textX, textY);
+                
+                // Apply rotation transform to the text
+                // Rotate around the text's anchor point
+                if (Math.abs(angle) > 0.1) { // Only rotate if angle is significant
+                    // Adjust angle to keep text readable (not upside down)
+                    let displayAngle = angle;
+                    if (displayAngle > 90) displayAngle -= 180;
+                    if (displayAngle < -90) displayAngle += 180;
+                    
+                    text.setAttribute('transform', `rotate(${displayAngle}, ${textX}, ${textY})`);
+                }
+            });
+        }
+
+        function parsePathPoints(d) {
+            const points = [];
+            // Match path commands: M, L, C, Q, etc. followed by coordinates
+            const regex = /([MLCQSTZ])([^MLCQSTZ]*)/gi;
+            let match;
+            let currentX = 0, currentY = 0;
+            
+            while ((match = regex.exec(d)) !== null) {
+                const cmd = match[1].toUpperCase();
+                const coords = match[2].trim().split(/[\\s,]+/).map(parseFloat).filter(n => !isNaN(n));
+                
+                switch (cmd) {
+                    case 'M':
+                    case 'L':
+                        if (coords.length >= 2) {
+                            currentX = coords[0];
+                            currentY = coords[1];
+                            points.push({ x: currentX, y: currentY });
+                        }
+                        break;
+                    case 'C': // Cubic bezier: x1,y1 x2,y2 x,y
+                        if (coords.length >= 6) {
+                            // Add control points and end point
+                            points.push({ x: coords[0], y: coords[1] });
+                            points.push({ x: coords[2], y: coords[3] });
+                            currentX = coords[4];
+                            currentY = coords[5];
+                            points.push({ x: currentX, y: currentY });
+                        }
+                        break;
+                    case 'Q': // Quadratic bezier: x1,y1 x,y
+                        if (coords.length >= 4) {
+                            points.push({ x: coords[0], y: coords[1] });
+                            currentX = coords[2];
+                            currentY = coords[3];
+                            points.push({ x: currentX, y: currentY });
+                        }
+                        break;
+                }
+            }
+            return points;
+        }
+
+        function calculateAngleAtPoint(points, textX, textY) {
+            if (points.length < 2) return 0;
+            
+            // Find the two closest points to the text position
+            let minDist = Infinity;
+            let closestIdx = 0;
+            
+            for (let i = 0; i < points.length; i++) {
+                const dist = Math.sqrt(Math.pow(points[i].x - textX, 2) + Math.pow(points[i].y - textY, 2));
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestIdx = i;
+                }
+            }
+            
+            // Get the segment containing or near the closest point
+            let p1, p2;
+            if (closestIdx === 0) {
+                p1 = points[0];
+                p2 = points[1];
+            } else if (closestIdx === points.length - 1) {
+                p1 = points[points.length - 2];
+                p2 = points[points.length - 1];
+            } else {
+                // Use the surrounding points
+                p1 = points[closestIdx - 1];
+                p2 = points[closestIdx + 1];
+            }
+            
+            // Calculate angle in degrees
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+            
+            return angle;
         }
 
         
@@ -3112,18 +4936,23 @@ function parseEdgeTitle(title) {
                 if (!header) return;
                 if (header.querySelector('.graph-search')) return;
 
+                const searchId = `graph-search-${this.containerId || Date.now()}`;
                 const input = document.createElement('input');
                 input.className = 'graph-search';
                 input.type = 'search';
+                input.id = searchId;
+                input.name = searchId;
                 input.placeholder = 'Search nodes…';
                 input.autocomplete = 'off';
                 input.spellcheck = false;
+                input.setAttribute('aria-label', 'Search graph nodes');
 
                 const clear = document.createElement('button');
                 clear.className = 'graph-btn graph-search-clear';
                 clear.type = 'button';
                 clear.title = 'Clear search';
                 clear.textContent = '✕';
+                clear.setAttribute('aria-label', 'Clear search');
 
                 header.prepend(clear);
                 header.prepend(input);
@@ -3145,12 +4974,102 @@ function parseEdgeTitle(title) {
                     sanitizeGraphSvg(svg);
 
                     this.indexSvg(svg);
+                    this.updateLegend(svg);
                     this.bindEvents();
                     setTimeout(() => this.fitView(), 80);
                 } catch (e) {
                     console.error('Viz.js render error:', e);
                     this.diagramEl.innerHTML = `<div style="color: var(--color-error); padding: 20px;">Error rendering diagram: ${e?.message || e}</div>`;
                 }
+            }
+
+            updateLegend(svg) {
+                // Detect which node types and ontologies are present in the graph
+                const legend = this.container.querySelector('.graph-legend');
+                if (!legend) return;
+
+                // Color to legend type mapping based on fill colors from GRAPHVIZ_NODE_STYLES
+                const colorToLegend = {
+                    '#F556CB': 'bfo',
+                    '#f556cb': 'bfo',
+                    '#F6A252': 'iao',
+                    '#f6a252': 'iao',
+                    '#F5D5B1': 'obi',
+                    '#f5d5b1': 'obi',
+                    '#93AFF3': 'cob',
+                    '#93aff3': 'cob',
+                    '#46CAD3': 'pmd',
+                    '#46cad3': 'pmd',
+                    '#F43F5E': 'ro',
+                    '#f43f5e': 'ro',
+                    '#C9DBFE': 'qudt',
+                    '#c9dbfe': 'qudt',
+                    '#FDFDC8': 'cls',
+                    '#fdfdc8': 'cls',
+                    '#E6E6E6': 'ind',
+                    '#e6e6e6': 'ind',
+                    '#93D053': 'lit',
+                    '#93d053': 'lit',
+                    '#99F6E4': 'cat',
+                    '#99f6e4': 'cat',
+                    '#A5F3FC': 'shacl',
+                    '#a5f3fc': 'shacl',
+                    '#FED7AA': 'constraint',
+                    '#fed7aa': 'constraint',
+                };
+
+                const foundTypes = new Set();
+
+                // Check all nodes for their fill colors
+                svg.querySelectorAll('g.node').forEach(node => {
+                    // Check ellipse, polygon, rect for fill color
+                    const shapes = node.querySelectorAll('ellipse, polygon, rect, path');
+                    shapes.forEach(shape => {
+                        const fill = shape.getAttribute('fill');
+                        if (fill && colorToLegend[fill]) {
+                            foundTypes.add(colorToLegend[fill]);
+                        }
+                        // Also check for ellipse shape which indicates individual
+                        if (shape.tagName === 'ellipse') {
+                            foundTypes.add('ind');
+                        }
+                    });
+                });
+
+                // Check for edges (always show property legend if there are edges)
+                const edges = svg.querySelectorAll('g.edge');
+                if (edges.length > 0) {
+                    foundTypes.add('property');
+                    // Check for dashed edges (rdf:type)
+                    edges.forEach(edge => {
+                        const path = edge.querySelector('path');
+                        if (path) {
+                            const style = path.getAttribute('style') || '';
+                            const strokeDasharray = path.getAttribute('stroke-dasharray');
+                            if (style.includes('dashed') || strokeDasharray) {
+                                foundTypes.add('type');
+                            }
+                        }
+                    });
+                }
+
+                // Check for literals (note shape)
+                svg.querySelectorAll('g.node polygon').forEach(poly => {
+                    const fill = poly.getAttribute('fill');
+                    if (fill && (fill.toLowerCase() === '#93d053')) {
+                        foundTypes.add('lit');
+                    }
+                });
+
+                // Show/hide legend items based on what's found
+                legend.querySelectorAll('.legend-item[data-legend]').forEach(item => {
+                    const legendType = item.getAttribute('data-legend');
+                    if (foundTypes.has(legendType)) {
+                        item.style.display = 'inline-flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             }
 
             indexSvg(svg) {
@@ -3477,6 +5396,7 @@ function parseEdgeTitle(title) {
 
         // Create viewers sequentially to avoid Viz render conflicts
         async function initAllDiagrams() {
+            // Initialize Graphviz (DOT) diagrams
             const entries = Object.entries(dotDiagrams);
             for (const [id, dot] of entries) {
                 const containerId = `graph-${id}`;
@@ -3484,6 +5404,194 @@ function parseEdgeTitle(title) {
                 const data = nodeData[id] || {};
                 new GraphvizGraphViewer(containerId, diagramId, dot, data);
                 await new Promise(resolve => setTimeout(resolve, 30));
+            }
+
+            // Initialize Mermaid diagrams
+            await initMermaidDiagrams();
+        }
+
+        // ========== MERMAID DIAGRAM RENDERING ==========
+        async function initMermaidDiagrams() {
+            const mermaidEntries = Object.entries(mermaidDiagrams);
+            if (mermaidEntries.length === 0) return;
+
+            // Initialize Mermaid with theme-aware configuration
+            const isDark = document.body.classList.contains('theme-dark');
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: isDark ? 'dark' : 'default',
+                securityLevel: 'loose',
+                flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'basis'
+                }
+            });
+
+            for (const [id, code] of mermaidEntries) {
+                const diagramEl = document.getElementById(`diagram-${id}`);
+                if (!diagramEl) {
+                    console.warn(`Mermaid diagram element not found: diagram-${id}`);
+                    continue;
+                }
+
+                try {
+                    const { svg } = await mermaid.render(`mermaid-svg-${id}`, code);
+                    diagramEl.innerHTML = svg;
+
+                    // Set up the viewer for the rendered Mermaid SVG
+                    const container = document.getElementById(`graph-${id}`);
+                    if (container) {
+                        new MermaidGraphViewer(container, diagramEl, id);
+                    }
+                } catch (err) {
+                    console.error(`Failed to render Mermaid diagram ${id}:`, err);
+                    diagramEl.innerHTML = `<div class="diagram-error">Failed to render diagram: ${err.message}</div>`;
+                }
+            }
+        }
+
+        // ========== MERMAID GRAPH VIEWER CLASS ==========
+        class MermaidGraphViewer {
+            constructor(container, diagramEl, diagramId) {
+                this.container = container;
+                this.diagramEl = diagramEl;
+                this.diagramId = diagramId;
+                this.viewport = container.querySelector('.graph-viewport');
+                this.wrapper = container.querySelector('.graph-wrapper');
+
+                this.scale = 1;
+                this.tx = 0;
+                this.ty = 0;
+                this.drag = false;
+                this.sx = 0;
+                this.sy = 0;
+
+                this.bindEvents();
+                setTimeout(() => this.fitView(), 100);
+            }
+
+            update() {
+                this.wrapper.style.transform = `translate(${this.tx}px, ${this.ty}px) scale(${this.scale})`;
+                const zoomLevel = this.container.querySelector('.zoom-level');
+                if (zoomLevel) zoomLevel.textContent = `${Math.round(this.scale * 100)}%`;
+            }
+
+            fitView() {
+                const svg = this.diagramEl.querySelector('svg');
+                if (!svg) return;
+
+                const vr = this.viewport.getBoundingClientRect();
+                const sr = svg.getBoundingClientRect();
+                const scaleX = (vr.width - 40) / sr.width;
+                const scaleY = (vr.height - 40) / sr.height;
+                this.scale = Math.min(scaleX, scaleY, 1.5);
+                this.tx = (vr.width - sr.width * this.scale) / 2;
+                this.ty = (vr.height - sr.height * this.scale) / 2;
+                this.update();
+            }
+
+            resetView() {
+                this.scale = 1;
+                this.tx = 0;
+                this.ty = 0;
+                this.update();
+            }
+
+            zoomIn() { this.scale = Math.min(3, this.scale * 1.2); this.update(); }
+            zoomOut() { this.scale = Math.max(0.2, this.scale / 1.2); this.update(); }
+
+            downloadSVG() {
+                const svg = this.diagramEl.querySelector('svg');
+                if (!svg) return;
+                const clone = svg.cloneNode(true);
+                clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                const svgText = new XMLSerializer().serializeToString(clone);
+                const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${this.diagramId}.svg`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            async downloadPNG() {
+                const svg = this.diagramEl.querySelector('svg');
+                if (!svg) return;
+                const clone = svg.cloneNode(true);
+                clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                try {
+                    const { blob, dpi } = await exportSvgToPng(clone, { dpi: 300, background: null });
+                    const pngUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = pngUrl;
+                    a.download = `${this.diagramId}.png`;
+                    a.click();
+                    setTimeout(() => URL.revokeObjectURL(pngUrl), 2000);
+                } catch (e) {
+                    console.error('PNG export failed', e);
+                }
+            }
+
+            openFullscreen() {
+                const svg = this.diagramEl.querySelector('svg');
+                if (!svg) return;
+                const graphTitle = this.container.querySelector('.graph-title');
+                const title = graphTitle ? graphTitle.textContent : 'Mermaid Diagram';
+                FullscreenManager.open({ svg, title, onNodeClick: () => {} });
+            }
+
+            bindEvents() {
+                this.container.querySelectorAll('.zoom-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const action = btn.dataset.action;
+                        if (action === 'zoom-in') this.zoomIn();
+                        if (action === 'zoom-out') this.zoomOut();
+                    });
+                });
+
+                this.container.querySelectorAll('.graph-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const action = btn.dataset.action;
+                        if (action === 'fit') this.fitView();
+                        if (action === 'reset') this.resetView();
+                        if (action === 'svg') this.downloadSVG();
+                        if (action === 'png') this.downloadPNG();
+                        if (action === 'fullscreen') this.openFullscreen();
+                    });
+                });
+
+                this.viewport.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    const ns = Math.max(0.2, Math.min(3, this.scale * (e.deltaY > 0 ? 0.9 : 1.1)));
+                    const r = this.viewport.getBoundingClientRect();
+                    const mx = e.clientX - r.left;
+                    const my = e.clientY - r.top;
+                    const sd = ns - this.scale;
+                    this.tx -= (mx - this.tx) * (sd / this.scale);
+                    this.ty -= (my - this.ty) * (sd / this.scale);
+                    this.scale = ns;
+                    this.update();
+                }, { passive: false });
+
+                this.viewport.addEventListener('mousedown', (e) => {
+                    if (e.target.closest('g.node')) return;
+                    this.drag = true;
+                    this.sx = e.clientX - this.tx;
+                    this.sy = e.clientY - this.ty;
+                });
+
+                window.addEventListener('mousemove', (e) => {
+                    if (!this.drag) return;
+                    this.tx = e.clientX - this.sx;
+                    this.ty = e.clientY - this.sy;
+                    this.update();
+                });
+
+                window.addEventListener('mouseup', () => { this.drag = false; });
+
+                this.diagramEl.addEventListener('dblclick', (e) => { e.preventDefault(); this.fitView(); });
             }
         }
 
@@ -3612,6 +5720,79 @@ function parseEdgeTitle(title) {
                     updateActiveOnScroll();
                 }
             }
+
+            // ========== SCROLL PROGRESS & BACK TO TOP ==========
+            const scrollProgress = document.getElementById('scrollProgress');
+            const backToTop = document.getElementById('backToTop');
+            const header = document.querySelector('.header');
+
+            let ticking = false;
+
+            const updateScrollUI = () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+                // Update scroll progress bar
+                if (scrollProgress) {
+                    scrollProgress.style.width = `${Math.min(100, scrollPercent)}%`;
+                }
+
+                // Show/hide back to top button
+                if (backToTop) {
+                    if (scrollTop > 400) {
+                        backToTop.classList.add('visible');
+                    } else {
+                        backToTop.classList.remove('visible');
+                    }
+                }
+
+                // Add shadow to header on scroll
+                if (header) {
+                    if (scrollTop > 10) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                }
+
+                ticking = false;
+            };
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateScrollUI);
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            // Back to top click handler
+            if (backToTop) {
+                backToTop.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Initial call
+            updateScrollUI();
+
+            // ========== KEYBOARD NAVIGATION HINTS ==========
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + Home -> scroll to top
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Home') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                // Ctrl/Cmd + End -> scroll to bottom
+                if ((e.ctrlKey || e.metaKey) && e.key === 'End') {
+                    e.preventDefault();
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }
+            });
+
         })();
 
                 /* Search */
@@ -4143,7 +6324,7 @@ function parseEdgeTitle(title) {
             <div class="search-modal-content" role="dialog" aria-modal="true" aria-label="Search">
                 <div class="search-modal-header">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input type="text" class="search-modal-input" id="search-input" placeholder="Search this documentation…  (tips: \"phrase\", type:graph, section:patterns)" autocomplete="off" spellcheck="false">
+                    <input type="text" class="search-modal-input" id="search-input" name="search-query" placeholder="Search documentation... (use quotes for exact phrase)" autocomplete="off" spellcheck="false" aria-label="Search query">
                     <kbd class="search-shortcut">ESC</kbd>
                 </div>
                 <div class="search-results" id="search-results"><div class="search-no-results">Type to search…</div></div>
@@ -4159,17 +6340,8 @@ function parseEdgeTitle(title) {
                 this.input = document.getElementById('search-input');
                 this.resultsContainer = document.getElementById('search-results');
 
-                // Index status (updated as cross-page indexing progresses)
-                this.footer = this.modal.querySelector('.search-footer');
-                this.statusEl = document.createElement('span');
-                this.statusEl.id = 'search-index-status';
-                this.statusEl.className = 'search-index-status';
-                this.statusEl.textContent = 'Index: current page';
-                if (this.footer) this.footer.appendChild(this.statusEl);
-
-
                 // Sidebar search input (kept for layout, opens modal)
-                document.querySelector('.search-input')?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
+                document.getElementById('sidebar-search')?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
             }
 
             bindEvents() {
@@ -4232,27 +6404,51 @@ function parseEdgeTitle(title) {
 
             render(results, query) {
                 if (!query.trim()) {
-                    this.resultsContainer.innerHTML = `<div class="search-no-results">Type to search…</div>`;
+                    this.resultsContainer.innerHTML = `<div class="search-no-results">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <div>Type to search across all documentation...</div>
+                        <div style="margin-top: 8px; font-size: 12px;">
+                            Try: <kbd style="padding: 2px 6px; background: var(--color-bg-tertiary); border-radius: 4px;">"exact phrase"</kbd>
+                            <kbd style="padding: 2px 6px; background: var(--color-bg-tertiary); border-radius: 4px;">type:graph</kbd>
+                            <kbd style="padding: 2px 6px; background: var(--color-bg-tertiary); border-radius: 4px;">section:patterns</kbd>
+                        </div>
+                    </div>`;
                     return;
                 }
 
                 if (!results.length) {
-                    this.resultsContainer.innerHTML = `<div class="search-no-results">No results for “${this.escapeHtml(query)}”.</div>`;
+                    this.resultsContainer.innerHTML = `<div class="search-no-results">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                        <div>No results for "<strong>${this.escapeHtml(query)}</strong>"</div>
+                        <div style="margin-top: 8px; font-size: 12px;">Try different keywords or check spelling</div>
+                    </div>`;
                     return;
                 }
 
                 const html = results.map((r, i) => {
                     const d = r.doc;
-                    const badge = String(d.type || 'result').toUpperCase();
-                    const snippet = makeSnippet(d.content || '', query, 190);
+                    const type = String(d.type || 'result').toLowerCase();
+                    const badge = type.toUpperCase();
+                    const badgeClass = type === 'page' ? 'page' : (type === 'graph' ? 'graph' : 'section');
+
+                    // Generate a relevant snippet with context around matched terms
+                    const snippet = makeSnippet(d.content || '', query, 180);
+
+                    // Show path info for cross-page results
+                    const isExternalPage = !d.path.includes(location.pathname.split('/').pop() || '');
+                    const pathInfo = isExternalPage && d.section ? d.section : '';
 
                     return `<div class="search-result-item ${i === 0 ? 'selected' : ''}" data-index="${i}" data-path="${this.escapeHtml(d.path)}">
                         <div class="search-result-header">
                             <div class="search-result-title">${highlightHtml(d.title || '', query)}</div>
-                            <span class="search-result-badge">${badge}</span>
+                            <span class="search-result-badge ${badgeClass}">${badge}</span>
                         </div>
-                        <div class="search-result-section">${this.escapeHtml(d.section || '')}</div>
-                        <div class="search-result-snippet">${highlightHtml(snippet, query)}</div>
+                        ${pathInfo ? `<div class="search-result-section">in ${this.escapeHtml(pathInfo)}</div>` : ''}
+                        ${snippet ? `<div class="search-result-snippet">${highlightHtml(snippet, query)}</div>` : ''}
                     </div>`;
                 }).join('');
 
@@ -4292,84 +6488,111 @@ function parseEdgeTitle(title) {
                 this.input.blur();
             }
 
-            _setIndexStatus(msg) {
-                if (!this.statusEl) return;
-                this.statusEl.textContent = msg;
-            }
-
             async bootstrapCrossPageIndex() {
-                // Load pre-built search index for efficient cross-page search
+                // Load COMPREHENSIVE pre-built search index for full-text cross-page search
+                // This index contains ALL content from ALL pages - no truncation
                 try {
                     const protocol = (location && location.protocol) ? location.protocol : '';
                     if (protocol === 'file:') {
-                        this._setIndexStatus('Index: current page (open via http(s) for site-wide search)');
                         return;
                     }
 
-                    this._setIndexStatus('Loading search index...');
-                    
-                    // Try to load the pre-built search index
+                    // Load the comprehensive search index
                     const indexUrl = new URL('./search-index.json', location.href);
                     const res = await fetch(indexUrl.toString(), { credentials: 'same-origin', cache: 'default' });
-                    
+
                     if (!res.ok) {
-                        this._setIndexStatus('Index: current page');
                         return;
                     }
-                    
+
                     const searchIndex = await res.json();
-                    
+
                     if (!Array.isArray(searchIndex) || !searchIndex.length) {
-                        this._setIndexStatus('Index: current page');
                         return;
                     }
-                    
-                    // Convert search index entries to docs format
+
+                    // Convert FULL search index to docs format
+                    // This creates a comprehensive searchable document collection
                     const extraDocs = [];
+                    let totalContentChars = 0;
+                    let totalWords = 0;
+
                     for (const entry of searchIndex) {
-                        // Add page entry
+                        // Combine ALL content sources for comprehensive page-level search
+                        const pageContent = [
+                            entry.content || '',           // Full page content (untruncated)
+                            entry.keywords || '',          // Extracted technical keywords
+                            entry.terms || '',             // All unique terms for exact match
+                            // All heading texts and their full content
+                            (entry.headings || []).map(h =>
+                                `${h.text} ${h.content || ''} ${h.keywords || ''}`
+                            ).join(' ')
+                        ].join(' ');
+
+                        totalContentChars += pageContent.length;
+                        totalWords += entry.wordCount || 0;
+
+                        // Add page entry with COMPLETE content
                         extraDocs.push({
                             id: `page-${entry.href}`,
                             title: entry.title,
                             section: entry.section,
                             path: entry.href,
-                            content: entry.content || '',
-                            type: 'page'
+                            content: pageContent,
+                            type: 'page',
+                            headingCount: entry.headingCount || 0,
+                            wordCount: entry.wordCount || 0
                         });
-                        
-                        // Add heading entries for section-level search with content snippets
+
+                        // Add EACH section as a separately searchable document
+                        // Allows users to find and navigate to specific sections
                         if (entry.headings && Array.isArray(entry.headings)) {
                             for (const h of entry.headings) {
+                                // Combine section's full content with its keywords
+                                const sectionContent = [
+                                    h.content || '',       // Full section content
+                                    h.keywords || '',      // Section-specific keywords
+                                    h.text || ''           // Heading text
+                                ].join(' ');
+
                                 extraDocs.push({
-                                    id: `heading-${entry.href}-${h.slug}`,
+                                    id: `section-${entry.href}-${h.slug}`,
                                     title: h.text,
-                                    section: entry.title,
+                                    section: entry.title,  // Parent page title
                                     path: `${entry.href}#${h.slug}`,
-                                    content: h.content || '',  // Use section content from enhanced index
-                                    type: 'section'
+                                    content: sectionContent,
+                                    level: h.level || 2,
+                                    type: 'section',
+                                    parentPage: entry.href
                                 });
                             }
                         }
                     }
-                    
+
                     if (extraDocs.length) {
-                        // Merge with existing docs, avoiding duplicates
+                        // Replace current docs with comprehensive cross-page index
+                        // but keep current page's detailed docs for best local search
                         const byId = new Map(this.docs.map(d => [d.id, d]));
                         for (const d of extraDocs) byId.set(d.id, d);
                         this.docs = Array.from(byId.values());
+
+                        // Rebuild the search engine with full content
                         this.engine = new DocSearchEngine(this.docs);
 
+                        // Re-run current search if modal is open
                         if (this.modal && this.modal.classList.contains('active')) {
                             const q = (this.input?.value || '').trim();
                             if (q) this.search(q);
                         }
                     }
 
+                    // Log comprehensive index stats
                     const pagesIndexed = searchIndex.length;
                     const sectionsIndexed = extraDocs.length - pagesIndexed;
-                    this._setIndexStatus(`Index: ${pagesIndexed} pages, ${sectionsIndexed} sections`);
+                    const sizeKB = (totalContentChars / 1024).toFixed(0);
+                    console.log(`[Search] Loaded comprehensive index: ${extraDocs.length} docs, ${totalWords.toLocaleString()} words, ${sizeKB} KB`);
                 } catch (e) {
-                    this._setIndexStatus('Index: current page');
+                    console.error('[Search] Failed to load index:', e);
                 }
             }
 
@@ -4391,24 +6614,24 @@ function parseEdgeTitle(title) {
 
             createOverlay() {
                 const html = `
-            <div class="image-viewer-overlay" id="image-viewer">
-                <button class="image-viewer-close">&times;</button>
+            <div class="image-viewer-overlay" id="image-viewer" role="dialog" aria-modal="true" aria-label="Image viewer">
+                <button class="image-viewer-close" aria-label="Close image viewer">&times;</button>
                 <div class="image-viewer-container" id="image-viewer-container"></div>
                 <div class="image-viewer-controls">
-                    <button class="image-viewer-btn" id="zoom-in">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                    <button class="image-viewer-btn" id="zoom-in" aria-label="Zoom in">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
                         Zoom In
                     </button>
-                    <button class="image-viewer-btn" id="zoom-out">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                    <button class="image-viewer-btn" id="zoom-out" aria-label="Zoom out">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
                         Zoom Out
                     </button>
-                    <button class="image-viewer-btn" id="zoom-reset">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <button class="image-viewer-btn" id="zoom-reset" aria-label="Reset zoom">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                         Reset
                     </button>
-                    <button class="image-viewer-btn" id="download-png">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <button class="image-viewer-btn" id="download-png" aria-label="Download as PNG">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Download PNG
                     </button>
                 </div>
@@ -4603,6 +6826,29 @@ function parseEdgeTitle(title) {
         new Search();
         new ImageViewer();
 
+        // ========== EXTERNAL LINKS HANDLER ==========
+        // Make all external links open in new tabs for better UX
+        (function() {
+            const currentHost = window.location.hostname;
+            document.querySelectorAll('a[href]').forEach(link => {
+                const href = link.getAttribute('href');
+                if (!href) return;
+
+                // Check if link is external (starts with http/https and different domain)
+                if (href.startsWith('http://') || href.startsWith('https://')) {
+                    try {
+                        const url = new URL(href);
+                        if (url.hostname !== currentHost) {
+                            link.setAttribute('target', '_blank');
+                            link.setAttribute('rel', 'noopener noreferrer');
+                        }
+                    } catch (e) {
+                        // Invalid URL, skip
+                    }
+                }
+            });
+        })();
+
         // ========== ONTOLOGY TREE MANAGER ==========
         class OntologyTreeManager {
             constructor() {
@@ -4779,20 +7025,246 @@ function parseEdgeTitle(title) {
 </html>'''
 
 
+# =============================================================================
+# SECTION 3: REGEX PATTERNS AND MARKDOWN PROCESSING HELPERS
+# =============================================================================
+# Regular expressions for detecting special tags in markdown content and
+# utility functions for markdown-to-HTML conversion.
+# =============================================================================
 
-# -----------------------------------------------------------------------------
-# Markdown helpers
-# -----------------------------------------------------------------------------
+# Graphviz renderer tag pattern - matches all variants:
+#   <!--@Graphviz_renderer:URL-->              → default (full hierarchy)
+#   <!--@Graphviz_renderer_full:URL-->         → explicit full hierarchy
+#   <!--@Graphviz_renderer_only_upper:URL-->   → one superclass level above
+#   <!--@Graphviz_renderer_only_file:URL-->    → file content only, no hierarchy
+GRAPHVIZ_TAG_RE = re.compile(
+    r"<!--\s*@Graphviz_renderer(?:_(full|only_upper|upper|only_file|file))?\s*:\s*([^\s>]+)\s*-->",
+    re.IGNORECASE,
+)
 
-GRAPHVIZ_TAG_RE = re.compile(r"<!--\s*@Graphviz_renderer\s*:\s*([^\s>]+)\s*-->", re.IGNORECASE)
+# D2 diagram block pattern - matches ```d2 ... ``` fenced code blocks
+# These are stripped as D2 diagrams are not supported by this builder
 D2_BLOCK_RE = re.compile(r"```d2[\s\S]*?```", re.IGNORECASE)
+
+# =============================================================================
+# MANUAL DIAGRAM RENDERER PATTERNS
+# =============================================================================
+# These patterns match manually embedded diagram code in markdown files.
+# Format: <!--@Graphviz_renderer_manual: Title --> followed by ```dot code block
+# Format: <!--@Mermaid_renderer_manual: Title --> followed by ```mermaid code block
+
+# Manual Graphviz renderer - user provides DOT code directly in markdown
+# Usage: <!--@Graphviz_renderer_manual: My Diagram Title -->
+#        ```dot
+#        digraph G { A -> B }
+#        ```
+GRAPHVIZ_MANUAL_TAG_RE = re.compile(
+    r"<!--\s*@Graphviz_renderer_manual\s*:\s*([^>]+?)\s*-->\s*\n\s*```(?:dot|graphviz)\s*\n([\s\S]*?)```",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+# Manual Mermaid renderer - user provides Mermaid code directly in markdown
+# Usage: <!--@Mermaid_renderer_manual: My Diagram Title -->
+#        ```mermaid
+#        graph TD
+#            A --> B
+#        ```
+MERMAID_MANUAL_TAG_RE = re.compile(
+    r"<!--\s*@Mermaid_renderer_manual\s*:\s*([^>]+?)\s*-->\s*\n\s*```mermaid\s*\n([\s\S]*?)```",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+
+@dataclass(frozen=True)
+class ManualDiagramRef:
+    """Reference to a manually embedded diagram in markdown."""
+    diagram_id: str
+    title: str
+    code: str
+    diagram_type: str  # 'graphviz' or 'mermaid'
+
+
+def parse_manual_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[ManualDiagramRef]:
+    """Extract all manually embedded diagram references from markdown.
+
+    Finds <!--@Graphviz_renderer_manual: Title --> and <!--@Mermaid_renderer_manual: Title -->
+    tags followed by their respective fenced code blocks.
+
+    Args:
+        md_text: The markdown text to parse.
+        slugify_fn: Function to convert titles to URL-safe IDs.
+
+    Returns:
+        List of ManualDiagramRef objects in document order.
+    """
+    refs: List[ManualDiagramRef] = []
+
+    # Track used IDs to avoid duplicates
+    used_ids: Dict[str, int] = {}
+
+    # Find all Graphviz manual diagrams
+    for m in GRAPHVIZ_MANUAL_TAG_RE.finditer(md_text):
+        title = m.group(1).strip()
+        code = m.group(2).strip()
+        base_id = slugify_fn(title) or "graphviz-diagram"
+
+        # Ensure unique ID
+        if base_id in used_ids:
+            used_ids[base_id] += 1
+            diagram_id = f"{base_id}-{used_ids[base_id]}"
+        else:
+            used_ids[base_id] = 0
+            diagram_id = base_id
+
+        refs.append(ManualDiagramRef(
+            diagram_id=diagram_id,
+            title=title,
+            code=code,
+            diagram_type='graphviz'
+        ))
+
+    # Find all Mermaid manual diagrams
+    for m in MERMAID_MANUAL_TAG_RE.finditer(md_text):
+        title = m.group(1).strip()
+        code = m.group(2).strip()
+        base_id = slugify_fn(title) or "mermaid-diagram"
+
+        # Ensure unique ID
+        if base_id in used_ids:
+            used_ids[base_id] += 1
+            diagram_id = f"{base_id}-{used_ids[base_id]}"
+        else:
+            used_ids[base_id] = 0
+            diagram_id = base_id
+
+        refs.append(ManualDiagramRef(
+            diagram_id=diagram_id,
+            title=title,
+            code=code,
+            diagram_type='mermaid'
+        ))
+
+    # Sort by position in document
+    positions = []
+    for ref in refs:
+        if ref.diagram_type == 'graphviz':
+            for m in GRAPHVIZ_MANUAL_TAG_RE.finditer(md_text):
+                if m.group(1).strip() == ref.title:
+                    positions.append((m.start(), ref))
+                    break
+        else:
+            for m in MERMAID_MANUAL_TAG_RE.finditer(md_text):
+                if m.group(1).strip() == ref.title:
+                    positions.append((m.start(), ref))
+                    break
+
+    positions.sort(key=lambda x: x[0])
+    return [ref for _, ref in positions]
+
+
+def make_mermaid_container(diagram_id: str, title: str) -> str:
+    """Generate an interactive container HTML for a Mermaid diagram.
+
+    Args:
+        diagram_id: Unique identifier for the diagram.
+        title: Display title for the diagram.
+
+    Returns:
+        HTML string for the Mermaid diagram container.
+    """
+    title = title.strip()
+    return f'''
+<div class="mermaid-graph-container" id="graph-{diagram_id}" role="figure" aria-label="{title}">
+  <div class="graph-header">
+    <div class="graph-title">{title}</div>
+    <div class="graph-controls" role="toolbar" aria-label="Graph controls">
+      <button class="graph-btn" data-action="fit" aria-label="Fit to view">⊡ Fit</button>
+      <button class="graph-btn" data-action="reset" aria-label="Reset view">⊙ Reset</button>
+      <button class="graph-btn" data-action="fullscreen" aria-label="View fullscreen">⛶ Fullscreen</button>
+      <button class="graph-btn" data-action="svg" aria-label="Download as SVG">⬇ SVG</button>
+      <button class="graph-btn" data-action="png" aria-label="Download as PNG">⬇ PNG</button>
+    </div>
+  </div>
+  <div class="graph-viewport">
+    <div class="graph-wrapper" id="wrapper-{diagram_id}">
+      <div class="mermaid-diagram mermaid-source" id="diagram-{diagram_id}"></div>
+    </div>
+    <div class="zoom-controls" role="toolbar" aria-label="Zoom controls">
+      <button class="zoom-btn" data-action="zoom-in" aria-label="Zoom in">+</button>
+      <div class="zoom-level" aria-live="polite">100%</div>
+      <button class="zoom-btn" data-action="zoom-out" aria-label="Zoom out">−</button>
+    </div>
+  </div>
+</div>
+'''.strip()
+
+
+def inject_manual_graph_containers(md_text: str, refs: List[ManualDiagramRef]) -> str:
+    """Replace manual diagram tags with interactive container HTML.
+
+    Args:
+        md_text: The markdown text with manual diagram tags.
+        refs: List of parsed ManualDiagramRef objects.
+
+    Returns:
+        Markdown text with diagram tags replaced by container HTML.
+    """
+    result = md_text
+
+    for ref in refs:
+        if ref.diagram_type == 'graphviz':
+            # Replace the Graphviz manual tag and code block with container
+            pattern = re.compile(
+                r"<!--\s*@Graphviz_renderer_manual\s*:\s*" + re.escape(ref.title) + r"\s*-->\s*\n\s*```(?:dot|graphviz)\s*\n[\s\S]*?```",
+                re.IGNORECASE | re.MULTILINE,
+            )
+            container = make_graph_container(ref.diagram_id, ref.title)
+            result = pattern.sub(container, result, count=1)
+        else:
+            # Replace the Mermaid manual tag and code block with container
+            pattern = re.compile(
+                r"<!--\s*@Mermaid_renderer_manual\s*:\s*" + re.escape(ref.title) + r"\s*-->\s*\n\s*```mermaid\s*\n[\s\S]*?```",
+                re.IGNORECASE | re.MULTILINE,
+            )
+            container = make_mermaid_container(ref.diagram_id, ref.title)
+            result = pattern.sub(container, result, count=1)
+
+    return result
 
 
 def strip_d2_blocks(md_text: str) -> str:
+    """Remove D2 diagram code blocks from markdown text.
+
+    D2 is a diagram scripting language. This function strips any fenced code
+    blocks marked with 'd2' language identifier, as they are not processed
+    by this builder.
+
+    Args:
+        md_text: The raw markdown text potentially containing D2 blocks.
+
+    Returns:
+        The markdown text with all ```d2 ... ``` blocks removed.
+    """
     return D2_BLOCK_RE.sub("", md_text)
 
 
 def render_markdown(md_text: str) -> str:
+    """Convert markdown text to HTML using markdown2.
+
+    Uses the following markdown2 extras for enhanced formatting:
+    - fenced-code-blocks: Support for ```language code blocks
+    - tables: GitHub-flavored markdown tables
+    - header-ids: Auto-generate IDs for headers (used by TOC)
+    - cuddled-lists: Allow lists without blank line before them
+    - strike: Support for ~~strikethrough~~ text
+    - code-friendly: Don't convert underscores in code
+
+    Args:
+        md_text: The markdown text to convert.
+
+    Returns:
+        The rendered HTML string.
+    """
     return markdown2.markdown(
         md_text,
         extras=[
@@ -4831,6 +7303,15 @@ def wrap_code_in_details(html: str) -> str:
 
 
 def _strip_html_tags(s: str) -> str:
+    """Remove all HTML tags from a string and normalize whitespace.
+
+    Args:
+        s: The input string potentially containing HTML tags.
+
+    Returns:
+        The input string with all HTML tags removed and consecutive whitespace
+        collapsed to single spaces.
+    """
     s = re.sub(r"<[^>]+>", "", s)
     return re.sub(r"\s+", " ", s).strip()
 
@@ -4862,6 +7343,18 @@ def build_toc_list_items(article_html: str) -> str:
 
 
 def _fallback_slugify(stem: str) -> str:
+    """Convert a string to a URL-safe slug identifier.
+
+    Used as a fallback when the ttl_to_graphviz module's slugify function
+    is not available. Converts the input to lowercase, replaces non-word
+    characters with hyphens, and collapses multiple hyphens.
+
+    Args:
+        stem: The string to convert to a slug.
+
+    Returns:
+        A URL-safe slug string, or "diagram" if the result would be empty.
+    """
     s = stem.strip().lower()
     s = re.sub(r"[^\w\-]+", "-", s)
     s = re.sub(r"-{2,}", "-", s).strip("-")
@@ -4872,43 +7365,54 @@ def make_graph_container(diagram_id: str, title: str) -> str:
     title = title.strip()
     return (
         """
-<div class="mermaid-graph-container" id="graph-{diagram_id}">
+<div class="mermaid-graph-container" id="graph-{diagram_id}" role="figure" aria-label="{title}">
   <div class="graph-header">
     <div class="graph-title">{title}</div>
-    <div class="graph-controls">
-      <button class="graph-btn" data-action="fit">⊡ Fit</button>
-      <button class="graph-btn" data-action="reset">⊙ Reset</button>
-      <button class="graph-btn" data-action="fullscreen">⛶ Fullscreen</button>
-      <button class="graph-btn" data-action="svg">⬇ SVG</button>
-      <button class="graph-btn" data-action="png">⬇ PNG</button>
+    <div class="graph-controls" role="toolbar" aria-label="Graph controls">
+      <button class="graph-btn" data-action="fit" aria-label="Fit to view">⊡ Fit</button>
+      <button class="graph-btn" data-action="reset" aria-label="Reset view">⊙ Reset</button>
+      <button class="graph-btn" data-action="fullscreen" aria-label="View fullscreen">⛶ Fullscreen</button>
+      <button class="graph-btn" data-action="svg" aria-label="Download as SVG">⬇ SVG</button>
+      <button class="graph-btn" data-action="png" aria-label="Download as PNG">⬇ PNG</button>
     </div>
   </div>
   <div class="graph-viewport">
     <div class="graph-wrapper" id="wrapper-{diagram_id}">
       <div class="mermaid-diagram" id="diagram-{diagram_id}"></div>
     </div>
-    <div class="zoom-controls">
-      <button class="zoom-btn" data-action="zoom-in">+</button>
-      <div class="zoom-level">100%</div>
-      <button class="zoom-btn" data-action="zoom-out">−</button>
+    <div class="zoom-controls" role="toolbar" aria-label="Zoom controls">
+      <button class="zoom-btn" data-action="zoom-in" aria-label="Zoom in">+</button>
+      <div class="zoom-level" aria-live="polite">100%</div>
+      <button class="zoom-btn" data-action="zoom-out" aria-label="Zoom out">−</button>
     </div>
   </div>
-  <div class="graph-legend">
-    <span class="legend-item"><span class="legend-swatch swatch-class"></span>Class (TBox)</span>
-    <span class="legend-item"><span class="legend-swatch swatch-individual"></span>Individual (ABox)</span>
-    <span class="legend-item"><span class="legend-swatch swatch-literal"></span>Literal</span>
-    <span class="legend-item"><span class="legend-swatch swatch-categorical"></span>Categorical Value</span>
-    <span class="legend-item"><span class="legend-swatch swatch-shacl"></span>SHACL Shape</span>
-    <span class="legend-item"><span class="legend-swatch swatch-constraint"></span>SHACL Constraint</span>
-    <span class="legend-item"><span class="legend-swatch swatch-subclass"></span>rdfs:subClassOf</span>
-    <span class="legend-item"><span class="legend-swatch swatch-type"></span>rdf:type</span>
-    <span class="legend-item"><span class="legend-swatch swatch-bfo"></span>BFO Class</span>
-    <span class="legend-item"><span class="legend-swatch swatch-obi"></span>OBI Class</span>
-    <span class="legend-item"><span class="legend-swatch swatch-pmd"></span>PMD Class</span>
+  <div class="graph-legend" id="legend-{diagram_id}">
+    <!-- Legend items are dynamically shown based on graph content -->
+    <span class="legend-item" data-legend="bfo" style="display:none;"><span class="legend-swatch shape-square swatch-bfo"></span>BFO</span>
+    <span class="legend-item" data-legend="iao" style="display:none;"><span class="legend-swatch shape-square swatch-iao"></span>IAO</span>
+    <span class="legend-item" data-legend="obi" style="display:none;"><span class="legend-swatch shape-square swatch-obi"></span>OBI</span>
+    <span class="legend-item" data-legend="cob" style="display:none;"><span class="legend-swatch shape-square swatch-cob"></span>COB</span>
+    <span class="legend-item" data-legend="pmd" style="display:none;"><span class="legend-swatch shape-square swatch-pmd"></span>PMD</span>
+    <span class="legend-item" data-legend="ro" style="display:none;"><span class="legend-swatch shape-square swatch-ro"></span>RO</span>
+    <span class="legend-item" data-legend="qudt" style="display:none;"><span class="legend-swatch shape-square swatch-qudt"></span>QUDT</span>
+    <span class="legend-item" data-legend="cls" style="display:none;"><span class="legend-swatch shape-square swatch-class"></span>NamedIndividual(TBox)</span>
+    <span class="legend-item" data-legend="ind" style="display:none;"><span class="legend-swatch shape-oval swatch-individual"></span>Individual(ABox)</span>
+    <span class="legend-item" data-legend="cat" style="display:none;"><span class="legend-swatch shape-oval swatch-categorical"></span>Categorical</span>
+    <span class="legend-item" data-legend="shacl" style="display:none;"><span class="legend-swatch shape-square swatch-shacl"></span>SHACL Shape</span>
+    <span class="legend-item" data-legend="constraint" style="display:none;"><span class="legend-swatch shape-square swatch-constraint"></span>Constraint</span>
+    <span class="legend-item" data-legend="lit" style="display:none;"><span class="legend-swatch shape-note swatch-literal"></span>Literal</span>
+    <span class="legend-item" data-legend="property" style="display:none;"><span class="legend-swatch swatch-property"></span>Object Property</span>
+    <span class="legend-item" data-legend="type" style="display:none;"><span class="legend-swatch swatch-type"></span>rdf:type (dashed)</span>
   </div>
 </div>
 """
     ).format(diagram_id=diagram_id, title=title).strip()
+
+
+# Hierarchy modes for @Graphviz_renderer tag variants
+HIERARCHY_FULL = "full"              # Walk full PMD core hierarchy upward
+HIERARCHY_ONLY_UPPER = "only_upper"  # Only one subclass level above each class
+HIERARCHY_ONLY_FILE = "only_file"    # No hierarchy expansion — render file content only
 
 
 @dataclass(frozen=True)
@@ -4916,15 +7420,31 @@ class DiagramRef:
     diagram_id: str
     rel_path: str
     title: str
+    hierarchy_mode: str = HIERARCHY_FULL
 
 
 def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[DiagramRef]:
     """
-    Extract all <!--@Graphviz_renderer:...--> placeholders from Markdown, in document order.
+    Extract all ``<!--@Graphviz_renderer*:...-->`` placeholders from Markdown.
 
-    The diagram_id is derived from the folder name of the referenced path (or parent folder for URLs).
-    The title is taken from the nearest preceding H2 heading (## ...), falling back to folder name.
+    Supported tag variants (case-insensitive)::
+
+        <!--@Graphviz_renderer:URL-->              full hierarchy (default)
+        <!--@Graphviz_renderer_full:URL-->          explicit full hierarchy
+        <!--@Graphviz_renderer_only_upper:URL-->    one superclass level above
+        <!--@Graphviz_renderer_only_file:URL-->     file content only, no hierarchy
+
+    Returns a list of :class:`DiagramRef` in document order.
     """
+    _MODE_MAP = {
+        None: HIERARCHY_FULL,
+        "full": HIERARCHY_FULL,
+        "only_upper": HIERARCHY_ONLY_UPPER,
+        "upper": HIERARCHY_ONLY_UPPER,
+        "only_file": HIERARCHY_ONLY_FILE,
+        "file": HIERARCHY_ONLY_FILE,
+    }
+
     refs: List[DiagramRef] = []
     current_title = ""
     for line in md_text.splitlines():
@@ -4935,31 +7455,38 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
         if not m:
             continue
 
-        raw = m.group(1).strip()
-        
+        mode_suffix = m.group(1)  # None | "full" | "only_upper" | "only_file"
+        raw = m.group(2).strip()
+
+        hierarchy_mode = _MODE_MAP.get(
+            mode_suffix.lower() if mode_suffix else None,
+            HIERARCHY_FULL,
+        )
+
         # For URLs pointing to TTL files, extract the parent folder name as diagram_id
         # Keep the original URL (with encoding) for HTTP requests
-        # e.g., ".../patterns/temporal%20region/shape-data.ttl" -> folder_name "temporal region"
         if raw.startswith("http://") or raw.startswith("https://"):
-            # Parse URL path and get parent folder name (decoded for display)
             parsed_path = urllib.parse.urlparse(raw).path
             decoded_path = urllib.parse.unquote(parsed_path)
             path_parts = [p for p in decoded_path.split('/') if p]
-            # The folder name is the second-to-last part (before the .ttl filename)
             if len(path_parts) >= 2 and path_parts[-1].endswith('.ttl'):
-                folder_name = path_parts[-2]  # Parent folder (decoded)
+                folder_name = path_parts[-2]
             else:
                 folder_name = path_parts[-1] if path_parts else "diagram"
-            # Keep the original URL for HTTP requests (don't decode it)
             rel = raw
         else:
             rel = urllib.parse.unquote(raw).strip()
             rel = rel.lstrip("./")
             folder_name = Path(rel).name
-            
+
         diagram_id = slugify_fn(folder_name)
         title = current_title or folder_name
-        refs.append(DiagramRef(diagram_id=diagram_id, rel_path=rel, title=title))
+        refs.append(DiagramRef(
+            diagram_id=diagram_id,
+            rel_path=rel,
+            title=title,
+            hierarchy_mode=hierarchy_mode,
+        ))
     return refs
 
 
@@ -4980,21 +7507,53 @@ def inject_graph_containers(md_text: str, refs: List[DiagramRef]) -> str:
 
 
 # -----------------------------------------------------------------------------
-# Converter loading (ttl_to_graphviz.py)
+# TTL to Graphviz Converter Integration
+# -----------------------------------------------------------------------------
+# Functions for dynamically loading the ttl_to_graphviz.py converter module
+# and using it to transform TTL/SHACL files into Graphviz DOT diagrams.
 # -----------------------------------------------------------------------------
 
 def _dynamic_import_from_path(py_path: Path, module_name: str) -> Any:
+    """Dynamically import a Python module from a file path.
+
+    Uses importlib to load a module at runtime, allowing the build script
+    to work with the ttl_to_graphviz converter without a package install.
+
+    Args:
+        py_path: Path to the Python file to import.
+        module_name: Name to assign to the imported module in sys.modules.
+
+    Returns:
+        The imported module object.
+
+    Raises:
+        ImportError: If the module cannot be loaded from the path.
+    """
     spec = importlib.util.spec_from_file_location(module_name, str(py_path))
     if spec is None or spec.loader is None:
         raise ImportError(f"Could not load module from {py_path}")
     mod = importlib.util.module_from_spec(spec)
-    # dataclasses and other decorators expect the module to be present in sys.modules during execution
+    # Register in sys.modules before exec so decorators like @dataclass work
     sys.modules[module_name] = mod
     spec.loader.exec_module(mod)  # type: ignore[call-arg]
     return mod
 
 
 def _find_converter_class(mod: Any) -> Any:
+    """Find the diagram converter class in the loaded module.
+
+    Searches the module for a class with a render_graph() method, preferring
+    classes with 'Renderer' or 'Diagram' in their name.
+
+    Args:
+        mod: The imported converter module.
+
+    Returns:
+        The converter class (not an instance).
+
+    Raises:
+        RuntimeError: If no suitable converter class is found.
+    """
     candidates = []
     for _, obj in vars(mod).items():
         if isinstance(obj, type) and hasattr(obj, "render_graph"):
@@ -5012,6 +7571,21 @@ def _find_converter_class(mod: Any) -> Any:
 
 
 def _get_attr(obj: Any, *names: str) -> Any:
+    """Get the first available attribute from an object by trying multiple names.
+
+    Useful for handling different converter API versions that may use
+    different attribute names for the same data.
+
+    Args:
+        obj: The object to get an attribute from.
+        *names: Attribute names to try in order.
+
+    Returns:
+        The value of the first attribute that exists.
+
+    Raises:
+        AttributeError: If none of the specified attributes exist.
+    """
     for n in names:
         if hasattr(obj, n):
             return getattr(obj, n)
@@ -5019,6 +7593,17 @@ def _get_attr(obj: Any, *names: str) -> Any:
 
 
 def _find_shape_ttl(pattern_dir: Path) -> Optional[Path]:
+    """Find the SHACL shape data TTL file in a pattern directory.
+
+    Searches for common shape file naming conventions and falls back to
+    glob matching if no exact match is found.
+
+    Args:
+        pattern_dir: Directory containing the pattern files.
+
+    Returns:
+        Path to the shape TTL file, or None if not found.
+    """
     candidates = [
         pattern_dir / "shape_data.ttl",
         pattern_dir / "shape-data.ttl",
@@ -5034,6 +7619,17 @@ def _find_shape_ttl(pattern_dir: Path) -> Optional[Path]:
 
 
 def _find_dot_file(pattern_dir: Path) -> Optional[Path]:
+    """Find a pre-rendered DOT file in a pattern directory.
+
+    Used as a fallback when no TTL source is available but a pre-generated
+    Graphviz DOT file exists.
+
+    Args:
+        pattern_dir: Directory containing the pattern files.
+
+    Returns:
+        Path to the DOT file, or None if not found.
+    """
     candidates = [
         pattern_dir / "shape_data.dot",
         pattern_dir / "shape-data.dot",
@@ -5048,6 +7644,17 @@ def _find_dot_file(pattern_dir: Path) -> Optional[Path]:
 
 
 def _find_per_pattern_js(pattern_dir: Path) -> Optional[Path]:
+    """Find a cached per-pattern JavaScript file in a pattern directory.
+
+    These files contain pre-rendered DOT code and node metadata, generated
+    by a previous build with --write-per-pattern-js.
+
+    Args:
+        pattern_dir: Directory containing the pattern files.
+
+    Returns:
+        Path to the JS file, or None if not found.
+    """
     js_files = sorted([p for p in pattern_dir.glob("*shape*data*.js") if p.is_file()])
     return js_files[0] if js_files else None
 
@@ -5076,6 +7683,73 @@ def _extract_from_per_pattern_js(js_text: str) -> Tuple[Optional[str], Optional[
     return diag, nd
 
 
+# Cache for the PMD core full-ontology index (built once per process)
+_PMDCO_FULL_ONTOLOGY_INDEX = None
+
+
+def _load_pmdco_full_ontology_index(converter_module):
+    """Load the PMD core full ontology as a FullOntologyIndex.
+
+    The ontology path is read from navigator.yaml's ``full_ontology_path``.
+    Supports both remote URLs and local file paths.  The result is cached so
+    that repeated calls (e.g. across multiple diagrams) are essentially free.
+    """
+    global _PMDCO_FULL_ONTOLOGY_INDEX
+    if _PMDCO_FULL_ONTOLOGY_INDEX is not None:
+        return _PMDCO_FULL_ONTOLOGY_INDEX
+
+    load_fn = getattr(converter_module, "load_full_ontology_index", None)
+    if not callable(load_fn):
+        print("  Warning: converter module has no load_full_ontology_index; hierarchy disabled")
+        return None
+
+    script_dir = Path(__file__).parent
+    config = load_NAVIGATOR_CONFIG(script_dir)
+    full_ontology_path = config.get("full_ontology_path", "")
+
+    ttl_path = None
+
+    if not full_ontology_path:
+        # Fallback: look for pmdco_full.ttl next to docs
+        candidate = script_dir.parent / "patterns" / "pmdco_full.ttl"
+        if candidate.exists():
+            ttl_path = candidate
+
+    elif full_ontology_path.startswith("http://") or full_ontology_path.startswith("https://"):
+        # Download to a temp file so load_full_ontology_index can parse it
+        try:
+            print(f"  Fetching PMD core ontology for hierarchy: {full_ontology_path}")
+            req = urllib.request.Request(full_ontology_path, headers={"User-Agent": "PMDco-Doc-Builder/1.0"})
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                ttl_content = resp.read().decode("utf-8")
+            tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".ttl", delete=False, encoding="utf-8")
+            tmp.write(ttl_content)
+            tmp.close()
+            ttl_path = Path(tmp.name)
+            print(f"  Downloaded {len(ttl_content)} bytes for hierarchy index")
+        except Exception as exc:
+            print(f"  Warning: Failed to fetch full ontology from URL: {exc}")
+
+    else:
+        # Local path (absolute or relative to docs dir)
+        p = Path(full_ontology_path)
+        if not p.is_absolute():
+            p = script_dir.parent / full_ontology_path
+        if p.exists():
+            ttl_path = p
+
+    if ttl_path is None:
+        print("  Warning: PMD core full ontology not found; hierarchy expansion disabled")
+        return None
+
+    print(f"  Building full-ontology hierarchy index from: {ttl_path.name}")
+    index = load_fn([ttl_path])
+    if index is not None:
+        print(f"  Indexed {len(index.labels)} labels, {len(index.parents)} parent relations")
+    _PMDCO_FULL_ONTOLOGY_INDEX = index
+    return index
+
+
 def _resolve_diagram_sources(
     refs: List[DiagramRef],
     diagrams_root: Path,
@@ -5094,12 +7768,22 @@ def _resolve_diagram_sources(
             s = s.replace("${", "\\${")
             return s
 
-    # Instantiate converter with enrichment enabled, blank nodes disabled for cleaner diagrams
+    # Load PMD core full ontology for hierarchy expansion and label resolution.
+    # This is the ONLY source of truth for class hierarchy — external ontologies
+    # (BFO, OBI, IAO etc.) are NOT used for hierarchy because their view may
+    # differ from PMD core's curated structure.
+    full_ontology_index = _load_pmdco_full_ontology_index(mod)
+
+    # Instantiate converter:
+    #   enrich=True        → enables remote label lookups for node names
+    #   superclass_depth=0 → disables remote hierarchy expansion (we use full_ontology instead)
+    #   full_ontology       → PMD core ontology drives all hierarchy edges
     converter_options = {
         "output_format": "dot",
-        "include_bnodes": False,  # Ignore blank nodes by default for cleaner diagrams
+        "include_bnodes": False,
         "enrich": True,
-        "superclass_depth": 5,
+        "superclass_depth": 0,
+        "full_ontology": full_ontology_index,
         "use_full_hierarchy": True,
         "full_hierarchy_max_depth": 20,
         "max_nodes": 500,
@@ -5117,6 +7801,15 @@ def _resolve_diagram_sources(
         for attr, val in converter_options.items():
             if hasattr(converter, attr):
                 setattr(converter, attr, val)
+
+    def _hierarchy_kwargs(mode: str) -> Dict[str, Any]:
+        """Map a hierarchy_mode string to render_graph() keyword arguments."""
+        if mode == HIERARCHY_ONLY_FILE:
+            return {"use_full_hierarchy": False}
+        if mode == HIERARCHY_ONLY_UPPER:
+            return {"use_full_hierarchy": True, "full_hierarchy_max_depth": 1}
+        # HIERARCHY_FULL (default)
+        return {}
 
     diagrams: Dict[str, str] = {}
     node_data_all: Dict[str, Dict[str, Dict[str, str]]] = {}
@@ -5140,7 +7833,9 @@ def _resolve_diagram_sources(
                     tmp_path = Path(tmp_file.name)
                 
                 try:
-                    res = converter.render_graph(tmp_path, diagram_id=ref.diagram_id)
+                    hkw = _hierarchy_kwargs(ref.hierarchy_mode)
+                    print(f"    Hierarchy mode: {ref.hierarchy_mode}")
+                    res = converter.render_graph(tmp_path, diagram_id=ref.diagram_id, **hkw)
                     dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
                     nd = _get_attr(res, "node_data", "nodeData")
                     diagrams[ref.diagram_id] = str(dot)
@@ -5169,7 +7864,8 @@ def _resolve_diagram_sources(
 
         ttl = _find_shape_ttl(pattern_dir)
         if ttl and ttl.exists():
-            res = converter.render_graph(ttl, diagram_id=ref.diagram_id)  # type: ignore[attr-defined]
+            hkw = _hierarchy_kwargs(ref.hierarchy_mode)
+            res = converter.render_graph(ttl, diagram_id=ref.diagram_id, **hkw)  # type: ignore[attr-defined]
             dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
             nd = _get_attr(res, "node_data", "nodeData")
             diagrams[ref.diagram_id] = str(dot)
@@ -5231,6 +7927,30 @@ def build_node_data_object(node_data: Dict[str, Dict[str, Dict[str, str]]]) -> s
     return json.dumps(node_data, ensure_ascii=False, indent=12)
 
 
+def build_mermaid_diagrams_object(diagrams: Dict[str, str], js_escape_fn: Callable[[str], str]) -> str:
+    """Build a JavaScript object literal containing Mermaid diagram code.
+
+    Args:
+        diagrams: Dict mapping diagram IDs to Mermaid source code.
+        js_escape_fn: Function to escape code for JavaScript template literals.
+
+    Returns:
+        JavaScript object literal as a string.
+    """
+    if not diagrams:
+        return "{}"
+    lines: List[str] = []
+    lines.append("{")
+    for k in sorted(diagrams.keys()):
+        code = js_escape_fn(diagrams[k])
+        lines.append(f'            "{k}": `{code}`,')
+        lines.append("")
+    if lines and lines[-1] == "":
+        lines.pop()
+    lines.append("        }")
+    return "\n".join(lines)
+
+
 def build_html(
     markdown_path: Path,
     diagrams_root: Path,
@@ -5239,15 +7959,54 @@ def build_html(
     strict: bool = True,
     write_per_pattern_js: bool = False,
 ) -> None:
+    """Build an HTML documentation page with Graphviz diagrams (patterns mode).
+
+    This is the main build function for pattern documentation pages that contain
+    @Graphviz_renderer tags. It processes the markdown, resolves diagram sources,
+    renders them using the ttl_to_graphviz converter, and generates an interactive
+    HTML page.
+
+    Args:
+        markdown_path: Path to the source markdown file.
+        diagrams_root: Base directory for resolving @Graphviz_renderer paths.
+        out_html: Path where the output HTML file will be written.
+        converter_path: Path to the ttl_to_graphviz.py converter module.
+        strict: If True, raise errors when diagrams cannot be resolved.
+            If False, skip missing diagrams with warnings.
+        write_per_pattern_js: If True, write per-pattern *_shape_data.js files
+            alongside the TTL sources for caching.
+
+    Raises:
+        FileNotFoundError: If strict=True and a diagram source cannot be found.
+        RuntimeError: If required template placeholders are missing.
+    """
     md_text_raw = markdown_path.read_text(encoding="utf-8")
+
+    # Process @md_file_renderer / @source_code_renderer before anything else
+    if MD_FILE_RENDERER_RE.search(md_text_raw):
+        print("  Processing @md_file_renderer tags...")
+        md_text_raw = process_md_file_renderers(md_text_raw)
+    if SOURCE_CODE_RENDERER_RE.search(md_text_raw):
+        print("  Processing @source_code_renderer tags...")
+        md_text_raw = process_source_code_renderers(md_text_raw)
+
     mod = _dynamic_import_from_path(converter_path, "ttl_to_graphviz_slug")
     slugify_fn = getattr(mod, "slugify", None)
     if not callable(slugify_fn):
         slugify_fn = _fallback_slugify
     refs = parse_diagram_refs(md_text_raw, slugify_fn)
 
+    # Parse manual diagram references (embedded DOT/Mermaid code)
+    manual_refs = parse_manual_diagram_refs(md_text_raw, slugify_fn)
+    if manual_refs:
+        print(f"  Found {len(manual_refs)} manual diagram(s)")
+
     md_text = strip_d2_blocks(md_text_raw)
     md_with_graphs = inject_graph_containers(md_text, refs)
+
+    # Inject containers for manual diagrams
+    if manual_refs:
+        md_with_graphs = inject_manual_graph_containers(md_with_graphs, manual_refs)
 
     article_html = wrap_code_in_details(render_markdown(md_with_graphs).strip())
     toc_items = build_toc_list_items(article_html).strip()
@@ -5260,11 +8019,23 @@ def build_html(
         write_per_pattern_js=write_per_pattern_js,
     )
 
+    # Add manual diagrams to the diagrams object
+    mermaid_diagrams: Dict[str, str] = {}
+    for ref in manual_refs:
+        if ref.diagram_type == 'graphviz':
+            diagrams[ref.diagram_id] = ref.code
+            node_data_all[ref.diagram_id] = {}
+            print(f"    Added manual Graphviz diagram: {ref.diagram_id}")
+        else:
+            mermaid_diagrams[ref.diagram_id] = ref.code
+            print(f"    Added manual Mermaid diagram: {ref.diagram_id}")
+
     dot_obj = build_dot_diagrams_object(diagrams, js_escape)
     node_obj = build_node_data_object(node_data_all)
+    mermaid_obj = build_mermaid_diagrams_object(mermaid_diagrams, js_escape)
 
     html_out = TEMPLATE_HTML
-    for ph in ("__ARTICLE_CONTENT__", "__TOC_LIST_ITEMS__", "__DIAGRAMS_OBJECT__", "__NODEDATA_OBJECT__"):
+    for ph in ("__ARTICLE_CONTENT__", "__TOC_LIST_ITEMS__", "__DIAGRAMS_OBJECT__", "__NODEDATA_OBJECT__", "__MERMAID_DIAGRAMS_OBJECT__"):
         if ph not in html_out:
             raise RuntimeError(f"Template placeholder missing: {ph}")
 
@@ -5272,12 +8043,13 @@ def build_html(
     html_out = html_out.replace("__TOC_LIST_ITEMS__", toc_items)
     html_out = html_out.replace("__DIAGRAMS_OBJECT__", dot_obj)
     html_out = html_out.replace("__NODEDATA_OBJECT__", node_obj)
-    
+    html_out = html_out.replace("__MERMAID_DIAGRAMS_OBJECT__", mermaid_obj)
+
     # Generate dynamic sidebar from navigator.yaml
     active_page = out_html.name  # Use output filename to determine active page
     sidebar_html = generate_sidebar_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__SIDEBAR_HTML__", sidebar_html)
-    
+
     # Generate dynamic page navigation from navigator.yaml
     page_nav_html = generate_page_nav_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__PAGE_NAV__", page_nav_html)
@@ -5286,6 +8058,30 @@ def build_html(
 
 
 def main(argv: Optional[List[str]] = None) -> int:
+    """Main entry point for the PMDco documentation builder.
+
+    Parses command-line arguments, detects or uses the specified build mode,
+    and delegates to the appropriate build function (build_html for patterns,
+    build_doc_html for docs).
+
+    Args:
+        argv: Command-line arguments. If None, uses sys.argv.
+
+    Returns:
+        Exit code: 0 for success, 1 for errors.
+
+    Command-Line Arguments:
+        --mode, -M: Build mode (docs, patterns, auto)
+        --markdown, -m: Source markdown file path (required)
+        --out, -o: Output HTML file path (required)
+        --title, -t: Page title override (docs mode)
+        --diagrams-root, -d: Base directory for diagrams (patterns mode, required)
+        --converter, -c: Path to ttl_to_graphviz.py converter
+        --no-strict: Continue on diagram resolution failures
+        --prev, --next: Page navigation links (docs mode)
+        --active-nav: Active navigation item identifier
+        --write-per-pattern-js: Cache rendered diagrams as JS files
+    """
     p = argparse.ArgumentParser(description="Unified PMDco documentation builder (supports docs and patterns modes).")
     p.add_argument("--mode", "-M", type=str, choices=["docs", "patterns", "auto"], default="auto",
                    help="Build mode: 'docs' for simple markdown, 'patterns' for diagrams, 'auto' to detect (default: auto).")
@@ -5356,13 +8152,28 @@ def main(argv: Optional[List[str]] = None) -> int:
 
 
 # =============================================================================
-# DOCS MODE FUNCTIONS (from build_docs.py)
+# SECTION 4: DOCS MODE - ONTOLOGY TREE GENERATION
+# =============================================================================
+# Functions for processing @module_indicator and @property_indicator tags,
+# parsing OWL ontologies, and generating interactive class/property trees.
+# Originally from build_docs.py, now unified into this single builder.
 # =============================================================================
 
-# Regex patterns for document indicators
+# Regex patterns for document indicator tags
+# @Document_indicator - Marker tag (stripped, not rendered)
 DOCUMENT_INDICATOR_RE = re.compile(r"<!--\s*@Document_indicator\s*:\s*([^>]+)\s*-->", re.IGNORECASE)
+
+# @module_indicator:URL - Generates class hierarchy tree from OWL file at URL
 MODULE_INDICATOR_RE = re.compile(r"<!--\s*@module_indicator\s*:\s*(https?://[^\s>]+)\s*-->", re.IGNORECASE)
+
+# @property_indicator:TYPE - Generates property tree (TYPE = object|data|annotation)
 PROPERTY_INDICATOR_RE = re.compile(r"<!--\s*@property_indicator\s*:\s*(object|data|annotation)\s*-->", re.IGNORECASE)
+
+# @md_file_renderer:URL - Injects markdown content from remote URL
+MD_FILE_RENDERER_RE = re.compile(r"<!--\s*@md_file_renderer\s*:\s*(https?://[^\s>]+)\s*-->", re.IGNORECASE)
+
+# @source_code_renderer:URL - Injects source code from remote URL in fenced block
+SOURCE_CODE_RENDERER_RE = re.compile(r"<!--\s*@source_code_renderer\s*:\s*(https?://[^\s>]+)\s*-->", re.IGNORECASE)
 
 
 @dataclass
@@ -5417,7 +8228,17 @@ class OntologyProperty:
 
 
 def fetch_owl_file(url: str) -> Optional[str]:
-    """Fetch OWL file content from URL."""
+    """Fetch OWL ontology file content from a remote URL.
+
+    Downloads the content of an OWL file (in any format: RDF/XML, Turtle,
+    Functional Syntax) from the specified URL with a 30-second timeout.
+
+    Args:
+        url: The URL of the OWL file to fetch.
+
+    Returns:
+        The file content as a UTF-8 decoded string, or None if the fetch fails.
+    """
     try:
         print(f"  Fetching OWL file from: {url}")
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -5431,7 +8252,22 @@ def fetch_owl_file(url: str) -> Optional[str]:
 
 
 def parse_owl_functional_syntax(owl_content: str) -> Optional[dict]:
-    """Parse OWL Functional Syntax and extract class hierarchy."""
+    """Parse OWL Functional Syntax format and extract class hierarchy.
+
+    Extracts class declarations, subclass relationships, and rdfs:label
+    annotations from OWL content in Functional Syntax format (starts with
+    'Prefix(...)').
+
+    Args:
+        owl_content: The OWL content string in Functional Syntax format.
+
+    Returns:
+        A dictionary containing:
+        - 'classes': Dict[str, OntologyClass] mapping URIs to class objects
+        - 'child_map': Dict[str, set] mapping parent URIs to child URI sets
+        - 'parent_map': Dict[str, set] mapping child URIs to parent URI sets
+        Returns None if parsing fails.
+    """
     classes: Dict[str, OntologyClass] = {}
     child_map: Dict[str, set] = defaultdict(set)
     parent_map: Dict[str, set] = defaultdict(set)
@@ -5483,7 +8319,22 @@ def parse_owl_functional_syntax(owl_content: str) -> Optional[dict]:
 
 
 def parse_owl_content(owl_content: str) -> Optional[dict]:
-    """Parse OWL content and extract class hierarchy."""
+    """Parse OWL content in any supported format and extract class hierarchy.
+
+    Auto-detects the OWL format (Functional Syntax, RDF/XML, or Turtle) and
+    delegates to the appropriate parser. Extracts owl:Class declarations,
+    rdfs:subClassOf relationships, and rdfs:label annotations.
+
+    Args:
+        owl_content: The OWL ontology content as a string.
+
+    Returns:
+        A dictionary containing 'classes', 'child_map', and 'parent_map',
+        or None if parsing fails. See parse_owl_functional_syntax for details.
+
+    Note:
+        RDF/XML and Turtle parsing requires rdflib to be installed.
+    """
     if owl_content.strip().startswith('Prefix('):
         return parse_owl_functional_syntax(owl_content)
     
@@ -5532,7 +8383,19 @@ def parse_owl_content(owl_content: str) -> Optional[dict]:
 
 
 def build_tree(classes: dict, child_map: dict, parent_map: dict) -> List[OntologyClass]:
-    """Build tree structure from parsed classes."""
+    """Build a hierarchical tree structure from parsed ontology classes.
+
+    Creates a tree of OntologyClass nodes from flat dictionaries of classes
+    and their relationships. Classes without parents become root nodes.
+
+    Args:
+        classes: Dict mapping URIs to OntologyClass instances.
+        child_map: Dict mapping parent URIs to sets of child URIs.
+        parent_map: Dict mapping child URIs to sets of parent URIs.
+
+    Returns:
+        List of root OntologyClass nodes with children populated recursively.
+    """
     roots = []
     for uri in classes:
         if uri not in parent_map or not parent_map[uri]:
@@ -5562,20 +8425,47 @@ def build_tree(classes: dict, child_map: dict, parent_map: dict) -> List[Ontolog
 
 
 def count_tree_nodes(roots: List[OntologyClass]) -> int:
-    """Count total nodes in tree."""
+    """Count total number of nodes in a tree structure.
+
+    Recursively traverses the tree starting from all root nodes and counts
+    every node encountered. Works with any object that has a 'children' attribute.
+
+    Args:
+        roots: List of root nodes (OntologyClass or OntologyProperty instances).
+
+    Returns:
+        The total number of nodes in the tree including all roots and descendants.
+    """
     count = 0
+
     def count_rec(node):
         nonlocal count
         count += 1
         for child in node.children:
             count_rec(child)
+
     for root in roots:
         count_rec(root)
     return count
 
 
 def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
-    """Generate HTML for ontology tree."""
+    """Generate interactive HTML for an ontology class tree.
+
+    Creates a collapsible tree view with:
+    - Expand/collapse all buttons
+    - Search functionality
+    - Class count display
+    - Tooltip support for definitions
+    - Prefix-based styling (pmd, bfo, ro, etc.)
+
+    Args:
+        roots: List of root OntologyClass nodes with populated children.
+        tree_id: Unique HTML ID for the tree container element.
+
+    Returns:
+        Complete HTML string for the interactive tree component.
+    """
     class_count = count_tree_nodes(roots)
     
     def generate_node_html(node: OntologyClass, depth: int) -> str:
@@ -5621,14 +8511,14 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
         return ''.join(html_parts)
     
     html_parts = [f'''
-    <div class="ontology-tree-container" id="{tree_id}">
-        <div class="tree-toolbar">
-            <button class="tree-toolbar-btn tree-expand-all">Expand All</button>
-            <button class="tree-toolbar-btn tree-collapse-all">Collapse All</button>
-            <input type="text" class="tree-search" placeholder="Search classes...">
-            <span class="tree-stats">{class_count} classes</span>
+    <div class="ontology-tree-container" id="{tree_id}" role="tree" aria-label="Class hierarchy">
+        <div class="tree-toolbar" role="toolbar" aria-label="Tree controls">
+            <button class="tree-toolbar-btn tree-expand-all" aria-label="Expand all nodes">Expand All</button>
+            <button class="tree-toolbar-btn tree-collapse-all" aria-label="Collapse all nodes">Collapse All</button>
+            <input type="text" class="tree-search" id="{tree_id}-search" name="{tree_id}-search" placeholder="Search classes..." aria-label="Search classes">
+            <span class="tree-stats" aria-live="polite">{class_count} classes</span>
         </div>
-        <ul class="ontology-tree">
+        <ul class="ontology-tree" role="group">
     ''']
     
     for root in roots:
@@ -5639,7 +8529,19 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
 
 
 def process_module_indicators(html_content: str) -> str:
-    """Process @module_indicator tags and replace with generated trees."""
+    """Process @module_indicator tags and replace with generated class trees.
+
+    Finds all HTML comments matching <!--@module_indicator:URL--> and replaces
+    them with interactive ontology class trees generated from the OWL file
+    at the specified URL.
+
+    Args:
+        html_content: The HTML content containing @module_indicator tags.
+
+    Returns:
+        The HTML with all @module_indicator tags replaced by tree widgets,
+        or warning messages if loading/parsing fails.
+    """
     tree_counter = [0]
     
     def replace_indicator(match):
@@ -5820,9 +8722,28 @@ def enrich_classes_from_full_ontology(classes: dict) -> None:
 _PROPERTY_CACHE = None
 
 def load_property_data(script_dir: Path) -> Optional[dict]:
-    """Load all properties from ontology.
-    
-    Uses full_ontology_path from navigator.yaml which can be a URL or local path.
+    """Load all properties (object, data, annotation) from the full ontology.
+
+    Parses the PMD core ontology to extract all OWL property types along with
+    their labels, definitions, and subproperty relationships. Results are
+    cached globally to avoid repeated parsing.
+
+    The ontology location is determined from navigator.yaml's full_ontology_path
+    setting, which can be a URL or local file path.
+
+    Args:
+        script_dir: Path to the scripts directory for locating navigator.yaml.
+
+    Returns:
+        A dictionary containing:
+        - 'object': Dict of object properties
+        - 'data': Dict of data properties
+        - 'annotation': Dict of annotation properties
+        - 'relations': List of (child_uri, parent_uri) subproperty tuples
+        Returns None if loading fails.
+
+    Note:
+        Requires rdflib to be installed for parsing.
     """
     global _PROPERTY_CACHE
     
@@ -5922,7 +8843,20 @@ def load_property_data(script_dir: Path) -> Optional[dict]:
 
 
 def build_property_tree(properties: dict, relations: list) -> List[OntologyProperty]:
-    """Build property hierarchy tree."""
+    """Build a hierarchical tree structure from ontology properties.
+
+    Creates a tree of OntologyProperty nodes from a flat dictionary of properties
+    and their subproperty relationships. Properties without parents become roots.
+
+    Args:
+        properties: Dict mapping URIs to OntologyProperty instances.
+        relations: List of (child_uri, parent_uri) tuples representing
+            rdfs:subPropertyOf relationships.
+
+    Returns:
+        List of root OntologyProperty nodes with children populated recursively,
+        sorted alphabetically by display name.
+    """
     children_map = defaultdict(set)
     has_parent = set()
     
@@ -5956,20 +8890,34 @@ def build_property_tree(properties: dict, relations: list) -> List[OntologyPrope
 
 
 def count_property_nodes(roots: List[OntologyProperty]) -> int:
-    """Count total nodes in property tree."""
-    count = 0
-    def count_rec(node):
-        nonlocal count
-        count += 1
-        for child in node.children:
-            count_rec(child)
-    for root in roots:
-        count_rec(root)
-    return count
+    """Count total number of nodes in a property tree.
+
+    This is an alias for count_tree_nodes that accepts OntologyProperty roots.
+    Both OntologyClass and OntologyProperty have compatible 'children' attributes.
+
+    Args:
+        roots: List of root OntologyProperty nodes.
+
+    Returns:
+        The total number of property nodes in the tree.
+    """
+    return count_tree_nodes(roots)  # Reuse generic tree counting
 
 
 def generate_property_tree_html(roots: List[OntologyProperty], tree_id: str, title: str) -> str:
-    """Generate HTML for property tree."""
+    """Generate interactive HTML for an ontology property tree.
+
+    Creates a collapsible tree view similar to generate_tree_html but
+    customized for property display with property-specific search placeholder.
+
+    Args:
+        roots: List of root OntologyProperty nodes with populated children.
+        tree_id: Unique HTML ID for the tree container element.
+        title: Display title for the property type (e.g., "Object Properties").
+
+    Returns:
+        Complete HTML string for the interactive property tree component.
+    """
     prop_count = count_property_nodes(roots)
     
     def generate_node_html(node: OntologyProperty, depth: int) -> str:
@@ -6015,14 +8963,14 @@ def generate_property_tree_html(roots: List[OntologyProperty], tree_id: str, tit
         return ''.join(parts)
     
     html_parts = [f'''
-    <div class="ontology-tree-container" id="{tree_id}">
-        <div class="tree-toolbar">
-            <button class="tree-toolbar-btn tree-expand-all">Expand All</button>
-            <button class="tree-toolbar-btn tree-collapse-all">Collapse All</button>
-            <input type="text" class="tree-search" placeholder="Search {title.lower()}...">
-            <span class="tree-stats">{prop_count} properties</span>
+    <div class="ontology-tree-container" id="{tree_id}" role="tree" aria-label="{title} hierarchy">
+        <div class="tree-toolbar" role="toolbar" aria-label="Tree controls">
+            <button class="tree-toolbar-btn tree-expand-all" aria-label="Expand all nodes">Expand All</button>
+            <button class="tree-toolbar-btn tree-collapse-all" aria-label="Collapse all nodes">Collapse All</button>
+            <input type="text" class="tree-search" id="{tree_id}-search" name="{tree_id}-search" placeholder="Search {title.lower()}..." aria-label="Search {title.lower()}">
+            <span class="tree-stats" aria-live="polite">{prop_count} properties</span>
         </div>
-        <ul class="ontology-tree">
+        <ul class="ontology-tree" role="group">
     ''']
     
     for root in roots:
@@ -6033,7 +8981,19 @@ def generate_property_tree_html(roots: List[OntologyProperty], tree_id: str, tit
 
 
 def process_property_indicators(html_content: str) -> str:
-    """Process @property_indicator tags and replace with generated property trees."""
+    """Process @property_indicator tags and replace with property trees.
+
+    Finds all HTML comments matching <!--@property_indicator:TYPE--> where TYPE
+    is 'object', 'data', or 'annotation', and replaces them with interactive
+    property hierarchy trees loaded from the full ontology.
+
+    Args:
+        html_content: The HTML content containing @property_indicator tags.
+
+    Returns:
+        The HTML with all @property_indicator tags replaced by tree widgets,
+        or warning messages if loading fails.
+    """
     prop_counter = [0]
     
     def replace_indicator(match):
@@ -6067,16 +9027,128 @@ def process_property_indicators(html_content: str) -> str:
 
 
 def strip_document_indicator(md_text: str) -> str:
-    """Remove the Document_indicator placeholder from markdown."""
+    """Remove @Document_indicator placeholder comments from markdown.
+
+    The @Document_indicator tag is used as a marker in markdown files but
+    should not appear in the final rendered output.
+
+    Args:
+        md_text: The markdown text potentially containing Document_indicator tags.
+
+    Returns:
+        The markdown text with all Document_indicator comments removed.
+    """
     return DOCUMENT_INDICATOR_RE.sub("", md_text)
 
 
+# ---- URL content cache (shared across all renderers within a build) --------
+_URL_CONTENT_CACHE: Dict[str, Optional[str]] = {}
+
+
+def fetch_remote_content(url: str) -> Optional[str]:
+    """Fetch text content from a remote URL with caching and error handling.
+
+    Returns the decoded text on success, or *None* on any failure.
+    Results (including failures) are cached for the duration of the build so
+    that the same URL is never fetched twice.
+    """
+    if url in _URL_CONTENT_CACHE:
+        return _URL_CONTENT_CACHE[url]
+
+    try:
+        print(f"    Fetching remote content: {url}")
+        req = urllib.request.Request(url, headers={"User-Agent": "PMDco-Doc-Builder/1.0"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            content = resp.read().decode("utf-8")
+        print(f"    Fetched {len(content)} bytes")
+        _URL_CONTENT_CACHE[url] = content
+        return content
+    except Exception as exc:
+        print(f"    Warning: Failed to fetch {url}: {exc}")
+        _URL_CONTENT_CACHE[url] = None
+        return None
+
+
+def _detect_language_from_url(url: str) -> str:
+    """Infer a code-block language hint from the file extension in *url*."""
+    path = urllib.parse.urlparse(url).path.lower()
+    ext_map = {
+        ".ttl": "turtle",
+        ".rdf": "xml",
+        ".owl": "xml",
+        ".xml": "xml",
+        ".json": "json",
+        ".jsonld": "json",
+        ".py": "python",
+        ".sparql": "sparql",
+        ".rq": "sparql",
+        ".md": "markdown",
+    }
+    for ext, lang in ext_map.items():
+        if path.endswith(ext):
+            return lang
+    return ""
+
+
+def process_md_file_renderers(md_text: str) -> str:
+    """Process ``@md_file_renderer`` tags **before** markdown-to-HTML conversion.
+
+    Each tag is replaced with the raw markdown content fetched from the
+    specified URL so that it becomes part of the surrounding document and is
+    rendered together with the rest of the page.
+    """
+    def _replace(match: re.Match) -> str:
+        url = match.group(1).strip()
+        content = fetch_remote_content(url)
+        if content is None:
+            return (
+                f'\n\n> **Warning:** Could not load markdown file from '
+                f'[{url}]({url})\n\n'
+            )
+        print(f"    Injected markdown from {url} ({len(content)} chars)")
+        # Return fetched markdown as-is; it will be rendered with the rest
+        return f"\n\n{content}\n\n"
+
+    return MD_FILE_RENDERER_RE.sub(_replace, md_text)
+
+
+def process_source_code_renderers(md_text: str) -> str:
+    """Process ``@source_code_renderer`` tags **before** markdown-to-HTML conversion.
+
+    Each tag is replaced with the remote file content wrapped inside a fenced
+    code block so that the build's normal markdown pipeline renders it as a
+    styled ``<pre><code>`` element.
+    """
+    def _replace(match: re.Match) -> str:
+        url = match.group(1).strip()
+        content = fetch_remote_content(url)
+        if content is None:
+            return (
+                f'\n\n> **Warning:** Could not load source file from '
+                f'[{url}]({url})\n\n'
+            )
+        lang = _detect_language_from_url(url)
+        # Derive a short filename for the summary label
+        filename = urllib.parse.unquote(url.rsplit("/", 1)[-1]) if "/" in url else url
+        print(f"    Injected source code from {url} ({len(content)} chars)")
+        return f"\n\n```{lang}\n{content}\n```\n\n"
+
+    return SOURCE_CODE_RENDERER_RE.sub(_replace, md_text)
+
+
 def extract_title_from_html(article_html: str) -> str:
-    """Extract first H1 title from HTML."""
-    def _strip_html_tags(s: str) -> str:
-        s = re.sub(r"<[^>]+>", "", s)
-        return re.sub(r"\s+", " ", s).strip()
-    
+    """Extract the first H1 title from rendered HTML content.
+
+    Searches for the first <h1> tag in the HTML and extracts its text content,
+    stripping any nested HTML tags.
+
+    Args:
+        article_html: The rendered HTML content to search.
+
+    Returns:
+        The text content of the first H1 heading, or "Documentation" if no
+        H1 heading is found.
+    """
     m = re.search(r"<h1[^>]*>([\s\S]*?)</h1>", article_html, re.IGNORECASE)
     if m:
         return _strip_html_tags(m.group(1))
@@ -6112,7 +9184,14 @@ def build_page_nav(prev_page: Optional[Tuple[str, str]] = None,
 
 
 # Docs mode template - same as patterns but without diagram placeholders
-DOCS_TEMPLATE_HTML = TEMPLATE_HTML.replace("__DIAGRAMS_OBJECT__", "{}").replace("__NODEDATA_OBJECT__", "{}")
+# Docs mode template - same as patterns but without diagram placeholders by default
+# Manual diagrams can still be embedded and will be processed
+DOCS_TEMPLATE_HTML = (
+    TEMPLATE_HTML
+    .replace("__DIAGRAMS_OBJECT__", "{}")
+    .replace("__NODEDATA_OBJECT__", "{}")
+    .replace("__MERMAID_DIAGRAMS_OBJECT__", "{}")
+)
 
 
 def build_doc_html(
@@ -6123,49 +9202,113 @@ def build_doc_html(
     next_page: Optional[Tuple[str, str]] = None,
     active_nav: Optional[str] = None,
 ) -> None:
-    """Build HTML from a simple markdown document (text + links only)."""
+    """Build an HTML documentation page from markdown (docs mode).
+
+    This is the main build function for standard documentation pages that do not
+    contain @Graphviz_renderer tags. It processes special indicators like
+    @module_indicator and @property_indicator to generate interactive trees.
+
+    Supported markdown extensions:
+    - @module_indicator:URL - Generates class hierarchy tree from OWL file
+    - @property_indicator:TYPE - Generates property tree (object/data/annotation)
+    - @md_file_renderer:URL - Injects remote markdown content
+    - @source_code_renderer:URL - Injects remote source code in code block
+    - @Graphviz_renderer_manual:TITLE - Render embedded DOT code
+    - @Mermaid_renderer_manual:TITLE - Render embedded Mermaid code
+
+    Args:
+        markdown_path: Path to the source markdown file.
+        out_html: Path where the output HTML file will be written.
+        page_title: Optional page title. If not provided, extracted from first H1.
+        prev_page: Optional (href, title) tuple for previous page navigation.
+        next_page: Optional (href, title) tuple for next page navigation.
+        active_nav: Optional identifier for the active navigation item.
+    """
     md_text_raw = markdown_path.read_text(encoding="utf-8")
-    
+
     # Strip document indicator
     md_text = strip_document_indicator(md_text_raw)
-    
+
+    # Process @md_file_renderer / @source_code_renderer before markdown conversion
+    if MD_FILE_RENDERER_RE.search(md_text):
+        print("  Processing @md_file_renderer tags...")
+        md_text = process_md_file_renderers(md_text)
+    if SOURCE_CODE_RENDERER_RE.search(md_text):
+        print("  Processing @source_code_renderer tags...")
+        md_text = process_source_code_renderers(md_text)
+
+    # Parse manual diagram references (embedded DOT/Mermaid code)
+    manual_refs = parse_manual_diagram_refs(md_text, _fallback_slugify)
+    if manual_refs:
+        print(f"  Found {len(manual_refs)} manual diagram(s)")
+        md_text = inject_manual_graph_containers(md_text, manual_refs)
+
     # Render markdown to HTML
     article_html = render_markdown(md_text).strip()
-    
+
     # Process @module_indicator tags and generate ontology trees
     if MODULE_INDICATOR_RE.search(article_html):
         print("  Processing @module_indicator tags...")
         article_html = process_module_indicators(article_html)
-    
+
     # Process @property_indicator tags and generate property trees
     if PROPERTY_INDICATOR_RE.search(article_html):
         print("  Processing @property_indicator tags...")
         article_html = process_property_indicators(article_html)
-    
+
     # Extract title if not provided
     if not page_title:
         page_title = extract_title_from_html(article_html)
-    
+
     # Build TOC
     toc_items = build_toc_list_items(article_html)
-    
+
     # Build page navigation
     page_nav = build_page_nav(prev_page, next_page)
-    
-    # Replace placeholders in template
-    html_out = DOCS_TEMPLATE_HTML
+
+    # Build diagram objects for manual diagrams
+    def _simple_js_escape(s: str) -> str:
+        s = s.replace("\\", "\\\\")
+        s = s.replace("`", "\\`")
+        s = s.replace("${", "\\${")
+        return s
+
+    dot_diagrams: Dict[str, str] = {}
+    mermaid_diagrams: Dict[str, str] = {}
+    for ref in manual_refs:
+        if ref.diagram_type == 'graphviz':
+            dot_diagrams[ref.diagram_id] = ref.code
+            print(f"    Added manual Graphviz diagram: {ref.diagram_id}")
+        else:
+            mermaid_diagrams[ref.diagram_id] = ref.code
+            print(f"    Added manual Mermaid diagram: {ref.diagram_id}")
+
+    # Build JS objects for diagrams
+    dot_obj = build_dot_diagrams_object(dot_diagrams, _simple_js_escape) if dot_diagrams else "{}"
+    mermaid_obj = build_mermaid_diagrams_object(mermaid_diagrams, _simple_js_escape) if mermaid_diagrams else "{}"
+    node_obj = "{}"  # No node data for manual diagrams
+
+    # Use full template if we have manual diagrams, otherwise use docs template
+    if manual_refs:
+        html_out = TEMPLATE_HTML
+        html_out = html_out.replace("__DIAGRAMS_OBJECT__", dot_obj)
+        html_out = html_out.replace("__NODEDATA_OBJECT__", node_obj)
+        html_out = html_out.replace("__MERMAID_DIAGRAMS_OBJECT__", mermaid_obj)
+    else:
+        html_out = DOCS_TEMPLATE_HTML
+
     html_out = html_out.replace("__ARTICLE_CONTENT__", article_html)
     html_out = html_out.replace("__TOC_LIST_ITEMS__", toc_items)
-    
+
     # Generate dynamic sidebar from navigator.yaml
     active_page = out_html.name  # Use output filename to determine active page
     sidebar_html = generate_sidebar_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__SIDEBAR_HTML__", sidebar_html)
-    
+
     # Generate dynamic page navigation from navigator.yaml
     page_nav_html = generate_page_nav_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__PAGE_NAV__", page_nav_html)
-    
+
     # Write output
     out_html.parent.mkdir(parents=True, exist_ok=True)
     out_html.write_text(html_out, encoding="utf-8")

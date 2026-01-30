@@ -1,247 +1,381 @@
 # PMDco Documentation Builder
 
-A comprehensive static site builder for generating production-ready HTML documentation from Markdown files. This system powers the **Platform MaterialDigital Core Ontology (PMDco)** documentation website.
+**Transform Markdown into stunning, interactive documentation with ontology visualization.**
+
+```
+Markdown + TTL/OWL  ──▶  Interactive HTML Documentation
+```
 
 ---
 
-## 📁 Project Structure
+## What It Does
+
+| Feature | Description |
+|---------|-------------|
+| **Ontology Trees** | Auto-generate expandable class hierarchies from OWL files |
+| **Graph Diagrams** | Render TTL/SHACL as interactive Graphviz diagrams |
+| **Full-Text Search** | Cross-page search with relevance ranking |
+| **Dark/Light Themes** | Auto-detects system preference |
+| **Zero Config** | Define pages in YAML, run one command |
+
+---
+
+## Quick Start
+
+```bash
+# Install dependencies
+pip install markdown2 pyyaml rdflib
+
+# Build everything
+cd docs/docs_HTML/scripts
+python run_all.py
+
+# Output: docs/docs_HTML/HTML_Docs/
+```
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph Input
+        MD["*.md"]
+        NAV["navigator.yaml"]
+        TTL["*.ttl / *.owl"]
+    end
+
+    subgraph Build
+        RUN["run_all.py"]
+        BUILD["build_all.py"]
+    end
+
+    subgraph Output
+        HTML["*.html"]
+        IDX["search-index.json"]
+    end
+
+    MD --> RUN
+    NAV --> RUN
+    TTL --> BUILD
+    RUN --> BUILD --> HTML
+    RUN --> IDX
+
+    style Input fill:#dbeafe,stroke:#2563eb
+    style Build fill:#fef3c7,stroke:#d97706
+    style Output fill:#d1fae5,stroke:#059669
+```
+
+---
+
+## Project Structure
 
 ```
 docs/
-├── navigator.yaml                    # Navigation configuration (REQUIRED)
-├── patterns.md                       # Usage patterns with Graphviz diagrams
-├── ontology_structure.md             # Ontology structure with class trees
-├── index.md                          # Home page
-├── intro.md                          # Introduction
-├── ...
+├── navigator.yaml          ← Site structure (sections, pages, icons)
+├── Logo.svg                ← Auto-copied to output
+├── *.md                    ← Your documentation
 │
-├── docs_HTML/
-│   ├── scripts/
-│   │   ├── build_all.py              # Main unified builder script
-│   │   ├── run_all.py                # Batch builder for all pages
-│   │   └── ttl_to_graphviz.py        # TTL to Graphviz converter
-│   │
-│   ├── HTML_Docs/                    # Generated HTML files
-│   │   ├── patterns.html
-│   │   ├── index.html
-│   │   ├── Logo.svg                  # Copied logo asset
-│   │   └── ...
-│   │
-│   └── README.md                     # This documentation
-└── ...
+└── docs_HTML/
+    ├── scripts/
+    │   ├── run_all.py      ← Entry point (batch build)
+    │   ├── build_all.py    ← Page builder (core engine)
+    │   └── ttl_to_graphviz.py
+    │
+    └── HTML_Docs/          ← Generated site
+        ├── *.html
+        └── search-index.json
 ```
 
 ---
 
-## 🚀 Getting Started
+## Navigator Configuration
 
-### Prerequisites
+The `navigator.yaml` file defines your entire site structure.
 
-Install required Python packages:
-
-```bash
-pip install markdown2 rdflib pyyaml
-```
-
-### Build All Documentation Pages
-
-Navigate to the project root or scripts directory:
-
-```bash
-# From docs/docs_HTML/scripts/
-cd docs/docs_HTML/scripts
-python run_all.py
-```
-
-This reads `navigator.yaml` from the `docs/` directory and builds HTML for every page defined in it.
-
-**New Default Output:** The generated HTML files will be placed in `docs/docs_HTML/HTML_Docs` by default.
-
-### Build a Single Page
-
-```bash
-python build_all.py --markdown "../../patterns.md" --out "../HTML_Docs/patterns.html"
-```
-
-For pages with diagrams, specify the diagrams root:
-
-```bash
-python build_all.py --markdown "../../patterns.md" --out "../HTML_Docs/patterns.html" --diagrams-root "../../"
-```
-
----
-
-## 📋 Navigator Configuration (`navigator.yaml`)
-
-The `docs/navigator.yaml` file is the **single source of truth** for the entire website structure. The build system reads this file to:
-
-1. **Generate the sidebar navigation** with icons and section groupings
-2. **Calculate previous/next page links** based on page order
-3. **Map markdown files to HTML outputs** for batch building
-4. **Define the full ontology path** for class/property enrichment
-5. **Provide icon definitions** for the UI
-
-### Complete Schema Reference
+### Minimal Example
 
 ```yaml
-# Version identifier for compatibility
 schema: "pmdco-nav/v1"
 
-# Default icons that rotate automatically for pages without explicit icons
-defaults:
-  icons:
-    - file-text
-    - document
-    - compass
-    - star
-    - zap
-    - globe
-
-# Path to the full ontology TTL file for enriching class labels and definitions
-full_ontology_path: "https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/pmdco.ttl"
-
-# Navigation sections
 sections:
   - id: getting-started
     title: "Getting Started"
-    icon: home
     pages:
       - title: Home
         href: index.html
         md: index.md
         icon: home
 
-  - id: ontology-guide
-    title: "Ontology Guide"
-    icon: layers
-    pages:
-      - title: Usage Patterns
-        href: patterns.html
-        md: patterns.md
-        icon: zap
+      - title: Introduction
+        href: intro.html
+        md: intro.md
+        icon: info
+```
 
-# Icon catalog
-icons:
-  home:
-    path: "..."
+### Add a New Page
+
+```yaml
+# 1. Add to existing section
+sections:
+  - id: guides
+    title: "Guides"
+    pages:
+      - title: My New Guide      # ← Display name
+        href: my-guide.html      # ← Output file
+        md: my-guide.md          # ← Source file
+        icon: book               # ← Sidebar icon
+```
+
+```bash
+# 2. Create the markdown file
+echo "# My New Guide" > docs/my-guide.md
+
+# 3. Rebuild
+python run_all.py
+```
+
+### Add a New Section
+
+```yaml
+sections:
+  # ... existing sections ...
+
+  - id: tutorials           # Unique ID
+    title: "Tutorials"      # Sidebar heading
+    icon: zap               # Section icon
+    pages:
+      - title: Quick Start
+        href: quickstart.html
+        md: quickstart.md
 ```
 
 ---
 
-## 📝 Markdown Tags Reference
+## Markdown Tags
 
-The build system recognizes special HTML comment tags in your Markdown files. These tags tell the builder to generate dynamic content.
+Special HTML comments trigger dynamic content generation during build.
 
-### 1. `@Graphviz_renderer` — Interactive Ontology Diagrams
+### `@Graphviz_renderer` — TTL to Interactive Diagram
 
-**Purpose:** Renders TTL (Turtle) or SHACL shape files as interactive Graphviz diagrams with zoom, pan, tooltips, and export capabilities.
-
-**Syntax:**
-```markdown
-<!--@Graphviz_renderer:PATH_OR_URL_TO_TTL_FILE-->
-```
-
-**Real Example from `patterns.md`:**
+Converts Turtle/SHACL files into pan-zoom-export graph viewers.
 
 ```markdown
-## Pattern 1 - Temporal Region
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
+<!--@Graphviz_renderer:URL_OR_PATH-->
 ```
 
-### 2. `@module_indicator` — Ontology Class Hierarchy Trees
+**Supported Input Types:**
 
-**Purpose:** Fetches an OWL ontology file and generates an interactive, expandable class hierarchy tree.
+| Type | Extension | What It Renders |
+|------|-----------|-----------------|
+| SHACL Shapes | `.ttl` | Constraint graphs with node shapes |
+| RDF Data | `.ttl`, `.rdf` | Instance data relationships |
+| OWL Ontology | `.owl`, `.ttl` | Class hierarchies and properties |
 
-**Syntax:**
-```markdown
-<!--@module_indicator:URL_TO_OWL_FILE-->
-```
-
-**Real Example from `ontology_structure.md`:**
+**Example:**
 
 ```markdown
-## BFO Module Classes
-<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/modules/bfo_module.owl-->
+## Process Pattern
+
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/main/patterns/process/shape-data.ttl-->
 ```
 
-### 3. `@property_indicator` — Property Hierarchy Trees
+**Generated Features:**
+- Mouse wheel zoom / drag to pan
+- Click nodes for URI tooltips
+- Export as SVG or PNG
+- Fullscreen mode
 
-**Purpose:** Generates interactive property trees showing object, data, or annotation properties.
+---
 
-**Syntax:**
+### `@module_indicator` — Class Hierarchy Tree
+
+Fetches an OWL file and renders an expandable class tree.
+
 ```markdown
-<!--@property_indicator:PROPERTY_TYPE-->
+<!--@module_indicator:URL_TO_OWL-->
 ```
 
-**Property Types:** `object`, `data`, `annotation`
+**Example:**
 
-**Real Example from `ontology_structure.md`:**
+```markdown
+## BFO Classes
+
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/main/src/ontology/modules/bfo_module.owl-->
+```
+
+---
+
+### `@property_indicator` — Property Trees
+
+Renders property hierarchies by type.
+
+```markdown
+<!--@property_indicator:TYPE-->
+```
+
+| Type | Shows |
+|------|-------|
+| `object` | Relationships between entities |
+| `data` | Literal value attributes |
+| `annotation` | Metadata (labels, comments) |
+
+**Example:**
 
 ```markdown
 ## Object Properties
 <!--@property_indicator:object-->
+
+## Data Properties
+<!--@property_indicator:data-->
 ```
 
 ---
 
-## 🎨 Branding & Assets
+### `@Graphviz_renderer_manual` — Inline DOT Diagrams
 
-### Logo
-The build system expects a logo file named `Logo.svg` in the source documentation directory (`docs/Logo.svg`).
-During the build process, this file is automatically copied to the output directory (`HTML_Docs/Logo.svg`) and linked in the website header.
+Embed DOT code directly in markdown.
+
+```markdown
+<!--@Graphviz_renderer_manual:Title-->
+```dot
+digraph G {
+    A -> B -> C
+}
+```
+```
 
 ---
 
-## 📌 Command Line Reference
+### `@Mermaid_renderer_manual` — Inline Mermaid Diagrams
 
-### `build_all.py`
+Embed Mermaid diagrams directly.
 
-Main builder script for single pages.
-
+```markdown
+<!--@Mermaid_renderer_manual:Flow-->
+```mermaid
+flowchart LR
+    A --> B --> C
 ```
-Usage: python build_all.py [OPTIONS]
-
-Required Arguments:
-  --markdown, -m PATH      Source Markdown file path
-  --out, -o PATH           Output HTML file path
-
-Optional Arguments:
-  --mode, -M MODE          Build mode: docs, patterns, auto (default: auto)
-  --diagrams-root, -d PATH Base directory for Graphviz_renderer paths
-  --title, -t TEXT         Override page title
-  --no-strict              Don't fail if diagrams can't be resolved
 ```
 
-### `run_all.py`
+---
 
-Batch builder that builds all pages defined in `navigator.yaml`.
+### `@md_file_renderer` — Remote Markdown
 
-```
-Usage: python run_all.py [OPTIONS]
+Pull markdown from external URLs.
 
-Optional Arguments:
-  --md-dir PATH            Markdown source directory (default: ../../)
-  --out-dir PATH           HTML output directory (default: ../HTML_Docs)
-  --diagrams-root PATH     Base directory for diagrams (default: ../../)
-  --quiet, -q              Suppress detailed progress output
+```markdown
+<!--@md_file_renderer:https://raw.githubusercontent.com/org/repo/main/docs/section.md-->
 ```
 
-**Examples:**
+---
+
+### `@source_code_renderer` — Code Files
+
+Inject syntax-highlighted code from URLs.
+
+```markdown
+<!--@source_code_renderer:https://example.org/sample.ttl-->
+```
+
+Auto-detects language from extension (`.ttl`, `.py`, `.json`, etc.)
+
+---
+
+## Tag Quick Reference
+
+| Tag | Input | Output |
+|-----|-------|--------|
+| `@Graphviz_renderer` | TTL/OWL URL | Interactive graph |
+| `@module_indicator` | OWL URL | Class tree |
+| `@property_indicator` | `object`/`data`/`annotation` | Property tree |
+| `@Graphviz_renderer_manual` | DOT code block | Interactive graph |
+| `@Mermaid_renderer_manual` | Mermaid code block | Rendered diagram |
+| `@md_file_renderer` | Markdown URL | Inline content |
+| `@source_code_renderer` | Code file URL | Syntax-highlighted block |
+
+---
+
+## Search System
+
+```mermaid
+flowchart LR
+    BUILD["Build Time"]
+    IDX["search-index.json"]
+    RUNTIME["Page Load"]
+    UI["Cmd+K Modal"]
+
+    BUILD -->|"Extract all content"| IDX
+    IDX -->|"Load on page"| RUNTIME
+    RUNTIME -->|"BM25 ranking"| UI
+
+    style BUILD fill:#fef3c7
+    style IDX fill:#dbeafe
+    style UI fill:#d1fae5
+```
+
+**Features:**
+- Full-text across all pages
+- Deep links to specific sections
+- Phrase search: `"exact phrase"`
+- Type filter: `type:graph`
+- Section filter: `section:patterns`
+
+**Shortcuts:** `Cmd/Ctrl + K` to open, `↑↓` to navigate, `Enter` to go
+
+---
+
+## CLI Reference
+
+### Build All Pages
 
 ```bash
-# Build all documentation pages to default HTML_Docs/
 python run_all.py
-
-# Build to custom output directory
-python run_all.py --out-dir "../custom_output"
 ```
+
+### Build Single Page
+
+```bash
+python build_all.py \
+    -m "../../patterns.md" \
+    -o "../HTML_Docs/patterns.html" \
+    --diagrams-root "../../"
+```
+
+### Options
+
+| Flag | Description |
+|------|-------------|
+| `-m, --markdown` | Source markdown file |
+| `-o, --out` | Output HTML file |
+| `--diagrams-root` | Base path for TTL files |
+| `--mode` | `docs`, `patterns`, or `auto` |
+| `--no-strict` | Skip missing diagrams |
+| `-q, --quiet` | Suppress output |
 
 ---
 
-## 📄 License
+## Troubleshooting
 
-Part of the **Platform MaterialDigital (PMD)** project.
+| Problem | Solution |
+|---------|----------|
+| `ModuleNotFoundError` | `pip install markdown2 pyyaml rdflib` |
+| Diagrams not rendering | Check TTL URL is accessible |
+| Search not working | Serve via HTTP, not `file://` |
+| Empty ontology trees | Verify OWL URL returns valid RDF |
 
-Funded by the German Federal Ministry of Education and Research (BMBF).
+---
 
-See [materialdigital.de](https://materialdigital.de/) for more information.
+## Links
+
+| | |
+|---|---|
+| **MaterialDigital** | [materialdigital.de](https://materialdigital.de/) |
+| **Repository** | [github.com/materialdigital/core-ontology](https://github.com/materialdigital/core-ontology) |
+| **Documentation** | [materialdigital.github.io/core-ontology](https://materialdigital.github.io/core-ontology) |
+| **License** | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+
+---
+
+<sub>Built for the Platform MaterialDigital (PMD) project. Funded by BMBF.</sub>

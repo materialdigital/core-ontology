@@ -7,8 +7,11 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 
 ## Pattern 1 - Duality of object and material
 <!--Please provide the link to the pattern (raw data ttl file) in the repository-->
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/shape-data.ttl-->
+<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/shape-data.ttl-->
 
+<!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/pattern.md-->
+
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/shape-data.ttl-->
 
 
 (see folder:     [patterns/duality object material/](https://github.com/materialdigital/core-ontology/tree/main/patterns/duality%20object%20material) )
@@ -17,7 +20,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 2 - Temporal Region
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
+<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
 
 
 - **Purpose**: Specifying the boundaries of a process on the time axis. 
@@ -127,7 +130,7 @@ ex:object_1 exists_at: ex:some_time .
 ---
 
 ## Pattern 3 - Process Chain
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/shape-data.ttl-->
+<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/shape-data.ttl-->
 
 - **Purpose**: Represent processes, consisting of simultaneous and serial subprocesses. 
 - **Description**: This graph describes a structured process chain that organizes several interrelated process steps within a defined sequence. The graph defines relationships among processes using temporal and structural object properties.
@@ -235,7 +238,7 @@ ex:process_step2a simultaneous_with: ex:process_step2b .
 ---
 
 ## Pattern 4 - Process Inputs and Outputs
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/shape-data.ttl-->
+<!--@Graphviz_renderer_upper:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/shape-data.ttl-->
 
 - **Purpose**: Describes how to represent inputs and outputs for planned processes typically involving material entities or information-bearing entities.
 - **Description**: A planned process with possibility of multiple inputs and outputs, e.g., testing properties of a metallic sample, or transforming a piece of material into another product.
@@ -336,7 +339,7 @@ ex:object3 a object:
 ---
 
 ## Pattern 5 - Realizable Entities (Role)
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/shape-data.ttl-->
+<!--@Graphviz_renderer_file:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/shape-data.ttl-->
 
 - **Purpose**: Represent characteristics of the objects, brought to existence by a specific situation. E.g. a role, which is realized in a process.
 - **Description**: This example describes how an object participates in a planned experimental process by bearing a specific evaluant role. An object, here ex:object_1, is involved in a fatigue testing process, and this process takes the object as its specified input. The process is linked to an objective, and both the objective and the resulting output are explicitly stated to be about the same object, making clear that the purpose and outcome of the process concern that object. The object is assigned an evaluant role, ex:role_1, and this role is realized in the execution of the fatigue testing process. In this way, the pattern connects object, role, process, objective, and result into a coherent structure showing that the object is the thing being evaluated in the process, and that the process executes and realizes the evaluant role associated with that object.
@@ -444,7 +447,7 @@ ex:role_1 has_realization: ex:process_1  .
 ---
 
 ## Pattern 6 - Material Properties (Qualities)
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data.ttl-->
+<!--@Graphviz_renderer_file:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data.ttl-->
 
 - **Purpose**: Represent materials, their qualities, and their behaviors at different moments/periods of time.
 - **Example Use Case**: 
@@ -598,7 +601,7 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 ---
 
 ## Pattern 7 - Measurement
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/measurement/shape-data.ttl-->
+<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/measurement/shape-data.ttl-->
 
 - **Purpose**: Represent measured value of some material characteristic. 
 - **Example Use Case**: This example represents a measurement workflow:
@@ -688,7 +691,7 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 ---
 
 ## Pattern 8 - Scalar Value Specification
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/shape-data.ttl-->
+<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/shape-data.ttl-->
 
 - **Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
 - **Core Properties**: 
@@ -729,7 +732,7 @@ ex:unit_X rdf:type owl:NamedIndividual ,
 ---
 
 ## Pattern 9 - Categorical Value Specification
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/categorical%20value%20specification/shape-data.ttl-->
+<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/categorical%20value%20specification/shape-data.ttl-->
 
 - **Purpose**: Represents how categorical values such as ferrite, face-centered cubic, and liquid are used to specify the values of material characteristics.
 - **Example Use Case**: The example describes materials and the categorical qualities they might possess. In the first example, `ex:fcc_material` is a material that has both a crystal structure and a grain structure. Its crystal structure quality is assigned the categorical value “face-centered cubic”, and its grain structure quality is assigned the categorical value “ferrite”, which is also explicitly stated to be about this same material. In other words, the material is characterized as having an FCC crystal structure and a ferritic grain structure.
@@ -810,7 +813,7 @@ aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
 
 ---
 ## Pattern 10: Simulation input/output
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/simulation%20inout%20simple/shape-data.ttl--> 
+<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/simulation%20inout%20simple/shape-data.ttl--> 
 
 - **Purpose**: Information content entities as input and output of (simulation-)processes.
 - **Example Use Case**: 
