@@ -41,23 +41,7 @@
 @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
 @prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
 
-# Subclass relations 
-object: rdfs:subClassOf material_entity: .
-material_entity: rdfs:subClassOf independent_continuant: .
-material: rdfs:subClassOf material_entity: .
-portion_of_iron: rdfs:subClassOf material_entity: .
-quality: rdfs:subClassOf specifically_dependent_continuant: .
-mass: rdfs:subClassOf quality: .
-density: rdfs:subClassOf quality: .
-relational_quality: rdfs:subClassOf quality: .
-mass_proportion: rdfs:subClassOf relational_quality: .
-behavioral_material_property: rdfs:subClassOf specifically_dependent_continuant: .
-melting_point: rdfs:subClassOf behavioral_material_property: .
-specifically_dependent_continuant: rdfs:subClassOf entity: .
-melting_process: rdfs:subClassOf process: .
-stimulating_process: rdfs:subClassOf process: .
-application_of_heat_flux: rdfs:subClassOf stimulating_process: .
-change_of_temperature: rdfs:subClassOf process: .
+
 
 # Object properties
 @prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
@@ -77,69 +61,66 @@ change_of_temperature: rdfs:subClassOf process: .
 @prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
 @prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
 
-has_participant: owl:inverseOf participates_in: .
-has_specified_output: rdfs:subPropertyOf has_participant: .
-has_specified_input: rdfs:subPropertyOf has_participant: .
 
 ### Instances ###
 
 # Quality example
-ex:metal_sheet a owl:NamedIndividual , object: .
+ex:metal_sheet a  object: .
 
-ex:mass_metal_sheet a owl:NamedIndividual , mass: ;
+ex:mass_metal_sheet a mass: ;
             quality_of: ex:metal_sheet . 
 
-ex:svs_15_g a owl:NamedIndividual , scalar_value_specification: ;
+ex:svs_15_g a  scalar_value_specification: ;
             has_specified_numeric_value: "3.3"^^xsd:float ;
             has_measurement_unit_label: gram: ; 
             specifies_value_of: ex:mass_metal_sheet .
 
-ex:tcq_temporal_region a owl:NamedIndividual , temporal_region: .
+ex:tcq_temporal_region a temporal_region: .
         
-ex:tqc_steel_material a owl:NamedIndividual , material: , temporally_qualified_continuant: ; 
+ex:tqc_steel_material a material: , temporally_qualified_continuant: ; 
             exists_at: ex:tcq_temporal_region ; 
             is_state_of: ex:steel_material .
 
-ex:density_steel a owl:NamedIndividual , density: ;
+ex:density_steel a density: ;
             quality_of: ex:tqc_steel_material . 
 
 
-ex:svs_7_5_g_per_cm a owl:NamedIndividual , scalar_value_specification: ;
+ex:svs_7_5_g_per_cm a scalar_value_specification: ;
             has_specified_numeric_value: "7.5"^^xsd:float ;
             has_measurement_unit_label: gram_per_cubic_centimetre: ; 
             specifies_value_of: ex:density_steel .
 
 
 # Behavioral material property
-ex:steel_material a owl:NamedIndividual , material: ; 
+ex:steel_material a  material: ; 
             participates_in: ex:melting_process .
 
-ex:svs_1500_deg_c a owl:NamedIndividual , scalar_value_specification: ;
+ex:svs_1500_deg_c a scalar_value_specification: ;
             has_specified_numeric_value: "1500"^^xsd:float ;
             has_measurement_unit_label: degree_celsius: ; 
             specifies_value_of: ex:melting_temperature_steel .
 
-ex:melting_temperature_steel a owl:NamedIndividual , melting_point: ; 
+ex:melting_temperature_steel a  melting_point: ; 
             characteristic_of: ex:steel_material ;
             has_realization: ex:melting_process ; 
             stimulated_by: ex:application_of_heat_flux ; 
             responds_with: ex:change_of_temperature_during_melting .
 
-ex:melting_process a owl:NamedIndividual , melting_process: ;
+ex:melting_process a melting_process: ;
             has_specified_output: ex:steel_material ; 
             has_specified_input: ex:steel_material .
 
-ex:application_of_heat_flux a owl:NamedIndividual , application_of_heat_flux: .
+ex:application_of_heat_flux a application_of_heat_flux: .
 
-ex:change_of_temperature_during_melting a owl:NamedIndividual , change_of_temperature: .
+ex:change_of_temperature_during_melting a change_of_temperature: .
 
 # Relational quality
-ex:some_iron a owl:NamedIndividual , portion_of_iron: . 
+ex:some_iron a portion_of_iron: . 
 
-ex:mass_proportion_iron a owl:NamedIndividual , mass_proportion: ;
+ex:mass_proportion_iron a mass_proportion: ;
             relational_quality_of:  ex:some_iron , ex:metal_sheet .
 
-ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
+ex:fraction_iron a fraction_value_specification: ;
             has_specified_numeric_value: "97.7"^^xsd:float ;
             has_measurement_unit_label: mass_percentage: ; 
             specifies_value_of: ex:mass_proportion_iron .
