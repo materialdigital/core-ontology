@@ -1,14 +1,9 @@
-# Pattern: temporal region
-## Purpose
-Description on how to processes and temporal regions work together.
-
-## Description
-This graph describes a set of temporal relationships among processes, temporal regions, and continuant entities. The graph models how different kinds of entities relate to time and duration through their association with temporal regions and instants.
+- **Purpose**: Specifying the boundaries of a process on the time axis. 
+- **Description**: This graph describes a set of temporal relationships among processes, temporal regions, and continuant entities. The graph models how different kinds of entities relate to time and duration through their association with temporal regions and instants.
 Within this model, there are two processes — (ex:process_1) and (ex:process_2) — each representing an occurrence or event that unfolds over time. Both processes are linked to distinct one-dimensional temporal regions (ex:period_1, ex:period_2), via the occupies_temporal_region property. This expresses that each process extends through a particular temporal duration.
 The temporal structure is further refined through hierarchical and boundary definitions. The region (ex:period_1) is described as a proper_temporal_part_of (ex:period_2), indicating that the first period is entirely contained within the second, but not identical to it. The larger region (ex:period_2) has defined temporal boundaries: it has_first_instant (ex:start) and has_last_instant (ex:end), both of which are represented as zero-dimensional temporal regions, signifying discrete points in time marking the beginning and end of that duration.
 In addition to the processes and periods, the model includes a continuant entity, (ex:object_1), which exists_at a particular temporal region, (ex:some_time). This denotes that the continuant maintains existence at or during a specific time interval, emphasizing persistence or presence within the temporal framework. 
 
-## Visualization
 ```d2
 direction: up
 
@@ -64,12 +59,3 @@ abox."ex:start" -> tbox."bfo:zero dimensional t.r.": "rdf:type"
 abox."ex:end" -> tbox."bfo:zero dimensional t.r.": "rdf:type"
 
 ```
-
-alternative Visualization using [visgraph](https://thhanke.github.io/visgraph/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl)
-<img src="https://raw.githubusercontent.com/materialdigital/core-ontology/main/patterns/temporal%20region/temporal_region.svg">
-       
-## Shapes and example data
-[shape-data.ttl](shape-data.ttl)
-
-[shape.ttl](shape.ttl)
-
