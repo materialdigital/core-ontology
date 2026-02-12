@@ -241,7 +241,12 @@ def parse_turtle_safely(g: Graph, path: Path) -> None:
     Note:
         The file's URI is used as the publicID for relative IRI resolution.
     """
+    # Read with 'replace' error handling so that invalid UTF-8 bytes
+    # don't crash the entire build; replace non-breaking spaces (U+00A0)
+    # which are invisible but cause rdflib's Turtle parser to fail.
     data = path.read_text(encoding="utf-8", errors="replace").replace("\u00a0", " ")
+    # Use the file's absolute URI as publicID so that relative IRIs
+    # in the Turtle file resolve correctly against the file location.
     g.parse(data=data, format="turtle", publicID=str(path.resolve().as_uri()))
 
 
@@ -270,9 +275,13 @@ def slugify(stem: str) -> str:
         >>> slugify("BFO_0000015")
         'bfo-0000015'
     """
+    # Step 1: Lowercase for URL-safe consistency.
     s = stem.strip().lower()
+    # Step 2: Replace any non-word characters with hyphens.
     s = re.sub(r"[^\w\-]+", "-", s)
+    # Step 3: Collapse repeated hyphens and trim leading/trailing hyphens.
     s = re.sub(r"-{2,}", "-", s).strip("-")
+    # Fallback to 'diagram' if the entire string was non-word characters.
     return s or "diagram"
 
 
@@ -341,9 +350,11 @@ def dot_attrs(attrs: Dict[str, str]) -> str:
     if not attrs:
         return ""
     parts = []
+    # Sort keys for deterministic output (makes diffs easier to review).
     for k in sorted(attrs.keys()):
         val = str(attrs[k])
-        # HTML-like labels should not be quoted
+        # HTML-like labels (e.g. <<TABLE>...</TABLE>>) use DOT's HTML
+        # label syntax and must NOT be wrapped in double-quotes.
         if k == "label" and val.startswith("<") and val.endswith(">"):
             parts.append(f'{k}={val}')
         else:
@@ -414,13 +425,15 @@ def obo_prefix_for_iri(iri: str) -> Optional[str]:
         'pmdco'
     """
     # OBO Foundry pattern: http://purl.obolibrary.org/obo/PREFIX_nnnnnnn
+    # This is the most common IRI form for ontologies like BFO, OBI, IAO, RO.
+    # We extract the alphabetic prefix before the underscore+digits.
     if "purl.obolibrary.org/obo/" in iri:
         local = iri.split("/obo/", 1)[1]
-        # Match patterns like BFO_0000001, OBI_0000245, RO_0000056
+        # Strict match: e.g. BFO_0000001, OBI_0000245, RO_0000056
         m = re.match(r"^([A-Za-z]+)_\d+$", local)
         if m:
             return m.group(1).lower()
-        # Handle hash-based OBO IRIs
+        # Looser match for hash-based OBO IRIs (PREFIX_ followed by anything)
         m2 = re.match(r"^([A-Za-z]+)_", local)
         if m2:
             return m2.group(1).lower()
@@ -474,10 +487,14 @@ def safe_mermaid_id(raw: str) -> str:
     Returns:
         A valid Mermaid node ID.
     """
+    # Replace all non-alphanumeric/underscore characters with underscores.
     s = re.sub(r"[^A-Za-z0-9_]", "_", raw)
+    # Collapse consecutive underscores and strip leading/trailing ones.
     s = re.sub(r"_+", "_", s).strip("_")
+    # Mermaid IDs must be non-empty.
     if not s:
         s = "n"
+    # Mermaid IDs must not start with a digit; prefix with 'n_' if so.
     if s[0].isdigit():
         s = "n_" + s
     return s
@@ -514,7 +531,10 @@ class OntologyCache:
         """
         self.cache_dir = cache_dir
         self.ontology_urls = ontology_urls
+        # Ensure the cache directory exists on disk.
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        # In-memory cache: maps prefix key -> parsed RDF Graph.
+        # Avoids re-parsing the same ontology file multiple times.
         self._graphs: Dict[str, Graph] = {}
 
     def _cached_path(self, key: str, url: str) -> Path:
@@ -566,8 +586,15 @@ class OntologyCache:
         return None
 
     def superclasses(self, cls: URIRef, max_depth: int) -> Set[Tuple[URIRef, URIRef]]:
-        """Get superclass edges for a class up to a maximum depth."""
+        """Get superclass edges for a class up to a maximum depth.
+
+        Uses breadth-first search (BFS) to walk the rdfs:subClassOf
+        chain upward, collecting (child, parent) edge pairs.
+        Stops at max_depth hops or when all ancestors are exhausted.
+        Skips owl:Thing and rdfs:Resource (implicit top-level classes).
+        """
         iri = str(cls)
+        # Determine which remote ontology to look up based on the IRI prefix.
         key = obo_prefix_for_iri(iri)
         if not key:
             return set()
@@ -576,6 +603,7 @@ class OntologyCache:
             return set()
 
         edges: Set[Tuple[URIRef, URIRef]] = set()
+        # BFS frontier: each entry is (current_class, current_depth).
         frontier: List[Tuple[URIRef, int]] = [(cls, 0)]
         seen: Set[URIRef] = {cls}
         while frontier:
@@ -583,6 +611,8 @@ class OntologyCache:
             if depth >= max_depth:
                 continue
             for parent in g.objects(cur, RDFS.subClassOf):
+                # Only follow named URI parents; skip blank nodes and
+                # implicit top classes (owl:Thing, rdfs:Resource).
                 if isinstance(parent, URIRef) and parent not in _IMPLICIT_TOP_CLASSES:
                     edges.add((cur, parent))
                     if parent not in seen:
@@ -634,10 +664,14 @@ def best_label(literals: List[Literal]) -> Optional[str]:
         return None
 
     def score(l: Literal) -> Tuple[int, int]:
+        # Prefer English ("en") or untagged labels (rank 0); other
+        # languages get rank 1 and sort after.
         lang = (l.language or "").lower()
         lang_rank = 0 if (lang in ("", "en")) else 1
+        # Among same-rank labels, prefer shorter ones for concise display.
         return (lang_rank, len(str(l)))
 
+    # Sort by (lang_rank, length) and return the best candidate.
     return str(sorted(literals, key=score)[0])
 
 
@@ -711,13 +745,20 @@ def load_full_ontology_index(paths: List[Path]) -> Optional[FullOntologyIndex]:
     if not paths:
         return None
 
+    # Merge all ontology files into a single graph so that labels and
+    # hierarchy edges from multiple sources are available together.
     g = Graph()
     for p in paths:
         try:
             parse_turtle_safely(g, p)
         except Exception as e:
+            # Log but continue — one bad file should not block the
+            # entire index from being built.
             LOG.warning("Failed to parse full ontology file '%s': %s", p, e)
 
+    # ---- Phase 1: Build the IRI -> label mapping ----
+    # Collect all rdfs:label triples, then pick the best label per IRI
+    # (preferring English, then shorter labels) via best_label().
     tmp: Dict[str, List[Literal]] = {}
     for s, _, o in g.triples((None, RDFS.label, None)):
         if isinstance(s, URIRef) and isinstance(o, Literal):
@@ -766,7 +807,16 @@ def load_full_ontology_index(paths: List[Path]) -> Optional[FullOntologyIndex]:
 
 
 def resolve_hierarchy_root(root: str) -> URIRef:
-    """Resolve a hierarchy root specification to a URI."""
+    """Resolve a hierarchy root specification to a URI.
+
+    Accepts several shorthand forms for specifying the root of the
+    class hierarchy (the class at which upward expansion stops):
+      - Empty string / 'bfo:entity' -> BFO Entity (default root)
+      - Full HTTP(S) IRI           -> used as-is
+      - 'BFO_0000001'              -> BFO Entity
+      - 'obo:BFO_0000001'          -> BFO Entity
+      - Anything else              -> wrapped in URIRef directly
+    """
     r = root.strip()
     if not r:
         return URIRef(BFO_ENTITY_IRI)
@@ -774,6 +824,7 @@ def resolve_hierarchy_root(root: str) -> URIRef:
     if r.lower() == "bfo:entity":
         return URIRef(BFO_ENTITY_IRI)
 
+    # Full IRI — use directly without transformation.
     if r.startswith("http://") or r.startswith("https://"):
         return URIRef(r)
 
@@ -783,6 +834,7 @@ def resolve_hierarchy_root(root: str) -> URIRef:
     if r.lower().startswith("obo:") and r.upper().endswith("BFO_0000001"):
         return URIRef(BFO_ENTITY_IRI)
 
+    # Fallback: treat as a raw IRI string.
     return URIRef(r)
 
 
@@ -867,16 +919,23 @@ class RdfToDiagram:
 
         self.include_bnodes = include_bnodes
         self.enrich = enrich
+        # Ensure non-negative depth and at-least-1 caps to avoid degenerate runs.
         self.superclass_depth = max(0, int(superclass_depth))
         self.max_nodes = max(1, int(max_nodes))
         self.max_edges = max(1, int(max_edges))
+
+        # Cache for predicate labels — avoids recomputing the same label
+        # for predicates that appear on many edges in the same diagram.
         self._pred_label_cache: Dict[str, str] = {}
 
+        # Local ontology index for label resolution and hierarchy expansion.
+        # use_full_hierarchy is only enabled when an index is actually provided.
         self.full_ontology = full_ontology
         self.use_full_hierarchy = bool(use_full_hierarchy and self.full_ontology is not None)
         self.full_hierarchy_root = resolve_hierarchy_root(full_hierarchy_root)
         self.full_hierarchy_max_depth = max(1, int(full_hierarchy_max_depth))
 
+        # Remote enrichment cache — only initialized when --enrich is used.
         if self.enrich:
             cache_dir = ontology_cache_dir or Path(".ontology_cache")
             urls = ontology_urls or DEFAULT_ONTOLOGY_URLS
@@ -900,41 +959,64 @@ class RdfToDiagram:
         return lbl or "node"
 
     def _node_label(self, g: Graph, node: Node) -> str:
-        """Generate a human-readable label for a node."""
+        """Generate a human-readable label for a node.
+
+        Label resolution follows a priority cascade:
+          1. Literals and BNodes get their string representation directly.
+          2. Exact-prefix tokens (e.g.  @prefix process: <...BFO_0000015>)
+          3. rdfs:label from the local TTL file being rendered.
+          4. rdfs:label from the full ontology index (local *_full.ttl).
+          5. rdfs:label from the remote ontology cache (--enrich mode).
+          6. Fallback to the QName or URI local name.
+        Throughout, an ontology-source prefix (e.g. 'bfo:') is prepended
+        when the IRI's source can be detected, aiding visual identification.
+        """
+        # Literals are displayed as their plain string value.
         if isinstance(node, Literal):
             return str(node)
 
+        # Blank nodes use the internal rdflib ID with a "_:" prefix.
         if isinstance(node, BNode):
             return f"_:{str(node)}"
 
         assert isinstance(node, URIRef)
 
+        # Detect the ontology source prefix (e.g. 'bfo', 'pmd', 'iao')
+        # for use as a display qualifier.
         prefix = obo_prefix_for_iri(str(node))
 
+        # Priority 1: Check for an exact-prefix token.  This handles the
+        # pattern where a prefix maps to a single term IRI, e.g.:
+        #   @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
         token = self._exact_prefix_token(g, node)
         if token:
             if prefix and ":" not in token:
                 return f"{prefix}:{token}"
             return token
 
+        # Priority 2: rdfs:label defined in the local TTL file.
         local_lits: List[Literal] = [l for l in g.objects(node, RDFS.label) if isinstance(l, Literal)]
         lbl0 = best_label(local_lits)
         if lbl0:
             core = self._normalize_label(lbl0)
             return f"{prefix}:{core}" if prefix else core
 
+        # Priority 3: rdfs:label from the full ontology index.
         if self.full_ontology is not None:
             lbl1 = self.full_ontology.label_for(node)
             if lbl1:
                 core = self._normalize_label(lbl1)
                 return f"{prefix}:{core}" if prefix else core
 
+        # Priority 4: rdfs:label from the remote ontology cache.
         if self.ont is not None:
             lbl2 = self.ont.label_for(node)
             if lbl2:
                 core = self._normalize_label(lbl2)
                 return f"{prefix}:{core}" if prefix else core
 
+        # Fallback: try to produce a compact QName via rdflib's
+        # namespace manager; if that fails, extract the local name.
         try:
             qname = g.namespace_manager.normalizeUri(node)
         except Exception:
@@ -948,7 +1030,12 @@ class RdfToDiagram:
         return qname
 
     def _predicate_label(self, g: Graph, pred: URIRef) -> str:
-        """Generate a human-readable label for a predicate."""
+        """Generate a human-readable label for a predicate.
+
+        Uses the same priority cascade as _node_label() but with
+        hardcoded shortcuts for the most common predicates.
+        """
+        # Hardcoded labels for the two most frequent predicates.
         if pred == RDF.type:
             return "rdf:type"
         if pred == RDFS.subClassOf:
@@ -1005,7 +1092,14 @@ class RdfToDiagram:
         return "Individual"
 
     def _style_bucket_for_node(self, uri: Optional[URIRef], kind: str) -> str:
-        """Determine the style bucket for a node."""
+        """Determine the style bucket (color scheme) for a node.
+
+        Generic kinds (Literal, Constraint, etc.) map to fixed buckets.
+        For 'Class' nodes, we additionally check the IRI's ontology
+        source so that e.g. BFO classes get the pink 'bfo' style,
+        PMD classes get the cyan 'pmd' style, and so on.
+        Falls back to the generic 'cls' (light yellow) bucket.
+        """
         if kind == "Literal":
             return "lit"
         if kind == "Constraint":
@@ -1017,10 +1111,12 @@ class RdfToDiagram:
         if kind == "Individual":
             return "ind"
 
+        # For Class nodes, try to match an ontology-specific color.
         if uri is not None:
             bucket = obo_prefix_for_iri(str(uri))
             if bucket in CLASSDEF_STYLES:
                 return bucket
+        # Default: generic class style.
         return "cls"
 
     def _extract_list_items(self, g: Graph, head: BNode) -> Optional[List[Node]]:
@@ -1037,44 +1133,77 @@ class RdfToDiagram:
         nodes: Set[Node],
         edges: List[Tuple[Node, URIRef, Node]],
     ) -> None:
-        """Expand class hierarchy using the local full ontology index."""
+        """Expand class hierarchy using the local full ontology index.
+
+        For every class found in the pattern file, this method walks
+        **upward** through the rdfs:subClassOf chain (via the
+        FullOntologyIndex built from the full PMDco ontology) until:
+          - The hierarchy root is reached (default: BFO:Entity), OR
+          - full_hierarchy_max_depth hops have been traversed, OR
+          - The diagram's max_nodes / max_edges safety cap is hit.
+
+        Each new ancestor class + rdfs:subClassOf edge is injected into
+        the node/edge sets so that the rendered diagram shows the
+        complete ancestry chain, not just the classes defined locally.
+
+        This is the core logic behind the ``@Graphviz_renderer_full``
+        rendering mode.
+        """
         if not self.use_full_hierarchy or self.full_ontology is None:
             return
 
         root = self.full_hierarchy_root
         max_depth = self.full_hierarchy_max_depth
 
+        # Convert the edge list to a set for O(1) duplicate checks.
         edge_set: Set[Tuple[Node, URIRef, Node]] = set(edges)
 
+        # Iterate over a snapshot of classes (list copy) because the
+        # set will be mutated as we discover new ancestor classes.
         for start in list(classes):
             if not isinstance(start, URIRef):
                 continue
 
+            # BFS upward from this class toward the hierarchy root.
             frontier: List[Tuple[URIRef, int]] = [(start, 0)]
             visited: Set[URIRef] = {start}
 
             while frontier:
                 cur, depth = frontier.pop(0)
+                # Stop expanding: reached the root or the depth limit.
                 if cur == root or depth >= max_depth:
                     continue
 
+                # Look up the parents of 'cur' in the prebuilt index.
+                # This index now includes parents extracted from both
+                # direct URIRef edges AND OWL class expression blank
+                # nodes (see _extract_named_parents_from_bnode).
                 for parent in self.full_ontology.parents_of(cur):
+                    # Skip non-URI parents and implicit tops (owl:Thing,
+                    # rdfs:Resource) which add noise without information.
                     if not isinstance(parent, URIRef) or parent in _IMPLICIT_TOP_CLASSES:
                         continue
 
+                    # Add the rdfs:subClassOf edge if not already present.
                     triple = (cur, RDFS.subClassOf, parent)
                     if triple not in edge_set:
                         edges.append(triple)
                         edge_set.add(triple)
 
+                    # Register nodes and mark the parent as a class so
+                    # it gets the correct styling in the diagram.
                     nodes.add(cur)
                     nodes.add(parent)
                     classes.add(parent)
 
+                    # Safety cap: stop if the diagram is getting too large.
                     if len(nodes) >= self.max_nodes or len(edges) >= self.max_edges:
                         LOG.warning("Size cap reached while adding full hierarchy; truncating.")
                         return
 
+                    # Continue walking upward unless we've already visited
+                    # this parent or it IS the root (root is included as
+                    # a node but we don't expand beyond it).
                     if parent not in visited and parent != root:
                         visited.add(parent)
                         frontier.append((parent, depth + 1))
@@ -1082,24 +1211,46 @@ class RdfToDiagram:
     def _collect_schema_and_instances(
         self, g: Graph
     ) -> Tuple[Set[URIRef], Set[URIRef], Set[URIRef], Set[Node], List[Tuple[Node, URIRef, Node]]]:
-        """Extract all relevant nodes and edges from an RDF graph."""
+        """Extract all relevant nodes and edges from an RDF graph.
+
+        This is the main graph-analysis phase.  It walks every triple
+        in the parsed RDF graph and classifies nodes into:
+          - classes (TBox): declared via rdf:type owl:Class / rdfs:Class
+          - shapes: declared via rdf:type sh:NodeShape / sh:PropertyShape
+          - categorical: URIs appearing in sh:in lists
+          - nodes: all subjects/objects that should appear in the diagram
+          - edges: all (subject, predicate, object) triples to draw
+
+        After the initial extraction, optional enrichment steps run:
+          1. Remote superclass expansion (--enrich mode)
+          2. Local full-hierarchy expansion (_add_full_hierarchy)
+
+        Safety caps (max_nodes, max_edges) are enforced to prevent
+        excessively large diagrams from overwhelming the renderer.
+        """
         classes: Set[URIRef] = set()
         shapes: Set[URIRef] = set()
         categorical: Set[URIRef] = set()
         nodes: Set[Node] = set()
         edges: List[Tuple[Node, URIRef, Node]] = []
 
+        # --- Pass 1: Identify classes and SHACL shapes from rdf:type ---
         for s, _, o in g.triples((None, RDF.type, None)):
             if isinstance(o, URIRef):
+                # Detect SHACL shapes for special hexagon styling.
                 if o in (SH.NodeShape, SH.PropertyShape, SH.Shape):
                     if isinstance(s, URIRef):
                         shapes.add(s)
+                # Mark explicitly typed classes.
                 if o in (OWL.Class, RDFS.Class):
                     if isinstance(s, URIRef):
                         classes.add(s)
+                # The type itself is also a class (unless it's owl:Thing
+                # or rdfs:Resource which we filter out as noise).
                 if o not in _IMPLICIT_TOP_CLASSES:
                     classes.add(o)
 
+        # --- Pass 2: Identify classes from rdfs:subClassOf triples ---
         for s, _, o in g.triples((None, RDFS.subClassOf, None)):
             if isinstance(o, URIRef) and o in _IMPLICIT_TOP_CLASSES:
                 continue
@@ -1108,6 +1259,7 @@ class RdfToDiagram:
             if isinstance(o, URIRef):
                 classes.add(o)
 
+        # --- Pass 3: Identify categorical values from sh:in lists ---
         for _, _, o in g.triples((None, SH["in"], None)):
             if isinstance(o, BNode):
                 items = self._extract_list_items(g, o)
@@ -1116,8 +1268,11 @@ class RdfToDiagram:
                         if isinstance(it, URIRef):
                             categorical.add(it)
 
+        # SHACL list predicates whose RDF list objects should be
+        # expanded inline rather than drawn as blank-node chains.
         SHACL_LIST_PREDICATES = {SH["in"], SH["or"], SH["and"], SH["xone"], SH["not"]}
 
+        # --- Pass 4: Collect all edges and remaining nodes ---
         for s, p, o in g:
             if not isinstance(p, URIRef):
                 continue
@@ -1141,6 +1296,8 @@ class RdfToDiagram:
                         nodes.add(it)
                     continue
 
+            # If BNode inclusion is disabled, skip triples involving
+            # blank nodes (they create noisy unnamed nodes in diagrams).
             if not self.include_bnodes and (isinstance(s, BNode) or isinstance(o, BNode)):
                 continue
 
@@ -1148,8 +1305,10 @@ class RdfToDiagram:
             nodes.add(s)
             nodes.add(o)
 
+        # --- Safety cap: truncate if the diagram is too large ---
         if len(nodes) > self.max_nodes:
             LOG.warning("Node count %d exceeds max_nodes=%d; truncating.", len(nodes), self.max_nodes)
+            # Prioritize URIRefs over BNodes over Literals when truncating.
             ordered = sorted(nodes, key=lambda n: (0 if isinstance(n, URIRef) else 1 if isinstance(n, BNode) else 2, str(n)))
             nodes = set(ordered[: self.max_nodes])
 
@@ -1157,6 +1316,9 @@ class RdfToDiagram:
             LOG.warning("Edge count %d exceeds max_edges=%d; truncating.", len(edges), self.max_edges)
             edges = edges[: self.max_edges]
 
+        # --- Optional enrichment: remote superclass expansion ---
+        # When --enrich is enabled, fetch superclass chains from remote
+        # OBO ontologies (e.g. download bfo.owl to get BFO hierarchy).
         if self.enrich and self.superclass_depth > 0 and self.ont is not None:
             extra: Set[Tuple[URIRef, URIRef]] = set()
             for c in list(classes):
@@ -1170,6 +1332,10 @@ class RdfToDiagram:
                 classes.add(child)
                 classes.add(parent)
 
+        # --- Local full-hierarchy expansion ---
+        # Walk the prebuilt FullOntologyIndex upward from each class to
+        # BFO:Entity, injecting ancestor classes and rdfs:subClassOf edges.
+        # This is what makes @Graphviz_renderer_full show complete chains.
         if self.use_full_hierarchy:
             self._add_full_hierarchy(classes, nodes, edges)
 
@@ -1184,7 +1350,20 @@ class RdfToDiagram:
         categorical: Set[URIRef],
         nodes: Set[Node],
     ) -> Tuple[Dict[Node, NodeInfo], Dict[str, Dict[str, str]]]:
-        """Assign unique IDs and collect metadata for all nodes."""
+        """Assign unique IDs and collect metadata for all nodes.
+
+        Each node gets:
+          - A deterministic, unique ``node_id`` (safe for both Mermaid
+            and DOT syntax).
+          - A human-readable ``label`` (from the label cascade).
+          - A ``kind`` tag ('Class', 'Individual', 'Literal', etc.).
+          - The raw ``uri`` string (empty for BNodes and Literals).
+
+        The secondary ``node_data`` dict is passed through to the
+        JavaScript viewer so that hovering a node shows its metadata.
+        """
+        # Sort nodes deterministically: URIRefs first, then BNodes,
+        # then Literals — ensures stable IDs across runs.
         def node_sort_key(n: Node) -> Tuple[int, str]:
             if isinstance(n, URIRef):
                 return (0, str(n))
@@ -1229,6 +1408,9 @@ class RdfToDiagram:
                     qname = qname.replace(":", "_")
                     base = safe_mermaid_id(qname)
 
+            # Ensure uniqueness: if two nodes produce the same base ID
+            # (e.g. different URIs with the same local name), append a
+            # deterministic hash suffix to disambiguate.
             node_id = base
             if node_id in used_ids:
                 suffix = abs(hash((diagram_id, str(n)))) % 100000
@@ -1481,6 +1663,10 @@ class RdfToDiagram:
         Returns:
             DiagramResult containing the rendered source and metadata.
         """
+        # Temporarily override instance settings if per-call overrides
+        # are provided, then restore them in the finally block.  This
+        # lets build_all.py render some patterns with hierarchy and
+        # others without, using a single RdfToDiagram instance.
         orig_use = self.use_full_hierarchy
         orig_depth = self.full_hierarchy_max_depth
         try:
@@ -1489,15 +1675,22 @@ class RdfToDiagram:
             if full_hierarchy_max_depth is not None:
                 self.full_hierarchy_max_depth = max(1, int(full_hierarchy_max_depth))
 
+            # Phase 1: Parse the input TTL file.
             g = Graph()
             parse_turtle_safely(g, ttl_path)
 
             did = diagram_id or slugify(ttl_path.stem)
 
+            # Phase 2: Analyse the graph — identify classes, SHACL shapes,
+            # categorical values, all nodes and edges.  This also runs
+            # hierarchy expansion if enabled.
             classes, shapes, categorical, nodes, edges = self._collect_schema_and_instances(g)
+
+            # Phase 3: Assign unique IDs and collect metadata.
             node_infos, node_data = self._assign_ids_and_metadata(g, did, classes, shapes, categorical, nodes)
             self._set_predicate_cache(g, edges)
 
+            # Phase 4: Render to the chosen output format.
             if self.output_format == "dot":
                 src = self._build_graphviz(node_infos, edges)
             else:
@@ -1505,6 +1698,7 @@ class RdfToDiagram:
 
             return DiagramResult(diagram_id=did, source=src, format=self.output_format, node_data=node_data)
         finally:
+            # Always restore original settings, even on exceptions.
             self.use_full_hierarchy = orig_use
             self.full_hierarchy_max_depth = orig_depth
 
@@ -1514,10 +1708,15 @@ class RdfToDiagram:
 # =============================================================================
 
 def js_escape_template_literal(s: str) -> str:
-    """Escape a string for use in JavaScript template literals."""
-    s = s.replace("\\", "\\\\")
-    s = s.replace("`", "\\`")
-    s = s.replace("${", "\\${")
+    """Escape a string for use in JavaScript template literals.
+
+    Template literals in JS use backticks and ${} for interpolation.
+    We escape all three special sequences so that the DOT/Mermaid
+    source code can be safely embedded in a JS `...` literal.
+    """
+    s = s.replace("\\", "\\\\")   # Backslash must be escaped first.
+    s = s.replace("`", "\\`")     # Backtick terminates template literals.
+    s = s.replace("${", "\\${")   # ${ starts interpolation expressions.
     return s
 
 
@@ -1541,9 +1740,20 @@ def write_js(diagrams: Dict[str, str], node_data: Dict[str, Dict[str, Dict[str, 
 
 
 def patch_html(html_path: Path, diagrams_js_block: str, node_data_js_block: str, out_path: Optional[Path] = None) -> Path:
-    """Patch an HTML file with new diagram and node data blocks."""
+    """Patch an HTML file with new diagram and node data blocks.
+
+    Locates three markers in the HTML:
+      1. ``const diagrams = {``  — start of the diagrams JS object
+      2. ``const nodeData = {``  — start of the node metadata object
+      3. ``// === GRAPH VIEWER CLASS ===`` — boundary marker
+
+    Everything between marker 1 and marker 3 is replaced with the
+    newly generated JavaScript blocks, preserving the surrounding
+    HTML code and the Graph Viewer class that follows.
+    """
     text = html_path.read_text(encoding="utf-8")
 
+    # Locate the three required markers in order.
     m1 = re.search(r"\bconst\s+diagrams\s*=\s*\{", text)
     m2 = re.search(r"\bconst\s+nodeData\s*=\s*\{", text)
     m3 = re.search(r"//\s*=+\s*GRAPH VIEWER CLASS\s*=+", text)
@@ -1578,9 +1788,15 @@ def patch_html(html_path: Path, diagrams_js_block: str, node_data_js_block: str,
 
 
 def discover_graph_ids_from_html(html_path: Path) -> List[str]:
-    """Extract graph container IDs from an HTML file."""
+    """Extract graph container IDs from an HTML file.
+
+    Scans for ``id="graph-XXXX"`` attributes in the HTML and returns
+    the XXXX parts in order of first appearance, deduplicated.
+    These IDs correspond to the diagram containers that need TTL data.
+    """
     text = html_path.read_text(encoding="utf-8")
     ids = re.findall(r'id="graph-([a-zA-Z0-9\-]+)"', text)
+    # Deduplicate while preserving first-occurrence order.
     seen: Set[str] = set()
     ordered: List[str] = []
     for i in ids:
@@ -1591,16 +1807,29 @@ def discover_graph_ids_from_html(html_path: Path) -> List[str]:
 
 
 def resolve_ttl_for_id(ttl_dir: Path, diagram_id: str) -> Optional[Path]:
-    """Find a TTL file matching a diagram ID."""
+    """Find a TTL file matching a diagram ID.
+
+    Lookup strategy:
+      1. Exact match:  <ttl_dir>/<diagram_id>.ttl
+      2. Suffix match: any .ttl file whose stem ends with the ID
+         (shortest stem wins if multiple match).
+      3. None if no match is found.
+
+    Excludes '*_full.ttl' files which are full-ontology indices,
+    not renderable pattern files.
+    """
+    # Strategy 1: exact filename match.
     exact = ttl_dir / f"{diagram_id}.ttl"
     if exact.exists():
         return exact
 
+    # Strategy 2: suffix match across all non-full TTL files.
     cands = [p for p in ttl_dir.glob("*.ttl") if not p.name.endswith("_full.ttl")]
     ends = [p for p in cands if p.stem.lower().endswith(diagram_id.lower())]
     if len(ends) == 1:
         return ends[0]
     if len(ends) > 1:
+        # Prefer the shortest stem (most specific match).
         ends.sort(key=lambda p: len(p.stem))
         return ends[0]
     return None
@@ -1661,15 +1890,27 @@ Examples:
 
 
 def main(argv: Optional[List[str]] = None) -> int:
-    """Main entry point for command-line usage."""
+    """Main entry point for command-line usage.
+
+    Orchestrates the full pipeline:
+      1. Parse CLI arguments and configure logging.
+      2. Discover or accept full-ontology files for the index.
+      3. Create a configured RdfToDiagram converter instance.
+      4. Render single file (--ttl) or batch (--ttl-dir) to diagrams.
+      5. Optionally write JS output (--out-js) and/or patch HTML.
+    """
     args = build_arg_parser().parse_args(argv)
     logging.basicConfig(level=getattr(logging, args.log_level), format="%(levelname)s: %(message)s")
 
+    # Determine the base directory for auto-discovery of *_full.ttl files.
     base_dir = args.ttl.parent if args.ttl is not None else args.ttl_dir
     if base_dir is None:
         LOG.error("Cannot determine input base directory.")
         return 2
 
+    # Load the full-ontology index for label and hierarchy resolution.
+    # If --full-ontology was not specified, auto-discover *_full.ttl files
+    # in the same directory as the input.
     full_paths = args.full_ontology or discover_full_ontology_files(base_dir)
     full_index = load_full_ontology_index(full_paths) if full_paths else None
     if full_paths:
