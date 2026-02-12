@@ -655,20 +655,47 @@ def _extract_named_parents_from_bnode(
     class expression and adds any named classes it finds as parents, so that
     hierarchy walks can traverse through these constructs.
 
+    Background:
+        In OWL ontologies, a class can declare its superclass via a class
+        expression rather than a direct named reference.  For example::
+
+            PMD_0000000 rdfs:subClassOf [
+                owl:intersectionOf ( PMD_0000001 [ owl:onProperty ... ] )
+            ] .
+
+        Here the ``rdfs:subClassOf`` object is a blank node, not a named
+        class.  Without this helper, ``load_full_ontology_index`` would
+        record **no** parent for ``PMD_0000000``, causing the hierarchy
+        walk in ``_add_full_hierarchy`` to stop prematurely.
+
     Handles:
-    - ``owl:intersectionOf (NamedClass Restriction ...)``
-    - ``owl:unionOf (NamedClass ...)``
-    - Direct ``rdf:type`` / other patterns pointing at named classes
+        - ``owl:intersectionOf (NamedClass Restriction ...)``
+        - ``owl:unionOf (NamedClass ...)``
+
+    Args:
+        g: The RDF graph containing the ontology triples.
+        child: The named class whose parent we are resolving.
+        bnode: The blank node that the child's rdfs:subClassOf points to.
+        parents: Mutable dict accumulating child -> set-of-parent-IRIs.
     """
+    # Check both owl:intersectionOf and owl:unionOf — these are the two
+    # OWL class-expression constructs that wrap an RDF list of operands.
     for list_pred in (OWL.intersectionOf, OWL.unionOf):
         for _, _, rdf_list in g.triples((bnode, list_pred, None)):
+            # The object of intersectionOf/unionOf is the head of an
+            # RDF Collection (linked list of rdf:first / rdf:rest).
             if isinstance(rdf_list, BNode):
                 try:
+                    # Walk the RDF Collection using rdflib's helper.
                     col = Collection(g, rdf_list)
                     for item in col:
+                        # Only named classes (URIRefs) are valid parents;
+                        # skip restrictions and other blank-node operands.
                         if isinstance(item, URIRef):
                             parents.setdefault(str(child), set()).add(str(item))
                 except Exception:
+                    # Malformed list — silently skip to avoid crashing
+                    # the entire index build for one bad expression.
                     pass
 
 
@@ -702,17 +729,35 @@ def load_full_ontology_index(paths: List[Path]) -> Optional[FullOntologyIndex]:
         if lbl:
             labels[iri] = lbl
 
+    # -----------------------------------------------------------------
+    # Build the child -> {parents} index from rdfs:subClassOf triples.
+    #
+    # Two cases:
+    #   1. Direct named parent:  Child rdfs:subClassOf ParentURI
+    #      -> straightforward URI-to-URI mapping.
+    #   2. Blank-node parent:    Child rdfs:subClassOf _:bnode
+    #      -> the blank node is an OWL class expression (e.g.
+    #         owl:intersectionOf).  We delegate to
+    #         _extract_named_parents_from_bnode() to dig out the
+    #         named classes embedded in that expression.
+    #
+    # Without case 2, 21 classes in pmdco.ttl had NO recorded parents,
+    # causing @Graphviz_renderer_full diagrams to stop mid-hierarchy.
+    # -----------------------------------------------------------------
     parents: Dict[str, Set[str]] = {}
     for child, _, parent in g.triples((None, RDFS.subClassOf, None)):
         if isinstance(child, URIRef) and isinstance(parent, URIRef):
+            # Case 1: direct named superclass — the common path.
             parents.setdefault(str(child), set()).add(str(parent))
         elif isinstance(child, URIRef) and isinstance(parent, BNode):
-            # Handle OWL class expressions: extract named classes from
-            # owl:intersectionOf, owl:unionOf, and owl:equivalentClass
-            # constructs so the hierarchy walk doesn't stop at blank nodes.
+            # Case 2: blank-node superclass — OWL class expression.
+            # Extract any named classes from owl:intersectionOf /
+            # owl:unionOf constructs inside the blank node.
             _extract_named_parents_from_bnode(g, child, parent, parents)
 
-    # Also extract parents from owl:equivalentClass blank nodes
+    # Some ontologies also encode superclass information through
+    # owl:equivalentClass pointing to a blank-node class expression.
+    # We apply the same extraction logic to pick up those parents.
     for child, _, equiv in g.triples((None, OWL.equivalentClass, None)):
         if isinstance(child, URIRef) and isinstance(equiv, BNode):
             _extract_named_parents_from_bnode(g, child, equiv, parents)
