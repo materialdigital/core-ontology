@@ -641,6 +641,37 @@ def best_label(literals: List[Literal]) -> Optional[str]:
     return str(sorted(literals, key=score)[0])
 
 
+def _extract_named_parents_from_bnode(
+    g: Graph,
+    child: URIRef,
+    bnode: BNode,
+    parents: Dict[str, Set[str]],
+) -> None:
+    """Extract named parent classes from OWL class expression blank nodes.
+
+    When a class has ``rdfs:subClassOf`` pointing to a blank node (e.g. an
+    ``owl:intersectionOf`` or ``owl:unionOf`` list), the simple URI-to-URI
+    parent extraction misses the intended parent.  This helper digs into the
+    class expression and adds any named classes it finds as parents, so that
+    hierarchy walks can traverse through these constructs.
+
+    Handles:
+    - ``owl:intersectionOf (NamedClass Restriction ...)``
+    - ``owl:unionOf (NamedClass ...)``
+    - Direct ``rdf:type`` / other patterns pointing at named classes
+    """
+    for list_pred in (OWL.intersectionOf, OWL.unionOf):
+        for _, _, rdf_list in g.triples((bnode, list_pred, None)):
+            if isinstance(rdf_list, BNode):
+                try:
+                    col = Collection(g, rdf_list)
+                    for item in col:
+                        if isinstance(item, URIRef):
+                            parents.setdefault(str(child), set()).add(str(item))
+                except Exception:
+                    pass
+
+
 def load_full_ontology_index(paths: List[Path]) -> Optional[FullOntologyIndex]:
     """Load and index one or more '*_full.ttl' ontology files.
 
@@ -675,6 +706,16 @@ def load_full_ontology_index(paths: List[Path]) -> Optional[FullOntologyIndex]:
     for child, _, parent in g.triples((None, RDFS.subClassOf, None)):
         if isinstance(child, URIRef) and isinstance(parent, URIRef):
             parents.setdefault(str(child), set()).add(str(parent))
+        elif isinstance(child, URIRef) and isinstance(parent, BNode):
+            # Handle OWL class expressions: extract named classes from
+            # owl:intersectionOf, owl:unionOf, and owl:equivalentClass
+            # constructs so the hierarchy walk doesn't stop at blank nodes.
+            _extract_named_parents_from_bnode(g, child, parent, parents)
+
+    # Also extract parents from owl:equivalentClass blank nodes
+    for child, _, equiv in g.triples((None, OWL.equivalentClass, None)):
+        if isinstance(child, URIRef) and isinstance(equiv, BNode):
+            _extract_named_parents_from_bnode(g, child, equiv, parents)
 
     return FullOntologyIndex(labels=labels, parents=parents)
 
