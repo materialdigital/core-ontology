@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                fe23ec2045bd47464a7e70021c45f9ad3b83ca0f12dff09946fd6b389b4d2c06
+CONFIG_HASH=                1547b50e64182f82720dcb4f020d7d0ff14985e88ad84df6715d2278e1547750
 
 
 # ----------------------------------------
@@ -463,6 +463,25 @@ $(IMPORTDIR)/cob_import.owl: $(MIRRORDIR)/cob.owl
 	@echo "ERROR: You have configured cob as a custom module;"
 	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
 	@false
+
+## Module for ontology: nfdicore (slme)
+$(IMPORTDIR)/nfdicore_import.owl: $(MIRRORDIR)/nfdicore.owl $(IMPORTDIR)/nfdicore_terms.txt $(IMPORTSEED) | all_robot_plugins
+	$(ROBOT) annotate --input $< --remove-annotations \
+		 odk:normalize --add-source true \
+		 extract --term-file $(IMPORTDIR)/nfdicore_terms.txt $(T_IMPORTSEED) \
+		         --copy-ontology-annotations true --force true \
+		         --individuals include \
+		         --method SUBSET \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term rdfs:label \
+		        --term IAO:0000115 \
+		        --term OMO:0002000 \
+		        --term-file $(IMPORTDIR)/nfdicore_terms.txt $(T_IMPORTSEED) \
+		        --select complement --select annotation-properties \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 repair --merge-axiom-annotations true \
+		 $(ANNOTATE_CONVERT_FILE)
 
 endif # IMP=true
 
