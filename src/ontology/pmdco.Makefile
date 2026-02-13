@@ -39,6 +39,7 @@ $(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \
 		         --individuals exclude \
 		         --method SUBSET \
 		 remove --term IAO:0000416 \
+		 remove --term-file $(IMPORTDIR)/unwanted.txt  \
 		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 		        --term-file $(IMPORTDIR)/obi_terms.txt $(T_IMPORTSEED) \
 		        --select complement --select annotation-properties \
@@ -89,8 +90,9 @@ $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
  		remove --term IAO:0000032 --axioms subclass \
  		rename --mapping OBI:0000011 COB:0000035 	\
+ 		remove --term-file $(IMPORTDIR)/unwanted.txt  \
  		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
-			  --term-file $(IMPORTDIR)/ro_terms.txt \
+			  --term-file $(IMPORTDIR)/iao_terms.txt \
 		      --select complement --select annotation-properties \
 		$(ANNOTATE_CONVERT_FILE); fi
 
