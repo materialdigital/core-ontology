@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                58c72cdb4cf4b430db203d2dc3ee3c9660b35bdad88ff07d9a0bd7f6567a3ea1
+CONFIG_HASH=                fe23ec2045bd47464a7e70021c45f9ad3b83ca0f12dff09946fd6b389b4d2c06
 
 
 # ----------------------------------------
@@ -188,7 +188,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo ro iao obi chebi stato uo cob
+IMPORTS =  bfo ro iao obi chebi stato uo cob nfdicore
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -392,7 +392,7 @@ $(IMPORTSEED): $(PRESEED) | $(TMPDIR)
 
 T_IMPORTSEED = --term-file $(IMPORTSEED)
 
-ANNOTATION_PROPERTIES=rdfs:label IAO:0000119 IAO:0000115 IAO:0000116 IAO:0000112 skos:definition skos:example skos:comment 
+ANNOTATION_PROPERTIES=rdfs:label IAO:0000119 IAO:0000115 IAO:0000116 IAO:0000112 skos:definition skos:example skos:comment rdfs:comment 
 
 # ----------------------------------------
 # Import modules
@@ -610,6 +610,13 @@ mirror-uo: | $(TMPDIR)
 mirror-cob: | $(TMPDIR)
 	curl -L $(OBOBASE)/cob/cob-base.owl --create-dirs -o $(TMPDIR)/cob-download.owl --retry 4 --max-time 200 && \
 	$(ROBOT) convert -i $(TMPDIR)/cob-download.owl -o $(TMPDIR)/$@.owl
+
+
+## ONTOLOGY: nfdicore
+.PHONY: mirror-nfdicore
+.PRECIOUS: $(MIRRORDIR)/nfdicore.owl
+mirror-nfdicore: | $(TMPDIR)
+	$(ROBOT) convert -I https://raw.githubusercontent.com/ISE-FIZKarlsruhe/nfdicore/refs/tags/v3.0.4/nfdicore-base.owl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)
