@@ -3896,8 +3896,6 @@
 
 <h2 id="pattern-1-duality-of-object-and-material">Pattern 1 - Duality of object and material</h2>
 
-<!--Please provide the link to the pattern (raw data ttl file) in the repository-->
-
 <div class="mermaid-graph-container" id="graph-duality-object-material" role="figure" aria-label="Pattern 1 - Duality of object and material">
   <div class="graph-header">
     <div class="graph-title">Pattern 1 - Duality of object and material</div>
@@ -4040,51 +4038,52 @@ The temporal structure is further refined through hierarchical and boundary defi
 In addition to the processes and periods, the model includes a continuant entity, (ex:object_1), which exists_at a particular temporal region, (ex:some_time). This denotes that the continuant maintains existence at or during a specific time interval, emphasizing persistence or presence within the temporal framework. </li>
 </ul>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>@prefix : &lt;https://w3id.org/pmd/co/test#&gt; .
-@prefix ex: &lt;https://www.example.org/&gt; .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
-@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@base &lt;https://w3id.org/pmd/co/test#&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ex:</span><span class="w"> </span><span class="nv">&lt;https://www.example.org/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xml:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/XML/1998/namespace&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@base</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
 
-@prefix process: &lt;http://purl.obolibrary.org/obo/BFO_0000015&gt;  . #Class
-@prefix continuant: &lt;http://purl.obolibrary.org/obo/BFO_0000002&gt; .  #Class
-@prefix temporal_region: &lt;http://purl.obolibrary.org/obo/BFO_0000008&gt; . #Class
-@prefix one-dimensional_temporal_region: &lt;http://purl.obolibrary.org/obo/BFO_0000038&gt; . #Class
-@prefix zero-dimensional_temporal_region: &lt;http://purl.obolibrary.org/obo/BFO_0000148&gt; . #Class
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">process:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000015&gt;</span><span class="w">  </span><span class="p">.</span> <span class="c">#Class</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">continuant:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000002&gt;</span><span class="w"> </span><span class="p">.</span>  <span class="c">#Class</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">temporal_region:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000008&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#Class</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">one-dimensional_temporal_region:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000038&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#Class</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">zero-dimensional_temporal_region:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000148&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#Class</span>
 
-@prefix occupies_temporal_region: &lt;http://purl.obolibrary.org/obo/BFO_0000199&gt; . #ObjectProperty
-@prefix proper_temporal_part_of: &lt;http://purl.obolibrary.org/obo/BFO_0000136&gt; . #ObjectProperty
-@prefix has_first_instant: &lt;http://purl.obolibrary.org/obo/BFO_0000222&gt; . #ObjectProperty
-@prefix has_last_instant: &lt;http://purl.obolibrary.org/obo/BFO_0000224&gt; . #ObjectProperty
-@prefix exists_at: &lt;http://purl.obolibrary.org/obo/BFO_0000108&gt; . #ObjectProperty
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">occupies_temporal_region:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000199&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">proper_temporal_part_of:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000136&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_first_instant:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000222&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_last_instant:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000224&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">exists_at:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000108&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
 
-&lt;https://w3id.org/pmd/co/test/shape/temporal_region&gt; rdf:type owl:Ontology .
+<span class="nv">&lt;https://w3id.org/pmd/co/test/shape/temporal_region&gt;</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Ontology</span> <span class="p">.</span>
 
-ex:process_1 a process: .
-ex:process_2 a process: .
-ex:period_1 a one-dimensional_temporal_region: .
-ex:period_2 a one-dimensional_temporal_region: . 
-ex:some_time a temporal_region: .
-ex:object_1 a continuant: .
-ex:start a zero-dimensional_temporal_region: .
-ex:end a zero-dimensional_temporal_region: .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="kt">a</span> <span class="nn">process</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_2</span> <span class="kt">a</span> <span class="nn">process</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">period_1</span> <span class="kt">a</span> <span class="nn">one-dimensional_temporal_region</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">period_2</span> <span class="kt">a</span> <span class="nn">one-dimensional_temporal_region</span><span class="p">:</span> <span class="p">.</span> 
+<span class="nn">ex</span><span class="p">:</span><span class="nt">some_time</span> <span class="kt">a</span> <span class="nn">temporal_region</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">object_1</span> <span class="kt">a</span> <span class="nn">continuant</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">start</span> <span class="kt">a</span> <span class="nn">zero-dimensional_temporal_region</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">end</span> <span class="kt">a</span> <span class="nn">zero-dimensional_temporal_region</span><span class="p">:</span> <span class="p">.</span>
 
-ex:process_1 occupies_temporal_region: ex:period_1 . 
-ex:process_2 occupies_temporal_region: ex:period_2 .
-ex:period_2 has_first_instant: ex:start . 
-ex:period_2 has_last_instant: ex:end .
-ex:period_1 proper_temporal_part_of: ex:period_2 .
-ex:object_1 exists_at: ex:some_time .
-
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="nn">occupies_temporal_region</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">period_1</span> <span class="p">.</span> 
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_2</span> <span class="nn">occupies_temporal_region</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">period_2</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">period_2</span> <span class="nn">has_first_instant</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">start</span> <span class="p">.</span> 
+<span class="nn">ex</span><span class="p">:</span><span class="nt">period_2</span> <span class="nn">has_last_instant</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">end</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">period_1</span> <span class="nn">proper_temporal_part_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">period_2</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">object_1</span> <span class="nn">exists_at</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">some_time</span> <span class="p">.</span>
 </code></pre>
 </details>
+</div>
 
-<p>(see folder <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/temporal%20region">patterns/temporal region</a>)</p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/temporal%20region">patterns/temporal region/</a> )</p>
 
 <hr />
 
@@ -4139,46 +4138,48 @@ The sequence begins with (ex:process_step1), which acts as the initial phase. Th
 Finally, both (ex:process_step2a) and (ex:process_step2b) lead to (ex:process_step3), the final step of the chain. This closing process represents the conclusion of the overall workflow, marking the endpoint of the structured and partially parallel sequence defined in the RDF model.</li>
 </ul>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>@prefix : &lt;https://w3id.org/pmd/co/test#&gt; .
-@prefix ex: &lt;https://www.example.org/&gt; .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
-@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@base &lt;https://w3id.org/pmd/co/test#&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ex:</span><span class="w"> </span><span class="nv">&lt;https://www.example.org/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xml:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/XML/1998/namespace&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@base</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
 
-@prefix process: &lt;http://purl.obolibrary.org/obo/BFO_0000015&gt;  . #Class
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">process:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000015&gt;</span><span class="w">  </span><span class="p">.</span> <span class="c">#Class</span>
 
-@prefix has_part: &lt;http://purl.obolibrary.org/obo/BFO_0000051&gt; . #ObjectProperty 
-@prefix precedes: &lt;http://purl.obolibrary.org/obo/BFO_0000063&gt; . #ObjectProperty
-@prefix starts_with: &lt;http://purl.obolibrary.org/obo/RO_0002224&gt; . #ObjectProperty
-@prefix ends_with: &lt;http://purl.obolibrary.org/obo/RO_0002230&gt; . #ObjectProperty
-@prefix simultaneous_with: &lt;http://purl.obolibrary.org/obo/RO_0002082&gt; . #ObjectProperty
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_part:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000051&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty </span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">precedes:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000063&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">starts_with:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0002224&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ends_with:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0002230&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">simultaneous_with:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0002082&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c">#ObjectProperty</span>
 
-&lt;https://w3id.org/pmd/co/test/shape/process_chain&gt; rdf:type owl:Ontology .
+<span class="nv">&lt;https://w3id.org/pmd/co/test/shape/process_chain&gt;</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Ontology</span> <span class="p">.</span>
 
-ex:process_parent a process: .
-ex:process_step1 a process: .
-ex:process_step2a a process: .
-ex:process_step2b a process: .
-ex:process_step3 a process: .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_parent</span> <span class="kt">a</span> <span class="nn">process</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_step1</span> <span class="kt">a</span> <span class="nn">process</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2a</span> <span class="kt">a</span> <span class="nn">process</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2b</span> <span class="kt">a</span> <span class="nn">process</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_step3</span> <span class="kt">a</span> <span class="nn">process</span><span class="p">:</span> <span class="p">.</span>
 
 
-ex:process_parent starts_with: ex:process_step1 .
-ex:process_parent ends_with: ex:process_step3 .
-ex:process_parent has_part: ex:process_step1, ex:process_step2a, ex:process_step2b, ex:process_step3 .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_parent</span> <span class="nn">starts_with</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step1</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_parent</span> <span class="nn">ends_with</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step3</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_parent</span> <span class="nn">has_part</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step1</span><span class="p">,</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2a</span><span class="p">,</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2b</span><span class="p">,</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step3</span> <span class="p">.</span>
 
-ex:process_step1 precedes: ex:process_step2a, ex:process_step2b, ex:process_step3 .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_step1</span> <span class="nn">precedes</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2a</span><span class="p">,</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2b</span><span class="p">,</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step3</span> <span class="p">.</span>
 
-ex:process_step2a precedes: ex:process_step3 .
-ex:process_step2a simultaneous_with: ex:process_step2b .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2a</span> <span class="nn">precedes</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step3</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2a</span> <span class="nn">simultaneous_with</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_step2b</span> <span class="p">.</span>
 </code></pre>
 </details>
+</div>
 
-<p>(see folder <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/process%20chain">patterns/process chain</a>)</p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/process%20chain">patterns/process chain/</a> )</p>
 
 <hr />
 
@@ -4231,42 +4232,45 @@ ex:process_step2a simultaneous_with: ex:process_step2b .
 <li><strong>Further notes</strong>: There are also the properties <a href="http://purl.obolibrary.org/obo/RO_0002233">has input</a> and <a href="http://purl.obolibrary.org/obo/RO_0002234">has output</a> from RO. It is intended to use the OBI <a href="http://purl.obolibrary.org/obo/OBI_0000293">has specified input</a> and <a href="http://purl.obolibrary.org/obo/OBI_0000299">has specified output</a> on <a href="http://purl.obolibrary.org/obo/OBI_0000011">planned processes</a> (as also indicated by the domain of those) and the RO variant on other kinds of processes.  </li>
 </ul>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>@prefix : &lt;https://w3id.org/pmd/co/test#&gt; .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@prefix ex: &lt;http://example.com/&gt; .
-@base &lt;https://w3id.org/pmd/co/test&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xml:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/XML/1998/namespace&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ex:</span><span class="w"> </span><span class="nv">&lt;http://example.com/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@base</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test&gt;</span><span class="w"> </span><span class="p">.</span>
 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">manufacturing_process:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000833&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">coating:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000563&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_input:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000293&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_output:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000299&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">object:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000030&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">realizes:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000055&gt;</span><span class="w"> </span><span class="p">.</span>
 
-@prefix planned_process: &lt;http://purl.obolibrary.org/obo/OBI_0000011&gt; .
-@prefix manufacturing_process: &lt;https://w3id.org/pmd/co/PMD_0000833&gt; .
-@prefix coating: &lt;https://w3id.org/pmd/co/PMD_0000563&gt; .
-@prefix has_specified_input: &lt;http://purl.obolibrary.org/obo/OBI_0000293&gt; .
-@prefix has_specified_output: &lt;http://purl.obolibrary.org/obo/OBI_0000299&gt; .
-@prefix object: &lt;http://purl.obolibrary.org/obo/BFO_0000030&gt; .
+<span class="nv">&lt;https://w3id.org/pmd/co/test&gt;</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Ontology</span>  <span class="p">.</span>
 
-&lt;https://w3id.org/pmd/co/test&gt; rdf:type owl:Ontology  .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process1</span> <span class="kt">a</span> <span class="nn">manufacturing_process</span><span class="p">:</span> <span class="p">;</span>   
+        <span class="nn">has_specified_input</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">object1</span> <span class="p">;</span>
+        <span class="nn">has_specified_output</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">object2</span> <span class="p">;</span>
+        <span class="nn">realizes</span><span class="p">:</span> <span class="p">:</span><span class="nt">plan1</span> <span class="p">.</span> 
 
-manufacturing_process: owl:subClassOf planned_process: .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process2</span> <span class="kt">a</span> <span class="nn">coating</span><span class="p">:;</span>  
+        <span class="nn">has_specified_input</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">object2</span>  <span class="p">;</span> 
+        <span class="nn">has_specified_output</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">object3</span> <span class="p">;</span>
+        <span class="nn">realizes</span><span class="p">:</span> <span class="p">:</span><span class="nt">plan2</span> <span class="p">.</span> 
 
-ex:process1 a manufacturing_process: ;   
-        has_specified_input: ex:object1 ;
-        has_specified_output: ex:object2 . 
-
-ex:process2 a coating:;  
-        has_specified_input: ex:object2  ; 
-        has_specified_output: ex:object3 . 
-
-ex:object1 a object:
-ex:object2 a object:
-ex:object3 a object:
+<span class="nn">ex</span><span class="p">:</span><span class="nt">object1</span> <span class="kt">a</span> <span class="nn">object</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">object2</span> <span class="kt">a</span> <span class="nn">object</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">object3</span> <span class="kt">a</span> <span class="nn">object</span><span class="p">:</span> <span class="p">.</span>
 </code></pre>
 </details>
+</div>
 
-<p>(see folder <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/input%20and%20output%20of%20processes">patterns/input and output of processes</a>)</p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/input%20and%20output%20of%20processes">patterns/input and output of processes/</a> )</p>
 
 <hr />
 
@@ -4318,47 +4322,55 @@ ex:object3 a object:
 <li><strong>Description</strong>: This example describes how an object participates in a planned experimental process by bearing a specific evaluant role. An object, here ex:object_1, is involved in a fatigue testing process, and this process takes the object as its specified input. The process is linked to an objective, and both the objective and the resulting output are explicitly stated to be about the same object, making clear that the purpose and outcome of the process concern that object. The object is assigned an evaluant role, ex:role_1, and this role is realized in the execution of the fatigue testing process. In this way, the pattern connects object, role, process, objective, and result into a coherent structure showing that the object is the thing being evaluated in the process, and that the process executes and realizes the evaluant role associated with that object.</li>
 </ul>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>@prefix : &lt;https://w3id.org/pmd/co/test#&gt; .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
-@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@prefix ex: &lt;http://example.com/&gt; .
-@base &lt;https://w3id.org/pmd/co/test&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xml:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/XML/1998/namespace&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ex:</span><span class="w"> </span><span class="nv">&lt;http://example.com/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@base</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test&gt;</span><span class="w"> </span><span class="p">.</span>
 
-@prefix object: &lt;http://purl.obolibrary.org/obo/BFO_0000030&gt; .
-@prefix evaluant_role: &lt;http://purl.obolibrary.org/obo/OBI_0000067&gt; .
-@prefix has_role: &lt;http://purl.obolibrary.org/obo/RO_0000087&gt; .
-@prefix has_realization: &lt;http://purl.obolibrary.org/obo/BFO_0000054&gt; .
-@prefix planned_process: &lt;http://purl.obolibrary.org/obo/OBI_0000011&gt; .
-@prefix fatigue_testing_process: &lt;https://w3id.org/pmd/co/PMD_0000638&gt; .
-@prefix has_specified_input: &lt;http://purl.obolibrary.org/obo/OBI_0000293&gt; .
-@prefix has_specified_output: &lt;http://purl.obolibrary.org/obo/OBI_0000299&gt; .
-@prefix achieves_planned_objective: &lt;http://purl.obolibrary.org/obo/OBI_0000417&gt; .
-@prefix is_about: &lt;http://purl.obolibrary.org/obo/IAO_0000136&gt;  .
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">object:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000030&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">evaluant_role:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000067&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_role:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000087&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_realization:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000054&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">planned_process:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/COB_0000035&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">fatigue_testing_process:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000638&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_input:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000293&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_output:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000299&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">achieves_planned_objective:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000417&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">is_about:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000136&gt;</span><span class="w">  </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">assay_measures_characteristic:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0009006&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_occurrent_part:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000117&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">realizes:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000055&gt;</span><span class="w"> </span><span class="p">.</span>
 
-&lt;https://w3id.org/pmd/co/test/role&gt; rdf:type owl:Ontology  .
+<span class="nv">&lt;https://w3id.org/pmd/co/test/role&gt;</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Ontology</span>  <span class="p">.</span>
 
-ex:process_1 a fatigue_testing_process: .
-ex:process_1 has_specified_input: ex:object_1 .
-ex:process_1 achieves_planned_objective: ex:objective_1 .
-ex:process_1 has_specified_output: ex:result_1 .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="kt">a</span> <span class="nn">fatigue_testing_process</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="nn">has_specified_input</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">object_1</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="nn">achieves_planned_objective</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">objective_1</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="nn">has_specified_output</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">result_1</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="nn">assay_measures_characteristic</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">quality_1</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="nn">realizes</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">plan_1</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span> <span class="nn">has_occurrent_part</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">sub_process_1</span> <span class="p">.</span>
 
-ex:objective_1 is_about: ex:object_1 .
-ex:result_1  is_about: ex:object_1 .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">objective_1</span> <span class="nn">is_about</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">object_1</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">result_1</span>  <span class="nn">is_about</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">object_1</span> <span class="p">.</span>
 
-ex:object_1 a object: .
-ex:object_1 has_role: ex:role_1 .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">object_1</span> <span class="kt">a</span> <span class="nn">object</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">object_1</span> <span class="nn">has_role</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">role_1</span> <span class="p">.</span>
 
-ex:role_1 a evaluant_role: .
-ex:role_1 has_realization: ex:process_1  .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">role_1</span> <span class="kt">a</span> <span class="nn">evaluant_role</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">role_1</span> <span class="nn">has_realization</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">process_1</span>  <span class="p">.</span>
 </code></pre>
 </details>
+</div>
 
-<p>(see folder: <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/realizable%20entity%20(role)">patterns/realizable entity (role)</a></p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/realizable%20entity%20%28role%29">patterns/realizable entity (role)/</a> )</p>
 
 <hr />
 
@@ -4432,137 +4444,140 @@ The example models three main themes:</p>
 </ol></li>
 </ul>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>
-@prefix : &lt;https://w3id.org/pmd/co/test#&gt; .
-@prefix ex: &lt;https://www.example.org/&gt; .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
-@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@base &lt;https://w3id.org/pmd/co/test#&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ex:</span><span class="w"> </span><span class="nv">&lt;https://www.example.org/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xml:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/XML/1998/namespace&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@base</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
 
 
-&lt;https://w3id.org/pmd/co/test/shape/qualities_and_properties&gt; rdf:type owl:Ontology .
+<span class="nv">&lt;https://w3id.org/pmd/co/test/shape/qualities_and_properties&gt;</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Ontology</span> <span class="p">.</span>
 
-### Define prefixes ###
+<span class="c">### Define prefixes ###</span>
 
-# Classes
-@prefix entity: &lt;http://purl.obolibrary.org/obo/BFO_0000001&gt; . 
-@prefix independent_continuant: &lt;http://purl.obolibrary.org/obo/BFO_0000004&gt; .
-@prefix material_entity: &lt;http://purl.obolibrary.org/obo/BFO_0000040&gt; .
-@prefix object: &lt;http://purl.obolibrary.org/obo/BFO_0000030&gt; .
-@prefix temporally_qualified_continuant:  &lt;https://w3id.org/pmd/co/PMD_0000068&gt; .
-@prefix portion_of_iron: &lt;https://w3id.org/pmd/co/PMD_0020026&gt; . 
-@prefix material: &lt;https://w3id.org/pmd/co/PMD_0000000&gt; .
-@prefix temporal_region: &lt;http://purl.obolibrary.org/obo/BFO_0000008&gt; . 
-@prefix quality: &lt;http://purl.obolibrary.org/obo/BFO_0000019&gt; .
-@prefix mass: &lt;https://w3id.org/pmd/co/PMD_0020133&gt; .
-@prefix density: &lt;https://w3id.org/pmd/co/PMD_0000597&gt; .
-@prefix behavioral_material_property: &lt;https://w3id.org/pmd/co/PMD_0000005&gt; .
-@prefix specifically_dependent_continuant: &lt;http://purl.obolibrary.org/obo/BFO_0000020&gt; .
-@prefix melting_point: &lt;https://w3id.org/pmd/co/PMD_0000851&gt; .
-@prefix relational_quality: &lt;http://purl.obolibrary.org/obo/BFO_0000145&gt; .
-@prefix mass_proportion: &lt;https://w3id.org/pmd/co/PMD_0020102&gt; .
-@prefix scalar_value_specification: &lt;http://purl.obolibrary.org/obo/OBI_0001931&gt; .
-@prefix fraction_value_specification: &lt;https://w3id.org/pmd/co/PMD_0025997&gt; .
-@prefix gram: &lt;http://purl.obolibrary.org/obo/UO_0000021&gt; . 
-@prefix gram_per_cubic_centimetre: &lt;http://purl.obolibrary.org/obo/UO_0000084&gt; .
-@prefix degree_celsius: &lt;http://purl.obolibrary.org/obo/UO_0000027&gt; .
-@prefix mass_percentage: &lt;http://purl.obolibrary.org/obo/UO_0000163&gt; .
-@prefix melting_process: &lt;https://w3id.org/pmd/co/PMD_0000053&gt; .
-@prefix application_of_heat_flux: &lt;https://w3id.org/pmd/co/PMD_0000520&gt; . 
-@prefix stimulating_process: &lt;https://w3id.org/pmd/co/PMD_0000950&gt; .
-@prefix process: &lt;http://purl.obolibrary.org/obo/BFO_0000015&gt; .
-@prefix change_of_temperature: &lt;https://w3id.org/pmd/co/PMD_0000549&gt; .
-
-
-# Object properties
-@prefix exists_at: &lt;http://purl.obolibrary.org/obo/BFO_0000108&gt; . 
-@prefix is_state_of: &lt;https://w3id.org/pmd/co/PMD_0000070&gt; .
-@prefix quality_of: &lt;http://purl.obolibrary.org/obo/RO_0000080&gt; .
-@prefix characteristic_of: &lt;http://purl.obolibrary.org/obo/RO_0000052&gt; .
-@prefix relational_quality_of: &lt;https://w3id.org/pmd/co/PMD_0025999&gt; .
-@prefix concretizes: &lt;http://purl.obolibrary.org/obo/RO_0000059&gt; .
-@prefix has_specified_numeric_value: &lt;http://purl.obolibrary.org/obo/OBI_0001937&gt; . 
-@prefix has_measurement_unit_label: &lt;http://purl.obolibrary.org/obo/IAO_0000039&gt; .
-@prefix specifies_value_of: &lt;http://purl.obolibrary.org/obo/OBI_0001927&gt; .
-@prefix has_realization: &lt;http://purl.obolibrary.org/obo/BFO_0000054&gt; .
-@prefix participates_in: &lt;http://purl.obolibrary.org/obo/RO_0000056&gt; .
-@prefix has_participant: &lt;http://purl.obolibrary.org/obo/RO_0000057&gt; .
-@prefix stimulated_by: &lt;https://w3id.org/pmd/co/PMD_0001030&gt; .
-@prefix responds_with: &lt;https://w3id.org/pmd/co/PMD_0001029&gt; .
-@prefix has_specified_input: &lt;http://purl.obolibrary.org/obo/OBI_0000293&gt; .
-@prefix has_specified_output: &lt;http://purl.obolibrary.org/obo/OBI_0000299&gt; .
-
-### Instances ###
-
-# Quality example
-ex:metal_sheet a owl:NamedIndividual , object: .
-
-ex:mass_metal_sheet a owl:NamedIndividual , mass: ;
-            quality_of: ex:metal_sheet . 
-
-ex:svs_15_g a owl:NamedIndividual , scalar_value_specification: ;
-            has_specified_numeric_value: "3.3"^^xsd:float ;
-            has_measurement_unit_label: gram: ; 
-            specifies_value_of: ex:mass_metal_sheet .
-
-ex:tcq_temporal_region a owl:NamedIndividual , temporal_region: .
-
-ex:tqc_steel_material a owl:NamedIndividual , material: , temporally_qualified_continuant: ; 
-            exists_at: ex:tcq_temporal_region ; 
-            is_state_of: ex:steel_material .
-
-ex:density_steel a owl:NamedIndividual , density: ;
-            quality_of: ex:tqc_steel_material . 
+<span class="c"># Classes</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">entity:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000001&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">independent_continuant:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000004&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">material_entity:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000040&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">object:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000030&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">temporally_qualified_continuant:</span><span class="w">  </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000068&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">portion_of_iron:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020026&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">material:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000000&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">temporal_region:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000008&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">quality:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000019&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">mass:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020133&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">density:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000597&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">behavioral_material_property:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000005&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">specifically_dependent_continuant:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000020&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">melting_point:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000851&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">relational_quality:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000145&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">mass_proportion:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020102&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">scalar_value_specification:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001931&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">fraction_value_specification:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0025997&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">gram:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/UO_0000021&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">gram_per_cubic_centimetre:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/UO_0000084&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">degree_celsius:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/UO_0000027&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">mass_percentage:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/UO_0000163&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">melting_process:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000053&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">application_of_heat_flux:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000520&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">stimulating_process:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000950&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">process:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000015&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">change_of_temperature:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000549&gt;</span><span class="w"> </span><span class="p">.</span>
 
 
-ex:svs_7_5_g_per_cm a owl:NamedIndividual , scalar_value_specification: ;
-            has_specified_numeric_value: "7.5"^^xsd:float ;
-            has_measurement_unit_label: gram_per_cubic_centimetre: ; 
-            specifies_value_of: ex:density_steel .
+
+<span class="c"># Object properties</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">exists_at:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000108&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">is_state_of:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000070&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">quality_of:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000080&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">characteristic_of:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000052&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">relational_quality_of:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0025999&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_numeric_value:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001937&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_measurement_unit_label:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000039&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">specifies_value_of:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001927&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_realization:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000054&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">participates_in:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000056&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_participant:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000057&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">stimulated_by:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000054&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">responds_with:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0001029&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_input:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000293&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_output:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000299&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">specified_by_value:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000077&gt;</span><span class="w"> </span><span class="p">.</span>
 
 
-# Behavioral material property
-ex:steel_material a owl:NamedIndividual , material: ; 
-            participates_in: ex:melting_process .
+<span class="c">### Instances ###</span>
 
-ex:svs_1500_deg_c a owl:NamedIndividual , scalar_value_specification: ;
-            has_specified_numeric_value: "1500"^^xsd:float ;
-            has_measurement_unit_label: degree_celsius: ; 
-            specifies_value_of: ex:melting_temperature_steel .
+<span class="c"># Quality example</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">metal_sheet</span> <span class="kt">a</span>  <span class="nn">object</span><span class="p">:</span> <span class="p">.</span>
 
-ex:melting_temperature_steel a owl:NamedIndividual , melting_point: ; 
-            characteristic_of: ex:steel_material ;
-            has_realization: ex:melting_process ; 
-            stimulated_by: ex:application_of_heat_flux ; 
-            responds_with: ex:change_of_temperature_during_melting .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">mass_metal_sheet</span> <span class="kt">a</span> <span class="nn">mass</span><span class="p">:</span> <span class="p">;</span>
+            <span class="nn">quality_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">metal_sheet</span> <span class="p">.</span> 
 
-ex:melting_process a owl:NamedIndividual , melting_process: ;
-            has_specified_output: ex:steel_material ; 
-            has_specified_input: ex:steel_material .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">svs_15_g</span> <span class="kt">a</span>  <span class="nn">scalar_value_specification</span><span class="p">:</span> <span class="p">;</span>
+            <span class="nn">has_specified_numeric_value</span><span class="p">:</span> <span class="s">&quot;3.3&quot;</span><span class="p">^^</span><span class="nn">xsd</span><span class="p">:</span><span class="nt">float</span> <span class="p">;</span>
+            <span class="nn">has_measurement_unit_label</span><span class="p">:</span> <span class="nn">gram</span><span class="p">:</span> <span class="p">;</span> 
+            <span class="nn">specifies_value_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">mass_metal_sheet</span> <span class="p">.</span>
 
-ex:application_of_heat_flux a owl:NamedIndividual , application_of_heat_flux: .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">tcq_temporal_region</span> <span class="kt">a</span> <span class="nn">temporal_region</span><span class="p">:</span> <span class="p">.</span>
 
-ex:change_of_temperature_during_melting a owl:NamedIndividual , change_of_temperature: .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">tqc_steel_material</span> <span class="kt">a</span> <span class="nn">material</span><span class="p">:</span> <span class="p">,</span> <span class="nn">temporally_qualified_continuant</span><span class="p">:</span> <span class="p">;</span> 
+            <span class="nn">exists_at</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">tcq_temporal_region</span> <span class="p">;</span> 
+            <span class="nn">is_state_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">steel_material</span> <span class="p">.</span>
 
-# Relational quality
-ex:some_iron a owl:NamedIndividual , portion_of_iron: . 
+<span class="nn">ex</span><span class="p">:</span><span class="nt">density_steel</span> <span class="kt">a</span> <span class="nn">density</span><span class="p">:</span> <span class="p">;</span>
+            <span class="nn">quality_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">tqc_steel_material</span> <span class="p">.</span> 
 
-ex:mass_proportion_iron a owl:NamedIndividual , mass_proportion: ;
-            relational_quality_of:  ex:some_iron , ex:metal_sheet .
 
-ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
-            has_specified_numeric_value: "97.7"^^xsd:float ;
-            has_measurement_unit_label: mass_percentage: ; 
-            specifies_value_of: ex:mass_proportion_iron .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">svs_7_5_g_per_cm</span> <span class="kt">a</span> <span class="nn">scalar_value_specification</span><span class="p">:</span> <span class="p">;</span>
+            <span class="nn">has_specified_numeric_value</span><span class="p">:</span> <span class="s">&quot;7.5&quot;</span><span class="p">^^</span><span class="nn">xsd</span><span class="p">:</span><span class="nt">float</span> <span class="p">;</span>
+            <span class="nn">has_measurement_unit_label</span><span class="p">:</span> <span class="nn">gram_per_cubic_centimetre</span><span class="p">:</span> <span class="p">;</span> 
+            <span class="nn">specifies_value_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">density_steel</span> <span class="p">.</span>
+
+
+<span class="c"># Behavioral material property</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">steel_material</span> <span class="kt">a</span>  <span class="nn">material</span><span class="p">:</span> <span class="p">;</span> 
+            <span class="nn">participates_in</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">melting_process</span> <span class="p">.</span>
+
+<span class="nn">ex</span><span class="p">:</span><span class="nt">svs_1500_deg_c</span> <span class="kt">a</span> <span class="nn">scalar_value_specification</span><span class="p">:</span> <span class="p">;</span>
+            <span class="nn">has_specified_numeric_value</span><span class="p">:</span> <span class="s">&quot;1500&quot;</span><span class="p">^^</span><span class="nn">xsd</span><span class="p">:</span><span class="nt">float</span> <span class="p">;</span>
+            <span class="nn">has_measurement_unit_label</span><span class="p">:</span> <span class="nn">degree_celsius</span><span class="p">:</span> <span class="p">;</span> 
+            <span class="nn">specifies_value_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">melting_temperature_steel</span> <span class="p">.</span>
+
+<span class="nn">ex</span><span class="p">:</span><span class="nt">melting_temperature_steel</span> <span class="kt">a</span>  <span class="nn">melting_point</span><span class="p">:</span> <span class="p">;</span> 
+            <span class="nn">characteristic_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">steel_material</span> <span class="p">;</span>
+            <span class="nn">has_realization</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">melting_process</span> <span class="p">;</span> 
+            <span class="nn">stimulated_by</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">application_of_heat_flux</span> <span class="p">;</span> 
+            <span class="nn">responds_with</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">change_of_temperature_during_melting</span> <span class="p">.</span>
+
+<span class="nn">ex</span><span class="p">:</span><span class="nt">melting_process</span> <span class="kt">a</span> <span class="nn">melting_process</span><span class="p">:</span> <span class="p">;</span>
+            <span class="nn">has_specified_output</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">steel_material</span> <span class="p">;</span> 
+            <span class="nn">has_specified_input</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">steel_material</span> <span class="p">.</span>
+
+<span class="nn">ex</span><span class="p">:</span><span class="nt">application_of_heat_flux</span> <span class="kt">a</span> <span class="nn">application_of_heat_flux</span><span class="p">:</span> <span class="p">.</span>
+
+<span class="nn">ex</span><span class="p">:</span><span class="nt">change_of_temperature_during_melting</span> <span class="kt">a</span> <span class="nn">change_of_temperature</span><span class="p">:</span> <span class="p">.</span>
+
+<span class="c"># Relational quality</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">some_iron</span> <span class="kt">a</span> <span class="nn">portion_of_iron</span><span class="p">:</span> <span class="p">.</span> 
+
+<span class="nn">ex</span><span class="p">:</span><span class="nt">mass_proportion_iron</span> <span class="kt">a</span> <span class="nn">mass_proportion</span><span class="p">:</span> <span class="p">;</span>
+            <span class="nn">relational_quality_of</span><span class="p">:</span>  <span class="nn">ex</span><span class="p">:</span><span class="nt">some_iron</span> <span class="p">,</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">metal_sheet</span> <span class="p">.</span>
+
+<span class="nn">ex</span><span class="p">:</span><span class="nt">fraction_iron</span> <span class="kt">a</span> <span class="nn">fraction_value_specification</span><span class="p">:</span> <span class="p">;</span>
+            <span class="nn">has_specified_numeric_value</span><span class="p">:</span> <span class="s">&quot;97.7&quot;</span><span class="p">^^</span><span class="nn">xsd</span><span class="p">:</span><span class="nt">float</span> <span class="p">;</span>
+            <span class="nn">has_measurement_unit_label</span><span class="p">:</span> <span class="nn">mass_percentage</span><span class="p">:</span> <span class="p">;</span> 
+            <span class="nn">specifies_value_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">mass_proportion_iron</span> <span class="p">.</span>
 </code></pre>
 </details>
+</div>
 
-<p>(see folder:  <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/material%20property%20(quality)">patterns/material property (quality)</a>)</p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/material%20property%20%28quality%29">patterns/material property (quality)/</a> )</p>
 
 <hr />
 
@@ -4622,82 +4637,82 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 </ul></li>
 </ul>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>@prefix : &lt;https://w3id.org/pmd/co/test/shape3/&gt; .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
-@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@base &lt;https://w3id.org/pmd/co/test/shape3#&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test/shape3/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xml:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/XML/1998/namespace&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@base</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test/shape3#&gt;</span><span class="w"> </span><span class="p">.</span>
 
-@prefix assay: &lt;http://purl.obolibrary.org/obo/OBI_0000070&gt; .
-@prefix realizes: &lt;http://purl.obolibrary.org/obo/BFO_0000055&gt; .
-@prefix has_specified_input: &lt;http://purl.obolibrary.org/obo/OBI_0000293&gt; .
-@prefix has_specified_output: &lt;http://purl.obolibrary.org/obo/OBI_0000299&gt; .
-@prefix evaluant_role: &lt;http://purl.obolibrary.org/obo/OBI_0000067&gt; .
-@prefix realized_in: &lt;http://purl.obolibrary.org/obo/BFO_0000054&gt; .
-@prefix quality: &lt;http://purl.obolibrary.org/obo/BFO_0000019&gt; . 
-@prefix quality_is_specified_as: &lt;http://purl.obolibrary.org/obo/IAO_0000419&gt; . 
-@prefix material_entity: &lt;http://purl.obolibrary.org/obo/BFO_0000040&gt; . 
-@prefix has_quality: &lt;http://purl.obolibrary.org/obo/RO_0000086&gt; . 
-@prefix has_role: &lt;http://purl.obolibrary.org/obo/RO_0000087&gt; . 
-@prefix has_measurement_unit_label: &lt;http://purl.obolibrary.org/obo/IAO_0000039&gt;  .
-@prefix centimeter: &lt;http://purl.obolibrary.org/obo/UO_0000015&gt; .
-@prefix is_about: &lt;http://purl.obolibrary.org/obo/IAO_0000136&gt; .
-@prefix specifies_value_of: &lt;http://purl.obolibrary.org/obo/OBI_0001927&gt; .
-@prefix has_specified_numeric_value: &lt;http://purl.obolibrary.org/obo/OBI_0001937&gt; .
-@prefix scalar_measurement_datum: &lt;http://purl.obolibrary.org/obo/IAO_0000032&gt; .
-@prefix is_quality_measurement_of: &lt;http://purl.obolibrary.org/obo/IAO_0000221&gt; . 
-@prefix has_value_specification: &lt;http://purl.obolibrary.org/obo/OBI_0001938&gt; .
-@prefix has_part: &lt;http://purl.obolibrary.org/obo/BFO_0000051&gt; . 
-@prefix achieves_planned_objective: &lt;http://purl.obolibrary.org/obo/OBI_0000417&gt; .
-@prefix has_measurement_value: &lt;http://purl.obolibrary.org/obo/IAO_0000004&gt; .
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">assay:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000070&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">realizes:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000055&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_input:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000293&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_output:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000299&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">evaluant_role:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000067&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">realized_in:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000054&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">quality:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000019&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">quality_is_specified_as:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000419&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">material_entity:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000040&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_quality:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000086&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_role:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000087&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_measurement_unit_label:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000039&gt;</span><span class="w">  </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">centimeter:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/UO_0000015&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">is_about:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000136&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">specifies_value_of:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001927&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_numeric_value:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001937&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">measurement_datum:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000109&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">is_quality_measurement_of:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000221&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_value_specification:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001938&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_part:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000051&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">achieves_planned_objective:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000417&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_measurement_value:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000004&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">assay_measures_characteristic:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0009006&gt;</span><span class="w"> </span><span class="p">.</span>
 
-&lt;https://w3id.org/pmd/co/test/shape3&gt; rdf:type owl:Ontology  .
-
-
-:my_assay a owl:NamedIndividual , assay: ;
-          realizes: :my_entities_evaluant_role ;
-          has_specified_input: :my_evaluated_entity ;
-          has_specified_output: :my_qualities_measurement_datum ;
-          achieves_planned_objective: :my_objective .
-
-:my_objective is_about: :my_evaluated_entity .
-
-:my_entities_evaluant_role a owl:NamedIndividual , evaluant_role: ;
-          realized_in: :my_assay .
-
-:my_entities_preexising_quality a owl:NamedIndividual , quality: .
-
-:my_entities_quality a owl:NamedIndividual , quality: ;
-          quality_is_specified_as: :my_qualities_measurement_datum .
+<span class="nv">&lt;https://w3id.org/pmd/co/test/shape3&gt;</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Ontology</span>  <span class="p">.</span>
 
 
-:my_evaluated_entity a owl:NamedIndividual , material_entity: ;
-          has_quality: :my_entities_preexising_quality ,
-          :my_entities_quality ;
-          has_role: :my_entities_evaluant_role .
+<span class="p">:</span><span class="nt">my_assay</span> <span class="kt">a</span> <span class="nn">assay</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">realizes</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_entities_evaluant_role</span> <span class="p">;</span>
+          <span class="nn">has_specified_input</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_evaluated_entity</span> <span class="p">;</span>
+          <span class="nn">has_specified_output</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_qualities_measurement_datum</span> <span class="p">;</span>
+          <span class="nn">achieves_planned_objective</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_objective</span> <span class="p">;</span>
+          <span class="nn">assay_measures_characteristic</span><span class="p">:</span> <span class="nn">quality</span><span class="p">:</span> <span class="p">.</span>
 
+<span class="p">:</span><span class="nt">my_objective</span> <span class="nn">is_about</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_evaluated_entity</span> <span class="p">.</span>
 
-:my_measurment_datums_value_specification a owl:NamedIndividual ;
-          has_measurement_unit_label: centimeter: ;
-          is_about: :my_evaluated_entity ;
-          specifies_value_of: :my_entities_quality ;
-          has_specified_numeric_value: 1.0 .
+<span class="p">:</span><span class="nt">my_entities_evaluant_role</span> <span class="kt">a</span> <span class="nn">evaluant_role</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">realized_in</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_assay</span> <span class="p">.</span>
 
+<span class="p">:</span><span class="nt">my_entities_preexising_quality</span> <span class="kt">a</span> <span class="nn">quality</span><span class="p">:</span> <span class="p">.</span>
 
-:my_qualities_measurement_datum a owl:NamedIndividual ,
-          scalar_measurement_datum: ;
-          is_about: :my_evaluated_entity ;
-          is_quality_measurement_of: :my_entities_quality ;
-          has_value_specification: :my_measurment_datums_value_specification ;
-          has_measurement_value: "1234.0"^^xsd:double .
+<span class="p">:</span><span class="nt">my_entities_quality</span> <span class="kt">a</span> <span class="nn">quality</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">quality_is_specified_as</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_qualities_measurement_datum</span> <span class="p">.</span>
+
+<span class="p">:</span><span class="nt">my_evaluated_entity</span> <span class="kt">a</span> <span class="nn">material_entity</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">has_quality</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_entities_preexising_quality</span> <span class="p">,</span>
+          <span class="p">:</span><span class="nt">my_entities_quality</span> <span class="p">;</span>
+          <span class="nn">has_role</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_entities_evaluant_role</span> <span class="p">.</span>
+
+<span class="p">:</span><span class="nt">my_qualities_measurement_datum</span> <span class="kt">a</span> 
+          <span class="nn">measurement_datum</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">is_about</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_evaluated_entity</span> <span class="p">;</span>
+          <span class="nn">is_quality_measurement_of</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_entities_quality</span> <span class="p">;</span>
+          <span class="nn">has_value_specification</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_measurment_datums_value_specification</span> <span class="p">.</span>
+
+<span class="p">:</span><span class="nt">my_measurment_datums_value_specification</span> 
+          <span class="nn">has_measurement_unit_label</span><span class="p">:</span> <span class="nn">centimeter</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">is_about</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_evaluated_entity</span> <span class="p">;</span>
+          <span class="nn">specifies_value_of</span><span class="p">:</span> <span class="p">:</span><span class="nt">my_entities_quality</span> <span class="p">;</span>
+          <span class="nn">has_specified_numeric_value</span><span class="p">:</span> <span class="mf">1.0</span> <span class="p">.</span>
 </code></pre>
 </details>
+</div>
 
-<p>(see folder: <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/measurement">patterns/measurement</a>)</p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/measurement">patterns/measurement/</a> )</p>
 
 <hr />
 
@@ -4756,33 +4771,32 @@ ex:fraction_iron a owl:NamedIndividual , fraction_value_specification: ;
 <li><p><strong>Example Use Case</strong>: The example describes a scalar value specification, ex:scalar_value_specification_X, which is assigned a numeric value of 135.0 and linked to a measurement unit represented by the individual ex:unit_X. The numeric value is provided via the OBI property has_specified_numeric_value, while the unit is associated through the IAO property has_measurement_unit_label. The unit individual ex:unit_X is typed as a measurement unit label, but in practice this placeholder unit could be replaced by a formally defined unit from established ontologies such as UO (Units of Measurement Ontology) or QUDT (Quantities, Units, Dimensions, and Types). Together, the triples express that a value of 135.0 is specified in some unit, whether a custom one like ex:unit_X or a standard unit drawn from UO or QUDT.</p></li>
 </ul>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>@prefix : &lt;https://w3id.org/pmd/co/test#&gt; .
-@prefix ex: &lt;https://www.example.org/&gt; .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
-@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@base &lt;https://w3id.org/pmd/co/test#&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ex:</span><span class="w"> </span><span class="nv">&lt;https://www.example.org/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xml:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/XML/1998/namespace&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@base</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test#&gt;</span><span class="w"> </span><span class="p">.</span>
 
-&lt;https://w3id.org/pmd/co/test/shape2&gt; rdf:type owl:Ontology .
+<span class="nv">&lt;https://w3id.org/pmd/co/test/shape2&gt;</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Ontology</span> <span class="p">.</span>
 
-@prefix has_measurement_unit_label: &lt;http://purl.obolibrary.org/obo/IAO_0000039&gt; .
-@prefix has_specified_numeric_value: &lt;http://purl.obolibrary.org/obo/OBI_0001937&gt; .
-@prefix measurement_unit_label: &lt;http://purl.obolibrary.org/obo/IAO_0000003&gt; .
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_measurement_unit_label:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000039&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_specified_numeric_value:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001937&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">measurement_unit:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000003&gt;</span><span class="w"> </span><span class="p">.</span>
 
 
-ex:scalar_value_specification_X rdf:type owl:NamedIndividual ;
-                                has_measurement_unit_label: ex:unit_X ;
-                                has_specified_numeric_value: 135.0 .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">scalar_value_specification_X</span> <span class="nn">has_measurement_unit_label</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">unit_X</span> <span class="p">;</span>
+                                <span class="nn">has_specified_numeric_value</span><span class="p">:</span> <span class="mf">135.0</span> <span class="p">.</span>
 
-ex:unit_X rdf:type owl:NamedIndividual ,
-                   measurement_unit_label: .
-
+<span class="nn">ex</span><span class="p">:</span><span class="nt">unit_X</span> <span class="kt">a</span> <span class="nn">measurement_unit</span><span class="p">:</span> <span class="p">.</span>
 </code></pre>
 </details>
+</div>
 
 <p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/scalar%20value%20specification">patterns/scalar value specification/</a> )</p>
 
@@ -4833,91 +4847,92 @@ ex:unit_X rdf:type owl:NamedIndividual ,
 
 <ul>
 <li><strong>Purpose</strong>: Represents how categorical values such as ferrite, face-centered cubic, and liquid are used to specify the values of material characteristics.</li>
-<li><strong>Example Use Case</strong>: The example describes materials and the categorical qualities they might possess. In the first example, <code>ex:fcc_material</code> is a material that has both a crystal structure and a grain structure. Its crystal structure quality is assigned the categorical value “face-centered cubic”, and its grain structure quality is assigned the categorical value “ferrite”, which is also explicitly stated to be about this same material. In other words, the material is characterized as having an FCC crystal structure and a ferritic grain structure.</li>
+<li><strong>Example Use Case</strong>: The example describes materials and the categorical qualities they might possess. In the first example, <code>ex:fcc_material</code> is a material that has both a crystal structure and a grain structure. Its crystal structure quality is assigned the categorical value "face-centered cubic", and its grain structure quality is assigned the categorical value "ferrite", which is also explicitly stated to be about this same material. In other words, the material is characterized as having an FCC crystal structure and a ferritic grain structure.</li>
 </ul>
 
-<p>In the second example, ex:steel_melt is described as a melt that has an aggregate state quality. This quality is given the categorical value “liquid”, indicating that the melt is in the liquid state.</p>
+<p>In the second example, ex:steel_melt is described as a melt that has an aggregate state quality. This quality is given the categorical value "liquid", indicating that the melt is in the liquid state.</p>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>@prefix rdf:   &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix sh:    &lt;http://www.w3.org/ns/shacl#&gt; .
-@prefix xsd:   &lt;http://www.w3.org/2001/XMLSchema#&gt; .
-@prefix rdfs:  &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@prefix ex:    &lt;http://www.example.org/#&gt; .
-@prefix owl:   &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix obo:    &lt;http://purl.obolibrary.org/obo/&gt; .
-@prefix pmd:   &lt;https://w3id.org/pmd/co/&gt; .
-@prefix unit: &lt;http://qudt.org/vocab/unit/&gt; .
-@prefix shape:   &lt;https://w3id.org/pmd/co/shapes&gt; .
-@base &lt;https://w3id.org/pmd/co/test/shape_categorical_value_specification#&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w">   </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">sh:</span><span class="w">    </span><span class="nv">&lt;http://www.w3.org/ns/shacl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w">   </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w">  </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ex:</span><span class="w">    </span><span class="nv">&lt;http://www.example.org/#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w">   </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">obo:</span><span class="w">    </span><span class="nv">&lt;http://purl.obolibrary.org/obo/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">pmd:</span><span class="w">   </span><span class="nv">&lt;https://w3id.org/pmd/co/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">unit:</span><span class="w"> </span><span class="nv">&lt;http://qudt.org/vocab/unit/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">shape:</span><span class="w">   </span><span class="nv">&lt;https://w3id.org/pmd/co/shapes&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@base</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/test/shape_categorical_value_specification#&gt;</span><span class="w"> </span><span class="p">.</span>
 
-&lt;https://w3id.org/pmd/co/test/shape_categorical_value_specification&gt; 
-    rdf:type owl:Ontology .
+<span class="nv">&lt;https://w3id.org/pmd/co/test/shape_categorical_value_specification&gt;</span> 
+    <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Ontology</span> <span class="p">.</span>
 
-### Define prefixes ###
+<span class="c">### Define prefixes ###</span>
 
-# Classes
-@prefix categorical_value_specification: &lt;http://purl.obolibrary.org/obo/OBI_0001930&gt; . 
-@prefix material: &lt;https://w3id.org/pmd/co/PMD_0000000&gt; .
-@prefix melt: &lt;https://w3id.org/pmd/co/PMD_0020139&gt; .
-@prefix entity: &lt;http://purl.obolibrary.org/obo/BFO_0000001&gt; .
-@prefix quality: &lt;http://purl.obolibrary.org/obo/BFO_0000019&gt; . 
+<span class="c"># Classes</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">categorical_value_specification:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001930&gt;</span><span class="w"> </span><span class="p">.</span> 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">material:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000000&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">melt:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020139&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">entity:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000001&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">quality:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000019&gt;</span><span class="w"> </span><span class="p">.</span> 
 
-@prefix metallic_grain_structure: &lt;https://w3id.org/pmd/co/PMD_0025003&gt; .           # SDC
-@prefix ferrite: &lt;https://w3id.org/pmd/co/PMD_0020100&gt; .                            # Individual
-@prefix metallic_grain_structures: &lt;https://w3id.org/pmd/co/PMD_0020023&gt; .          # Categorical value
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">metallic_grain_structure:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0025003&gt;</span><span class="w"> </span><span class="p">.</span>           <span class="c"># SDC</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">ferrite:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020100&gt;</span><span class="w"> </span><span class="p">.</span>                            <span class="c"># Individual</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">metallic_grain_structures:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020023&gt;</span><span class="w"> </span><span class="p">.</span>          <span class="c"># Categorical value</span>
 
-@prefix aggregate_state_value: &lt;https://w3id.org/pmd/co/PMD_0020116&gt; .              # Categorical value
-@prefix aggregate_state_liquid: &lt;https://w3id.org/pmd/co/PMD_0020118&gt; .             # Individual
-@prefix aggregate_state: &lt;https://w3id.org/pmd/co/PMD_0000512&gt; .                    # SDC
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">aggregate_state_value:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020116&gt;</span><span class="w"> </span><span class="p">.</span>              <span class="c"># Categorical value</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">aggregate_state_liquid:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020118&gt;</span><span class="w"> </span><span class="p">.</span>             <span class="c"># Individual</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">aggregate_state:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000512&gt;</span><span class="w"> </span><span class="p">.</span>                    <span class="c"># SDC</span>
 
-@prefix crystal_structure: &lt;https://w3id.org/pmd/co/PMD_0000591&gt; .                   # SDC
-@prefix bravais_lattice: &lt;https://w3id.org/pmd/co/PMD_0020099&gt; .                     # Categorical value
-@prefix bravais_lattice_cubic_face_centered: &lt;https://w3id.org/pmd/co/PMD_0020019&gt; . # Individual
-@prefix in_minimal: &lt;https://w3id.org/pmd/co/PMD_0000060&gt; . 
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">crystal_structure:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000591&gt;</span><span class="w"> </span><span class="p">.</span>                   <span class="c"># SDC</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">bravais_lattice:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020099&gt;</span><span class="w"> </span><span class="p">.</span>                     <span class="c"># Categorical value</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">bravais_lattice_cubic_face_centered:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0020019&gt;</span><span class="w"> </span><span class="p">.</span> <span class="c"># Individual</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">in_minimal:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000060&gt;</span><span class="w"> </span><span class="p">.</span> 
 
 
-# Object properties
+<span class="c"># Object properties</span>
 
-@prefix has_quality: &lt;http://purl.obolibrary.org/obo/RO_0000086&gt; .
-@prefix specifies_value_of: &lt;http://purl.obolibrary.org/obo/OBI_0001927&gt; .
-@prefix is_about: &lt;http://purl.obolibrary.org/obo/IAO_0000136&gt; .
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">has_quality:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000086&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">specifies_value_of:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001927&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">is_about:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000136&gt;</span><span class="w"> </span><span class="p">.</span>
 
-### Define entities ###
+<span class="c">### Define entities ###</span>
 
-# Example 1
+<span class="c"># Example 1</span>
 
-ex:fcc_material a material: ; 
-                has_quality: ex:crystal_structure_quality ,
-                             ex:grain_structure_quality .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">fcc_material</span> <span class="kt">a</span> <span class="nn">material</span><span class="p">:</span> <span class="p">;</span> 
+                <span class="nn">has_quality</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">crystal_structure_quality</span> <span class="p">,</span>
+                             <span class="nn">ex</span><span class="p">:</span><span class="nt">grain_structure_quality</span> <span class="p">.</span>
 
-ex:crystal_structure_quality a crystal_structure: .
-bravais_lattice_cubic_face_centered: specifies_value_of: ex:crystal_structure_quality .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">crystal_structure_quality</span> <span class="kt">a</span> <span class="nn">crystal_structure</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">bravais_lattice_cubic_face_centered</span><span class="p">:</span> <span class="nn">specifies_value_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">crystal_structure_quality</span> <span class="p">.</span>
 
-ex:grain_structure_quality a metallic_grain_structure: .
-ferrite:  specifies_value_of: ex:grain_structure_quality .
-ferrite: is_about: ex:fcc_material .
+<span class="nn">ex</span><span class="p">:</span><span class="nt">grain_structure_quality</span> <span class="kt">a</span> <span class="nn">metallic_grain_structure</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">ferrite</span><span class="p">:</span>  <span class="nn">specifies_value_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">grain_structure_quality</span> <span class="p">.</span>
+<span class="nn">ferrite</span><span class="p">:</span> <span class="nn">is_about</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">fcc_material</span> <span class="p">.</span>
 
-# Example 2
-ex:steel_melt: a melt: ; 
-               has_quality: ex:aggregate_state_quality .
+<span class="c"># Example 2</span>
+<span class="nn">ex</span><span class="p">:</span><span class="nt">steel_melt:</span> <span class="kt">a</span> <span class="nn">melt</span><span class="p">:</span> <span class="p">;</span> 
+               <span class="nn">has_quality</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">aggregate_state_quality</span> <span class="p">.</span>
 
-ex:aggregate_state_quality a aggregate_state: .
-aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
-
+<span class="nn">ex</span><span class="p">:</span><span class="nt">aggregate_state_quality</span> <span class="kt">a</span> <span class="nn">aggregate_state</span><span class="p">:</span> <span class="p">.</span>
+<span class="nn">aggregate_state_liquid</span><span class="p">:</span> <span class="nn">specifies_value_of</span><span class="p">:</span> <span class="nn">ex</span><span class="p">:</span><span class="nt">aggregate_state_quality</span> <span class="p">.</span>
 </code></pre>
 </details>
+</div>
 
-<p>(see folder <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/categorical%20value%20specification">patterns/categorical value specification</a>)</p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/categorical%20value%20specification">patterns/categorical value specification/</a> )</p>
 
 <hr />
 
-<h2 id="pattern-10-simulation-inputoutput">Pattern 10: Simulation input/output</h2>
+<h2 id="pattern-10-simulation-inputoutput">Pattern 10 - Simulation input/output</h2>
 
-<div class="mermaid-graph-container" id="graph-simulation-inout-simple" role="figure" aria-label="Pattern 10: Simulation input/output">
+<div class="mermaid-graph-container" id="graph-simulation-inout-simple" role="figure" aria-label="Pattern 10 - Simulation input/output">
   <div class="graph-header">
-    <div class="graph-title">Pattern 10: Simulation input/output</div>
+    <div class="graph-title">Pattern 10 - Simulation input/output</div>
     <div class="graph-controls" role="toolbar" aria-label="Graph controls">
       <button class="graph-btn" data-action="fit" aria-label="Fit to view">⊡ Fit</button>
       <button class="graph-btn" data-action="reset" aria-label="Reset view">⊙ Reset</button>
@@ -4959,100 +4974,103 @@ aggregate_state_liquid: specifies_value_of: ex:aggregate_state_quality .
 <ul>
 <li><strong>Purpose</strong>: Information content entities as input and output of (simulation-)processes.</li>
 <li><strong>Example Use Case</strong>: 
-A challenge arises when working with digital data about material entities, as is the case in simulations. Due to our ontological commitment to BFO, roles (like described in the patterns above) can only inhere in independent continuants, because a role is something that is physically realized when its bearer participates in a process. Information Content Entities (ICEs), such as datasets, specifications, or parameter files used in a simulation are generically dependent continuants. They are abstract contents that rely on some physical carrier (e.g., a hard drive) but do not themselves participate physically in a process. Assigning roles directly to ICEs would require the role to inhere in the ICE rather than in a material entity, which violates BFO’s ontological constraints.
-To preserve the functionality of roles for informational inputs and outputs, we introduce process boundaries as “input/output assignments”. In this pattern, an ICE participates in an input (or output) assignment, which is a dependent entity representing the assignment of that ICE to the process. The assignment itself is then part of the main process. This allows us to capture the role-like semantics of inputs and outputs without violating BFO’s constraint that roles must inhere in material entities. Each assignment can be typed  to specify its intended function in the process, while maintaining ontological consistency. 
+A challenge arises when working with digital data about material entities, as is the case in simulations. Due to our ontological commitment to BFO, roles (like described in the patterns above) can only inhere in independent continuants, because a role is something that is physically realized when its bearer participates in a process. Information Content Entities (ICEs), such as datasets, specifications, or parameter files used in a simulation are generically dependent continuants. They are abstract contents that rely on some physical carrier (e.g., a hard drive) but do not themselves participate physically in a process. Assigning roles directly to ICEs would require the role to inhere in the ICE rather than in a material entity, which violates BFO's ontological constraints.
+To preserve the functionality of roles for informational inputs and outputs, we introduce process boundaries as "input/output assignments". In this pattern, an ICE participates in an input (or output) assignment, which is a dependent entity representing the assignment of that ICE to the process. The assignment itself is then part of the main process. This allows us to capture the role-like semantics of inputs and outputs without violating BFO's constraint that roles must inhere in material entities. Each assignment can be typed  to specify its intended function in the process, while maintaining ontological consistency. 
 For example, in a division calculation process, two numbers considered as ICE serve as inputs through role-like assignments: one as the numerator, and the other as the denominator. Each number participates in an input assignment that is part of the division process, while the resulting quotient participates in an output assignment. This pattern captures the functional roles of inputs and outputs without requiring the numbers themselves to bear roles directly, maintaining ontological consistency.</li>
 </ul>
 
+<div class="codehilite">
 <details class="code-block">
 <summary>📄 View pattern code</summary>
-<pre><code>@prefix : &lt;http://example.org/division#&gt; .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+<pre><span></span><code><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;http://example.org/division#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdf:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">xsd:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2001/XMLSchema#&gt;</span><span class="w"> </span><span class="p">.</span>
 
-@prefix hasParticipant: &lt;http://purl.obolibrary.org/obo/RO_0000057&gt; .
-@prefix partOf: &lt;http://purl.obolibrary.org/obo/BFO_0000050&gt; .
-@prefix InformationContentEntity: &lt;http://purl.obolibrary.org/obo/IAO_0000030&gt; .
-@prefix SimulationProcess: &lt;https://w3id.org/pmd/co/PMD_0000933&gt; .
-@prefix InputAssignment: &lt;https://w3id.org/pmd/co/PMD_0000066&gt; .
-@prefix OutputAssignment: &lt;https://w3id.org/pmd/co/PMD_0000067&gt; .
-@prefix hasSpecifiedValue: &lt;http://purl.obolibrary.org/obo/OBI_0001937&gt; .
-@prefix isSpecifiedInputOf: &lt;http://purl.obolibrary.org/obo/OBI_0000295&gt; .
-@prefix isSpecifiedOutputOf: &lt;http://purl.obolibrary.org/obo/OBI_0000312&gt; .
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">hasParticipant:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/RO_0000057&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">partOf:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000050&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">InformationContentEntity:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/IAO_0000030&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">SimulationProcess:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000933&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">InputAssignment:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000066&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">OutputAssignment:</span><span class="w"> </span><span class="nv">&lt;https://w3id.org/pmd/co/PMD_0000067&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">hasSpecifiedValue:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0001937&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">isSpecifiedInputOf:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000295&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">isSpecifiedOutputOf:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/OBI_0000312&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">realizes:</span><span class="w"> </span><span class="nv">&lt;http://purl.obolibrary.org/obo/BFO_0000055&gt;</span><span class="w"> </span><span class="p">.</span>
 
-############################
-#   CLASS AXIOMS
-############################
+<span class="c">############################</span>
+<span class="c">#   CLASS AXIOMS</span>
+<span class="c">############################</span>
 
-:Number rdf:type owl:Class ;
-        rdfs:subClassOf InformationContentEntity: .
+<span class="p">:</span><span class="nt">Number</span> <span class="nn">rdfs</span><span class="p">:</span><span class="nt">subClassOf</span> <span class="nn">InformationContentEntity</span><span class="p">:</span> <span class="p">.</span>
 
-:DivisionProcess rdf:type owl:Class ;
-        rdfs:subClassOf SimulationProcess: .
+<span class="p">:</span><span class="nt">DivisionProcess</span> <span class="nn">rdfs</span><span class="p">:</span><span class="nt">subClassOf</span> <span class="nn">SimulationProcess</span><span class="p">:</span> <span class="p">.</span>
 
-:NumeratorAssignment rdf:type owl:Class ;
-    rdfs:subClassOf 
-        InputAssignment: ,
-        [ rdf:type owl:Restriction ;
-          owl:onProperty hasParticipant: ;
-          owl:someValuesFrom :Number ],
-        [ rdf:type owl:Restriction ;
-          owl:onProperty partOf: ;
-          owl:someValuesFrom :DivisionProcess ] .
+<span class="p">:</span><span class="nt">NumeratorAssignment</span> <span class="nn">rdfs</span><span class="p">:</span><span class="nt">subClassOf</span> 
+        <span class="nn">InputAssignment</span><span class="p">:</span> <span class="p">,</span>
+        <span class="p">[</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Restriction</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">onProperty</span> <span class="nn">hasParticipant</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">someValuesFrom</span> <span class="p">:</span><span class="nt">Number</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Restriction</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">onProperty</span> <span class="nn">partOf</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">someValuesFrom</span> <span class="p">:</span><span class="nt">DivisionProcess</span> <span class="p">]</span> <span class="p">.</span>
 
-:DenominatorAssignment rdf:type owl:Class ;
-    rdfs:subClassOf 
-        InputAssignment: ,
-        [ rdf:type owl:Restriction ;
-          owl:onProperty hasParticipant: ;
-          owl:someValuesFrom :Number ],
-        [ rdf:type owl:Restriction ;
-          owl:onProperty partOf: ;
-          owl:someValuesFrom :DivisionProcess ] .
+<span class="p">:</span><span class="nt">DenominatorAssignment</span> <span class="nn">rdfs</span><span class="p">:</span><span class="nt">subClassOf</span> 
+        <span class="nn">InputAssignment</span><span class="p">:</span> <span class="p">,</span>
+        <span class="p">[</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Restriction</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">onProperty</span> <span class="nn">hasParticipant</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">someValuesFrom</span> <span class="p">:</span><span class="nt">Number</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Restriction</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">onProperty</span> <span class="nn">partOf</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">someValuesFrom</span> <span class="p">:</span><span class="nt">DivisionProcess</span> <span class="p">]</span> <span class="p">.</span>
 
-:QuotientAssignment rdf:type owl:Class ;
-    rdfs:subClassOf 
-        OutputAssignment: ,
-        [ rdf:type owl:Restriction ;
-          owl:onProperty hasParticipant: ;
-          owl:someValuesFrom :Number ],
-        [ rdf:type owl:Restriction ;
-          owl:onProperty partOf: ;
-          owl:someValuesFrom :DivisionProcess ] .
+<span class="p">:</span><span class="nt">QuotientAssignment</span> <span class="nn">rdfs</span><span class="p">:</span><span class="nt">subClassOf</span> 
+        <span class="nn">OutputAssignment</span><span class="p">:</span> <span class="p">,</span>
+        <span class="p">[</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Restriction</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">onProperty</span> <span class="nn">hasParticipant</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">someValuesFrom</span> <span class="p">:</span><span class="nt">Number</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Restriction</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">onProperty</span> <span class="nn">partOf</span><span class="p">:</span> <span class="p">;</span>
+          <span class="nn">owl</span><span class="p">:</span><span class="nt">someValuesFrom</span> <span class="p">:</span><span class="nt">DivisionProcess</span> <span class="p">]</span> <span class="p">.</span>
 
-############################
-#   INDIVIDUALS
-############################
+<span class="c">############################</span>
+<span class="c">#   INDIVIDUALS</span>
+<span class="c">############################</span>
 
-:num1 rdf:type :Number ;
-      hasSpecifiedValue: "10"^^xsd:integer ;
-      isSpecifiedInputOf: :div1 .
+<span class="p">:</span><span class="nt">num1</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="p">:</span><span class="nt">Number</span> <span class="p">;</span>
+      <span class="nn">hasSpecifiedValue</span><span class="p">:</span> <span class="s">&quot;10&quot;</span><span class="p">^^</span><span class="nn">xsd</span><span class="p">:</span><span class="nt">integer</span> <span class="p">;</span>
+      <span class="nn">isSpecifiedInputOf</span><span class="p">:</span> <span class="p">:</span><span class="nt">div1</span> <span class="p">.</span>
 
-:num2 rdf:type :Number ;
-      hasSpecifiedValue: "2"^^xsd:integer ;
-      isSpecifiedInputOf: :div1 .
+<span class="p">:</span><span class="nt">num2</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="p">:</span><span class="nt">Number</span> <span class="p">;</span>
+      <span class="nn">hasSpecifiedValue</span><span class="p">:</span> <span class="s">&quot;2&quot;</span><span class="p">^^</span><span class="nn">xsd</span><span class="p">:</span><span class="nt">integer</span> <span class="p">;</span>
+      <span class="nn">isSpecifiedInputOf</span><span class="p">:</span> <span class="p">:</span><span class="nt">div1</span> <span class="p">.</span>
 
-:quotient1 rdf:type :Number ;
-      hasSpecifiedValue: "5"^^xsd:integer ;
-      isSpecifiedOutputOf: :div1 .
+<span class="p">:</span><span class="nt">quotient1</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="p">:</span><span class="nt">Number</span> <span class="p">;</span>
+      <span class="nn">hasSpecifiedValue</span><span class="p">:</span> <span class="s">&quot;5&quot;</span><span class="p">^^</span><span class="nn">xsd</span><span class="p">:</span><span class="nt">integer</span> <span class="p">;</span>
+      <span class="nn">isSpecifiedOutputOf</span><span class="p">:</span> <span class="p">:</span><span class="nt">div1</span> <span class="p">.</span>
 
-:div1 rdf:type :DivisionProcess .
+<span class="p">:</span><span class="nt">div1</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="p">:</span><span class="nt">DivisionProcess</span> <span class="p">;</span>
+      <span class="nn">realizes</span><span class="p">:</span> <span class="p">:</span><span class="nt">plan1</span> <span class="p">.</span>
 
-:numerator_assign rdf:type :NumeratorAssignment ;
-    hasParticipant: :num1 ;
-    partOf: :div1 .
+<span class="p">:</span><span class="nt">numerator_assign</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="p">:</span><span class="nt">NumeratorAssignment</span> <span class="p">;</span>
+    <span class="nn">hasParticipant</span><span class="p">:</span> <span class="p">:</span><span class="nt">num1</span> <span class="p">;</span>
+    <span class="nn">partOf</span><span class="p">:</span> <span class="p">:</span><span class="nt">div1</span> <span class="p">.</span>
 
-:denominator_assign rdf:type :DenominatorAssignment ;
-    hasParticipant: :num2 ;
-    partOf: :div1 .
+<span class="p">:</span><span class="nt">denominator_assign</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="p">:</span><span class="nt">DenominatorAssignment</span> <span class="p">;</span>
+    <span class="nn">hasParticipant</span><span class="p">:</span> <span class="p">:</span><span class="nt">num2</span> <span class="p">;</span>
+    <span class="nn">partOf</span><span class="p">:</span> <span class="p">:</span><span class="nt">div1</span> <span class="p">.</span>
 
-:quotient_assign rdf:type :QuotientAssignment ;
-    hasParticipant: :quotient1 ;
-    partOf: :div1 .
+<span class="p">:</span><span class="nt">quotient_assign</span> <span class="nn">rdf</span><span class="p">:</span><span class="nt">type</span> <span class="p">:</span><span class="nt">QuotientAssignment</span> <span class="p">;</span>
+    <span class="nn">hasParticipant</span><span class="p">:</span> <span class="p">:</span><span class="nt">quotient1</span> <span class="p">;</span>
+    <span class="nn">partOf</span><span class="p">:</span> <span class="p">:</span><span class="nt">div1</span> <span class="p">.</span>
 </code></pre>
 </details>
+</div>
+
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/simulation%20inout%20simple">patterns/simulation inout simple/</a> )</p>
+
+<hr />
 
 <h2 id="more-patterns-at-github">More patterns at GitHub</h2>
 
@@ -5095,7 +5113,7 @@ For example, in a division calculation process, two numbers considered as ICE se
             <li><a href="#pattern-7-measurement">Pattern 7 - Measurement</a></li>
             <li><a href="#pattern-8-scalar-value-specification">Pattern 8 - Scalar Value Specification</a></li>
             <li><a href="#pattern-9-categorical-value-specification">Pattern 9 - Categorical Value Specification</a></li>
-            <li><a href="#pattern-10-simulation-inputoutput">Pattern 10: Simulation input/output</a></li>
+            <li><a href="#pattern-10-simulation-inputoutput">Pattern 10 - Simulation input/output</a></li>
             <li><a href="#more-patterns-at-github">More patterns at GitHub</a></li>
         </ul>
     </aside>
@@ -5274,7 +5292,7 @@ For example, in a division calculation process, two numbers considered as ICE se
     penwidth="0";
     style="rounded";
     "BFO_0000040" [URL="http://purl.obolibrary.org/obo/BFO_0000040",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:material_entity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000040"];
-    "OBI_0000011" [URL="http://purl.obolibrary.org/obo/OBI_0000011",color="#D4B08A",fillcolor="#F5D5B1",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">obi:planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/OBI_0000011"];
+    "COB_0000035" [URL="http://purl.obolibrary.org/obo/COB_0000035",color="#6B8AD6",fillcolor="#93AFF3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">cob:completely_executed_planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/COB_0000035"];
     "coating" [URL="https://w3id.org/pmd/co/PMD_0000563",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:coating</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000563"];
     "manufacturing_process" [URL="https://w3id.org/pmd/co/PMD_0000833",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:manufacturing_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000833"];
     "object" [URL="http://purl.obolibrary.org/obo/BFO_0000030",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:object</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000030"];
@@ -5289,18 +5307,22 @@ For example, in a division calculation process, two numbers considered as ICE se
     "ex_object3" [URL="http://example.com/object3",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:object3",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/object3"];
     "ex_process1" [URL="http://example.com/process1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:process1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/process1"];
     "ex_process2" [URL="http://example.com/process2",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:process2",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/process2"];
+    "plan1" [URL="https://w3id.org/pmd/co/test#plan1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label=":plan1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/test#plan1"];
+    "plan2" [URL="https://w3id.org/pmd/co/test#plan2",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label=":plan2",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/test#plan2"];
   }
   "coating" -> "manufacturing_process" [label="rdfs:subClassOf"];
   "ex_object1" -> "object" [label="rdf:type",style="dashed"];
   "ex_object2" -> "object" [label="rdf:type",style="dashed"];
   "ex_object3" -> "object" [label="rdf:type",style="dashed"];
+  "ex_process1" -> "plan1" [label="bfo:realizes"];
   "ex_process1" -> "ex_object1" [label="obi:has_specified_input"];
   "ex_process1" -> "ex_object2" [label="obi:has_specified_output"];
   "ex_process1" -> "manufacturing_process" [label="rdf:type",style="dashed"];
+  "ex_process2" -> "plan2" [label="bfo:realizes"];
   "ex_process2" -> "ex_object2" [label="obi:has_specified_input"];
   "ex_process2" -> "ex_object3" [label="obi:has_specified_output"];
   "ex_process2" -> "coating" [label="rdf:type",style="dashed"];
-  "manufacturing_process" -> "OBI_0000011" [label="rdfs:subClassOf"];
+  "manufacturing_process" -> "COB_0000035" [label="rdfs:subClassOf"];
   "object" -> "BFO_0000040" [label="rdfs:subClassOf"];
 }`,
 
@@ -5315,27 +5337,17 @@ For example, in a division calculation process, two numbers considered as ICE se
     penwidth="0";
     style="rounded";
     "application_of_heat_flux" [URL="https://w3id.org/pmd/co/PMD_0000520",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:application_of_heat_flux</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000520"];
-    "behavioral_material_property" [URL="https://w3id.org/pmd/co/PMD_0000005",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:behavioral_material_property</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000005"];
     "change_of_temperature" [URL="https://w3id.org/pmd/co/PMD_0000549",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:change_of_temperature</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000549"];
     "density" [URL="https://w3id.org/pmd/co/PMD_0000597",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:density</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000597"];
-    "entity" [URL="http://purl.obolibrary.org/obo/BFO_0000001",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:entity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000001"];
     "fraction_value_specification" [URL="https://w3id.org/pmd/co/PMD_0025997",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:fraction_value_specification</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0025997"];
-    "independent_continuant" [URL="http://purl.obolibrary.org/obo/BFO_0000004",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:independent_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000004"];
     "mass" [URL="https://w3id.org/pmd/co/PMD_0020133",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:mass</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020133"];
     "mass_proportion" [URL="https://w3id.org/pmd/co/PMD_0020102",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:mass_proportion</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020102"];
     "material" [URL="https://w3id.org/pmd/co/PMD_0000000",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:material</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000000"];
-    "material_entity" [URL="http://purl.obolibrary.org/obo/BFO_0000040",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:material_entity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000040"];
     "melting_point" [URL="https://w3id.org/pmd/co/PMD_0000851",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:melting_point</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000851"];
     "melting_process" [URL="https://w3id.org/pmd/co/PMD_0000053",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:melting_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000053"];
     "object" [URL="http://purl.obolibrary.org/obo/BFO_0000030",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:object</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000030"];
-    "owl_NamedIndividual" [URL="http://www.w3.org/2002/07/owl#NamedIndividual",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">owl:NamedIndividual</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://www.w3.org/2002/07/owl#NamedIndividual"];
     "portion_of_iron" [URL="https://w3id.org/pmd/co/PMD_0020026",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:portion_of_iron</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020026"];
-    "process" [URL="http://purl.obolibrary.org/obo/BFO_0000015",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000015"];
-    "quality" [URL="http://purl.obolibrary.org/obo/BFO_0000019",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:quality</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000019"];
-    "relational_quality" [URL="http://purl.obolibrary.org/obo/BFO_0000145",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:relational_quality</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000145"];
     "scalar_value_specification" [URL="http://purl.obolibrary.org/obo/OBI_0001931",color="#D4B08A",fillcolor="#F5D5B1",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">obi:scalar_value_specification</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/OBI_0001931"];
-    "specifically_dependent_continuant" [URL="http://purl.obolibrary.org/obo/BFO_0000020",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:specifically_dependent_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000020"];
-    "stimulating_process" [URL="https://w3id.org/pmd/co/PMD_0000950",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:stimulating_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000950"];
     "temporal_region" [URL="http://purl.obolibrary.org/obo/BFO_0000008",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:temporal_region</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000008"];
     "temporally_qualified_continuant" [URL="https://w3id.org/pmd/co/PMD_0000068",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:temporally_qualified_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000068"];
   }
@@ -5363,93 +5375,54 @@ For example, in a division calculation process, two numbers considered as ICE se
     "ex_tqc_steel_material" [URL="https://www.example.org/tqc_steel_material",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:tqc_steel_material",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="https://www.example.org/tqc_steel_material"];
     "gram" [URL="http://purl.obolibrary.org/obo/UO_0000021",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="uo:gram",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/UO_0000021"];
     "gram_per_cubic_centimetre" [URL="http://purl.obolibrary.org/obo/UO_0000084",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="uo:gram_per_cubic_centimetre",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/UO_0000084"];
-    "has_participant" [URL="http://purl.obolibrary.org/obo/RO_0000057",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ro:has_participant",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/RO_0000057"];
-    "has_specified_input" [URL="http://purl.obolibrary.org/obo/OBI_0000293",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="obi:has_specified_input",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/OBI_0000293"];
-    "has_specified_output" [URL="http://purl.obolibrary.org/obo/OBI_0000299",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="obi:has_specified_output",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/OBI_0000299"];
     "mass_percentage" [URL="http://purl.obolibrary.org/obo/UO_0000163",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="uo:mass_percentage",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/UO_0000163"];
-    "participates_in" [URL="http://purl.obolibrary.org/obo/RO_0000056",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ro:participates_in",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/RO_0000056"];
   }
     "val_n_1500_0" [color="#6BA33A",fillcolor="#93D053",fontcolor="#333333",label="1500.0",margin="0.2,0.1",penwidth="2",shape="note",style="filled"];
     "val_n_3_3" [color="#6BA33A",fillcolor="#93D053",fontcolor="#333333",label="3.3",margin="0.2,0.1",penwidth="2",shape="note",style="filled"];
     "val_n_7_5" [color="#6BA33A",fillcolor="#93D053",fontcolor="#333333",label="7.5",margin="0.2,0.1",penwidth="2",shape="note",style="filled"];
     "val_n_97_7" [color="#6BA33A",fillcolor="#93D053",fontcolor="#333333",label="97.7",margin="0.2,0.1",penwidth="2",shape="note",style="filled"];
-  "application_of_heat_flux" -> "stimulating_process" [label="rdfs:subClassOf"];
-  "behavioral_material_property" -> "specifically_dependent_continuant" [label="rdfs:subClassOf"];
-  "change_of_temperature" -> "process" [label="rdfs:subClassOf"];
-  "density" -> "quality" [label="rdfs:subClassOf"];
   "ex_application_of_heat_flux" -> "application_of_heat_flux" [label="rdf:type",style="dashed"];
-  "ex_application_of_heat_flux" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_change_of_temperature_during_melting" -> "change_of_temperature" [label="rdf:type",style="dashed"];
-  "ex_change_of_temperature_during_melting" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_density_steel" -> "density" [label="rdf:type",style="dashed"];
-  "ex_density_steel" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_density_steel" -> "ex_tqc_steel_material" [label="ro:quality_of"];
   "ex_fraction_iron" -> "mass_percentage" [label="iao:has_measurement_unit_label"];
   "ex_fraction_iron" -> "val_n_97_7" [label="obi:has_specified_numeric_value"];
   "ex_fraction_iron" -> "ex_mass_proportion_iron" [label="obi:specifies_value_of"];
   "ex_fraction_iron" -> "fraction_value_specification" [label="rdf:type",style="dashed"];
-  "ex_fraction_iron" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_mass_metal_sheet" -> "mass" [label="rdf:type",style="dashed"];
-  "ex_mass_metal_sheet" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_mass_metal_sheet" -> "ex_metal_sheet" [label="ro:quality_of"];
   "ex_mass_proportion_iron" -> "ex_metal_sheet" [label="pmd:relational_quality_of"];
   "ex_mass_proportion_iron" -> "ex_some_iron" [label="pmd:relational_quality_of"];
   "ex_mass_proportion_iron" -> "mass_proportion" [label="rdf:type",style="dashed"];
-  "ex_mass_proportion_iron" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_melting_process" -> "ex_steel_material" [label="obi:has_specified_input"];
   "ex_melting_process" -> "ex_steel_material" [label="obi:has_specified_output"];
   "ex_melting_process" -> "melting_process" [label="rdf:type",style="dashed"];
-  "ex_melting_process" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
-  "ex_melting_temperature_steel" -> "ex_application_of_heat_flux" [label="bfo:has_realization"];
-  "ex_melting_temperature_steel" -> "ex_melting_process" [label="bfo:has_realization"];
+  "ex_melting_temperature_steel" -> "ex_application_of_heat_flux" [label="bfo:realized_in"];
+  "ex_melting_temperature_steel" -> "ex_melting_process" [label="bfo:realized_in"];
   "ex_melting_temperature_steel" -> "ex_change_of_temperature_during_melting" [label="pmd:responds_with"];
   "ex_melting_temperature_steel" -> "melting_point" [label="rdf:type",style="dashed"];
-  "ex_melting_temperature_steel" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_melting_temperature_steel" -> "ex_steel_material" [label="ro:characteristic_of"];
   "ex_metal_sheet" -> "object" [label="rdf:type",style="dashed"];
-  "ex_metal_sheet" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
-  "ex_some_iron" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_some_iron" -> "portion_of_iron" [label="rdf:type",style="dashed"];
   "ex_steel_material" -> "material" [label="rdf:type",style="dashed"];
-  "ex_steel_material" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_steel_material" -> "ex_melting_process" [label="ro:participates_in"];
   "ex_svs_1500_deg_c" -> "degree_celsius" [label="iao:has_measurement_unit_label"];
   "ex_svs_1500_deg_c" -> "val_n_1500_0" [label="obi:has_specified_numeric_value"];
   "ex_svs_1500_deg_c" -> "ex_melting_temperature_steel" [label="obi:specifies_value_of"];
-  "ex_svs_1500_deg_c" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_svs_1500_deg_c" -> "scalar_value_specification" [label="rdf:type",style="dashed"];
   "ex_svs_15_g" -> "gram" [label="iao:has_measurement_unit_label"];
   "ex_svs_15_g" -> "val_n_3_3" [label="obi:has_specified_numeric_value"];
   "ex_svs_15_g" -> "ex_mass_metal_sheet" [label="obi:specifies_value_of"];
-  "ex_svs_15_g" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_svs_15_g" -> "scalar_value_specification" [label="rdf:type",style="dashed"];
   "ex_svs_7_5_g_per_cm" -> "gram_per_cubic_centimetre" [label="iao:has_measurement_unit_label"];
   "ex_svs_7_5_g_per_cm" -> "val_n_7_5" [label="obi:has_specified_numeric_value"];
   "ex_svs_7_5_g_per_cm" -> "ex_density_steel" [label="obi:specifies_value_of"];
-  "ex_svs_7_5_g_per_cm" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_svs_7_5_g_per_cm" -> "scalar_value_specification" [label="rdf:type",style="dashed"];
-  "ex_tcq_temporal_region" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_tcq_temporal_region" -> "temporal_region" [label="rdf:type",style="dashed"];
   "ex_tqc_steel_material" -> "ex_tcq_temporal_region" [label="bfo:exists_at"];
   "ex_tqc_steel_material" -> "ex_steel_material" [label="pmd:is_state_of"];
   "ex_tqc_steel_material" -> "material" [label="rdf:type",style="dashed"];
-  "ex_tqc_steel_material" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_tqc_steel_material" -> "temporally_qualified_continuant" [label="rdf:type",style="dashed"];
-  "has_participant" -> "participates_in" [label="owl:inverseOf"];
-  "has_specified_input" -> "has_participant" [label="rdfs:subPropertyOf"];
-  "has_specified_output" -> "has_participant" [label="rdfs:subPropertyOf"];
-  "mass" -> "quality" [label="rdfs:subClassOf"];
-  "mass_proportion" -> "relational_quality" [label="rdfs:subClassOf"];
-  "material" -> "material_entity" [label="rdfs:subClassOf"];
-  "material_entity" -> "independent_continuant" [label="rdfs:subClassOf"];
-  "melting_point" -> "behavioral_material_property" [label="rdfs:subClassOf"];
-  "melting_process" -> "process" [label="rdfs:subClassOf"];
-  "object" -> "material_entity" [label="rdfs:subClassOf"];
-  "portion_of_iron" -> "material_entity" [label="rdfs:subClassOf"];
-  "quality" -> "specifically_dependent_continuant" [label="rdfs:subClassOf"];
-  "relational_quality" -> "quality" [label="rdfs:subClassOf"];
-  "specifically_dependent_continuant" -> "entity" [label="rdfs:subClassOf"];
-  "stimulating_process" -> "process" [label="rdfs:subClassOf"];
 }`,
 
             "measurement": `digraph G {
@@ -5471,14 +5444,14 @@ For example, in a division calculation process, two numbers considered as ICE se
     "BFO_0000020" [URL="http://purl.obolibrary.org/obo/BFO_0000020",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:specifically_dependent_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000020"];
     "BFO_0000023" [URL="http://purl.obolibrary.org/obo/BFO_0000023",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:role</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000023"];
     "BFO_0000031" [URL="http://purl.obolibrary.org/obo/BFO_0000031",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:generically_dependent_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000031"];
+    "COB_0000035" [URL="http://purl.obolibrary.org/obo/COB_0000035",color="#6B8AD6",fillcolor="#93AFF3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">cob:completely_executed_planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/COB_0000035"];
+    "COB_0000082" [URL="http://purl.obolibrary.org/obo/COB_0000082",color="#6B8AD6",fillcolor="#93AFF3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">cob:planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/COB_0000082"];
     "IAO_0000027" [URL="http://purl.obolibrary.org/obo/IAO_0000027",color="#D4803A",fillcolor="#F6A252",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">iao:data_item</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/IAO_0000027"];
     "IAO_0000030" [URL="http://purl.obolibrary.org/obo/IAO_0000030",color="#D4803A",fillcolor="#F6A252",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">iao:information_content_entity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/IAO_0000030"];
-    "OBI_0000011" [URL="http://purl.obolibrary.org/obo/OBI_0000011",color="#D4B08A",fillcolor="#F5D5B1",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">obi:planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/OBI_0000011"];
     "assay" [URL="http://purl.obolibrary.org/obo/OBI_0000070",color="#D4B08A",fillcolor="#F5D5B1",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">obi:assay</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/OBI_0000070"];
     "evaluant_role" [URL="http://purl.obolibrary.org/obo/OBI_0000067",color="#D4B08A",fillcolor="#F5D5B1",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">obi:evaluant_role</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/OBI_0000067"];
     "material_entity" [URL="http://purl.obolibrary.org/obo/BFO_0000040",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:material_entity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000040"];
     "measurement_datum" [URL="http://purl.obolibrary.org/obo/IAO_0000109",color="#D4803A",fillcolor="#F6A252",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">iao:measurement_datum</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/IAO_0000109"];
-    "owl_NamedIndividual" [URL="http://www.w3.org/2002/07/owl#NamedIndividual",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">owl:NamedIndividual</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://www.w3.org/2002/07/owl#NamedIndividual"];
     "quality" [URL="http://purl.obolibrary.org/obo/BFO_0000019",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:quality</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000019"];
   }
   subgraph "cluster_ABOX" {
@@ -5505,10 +5478,11 @@ For example, in a division calculation process, two numbers considered as ICE se
   "BFO_0000020" -> "BFO_0000002" [label="rdfs:subClassOf"];
   "BFO_0000023" -> "BFO_0000017" [label="rdfs:subClassOf"];
   "BFO_0000031" -> "BFO_0000002" [label="rdfs:subClassOf"];
+  "COB_0000035" -> "COB_0000082" [label="rdfs:subClassOf"];
+  "COB_0000082" -> "BFO_0000015" [label="rdfs:subClassOf"];
   "IAO_0000027" -> "IAO_0000030" [label="rdfs:subClassOf"];
   "IAO_0000030" -> "BFO_0000031" [label="rdfs:subClassOf"];
-  "OBI_0000011" -> "BFO_0000015" [label="rdfs:subClassOf"];
-  "assay" -> "OBI_0000011" [label="rdfs:subClassOf"];
+  "assay" -> "COB_0000035" [label="rdfs:subClassOf"];
   "evaluant_role" -> "BFO_0000023" [label="rdfs:subClassOf"];
   "material_entity" -> "BFO_0000004" [label="rdfs:subClassOf"];
   "measurement_datum" -> "IAO_0000027" [label="rdfs:subClassOf"];
@@ -5517,18 +5491,13 @@ For example, in a division calculation process, two numbers considered as ICE se
   "my_assay" -> "my_evaluated_entity" [label="obi:has_specified_input"];
   "my_assay" -> "my_qualities_measurement_datum" [label="obi:has_specified_output"];
   "my_assay" -> "assay" [label="rdf:type",style="dashed"];
-  "my_assay" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "my_assay" -> "quality" [label="ro:assay_measures_characteristic"];
-  "my_entities_evaluant_role" -> "my_assay" [label="bfo:has_realization"];
+  "my_entities_evaluant_role" -> "my_assay" [label="bfo:realized_in"];
   "my_entities_evaluant_role" -> "evaluant_role" [label="rdf:type",style="dashed"];
-  "my_entities_evaluant_role" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
-  "my_entities_preexising_quality" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "my_entities_preexising_quality" -> "quality" [label="rdf:type",style="dashed"];
   "my_entities_quality" -> "my_qualities_measurement_datum" [label="iao:quality_is_specified_as"];
-  "my_entities_quality" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "my_entities_quality" -> "quality" [label="rdf:type",style="dashed"];
   "my_evaluated_entity" -> "material_entity" [label="rdf:type",style="dashed"];
-  "my_evaluated_entity" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "my_evaluated_entity" -> "my_entities_preexising_quality" [label="ro:has_quality"];
   "my_evaluated_entity" -> "my_entities_quality" [label="ro:has_quality"];
   "my_evaluated_entity" -> "my_entities_evaluant_role" [label="ro:has_role"];
@@ -5536,13 +5505,11 @@ For example, in a division calculation process, two numbers considered as ICE se
   "my_measurment_datums_value_specification" -> "my_evaluated_entity" [label="iao:is_about"];
   "my_measurment_datums_value_specification" -> "val_n_1_0" [label="obi:has_specified_numeric_value"];
   "my_measurment_datums_value_specification" -> "my_entities_quality" [label="obi:specifies_value_of"];
-  "my_measurment_datums_value_specification" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "my_objective" -> "my_evaluated_entity" [label="iao:is_about"];
   "my_qualities_measurement_datum" -> "my_evaluated_entity" [label="iao:is_about"];
   "my_qualities_measurement_datum" -> "my_entities_quality" [label="iao:is_quality_measurement_of"];
   "my_qualities_measurement_datum" -> "my_measurment_datums_value_specification" [label="obi:has_value_specification"];
   "my_qualities_measurement_datum" -> "measurement_datum" [label="rdf:type",style="dashed"];
-  "my_qualities_measurement_datum" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "quality" -> "BFO_0000020" [label="rdfs:subClassOf"];
 }`,
 
@@ -5612,6 +5579,7 @@ For example, in a division calculation process, two numbers considered as ICE se
     style="rounded";
     "ex_object_1" [URL="http://example.com/object_1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:object_1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/object_1"];
     "ex_objective_1" [URL="http://example.com/objective_1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:objective_1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/objective_1"];
+    "ex_plan_1" [URL="http://example.com/plan_1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:plan_1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/plan_1"];
     "ex_process_1" [URL="http://example.com/process_1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:process_1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/process_1"];
     "ex_quality_1" [URL="http://example.com/quality_1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:quality_1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/quality_1"];
     "ex_result_1" [URL="http://example.com/result_1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label="ex:result_1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.com/result_1"];
@@ -5622,13 +5590,14 @@ For example, in a division calculation process, two numbers considered as ICE se
   "ex_object_1" -> "ex_role_1" [label="ro:has_role"];
   "ex_objective_1" -> "ex_object_1" [label="iao:is_about"];
   "ex_process_1" -> "ex_sub_process_1" [label="bfo:has_occurrent_part"];
+  "ex_process_1" -> "ex_plan_1" [label="bfo:realizes"];
   "ex_process_1" -> "ex_objective_1" [label="obi:achieves_planned_objective"];
   "ex_process_1" -> "ex_object_1" [label="obi:has_specified_input"];
   "ex_process_1" -> "ex_result_1" [label="obi:has_specified_output"];
   "ex_process_1" -> "fatigue_testing_process" [label="rdf:type",style="dashed"];
   "ex_process_1" -> "ex_quality_1" [label="ro:assay_measures_characteristic"];
   "ex_result_1" -> "ex_object_1" [label="iao:is_about"];
-  "ex_role_1" -> "ex_process_1" [label="bfo:has_realization"];
+  "ex_role_1" -> "ex_process_1" [label="bfo:realized_in"];
   "ex_role_1" -> "evaluant_role" [label="rdf:type",style="dashed"];
 }`,
 
@@ -5648,7 +5617,6 @@ For example, in a division calculation process, two numbers considered as ICE se
     "IAO_0000009" [URL="http://purl.obolibrary.org/obo/IAO_0000009",color="#D4803A",fillcolor="#F6A252",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">iao:datum_label</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/IAO_0000009"];
     "IAO_0000030" [URL="http://purl.obolibrary.org/obo/IAO_0000030",color="#D4803A",fillcolor="#F6A252",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">iao:information_content_entity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/IAO_0000030"];
     "measurement_unit" [URL="http://purl.obolibrary.org/obo/IAO_0000003",color="#D4803A",fillcolor="#F6A252",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">iao:measurement_unit</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/IAO_0000003"];
-    "owl_NamedIndividual" [URL="http://www.w3.org/2002/07/owl#NamedIndividual",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">owl:NamedIndividual</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://www.w3.org/2002/07/owl#NamedIndividual"];
   }
   subgraph "cluster_ABOX" {
     label="";
@@ -5665,9 +5633,7 @@ For example, in a division calculation process, two numbers considered as ICE se
   "IAO_0000030" -> "BFO_0000031" [label="rdfs:subClassOf"];
   "ex_scalar_value_specification_X" -> "ex_unit_X" [label="iao:has_measurement_unit_label"];
   "ex_scalar_value_specification_X" -> "val_n_135_0" [label="obi:has_specified_numeric_value"];
-  "ex_scalar_value_specification_X" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "ex_unit_X" -> "measurement_unit" [label="rdf:type",style="dashed"];
-  "ex_unit_X" -> "owl_NamedIndividual" [label="rdf:type",style="dashed"];
   "measurement_unit" -> "IAO_0000009" [label="rdfs:subClassOf"];
 }`,
 
@@ -5686,18 +5652,18 @@ For example, in a division calculation process, two numbers considered as ICE se
     "BFO_0000003" [URL="http://purl.obolibrary.org/obo/BFO_0000003",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:occurrent</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000003"];
     "BFO_0000015" [URL="http://purl.obolibrary.org/obo/BFO_0000015",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000015"];
     "BFO_0000031" [URL="http://purl.obolibrary.org/obo/BFO_0000031",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:generically_dependent_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000031"];
+    "COB_0000035" [URL="http://purl.obolibrary.org/obo/COB_0000035",color="#6B8AD6",fillcolor="#93AFF3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">cob:completely_executed_planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/COB_0000035"];
+    "COB_0000082" [URL="http://purl.obolibrary.org/obo/COB_0000082",color="#6B8AD6",fillcolor="#93AFF3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">cob:planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/COB_0000082"];
     "DenominatorAssignment" [URL="http://example.org/division#DenominatorAssignment",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">:DenominatorAssignment</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://example.org/division#DenominatorAssignment"];
     "DivisionProcess" [URL="http://example.org/division#DivisionProcess",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">:DivisionProcess</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://example.org/division#DivisionProcess"];
     "InformationContentEntity" [URL="http://purl.obolibrary.org/obo/IAO_0000030",color="#D4803A",fillcolor="#F6A252",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">iao:InformationContentEntity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/IAO_0000030"];
     "InputAssignment" [URL="https://w3id.org/pmd/co/PMD_0000066",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:InputAssignment</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000066"];
     "Number" [URL="http://example.org/division#Number",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">:Number</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://example.org/division#Number"];
     "NumeratorAssignment" [URL="http://example.org/division#NumeratorAssignment",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">:NumeratorAssignment</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://example.org/division#NumeratorAssignment"];
-    "OBI_0000011" [URL="http://purl.obolibrary.org/obo/OBI_0000011",color="#D4B08A",fillcolor="#F5D5B1",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">obi:planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/OBI_0000011"];
     "OutputAssignment" [URL="https://w3id.org/pmd/co/PMD_0000067",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:OutputAssignment</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000067"];
     "PMD_0000583" [URL="https://w3id.org/pmd/co/PMD_0000583",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:computing_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000583"];
     "QuotientAssignment" [URL="http://example.org/division#QuotientAssignment",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">:QuotientAssignment</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://example.org/division#QuotientAssignment"];
     "SimulationProcess" [URL="https://w3id.org/pmd/co/PMD_0000933",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:SimulationProcess</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000933"];
-    "owl_Class" [URL="http://www.w3.org/2002/07/owl#Class",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">owl:Class</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://www.w3.org/2002/07/owl#Class"];
   }
   subgraph "cluster_ABOX" {
     label="";
@@ -5709,6 +5675,7 @@ For example, in a division calculation process, two numbers considered as ICE se
     "num1" [URL="http://example.org/division#num1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label=":num1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.org/division#num1"];
     "num2" [URL="http://example.org/division#num2",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label=":num2",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.org/division#num2"];
     "numerator_assign" [URL="http://example.org/division#numerator_assign",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label=":numerator_assign",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.org/division#numerator_assign"];
+    "plan1" [URL="http://example.org/division#plan1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label=":plan1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.org/division#plan1"];
     "quotient1" [URL="http://example.org/division#quotient1",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label=":quotient1",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.org/division#quotient1"];
     "quotient_assign" [URL="http://example.org/division#quotient_assign",color="#AAAAAA",fillcolor="#E6E6E6",fontcolor="#333333",label=":quotient_assign",margin="0.2,0.1",penwidth="2",shape="ellipse",style="filled",target="_blank",tooltip="http://example.org/division#quotient_assign"];
   }
@@ -5719,23 +5686,20 @@ For example, in a division calculation process, two numbers considered as ICE se
   "BFO_0000003" -> "BFO_0000001" [label="rdfs:subClassOf"];
   "BFO_0000015" -> "BFO_0000003" [label="rdfs:subClassOf"];
   "BFO_0000031" -> "BFO_0000002" [label="rdfs:subClassOf"];
-  "DenominatorAssignment" -> "owl_Class" [label="rdf:type",style="dashed"];
+  "COB_0000035" -> "COB_0000082" [label="rdfs:subClassOf"];
+  "COB_0000082" -> "BFO_0000015" [label="rdfs:subClassOf"];
   "DenominatorAssignment" -> "InputAssignment" [label="rdfs:subClassOf"];
-  "DivisionProcess" -> "owl_Class" [label="rdf:type",style="dashed"];
   "DivisionProcess" -> "SimulationProcess" [label="rdfs:subClassOf"];
   "InformationContentEntity" -> "BFO_0000031" [label="rdfs:subClassOf"];
-  "Number" -> "owl_Class" [label="rdf:type",style="dashed"];
   "Number" -> "InformationContentEntity" [label="rdfs:subClassOf"];
-  "NumeratorAssignment" -> "owl_Class" [label="rdf:type",style="dashed"];
   "NumeratorAssignment" -> "InputAssignment" [label="rdfs:subClassOf"];
-  "OBI_0000011" -> "BFO_0000015" [label="rdfs:subClassOf"];
-  "PMD_0000583" -> "OBI_0000011" [label="rdfs:subClassOf"];
-  "QuotientAssignment" -> "owl_Class" [label="rdf:type",style="dashed"];
+  "PMD_0000583" -> "COB_0000035" [label="rdfs:subClassOf"];
   "QuotientAssignment" -> "OutputAssignment" [label="rdfs:subClassOf"];
   "SimulationProcess" -> "PMD_0000583" [label="rdfs:subClassOf"];
   "denominator_assign" -> "div1" [label="bfo:part_of"];
   "denominator_assign" -> "DenominatorAssignment" [label="rdf:type",style="dashed"];
   "denominator_assign" -> "num2" [label="ro:has_participant"];
+  "div1" -> "plan1" [label="bfo:realizes"];
   "div1" -> "DivisionProcess" [label="rdf:type",style="dashed"];
   "num1" -> "val_n_10" [label="obi:has_specified_numeric_value"];
   "num1" -> "div1" [label="obi:is_specified_input_of"];
@@ -6082,10 +6046,10 @@ const nodeData = {
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/BFO_0000040"
                         },
-                        "OBI_0000011": {
-                                    "label": "obi:planned_process",
+                        "COB_0000035": {
+                                    "label": "cob:completely_executed_planned_process",
                                     "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/OBI_0000011"
+                                    "uri": "http://purl.obolibrary.org/obo/COB_0000035"
                         },
                         "coating": {
                                     "label": "pmd:coating",
@@ -6096,6 +6060,16 @@ const nodeData = {
                                     "label": "pmd:manufacturing_process",
                                     "type": "Class",
                                     "uri": "https://w3id.org/pmd/co/PMD_0000833"
+                        },
+                        "plan1": {
+                                    "label": ":plan1",
+                                    "type": "Individual",
+                                    "uri": "https://w3id.org/pmd/co/test#plan1"
+                        },
+                        "plan2": {
+                                    "label": ":plan2",
+                                    "type": "Individual",
+                                    "uri": "https://w3id.org/pmd/co/test#plan2"
                         }
             },
             "realizable-entity-role": {
@@ -6108,6 +6082,11 @@ const nodeData = {
                                     "label": "ex:objective_1",
                                     "type": "Individual",
                                     "uri": "http://example.com/objective_1"
+                        },
+                        "ex_plan_1": {
+                                    "label": "ex:plan_1",
+                                    "type": "Individual",
+                                    "uri": "http://example.com/plan_1"
                         },
                         "ex_process_1": {
                                     "label": "ex:process_1",
@@ -6151,75 +6130,20 @@ const nodeData = {
                         }
             },
             "material-property-quality": {
-                        "entity": {
-                                    "label": "bfo:entity",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/BFO_0000001"
-                        },
-                        "independent_continuant": {
-                                    "label": "bfo:independent_continuant",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/BFO_0000004"
-                        },
                         "temporal_region": {
                                     "label": "bfo:temporal_region",
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/BFO_0000008"
-                        },
-                        "process": {
-                                    "label": "bfo:process",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/BFO_0000015"
-                        },
-                        "quality": {
-                                    "label": "bfo:quality",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/BFO_0000019"
-                        },
-                        "specifically_dependent_continuant": {
-                                    "label": "bfo:specifically_dependent_continuant",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/BFO_0000020"
                         },
                         "object": {
                                     "label": "bfo:object",
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/BFO_0000030"
                         },
-                        "material_entity": {
-                                    "label": "bfo:material_entity",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/BFO_0000040"
-                        },
-                        "relational_quality": {
-                                    "label": "bfo:relational_quality",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/BFO_0000145"
-                        },
-                        "has_specified_input": {
-                                    "label": "obi:has_specified_input",
-                                    "type": "Individual",
-                                    "uri": "http://purl.obolibrary.org/obo/OBI_0000293"
-                        },
-                        "has_specified_output": {
-                                    "label": "obi:has_specified_output",
-                                    "type": "Individual",
-                                    "uri": "http://purl.obolibrary.org/obo/OBI_0000299"
-                        },
                         "scalar_value_specification": {
                                     "label": "obi:scalar_value_specification",
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/OBI_0001931"
-                        },
-                        "participates_in": {
-                                    "label": "ro:participates_in",
-                                    "type": "Individual",
-                                    "uri": "http://purl.obolibrary.org/obo/RO_0000056"
-                        },
-                        "has_participant": {
-                                    "label": "ro:has_participant",
-                                    "type": "Individual",
-                                    "uri": "http://purl.obolibrary.org/obo/RO_0000057"
                         },
                         "gram": {
                                     "label": "uo:gram",
@@ -6241,20 +6165,10 @@ const nodeData = {
                                     "type": "Individual",
                                     "uri": "http://purl.obolibrary.org/obo/UO_0000163"
                         },
-                        "owl_NamedIndividual": {
-                                    "label": "owl:NamedIndividual",
-                                    "type": "Class",
-                                    "uri": "http://www.w3.org/2002/07/owl#NamedIndividual"
-                        },
                         "material": {
                                     "label": "pmd:material",
                                     "type": "Class",
                                     "uri": "https://w3id.org/pmd/co/PMD_0000000"
-                        },
-                        "behavioral_material_property": {
-                                    "label": "pmd:behavioral_material_property",
-                                    "type": "Class",
-                                    "uri": "https://w3id.org/pmd/co/PMD_0000005"
                         },
                         "melting_process": {
                                     "label": "pmd:melting_process",
@@ -6285,11 +6199,6 @@ const nodeData = {
                                     "label": "pmd:melting_point",
                                     "type": "Class",
                                     "uri": "https://w3id.org/pmd/co/PMD_0000851"
-                        },
-                        "stimulating_process": {
-                                    "label": "pmd:stimulating_process",
-                                    "type": "Class",
-                                    "uri": "https://w3id.org/pmd/co/PMD_0000950"
                         },
                         "portion_of_iron": {
                                     "label": "pmd:portion_of_iron",
@@ -6468,6 +6377,16 @@ const nodeData = {
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/BFO_0000040"
                         },
+                        "COB_0000035": {
+                                    "label": "cob:completely_executed_planned_process",
+                                    "type": "Class",
+                                    "uri": "http://purl.obolibrary.org/obo/COB_0000035"
+                        },
+                        "COB_0000082": {
+                                    "label": "cob:planned_process",
+                                    "type": "Class",
+                                    "uri": "http://purl.obolibrary.org/obo/COB_0000082"
+                        },
                         "IAO_0000027": {
                                     "label": "iao:data_item",
                                     "type": "Class",
@@ -6483,11 +6402,6 @@ const nodeData = {
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/IAO_0000109"
                         },
-                        "OBI_0000011": {
-                                    "label": "obi:planned_process",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/OBI_0000011"
-                        },
                         "evaluant_role": {
                                     "label": "obi:evaluant_role",
                                     "type": "Class",
@@ -6502,11 +6416,6 @@ const nodeData = {
                                     "label": "uo:centimeter",
                                     "type": "Individual",
                                     "uri": "http://purl.obolibrary.org/obo/UO_0000015"
-                        },
-                        "owl_NamedIndividual": {
-                                    "label": "owl:NamedIndividual",
-                                    "type": "Class",
-                                    "uri": "http://www.w3.org/2002/07/owl#NamedIndividual"
                         },
                         "my_assay": {
                                     "label": ":my_assay",
@@ -6584,11 +6493,6 @@ const nodeData = {
                                     "label": "iao:information_content_entity",
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/IAO_0000030"
-                        },
-                        "owl_NamedIndividual": {
-                                    "label": "owl:NamedIndividual",
-                                    "type": "Class",
-                                    "uri": "http://www.w3.org/2002/07/owl#NamedIndividual"
                         },
                         "ex_scalar_value_specification_X": {
                                     "label": "ex:scalar_value_specification_X",
@@ -6769,6 +6673,11 @@ const nodeData = {
                                     "type": "Individual",
                                     "uri": "http://example.org/division#numerator_assign"
                         },
+                        "plan1": {
+                                    "label": ":plan1",
+                                    "type": "Individual",
+                                    "uri": "http://example.org/division#plan1"
+                        },
                         "quotient1": {
                                     "label": ":quotient1",
                                     "type": "Individual",
@@ -6804,20 +6713,20 @@ const nodeData = {
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/BFO_0000031"
                         },
+                        "COB_0000035": {
+                                    "label": "cob:completely_executed_planned_process",
+                                    "type": "Class",
+                                    "uri": "http://purl.obolibrary.org/obo/COB_0000035"
+                        },
+                        "COB_0000082": {
+                                    "label": "cob:planned_process",
+                                    "type": "Class",
+                                    "uri": "http://purl.obolibrary.org/obo/COB_0000082"
+                        },
                         "InformationContentEntity": {
                                     "label": "iao:InformationContentEntity",
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/IAO_0000030"
-                        },
-                        "OBI_0000011": {
-                                    "label": "obi:planned_process",
-                                    "type": "Class",
-                                    "uri": "http://purl.obolibrary.org/obo/OBI_0000011"
-                        },
-                        "owl_Class": {
-                                    "label": "owl:Class",
-                                    "type": "Class",
-                                    "uri": "http://www.w3.org/2002/07/owl#Class"
                         },
                         "InputAssignment": {
                                     "label": "pmd:InputAssignment",

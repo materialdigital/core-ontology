@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-10/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-12/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-02-10" .
+                                  owl:versionInfo "2026-02-12" .
 
 #################################################################
 #    Annotation properties
@@ -210,7 +210,7 @@ pmd:PMD_0000060 rdf:type owl:AnnotationProperty ;
 
 ###  https://w3id.org/pmd/co/PMD_0000064
 pmd:PMD_0000064 rdf:type owl:AnnotationProperty ;
-                rdfs:comment "An editor note referring to a pattern which shows the usage of this class or property." ;
+                rdfs:comment "An editor note referring to a pattern which shows the usage of this class or property."@en ;
                 rdfs:label "pattern example"@en ;
                 rdfs:subPropertyOf obo:IAO_0000116 .
 
@@ -1141,7 +1141,7 @@ pmd:PMD_0000069 rdf:type owl:ObjectProperty ;
                             ] ;
                 rdfs:range pmd:PMD_0000068 ;
                 rdfs:label "has state"@en ;
-                skos:definition "relates a temporally qualified continuant to the unique anchor continuant that it is a temporal phase of"@en ;
+                skos:definition "relates an anchor continuant to a temporally qualified continuant that represents a specific temporal phase of its existence."@en ;
                 pmd:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/185" .
 
 
@@ -1149,7 +1149,7 @@ pmd:PMD_0000069 rdf:type owl:ObjectProperty ;
 pmd:PMD_0000070 rdf:type owl:ObjectProperty ,
                          owl:FunctionalProperty ;
                 rdfs:label "is state of"@en ;
-                skos:definition "relates a temporally qualified continuant to the unique anchor continuant that it is a temporal phase of" .
+                skos:definition "relates a temporally qualified continuant to the unique anchor continuant that it is a temporal phase of"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000077
@@ -1178,16 +1178,14 @@ pmd:PMD_0001028 rdf:type owl:ObjectProperty ;
 
 ###  https://w3id.org/pmd/co/PMD_0001029
 pmd:PMD_0001029 rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf owl:topObjectProperty ;
                 rdfs:domain obo:BFO_0000017 ;
                 rdfs:label "responds with"@en ;
-                skos:definition "The realizable entity must be \"stimulated\" by some Stimulus in order to respond with the Response. The bearer of the realizable entity must participate in Stimulation as well as in Response." .
+                skos:definition "The realizable entity must be \"stimulated\" by some Stimulus in order to respond with the Response. The bearer of the realizable entity must participate in Stimulation as well as in Response."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020020
-pmd:PMD_0020020 rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf owl:topObjectProperty ;
-                rdf:type owl:SymmetricProperty ;
+pmd:PMD_0020020 rdf:type owl:ObjectProperty ,
+                         owl:SymmetricProperty ;
                 rdfs:domain obo:BFO_0000040 ;
                 rdfs:range obo:BFO_0000040 ;
                 rdfs:label "interacts with"@en ;
@@ -1241,7 +1239,6 @@ pmd:PMD_0025013 rdf:type owl:ObjectProperty ;
 
 ###  https://w3id.org/pmd/co/PMD_0025998
 pmd:PMD_0025998 rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf owl:topObjectProperty ;
                 owl:inverseOf pmd:PMD_0025999 ;
                 rdfs:domain obo:BFO_0000004 ;
                 rdfs:range obo:BFO_0000145 ;
@@ -1255,7 +1252,6 @@ pmd:PMD_0025998 rdf:type owl:ObjectProperty ;
 
 ###  https://w3id.org/pmd/co/PMD_0025999
 pmd:PMD_0025999 rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf owl:topObjectProperty ;
                 owl:propertyChainAxiom ( pmd:PMD_0025999
                                          obo:BFO_0000050
                                        ) ;
@@ -3978,7 +3974,7 @@ pmd:PMD_0000543 rdf:type owl:Class ;
                 rdfs:label "Kalibrierungsgeräterolle"@de ,
                            "calibration device role"@en ;
                 skos:definition "Role of a device that is used for calibration of itself or another device, which has the \"Subject Of Calibration Role\". The role is realized in a calibration process."@en ,
-                                "Rolle eines Geräts, das zum Kalibirieren sich selbst oder eines anderen Gerätes, das die \"Subject Of Calibration Role\" inne hat, verwendet wird. Die Rolle wird in einem Kalibrierungsprozess realisiert."@de ;
+                                "Rolle eines Geräts, das zum Kalibrieren sich selbst oder eines anderen Gerätes, das die \"Subject Of Calibration Role\" inne hat, verwendet wird. Die Rolle wird in einem Kalibrierungsprozess realisiert."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4833,7 +4829,7 @@ pmd:PMD_0000631 rdf:type owl:Class ;
                            "empirical potential molecular dynamics simulation"@en ;
                 skos:definition "A simulation process that uses empirical potentials derived from experimental data to model the behavior of molecular systems."@en ,
                                 "Ein Simulationsprozess, der empirische Potentiale verwendet, die aus experimentellen Daten abgeleitet sind, um das Verhalten molekularer Systeme zu modellieren."@de ;
-                skos:example "Simulating the diffusion of atoms in a crystal using Lennard-Jones potentials." .
+                skos:example "Simulating the diffusion of atoms in a crystal using Lennard-Jones potentials."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000633
@@ -5320,8 +5316,8 @@ pmd:PMD_0000777 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000778
 pmd:PMD_0000778 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000833 ;
-                obo:IAO_0000112 "Mixing two fluids. Adding salt into water. Injecting a mouse with PBS." ;
-                rdfs:label "material combination" ;
+                obo:IAO_0000112 "Mixing two fluids. Adding salt into water. Injecting a mouse with PBS."@en ;
+                rdfs:label "material combination"@en ;
                 owl:deprecated "true"^^xsd:boolean ;
                 skos:definition "A material processing with the objective to combine two or more material entities as input into a single material entity as output."@en .
 
@@ -6131,7 +6127,7 @@ pmd:PMD_0000869 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000870
 pmd:PMD_0000870 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
-                rdfs:label "occurrence of electic field"@en ;
+                rdfs:label "occurrence of electric field"@en ;
                 skos:definition "The occurrence of (an) electric field is a process describing the presence or generation of an electric field in a material or system."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -6156,10 +6152,10 @@ pmd:PMD_0000874 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000875
 pmd:PMD_0000875 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000856 ;
-                rdfs:label "Ein Mikroskopieverfahren, das sichtbares Licht und Linsen verwendet, um eine Probe zu vergrößern und abzubilden, und weit verbreitet zur Untersuchung der Mikrostruktur und Morphologie von Materialien ist."@de ,
-                           "Optische Mikroskopie"@de ,
+                rdfs:label "Optische Mikroskopie"@de ,
                            "optical microscopy"@en ;
-                skos:definition "A microscopy process that uses visible light and lenses to magnify and image a specimen, widely used for examining the microstructure and morphology of materials."@en ;
+                skos:definition "A microscopy process that uses visible light and lenses to magnify and image a specimen, widely used for examining the microstructure and morphology of materials."@en ,
+                                "Ein Mikroskopieverfahren, das sichtbares Licht und Linsen verwendet, um eine Probe zu vergrößern und abzubilden, und weit verbreitet zur Untersuchung der Mikrostruktur und Morphologie von Materialien ist."@de ;
                 skos:example "An example is Light Microscopy."@en .
 
 
@@ -6944,8 +6940,8 @@ pmd:PMD_0000963 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000964
 pmd:PMD_0000964 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000821 ;
-                rdfs:label "supervised learning"@de ,
-                           "supervised machine learning" ;
+                rdfs:label "supervised machine learning"@de ,
+                           "supervised machine learning"@en ;
                 skos:definition "A machine learning process that learns a function mapping from input data to labeled output data."@en ,
                                 "Ein Maschinelles Lernen Prozess, der eine Funktion erlernt, die Eingabedaten auf beschriftete Ausgabedaten abbildet."@de ;
                 skos:example "Training a model to predict the tensile strength of a material based on its composition and manufacturing process parameters. This involves using a dataset where the tensile strength is already known (labeled data) to train the model."@en .
@@ -7273,7 +7269,7 @@ pmd:PMD_0000998 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0001003
 pmd:PMD_0001003 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000821 ;
-                rdfs:label "Unsupervised Learning"@de ,
+                rdfs:label "unsupervised machine learning"@de ,
                            "unsupervised machine learning"@en ;
                 skos:definition "A machine learning process that identifies patterns and relationships in data without using labeled outcomes."@en ,
                                 "Ein Maschinelles Lernen Prozess, der Muster und Zusammenhänge in Daten identifiziert, ohne beschriftete Ergebnisse zu verwenden."@de ;
@@ -9784,7 +9780,7 @@ pmd:PMD_0025015 rdf:type owl:Class ;
                                       rdf:type owl:Class
                                     ] ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
-                rdfs:comment "'portion of pure chemical element' and 'has part' only CHEBI:33336" ;
+                rdfs:comment "'portion of pure chemical element' and 'has part' only CHEBI:33336"@en ;
                 rdfs:label "portion of lanthanum"@en ;
                 skos:definition "A portion of lanthanum is a portion of pure substance that has parts only chebi:lanthanum atom."@en .
 
@@ -9880,7 +9876,7 @@ pmd:PMD_0040001 rdf:type owl:Class ;
                 rdfs:comment "Length is a size that describes the spatial extent of its bearer in one dimension."@en ;
                 rdfs:label "length"@en ;
                 skos:altLabel "dimension"@en ;
-                skos:definition "Length is a one dimensional size." ;
+                skos:definition "Length is a one dimensional size."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11211,7 +11207,7 @@ pmd:PMD_0050157 rdf:type owl:Class ;
 pmd:PMD_0060006 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000033 ;
                 rdfs:label "device specification"@en ;
-                skos:definition "A directive information entity that outlines the technical requirements, features, constraints, and performance criteria of a specific device, guiding its design, manufacturing, operation, or maintenance." ;
+                skos:definition "A directive information entity that outlines the technical requirements, features, constraints, and performance criteria of a specific device, guiding its design, manufacturing, operation, or maintenance."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11219,7 +11215,7 @@ pmd:PMD_0060006 rdf:type owl:Class ;
 pmd:PMD_0060007 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000033 ;
                 rdfs:label "material specification"@en ;
-                skos:definition "A directive information entity that defines the composition, properties, performance criteria, and acceptable standards for a material, guiding its selection, processing, and application in a specific context." ;
+                skos:definition "A directive information entity that defines the composition, properties, performance criteria, and acceptable standards for a material, guiding its selection, processing, and application in a specific context."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11227,7 +11223,7 @@ pmd:PMD_0060007 rdf:type owl:Class ;
 pmd:PMD_0060008 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000104 ;
                 rdfs:label "recipe"@en ;
-                skos:definition "A plan specification that outlines the ingredients, proportions, and procedural steps required to prepare a specific product, typically in cooking, manufacturing, or chemical processes." .
+                skos:definition "A plan specification that outlines the ingredients, proportions, and procedural steps required to prepare a specific product, typically in cooking, manufacturing, or chemical processes."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0060009
@@ -11423,7 +11419,7 @@ obo:UO_0000164 rdf:type owl:NamedIndividual .
 
 ###  https://w3id.org/pmd/co/PMD_0020006
 pmd:PMD_0020006 rdf:type owl:NamedIndividual ;
-                rdfs:label "bravais lattice triclinic primitve"@en ;
+                rdfs:label "bravais lattice triclinic primitive"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 

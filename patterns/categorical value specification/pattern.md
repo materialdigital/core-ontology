@@ -1,0 +1,4 @@
+- **Purpose**: Represents how categorical values such as ferrite, face-centered cubic, and liquid are used to specify the values of material characteristics.
+- **Example Use Case**: The example describes materials and the categorical qualities they might possess. In the first example, `ex:fcc_material` is a material that has both a crystal structure and a grain structure. Its crystal structure quality is assigned the categorical value "face-centered cubic", and its grain structure quality is assigned the categorical value "ferrite", which is also explicitly stated to be about this same material. In other words, the material is characterized as having an FCC crystal structure and a ferritic grain structure.
+
+In the second example, ex:steel_melt is described as a melt that has an aggregate state quality. This quality is given the categorical value "liquid", indicating that the melt is in the liquid state.
