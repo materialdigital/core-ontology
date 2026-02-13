@@ -124,6 +124,21 @@ obo:IAO_0000119 rdf:type owl:AnnotationProperty ;
                 rdfs:label "definition source"@en .
 
 
+###  http://purl.obolibrary.org/obo/IAO_0000232
+obo:IAO_0000232 rdf:type owl:AnnotationProperty ;
+                obo:IAO_0000115 "An administrative note of use for a curator but of no use for a user"@en ;
+                rdfs:label "curator note"@en .
+
+
+###  http://purl.obolibrary.org/obo/IAO_0000233
+obo:IAO_0000233 rdf:type owl:AnnotationProperty ;
+                obo:IAO_0000112 "the URI for an OBI Terms ticket at sourceforge, such as https://sourceforge.net/p/obi/obi-terms/772/"@en ;
+                obo:IAO_0000115 "An IRI or similar locator for a request or discussion of an ontology term."@en ;
+                obo:IAO_0000119 "Person: Jie Zheng, Chris Stoeckert, Alan Ruttenberg"@en ;
+                rdfs:comment "The 'tracker item' can associate a tracker with a specific ontology term."@en ;
+                rdfs:label "term tracker item"@en .
+
+
 ###  http://purl.org/dc/elements/1.1/source
 dce:source rdf:type owl:AnnotationProperty ;
            rdfs:comment """A reference to a resource from which the present resource
@@ -173,6 +188,7 @@ doap:repository rdf:type owl:AnnotationProperty .
 oboInOwl:hasDbXref rdf:type owl:AnnotationProperty ;
                    obo:IAO_0000112 "disease characteristic (MONDO:0021125) has cross-reference (http://www.geneontology.org/formats/oboInOwl#hasDbXref) \"NCIT:C41009\"^^xsd:string" ;
                    obo:IAO_0000115 "An annotation property that links an ontology entity or a statement to a prefixed identifier or URI." ;
+                   obo:IAO_0000233 <https://github.com/information-artifact-ontology/ontology-metadata/issues/123> ;
                    dcterms:contributor <https://orcid.org/0000-0002-7356-1779> ;
                    dcterms:created "2024-03-18"^^xsd:date ;
                    rdfs:label "has cross-reference" .
@@ -181,6 +197,7 @@ oboInOwl:hasDbXref rdf:type owl:AnnotationProperty ;
 ###  http://www.geneontology.org/formats/oboInOwl#hasExactSynonym
 oboInOwl:hasExactSynonym rdf:type owl:AnnotationProperty ;
                          obo:IAO_0000115 "An alternative label for a class or property which has the exact same meaning than the preferred name/primary label." ;
+                         obo:IAO_0000233 "https://github.com/information-artifact-ontology/ontology-metadata/issues/20" ;
                          rdfs:label "has exact synonym"@en .
 
 
@@ -661,6 +678,7 @@ obo:IAO_0000235 rdf:type owl:ObjectProperty ;
                 rdfs:domain obo:BFO_0000001 ;
                 rdfs:range obo:IAO_0000030 ;
                 obo:IAO_0000115 "inverse of the relation 'denotes'"@en ;
+                obo:IAO_0000233 <https://github.com/information-artifact-ontology/IAO/issues/206> ;
                 rdfs:label "denoted by"@en .
 
 
@@ -741,6 +759,7 @@ obo:OBI_0000417 rdf:type owl:ObjectProperty ;
                 obo:IAO_0000112 "A cell sorting process achieves the objective specification 'material separation objective'" ;
                 obo:IAO_0000115 "This relation obtains between a planned process and a objective specification when the criteria specified in the objective specification are met at the end of the planned process."@en ;
                 obo:IAO_0000119 "PPPB branch derived" ;
+                obo:IAO_0000232 "modified according to email thread from 1/23/09 in accordince with DT and PPPB branch" ;
                 rdfs:label "achieves_planned_objective" ;
                 co:PMD_0000064 "https://github.com/search?q=repo%3Amaterialdigital%2Fcore-ontology+path%3A%2F%5Epatterns%5C%2F%2F+OBI_0000417&type=code" .
 
@@ -2632,6 +2651,8 @@ obo:IAO_0000009 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000030 ;
                 obo:IAO_0000115 "A label is a symbol that is part of some other datum and is used to either partially define  the denotation of that datum or to provide a means for identifying the datum as a member of the set of data with the same label"@en ;
                 obo:IAO_0000116 "http://www.golovchenko.org/cgi-bin/wnsearch?q=label#4n"@en ;
+                obo:IAO_0000232 """9/22/11 BP: changed the rdfs:label for this class from 'label' to 'datum label' to convey that this class is not intended to cover all kinds of labels (stickers, radiolabels, etc.), and not even all kind of textual labels, but rather the kind of labels occuring in a datum. 
+""" ;
                 rdfs:label "datum label"@en .
 
 
@@ -2710,28 +2731,6 @@ obo:IAO_0000033 rdf:type owl:Class ;
                 rdfs:label "directive information entity"@en .
 
 
-###  http://purl.obolibrary.org/obo/IAO_0000078
-obo:IAO_0000078 rdf:type owl:Class ;
-                owl:equivalentClass [ rdf:type owl:Class ;
-                                      owl:oneOf ( obo:IAO_0000002
-                                                  obo:IAO_0000120
-                                                  obo:IAO_0000121
-                                                  obo:IAO_0000122
-                                                  obo:IAO_0000123
-                                                  obo:IAO_0000124
-                                                  obo:IAO_0000125
-                                                  obo:IAO_0000423
-                                                  obo:IAO_0000428
-                                                )
-                                    ] ;
-                rdfs:subClassOf obo:IAO_0000102 ;
-                obo:IAO_0000115 "The curation status of the term. The allowed values come from an enumerated list of predefined terms. See the specification of these instances for more detailed definitions of each enumerated value."@en ;
-                obo:IAO_0000116 "Better to represent curation as a process with parts and then relate labels to that process (in IAO meeting)"@en ;
-                obo:IAO_0000119 "GROUP:OBI:<http://purl.obolibrary.org/obo/obi>"@en ,
-                                "OBI_0000266"@en ;
-                rdfs:label "curation status specification"@en .
-
-
 ###  http://purl.obolibrary.org/obo/IAO_0000098
 obo:IAO_0000098 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000033 ;
@@ -2756,13 +2755,6 @@ obo:IAO_0000100 rdf:type owl:Class ;
                 obo:IAO_0000119 "OBI_0000042"@en ,
                                 "group:OBI"@en ;
                 rdfs:label "data set"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000102
-obo:IAO_0000102 rdf:type owl:Class ;
-                rdfs:subClassOf obo:IAO_0000027 ;
-                obo:IAO_0000115 "Data about an ontology part is a data item about a part of an ontology, for example a term"@en ;
-                rdfs:label "data about an ontology part"@en .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000104
@@ -2848,6 +2840,7 @@ obo:IAO_0000311 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000310 ;
                 obo:IAO_0000112 "journal article, newspaper story, book, etc."@en ;
                 obo:IAO_0000115 "A document that is the output of a publishing process."@en ;
+                obo:IAO_0000233 <https://github.com/information-artifact-ontology/IAO/issues/232> ;
                 rdfs:comment "Revisit the term in Octorber 2020. Improve the defintion."@en ;
                 rdfs:label "publication"@en .
 
@@ -2857,6 +2850,7 @@ obo:IAO_0000444 rdf:type owl:Class ;
                 rdfs:subClassOf obo:COB_0000035 ;
                 obo:IAO_0000115 "A planned process of making information, such as literature, music, and software etc., available to the public for sale or for free."@en ;
                 obo:IAO_0000119 "https://en.wikipedia.org/wiki/Publishing" ;
+                obo:IAO_0000233 <https://github.com/information-artifact-ontology/IAO/issues/232> ;
                 rdfs:label "publishing process"@en .
 
 
@@ -2892,6 +2886,7 @@ obo:IAO_0020000 rdf:type owl:Class ;
                                   owl:someValuesFrom obo:IAO_0020010
                                 ] ;
                 obo:IAO_0000115 "An information content entity that is the outcome of a dubbing process and is used to refer to one instance of entity shared by a group of people to refer to that individual entity."@en ;
+                obo:IAO_0000233 "https://github.com/information-artifact-ontology/IAO/issues/237"@en ;
                 rdfs:comment "Sep 29, 2016: The current definition has been amended from the previous version: \"A proper name is an information content entity that is the outcome of a dubbing process and is used to refer to one instance of entity shared by a group of people to refer to that individual entity.\" to more accuratly reflect the necessary and sufficient condition on the class. (MB)"@en ;
                 rdfs:label "identifier"@en ;
                 co:PMD_0000060 "true"^^xsd:boolean .
@@ -2913,6 +2908,7 @@ obo:IAO_0020010 rdf:type owl:Class ;
                                   owl:someValuesFrom obo:IAO_0020000
                                 ] ;
                 obo:IAO_0000115 "A planned process that provides a reference to an individual entity shared by a group of subscribers to refer to that individual entity."@en ;
+                obo:IAO_0000233 "https://github.com/information-artifact-ontology/IAO/issues/237"@en ;
                 rdfs:label "identifier creating process"@en .
 
 
@@ -2931,6 +2927,8 @@ obo:OBI_0000011 rdf:type owl:Class ;
                                 "PMDco : migration: https://github.com/materialdigital/core-ontology/issues/269" ,
                                 "We are only considering successfully completed planned processes. A plan may be modified, and details added during execution. For a given planned process, the associated realized plan specification is the one encompassing all changes made during execution. This means that all processes in which an agent acts towards achieving some objectives is a planned process." ;
                 obo:IAO_0000119 "branch derived" ;
+                obo:IAO_0000232 "6/11/9: Edited at workshop. Used to include: is initiated by an agent" ,
+                                "This class merges the previously separated objective driven process and planned process, as they the separation proved hard to maintain. (1/22/09, branch call)" ;
                 rdfs:label "obsolete planned process" ;
                 owl:deprecated "true"^^xsd:boolean .
 
@@ -2951,6 +2949,7 @@ obo:OBI_0000067 rdf:type owl:Class ;
                 obo:IAO_0000116 "Role call - 17nov-08: JF and MC think an evaluant role is always specified input of a process. Even in the case where we have an assay taking blood as evaluant and outputting blood, the blood is not the specified output at the end of the assay (the concentration of glucose in the blood is)"@en ,
                                 "examples of features that could be described in an evaluant: quality.... e.g. \"contains 10 pg/ml IL2\", or \"no glucose detected\")"@en ;
                 obo:IAO_0000119 "OBI" ;
+                obo:IAO_0000232 "Feb 10, 2009.  changes after discussion at OBI Consortium Workshop Feb 2-6, 2009.  accepted as core term." ;
                 rdfs:label "evaluant role"@en .
 
 
@@ -3029,6 +3028,7 @@ obo:OBI_0000202 rdf:type owl:Class ;
                 obo:IAO_0000116 "Implementing a study means carrying out or performing the study and providing reagents or other materials used in the study and other tasks without which the study would not happen." ,
                                 "Philly2013: Historically, this role would have been borne only by humans or organizations. However, we now also want to enable representing investigations run by robot scientists such as ADAM (King et al, Science, 2009)" ;
                 obo:IAO_0000119 "OBI"@en ;
+                obo:IAO_0000232 "Feb 10, 2009.  changes after discussion at OBI Consortium Workshop Feb 2-6, 2009.  accepted as core term." ;
                 rdfs:comment "Philly2013: Historically, this role would have been borne only by humans or organizations. However, we now also want to enable investigations run by robot scientists such as ADAM (King et al, Science, 2009)" ;
                 rdfs:label "investigation agent role" .
 
@@ -11408,61 +11408,6 @@ co:PMD_0200008 rdf:type owl:Class ;
 #    Individuals
 #################################################################
 
-###  http://purl.obolibrary.org/obo/IAO_0000002
-obo:IAO_0000002 rdf:type owl:NamedIndividual ;
-                rdfs:label "example to be eventually removed"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000120
-obo:IAO_0000120 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "Class has all its metadata, but is either not guaranteed to be in its final location in the asserted IS_A hierarchy or refers to another class that is not complete."@en ;
-                rdfs:label "metadata complete"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000121
-obo:IAO_0000121 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "Term created to ease viewing/sort terms for development purpose, and will not be included in a release"@en ;
-                rdfs:label "organizational term"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000122
-obo:IAO_0000122 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "Class has undergone final review, is ready for use, and will be included in the next release. Any class lacking \"ready_for_release\" should be considered likely to change place in hierarchy, have its definition refined, or be obsoleted in the next release.  Those classes deemed \"ready_for_release\" will also derived from a chain of ancestor classes that are also \"ready_for_release.\""@en ;
-                rdfs:label "ready for release"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000123
-obo:IAO_0000123 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "Class is being worked on; however, the metadata (including definition) are not complete or sufficiently clear to the branch editors."@en ;
-                rdfs:label "metadata incomplete"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000124
-obo:IAO_0000124 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "Nothing done yet beyond assigning a unique class ID and proposing a preferred term."@en ;
-                rdfs:label "uncurated"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000125
-obo:IAO_0000125 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "All definitions, placement in the asserted IS_A hierarchy and required minimal metadata are complete. The class is awaiting a final review by someone other than the term editor."@en ;
-                rdfs:label "pending final vetting"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000423
-obo:IAO_0000423 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "Terms with this status should eventually replaced with a term from another ontology."@en ;
-                obo:IAO_0000119 "group:OBI"@en ;
-                rdfs:label "to be replaced with external ontology term"@en .
-
-
-###  http://purl.obolibrary.org/obo/IAO_0000428
-obo:IAO_0000428 rdf:type owl:NamedIndividual ;
-                obo:IAO_0000115 "A term that is metadata complete, has been reviewed, and problems have been identified that require discussion before release. Such a term requires editor note(s) to identify the outstanding issues."@en ;
-                obo:IAO_0000119 "group:OBI"@en ;
-                rdfs:label "requires discussion"@en .
-
-
 ###  http://purl.obolibrary.org/obo/UO_0000076
 obo:UO_0000076 rdf:type owl:NamedIndividual .
 
@@ -11668,8 +11613,35 @@ co:PMD_0020125 rdf:type owl:NamedIndividual ;
 #    Annotations
 #################################################################
 
+obo:IAO_0000002 rdfs:label "example to be eventually removed"@en .
+
+
 obo:IAO_0000103 obo:IAO_0000115 "The term was used in an attempt to structure part of the ontology but in retrospect failed to do a good job"@en ;
                 rdfs:label "failed exploratory term"@en .
+
+
+obo:IAO_0000120 obo:IAO_0000115 "Class has all its metadata, but is either not guaranteed to be in its final location in the asserted IS_A hierarchy or refers to another class that is not complete."@en ;
+                rdfs:label "metadata complete"@en .
+
+
+obo:IAO_0000121 obo:IAO_0000115 "Term created to ease viewing/sort terms for development purpose, and will not be included in a release"@en ;
+                rdfs:label "organizational term"@en .
+
+
+obo:IAO_0000122 obo:IAO_0000115 "Class has undergone final review, is ready for use, and will be included in the next release. Any class lacking \"ready_for_release\" should be considered likely to change place in hierarchy, have its definition refined, or be obsoleted in the next release.  Those classes deemed \"ready_for_release\" will also derived from a chain of ancestor classes that are also \"ready_for_release.\""@en ;
+                rdfs:label "ready for release"@en .
+
+
+obo:IAO_0000123 obo:IAO_0000115 "Class is being worked on; however, the metadata (including definition) are not complete or sufficiently clear to the branch editors."@en ;
+                rdfs:label "metadata incomplete"@en .
+
+
+obo:IAO_0000124 obo:IAO_0000115 "Nothing done yet beyond assigning a unique class ID and proposing a preferred term."@en ;
+                rdfs:label "uncurated"@en .
+
+
+obo:IAO_0000125 obo:IAO_0000115 "All definitions, placement in the asserted IS_A hierarchy and required minimal metadata are complete. The class is awaiting a final review by someone other than the term editor."@en ;
+                rdfs:label "pending final vetting"@en .
 
 
 obo:IAO_0000226 rdfs:label "placeholder removed"@en .
@@ -11702,8 +11674,19 @@ obo:IAO_0000421 obo:IAO_0000115 "A named class expression is a logical expressio
                 rdfs:label "named class expression"@en .
 
 
+obo:IAO_0000423 obo:IAO_0000115 "Terms with this status should eventually replaced with a term from another ontology."@en ;
+                obo:IAO_0000119 "group:OBI"@en ;
+                rdfs:label "to be replaced with external ontology term"@en .
+
+
+obo:IAO_0000428 obo:IAO_0000115 "A term that is metadata complete, has been reviewed, and problems have been identified that require discussion before release. Such a term requires editor note(s) to identify the outstanding issues."@en ;
+                obo:IAO_0000119 "group:OBI"@en ;
+                rdfs:label "requires discussion"@en .
+
+
 obo:OMO_0001000 obo:IAO_0000115 "The term was added to the ontology on the assumption it was in scope, but it turned out later that it was not."@en ;
                 obo:IAO_0000116 "This obsolesence reason should be used conservatively. Typical valid examples are: un-necessary grouping classes in disease ontologies, a phenotype term added on the assumption it was a disease."@en ;
+                obo:IAO_0000233 "https://github.com/information-artifact-ontology/ontology-metadata/issues/77" ;
                 rdfs:label "out of scope" .
 
 
