@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-14/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-16/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-02-14" .
+                                  owl:versionInfo "2026-02-16" .
 
 #################################################################
 #    Annotation properties
@@ -9717,10 +9717,373 @@ pmd:PMD_0020212 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020213
 pmd:PMD_0020213 rdf:type owl:Class ;
-                rdfs:subClassOf obo:BFO_0000146 ;
+                rdfs:subClassOf obo:BFO_0000146 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002350 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0020003
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty pmd:PMD_0025998 ;
+                                                                              owl:someValuesFrom pmd:PMD_0020241
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002350 ;
+                                  owl:qualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                  owl:onClass [ owl:intersectionOf ( pmd:PMD_0020003
+                                                                     [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty pmd:PMD_0025998 ;
+                                                                       owl:someValuesFrom pmd:PMD_0020241
+                                                                     ]
+                                                                   ) ;
+                                                rdf:type owl:Class
+                                              ]
+                                ] ;
                 rdfs:label "grain boundary"@en ;
                 skos:definition "fiat surface that separates on grain (crystallite) from another"@en ,
                                 "the part of a grain that is close to the grain boundary and possibly characterized by disorder is a fiat object part (grain surface layer)"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020214
+pmd:PMD_0020214 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000015 ;
+                rdfs:label "diffraction"@en ;
+                skos:definition "interference of waves scattered by a material’s periodic features that produces characteristic patterns"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020215
+pmd:PMD_0020215 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000015 ;
+                rdfs:comment """may propagate through a medium or vacuum
+characterized by frequency, wavelength, and speed"""@en ;
+                rdfs:label "wave"@en ;
+                skos:definition "propagating disturbance that transports energy and momentum"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020216
+pmd:PMD_0020216 rdf:type owl:Class ;
+                owl:equivalentClass [ rdf:type owl:Class ;
+                                      owl:oneOf ( pmd:PMD_0020217
+                                                  pmd:PMD_0020218
+                                                  pmd:PMD_0020219
+                                                  pmd:PMD_0020242
+                                                )
+                                    ] ;
+                rdfs:subClassOf obo:OBI_0001930 ;
+                rdfs:label "order scale value"@en ;
+                skos:definition "possible values of characteristic length over which structural correlations persist in a material"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020220
+pmd:PMD_0020220 rdf:type owl:Class ;
+                owl:equivalentClass [ rdf:type owl:Restriction ;
+                                      owl:onProperty pmd:PMD_0000077 ;
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass pmd:PMD_0020216
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0020131 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty pmd:PMD_0000077 ;
+                                  owl:someValuesFrom pmd:PMD_0020216
+                                ] ;
+                rdfs:label "order scale"@en ;
+                skos:definition "characteristic length over which structural correlations persist in a material"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020227
+pmd:PMD_0020227 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000023 ;
+                owl:disjointWith pmd:PMD_0020228 ;
+                rdfs:label "solute role"@en ;
+                skos:definition "role of an entity that is present in minor concentration in a solution"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020228
+pmd:PMD_0020228 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000023 ;
+                rdfs:label "solvent role"@en ;
+                skos:definition "role of an entity that is present in major concentration in a solution"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020229
+pmd:PMD_0020229 rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0002351 ;
+                                                             owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty obo:RO_0000087 ;
+                                                                                                         owl:someValuesFrom pmd:PMD_0020227
+                                                                                                       ]
+                                                                                                     ) ;
+                                                                                  rdf:type owl:Class
+                                                                                ]
+                                                           ]
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0002351 ;
+                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                             owl:onClass [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                                                [ rdf:type owl:Restriction ;
+                                                                                                  owl:onProperty obo:RO_0000087 ;
+                                                                                                  owl:someValuesFrom pmd:PMD_0020228
+                                                                                                ]
+                                                                                              ) ;
+                                                                           rdf:type owl:Class
+                                                                         ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000001 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002351 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000087 ;
+                                                                              owl:someValuesFrom pmd:PMD_0020227
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002351 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000087 ;
+                                                                              owl:someValuesFrom pmd:PMD_0020228
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "solution"@en ;
+                skos:definition "A portion of matter that is homogeneous, made up of at least two entity types, one playing the role of sovlent and the others playing the role of solute"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020230
+pmd:PMD_0020230 rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0020229
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000086 ;
+                                                             owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000512
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty pmd:PMD_0000077 ;
+                                                                                                         owl:hasValue pmd:PMD_0020117
+                                                                                                       ]
+                                                                                                     ) ;
+                                                                                  rdf:type owl:Class
+                                                                                ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0020229 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000086 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000512
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty pmd:PMD_0000077 ;
+                                                                              owl:hasValue pmd:PMD_0020117
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "solid solution"@en ;
+                skos:definition "a solution with solid aggregate state"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020231
+pmd:PMD_0020231 rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0020230
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0002351 ;
+                                                             owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty obo:BFO_0000051 ;
+                                                                                                         owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000001
+                                                                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                                                                     owl:onProperty obo:RO_0001025 ;
+                                                                                                                                                     owl:someValuesFrom pmd:PMD_0020198
+                                                                                                                                                   ]
+                                                                                                                                                 ) ;
+                                                                                                                              rdf:type owl:Class
+                                                                                                                            ]
+                                                                                                       ]
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty obo:RO_0000087 ;
+                                                                                                         owl:someValuesFrom pmd:PMD_0020227
+                                                                                                       ]
+                                                                                                     ) ;
+                                                                                  rdf:type owl:Class
+                                                                                ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0020230 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002351 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:BFO_0000051 ;
+                                                                              owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000001
+                                                                                                                        [ rdf:type owl:Restriction ;
+                                                                                                                          owl:onProperty obo:RO_0001025 ;
+                                                                                                                          owl:someValuesFrom pmd:PMD_0020198
+                                                                                                                        ]
+                                                                                                                      ) ;
+                                                                                                   rdf:type owl:Class
+                                                                                                 ]
+                                                                            ]
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000087 ;
+                                                                              owl:someValuesFrom pmd:PMD_0020227
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "interstitital solid solution"@en ;
+                skos:definition "a solid solution whose solute entities are located in the interstitial sites"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020232
+pmd:PMD_0020232 rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0020230
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0002351 ;
+                                                             owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty obo:BFO_0000051 ;
+                                                                                                         owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000001
+                                                                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                                                                     owl:onProperty owl:topObjectProperty ;
+                                                                                                                                                     owl:someValuesFrom pmd:PMD_0020197
+                                                                                                                                                   ]
+                                                                                                                                                 ) ;
+                                                                                                                              rdf:type owl:Class
+                                                                                                                            ]
+                                                                                                       ]
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty obo:RO_0000087 ;
+                                                                                                         owl:someValuesFrom pmd:PMD_0020227
+                                                                                                       ]
+                                                                                                     ) ;
+                                                                                  rdf:type owl:Class
+                                                                                ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0020230 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002351 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:BFO_0000051 ;
+                                                                              owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000001
+                                                                                                                        [ rdf:type owl:Restriction ;
+                                                                                                                          owl:onProperty owl:topObjectProperty ;
+                                                                                                                          owl:someValuesFrom pmd:PMD_0020197
+                                                                                                                        ]
+                                                                                                                      ) ;
+                                                                                                   rdf:type owl:Class
+                                                                                                 ]
+                                                                            ]
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000087 ;
+                                                                              owl:someValuesFrom pmd:PMD_0020227
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                obo:IAO_0000116 "TODO: replace topObjectProperty with bfo:occupies spatial region"@en ;
+                rdfs:label "substitutional solid solution"@en ;
+                skos:definition "a solid solution whose solute entities occupy lattice points"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020233
+pmd:PMD_0020233 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000029 ;
+                rdfs:label "dislocation"@en ;
+                skos:definition "a linear site in a cystal that interrupts the cystal ordering"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020234
+pmd:PMD_0020234 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020233 ;
+                rdfs:label "screw dislocation"@en ;
+                skos:definition "a dislocation characterized by shearing the chrystal by one plane"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020235
+pmd:PMD_0020235 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020233 ;
+                rdfs:label "edge dislocation"@en ;
+                skos:definition "a dislocation characterized by adding one extra half plane into the crystal lattice"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020236
+pmd:PMD_0020236 rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0020234
+                                                           pmd:PMD_0020235
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0020234 ,
+                                pmd:PMD_0020235 ;
+                rdfs:label "mixed dislocation"@en ;
+                skos:definition "a dislocation that spans edge dislocation as well as screw dislocation"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020237
+pmd:PMD_0020237 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020148 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000080 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0020233
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0001025 ;
+                                                                              owl:someValuesFrom pmd:PMD_0020003
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "Burgers vector"@en ;
+                skos:definition "quality of a dislocation in terms of amount and direction in a specific crystal type"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020238
+pmd:PMD_0020238 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020213 ;
+                rdfs:label "high angle grain boundary"@en ;
+                skos:definition "a grain boundary whose adjacent crystalls have a high angle of misalignment"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020239
+pmd:PMD_0020239 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020213 ;
+                rdfs:label "small angle grain boundary"@en ;
+                skos:definition "a grain boundary whose adjacent crystalls have a small angle of misalignment"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020240
+pmd:PMD_0020240 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020213 ;
+                rdfs:label "twin boundary"@en ;
+                skos:definition "grain boundary without distorted lattice"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020241
+pmd:PMD_0020241 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0001035 ;
+                rdfs:label "angle of misalignment (crystallography)"@en ;
+                skos:definition "smallest rotation angle needed to rotate one crystal orientation to coincide with the neighboring orientation"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025001
@@ -11657,6 +12020,30 @@ pmd:PMD_0020125 rdf:type owl:NamedIndividual ;
                 rdfs:label "aggregate state suprasolid"@en ;
                 skos:definition "A state that exhibits suprafluid and solid properties."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0020217
+pmd:PMD_0020217 rdf:type owl:NamedIndividual ;
+                rdfs:label "short range order"@en ;
+                skos:definition "periodic arrangement of structural features up to a few entities"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020218
+pmd:PMD_0020218 rdf:type owl:NamedIndividual ;
+                rdfs:label "medium range order"@en ;
+                skos:definition "periodic arrangement of structural features of many entities"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020219
+pmd:PMD_0020219 rdf:type owl:NamedIndividual ;
+                rdfs:label "long range order"@en ;
+                skos:definition "periodic arrangement of structural features of virtually all entities"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020242
+pmd:PMD_0020242 rdf:type owl:NamedIndividual ;
+                rdfs:label "no range order"@en ;
+                skos:definition "no periodic arrangement of structural features of entites"@en .
 
 
 #################################################################
