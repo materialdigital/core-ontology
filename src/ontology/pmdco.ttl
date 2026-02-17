@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-16/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-17/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-02-16" .
+                                  owl:versionInfo "2026-02-17" .
 
 #################################################################
 #    Annotation properties
@@ -3686,9 +3686,28 @@ pmd:PMD_0000502 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000503
 pmd:PMD_0000503 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0020131 ;
+                rdfs:subClassOf pmd:PMD_0020243 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:IAO_0000417 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:IAO_0000109
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:OBI_0000312 ;
+                                                                              owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000015
+                                                                                                                        [ rdf:type owl:Restriction ;
+                                                                                                                          owl:onProperty obo:STATO_0000102 ;
+                                                                                                                          owl:someValuesFrom obo:IAO_0000104
+                                                                                                                        ]
+                                                                                                                      ) ;
+                                                                                                   rdf:type owl:Class
+                                                                                                 ]
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                obo:IAO_0000116 "TODO: axiom needs refinement"@en ;
                 rdfs:label "ASTM grainsize"@en ;
-                skos:definition "The ASTM grain size is a scalar specifically describing the size of grains in a crystalline material as defined by ASTM standards."@en ;
+                skos:definition "The ASTM grain size is a quality that is measured through a process that follows the ASTM standard."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -7620,9 +7639,13 @@ pmd:PMD_0020002 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020003
 pmd:PMD_0020003 rdf:type owl:Class ;
-                rdfs:subClassOf obo:BFO_0000030 ;
+                rdfs:subClassOf obo:BFO_0000030 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000086 ;
+                                  owl:someValuesFrom pmd:PMD_0000591
+                                ] ;
                 rdfs:label "crystal"@en ;
-                skos:definition "A crystal is an object that has part some entities that concretize a Bravais lattice."@en ;
+                skos:definition "A crystal is an object that has a quality \"crystal structure\"."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -9792,6 +9815,86 @@ pmd:PMD_0020220 rdf:type owl:Class ;
                 skos:definition "characteristic length over which structural correlations persist in a material"@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0020221
+pmd:PMD_0020221 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020194 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000057 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                            pmd:PMD_0020003
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "self-diffusion in crystaline solid"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020222
+pmd:PMD_0020222 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020194 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000057 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_60003
+                                                                            pmd:PMD_0020003
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "inter-diffusion in crystalline solid"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020223
+pmd:PMD_0020223 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020194 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000057 ;
+                                  owl:someValuesFrom pmd:PMD_0020224
+                                ] ;
+                obo:IAO_0000116 "diffusion process in which crystal forming entities move from lattice points to vacant adjacent lattice points"@en ;
+                rdfs:label "vacancy diffusion"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020224
+pmd:PMD_0020224 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000029 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty owl:topObjectProperty ;
+                                  owl:someValuesFrom pmd:PMD_0020197
+                                ] ;
+                obo:IAO_0000116 "TODO: replace topObjectProperty with occupies spatial region"@en ;
+                rdfs:label "vacancy (crystal)"@en ;
+                skos:definition "site at lattice point at which the crystal forming entity is missing"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020225
+pmd:PMD_0020225 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020194 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000057 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0001025 ;
+                                                                              owl:someValuesFrom pmd:PMD_0020198
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "interstitial diffusion"@en ;
+                skos:definition "diffusion process in which material entities move from interstitial sites to adjacent interstitial sites"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020226
+pmd:PMD_0020226 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000008 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty pmd:PMD_0025006 ;
+                                  owl:someValuesFrom pmd:PMD_0020246
+                                ] ;
+                rdfs:label "flow"@en ;
+                skos:definition "amount of transported entites per time"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0020227
 pmd:PMD_0020227 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000023 ;
@@ -10084,6 +10187,96 @@ pmd:PMD_0020241 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0001035 ;
                 rdfs:label "angle of misalignment (crystallography)"@en ;
                 skos:definition "smallest rotation angle needed to rotate one crystal orientation to coincide with the neighboring orientation"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020243
+pmd:PMD_0020243 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020131 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000080 ;
+                                  owl:someValuesFrom pmd:PMD_0020106
+                                ] ;
+                obo:IAO_0000116 "size values of indiviudal grains are properties of the respective objects"@en ;
+                rdfs:label "grain size"@en ;
+                skos:definition "an average size of the grains of a polycrystal"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020244
+pmd:PMD_0020244 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020226 ;
+                rdfs:label "flux"@en ;
+                skos:definition "amount of transported entites accross or within a unit-entity per time"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020245
+pmd:PMD_0020245 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000015 ;
+                obo:IAO_0000116 "the moved entity is passive, locomotion would be the active counterpart"@en ;
+                rdfs:label "transport"@en ;
+                skos:definition "an entity being moved within or accross another entity"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020246
+pmd:PMD_0020246 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020245 ;
+                obo:IAO_0000116 "e.g the flow of a liquid in a pipe, diffusion of a gas in different gas"@en ,
+                                "recurring transport of multiple entities, such that the transported entities are not being discretized anymore"@en ;
+                rdfs:label "continous transport"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020248
+pmd:PMD_0020248 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020244 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty pmd:PMD_0025006 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0020194
+                                                                            pmd:PMD_0020246
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "diffusion flux"@en ;
+                skos:definition "amount of transported entites in a diffusion accross or within a \"unit\"-entity per time"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020249
+pmd:PMD_0020249 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020003 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_33250
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000086 ;
+                                                                              owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                                   owl:unionOf ( pmd:PMD_0050001
+                                                                                                                 pmd:PMD_0050003
+                                                                                                               )
+                                                                                                 ]
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "ceramic crystal"@en ;
+                skos:definition "a crystal whose atomic entities have a ionic or a covalent bond"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0020250
+pmd:PMD_0020250 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0020003 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:CHEBI_33250
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000086 ;
+                                                                              owl:someValuesFrom pmd:PMD_0050002
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "alloy crystal"@en ;
+                skos:definition "a crystal whose atomic entities have a metallic bond"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025001
