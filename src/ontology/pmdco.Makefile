@@ -39,6 +39,10 @@ $(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \
 		         --individuals exclude \
 		         --method SUBSET \
 		 remove --term IAO:0000416 \
+		 remove --term CHEBI:33375 \
+		 remove --term CHEBI:33359 \
+		 remove --term CHEBI:30682 \
+		 remove --term CHEBI:33376 \
 		 remove --term-file $(IMPORTDIR)/unwanted.txt  \
 		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 		        --term-file $(IMPORTDIR)/obi_terms.txt $(T_IMPORTSEED) \
