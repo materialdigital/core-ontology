@@ -39,6 +39,10 @@ $(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \
 		         --individuals exclude \
 		         --method SUBSET \
 		 remove --term IAO:0000416 \
+		 remove --term CHEBI:33375 \
+		 remove --term CHEBI:33359 \
+		 remove --term CHEBI:30682 \
+		 remove --term CHEBI:33376 \
 		 remove --term-file $(IMPORTDIR)/unwanted.txt  \
 		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 		        --term-file $(IMPORTDIR)/obi_terms.txt $(T_IMPORTSEED) \
@@ -120,6 +124,10 @@ $(IMPORTDIR)/chebi_import.owl: #$(MIRRORDIR)/chebi.owl
 $(IMPORTDIR)/uo_import.owl: $(MIRRORDIR)/uo.owl $(IMPORTDIR)/uo_terms.txt 
 	$(ROBOT) filter --input mirror/uo.owl --term-file imports/uo_terms.txt --allow-punning true --select "annotations self parents" \
 		 $(ANNOTATE_CONVERT_FILE)
+
+
+$(TEMPLATEDIR)/materials-listing.tsv:
+	curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmflWvRYJEO0K_k9EtLHDTkyIcntG0jW-i9ZNlURUxQET8N9eadI2HdI94hrNMWBcDQAKzE9KWVY6b/pub?gid=0&single=true&output=tsv" -o $@
 
 .PHONY: autoshapes
 autoshapes: 

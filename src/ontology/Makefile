@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                1547b50e64182f82720dcb4f020d7d0ff14985e88ad84df6715d2278e1547750
+CONFIG_HASH=                f5a9d1ce153a46ffaef9ec764e1d72263a3f2459ad54de1c4a20829b9affd945
 
 
 # ----------------------------------------
@@ -58,7 +58,7 @@ OBODATE ?=                  $(shell date +'%d:%m:%Y %H:%M')
 VERSION=                    $(TODAY)
 ANNOTATE_ONTOLOGY_VERSION = annotate -V $(ONTBASE)/releases/$(VERSION)/$@ --annotation owl:versionInfo $(VERSION)
 ANNOTATE_CONVERT_FILE =     annotate --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) convert -f ofn --output $@.tmp.owl && mv $@.tmp.owl $@
-OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-axioms-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl 
+OTHER_SRC =                 $(COMPONENTSDIR)/imports-edit.owl $(COMPONENTSDIR)/pmdco-shared.owl $(COMPONENTSDIR)/pmdco-axioms-shared.owl $(COMPONENTSDIR)/pmdco-qualities.owl $(COMPONENTSDIR)/pmdco-materials.owl $(COMPONENTSDIR)/pmdco-manufacturing.owl $(COMPONENTSDIR)/pmdco-devices.owl $(COMPONENTSDIR)/pmdco-datatransformation.owl $(COMPONENTSDIR)/pmdco-characterization.owl $(COMPONENTSDIR)/materials-listing.owl 
 ONTOLOGYTERMS =             $(TMPDIR)/ontologyterms.txt
 EDIT_PREPROCESSED =         $(TMPDIR)/$(ONT)-preprocess.owl
 
@@ -529,6 +529,7 @@ recreate-components:
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-devices.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-datatransformation.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-characterization.owl \
+		--assume-new=$(TMPDIR)/stamp-component-materials-listing.owl \
 		COMP=true IMP=false MIR=true PAT=true all_components
 
 .PHONY: no-mirror-recreate-components
@@ -542,6 +543,7 @@ no-mirror-recreate-components:
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-devices.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-datatransformation.owl \
 		--assume-new=$(TMPDIR)/stamp-component-pmdco-characterization.owl \
+		--assume-new=$(TMPDIR)/stamp-component-materials-listing.owl \
 		COMP=true IMP=false MIR=false PAT=true all_components
 
 .PHONY: recreate-%
@@ -561,6 +563,12 @@ $(COMPONENTSDIR)/%.owl: $(TMPDIR)/stamp-component-%.owl | $(COMPONENTSDIR)
 $(TMPDIR)/stamp-component-%.owl: | $(TMPDIR)
 	touch $@
 .PRECIOUS: $(TMPDIR)/stamp-component-%.owl
+
+$(COMPONENTSDIR)/materials-listing.owl: $(TEMPLATEDIR)/materials-listing.tsv $(TMPDIR)/stamp-component-materials-listing.owl
+	$(ROBOT) template --input pmdco-edit.owl \
+		 --template $(TEMPLATEDIR)/materials-listing.tsv \
+		 $(ANNOTATE_CONVERT_FILE)
+.PRECIOUS: $(COMPONENTSDIR)/materials-listing.owl
 
 endif # COMP=true
 # ----------------------------------------
