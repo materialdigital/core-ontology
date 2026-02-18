@@ -45,3 +45,4 @@ These are the components in PMDCO
 | pmdco-devices.owl | None |
 | pmdco-datatransformation.owl | None |
 | pmdco-characterization.owl | None |
+| materials-listing.owl | None |
