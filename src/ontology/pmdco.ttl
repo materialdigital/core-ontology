@@ -12584,8 +12584,41 @@ pmd:PMD_0060009 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0090000
 pmd:PMD_0090000 rdf:type owl:Class ;
-                rdfs:label "semiconductor" ;
-                skos:definition "band gap >xx eV" .
+                owl:equivalentClass [ rdf:type owl:Restriction ;
+                                      owl:onProperty obo:RO_0000091 ;
+                                      owl:someValuesFrom pmd:PMD_0090001
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000002 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000086 ;
+                                  owl:someValuesFrom pmd:PMD_0090002
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0090001
+                                ] ;
+                rdfs:label "semiconductor" ,
+                           "semiconductor"@en ;
+                skos:definition "A semiconductor is an engineered material representing a class of materials characterized by an electrical conductivity between that of a conductor and an insulator. This is a result of a range of inexistent energy states in ther electron configuration between the valence and conduction band (bandgap)."@en ,
+                                "band gap >xx eV" ;
+                pmd:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0090001
+pmd:PMD_0090001 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000016 ;
+                rdfs:label "semiconductivity"@en ;
+                skos:definition "Semiconductivity is the disposition of a material to conduct electricity only when a certain level of excitation (via temperature, impurities, photonic excitation, electric field) elevates electrons from the valence band into the conduction band."@en ;
+                pmd:PMD_0000060 "true"^^xsd:boolean .
+
+
+###  https://w3id.org/pmd/co/PMD_0090002
+pmd:PMD_0090002 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000619 ;
+                rdfs:label "band gap"@en ;
+                skos:altLabel "bandgap"@en ,
+                              "energy gap"@en ;
+                skos:definition "A bandgap is an energy range in a solid where no electronic states exist." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0200000
