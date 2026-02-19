@@ -433,10 +433,15 @@ SubClassOf(pmdco:PMD_0000549 obo:BFO_0000015)
 
 # Class: pmdco:PMD_0000551 (chemical composition)
 
+AnnotationAssertion(rdfs:comment pmdco:PMD_0000551 "See the editor note of composition to understand the difference between composition and chemical composition.
+
+See the pattern example of composition to underatand the difference between composition and proportion."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000551 "chemical composition"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000551 "The chemical composition is a quality describing the types and proportions of elements or compounds present in a material."@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0000551 "The chemical composition is an intensive quality of a portion of matter which describes the types and proportions of pure chemical elements in the portion of matter, and it is a subject of some chemical composition data item."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000551 "true"^^xsd:boolean)
+AnnotationAssertion(pmdco:PMD_0000064 pmdco:PMD_0000551 "Material has quality chemical composition. Chemical composition is a subject of chemical composition data item. Chemical composition data item has members fraction value specifications (which have a numeral and a unit). Material has part portion of carbon. Material has relational quality mass proportion. Portion of carbon  has relational quality mass proportion. Mass propotion is specified by value fraction value specification. Same approach for all chemical elements."@en)
 SubClassOf(pmdco:PMD_0000551 pmdco:PMD_0025001)
+SubClassOf(pmdco:PMD_0000551 ObjectSomeValuesFrom(pmdco:PMD_0000004 pmdco:PMD_0025002))
 
 # Class: pmdco:PMD_0000553 (chemical potential)
 
@@ -833,10 +838,13 @@ SubClassOf(pmdco:PMD_0010023 obo:BFO_0000016)
 
 # Class: pmdco:PMD_0020004 (composition data item)
 
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020004 "See editior note of composition to underatand the difference between composition and chemical composition data items.
+
+To understand the difference between the composition and the composition data item, one has to understand the difference between SDCs and GDCs in BFO. A triple \"material entity has quality compsition\", conveys the fact such quality exists without telling us what are fractions of compounds in this material entity. A triple \"compostion is subject of composition data item\" conveys that there's an information about values of these fractions. Think of comosition data item as a pdf where the composition is documented."@en)
 AnnotationAssertion(rdfs:comment pmdco:PMD_0020004 "These portions of other matters do not have to be portions of specific chemical elements, i.e., atomic composition, but rather portions of other substances, such as nitric acid and water."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020004 "composition data item"@en)
 AnnotationAssertion(skos:altLabel pmdco:PMD_0020004 "composition specification"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020004 "Composition data item is an information content entity that is about composition of a portion of matter, and it has members fraction specifications of portions of other matters, which are parts of the whole portion of matter."@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020004 "Composition data item is an information content entity that is about composition of a material enity. It has members fraction value specifications which specifiy values of propotions of compounds, which are parts of the material enity."@en)
 AnnotationAssertion(skos:example pmdco:PMD_0020004 "Nitric acid solution has quality  composition, and  the composition data item is about this composition.The composition data item has members fraction specifications of nitric acid, e.g., 4 vol.%, and distilled water. These fraction specifications specify value of pure substances of nitric acid and distilled water, respectively. Furthermore, these fraction specifications specify values of relational qualities (volume) proportion of nitric acid and (volume) proportion of distilled water."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020004 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0020004 obo:IAO_0000027)
@@ -1229,18 +1237,20 @@ SubClassOf(pmdco:PMD_0020243 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_00201
 
 # Class: pmdco:PMD_0025001 (composition)
 
-AnnotationAssertion(rdfs:comment pmdco:PMD_0025001 "for chemical compositions, use the specific subclass"@en)
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0025001 "There's a dfference between composition and chemical compositon for the following reason: chemical compositon is relevant when the mass/volume/mole proportions of chemical elements(!) are identified, whlist composition includes proportions of molecules, other pure chemical substances, or even proptions of objects (in an object aggregate)."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0025001 "composition"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0025001 "an intensive quality describing the types and proportions of compounds present in a portion of matter"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025001 "Composition is an intensive quality which defines types and proportions of compounds present in a material entity and is subject of some composition data item."@en)
 AnnotationAssertion(skos:example pmdco:PMD_0025001 "4 vol.% nitric acid solution, Styrene-Butadiene-Styrene (SBS) Block Copolymer with 50 vol.% of both styrene and butadiene"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0025001 "true"^^xsd:boolean)
+AnnotationAssertion(pmdco:PMD_0000064 pmdco:PMD_0025001 "Composition is a collective property of a portion of matter, i.e., the triple portion of matter has quality composition holds. As \"has quality\" is an inverse  functional property, only one instance of portion of matter can have this specific composition. However, proportions describe the relation between the prortion of matter (the whole) and some compound (the part). Thus, the following triples hold: portion of matter has relational quality proportion; portion of matter has part some substance (or whatever is your part); substance has relational quality proportion. \"Has relational quality\" is not inverse functional, i.e., it can point to a single object from 2 distinct subjects."@en)
 SubClassOf(pmdco:PMD_0025001 pmdco:PMD_0020131)
+SubClassOf(pmdco:PMD_0025001 ObjectSomeValuesFrom(pmdco:PMD_0000004 pmdco:PMD_0020004))
 
 # Class: pmdco:PMD_0025002 (chemical composition data item)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0025002 "chemical composition data item"@en)
 AnnotationAssertion(skos:altLabel pmdco:PMD_0025002 "chemical composition specification"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0025002 "Chemical composition data item is an information content entity that is about chemical composition of a material and has members fraction specifications of portions of chemical elements, which are parts of the material."@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0025002 "Chemical composition data item is an information content entity that is about composition of a portion of matter. It has members fraction value specifications which specifiy values of propotions of portions of (pure) chemical elements, which are parts of the portion of matter."@en)
 AnnotationAssertion(skos:example pmdco:PMD_0025002 "Steel has quality chemical composition , and the chemical composition data item is about the chemical composition .The chemical composition data item has members fraction specifications of iron and carbon. These fraction specifications specify value of portion of iron and portion of carbon respectively. Furthermore, these fraction specifications specify  values of relational qualities (mass) proportion of iron and (mass) proportion of carbon."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0025002 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0025002 pmdco:PMD_0020004)
