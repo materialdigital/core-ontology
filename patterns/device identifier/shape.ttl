@@ -16,8 +16,9 @@ shape:
 shape:device a sh:NodeShape ;
 	sh:targetClass obi:OBI_0000968 ; ### device	
 	sh:or (
-      shape:device_identifier
-      shape:device_symbol
+      shape:device_identifier		## the ID
+      shape:device_symbol				## e.g. some serial number
+      shape:device_name     		## the name (or some description)
     ) .
 
 shape:device_identifier a sh:NodeShape ;
@@ -31,10 +32,9 @@ shape:device_identifier a sh:NodeShape ;
 	sh:property [
 		sh:path (
 			obi:IAO_0000235 ### denoted by
-			obi:OBI_0001938 ### has value specification
-			obi:OBI_0002135 ### has specified value
+			pmd:PMD_0000006 ### has value 
 		) ;
-        sh:nodeKind sh:IRIOrLiteral;
+    sh:nodeKind sh:Literal;
 		sh:minCount 1 ;
 	] .
 
@@ -49,9 +49,26 @@ shape:device_symbol a sh:NodeShape ;
 	sh:property [
 		sh:path (
 			obi:IAO_0000235 ### denoted by
-			obi:OBI_0001938 ### has value specification
-			obi:OBI_0002135 ### has specified value
+			pmd:PMD_0000006 ### has value 
 		) ;
-        sh:nodeKind sh:IRIOrLiteral;
+        sh:nodeKind sh:Literal;
+		sh:minCount 1 ;
+	] .
+
+
+shape:device_name a sh:NodeShape ;
+	sh:property [
+      sh:path obi:IAO_0000235 ; ### denoted by
+      sh:qualifiedValueShape [
+			sh:class obi:IAO_0000028 ; ### iao symbol
+	  ];
+	  sh:qualifiedMinCount 1 ; 
+    ];
+	sh:property [
+		sh:path (
+			obi:IAO_0000235 ### denoted by
+			pmd:PMD_0000006 ### has value 
+		) ;
+        sh:nodeKind sh:Literal;
 		sh:minCount 1 ;
 	] .
