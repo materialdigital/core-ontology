@@ -33,7 +33,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 3 - Process Chain
-<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/pattern.md-->
 
