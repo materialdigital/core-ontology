@@ -7875,6 +7875,13 @@ def _resolve_diagram_sources(
         # HIERARCHY_FULL (default)
         return {}
 
+    # All three hierarchy modes to render for each diagram
+    ALL_MODES = [
+        (HIERARCHY_FULL, "full"),
+        (HIERARCHY_ONLY_UPPER, "upper"),
+        (HIERARCHY_ONLY_FILE, "file"),
+    ]
+
     diagrams: Dict[str, str] = {}
     node_data_all: Dict[str, Dict[str, Dict[str, str]]] = {}
 
@@ -7897,14 +7904,21 @@ def _resolve_diagram_sources(
                     tmp_path = Path(tmp_file.name)
                 
                 try:
-                    hkw = _hierarchy_kwargs(ref.hierarchy_mode)
-                    print(f"    Hierarchy mode: {ref.hierarchy_mode}")
-                    res = converter.render_graph(tmp_path, diagram_id=ref.diagram_id, **hkw)
-                    dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
-                    nd = _get_attr(res, "node_data", "nodeData")
-                    diagrams[ref.diagram_id] = str(dot)
-                    node_data_all[ref.diagram_id] = dict(nd)
-                    print(f"    Generated diagram: {ref.diagram_id}")
+                    # Render all three hierarchy views
+                    for mode, suffix in ALL_MODES:
+                        view_id = f"{ref.diagram_id}__{suffix}"
+                        hkw = _hierarchy_kwargs(mode)
+                        print(f"    Rendering view: {suffix} (hierarchy mode: {mode})")
+                        res = converter.render_graph(tmp_path, diagram_id=ref.diagram_id, **hkw)
+                        dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
+                        nd = _get_attr(res, "node_data", "nodeData")
+                        diagrams[view_id] = str(dot)
+                        node_data_all[view_id] = dict(nd)
+                    # Also store the default view under the base id (for backward compat)
+                    default_suffix = {HIERARCHY_FULL: "full", HIERARCHY_ONLY_UPPER: "upper", HIERARCHY_ONLY_FILE: "file"}.get(ref.hierarchy_mode, "full")
+                    diagrams[ref.diagram_id] = diagrams[f"{ref.diagram_id}__{default_suffix}"]
+                    node_data_all[ref.diagram_id] = node_data_all[f"{ref.diagram_id}__{default_suffix}"]
+                    print(f"    Generated 3 views for diagram: {ref.diagram_id}")
                 finally:
                     # Clean up temp file
                     try:
@@ -7928,12 +7942,19 @@ def _resolve_diagram_sources(
 
         ttl = _find_shape_ttl(pattern_dir)
         if ttl and ttl.exists():
-            hkw = _hierarchy_kwargs(ref.hierarchy_mode)
-            res = converter.render_graph(ttl, diagram_id=ref.diagram_id, **hkw)  # type: ignore[attr-defined]
-            dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
-            nd = _get_attr(res, "node_data", "nodeData")
-            diagrams[ref.diagram_id] = str(dot)
-            node_data_all[ref.diagram_id] = dict(nd)
+            # Render all three hierarchy views
+            for mode, suffix in ALL_MODES:
+                view_id = f"{ref.diagram_id}__{suffix}"
+                hkw = _hierarchy_kwargs(mode)
+                res = converter.render_graph(ttl, diagram_id=ref.diagram_id, **hkw)  # type: ignore[attr-defined]
+                dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
+                nd = _get_attr(res, "node_data", "nodeData")
+                diagrams[view_id] = str(dot)
+                node_data_all[view_id] = dict(nd)
+            # Also store default view under base id
+            default_suffix = {HIERARCHY_FULL: "full", HIERARCHY_ONLY_UPPER: "upper", HIERARCHY_ONLY_FILE: "file"}.get(ref.hierarchy_mode, "full")
+            diagrams[ref.diagram_id] = diagrams[f"{ref.diagram_id}__{default_suffix}"]
+            node_data_all[ref.diagram_id] = node_data_all[f"{ref.diagram_id}__{default_suffix}"]
 
             if write_per_pattern_js:
                 out_js = pattern_dir / f"{ref.diagram_id}_shape_data.js"
