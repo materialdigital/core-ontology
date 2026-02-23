@@ -59,7 +59,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 5 - Realizable Entities (Role)
-<!--@Graphviz_renderer_file:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/pattern.md-->
 
@@ -72,7 +72,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 6 - Material Properties (Qualities)
-<!--@Graphviz_renderer_file:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/pattern.md-->
 
