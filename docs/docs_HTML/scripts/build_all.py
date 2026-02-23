@@ -5453,17 +5453,77 @@ function parseEdgeTitle(title) {
             }
         }
 
+        // Registry of GraphvizGraphViewer instances keyed by base diagram id
+        const viewerRegistry = {};
+
         // Create viewers sequentially to avoid Viz render conflicts
         async function initAllDiagrams() {
-            // Initialize Graphviz (DOT) diagrams
-            const entries = Object.entries(dotDiagrams);
-            for (const [id, dot] of entries) {
+            // Determine base diagram ids (those without __ suffix)
+            // A base id has matching __full, __upper, __file variants in dotDiagrams
+            const allKeys = Object.keys(dotDiagrams);
+            const baseIds = new Set();
+            const viewKeys = new Set();
+
+            for (const key of allKeys) {
+                const sep = key.lastIndexOf('__');
+                if (sep !== -1) {
+                    const suffix = key.slice(sep + 2);
+                    if (['full', 'upper', 'file'].includes(suffix)) {
+                        baseIds.add(key.slice(0, sep));
+                        viewKeys.add(key);
+                    }
+                }
+            }
+
+            // Initialize Graphviz (DOT) diagrams — only base ids with multi-view
+            for (const baseId of baseIds) {
+                const defaultKey = `${baseId}__full`;
+                const dot = dotDiagrams[defaultKey] || dotDiagrams[baseId] || '';
+                const data = nodeData[defaultKey] || nodeData[baseId] || {};
+                const containerId = `graph-${baseId}`;
+                const diagramId = `diagram-${baseId}`;
+                const viewer = new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                viewerRegistry[baseId] = viewer;
+                await new Promise(resolve => setTimeout(resolve, 30));
+            }
+
+            // Initialize any remaining single-view diagrams (no __ variants)
+            for (const [id, dot] of Object.entries(dotDiagrams)) {
+                if (viewKeys.has(id) || baseIds.has(id)) continue; // skip view variants and base duplicates
                 const containerId = `graph-${id}`;
                 const diagramId = `diagram-${id}`;
                 const data = nodeData[id] || {};
-                new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                const viewer = new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                viewerRegistry[id] = viewer;
                 await new Promise(resolve => setTimeout(resolve, 30));
             }
+
+            // Bind view toggle buttons
+            document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const view = btn.dataset.view;           // 'full', 'upper', or 'file'
+                    const baseId = btn.dataset.diagram;      // base diagram id
+                    const viewKey = `${baseId}__${view}`;
+                    const dot = dotDiagrams[viewKey];
+                    if (!dot) return;
+
+                    // Update active state on buttons
+                    btn.closest('.view-toggle').querySelectorAll('.view-toggle-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+
+                    // Re-render the diagram with the new DOT code
+                    const viewer = viewerRegistry[baseId];
+                    if (viewer) {
+                        viewer.dotCode = dot;
+                        viewer.nodeData = nodeData[viewKey] || {};
+                        await viewer.init();
+                    }
+                });
+            });
 
             // Initialize Mermaid diagrams
             await initMermaidDiagrams();
