@@ -4867,10 +4867,12 @@ function parseEdgeTitle(title) {
             const closeBtn = document.getElementById('fullscreen-close');
             const zoomInBtn = document.getElementById('fs-zoom-in');
             const zoomOutBtn = document.getElementById('fs-zoom-out');
+            const fsViewToggle = document.getElementById('fullscreen-view-toggle');
 
             let fsScale = 1, fsTx = 0, fsTy = 0, fsDrag = false, fsSx = 0, fsSy = 0;
             let currentSvg = null;
             let onNodeClick = null;
+            let currentDiagramId = null;
 
             const update = () => {
                 wrapper.style.transform = `translate(${fsTx}px, ${fsTy}px) scale(${fsScale})`;
@@ -4950,11 +4952,12 @@ function parseEdgeTitle(title) {
             }, true);
 
             return {
-                open({ svg, title, onNodeClick: handler }) {
+                open({ svg, title, onNodeClick: handler, diagramId }) {
                     if (!svg) return;
                     overlay.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     titleEl.textContent = title || 'Graph View';
+                    currentDiagramId = diagramId || null;
 
                     wrapper.innerHTML = '';
                     const clone = svg.cloneNode(true);
@@ -4963,6 +4966,22 @@ function parseEdgeTitle(title) {
                     onNodeClick = handler || null;
 
                     sanitizeGraphSvg(clone);
+
+                    // Show/hide fullscreen view toggle based on multi-view availability
+                    if (currentDiagramId && dotDiagrams[`${currentDiagramId}__full`]) {
+                        fsViewToggle.style.display = '';
+                        // Sync active state with inline toggle
+                        const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
+                        const activeInlineBtn = inlineContainer?.querySelector('.view-toggle-btn.active');
+                        const activeView = activeInlineBtn?.dataset?.view || 'full';
+                        fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
+                            const isActive = b.dataset.view === activeView;
+                            b.classList.toggle('active', isActive);
+                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        });
+                    } else {
+                        fsViewToggle.style.display = 'none';
+                    }
 
                     fsScale = 1; fsTx = 0; fsTy = 0; fsDrag = false; fsSx = 0; fsSy = 0;
                     update();
