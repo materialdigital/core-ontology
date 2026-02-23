@@ -7,7 +7,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 
 ## Pattern 1 - Duality of object and material
 <!--Please provide the link to the pattern (raw data ttl file) in the repository-->
-<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/pattern.md-->
 
