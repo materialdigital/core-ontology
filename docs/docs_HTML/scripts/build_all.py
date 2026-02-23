@@ -5559,7 +5559,11 @@ function parseEdgeTitle(title) {
 
             // Initialize Graphviz (DOT) diagrams — only base ids with multi-view
             for (const baseId of baseIds) {
-                const defaultKey = `${baseId}__full`;
+                // Detect which view is active by default from the HTML toggle buttons
+                const container = document.getElementById(`graph-${baseId}`);
+                const activeBtn = container?.querySelector('.view-toggle-btn.active');
+                const defaultView = activeBtn?.dataset?.view || 'full';
+                const defaultKey = `${baseId}__${defaultView}`;
                 const dot = dotDiagrams[defaultKey] || dotDiagrams[baseId] || '';
                 const data = nodeData[defaultKey] || nodeData[baseId] || {};
                 const containerId = `graph-${baseId}`;
