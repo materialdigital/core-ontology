@@ -46,7 +46,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 4 - Process Inputs and Outputs
-<!--@Graphviz_renderer_upper:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/pattern.md-->
 
