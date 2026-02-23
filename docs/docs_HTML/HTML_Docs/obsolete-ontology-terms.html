@@ -3830,7 +3830,7 @@
 </svg>
                             User Guide
                         </a></li>
-                    <li><a class="nav-link" href="./obsolete-ontology-terms.html">
+                    <li><a class="nav-link active" href="./obsolete-ontology-terms.html">
                             <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
     <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM12 15L12 15 18 9"></path><path d="M12 9 L12 9 18 15"></path>
 </svg>
@@ -3864,7 +3864,7 @@
             <div class="nav-section">
                 <h3 class="nav-section-title">Resources</h3>
                 <ul class="nav-list">
-                    <li><a class="nav-link active" href="./versions.html">
+                    <li><a class="nav-link" href="./versions.html">
                             <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
     <path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20"></path><path d="M12 6v6l4 2"></path>
 </svg>
@@ -3910,55 +3910,78 @@
             </nav>
 
             <article class="content">
-                <h1 id="versions-and-variants">Versions and Variants</h1>
+                <h1 id="obsoleting-and-deprecating-ontology-terms">Obsoleting and deprecating ontology terms</h1>
 
-<h2 id="stable-release-versions">Stable Release Versions</h2>
+<p>Ontologies evolve, terms are revised, split into more detailed terms or deprecated. For proper reusablity of the ontology and traceability of the reason why it was deleted and what is a possible replacement term that should be used instead, the following steps should be adopted.
+<em>(These steps are largely based on the <a href="https://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term">GO</a> and <a href="https://ontology-development-kit.readthedocs.io/en/latest/ObsoleteTerm.html">ODK</a> pages for term obsoletion but adjusted for the PMDco.)</em></p>
 
-<p>The latest version of the ontology can always be found at:</p>
+<h2 id="check-for-the-pmdco-deprecation-profile">Check for the PMDco deprecation profile</h2>
 
-<p><a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.owl">pmdco.owl</a> and <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.ttl">pmdco.ttl</a></p>
+<ol>
+<li>Navigate to your local Protégé installation folder and further to '..\conf\deprecation\'</li>
+<li>Check whether the file 'PMDco.yaml' is present
+<ul>
+<li>if not, download it from <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/PMDco.yaml">here</a> and move it into the Protégé installation folder</li>
+</ul></li>
+</ol>
 
-<h2 id="variants">Variants</h2>
+<!--- In the future this should be done without the need for users to manually copy files on their machines. The PMDco deprecation profile may be added to the official protege release or be moved into the respective folder when editing the core or application ontologies. For now this shoould suffice.--->
 
-<p>The ontology is shipped in three varaints, each as OWL (*.owl) and Turtle serializations (*.ttl):</p>
+<h2 id="check-the-usage-of-the-term">Check the usage of the term</h2>
+
+<ol>
+<li>Check where in the ontology the term is used
+<ul>
+<li>In Protégé, navigate to the term you want to obsolete, go to the ‘Usage’ tab to see if that ID is used elsewhere.</li>
+<li>If the term is a parent term or used in logical definitions, <strong>create a substitute term</strong> that replaces the obsolete term.</li>
+<li>Is the obsolete term itself is the replacement or in consideration for other obsoleted terms, update these (with a substitute term) or delete them.</li>
+</ul></li>
+<li>Navigate to the term you want to obsolete agin</li>
+<li>Right-click on the term and select 'Deprecate...' <strong>or</strong> click the 'Edit'-Tab -> 'Deprecrate entity...'</li>
+<li>Choose the PMDco deprecation profile -> continue</li>
+<li>Give a reason for deprecation from the list below -> continue </li>
+<li>(If applicable) Search the substitute term you created earlier, else continue</li>
+<li>If no substitute term was defined, give one or more terms that can be used as an alternative when possible (if applicable) -> continue -> finish</li>
+</ol>
+
+<h2 id="reasons-for-deprecation">Reasons for deprecation</h2>
 
 <ul>
-<li><strong>full:</strong> <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco-full.ttl">pmdco-full.ttl</a>, <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.ttl">pmdco.ttl</a> (default)</li>
-<li><strong>base:</strong> <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco-base.ttl">pmdco-base.ttl</a></li>
-<li><strong>simple:</strong> <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco-simple.ttl">pmdco-simple.ttl</a></li>
-<li><strong>minimal:</strong> <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco-minimal.ttl">pmdco-minimal.ttl</a></li>
+<li>original meaning has split and more specific terms were created</li>
+<li>outside of the scope of the ontology</li>
+<li>an equivalent term was adopted from a different ontology</li>
+<li>term was moved to a different ontology</li>
+<li>unnecessary grouping term</li>
+<li>vague meaning or unclear definition</li>
+<li>overly specific term</li>
+<li>such an entity does not exist</li>
+<li>added in error</li>
+<li>not used</li>
 </ul>
 
-<p>The <strong>"full release"</strong> artefact contains all logical axioms, including inferred subsumptions. All imports and components are merged into the full release artefact to ensure easy version management. The full release represents most closely the actual ontology as it was intended at the time of release, including all its logical implications. </p>
+<h2 id="reasons-when-no-deprecation-procedure-is-needed">Reasons when no deprecation procedure is needed</h2>
 
-<p>The <strong>"base file"</strong> is a specific release flavour. It reflects the intention of the ontology author for the official (publicly released) representation of the ontologies "base entities". "Base entities" are entities that are defined ("owned") by the ontology. The representation includes the intended public metadata (annotations), and classification (subClassOf hierarchy), including any statements where a base entity is the subject.</p>
+<ul>
+<li>terms created for testing purposes, confined to local machine (not pushed to github)</li>
+<li>terms created in the development version (and pushed to github), that only saw limited use by the creators of the term, so that consensus between the contributors over deprecation can be easily reached/assumed</li>
+</ul>
 
-<p>The <strong>"simple"</strong> artefact only contains a simple existential graph of the terms defined in the ontology. This corresponds to the state before logical definitions and imports. For example, the only logical axioms are of the form <em>CL1 subClassOf CL2</em> or <em>CL1 subClassOf R some CL3</em> where <em>R</em> is any objectProperty and <em>CLn</em> is a class. The simple variant only contains the essential classes and no imports.</p>
-
-<p>The <strong>"minimal"</strong> artefact only contains a preselected minimal of the terms defined in the ontology. This set is extracted form the full variant and represents a lightweight subset of the ontology that covers the most essential concepts for basic interoperability and implementation. We recommend beginners to start with this artifact when learning about the ontology (See issue <a href="https://github.com/materialdigital/core-ontology/issues/121">#121</a>).</p>
-
-<p>The ontology <strong>"main"</strong> file <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.ttl">pmdco.ttl</a> contains the full version.</p>
-
-<h2 id="editors-version">Editors' Version</h2>
-
-<p>Editors of this ontology should use the edit versions of the differenet modules. You can find them in the components folder.</p>
-
-<p>Editors component files: <a href="https://github.com/materialdigital/core-ontology/blob/main/src/ontology/components">src/ontology/components</a></p>
-
-<p>From the editing main file all release variants are derived by the build workflows.</p>
-
-<p>Editors main file: <a href="https://github.com/materialdigital/core-ontology/blob/main/src/ontology/pmdco-edit.owl">src/ontology/pmdco-edit.owl</a></p>
+<blockquote>
+  <p>❗Attention❗</p>
+  
+  <p>Once a term is part of a release, the proper deprecation procedure <strong>must</strong> be followed.</p>
+</blockquote>
 
             </article>
 
             <nav class="page-nav">
-                <a class="page-nav-link prev" href="./migration.html">
+                <a class="page-nav-link prev" href="./pmdco-user-guide.html">
                     <span class="page-nav-label">&larr; Previous</span>
-                    <span class="page-nav-title">Migration</span>
+                    <span class="page-nav-title">User Guide</span>
                 </a>
-                <a class="page-nav-link next" href="./publications.html">
+                <a class="page-nav-link next" href="./reused-ontologies.html">
                     <span class="page-nav-label">Next &rarr;</span>
-                    <span class="page-nav-title">Publications</span>
+                    <span class="page-nav-title">Reused Ontologies</span>
                 </a></nav>
 
             <footer class="footer">
@@ -3975,9 +3998,10 @@
     <aside class="toc">
         <h4 class="toc-title">On this page</h4>
         <ul class="toc-list">
-                        <li><a href="#stable-release-versions">Stable Release Versions</a></li>
-            <li><a href="#variants">Variants</a></li>
-            <li><a href="#editors-version">Editors' Version</a></li>
+                        <li><a href="#check-for-the-pmdco-deprecation-profile">Check for the PMDco deprecation profile</a></li>
+            <li><a href="#check-the-usage-of-the-term">Check the usage of the term</a></li>
+            <li><a href="#reasons-for-deprecation">Reasons for deprecation</a></li>
+            <li><a href="#reasons-when-no-deprecation-procedure-is-needed">Reasons when no deprecation procedure is needed</a></li>
         </ul>
     </aside>
 

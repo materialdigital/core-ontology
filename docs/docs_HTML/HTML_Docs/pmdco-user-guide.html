@@ -3264,6 +3264,11 @@
             margin-bottom: var(--spacing-md);
         }
 
+        /* Ordered lists use CSS counters for numbering */
+        .content ol, .article-content ol {
+            counter-reset: list-counter;
+        }
+
         .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
         .content ol > li, .article-content ol > li {
             position: relative;
@@ -3272,8 +3277,8 @@
             line-height: 1.7;
         }
 
-        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before,
-        .content ol > li::before, .article-content ol > li::before {
+        /* Unordered list bullets (dot) */
+        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -3282,6 +3287,19 @@
             height: 6px;
             background: var(--color-primary);
             border-radius: 50%;
+        }
+
+        /* Ordered list numbers (counter) */
+        .content ol > li, .article-content ol > li {
+            counter-increment: list-counter;
+        }
+        .content ol > li::before, .article-content ol > li::before {
+            content: counter(list-counter) ".";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 600;
+            color: var(--color-primary);
         }
 
         /* Ensure ontology-tree nested lists have no bullets */
@@ -3812,6 +3830,12 @@
 </svg>
                             User Guide
                         </a></li>
+                    <li><a class="nav-link" href="./obsolete-ontology-terms.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM12 15L12 15 18 9"></path><path d="M12 9 L12 9 18 15"></path>
+</svg>
+                            Term Obsoletion
+                        </a></li>
                     <li><a class="nav-link" href="./reused-ontologies.html">
                             <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
     <path d="M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M8.59 13.51l6.83 3.98"></path><path d="M15.41 6.51l-6.82 3.98"></path>
@@ -4060,9 +4084,9 @@ The tutorials follow a central use case, helping you understand not just how to 
                     <span class="page-nav-label">&larr; Previous</span>
                     <span class="page-nav-title">Usage Patterns</span>
                 </a>
-                <a class="page-nav-link next" href="./reused-ontologies.html">
+                <a class="page-nav-link next" href="./obsolete-ontology-terms.html">
                     <span class="page-nav-label">Next &rarr;</span>
-                    <span class="page-nav-title">Reused Ontologies</span>
+                    <span class="page-nav-title">Term Obsoletion</span>
                 </a></nav>
 
             <footer class="footer">

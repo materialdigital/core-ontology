@@ -3775,6 +3775,11 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             margin-bottom: var(--spacing-md);
         }
 
+        /* Ordered lists use CSS counters for numbering */
+        .content ol, .article-content ol {
+            counter-reset: list-counter;
+        }
+
         .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
         .content ol > li, .article-content ol > li {
             position: relative;
@@ -3783,8 +3788,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             line-height: 1.7;
         }
 
-        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before,
-        .content ol > li::before, .article-content ol > li::before {
+        /* Unordered list bullets (dot) */
+        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -3793,6 +3798,19 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             height: 6px;
             background: var(--color-primary);
             border-radius: 50%;
+        }
+
+        /* Ordered list numbers (counter) */
+        .content ol > li, .article-content ol > li {
+            counter-increment: list-counter;
+        }
+        .content ol > li::before, .article-content ol > li::before {
+            content: counter(list-counter) ".";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 600;
+            color: var(--color-primary);
         }
 
         /* Ensure ontology-tree nested lists have no bullets */

@@ -3264,6 +3264,11 @@
             margin-bottom: var(--spacing-md);
         }
 
+        /* Ordered lists use CSS counters for numbering */
+        .content ol, .article-content ol {
+            counter-reset: list-counter;
+        }
+
         .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
         .content ol > li, .article-content ol > li {
             position: relative;
@@ -3272,8 +3277,8 @@
             line-height: 1.7;
         }
 
-        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before,
-        .content ol > li::before, .article-content ol > li::before {
+        /* Unordered list bullets (dot) */
+        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -3282,6 +3287,19 @@
             height: 6px;
             background: var(--color-primary);
             border-radius: 50%;
+        }
+
+        /* Ordered list numbers (counter) */
+        .content ol > li, .article-content ol > li {
+            counter-increment: list-counter;
+        }
+        .content ol > li::before, .article-content ol > li::before {
+            content: counter(list-counter) ".";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 600;
+            color: var(--color-primary);
         }
 
         /* Ensure ontology-tree nested lists have no bullets */
@@ -3812,6 +3830,12 @@
 </svg>
                             User Guide
                         </a></li>
+                    <li><a class="nav-link" href="./obsolete-ontology-terms.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM12 15L12 15 18 9"></path><path d="M12 9 L12 9 18 15"></path>
+</svg>
+                            Term Obsoletion
+                        </a></li>
                     <li><a class="nav-link" href="./reused-ontologies.html">
                             <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
     <path d="M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M8.59 13.51l6.83 3.98"></path><path d="M15.41 6.51l-6.82 3.98"></path>
@@ -3886,15 +3910,16 @@
             </nav>
 
             <article class="content">
-                <h1 id="usage-patterns">Usage Patterns</h1>
-
-<!--@Document_indicator: Text,links, Patterns -->
+                <p>﻿# Usage Patterns
+<!--@Document_indicator: Text,links, Patterns --></p>
 
 <p>In ontology development and usage, <strong>usage patterns</strong> play a critical role in addressing recurring modeling requirements. These patterns provide standardized, reusable semantic snippets that facilitate consistent representation of relationships between instances and entities. Furthermore, such patterns may be used to create SHACL shapes to include constraints in a knowledge representation. By following usage patterns, ontology users and developers can ensure uniformity, clarity, and reusability in their models.</p>
 
 <p>The sections below illustrate how to read and apply these patterns. Each pattern includes its purpose, description, relevant properties, visualization, and example.</p>
 
 <h2 id="pattern-1-duality-of-object-and-material">Pattern 1 - Duality of object and material</h2>
+
+<p><!--Please provide the link to the pattern (raw data ttl file) in the repository--></p>
 
 <div class="mermaid-graph-container" id="graph-duality-object-material" role="figure" aria-label="Pattern 1 - Duality of object and material">
   <div class="graph-header">
@@ -4370,7 +4395,7 @@ Finally, both (ex:process_step2a) and (ex:process_step2b) lead to (ex:process_st
 </details>
 </div>
 
-<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/realizable%20entity%20%28role%29">patterns/realizable entity (role)/</a> )</p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/realizable%20entity%20(role)">patterns/realizable entity (role)/</a> )</p>
 
 <hr />
 
@@ -4577,7 +4602,7 @@ The example models three main themes:</p>
 </details>
 </div>
 
-<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/material%20property%20%28quality%29">patterns/material property (quality)/</a> )</p>
+<p>(see folder:     <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns/material%20property%20(quality)">patterns/material property (quality)/</a> )</p>
 
 <hr />
 
@@ -5172,6 +5197,7 @@ For example, in a division calculation process, two numbers considered as ICE se
     "obo_BFO_0000020" [URL="http://purl.obolibrary.org/obo/BFO_0000020",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:specifically_dependent_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000020"];
     "obo_BFO_0000030" [URL="http://purl.obolibrary.org/obo/BFO_0000030",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:object</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000030"];
     "obo_BFO_0000040" [URL="http://purl.obolibrary.org/obo/BFO_0000040",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:material_entity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000040"];
+    "pmd_PMD_0000001" [URL="https://w3id.org/pmd/co/PMD_0000001",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:portion_of_matter</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000001"];
     "pmd_PMD_0020113" [URL="https://w3id.org/pmd/co/PMD_0020113",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:fluid__object</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020113"];
     "pmd_PMD_0020131" [URL="https://w3id.org/pmd/co/PMD_0020131",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:intensive_quality</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020131"];
     "quality" [URL="http://purl.obolibrary.org/obo/BFO_0000019",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:quality</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000019"];
@@ -5202,6 +5228,7 @@ For example, in a division calculation process, two numbers considered as ICE se
   "ex_grain_structure_quality" -> "metallic_grain_structure" [label="rdf:type",style="dashed"];
   "ferrite" -> "ex_fcc_material" [label="iao:is_about"];
   "ferrite" -> "ex_grain_structure_quality" [label="obi:specifies_value_of"];
+  "material" -> "pmd_PMD_0000001" [label="rdfs:subClassOf"];
   "melt" -> "pmd_PMD_0020113" [label="rdfs:subClassOf"];
   "metallic_grain_structure" -> "pmd_PMD_0020131" [label="rdfs:subClassOf"];
   "obo_BFO_0000002" -> "entity" [label="rdfs:subClassOf"];
@@ -5209,6 +5236,7 @@ For example, in a division calculation process, two numbers considered as ICE se
   "obo_BFO_0000020" -> "obo_BFO_0000002" [label="rdfs:subClassOf"];
   "obo_BFO_0000030" -> "obo_BFO_0000040" [label="rdfs:subClassOf"];
   "obo_BFO_0000040" -> "obo_BFO_0000004" [label="rdfs:subClassOf"];
+  "pmd_PMD_0000001" -> "obo_BFO_0000040" [label="rdfs:subClassOf"];
   "pmd_PMD_0020113" -> "obo_BFO_0000030" [label="rdfs:subClassOf"];
   "pmd_PMD_0020131" -> "quality" [label="rdfs:subClassOf"];
   "quality" -> "obo_BFO_0000020" [label="rdfs:subClassOf"];
@@ -5233,12 +5261,14 @@ For example, in a division calculation process, two numbers considered as ICE se
     "BFO_0000020" [URL="http://purl.obolibrary.org/obo/BFO_0000020",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:specifically_dependent_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000020"];
     "BFO_0000030" [URL="http://purl.obolibrary.org/obo/BFO_0000030",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:object</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000030"];
     "BFO_0000040" [URL="http://purl.obolibrary.org/obo/BFO_0000040",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:material_entity</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000040"];
-    "PMD_0000639" [URL="https://w3id.org/pmd/co/PMD_0000639",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:ferrous_alloy</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000639"];
+    "PMD_0000000" [URL="https://w3id.org/pmd/co/PMD_0000000",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:material</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000000"];
+    "PMD_0000001" [URL="https://w3id.org/pmd/co/PMD_0000001",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:portion_of_matter</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000001"];
+    "PMD_0000002" [URL="https://w3id.org/pmd/co/PMD_0000002",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:engineered_material</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000002"];
+    "PMD_0000639" [URL="https://w3id.org/pmd/co/PMD_0000639",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:ferrous_metal</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000639"];
     "PMD_0000852" [URL="https://w3id.org/pmd/co/PMD_0000852",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:metal</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000852"];
     "PMD_0020131" [URL="https://w3id.org/pmd/co/PMD_0020131",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:intensive_quality</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020131"];
     "PMD_0020148" [URL="https://w3id.org/pmd/co/PMD_0020148",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:extensive_quality</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020148"];
     "PMD_0025001" [URL="https://w3id.org/pmd/co/PMD_0025001",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:composition</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0025001"];
-    "PMD_0025004" [URL="https://w3id.org/pmd/co/PMD_0025004",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:alloy</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0025004"];
     "chemical_composition" [URL="https://w3id.org/pmd/co/PMD_0000551",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:chemical_composition</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0000551"];
     "ingot" [URL="https://w3id.org/pmd/co/PMD_0020170",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:ingot</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020170"];
     "mass" [URL="https://w3id.org/pmd/co/PMD_0020133",color="#2EA0A8",fillcolor="#46CAD3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">pmd:mass</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="https://w3id.org/pmd/co/PMD_0020133"];
@@ -5262,11 +5292,14 @@ For example, in a division calculation process, two numbers considered as ICE se
   "BFO_0000020" -> "BFO_0000002" [label="rdfs:subClassOf"];
   "BFO_0000030" -> "BFO_0000040" [label="rdfs:subClassOf"];
   "BFO_0000040" -> "BFO_0000004" [label="rdfs:subClassOf"];
-  "PMD_0000639" -> "PMD_0025004" [label="rdfs:subClassOf"];
+  "PMD_0000000" -> "PMD_0000001" [label="rdfs:subClassOf"];
+  "PMD_0000001" -> "BFO_0000040" [label="rdfs:subClassOf"];
+  "PMD_0000002" -> "PMD_0000000" [label="rdfs:subClassOf"];
+  "PMD_0000639" -> "PMD_0000852" [label="rdfs:subClassOf"];
+  "PMD_0000852" -> "PMD_0000002" [label="rdfs:subClassOf"];
   "PMD_0020131" -> "BFO_0000019" [label="rdfs:subClassOf"];
   "PMD_0020148" -> "BFO_0000019" [label="rdfs:subClassOf"];
   "PMD_0025001" -> "PMD_0020131" [label="rdfs:subClassOf"];
-  "PMD_0025004" -> "PMD_0000852" [label="rdfs:subClassOf"];
   "chemical_composition" -> "PMD_0025001" [label="rdfs:subClassOf"];
   "duality_object_material" -> "co" [label="owl:imports"];
   "ex_my_dual_ingot_and_portion_of_steel" -> "ex_some_part" [label="bfo:has_part"];
@@ -5652,6 +5685,7 @@ For example, in a division calculation process, two numbers considered as ICE se
     "BFO_0000003" [URL="http://purl.obolibrary.org/obo/BFO_0000003",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:occurrent</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000003"];
     "BFO_0000015" [URL="http://purl.obolibrary.org/obo/BFO_0000015",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000015"];
     "BFO_0000031" [URL="http://purl.obolibrary.org/obo/BFO_0000031",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:generically_dependent_continuant</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000031"];
+    "BFO_0000035" [URL="http://purl.obolibrary.org/obo/BFO_0000035",color="#C93DA0",fillcolor="#F556CB",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">bfo:process_boundary</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/BFO_0000035"];
     "COB_0000035" [URL="http://purl.obolibrary.org/obo/COB_0000035",color="#6B8AD6",fillcolor="#93AFF3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">cob:completely_executed_planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/COB_0000035"];
     "COB_0000082" [URL="http://purl.obolibrary.org/obo/COB_0000082",color="#6B8AD6",fillcolor="#93AFF3",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">cob:planned_process</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://purl.obolibrary.org/obo/COB_0000082"];
     "DenominatorAssignment" [URL="http://example.org/division#DenominatorAssignment",color="#D4D48A",fillcolor="#FDFDC8",fontcolor="#333333",label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="#333333">:DenominatorAssignment</FONT></B></TD></TR></TABLE>>,margin="0.2,0.1",penwidth="2",shape="box",style="filled",target="_blank",tooltip="http://example.org/division#DenominatorAssignment"];
@@ -5686,13 +5720,16 @@ For example, in a division calculation process, two numbers considered as ICE se
   "BFO_0000003" -> "BFO_0000001" [label="rdfs:subClassOf"];
   "BFO_0000015" -> "BFO_0000003" [label="rdfs:subClassOf"];
   "BFO_0000031" -> "BFO_0000002" [label="rdfs:subClassOf"];
+  "BFO_0000035" -> "BFO_0000003" [label="rdfs:subClassOf"];
   "COB_0000035" -> "COB_0000082" [label="rdfs:subClassOf"];
   "COB_0000082" -> "BFO_0000015" [label="rdfs:subClassOf"];
   "DenominatorAssignment" -> "InputAssignment" [label="rdfs:subClassOf"];
   "DivisionProcess" -> "SimulationProcess" [label="rdfs:subClassOf"];
   "InformationContentEntity" -> "BFO_0000031" [label="rdfs:subClassOf"];
+  "InputAssignment" -> "BFO_0000035" [label="rdfs:subClassOf"];
   "Number" -> "InformationContentEntity" [label="rdfs:subClassOf"];
   "NumeratorAssignment" -> "InputAssignment" [label="rdfs:subClassOf"];
+  "OutputAssignment" -> "BFO_0000035" [label="rdfs:subClassOf"];
   "PMD_0000583" -> "COB_0000035" [label="rdfs:subClassOf"];
   "QuotientAssignment" -> "OutputAssignment" [label="rdfs:subClassOf"];
   "SimulationProcess" -> "PMD_0000583" [label="rdfs:subClassOf"];
@@ -5815,13 +5852,28 @@ const nodeData = {
                                     "type": "Individual",
                                     "uri": "https://w3id.org/pmd/co"
                         },
+                        "PMD_0000000": {
+                                    "label": "pmd:material",
+                                    "type": "Class",
+                                    "uri": "https://w3id.org/pmd/co/PMD_0000000"
+                        },
+                        "PMD_0000001": {
+                                    "label": "pmd:portion_of_matter",
+                                    "type": "Class",
+                                    "uri": "https://w3id.org/pmd/co/PMD_0000001"
+                        },
+                        "PMD_0000002": {
+                                    "label": "pmd:engineered_material",
+                                    "type": "Class",
+                                    "uri": "https://w3id.org/pmd/co/PMD_0000002"
+                        },
                         "chemical_composition": {
                                     "label": "pmd:chemical_composition",
                                     "type": "Class",
                                     "uri": "https://w3id.org/pmd/co/PMD_0000551"
                         },
                         "PMD_0000639": {
-                                    "label": "pmd:ferrous_alloy",
+                                    "label": "pmd:ferrous_metal",
                                     "type": "Class",
                                     "uri": "https://w3id.org/pmd/co/PMD_0000639"
                         },
@@ -5859,11 +5911,6 @@ const nodeData = {
                                     "label": "pmd:composition",
                                     "type": "Class",
                                     "uri": "https://w3id.org/pmd/co/PMD_0025001"
-                        },
-                        "PMD_0025004": {
-                                    "label": "pmd:alloy",
-                                    "type": "Class",
-                                    "uri": "https://w3id.org/pmd/co/PMD_0025004"
                         },
                         "duality_object_material": {
                                     "label": "pmd:duality_object_material",
@@ -6576,6 +6623,11 @@ const nodeData = {
                                     "type": "Class",
                                     "uri": "https://w3id.org/pmd/co/PMD_0000000"
                         },
+                        "pmd_PMD_0000001": {
+                                    "label": "pmd:portion_of_matter",
+                                    "type": "Class",
+                                    "uri": "https://w3id.org/pmd/co/PMD_0000001"
+                        },
                         "aggregate_state": {
                                     "label": "pmd:aggregate_state",
                                     "type": "Class",
@@ -6712,6 +6764,11 @@ const nodeData = {
                                     "label": "bfo:generically_dependent_continuant",
                                     "type": "Class",
                                     "uri": "http://purl.obolibrary.org/obo/BFO_0000031"
+                        },
+                        "BFO_0000035": {
+                                    "label": "bfo:process_boundary",
+                                    "type": "Class",
+                                    "uri": "http://purl.obolibrary.org/obo/BFO_0000035"
                         },
                         "COB_0000035": {
                                     "label": "cob:completely_executed_planned_process",
