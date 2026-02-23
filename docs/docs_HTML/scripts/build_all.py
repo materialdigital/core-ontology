@@ -4905,6 +4905,55 @@ function parseEdgeTitle(title) {
             zoomInBtn.addEventListener('click', () => { fsScale = Math.min(5, fsScale * 1.2); update(); });
             zoomOutBtn.addEventListener('click', () => { fsScale = Math.max(0.1, fsScale / 1.2); update(); });
 
+            // Fullscreen view toggle click handlers
+            fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!currentDiagramId) return;
+                    const view = btn.dataset.view;
+                    const viewKey = `${currentDiagramId}__${view}`;
+                    const dot = dotDiagrams[viewKey];
+                    if (!dot) return;
+
+                    // Update fullscreen toggle active state
+                    fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+
+                    // Also sync the inline toggle buttons
+                    const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
+                    if (inlineContainer) {
+                        inlineContainer.querySelectorAll('.view-toggle-btn').forEach(b => {
+                            const isActive = b.dataset.view === view;
+                            b.classList.toggle('active', isActive);
+                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        });
+                    }
+
+                    // Re-render in both inline viewer and fullscreen
+                    const viewer = viewerRegistry[currentDiagramId];
+                    if (viewer) {
+                        viewer.dotCode = dot;
+                        viewer.nodeData = nodeData[viewKey] || {};
+                        await viewer.init();
+                        // Re-render fullscreen SVG
+                        const newSvg = viewer.diagramEl.querySelector('svg');
+                        if (newSvg) {
+                            wrapper.innerHTML = '';
+                            const clone = newSvg.cloneNode(true);
+                            wrapper.appendChild(clone);
+                            currentSvg = clone;
+                            sanitizeGraphSvg(clone);
+                            fsScale = 1; fsTx = 0; fsTy = 0;
+                            update();
+                            setTimeout(fit, 50);
+                        }
+                    }
+                });
+            });
+
             viewport.addEventListener('wheel', (e) => {
                 if (!overlay.classList.contains('active')) return;
                 e.preventDefault();
