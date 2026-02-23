@@ -301,7 +301,7 @@ Auto-detects language from extension (`.ttl`, `.py`, `.json`, etc.)
 
 | Tag | Input | Output |
 |-----|-------|--------|
-| `@Graphviz_renderer` | TTL/OWL URL | Interactive graph |
+| `@Graphviz_renderer` | TTL/OWL URL | Interactive graph (Full/Upper/File views) |
 | `@module_indicator` | OWL URL | Class tree |
 | `@property_indicator` | `object`/`data`/`annotation` | Property tree |
 | `@Graphviz_renderer_manual` | DOT code block | Interactive graph |
