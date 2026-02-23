@@ -1,16 +1,15 @@
-# Tools and Resources
+# Obsoleting and deprecating ontology terms
 <!--@Document_indicator: Text,links -->
 
-## Obsoleting and deprecating ontology terms
 Ontologies evolve, terms are revised, split into more detailed terms or deprecated. For proper reusablity of the ontology and traceability of the reason why it was deleted and what is a possible replacement term that should be used instead, the following steps should be adopted.
 *(These steps are largely based on the [GO](https://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term) and [ODK](https://ontology-development-kit.readthedocs.io/en/latest/ObsoleteTerm.html) pages for term obsoletion but adjusted for the PMDco.)*
 
 ## Check for the PMDco deprecation profile
-1. Navigate to your Protégé installation folder and further to '..\conf\deprecation\'
+1. Navigate to your local Protégé installation folder and further to '..\conf\deprecation\'
 2. Check whether the file 'PMDco.yaml' is present
 	- if not, download it from [here](https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/PMDco.yaml) and move it into the Protégé installation folder
 
-%% In the future this should be done without the need for users to manually copy files on their machines. The PMDco deprecation profile may be added to the official protege release or be moved into the respective folder when editing the core or application ontologies. For now this shoould suffice.%%
+<!--- In the future this should be done without the need for users to manually copy files on their machines. The PMDco deprecation profile may be added to the official protege release or be moved into the respective folder when editing the core or application ontologies. For now this shoould suffice.--->
 	
 
 ## Check the usage of the term
@@ -42,5 +41,6 @@ Ontologies evolve, terms are revised, split into more detailed terms or deprecat
 - terms created for testing purposes, confined to local machine (not pushed to github)
 - terms created in the development version (and pushed to github), that only saw limited use by the creators of the term, so that consensus between the contributors over deprecation can be easily reached/assumed
 
-> [!Attention]
+> ❗Attention❗
+> 
 > Once a term is part of a release, the proper deprecation procedure **must** be followed.
