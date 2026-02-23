@@ -7234,10 +7234,11 @@ function parseEdgeTitle(title) {
 # =============================================================================
 
 # Graphviz renderer tag pattern - matches all variants:
-#   <!--@Graphviz_renderer:URL-->              → default (full hierarchy)
-#   <!--@Graphviz_renderer_full:URL-->         → explicit full hierarchy
-#   <!--@Graphviz_renderer_only_upper:URL-->   → one superclass level above
-#   <!--@Graphviz_renderer_only_file:URL-->    → file content only, no hierarchy
+#   <!--@Graphviz_renderer:URL-->              → renders all 3 hierarchy views (Full/Upper/File)
+#   <!--@Graphviz_renderer_full:URL-->         → (legacy) same as default
+#   <!--@Graphviz_renderer_only_upper:URL-->   → (legacy) same as default
+#   <!--@Graphviz_renderer_only_file:URL-->    → (legacy) same as default
+# Note: All variants now generate all three views with an interactive toggle.
 GRAPHVIZ_TAG_RE = re.compile(
     r"<!--\s*@Graphviz_renderer(?:_(full|only_upper|upper|only_file|file))?\s*:\s*([^\s>]+)\s*-->",
     re.IGNORECASE,
