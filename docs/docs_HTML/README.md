@@ -14,6 +14,7 @@ Markdown + TTL/OWL  ──▶  Interactive HTML Documentation
 |---------|-------------|
 | **Ontology Trees** | Auto-generate expandable class hierarchies from OWL files |
 | **Graph Diagrams** | Render TTL/SHACL as interactive Graphviz diagrams |
+| **Hierarchy Views** | Switch between Full, Upper, and File views per diagram |
 | **Full-Text Search** | Cross-page search with relevance ranking |
 | **Dark/Light Themes** | Auto-detects system preference |
 | **Zero Config** | Define pages in YAML, run one command |
