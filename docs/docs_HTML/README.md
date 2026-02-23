@@ -196,8 +196,9 @@ Users can switch between views using the **Full / Upper / File** toggle buttons 
 **Generated Features:**
 - Mouse wheel zoom / drag to pan
 - Click nodes for URI tooltips
+- Switch between Full / Upper / File hierarchy views
 - Export as SVG or PNG
-- Fullscreen mode
+- Fullscreen mode with view toggle
 
 ---
 
