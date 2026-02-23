@@ -2154,6 +2154,12 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             border-bottom: 1px solid var(--color-border);
         }
 
+        .fullscreen-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
         .fullscreen-title {
             font-size: var(--font-size-lg);
             font-weight: 600;
