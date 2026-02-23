@@ -7563,8 +7563,11 @@ def _fallback_slugify(stem: str) -> str:
     return s or "diagram"
 
 
-def make_graph_container(diagram_id: str, title: str) -> str:
+def make_graph_container(diagram_id: str, title: str, default_view: str = "full") -> str:
     title = title.strip()
+    views = {"full": "", "upper": "", "file": ""}
+    views[default_view] = " active"
+    pressed = {k: ("true" if k == default_view else "false") for k in views}
     return (
         """
 <div class="mermaid-graph-container" id="graph-{diagram_id}" role="figure" aria-label="{title}">
@@ -7572,9 +7575,9 @@ def make_graph_container(diagram_id: str, title: str) -> str:
     <div class="graph-title">{title}</div>
     <div class="graph-controls" role="toolbar" aria-label="Graph controls">
       <div class="view-toggle" role="radiogroup" aria-label="Hierarchy view">
-        <button class="view-toggle-btn active" data-view="full" data-diagram="{diagram_id}" aria-pressed="true" title="Full class hierarchy">Full</button>
-        <button class="view-toggle-btn" data-view="upper" data-diagram="{diagram_id}" aria-pressed="false" title="One superclass level above">Upper</button>
-        <button class="view-toggle-btn" data-view="file" data-diagram="{diagram_id}" aria-pressed="false" title="File content only, no hierarchy">File</button>
+        <button class="view-toggle-btn{cls_full}" data-view="full" data-diagram="{diagram_id}" aria-pressed="{pr_full}" title="Full class hierarchy">Full</button>
+        <button class="view-toggle-btn{cls_upper}" data-view="upper" data-diagram="{diagram_id}" aria-pressed="{pr_upper}" title="One superclass level above">Upper</button>
+        <button class="view-toggle-btn{cls_file}" data-view="file" data-diagram="{diagram_id}" aria-pressed="{pr_file}" title="File content only, no hierarchy">File</button>
       </div>
       <button class="graph-btn" data-action="fit" aria-label="Fit to view">⊡ Fit</button>
       <button class="graph-btn" data-action="reset" aria-label="Reset view">⊙ Reset</button>
@@ -7613,7 +7616,11 @@ def make_graph_container(diagram_id: str, title: str) -> str:
   </div>
 </div>
 """
-    ).format(diagram_id=diagram_id, title=title).strip()
+    ).format(
+        diagram_id=diagram_id, title=title,
+        cls_full=views["full"], cls_upper=views["upper"], cls_file=views["file"],
+        pr_full=pressed["full"], pr_upper=pressed["upper"], pr_file=pressed["file"],
+    ).strip()
 
 
 # Hierarchy modes for @Graphviz_renderer tag variants
@@ -7712,7 +7719,8 @@ def inject_graph_containers(md_text: str, refs: List[DiagramRef]) -> str:
             out_lines.append(line)
             continue
         ref = next(it)
-        out_lines.append(make_graph_container(ref.diagram_id, ref.title))
+        default_view = {HIERARCHY_FULL: "full", HIERARCHY_ONLY_UPPER: "upper", HIERARCHY_ONLY_FILE: "file"}.get(ref.hierarchy_mode, "full")
+        out_lines.append(make_graph_container(ref.diagram_id, ref.title, default_view=default_view))
     return "\n".join(out_lines)
 
 
