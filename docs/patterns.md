@@ -85,7 +85,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 7 - Measurement
-<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/measurement/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/measurement/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/measurement/pattern.md-->
 
@@ -98,7 +98,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 8 - Scalar Value Specification
-<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/scalar%20value%20specification/pattern.md-->
 
@@ -111,7 +111,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 9 - Categorical Value Specification
-<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/categorical%20value%20specification/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/categorical%20value%20specification/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/categorical%20value%20specification/pattern.md-->
 
@@ -124,7 +124,7 @@ The sections below illustrate how to read and apply these patterns. Each pattern
 ---
 
 ## Pattern 10 - Simulation input/output
-<!--@Graphviz_renderer_full:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/simulation%20inout%20simple/shape-data.ttl-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/simulation%20inout%20simple/shape-data.ttl-->
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/simulation%20inout%20simple/pattern.md-->
 
