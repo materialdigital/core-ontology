@@ -1774,6 +1774,47 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* View toggle radio buttons (Full / Upper / File) */
+        .view-toggle {
+            display: flex;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-right: 4px;
+        }
+
+        .view-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 0 12px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: var(--color-bg-tertiary);
+            border: none;
+            border-right: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .view-toggle-btn:last-child {
+            border-right: none;
+        }
+
+        .view-toggle-btn:hover:not(.active) {
+            color: var(--color-text-primary);
+            background: var(--color-bg-hover);
+        }
+
+        .view-toggle-btn.active {
+            color: #fff;
+            background: var(--color-primary);
+            font-weight: 600;
         }
 
         .graph-btn {
@@ -7387,6 +7428,11 @@ def make_graph_container(diagram_id: str, title: str) -> str:
   <div class="graph-header">
     <div class="graph-title">{title}</div>
     <div class="graph-controls" role="toolbar" aria-label="Graph controls">
+      <div class="view-toggle" role="radiogroup" aria-label="Hierarchy view">
+        <button class="view-toggle-btn active" data-view="full" data-diagram="{diagram_id}" aria-pressed="true" title="Full class hierarchy">Full</button>
+        <button class="view-toggle-btn" data-view="upper" data-diagram="{diagram_id}" aria-pressed="false" title="One superclass level above">Upper</button>
+        <button class="view-toggle-btn" data-view="file" data-diagram="{diagram_id}" aria-pressed="false" title="File content only, no hierarchy">File</button>
+      </div>
       <button class="graph-btn" data-action="fit" aria-label="Fit to view">⊡ Fit</button>
       <button class="graph-btn" data-action="reset" aria-label="Reset view">⊙ Reset</button>
       <button class="graph-btn" data-action="fullscreen" aria-label="View fullscreen">⛶ Fullscreen</button>
