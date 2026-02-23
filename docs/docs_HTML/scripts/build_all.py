@@ -4379,9 +4379,16 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
     <div class="fullscreen-overlay" id="fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen graph viewer">
         <div class="fullscreen-header">
             <div class="fullscreen-title" id="fullscreen-title">Graph</div>
-            <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
-                <span aria-hidden="true">✕</span> Close
-            </button>
+            <div class="fullscreen-controls">
+                <div class="view-toggle fullscreen-view-toggle" id="fullscreen-view-toggle" role="radiogroup" aria-label="Hierarchy view" style="display:none;">
+                    <button class="view-toggle-btn active" data-view="full" aria-pressed="true" title="Full class hierarchy">Full</button>
+                    <button class="view-toggle-btn" data-view="upper" aria-pressed="false" title="One superclass level above">Upper</button>
+                    <button class="view-toggle-btn" data-view="file" aria-pressed="false" title="File content only">File</button>
+                </div>
+                <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
+                    <span aria-hidden="true">✕</span> Close
+                </button>
+            </div>
         </div>
         <div class="fullscreen-viewport" id="fullscreen-viewport">
             <div class="fullscreen-wrapper" id="fullscreen-wrapper"></div>
