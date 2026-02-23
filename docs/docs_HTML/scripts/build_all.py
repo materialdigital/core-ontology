@@ -5320,6 +5320,7 @@ function parseEdgeTitle(title) {
                 FullscreenManager.open({
                     svg,
                     title,
+                    diagramId: this.diagramId,
                     onNodeClick: (nodeG, x, y) => this.showPopForNode(nodeG, x, y)
                 });
             }
