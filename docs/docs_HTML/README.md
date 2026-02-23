@@ -158,11 +158,23 @@ Special HTML comments trigger dynamic content generation during build.
 
 ### `@Graphviz_renderer` — TTL to Interactive Diagram
 
-Converts Turtle/SHACL files into pan-zoom-export graph viewers.
+Converts Turtle/SHACL files into pan-zoom-export graph viewers with three hierarchy views.
 
 ```markdown
 <!--@Graphviz_renderer:URL_OR_PATH-->
 ```
+
+**Hierarchy Views:**
+
+Each diagram automatically includes three switchable views via toggle buttons:
+
+| View | Description |
+|------|-------------|
+| **Full** | Complete class hierarchy from the PMD core ontology |
+| **Upper** | One superclass level above each class |
+| **File** | File content only — no hierarchy expansion |
+
+Users can switch between views using the **Full / Upper / File** toggle buttons in the diagram header. The same toggle is available in fullscreen mode.
 
 **Supported Input Types:**
 
