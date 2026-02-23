@@ -1643,6 +1643,12 @@
             border-bottom: 1px solid var(--color-border);
         }
 
+        .fullscreen-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
         .fullscreen-title {
             font-size: var(--font-size-lg);
             font-weight: 600;
@@ -4012,9 +4018,16 @@ Henk Birkholz, Felix Thonagel, Kostiantyn Hubaiev, Jannis Grundmann, Simon Stier
     <div class="fullscreen-overlay" id="fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen graph viewer">
         <div class="fullscreen-header">
             <div class="fullscreen-title" id="fullscreen-title">Graph</div>
-            <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
-                <span aria-hidden="true">✕</span> Close
-            </button>
+            <div class="fullscreen-controls">
+                <div class="view-toggle fullscreen-view-toggle" id="fullscreen-view-toggle" role="radiogroup" aria-label="Hierarchy view" style="display:none;">
+                    <button class="view-toggle-btn active" data-view="full" aria-pressed="true" title="Full class hierarchy">Full</button>
+                    <button class="view-toggle-btn" data-view="upper" aria-pressed="false" title="One superclass level above">Upper</button>
+                    <button class="view-toggle-btn" data-view="file" aria-pressed="false" title="File content only">File</button>
+                </div>
+                <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
+                    <span aria-hidden="true">✕</span> Close
+                </button>
+            </div>
         </div>
         <div class="fullscreen-viewport" id="fullscreen-viewport">
             <div class="fullscreen-wrapper" id="fullscreen-wrapper"></div>
@@ -4487,10 +4500,12 @@ function parseEdgeTitle(title) {
             const closeBtn = document.getElementById('fullscreen-close');
             const zoomInBtn = document.getElementById('fs-zoom-in');
             const zoomOutBtn = document.getElementById('fs-zoom-out');
+            const fsViewToggle = document.getElementById('fullscreen-view-toggle');
 
             let fsScale = 1, fsTx = 0, fsTy = 0, fsDrag = false, fsSx = 0, fsSy = 0;
             let currentSvg = null;
             let onNodeClick = null;
+            let currentDiagramId = null;
 
             const update = () => {
                 wrapper.style.transform = `translate(${fsTx}px, ${fsTy}px) scale(${fsScale})`;
@@ -4522,6 +4537,55 @@ function parseEdgeTitle(title) {
 
             zoomInBtn.addEventListener('click', () => { fsScale = Math.min(5, fsScale * 1.2); update(); });
             zoomOutBtn.addEventListener('click', () => { fsScale = Math.max(0.1, fsScale / 1.2); update(); });
+
+            // Fullscreen view toggle click handlers
+            fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!currentDiagramId) return;
+                    const view = btn.dataset.view;
+                    const viewKey = `${currentDiagramId}__${view}`;
+                    const dot = dotDiagrams[viewKey];
+                    if (!dot) return;
+
+                    // Update fullscreen toggle active state
+                    fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+
+                    // Also sync the inline toggle buttons
+                    const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
+                    if (inlineContainer) {
+                        inlineContainer.querySelectorAll('.view-toggle-btn').forEach(b => {
+                            const isActive = b.dataset.view === view;
+                            b.classList.toggle('active', isActive);
+                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        });
+                    }
+
+                    // Re-render in both inline viewer and fullscreen
+                    const viewer = viewerRegistry[currentDiagramId];
+                    if (viewer) {
+                        viewer.dotCode = dot;
+                        viewer.nodeData = nodeData[viewKey] || {};
+                        await viewer.init();
+                        // Re-render fullscreen SVG
+                        const newSvg = viewer.diagramEl.querySelector('svg');
+                        if (newSvg) {
+                            wrapper.innerHTML = '';
+                            const clone = newSvg.cloneNode(true);
+                            wrapper.appendChild(clone);
+                            currentSvg = clone;
+                            sanitizeGraphSvg(clone);
+                            fsScale = 1; fsTx = 0; fsTy = 0;
+                            update();
+                            setTimeout(fit, 50);
+                        }
+                    }
+                });
+            });
 
             viewport.addEventListener('wheel', (e) => {
                 if (!overlay.classList.contains('active')) return;
@@ -4570,11 +4634,12 @@ function parseEdgeTitle(title) {
             }, true);
 
             return {
-                open({ svg, title, onNodeClick: handler }) {
+                open({ svg, title, onNodeClick: handler, diagramId }) {
                     if (!svg) return;
                     overlay.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     titleEl.textContent = title || 'Graph View';
+                    currentDiagramId = diagramId || null;
 
                     wrapper.innerHTML = '';
                     const clone = svg.cloneNode(true);
@@ -4583,6 +4648,22 @@ function parseEdgeTitle(title) {
                     onNodeClick = handler || null;
 
                     sanitizeGraphSvg(clone);
+
+                    // Show/hide fullscreen view toggle based on multi-view availability
+                    if (currentDiagramId && dotDiagrams[`${currentDiagramId}__full`]) {
+                        fsViewToggle.style.display = '';
+                        // Sync active state with inline toggle
+                        const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
+                        const activeInlineBtn = inlineContainer?.querySelector('.view-toggle-btn.active');
+                        const activeView = activeInlineBtn?.dataset?.view || 'full';
+                        fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
+                            const isActive = b.dataset.view === activeView;
+                            b.classList.toggle('active', isActive);
+                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        });
+                    } else {
+                        fsViewToggle.style.display = 'none';
+                    }
 
                     fsScale = 1; fsTx = 0; fsTy = 0; fsDrag = false; fsSx = 0; fsSy = 0;
                     update();
@@ -4921,6 +5002,7 @@ function parseEdgeTitle(title) {
                 FullscreenManager.open({
                     svg,
                     title,
+                    diagramId: this.diagramId,
                     onNodeClick: (nodeG, x, y) => this.showPopForNode(nodeG, x, y)
                 });
             }
@@ -5110,7 +5192,11 @@ function parseEdgeTitle(title) {
 
             // Initialize Graphviz (DOT) diagrams — only base ids with multi-view
             for (const baseId of baseIds) {
-                const defaultKey = `${baseId}__full`;
+                // Detect which view is active by default from the HTML toggle buttons
+                const container = document.getElementById(`graph-${baseId}`);
+                const activeBtn = container?.querySelector('.view-toggle-btn.active');
+                const defaultView = activeBtn?.dataset?.view || 'full';
+                const defaultKey = `${baseId}__${defaultView}`;
                 const dot = dotDiagrams[defaultKey] || dotDiagrams[baseId] || '';
                 const data = nodeData[defaultKey] || nodeData[baseId] || {};
                 const containerId = `graph-${baseId}`;
