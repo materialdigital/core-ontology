@@ -7634,12 +7634,15 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
     """
     Extract all ``<!--@Graphviz_renderer*:...-->`` placeholders from Markdown.
 
+    All variants now render three views (Full/Upper/File) with an interactive toggle.
+    The suffix only determines which view is selected by default.
+
     Supported tag variants (case-insensitive)::
 
-        <!--@Graphviz_renderer:URL-->              full hierarchy (default)
-        <!--@Graphviz_renderer_full:URL-->          explicit full hierarchy
-        <!--@Graphviz_renderer_only_upper:URL-->    one superclass level above
-        <!--@Graphviz_renderer_only_file:URL-->     file content only, no hierarchy
+        <!--@Graphviz_renderer:URL-->              all 3 views, default: full
+        <!--@Graphviz_renderer_full:URL-->          all 3 views, default: full
+        <!--@Graphviz_renderer_only_upper:URL-->    all 3 views, default: upper
+        <!--@Graphviz_renderer_only_file:URL-->     all 3 views, default: file
 
     Returns a list of :class:`DiagramRef` in document order.
     """
