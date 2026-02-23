@@ -5054,11 +5054,13 @@ function parseEdgeTitle(title) {
                 if (!svg) return this.showToast('Graph not ready');
                 const graphTitle = this.container.querySelector('.graph-title');
                 const title = graphTitle ? graphTitle.textContent : 'Graph View';
+                // Strip "diagram-" prefix so the id matches dotDiagrams keys
+                const baseId = this.diagramId.replace(/^diagram-/, '');
 
                 FullscreenManager.open({
                     svg,
                     title,
-                    diagramId: this.diagramId,
+                    diagramId: baseId,
                     onNodeClick: (nodeG, x, y) => this.showPopForNode(nodeG, x, y)
                 });
             }
