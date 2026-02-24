@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-23/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-24/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-02-23" .
+                                  owl:versionInfo "2026-02-24" .
 
 #################################################################
 #    Annotation properties
@@ -3372,17 +3372,7 @@ pmd:PMD_0000005 rdf:type owl:Class ;
                                   owl:onProperty obo:BFO_0000054 ;
                                   owl:someValuesFrom pmd:PMD_0000950
                                 ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:RO_0000052 ;
-                                  owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000040
-                                                                            [ rdf:type owl:Restriction ;
-                                                                              owl:onProperty obo:RO_0000056 ;
-                                                                              owl:someValuesFrom obo:BFO_0000015
-                                                                            ]
-                                                                          ) ;
-                                                       rdf:type owl:Class
-                                                     ]
-                                ] ;
+                                _:genid170 ;
                 rdfs:comment """Technical materials are complex object aggregates. The properties that are determined for those object aggregates are intrinsically associated with the methodologies employed in the measurement process. This is in contrast to typical 'physical' properties, which like e.g. mass that can be determined to high accuracy independently of the measurement process. 
 As a consequence, the behavoiral material properties in the ontology are differeciated according to their measurement method, e.g. Brinell hardness and Vickers hardness are different types of indentation hardness rather than different measures/quantification (GDC) of the materials property 'indentation hardness'.
  The 'unit idenifieres' of such properties (e.g. \"HV1\", \"HV10\", \"HBW\") are strictly speaking not units but rather references to the measurement methodology used to determine a numeric value that quantifies the property."""@en ;
@@ -3393,6 +3383,24 @@ As a consequence, the behavoiral material properties in the ontology are differe
 
 We only deal with intensive (system-size independent) material properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules."""@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
+
+_:genid170 rdf:type owl:Restriction ;
+            owl:onProperty obo:RO_0000052 ;
+            owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000001
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty obo:RO_0000056 ;
+                                                        owl:someValuesFrom obo:BFO_0000015
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource pmd:PMD_0000005 ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget _:genid170 ;
+   rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en
+ ] .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000007
@@ -4188,7 +4196,7 @@ pmd:PMD_0000552 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000553
 pmd:PMD_0000553 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0020148 ;
+                rdfs:subClassOf pmd:PMD_0020131 ;
                 rdfs:label "chemical potential"@en ;
                 skos:definition "The chemical potential is a thermodynamic quality describing the energy change associated with the addition of a small quantity of a substance to a system at constant temperature and pressure."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
@@ -9615,12 +9623,24 @@ pmd:PMD_0020130 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020131
 pmd:PMD_0020131 rdf:type owl:Class ;
-                rdfs:subClassOf obo:BFO_0000019 ;
+                rdfs:subClassOf obo:BFO_0000019 ,
+                                _:genid867 ;
                 owl:disjointWith pmd:PMD_0020148 ;
                 rdfs:label "intensive quality"@en ;
                 skos:altLabel "Point property"@en ;
                 skos:definition "An intensive quality is a quality that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
+
+_:genid867 rdf:type owl:Restriction ;
+            owl:onProperty obo:RO_0000080 ;
+            owl:someValuesFrom pmd:PMD_0000001 .
+
+[ rdf:type owl:Axiom ;
+   owl:annotatedSource pmd:PMD_0020131 ;
+   owl:annotatedProperty rdfs:subClassOf ;
+   owl:annotatedTarget _:genid867 ;
+   rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en
+ ] .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020132
