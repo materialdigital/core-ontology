@@ -219,6 +219,10 @@ rdfs:label rdf:type owl:AnnotationProperty ;
 skos:altLabel rdf:type owl:AnnotationProperty .
 
 
+###  http://www.w3.org/2004/02/skos/core#comment
+skos:comment rdf:type owl:AnnotationProperty .
+
+
 ###  http://www.w3.org/2004/02/skos/core#definition
 skos:definition rdf:type owl:AnnotationProperty .
 
@@ -3729,6 +3733,25 @@ pmd:PMD_0000101 rdf:type owl:Class ;
                 pmd:PMD_0001032 <https://github.com/materialdigital/core-ontology/issues/280> .
 
 
+###  https://w3id.org/pmd/co/PMD_0000103
+pmd:PMD_0000103 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000833 ;
+                rdfs:label "hardening"@en ;
+                skos:altLabel "toughening" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000104
+pmd:PMD_0000104 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000103 ;
+                rdfs:label "ion-exchange hardening"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000107
+pmd:PMD_0000107 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000877 ;
+                rdfs:label "non-linear optical property"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000123
 pmd:PMD_0000123 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000300 ,
@@ -4459,7 +4482,8 @@ pmd:PMD_0000577 rdf:type owl:Class ;
                                   rdf:type owl:Class
                                 ] ;
                 rdfs:label "composite"@en ,
-                           "composite material"@en ;
+                           "composite material"@en ,
+                           "composites"@en ;
                 skos:definition "A composite material is an engineered material that 'consists of' some material that has a matrix role and of some material that has a filler role."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -5160,20 +5184,32 @@ pmd:PMD_0000653 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000654
 pmd:PMD_0000654 rdf:type owl:Class ;
-                rdfs:subClassOf [ owl:intersectionOf ( pmd:PMD_0000002
-                                                       [ rdf:type owl:Restriction ;
-                                                         owl:onProperty obo:BFO_0000050 ;
-                                                         owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
-                                                                                                   [ rdf:type owl:Restriction ;
-                                                                                                     owl:onProperty obo:RO_0000085 ;
-                                                                                                     owl:someValuesFrom obo:BFO_0000034
-                                                                                                   ]
-                                                                                                 ) ;
-                                                                              rdf:type owl:Class
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000002
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:BFO_0000050 ;
+                                                             owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty obo:RO_0000085 ;
+                                                                                                         owl:someValuesFrom obo:BFO_0000034
+                                                                                                       ]
+                                                                                                     ) ;
+                                                                                  rdf:type owl:Class
+                                                                                ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000002 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000050 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000085 ;
+                                                                              owl:someValuesFrom obo:BFO_0000034
                                                                             ]
-                                                       ]
-                                                     ) ;
-                                  rdf:type owl:Class
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
                                 ] ;
                 obo:IAO_0000116 "Classified by the role in a system."@en ;
                 rdfs:label "functional material"@en ;
@@ -6351,8 +6387,7 @@ pmd:PMD_0000886 rdf:type owl:Class ;
 pmd:PMD_0000888 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000002 ;
                 obo:IAO_0000116 "Classified by morphology."@en ;
-                rdfs:label "polymer"@en ,
-                           "polymere"@en ;
+                rdfs:label "polymer"@en ;
                 skos:definition "A polymer is an engineered material that consists of many repeated subunits (monomers) to form long chains. The atoms within a polymer chain are bonded together by covalent bonds. The intermolecular forces between polymer chains are typically represented by van der waals forces and hydrogen bonds."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -7894,12 +7929,18 @@ pmd:PMD_0010023 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0010024
 pmd:PMD_0010024 rdf:type owl:Class ;
-                rdfs:label "bioinert"@en .
+                rdfs:subClassOf obo:BFO_0000016 ;
+                rdfs:label "bioinert"@en ;
+                skos:definition "a disposition to elicit minimal or no biological response when in contact with tissue or implanted"@en ;
+                skos:example "non-toxic and non-immunogenic, with little or no bonding or integration with the body." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0010025
 pmd:PMD_0010025 rdf:type owl:Class ;
-                rdfs:label "bioresorbable"@en .
+                rdfs:subClassOf pmd:PMD_0020251 ;
+                rdfs:label "bioresorbable"@en ;
+                skos:comment "being absorbed or excreted as it performs its function, often eliminating the need for removal." ;
+                skos:definition "a biocompatibility and gradually degrading and being resorbed by the body over time"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0011019
@@ -9617,28 +9658,28 @@ pmd:PMD_0020130 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000145 ;
                 rdfs:label "driving force of phase in system"@en ;
                 skos:definition "Driving force is relational property between two material entities, the species and the material (system). The driving force is a factor that promotes a physical process or (eletro-)chemical reaction in a material (system) to occur and proceed towards completion. It can be quantified as the gradient of the activity of the participating species."@en ;
-                skos:example "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0."@en ;
+                skos:example "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020131
 pmd:PMD_0020131 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000019 ,
-                                _:genid867 ;
+                                _:genid872 ;
                 owl:disjointWith pmd:PMD_0020148 ;
                 rdfs:label "intensive quality"@en ;
                 skos:altLabel "Point property"@en ;
                 skos:definition "An intensive quality is a quality that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid867 rdf:type owl:Restriction ;
+_:genid872 rdf:type owl:Restriction ;
             owl:onProperty obo:RO_0000080 ;
             owl:someValuesFrom pmd:PMD_0000001 .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0020131 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid867 ;
+   owl:annotatedTarget _:genid872 ;
    rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en
  ] .
 
@@ -11214,7 +11255,7 @@ pmd:PMD_0050005 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ;
                 rdfs:label "polyethylene"@en ;
                 skos:definition "Polyethylene is a thermoplastic that is composed of repeating ethylene monomer units."@en ,
-                                "poylethylen also polyethene is a thermoplastic polymer produced by polymerization of the monomer ethylene including further crosslinking and modifications using other comonomers. This excludes ultra hight molecular polyethylen because very high molecular weight polyethylene is not thermoplastic anymore"@en ;
+                                "poylethylen is a thermoplastic polymer produced by polymerization of the monomer ethylene including further crosslinking and modifications using other comonomers; it excludes ultra hight molecular polyethylen."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PE" .
 
@@ -11250,8 +11291,10 @@ pmd:PMD_0050008 rdf:type owl:Class ;
 pmd:PMD_0050009 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ;
                 rdfs:label "polypropylene"@en ;
+                skos:altLabel "polyethene" ;
+                skos:comment "this excludes ultra hight molecular polyethylen because very high molecular weight polyethylene is not thermoplastic anymore" ;
                 skos:definition "Polypropylene is a thermoplastic that is composed of repeating propylene monomer units."@en ,
-                                "poylpropylene also polyethene is a thermoplastic polymer produced by polymerization of the monomer propylene including further crosslinking and modifications using other comonomers"@en ;
+                                "poylpropylene is a thermoplastic polymer produced by polymerization of the monomer propylene including further crosslinking and modifications using other comonomers"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PP" .
 
@@ -11287,8 +11330,10 @@ pmd:PMD_0050012 rdf:type owl:Class ;
 pmd:PMD_0050013 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ;
                 rdfs:label "polyvinyl chloride"@en ;
+                skos:altLabel "vinyl or polyvinyl" ;
+                skos:comment "they are usualy hard or soft and flexible with incrased use of plasticisers." ;
                 skos:definition "Polyvinyl chloride is a thermoplastic that is formed by the polymerization of vinyl chloride monomers."@en ,
-                                "polyvinyl chloride also vinyl or polyvinyl is a thermoplastic polymer produced by polymerization of the monomer vinyl chloride. poylvinyl is usualy hard or soft and flexible with incrased use of plasticisers"@en ;
+                                "polyvinyl chloride is a thermoplastic polymer produced by polymerization of the monomer vinyl chloride."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PVC" .
 
@@ -11341,8 +11386,9 @@ pmd:PMD_0050018 rdf:type owl:Class ;
 pmd:PMD_0050019 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ;
                 rdfs:label "polyethylene terephthalate"@en ;
-                skos:definition "Polyethylene terephthalate is a thermoplastic polyester produced by polycondensation of ethylene glycol with terephthalate precursors; it is the dominant polyester utilized in global packaging and fiber applications"@en ,
+                skos:definition "Polyethylene terephthalate is a thermoplastic polyester produced by polycondensation of ethylene glycol and terephthalate precursors."@en ,
                                 "Polyethylene terephthalate is a thermoplastic that is synthesized from terephthalic acid and ethylene glycol."@en ;
+                skos:example "it is the dominant polyester utilized in global packaging and fiber applications" ;
                 pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PET" .
 
@@ -11377,8 +11423,10 @@ pmd:PMD_0050022 rdf:type owl:Class ;
 pmd:PMD_0050023 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
                 rdfs:label "epoxy resins"@en ;
-                skos:definition "Epoxy resins are thermosetting polymers that form rigid, cross-linked networks upon curing."@en ,
-                                "Epoxy resins, also epoxy or polyepoxide, are epoxide-functional oligomers curing via ring-opening into crosslinked thermoset networks; utilized for high-performance structural adhesives, composite matrices, and protective coatings."@en ;
+                skos:altLabel "epoxy or polyepoxide" ;
+                skos:definition "Epoxy resins are epoxide-functional oligomers curing via ring-opening into crosslinked thermoset networks."@en ,
+                                "Epoxy resins are thermosetting polymers that form rigid, cross-linked networks upon curing."@en ;
+                skos:example "they are utilized for high-performance structural adhesives, composite matrices, and protective coatings." ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11402,8 +11450,11 @@ pmd:PMD_0050025 rdf:type owl:Class ;
 pmd:PMD_0050026 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
                 rdfs:label "phenolic resins"@en ;
+                skos:altLabel "phenol-formaldehyde" ;
+                skos:comment "they form rigid, char-forming crosslinked networks" ;
                 skos:definition "Phenolic resins are thermosetting polymers formed by the reaction of phenol with formaldehyde."@en ,
-                                "Phenolic resins, also phenol-formaldehyde, are thermosetting polymers synthesized via condensation of phenol and formaldehyde; they form rigid, char-forming crosslinked networks utilized for flame-resistant adhesives, friction materials, and molded components"@en ;
+                                "Phenolic resins are thermosetting polymers synthesized via condensation of phenol and formaldehyde"@en ;
+                skos:example "they are utilized for flame-resistant adhesives, friction materials, and molded components" ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11419,8 +11470,11 @@ pmd:PMD_0050027 rdf:type owl:Class ;
 pmd:PMD_0050028 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
                 rdfs:label "melamine formaldehyde"@en ;
+                skos:altLabel "melamine-formaldehyde" ;
+                skos:comment "they form hard, durable crosslinked networks." ;
                 skos:definition "Melamine formaldehyde is a thermosetting polymer produced from melamine and formaldehyde, known for its high hardness."@en ,
-                                "Melamine resin, also melamine-formaldehyde, is a thermosetting aminoplast polymer synthesized via condensation; it forms hard, durable crosslinked networks widely used in decorative laminates, kitchenware, and coating crosslinkers."@en ;
+                                "Melamine resin is a thermosetting aminoplast polymer synthesized via condensation"@en ;
+                skos:example "they are widely used in decorative laminates, kitchenware, and coating crosslinkers." ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11444,8 +11498,10 @@ pmd:PMD_0050030 rdf:type owl:Class ;
 pmd:PMD_0050031 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050030 ;
                 rdfs:label "natural rubber"@en ;
-                skos:definition "Natural rubber is an elastomer that is derived from the latex of rubber trees."@en ,
-                                "Natural rubber, predominantly cis-1,4-polyisoprene, is an elastomer and biopolymer harvested as plant latex; typically vulcanized for high resilience and strain-induced crystallization widely used in heavy-duty tires and vibration-isolating components"@en ;
+                skos:comment "they are predominantly cis-1,4-polyisoprene," ;
+                skos:definition "Natural rubber is an elastomer polymer, and a biopolymer harvested as plant latex; consisting of cis-1,4-polyisoprene chains; typically sulfur-vulcanized to create crosslinks between chains."@en ,
+                                "Natural rubber is an elastomer that is derived from the latex of rubber trees."@en ;
+                skos:example "they are used widely in Heavy-duty truck tires" ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11462,7 +11518,8 @@ pmd:PMD_0050033 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050032 ;
                 rdfs:label "styrene-butadiene rubber"@en ;
                 skos:definition "Styrene-Butadiene rubber is a synthetic rubber that is composed of styrene and butadiene to enhance abrasion resistance."@en ,
-                                "Styrene–butadiene rubber (SBR) is a family of synthetic random copolymer elastomers of styrene and butadiene, made by emulsion or solution polymerization and typically vulcanized; used widely for its good abrasion resistance and tunable hardness, for instance in tire treads."@en ;
+                                "Styrene–butadiene rubber is a synthetic rubber, and is a family of synthetic random copolymer elastomers of styrene and butadiene, made by emulsion or solution polymerization and typically vulcanized."@en ;
+                skos:example "used widely for its good abrasion resistance and tunable hardness, for instance in tire treads." ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11471,8 +11528,12 @@ pmd:PMD_0050034 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050032 ;
                 rdfs:label "nitrile butadiene rubber"@en ,
                            "nitrile butadiene rubber'"@en ;
+                skos:altLabel "Nitrile " ;
+                skos:comment "Oil resistance, Fuel resistance" ,
+                             "it can have tunable polarity and oil/fuel resistance" ;
                 skos:definition "Nitrile butadiene rubber is a synthetic rubber that is formulated from acrylonitrile and butadiene to provide resistance to oils and chemicals."@en ,
-                                "nitrile butadiene rubber, also Nitrile rubber is a family of synthetic acrylonitrile–butadiene copolymer elastomers; with tunable polarity and oil/fuel resistance, and it is widely used in seals, fuel hoses, and protective gloves"@en ;
+                                "nitrile butadiene rubber is a synthetic rubber, and is a family of synthetic acrylonitrile–butadiene copolymer elastomers"@en ;
+                skos:example " it is widely used in oil/fuel resistance applicaitons such as seals, fuel hoses, and protective gloves" ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11524,9 +11585,11 @@ pmd:PMD_0050038 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050039
 pmd:PMD_0050039 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050036 ;
+                rdfs:subClassOf pmd:PMD_0050004 ,
+                                pmd:PMD_0050036 ;
                 rdfs:label "polybutylene succinate"@en ;
-                skos:definition "Polybutylene succinate is a biodegradable polymer that is a thermoplastic polyester recognized for its compostability."@en ;
+                skos:definition "A biodegradable thermolpastic polyester polymer; synthesized via the polycondensation of succinic acid and 1,4-butanediol."@en ,
+                                "Polybutylene succinate is a biodegradable polymer that is a thermoplastic polyester recognized for its compostability."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11639,9 +11702,7 @@ pmd:PMD_0050049 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050050
 pmd:PMD_0050050 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011033 ,
-                                pmd:PMD_0050049 ,
-                                pmd:PMD_0050122 ,
+                rdfs:subClassOf pmd:PMD_0000002 ,
                                 [ owl:intersectionOf ( [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                                                                 owl:onProperty obo:BFO_0000051 ;
                                                                                 owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000546
@@ -11693,8 +11754,7 @@ pmd:PMD_0050051 rdf:type owl:Class ;
 pmd:PMD_0050052 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050050 ;
                 rdfs:label "leucite-based glass-ceramics"@en ;
-                skos:definition "Leucite-Based glass-ceramics are glass-ceramics that are non-clay ceramics containing leucite crystals to enhance thermal and mechanical properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Leucite-Based glass-ceramics are glass-ceramics that are non-clay ceramics containing leucite crystals to enhance thermal and mechanical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050053
@@ -11882,16 +11942,22 @@ pmd:PMD_0050073 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050074
 pmd:PMD_0050074 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050054 ;
-                rdfs:label "composite ceramics"@en ;
-                skos:definition "Composite ceramics are advanced ceramics that are produced by combining two or more ceramic phases to enhance overall performance."@en ;
+                rdfs:label "ceramic matrix composite"@en ,
+                           "composite ceramics"@en ;
+                skos:altLabel "Ceramic Matrix Composites; CMC" ;
+                skos:definition "A composite material consisting of a ceramic matrix and one or more reinforcement Materials."@en ,
+                                "Composite ceramics are advanced ceramics that are produced by combining two or more ceramic phases to enhance overall performance."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050075
 pmd:PMD_0050075 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050074 ;
-                rdfs:label "oxide-oxide composites"@en ;
-                skos:definition "Oxide-oxide composites are composite ceramics that consist entirely of oxide ceramic phases."@en ;
+                rdfs:subClassOf pmd:PMD_0011033 ,
+                                pmd:PMD_0050074 ;
+                rdfs:label "oxide-oxide Composites"@en ,
+                           "oxide-oxide composites"@en ;
+                skos:definition "Oxide-Oxide Composites are composite ceramic that consist entirely of oxide ceramic phases."@en ,
+                                "Oxide-oxide composites are composite ceramics that consist entirely of oxide ceramic phases."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -11921,16 +11987,21 @@ pmd:PMD_0050078 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050079
 pmd:PMD_0050079 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050078 ;
+                rdfs:subClassOf pmd:PMD_0050080 ;
                 rdfs:label "silicon carbide matrix composites"@en ;
-                skos:definition "SiC matrix composites are non-oxide composites that are built with silicon carbide as the primary matrix reinforced by other ceramic phases."@en ;
+                skos:altLabel "carbon-silicon carbide" ;
+                skos:definition "SiC matrix composites are non-oxide composites that are built with silicon carbide as the primary matrix reinforced by other ceramic phases."@en ,
+                                "silicon carbide (SiC) Matrix Composites are non-oxide composite that are built with silicon carbide as the primary matrix reinforced by other ceramic phases."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050080
 pmd:PMD_0050080 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050078 ;
-                rdfs:label "carbon-silicon carbide composites (carbon-silicon carbide)"@en ;
+                rdfs:subClassOf pmd:PMD_0000577 ,
+                                pmd:PMD_0011033 ,
+                                pmd:PMD_0050078 ;
+                rdfs:label "carbon-silicon carbide composites (carbon-silicon carbide)"@en ,
+                           "non-oxide composite"@en ;
                 skos:definition "C-SiC Composites are non-oxide composites that consist of a carbon matrix reinforced with silicon carbide, enhancing high-temperature performance."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -12119,7 +12190,7 @@ pmd:PMD_0050098 rdf:type owl:Class ;
                                                          ) ;
                                       rdf:type owl:Class
                                     ] ;
-                rdfs:subClassOf pmd:PMD_0050091 ,
+                rdfs:subClassOf pmd:PMD_0050095 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:RO_0000091 ;
                                   owl:someValuesFrom pmd:PMD_0010025
@@ -12148,57 +12219,33 @@ pmd:PMD_0050100 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050101
 pmd:PMD_0050101 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000661 ;
+                rdfs:subClassOf pmd:PMD_0000661 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:CHEBI_30563
+                                ] ;
                 rdfs:label "silicate glass"@en ;
-                skos:definition "Silicate glasses are glasses whose network is based primarily on silica (SiO₂), typically with additional components (e.g., alumina, soda, lime, boron oxide, etc.) added to tailor properties."@en .
+                skos:definition "Silicate glasses are glasses whose network is based primarily on silica (SiO₂)"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050102
 pmd:PMD_0050102 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050101 ,
-                                [ rdf:type owl:Class ;
-                                  owl:unionOf ( [ rdf:type owl:Restriction ;
-                                                  owl:onProperty obo:BFO_0000051 ;
-                                                  owl:someValuesFrom pmd:PMD_0020072
-                                                ]
-                                                [ rdf:type owl:Restriction ;
-                                                  owl:onProperty obo:BFO_0000051 ;
-                                                  owl:someValuesFrom pmd:PMD_0020081
-                                                ]
-                                              )
-                                ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020050
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_31344
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_32145
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
                                 ] ;
                 rdfs:label "soda-lime glass"@en ;
-                skos:definition "Soda-Lime glass is a silicate glass that is formulated from silica, soda, and lime and is widely used in windows and containers."@en ,
-                                "Soda‑lime glass is a silicate glass that is composed of about 70% silica (SiO₂) with soda (Na₂O) acting as a flux and lime (CaO) acting as a stabilizer, and is widely used as common window and container glass."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050103
-pmd:PMD_0050103 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050102 ;
-                rdfs:label "clear float glass"@en ;
-                skos:definition "Clear float glass is a form of soda-lime glass that is known for its clarity and uniform thickness."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050104
-pmd:PMD_0050104 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050102 ;
-                rdfs:label "patterned glass"@en ;
-                skos:definition "Patterned glass is a form of soda-lime glass that is modified with surface textures for decorative purposes."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050105
-pmd:PMD_0050105 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050102 ;
-                rdfs:label "tinted glass"@en ;
-                skos:definition "Tinted glass is a form of soda-lime glass that is treated with coloring agents to alter its light transmission."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "soda (Na₂O) acting as a flux and lime (CaO) acting as a stabilizer" ;
+                skos:definition "Soda‑lime glass is a silicate glass that is composed of about 70% silica (SiO₂) with soda (Na₂O) and lime (CaO)"@en ;
+                skos:example "widely used as common window and container glass." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050106
@@ -12206,20 +12253,18 @@ pmd:PMD_0050106 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050101 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020048
+                                  owl:someValuesFrom obo:CHEBI_30163
                                 ] ;
                 rdfs:label "borosilicate glass"@en ;
-                skos:definition "Borosilicate glass is a gilicate glass that is formulated with boron oxide to improve thermal resistance."@en ,
-                                "Borosilicate glass is a silicate glass that uses boron trioxide (B₂O₃) as a major additional glass‑forming constituent alongside silica, giving it characteristically low thermal expansion and high thermal/chemical resistance compared with soda‑lime glass."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "characteristically low thermal expansion and high thermal/chemical resistance compared with soda‑lime glass." ;
+                skos:definition "Borosilicate glass is a silicate glass that uses boron trioxide (B₂O₃) as a major additional glass‑forming constituent"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050107
 pmd:PMD_0050107 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050106 ;
                 rdfs:label "pyrex-type glass"@en ;
-                skos:definition "Pyrex-type glass is a form of borosilicate glass that is renowned for its high resistance to thermal shock."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Pyrex-type glass is a form of borosilicate glass that is renowned for its high resistance to thermal shock."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050108
@@ -12227,12 +12272,11 @@ pmd:PMD_0050108 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050101 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020071
+                                  owl:someValuesFrom obo:CHEBI_30187
                                 ] ;
                 rdfs:label "aluminosilicate glass"@en ;
-                skos:definition "Aluminosilicate glass is a form of silicate glass that is specifically formulated to resist high temperatures."@en ,
-                                "Aluminosilicate glass is a silicate glass in which SiO₂ and Al₂O₃ are key structural units, typically enabling higher transformation/softening temperatures and improved mechanical/chemical performance compared with many common silicates."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "typically higher transformation/softening temperatures and improved mechanical/chemical performance compared with many common silicates" ;
+                skos:definition "Aluminosilicate glass is a silicate glass in which SiO₂ and Al₂O₃ are key structural units"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050109
@@ -12240,43 +12284,40 @@ pmd:PMD_0050109 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050101 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020060
+                                  owl:someValuesFrom obo:CHEBI_81045
                                 ] ;
                 rdfs:label "lead glass"@en ;
-                skos:definition "Lead glass is a silicate glass in which lead(II) oxide (PbO) is incorporated in significant amounts, increasing refractive index and modifying working properties relative to ordinary silicate glasses."@en ,
-                                "Lead glass is a silicate glass that is formulated with lead oxide to increase brilliance and refractive index."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "increased refractive index and modified working properties relative to ordinary silicate glasses" ;
+                skos:definition "Lead glass is a silicate glass in which lead(II) oxide (PbO) is incorporated in significant amounts"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050110
 pmd:PMD_0050110 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050109 ;
                 rdfs:label "potash lead glass"@en ;
-                skos:definition "Potash lead glass is a form of lead glass that utilizes potash as a flux in addition to lead oxide."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Potash lead glass is a form of lead glass that utilizes potash as a flux in addition to lead oxide."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050111
 pmd:PMD_0050111 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050109 ;
                 rdfs:label "barium glass"@en ;
-                skos:definition "Barium glass is a form of lead glass that is modified with barium oxide to alter its optical properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Barium glass is a form of lead glass that is modified with barium oxide to alter its optical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050112
 pmd:PMD_0050112 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050108 ;
                 rdfs:label "high-temperature resistant glass"@en ;
-                skos:definition "High-Temperature resistant glass is an aluminosilicate glass that is engineered to maintain stability at elevated temperatures."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "High-Temperature resistant glass is an aluminosilicate glass that is engineered to maintain stability at elevated temperatures."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050113
 pmd:PMD_0050113 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000661 ;
                 rdfs:label "non-silicate glass"@en ;
-                skos:definition "Non‑silicate glasses are glasses whose primary glass‑forming network is not based on SiO₂, but instead on other glass formers or non‑oxide systems (e.g., phosphate (P₂O₅)-based, fluoride-based, or chalcogenide (S/Se/Te)-based compositions)."@en .
+                skos:comment "Based on other glass formers or non‑oxide systems (e.g., phosphate (P₂O₅)-based, fluoride-based, or chalcogenide (S/Se/Te)-based compositions)." ;
+                skos:definition "Non‑silicate glasses are glasses whose primary glass‑forming network is not based on SiO₂"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050114
@@ -12284,12 +12325,11 @@ pmd:PMD_0050114 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050113 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020047
+                                  owl:someValuesFrom obo:CHEBI_37376
                                 ] ;
                 rdfs:label "phosphate glass"@en ;
-                skos:definition "Phosphate glass is a non-silicate glass that is composed mainly of phosphate compounds, offering distinct optical properties."@en ,
-                                "Phosphate glass is a non‑silicate glass based primarily on phosphorus pentoxide (P₂O₅) as the glass former (i.e., replacing SiO₂ as the network basis)."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment " (P₂O₅) as the glass former (i.e., replacing SiO₂ as the network basis)." ;
+                skos:definition "Phosphate glass is a non‑silicate glass based primarily on phosphorus pentoxide (P₂O₅)"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050115
@@ -12297,30 +12337,39 @@ pmd:PMD_0050115 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050113 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020048
+                                  owl:someValuesFrom obo:CHEBI_30163
                                 ] ;
                 rdfs:label "borate glass"@en ;
-                skos:definition "Borate glass is a non-silicate glass that is composed mainly of boron oxide and is known for its low melting point."@en ,
-                                "Borate glass is a non‑silicate glass based primarily on boron oxide (B₂O₃) as the glass‑forming network; it is distinct from borosilicate glass because B₂O₃ is the primary network former here rather than an added co‑former in a silica‑based network."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "It is distinct from borosilicate glass because B₂O₃ is the primary network former here rather than an added co‑former in a silica‑based network." ;
+                skos:definition "Borate glass is a non‑silicate glass based primarily on boron oxide (B₂O₃) as the glass‑forming network"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050116
 pmd:PMD_0050116 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050113 ;
                 rdfs:label "germanate glass"@en ;
-                skos:definition "Germanate glass is a non-silicate glass that is composed primarily of germanium oxide, noted for its infrared transmission."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Germanate glass is a non-silicate glass that is composed primarily of germanium oxide, noted for its infrared transmission."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050118
 pmd:PMD_0050118 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ,
-                                pmd:PMD_0050133 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000661
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000053 ;
+                                                             owl:someValuesFrom pmd:PMD_0000877
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000661 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000053 ;
+                                  owl:someValuesFrom pmd:PMD_0000790
+                                ] ;
                 rdfs:label "optical glass"@en ;
-                skos:definition "Optical glass is a specialty glass manufactured for optical components (e.g., lenses, prisms, mirrors) with composition and processing chosen to achieve specified optical/mechanical parameters such as refractive index and dispersion."@en ,
-                                "Optical glass is functional glass that is formulated for high-precision light transmission and refractive performance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "composition and processing chosen to achieve specified optical/mechanical parameters such as refractive index and dispersion." ;
+                skos:definition "Optical glass is a specialty glass manufactured for optical components"@en ;
+                skos:example "e.g., lenses, prisms, mirrors" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050119
@@ -12328,303 +12377,366 @@ pmd:PMD_0050119 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050101 ,
                                 pmd:PMD_0050118 ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020050
+                                  owl:onProperty obo:OBI_0000312 ;
+                                  owl:someValuesFrom pmd:PMD_0025011
                                 ] ;
                 rdfs:label "fused silica glass"@en ;
-                skos:definition "Fused silica glass is an optical glass that is made from pure silica, prized for its high transparency and thermal stability."@en ,
-                                "Fused silica is a silicate glass that is essentially pure, amorphous SiO₂ (often called fused quartz or vitreous silica), obtained by melting silica and cooling fast enough to avoid crystallization."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "obtained by melting silica and cooling fast enough to avoid crystallization." ;
+                skos:definition "Fused silica glass is an optical glass that is made from pure silica, prized for its high transparency and thermal stability.|Fused silica is a silicate glass that is essentially pure, amorphous SiO₂"@en ,
+                                "Fused silica is a silicate glass that is essentially pure, amorphous SiO₂"@en ;
+                skos:example "often called fused quartz or vitreous silica" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050120
 pmd:PMD_0050120 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050118 ;
                 rdfs:label "crown glass"@en ;
-                skos:definition "Crown glass is an optical glass that is characterized by its low dispersion and high clarity."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Crown glass is an optical glass that is characterized by its low dispersion and high clarity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050121
 pmd:PMD_0050121 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050118 ;
                 rdfs:label "flint glass"@en ;
-                skos:definition "Flint glass is an optical glass that is distinguished by its high refractive index and dispersion."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Flint glass is an optical glass that is distinguished by its high refractive index and dispersion."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050122
 pmd:PMD_0050122 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000661 ;
+                rdfs:subClassOf pmd:PMD_0000661 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom obo:BFO_0000016
+                                ] ;
                 rdfs:label "specialty glass"@en ;
-                skos:definition "Specialty glasses are glasses engineered primarily for a targeted functional performance profile (e.g., optical functionality, magneto‑optical response, bioactivity, radiation shielding, or controlled crystallization), typically chosen to deliver a distinctive “property portfolio” for consumer and specialized markets."@en .
+                skos:definition "Specialty glasses are glasses engineered primarily for a targeted functional performance profile"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050123
 pmd:PMD_0050123 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ;
+                rdfs:subClassOf pmd:PMD_0050126 ;
                 rdfs:label "chemically strengthened glass"@en ;
-                skos:definition "Chemically strengthened glass is a specialty glass that is treated via chemical processes to enhance its strength."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Chemically strengthened glass is a specialty glass that is treated via chemical processes to enhance its strength."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050124
 pmd:PMD_0050124 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050123 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000661
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:OBI_0000312 ;
+                                                             owl:someValuesFrom pmd:PMD_0000104
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0050126 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0000312 ;
+                                  owl:someValuesFrom pmd:PMD_0000104
+                                ] ;
                 rdfs:label "ion-exchanged glass"@en ;
-                skos:definition "Ion-Exchanged glass is a form of chemically strengthened glass that is produced by exchanging ions to improve durability."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Ion-Exchanged glass is a form of chemically strengthened glass that is produced by exchanging ions to improve durability."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050125
 pmd:PMD_0050125 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050108 ,
-                                pmd:PMD_0050123 ;
+                                pmd:PMD_0050126 ;
                 rdfs:label "aluminosilicate gorilla glass"@en ;
-                skos:definition "Aluminosilicate gorilla glass is a chemically strengthened glass that is enhanced with an aluminosilicate composition for superior scratch resistance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Aluminosilicate gorilla glass is a chemically strengthened glass that is enhanced with an aluminosilicate composition for superior scratch resistance."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050126
 pmd:PMD_0050126 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000661
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:OBI_0000312 ;
+                                                             owl:someValuesFrom pmd:PMD_0000103
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000661 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0000312 ;
+                                  owl:someValuesFrom pmd:PMD_0000103
+                                ] ;
                 rdfs:label "toughened (tempered) glass"@en ;
-                skos:definition "Toughened glass is a specialty glass that is mechanically treated to increase its strength and safety."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Toughened glass is a specialty glass that is mechanically treated to increase its strength and safety."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050127
 pmd:PMD_0050127 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ;
+                rdfs:subClassOf pmd:PMD_0000577 ;
                 rdfs:label "laminated glass"@en ;
-                skos:definition "Laminated glass is a specialty glass that is composed of multiple bonded layers to improve safety and acoustic performance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Laminated glass is a specialty glass that is composed of multiple bonded layers to improve safety and acoustic performance."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050128
 pmd:PMD_0050128 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ;
+                rdfs:subClassOf pmd:PMD_0050133 ;
                 rdfs:label "electrochromic glass"@en ;
-                skos:definition "Electrochromic glass is a specialty glass that can reversibly change its light transmission properties when an electrical voltage is applied."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Electrochromic glass is a specialty glass that can reversibly change its light transmission properties when an electrical voltage is applied."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050129
 pmd:PMD_0050129 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ;
+                rdfs:subClassOf pmd:PMD_0050133 ;
                 rdfs:label "photochromic glass"@en ;
-                skos:definition "Photochromic glass is a specialty glass that alters its optical properties in response to exposure to light."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Photochromic glass is a specialty glass that alters its optical properties in response to exposure to light."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050130
 pmd:PMD_0050130 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ;
+                rdfs:subClassOf pmd:PMD_0050133 ;
                 rdfs:label "thermochromic glass"@en ;
-                skos:definition "Thermochromic glass is a specialty glass that changes its optical properties as a function of temperature."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Thermochromic glass is a specialty glass that changes its optical properties as a function of temperature."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050131
 pmd:PMD_0050131 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050050 ;
+                rdfs:subClassOf pmd:PMD_0050050 ,
+                                [ rdf:type owl:Class ;
+                                  owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                  owl:onProperty obo:BFO_0000051 ;
+                                                  owl:someValuesFrom pmd:PMD_0020043
+                                                ]
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty obo:BFO_0000051 ;
+                                                  owl:someValuesFrom pmd:PMD_0020060
+                                                ]
+                                              )
+                                ] ;
                 rdfs:label "lithium disilicate glass-ceramics"@en ;
-                skos:definition "Lithium disilicate glass-ceramics are glass-ceramics that contain lithium disilicate crystals to provide high strength and aesthetic appeal."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "Provides transparent attenuation of X‑rays (and, depending on design, gamma radiation)." ;
+                skos:definition "Lithium disilicate glass-ceramics are glass-ceramics that contain lithium disilicate crystals to provide high strength and aesthetic appeal."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050132
 pmd:PMD_0050132 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050050 ;
                 rdfs:label "transparent glass-ceramics"@en ;
-                skos:definition "Transparent glass-ceramics are glass-ceramics that are engineered to maintain optical transparency despite partial crystallization."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Transparent glass-ceramics are glass-ceramics that are engineered to maintain optical transparency despite partial crystallization."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050133
 pmd:PMD_0050133 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000661 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000661
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:BFO_0000050 ;
+                                                             owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty obo:RO_0000085 ;
+                                                                                                         owl:someValuesFrom obo:BFO_0000034
+                                                                                                       ]
+                                                                                                     ) ;
+                                                                                  rdf:type owl:Class
+                                                                                ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000654 ,
+                                pmd:PMD_0000661 ;
                 rdfs:label "functional glass"@en ;
-                skos:definition "Functional glass is advanced glass that is designed to perform specific roles beyond conventional optical applications."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "axiom is related to functional material" ;
+                skos:definition "Functional glass is advanced glass that is designed to perform specific roles beyond conventional optical applications."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050134
 pmd:PMD_0050134 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050133 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000661
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000091 ;
+                                                             owl:someValuesFrom pmd:PMD_0000620
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000661 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0000620
+                                ] ;
                 rdfs:label "conductive glass"@en ;
-                skos:definition "Conductive glass is functional glass that has been modified to exhibit electrical conductivity."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050135
-pmd:PMD_0050135 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050137 ;
-                rdfs:label "indium tin oxide coated glass"@en ;
-                skos:definition "Indium tin oxide coated glass is a form of conductive glass that is coated with a thin film of indium tin oxide to enable electrical conduction."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050136
-pmd:PMD_0050136 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050134 ;
-                rdfs:label "fluorine-doped tin oxide glass"@en ;
-                skos:definition "Fluorine-doped tin oxide glass is a form of conductive glass that is coated with tin oxide doped with fluorine for enhanced conductivity."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Conductive glass is functional glass that has been modified to exhibit electrical conductivity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050137
 pmd:PMD_0050137 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ,
-                                pmd:PMD_0050133 ,
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000661
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000053 ;
+                                                             owl:someValuesFrom pmd:PMD_0000825
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000661 ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:RO_0000091 ;
-                                  owl:someValuesFrom pmd:PMD_0010022
+                                  owl:onProperty obo:RO_0000053 ;
+                                  owl:someValuesFrom pmd:PMD_0000825
                                 ] ;
                 rdfs:label "magnetic glass"@en ;
-                skos:definition "Magnetic glass is a specialty glass that exhibits intrinsic bulk magnetic behavior (e.g., paramagnetism, ferri/ferromagnetism, superparamagnetism, or spin‑glass freezing) because its composition and/or microstructure contains a significant population of magnetic species - typically transition‑metal or rare‑earth ions and/or magnetic nanophases - so that magnetic susceptibility/permeability/magnetization is a designed functional property of the glass."@en ,
-                                "Magnetic glass is functional glass that is modified to exhibit magnetic properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "Its composition and/or microstructure contains a significant population of magnetic species - typically transition‑metal or rare‑earth ions and/or magnetic nanophases - so that magnetic susceptibility/permeability/magnetization is a designed functional property of the glass." ;
+                skos:definition "Magnetic glass is a specialty glass that exhibits intrinsic bulk magnetic behavior|Magnetic glass is functional glass that is modified to exhibit magnetic properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050138
 pmd:PMD_0050138 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050137 ;
+                rdfs:subClassOf pmd:PMD_0050106 ,
+                                pmd:PMD_0050137 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0000825
+                                ] ;
                 rdfs:label "iron-borosilicate glass"@en ;
-                skos:definition "Iron-borosilicate glass is a magnetic glass that incorporates iron and borosilicate compounds to display magnetic behavior."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Iron-borosilicate glass is a magnetic glass that incorporates iron and borosilicate compounds to display magnetic behavior."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050139
 pmd:PMD_0050139 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050137 ;
+                rdfs:subClassOf pmd:PMD_0050106 ,
+                                pmd:PMD_0050137 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0000825
+                                ] ;
                 rdfs:label "cobalt-borosilicate glass"@en ;
-                skos:definition "Cobalt-borosilicate glass is a magnetic glass that is formulated with cobalt to enhance its magnetic properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Cobalt-borosilicate glass is a magnetic glass that is formulated with cobalt to enhance its magnetic properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050140
 pmd:PMD_0050140 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050133 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0050118
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000053 ;
+                                                             owl:someValuesFrom pmd:PMD_0000107
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0050118 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000053 ;
+                                  owl:someValuesFrom pmd:PMD_0000107
+                                ] ;
                 rdfs:label "nonlinear optical glass"@en ;
-                skos:definition "Nonlinear optical glass is functional glass that is engineered to display nonlinear optical responses under intense light."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Nonlinear optical glass is functional glass that is engineered to display nonlinear optical responses under intense light."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050141
 pmd:PMD_0050141 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050113 ,
-                                pmd:PMD_0050140 ,
-                                [ rdf:type owl:Class ;
-                                  owl:unionOf ( [ rdf:type owl:Restriction ;
-                                                  owl:onProperty obo:BFO_0000051 ;
-                                                  owl:someValuesFrom pmd:PMD_0010021
-                                                ]
-                                                [ rdf:type owl:Restriction ;
-                                                  owl:onProperty obo:BFO_0000051 ;
-                                                  owl:someValuesFrom pmd:PMD_0020065
-                                                ]
-                                              )
-                                ] ,
+                                pmd:PMD_0050118 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020059
+                                  owl:someValuesFrom obo:CHEBI_33303
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0000877
                                 ] ;
                 rdfs:label "chalcogenide glass"@en ;
-                skos:definition "Chalcogenide glass is a nonlinear optical glass that is composed of chalcogen elements, offering infrared transmission and nonlinear optical behavior."@en ,
-                                "Chalcogenide glass is a non‑silicate glass (generally non‑oxide) that contains one or more chalcogens such as sulfur, selenium, or tellurium as key constituents and is valued particularly for infrared transparency."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "Chalcogens such as sulfur, selenium, or tellurium as key constituents. Is valued particularly for infrared transparency." ;
+                skos:definition "Chalcogenide glass is a non‑silicate glass (generally non‑oxide) that contains one or more chalcogens"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050142
 pmd:PMD_0050142 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050140 ;
+                rdfs:subClassOf pmd:PMD_0050140 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0000107
+                                ] ;
                 rdfs:label "tellurite glass"@en ;
-                skos:definition "Tellurite glass is a nonlinear optical glass that is formulated with tellurium oxide to achieve a high refractive index and nonlinear properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Tellurite glass is a nonlinear optical glass that is formulated with tellurium oxide to achieve a high refractive index and nonlinear properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050143
 pmd:PMD_0050143 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050122 ,
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000661
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000091 ;
+                                                             owl:someValuesFrom pmd:PMD_0020251
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000661 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:RO_0000091 ;
-                                  owl:someValuesFrom pmd:PMD_0010023
+                                  owl:someValuesFrom pmd:PMD_0020251
                                 ] ;
                 rdfs:label "bioactive glass"@en ;
-                skos:definition "Bioactive glass is a specialty glass that forms a biologically compatible hydroxycarbonate apatite (HCA) layer on its surface in physiological conditions, enabling bonding with bone tissue."@en .
+                skos:comment "enables bonding with bone tissue." ;
+                skos:definition "Bioactive glass is a specialty glass that forms a biologically compatible hydroxycarbonate apatite (HCA) layer on its surface in physiological conditions"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050144
 pmd:PMD_0050144 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050143 ;
+                rdfs:subClassOf pmd:PMD_0050101 ,
+                                pmd:PMD_0050143 ;
                 rdfs:label "silicate-based bioactive glass"@en ;
-                skos:definition "Silicate-based bioactive glass is a bioactive glass that is composed primarily of silicate compounds to facilitate bonding with biological tissue."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Silicate-based bioactive glass is a bioactive glass that is composed primarily of silicate compounds to facilitate bonding with biological tissue."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050145
 pmd:PMD_0050145 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050144 ;
                 rdfs:label "45S5 bioglass"@en ;
-                skos:definition "45S5 Bioglass is a silicate-based bioactive glass with a specific composition known for its ability to bond with bone."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "45S5 Bioglass is a silicate-based bioactive glass with a specific composition known for its ability to bond with bone."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050146
 pmd:PMD_0050146 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050144 ;
                 rdfs:label "S53P4 bioglass"@en ;
-                skos:definition "S53P4 Bioglass is a silicate-based bioactive glass formulated with a distinct composition for enhanced bioactivity."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "S53P4 Bioglass is a silicate-based bioactive glass formulated with a distinct composition for enhanced bioactivity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050147
 pmd:PMD_0050147 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050143 ;
+                rdfs:subClassOf pmd:PMD_0050114 ,
+                                pmd:PMD_0050143 ;
                 rdfs:label "phosphate-based bioactive glass"@en ;
-                skos:definition "Phosphate-based bioactive glass is a bioactive glass that is composed predominantly of phosphate compounds."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Phosphate-based bioactive glass is a bioactive glass that is composed predominantly of phosphate compounds."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050148
 pmd:PMD_0050148 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050143 ;
+                rdfs:subClassOf pmd:PMD_0050115 ,
+                                pmd:PMD_0050143 ;
                 rdfs:label "borate-based bioactive glass"@en ;
-                skos:definition "Borate-based bioactive glass is a bioactive glass that is formulated with borate compounds to promote biological interaction."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Borate-based bioactive glass is a bioactive glass that is formulated with borate compounds to promote biological interaction."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050149
 pmd:PMD_0050149 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000661 ;
                 rdfs:label "amorphous metal glass"@en ;
-                skos:definition "Amorphous metal glass is glass that is characterized by a disordered, non-crystalline atomic structure, resembling a frozen liquid."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Amorphous metal glass is glass that is characterized by a disordered, non-crystalline atomic structure, resembling a frozen liquid."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050150
 pmd:PMD_0050150 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050149 ;
                 rdfs:label "iron-based metallic glass"@en ;
-                skos:definition "Iron-based metallic glass is an amorphous metal glass that is predominantly composed of iron."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Iron-based metallic glass is an amorphous metal glass that is predominantly composed of iron."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050151
 pmd:PMD_0050151 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050149 ;
                 rdfs:label "magnesium-based metallic glass"@en ;
-                skos:definition "Magnesium-based metallic glass is an amorphous metal glass that is primarily composed of magnesium, noted for its low density."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Magnesium-based metallic glass is an amorphous metal glass that is primarily composed of magnesium, noted for its low density."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050152
 pmd:PMD_0050152 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050149 ;
                 rdfs:label "zirconium-based metallic glass"@en ;
-                skos:definition "Zirconium-based metallic glass is an amorphous metal glass that is composed mainly of zirconium, valued for its corrosion resistance and strength."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Zirconium-based metallic glass is an amorphous metal glass that is composed mainly of zirconium, valued for its corrosion resistance and strength."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050153
@@ -12710,34 +12822,6 @@ pmd:PMD_0060009 rdf:type owl:Class ;
                 skos:definition "Specification datum is a data item that provides an information of a setpoint of some value, i.e., it is an intended value."@en ;
                 skos:example "The setpoint value of a ultimate tensile strength of some steel material"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0081001
-pmd:PMD_0081001 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050022 ;
-                rdfs:label "polyurethanes"@en ;
-                skos:definition "Polyurethanes are a polymer family defined by urethane (carbamate) linkages, formed by reacting polyisocyanates with polyols; widely used in rigid/flexible foams, adhesives or coatings, offering high versatility in mechanical properties"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0081002
-pmd:PMD_0081002 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050022 ;
-                rdfs:label "unsaturated polyester resins"@en ;
-                skos:definition "Unsaturated polyester resin is a thermosetting polymer system of unsaturated polyester prepolymers in reactive vinyl monomers; it cures by radical crosslinking into rigid networks used for fiber-reinforced composites"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0081003
-pmd:PMD_0081003 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050030 ;
-                rdfs:label "silicone rubber"@en ;
-                skos:definition "Silicone rubber is a crosslinked polysiloxane (silicon-oxygen) elastomer family with organic side groups, available in multiple formulations and often filled; widely used for its broad service temperature range in medical devices, gaskets, and culinary tools"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0081004
-pmd:PMD_0081004 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050030 ;
-                rdfs:label "polychloropren"@en ;
-                skos:definition "Polychloroprene, also Neoprene, is a family of synthetic elastomeric rubbers made by (typically emulsion) polymerization of chloroprene; available as solid rubber or latex, it offers good weathering and ozone resistance and is widely used in gaskets and wetsuits."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0090000
@@ -12885,6 +12969,43 @@ pmd:PMD_0200008 rdf:type owl:Class ;
                 skos:definition "A primary shaping process in which a manually workable plastic mass (such as clay, wax, plastiline or gypsum paste) is shaped directly by hand and simple tools into a final or intermediate geometry and subsequently hardened, dried or fired to obtain a solid body."@en ,
                                 "Ein Urformverfahren, bei dem eine mit Hand und einfachen Werkzeugen formbare plastische Masse (z. B. Ton, Wachs, Plastilin oder Gipspaste) direkt zur gewünschten Geometrie modelliert und anschließend durch Trocknen, Brennen oder Aushärten zu einem festen Körper verfestigt wird."@de ;
                 skos:example "Hand modelling of clay prior to firing (e.g. pottery, sculptures); modelling of wax or plasticine for casting patterns."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_90000
+pmd:PMD_90000 rdf:type owl:Class ;
+              rdfs:subClassOf pmd:PMD_0050022 ;
+              rdfs:label "polyurethanes"@en ;
+              skos:definition "Polyurethanes are a polymer family defined by urethane linkages, formed by reacting polyisocyanates with polyols"@en ;
+              skos:example "they are it offers high versatility in mechanical properties" .
+
+
+###  https://w3id.org/pmd/co/PMD_90001
+pmd:PMD_90001 rdf:type owl:Class ;
+              rdfs:subClassOf pmd:PMD_0050022 ;
+              rdfs:label "unsaturated polyester resins"@en ;
+              skos:definition "Unsaturated polyester resin is a thermosetting polymer system of unsaturated polyester prepolymers in reactive vinyl monomers; it cures by radical crosslinking into rigid networks."@en ;
+              skos:example "they are used for fiber-reinforced composites" .
+
+
+###  https://w3id.org/pmd/co/PMD_90002
+pmd:PMD_90002 rdf:type owl:Class ;
+              rdfs:subClassOf pmd:PMD_0050030 ;
+              rdfs:label "silicone rubber"@en ;
+              skos:comment "it is available in multiple formulations and often filled." ,
+                           "wide service temperature range" ;
+              skos:definition "Silicone rubber is a synthetic rubber, and is a crosslinked polysiloxane elastomer family, with organic side groups."@en ;
+              skos:example "widely used for its broad service temperature range in medical devices, gaskets, and culinary tools" .
+
+
+###  https://w3id.org/pmd/co/PMD_90003
+pmd:PMD_90003 rdf:type owl:Class ;
+              rdfs:subClassOf pmd:PMD_0050030 ;
+              rdfs:label "polychloropren"@en ;
+              skos:altLabel " Neoprene" ;
+              skos:comment "it offers good weathering and ozone resistance." ,
+                           "weathering resistance; ozone resistance" ;
+              skos:definition "Polychloroprene is a synthetic rubber, and is a family of synthetic elastomeric rubbers; synthesised typically through emulsion polymerization of chloroprene"@en ;
+              skos:example " it is widely used in gaskets and wetsuits. " .
 
 
 #################################################################
