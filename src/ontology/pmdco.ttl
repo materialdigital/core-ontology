@@ -2660,7 +2660,8 @@ obo:COB_0000035 rdf:type owl:Class ;
                                   owl:onProperty obo:BFO_0000055 ;
                                   owl:someValuesFrom obo:OBI_0000260
                                 ] ;
-                owl:disjointWith obo:COB_0000083 ;
+                owl:disjointWith obo:COB_0000083 ,
+                                 obo:GO_0008150 ;
                 rdfs:label "completely executed planned process"@en .
 
 
@@ -2676,6 +2677,18 @@ obo:COB_0000082 rdf:type owl:Class ;
 obo:COB_0000083 rdf:type owl:Class ;
                 rdfs:subClassOf obo:COB_0000082 ;
                 rdfs:label "failed planned process"@en .
+
+
+###  http://purl.obolibrary.org/obo/GO_0008150
+obo:GO_0008150 rdf:type owl:Class ;
+               rdfs:subClassOf obo:BFO_0000015 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:BFO_0000051 ;
+                                 owl:someValuesFrom obo:BFO_0000015
+                               ] ;
+               obo:IAO_0000115 "A biological process is the execution of a genetically-encoded biological module or program. It consists of all the steps required to achieve the specific biological objective of the module. A biological process is accomplished by a particular set of molecular functions carried out by specific gene products (or macromolecular complexes), often in a highly regulated manner and in a particular temporal sequence." ;
+               rdfs:label "biological process"@en ,
+                          "biological_process" .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000003
@@ -3362,7 +3375,19 @@ granularity. At these coarser levels, the individual molecules cannot be differe
 
 ###  https://w3id.org/pmd/co/PMD_0000002
 pmd:PMD_0000002 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000000 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000000
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:OBI_0000312 ;
+                                                             owl:someValuesFrom pmd:PMD_0000833
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0000312 ;
+                                  owl:someValuesFrom pmd:PMD_0000833
+                                ] ;
                 rdfs:comment "We recognize that some of the materials in the subclasses also occur naturally. However, these are not within the scope of our consideration for technical use."@en ;
                 rdfs:label "engineered material"@en ;
                 skos:definition "An engineered material is a material that is output of a manufacturing process."@en ;
@@ -3376,7 +3401,7 @@ pmd:PMD_0000005 rdf:type owl:Class ;
                                   owl:onProperty obo:BFO_0000054 ;
                                   owl:someValuesFrom pmd:PMD_0000950
                                 ] ,
-                                _:genid170 ;
+                                _:genid176 ;
                 rdfs:comment """Technical materials are complex object aggregates. The properties that are determined for those object aggregates are intrinsically associated with the methodologies employed in the measurement process. This is in contrast to typical 'physical' properties, which like e.g. mass that can be determined to high accuracy independently of the measurement process. 
 As a consequence, the behavoiral material properties in the ontology are differeciated according to their measurement method, e.g. Brinell hardness and Vickers hardness are different types of indentation hardness rather than different measures/quantification (GDC) of the materials property 'indentation hardness'.
  The 'unit idenifieres' of such properties (e.g. \"HV1\", \"HV10\", \"HBW\") are strictly speaking not units but rather references to the measurement methodology used to determine a numeric value that quantifies the property."""@en ;
@@ -3388,7 +3413,7 @@ As a consequence, the behavoiral material properties in the ontology are differe
 We only deal with intensive (system-size independent) material properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules."""@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid170 rdf:type owl:Restriction ;
+_:genid176 rdf:type owl:Restriction ;
             owl:onProperty obo:RO_0000052 ;
             owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000001
                                                       [ rdf:type owl:Restriction ;
@@ -3402,7 +3427,7 @@ _:genid170 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0000005 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid170 ;
+   owl:annotatedTarget _:genid176 ;
    rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en
  ] .
 
@@ -3752,6 +3777,232 @@ pmd:PMD_0000107 rdf:type owl:Class ;
                 rdfs:label "non-linear optical property"@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0000110
+pmd:PMD_0000110 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000015 ;
+                rdfs:label "geological process"@en ;
+                rdfs:seeAlso "https://terminology.tib.eu/ts/ontologies/gemet/terms?iri=http%3A%2F%2Fwww.eionet.europa.eu%2Fgemet%2Fconcept%2F3648&obsoletes=false&lang=en" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000111
+pmd:PMD_0000111 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000016 ;
+                rdfs:label "superconducting"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000112
+pmd:PMD_0000112 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000016 ;
+                rdfs:label "dielectric"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000113
+pmd:PMD_0000113 rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( obo:COB_0000082
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:OBI_0000293 ;
+                                                             owl:someValuesFrom pmd:PMD_0020105
+                                                           ]
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:OBI_0000299 ;
+                                                             owl:someValuesFrom pmd:PMD_0050040
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf obo:COB_0000035 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0000293 ;
+                                  owl:someValuesFrom pmd:PMD_0020105
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0000299 ;
+                                  owl:someValuesFrom pmd:PMD_0050040
+                                ] ;
+                rdfs:label "conventional ceramics manufacturing"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000114
+pmd:PMD_0000114 rdf:type owl:Class ;
+                rdfs:subClassOf [ owl:intersectionOf ( pmd:PMD_0000000
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000546
+                                                                                                   pmd:PMD_0020105
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "clay"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000115
+pmd:PMD_0000115 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000000 ;
+                owl:disjointWith pmd:PMD_0000868 ;
+                rdfs:label "natural inorganic material"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000116
+pmd:PMD_0000116 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000577 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0000845
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0020001
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "reinforced composite"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000117
+pmd:PMD_0000117 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000577 ;
+                rdfs:label "structural composite"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000118
+pmd:PMD_0000118 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000117 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000087 ;
+                                                                              owl:someValuesFrom pmd:PMD_0000122
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                rdfs:label "laminated composite"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000119
+pmd:PMD_0000119 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000117 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0000124
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0000125
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "sandwich panel composite"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000120
+pmd:PMD_0000120 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000116 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0020001
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000852
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0000845
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "metal matrix composite"@en ;
+                skos:definition "A composite material consisting of a metal or alloy matrix and one or more reinforcement Materials."@en ;
+                pmd:PMD_0050117 "MMC" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000121
+pmd:PMD_0000121 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000116 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0020001
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000888
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0000845
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "polymer matrix composite"@en ;
+                skos:definition "A composite material consisting of a polymer matrix and one or more reinforcement Materials."@en ;
+                pmd:PMD_0050117 "PMC" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000122
+pmd:PMD_0000122 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000023 ;
+                rdfs:label "laminate ply role"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0000123
 pmd:PMD_0000123 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000300 ,
@@ -3762,6 +4013,18 @@ pmd:PMD_0000123 rdf:type owl:Class ;
                 rdfs:label "doc string"@en ;
                 skos:definition "A docstring is a textual entity that describes an associated section of some source code"@en ;
                 pmd:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/270" .
+
+
+###  https://w3id.org/pmd/co/PMD_0000124
+pmd:PMD_0000124 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000023 ;
+                rdfs:label "sandwich sheet role"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0000125
+pmd:PMD_0000125 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000023 ;
+                rdfs:label "sandwich core role"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000501
@@ -4151,7 +4414,7 @@ pmd:PMD_0000544 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000546
 pmd:PMD_0000546 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000002 ;
+                rdfs:subClassOf pmd:PMD_0000000 ;
                 obo:IAO_0000116 "Classified by morphology."@en ;
                 rdfs:label "ceramic"@en ;
                 skos:definition "Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications."@en ;
@@ -4452,38 +4715,8 @@ pmd:PMD_0000576 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000577
 pmd:PMD_0000577 rdf:type owl:Class ;
-                rdfs:subClassOf [ owl:intersectionOf ( pmd:PMD_0000002
-                                                       [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                                owl:onProperty obo:BFO_0000051 ;
-                                                                                owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000002
-                                                                                                                          [ rdf:type owl:Restriction ;
-                                                                                                                            owl:onProperty obo:RO_0000087 ;
-                                                                                                                            owl:someValuesFrom pmd:PMD_0000845
-                                                                                                                          ]
-                                                                                                                        ) ;
-                                                                                                     rdf:type owl:Class
-                                                                                                   ]
-                                                                              ]
-                                                                              [ rdf:type owl:Restriction ;
-                                                                                owl:onProperty obo:BFO_0000051 ;
-                                                                                owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000002
-                                                                                                                          [ rdf:type owl:Restriction ;
-                                                                                                                            owl:onProperty obo:RO_0000087 ;
-                                                                                                                            owl:someValuesFrom pmd:PMD_0020001
-                                                                                                                          ]
-                                                                                                                        ) ;
-                                                                                                     rdf:type owl:Class
-                                                                                                   ]
-                                                                              ]
-                                                                            ) ;
-                                                         rdf:type owl:Class
-                                                       ]
-                                                     ) ;
-                                  rdf:type owl:Class
-                                ] ;
-                rdfs:label "composite"@en ,
-                           "composite material"@en ,
-                           "composites"@en ;
+                rdfs:subClassOf pmd:PMD_0000000 ;
+                rdfs:label "composite"@en ;
                 skos:definition "A composite material is an engineered material that 'consists of' some material that has a matrix role and of some material that has a filler role."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -4995,7 +5228,7 @@ pmd:PMD_0000633 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000634
 pmd:PMD_0000634 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000023 ;
-                rdfs:label "workflow executor role"@de ;
+                rdfs:label "workflow executor role"@en ;
                 skos:definition "A role that inheres in an agent and is realized by the agent’s participation in a workflow run, in which the agent carries out, controls, or is responsible for the execution of a workflow according to a workflow definition."@en .
 
 
@@ -5184,7 +5417,7 @@ pmd:PMD_0000653 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000654
 pmd:PMD_0000654 rdf:type owl:Class ;
-                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000002
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000000
                                                            [ rdf:type owl:Restriction ;
                                                              owl:onProperty obo:BFO_0000050 ;
                                                              owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
@@ -5199,7 +5432,7 @@ pmd:PMD_0000654 rdf:type owl:Class ;
                                                          ) ;
                                       rdf:type owl:Class
                                     ] ;
-                rdfs:subClassOf pmd:PMD_0000002 ,
+                rdfs:subClassOf pmd:PMD_0000000 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000050 ;
                                   owl:someValuesFrom [ owl:intersectionOf ( obo:BFO_0000030
@@ -5277,7 +5510,7 @@ pmd:PMD_0000660 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000661
 pmd:PMD_0000661 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000002 ;
+                rdfs:subClassOf pmd:PMD_0000000 ;
                 obo:IAO_0000116 "Classified by morphology."@en ;
                 rdfs:comment "It is often composed of silica-based compounds."@en ;
                 rdfs:label "glass"@en ;
@@ -6121,7 +6354,7 @@ pmd:PMD_0000851 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000852
 pmd:PMD_0000852 rdf:type owl:Class ;
-                rdfs:subClassOf [ owl:intersectionOf ( pmd:PMD_0000002
+                rdfs:subClassOf [ owl:intersectionOf ( pmd:PMD_0000000
                                                        [ rdf:type owl:Restriction ;
                                                          owl:onProperty obo:BFO_0000051 ;
                                                          owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000663
@@ -6267,7 +6500,19 @@ pmd:PMD_0000867 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000868
 pmd:PMD_0000868 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000000 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000000
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0002353 ;
+                                                             owl:someValuesFrom obo:GO_0008150
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002353 ;
+                                  owl:someValuesFrom obo:GO_0008150
+                                ] ;
                 rdfs:label "natural organic material"@en ;
                 skos:definition "Natural organic materials are materials derived from natural biological sources, primarily composed of carbon-based compounds."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
@@ -6385,7 +6630,7 @@ pmd:PMD_0000886 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000888
 pmd:PMD_0000888 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000002 ;
+                rdfs:subClassOf pmd:PMD_0000000 ;
                 obo:IAO_0000116 "Classified by morphology."@en ;
                 rdfs:label "polymer"@en ;
                 skos:definition "A polymer is an engineered material that consists of many repeated subunits (monomers) to form long chains. The atoms within a polymer chain are bonded together by covalent bonds. The intermolecular forces between polymer chains are typically represented by van der waals forces and hydrogen bonds."@en ;
@@ -7943,225 +8188,31 @@ pmd:PMD_0010025 rdf:type owl:Class ;
                 skos:definition "a biocompatibility and gradually degrading and being resorbed by the body over time"@en .
 
 
-###  https://w3id.org/pmd/co/PMD_0011019
-pmd:PMD_0011019 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000546 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020091
-                                ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020249
-                                ] ;
-                rdfs:label "oxide ceramic"@en ;
-                skos:definition "ceramic consisting primarily of metal oxide"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011020
-pmd:PMD_0011020 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011019 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020071
-                                ] ;
-                rdfs:label "alumina"@en ;
-                skos:definition "oxide ceramic consisting primarily of aluminium oxide"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011021
-pmd:PMD_0011021 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011019 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020053
-                                ] ;
-                rdfs:label "zirconia"@en ;
-                skos:definition "oxide ceramic consisting primarily of zirconium oxide"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011022
-pmd:PMD_0011022 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011019 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020050
-                                ] ;
-                rdfs:label "silica"@en ;
-                skos:definition "oxide ceramic consisting primarily of silicon oxide"@en .
-
-
 ###  https://w3id.org/pmd/co/PMD_0011023
 pmd:PMD_0011023 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011019 ,
+                rdfs:subClassOf pmd:PMD_0050055 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000051 ;
                                   owl:someValuesFrom pmd:PMD_0020067
                                 ] ;
-                rdfs:label "magnesia"@en ;
+                rdfs:label "magnesia ceramic"@en ;
                 skos:definition "oxide ceramic consisting primarily of magnesium oxide"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011024
-pmd:PMD_0011024 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000546 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020249
-                                ] ;
-                rdfs:label "non-oxide ceramic"@en ;
-                skos:definition "ceramic consisting primarily of non-oxide elements"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011025
-pmd:PMD_0011025 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011024 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020030
-                                ] ;
-                rdfs:label "carbide"@en ;
-                skos:definition "non-oxide ceramic consisting of a metal and carbon"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011026
-pmd:PMD_0011026 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011025 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020050
-                                ] ;
-                rdfs:label "silicon carbide"@en ;
-                skos:definition "carbide with silicon"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011027
-pmd:PMD_0011027 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011025 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020032
-                                ] ;
-                rdfs:label "tungsten carbide"@en ;
-                skos:definition "carbide with tungsten"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011028
-pmd:PMD_0011028 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011024 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020038
-                                ] ;
-                rdfs:label "nitride"@en ;
-                skos:definition "non-oxide ceramic consisting of a metal and nitrogen"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011029
-pmd:PMD_0011029 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011028 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020050
-                                ] ;
-                rdfs:label "silicon nitride"@en ;
-                skos:definition "nitritde with silicon"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011030
-pmd:PMD_0011030 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011028 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020048
-                                ] ;
-                rdfs:label "boron nitride"@en ;
-                skos:definition "nitritde with boron"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011031
-pmd:PMD_0011031 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011024 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020048
-                                ] ;
-                rdfs:label "boride"@en ;
-                skos:definition "non-oxide ceramic consisting of a boron and another element"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0011032
 pmd:PMD_0011032 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011024 ,
+                rdfs:subClassOf pmd:PMD_0050062 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:BFO_0000051 ;
                                   owl:someValuesFrom pmd:PMD_0020050
                                 ] ;
-                rdfs:label "silicide"@en ;
+                rdfs:label "silicide ceramic"@en ;
                 skos:definition "non-oxide ceramic consisting of a silicon and another element"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011033
-pmd:PMD_0011033 rdf:type owl:Class ;
-                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000546
-                                                           [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                                    owl:onProperty obo:BFO_0000051 ;
-                                                                                    owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
-                                                                                                                              [ rdf:type owl:Restriction ;
-                                                                                                                                owl:onProperty obo:RO_0000087 ;
-                                                                                                                                owl:someValuesFrom pmd:PMD_0000845
-                                                                                                                              ]
-                                                                                                                            ) ;
-                                                                                                         rdf:type owl:Class
-                                                                                                       ]
-                                                                                  ]
-                                                                                  [ rdf:type owl:Restriction ;
-                                                                                    owl:onProperty obo:BFO_0000051 ;
-                                                                                    owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
-                                                                                                                              [ rdf:type owl:Restriction ;
-                                                                                                                                owl:onProperty obo:RO_0000087 ;
-                                                                                                                                owl:someValuesFrom pmd:PMD_0020001
-                                                                                                                              ]
-                                                                                                                            ) ;
-                                                                                                         rdf:type owl:Class
-                                                                                                       ]
-                                                                                  ]
-                                                                                ) ;
-                                                             rdf:type owl:Class
-                                                           ]
-                                                         ) ;
-                                      rdf:type owl:Class
-                                    ] ;
-                rdfs:subClassOf pmd:PMD_0000546 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
-                                                                            [ rdf:type owl:Restriction ;
-                                                                              owl:onProperty obo:RO_0000087 ;
-                                                                              owl:someValuesFrom pmd:PMD_0000845
-                                                                            ]
-                                                                          ) ;
-                                                       rdf:type owl:Class
-                                                     ]
-                                ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
-                                                                            [ rdf:type owl:Restriction ;
-                                                                              owl:onProperty obo:RO_0000087 ;
-                                                                              owl:someValuesFrom pmd:PMD_0020001
-                                                                            ]
-                                                                          ) ;
-                                                       rdf:type owl:Class
-                                                     ]
-                                ] ;
-                rdfs:label "composite ceramic"@en ;
-                skos:definition "a composite with at least part being a ceramic material"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0011034
 pmd:PMD_0011034 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011033 ,
+                rdfs:subClassOf pmd:PMD_0000120 ,
                                 [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                                          owl:onProperty obo:BFO_0000051 ;
                                                          owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000546
@@ -8189,38 +8240,6 @@ pmd:PMD_0011034 rdf:type owl:Class ;
                                 ] ;
                 rdfs:label "cermet"@en ;
                 skos:definition "a metal matrix with ceramic filler"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0011035
-pmd:PMD_0011035 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011033 ,
-                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                         owl:onProperty obo:BFO_0000051 ;
-                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
-                                                                                                   [ rdf:type owl:Restriction ;
-                                                                                                     owl:onProperty obo:RO_0000087 ;
-                                                                                                     owl:someValuesFrom pmd:PMD_0020001
-                                                                                                   ]
-                                                                                                 ) ;
-                                                                              rdf:type owl:Class
-                                                                            ]
-                                                       ]
-                                                       [ rdf:type owl:Restriction ;
-                                                         owl:onProperty obo:BFO_0000051 ;
-                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000546
-                                                                                                   [ rdf:type owl:Restriction ;
-                                                                                                     owl:onProperty obo:RO_0000087 ;
-                                                                                                     owl:someValuesFrom pmd:PMD_0000845
-                                                                                                   ]
-                                                                                                 ) ;
-                                                                              rdf:type owl:Class
-                                                                            ]
-                                                       ]
-                                                     ) ;
-                                  rdf:type owl:Class
-                                ] ;
-                rdfs:label "ceramic matrix composite"@en ;
-                skos:definition "a ceramic matrix with a (metal) filler"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020000
@@ -9459,11 +9478,7 @@ pmd:PMD_0020095 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020096
 pmd:PMD_0020096 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000639 ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:BFO_0000051 ;
-                                  owl:someValuesFrom pmd:PMD_0020030
-                                ] ;
+                rdfs:subClassOf pmd:PMD_0000639 ;
                 rdfs:label "steel"@en ;
                 skos:definition "steel is a ferrous metal that consists of iron and carbon and possibly other alloying elements (and possibly impurities)."@en .
 
@@ -9545,7 +9560,19 @@ pmd:PMD_0020104 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020105
 pmd:PMD_0020105 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000000 ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000115
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0002353 ;
+                                                             owl:someValuesFrom pmd:PMD_0000110
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000115 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002353 ;
+                                  owl:someValuesFrom pmd:PMD_0000110
+                                ] ;
                 rdfs:label "mineral"@en ;
                 skos:definition "A mineral is a material that has part some crystal."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
@@ -9561,14 +9588,6 @@ pmd:PMD_0020106 rdf:type owl:Class ;
                 rdfs:label "polycrystal"@en ;
                 skos:altLabel "Polycrystalline structure"@en ;
                 skos:definition "Polycrystal is a connected object aggregate that has continuant part some crystal grains"@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0020108
-pmd:PMD_0020108 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0020105 ;
-                rdfs:label "graphite"@en ;
-                skos:definition "A mineral that has part some crystal that in turn consists of some portion of carbon"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -9665,21 +9684,21 @@ pmd:PMD_0020130 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020131
 pmd:PMD_0020131 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000019 ,
-                                _:genid872 ;
+                                _:genid891 ;
                 owl:disjointWith pmd:PMD_0020148 ;
                 rdfs:label "intensive quality"@en ;
                 skos:altLabel "Point property"@en ;
                 skos:definition "An intensive quality is a quality that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid872 rdf:type owl:Restriction ;
+_:genid891 rdf:type owl:Restriction ;
             owl:onProperty obo:RO_0000080 ;
             owl:someValuesFrom pmd:PMD_0000001 .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0020131 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid872 ;
+   owl:annotatedTarget _:genid891 ;
    rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en
  ] .
 
@@ -11245,7 +11264,8 @@ pmd:PMD_0050003 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050004
 pmd:PMD_0050004 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000888 ;
-                rdfs:label "thermoplastics"@en ;
+                rdfs:label "thermoplastic polymers"@en ,
+                           "thermoplastics"@en ;
                 skos:definition "A thermoplastic is a polymer that becomes moldable when heated and solidifies upon cooling."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -11595,48 +11615,71 @@ pmd:PMD_0050039 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050040
 pmd:PMD_0050040 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000546 ;
-                rdfs:label "natural ceramics"@en ;
-                skos:definition "Natural ceramics (traditional ceramics) are ceramics that are produced using conventional methods with natural raw materials such as clay and silica."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000546
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:OBI_0000312 ;
+                                                             owl:someValuesFrom pmd:PMD_0000113
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000546 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0000312 ;
+                                  owl:someValuesFrom pmd:PMD_0000113
+                                ] ;
+                rdfs:label "natural ceramic"@en ;
+                skos:definition "Natural ceramics (traditional ceramics) are ceramics that are produced using conventional methods with natural raw materials such as clay and silica."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050041
 pmd:PMD_0050041 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050040 ;
-                rdfs:label "silicate ceramics"@en ;
-                skos:definition "Silicate ceramics are traditional ceramics that are composed primarily of silicate minerals."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050055 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020050
+                                ] ;
+                rdfs:label "silicate ceramic"@en ;
+                skos:definition "oxide ceramic consisting primarily of silicon oxide"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050042
 pmd:PMD_0050042 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050041 ;
-                rdfs:label "clay-based ceramics"@en ;
-                skos:definition "Clay-based ceramics are silicate ceramics that are formed from natural clays."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0000002 ,
+                                pmd:PMD_0050041 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:OBI_0000312 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000833
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:OBI_0000293 ;
+                                                                              owl:someValuesFrom pmd:PMD_0000114
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                owl:disjointWith pmd:PMD_0050049 ;
+                rdfs:label "clay-based ceramic"@en ;
+                skos:definition "Clay-based ceramics are silicate ceramics that are formed from natural clays."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050043
 pmd:PMD_0050043 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050042 ;
+                rdfs:subClassOf pmd:PMD_0050040 ;
                 rdfs:label "earthenware"@en ;
-                skos:definition "Earthenware is a clay-based ceramic that is formed at relatively low temperatures, resulting in a porous, rustic material."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Earthenware is a clay-based ceramic that is formed at relatively low temperatures, resulting in a porous, rustic material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050044
 pmd:PMD_0050044 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050042 ;
+                rdfs:subClassOf pmd:PMD_0050040 ;
                 rdfs:label "stoneware"@en ;
-                skos:definition "Stoneware is a clay-based ceramic that is fired at higher temperatures than earthenware to yield a denser, more durable material."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Stoneware is a clay-based ceramic that is fired at higher temperatures than earthenware to yield a denser, more durable material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050045
 pmd:PMD_0050045 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011033 ,
-                                pmd:PMD_0050042 ,
+                rdfs:subClassOf pmd:PMD_0050040 ,
                                 [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                                          owl:onProperty obo:BFO_0000051 ;
                                                          owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000546
@@ -11663,41 +11706,36 @@ pmd:PMD_0050045 rdf:type owl:Class ;
                                   rdf:type owl:Class
                                 ] ;
                 rdfs:label "porcelain"@en ;
-                skos:definition "Porcelain is a clay-based ceramic that is distinguished by its translucency, strength, and refined appearance."@en ,
-                                "a glass binder with ceramic filler produced from ceramics"@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "a glass binder with ceramic filler produced from ceramics" ;
+                skos:definition "Porcelain is a clay-based ceramic that is distinguished by its translucency, strength, and refined appearance."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050046
 pmd:PMD_0050046 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050041 ;
-                rdfs:label "aluminosilicates"@en ;
-                skos:definition "Aluminosilicates are silicate ceramics that consist of aluminum and silicon oxides."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "aluminosilicate ceramic"@en ;
+                skos:definition "Aluminosilicates are silicate ceramics that consist of aluminum and silicon oxides."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050047
 pmd:PMD_0050047 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050046 ;
-                rdfs:label "mullite"@en ;
-                skos:definition "Mullite is an aluminosilicate that is a silicate ceramic known for its excellent high-temperature stability."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "mullite ceramic"@en ;
+                skos:definition "Mullite is an aluminosilicate that is a silicate ceramic known for its excellent high-temperature stability."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050048
 pmd:PMD_0050048 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050046 ;
-                rdfs:label "kaolinite"@en ;
-                skos:definition "Kaolinite is an aluminosilicate that is a silicate ceramic based on the mineral kaolinite, valued for its fine particle size and plasticity."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "kaolinite ceramic"@en ;
+                skos:definition "Kaolinite is an aluminosilicate that is a silicate ceramic based on the mineral kaolinite, valued for its fine particle size and plasticity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050049
 pmd:PMD_0050049 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050040 ;
-                rdfs:label "non-clay ceramics"@en ;
-                skos:definition "Non-Clay ceramics are traditional ceramics that are formed from raw materials other than clay."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "non-clay ceramic"@en ;
+                skos:definition "Non-Clay ceramics are traditional ceramics that are formed from raw materials other than clay."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050050
@@ -11760,332 +11798,458 @@ pmd:PMD_0050052 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050053
 pmd:PMD_0050053 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050049 ;
-                rdfs:label "fritted ceramics"@en ;
-                skos:definition "Fritted ceramics are non-clay ceramics that are manufactured by fusing and subsequently grinding glass materials."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "fritted ceramic"@en ;
+                skos:definition "Fritted ceramics are non-clay ceramics that are manufactured by fusing and subsequently grinding glass materials."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050054
 pmd:PMD_0050054 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000546 ;
-                rdfs:label "technical ceramics"@en ;
-                skos:definition "Technical ceramics (advanced ceramics) are ceramics that are engineered for high-performance applications."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "technical ceramic"@en ;
+                skos:definition "Technical ceramics (advanced ceramics) are ceramics that are engineered for high-performance applications."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050055
 pmd:PMD_0050055 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050054 ;
-                rdfs:label "oxide ceramics"@en ;
-                skos:definition "Oxide ceramics are advanced ceramics that are composed primarily of metal oxides."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0000546 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020091
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020249
+                                ] ;
+                rdfs:label "oxide ceramic"@en ;
+                skos:definition "ceramic consisting primarily of metal oxide"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050056
 pmd:PMD_0050056 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050055 ;
-                rdfs:label "alumina"@en ;
-                skos:definition "Alumina is an oxide ceramic that is an advanced ceramic composed of aluminum oxide, renowned for its hardness and insulation properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
+                rdfs:subClassOf pmd:PMD_0050055 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020071
+                                ] ;
+                rdfs:label "alumina ceramic"@en ;
+                skos:definition "oxide ceramic consisting primarily of aluminium oxide"@en ;
                 pmd:PMD_0050117 "Al₂O₃" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050057
 pmd:PMD_0050057 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050055 ;
-                rdfs:label "zirconia"@en ;
-                skos:definition "Zirconia is an oxide ceramic that is an advanced ceramic composed of zirconium dioxide, noted for its high strength and toughness."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
+                rdfs:subClassOf pmd:PMD_0050055 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020053
+                                ] ;
+                rdfs:label "zirconia ceramic"@en ;
+                skos:definition "oxide ceramic consisting primarily of zirconium oxide"@en ;
                 pmd:PMD_0050117 "ZrO₂" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050058
 pmd:PMD_0050058 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050057 ;
-                rdfs:label "yttria-stabilized zirconia"@en ;
+                rdfs:label "yttria-stabilized zirconia ceramic"@en ;
                 skos:definition "Yttria-Stabilized zirconia is a zirconia that is an oxide ceramic stabilized with yttria to enhance its thermal and mechanical performance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "YSZ" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050059
 pmd:PMD_0050059 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050057 ;
-                rdfs:label "magnesia-stabilized zirconia"@en ;
+                rdfs:label "magnesia-stabilized zirconia ceramic"@en ;
                 skos:definition "Magnesia-Stabilized zirconia is a zirconia that is an oxide ceramic stabilized with magnesia to improve its thermal stability."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "MSZ" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050060
 pmd:PMD_0050060 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050055 ;
-                rdfs:label "titania"@en ;
+                rdfs:label "titania ceramic"@en ;
                 skos:definition "Titania is an oxide ceramic that is an advanced ceramic composed of titanium dioxide, used for its photocatalytic and pigment properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "TiO₂" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050061
 pmd:PMD_0050061 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050055 ;
-                rdfs:label "beryllia"@en ;
+                rdfs:label "beryllia ceramic"@en ;
                 skos:definition "Beryllia is an oxide ceramic that is an advanced ceramic composed of beryllium oxide, valued for its high thermal conductivity and electrical insulation."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "BeO" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050062
 pmd:PMD_0050062 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050054 ;
-                rdfs:label "non-oxide ceramics"@en ;
-                skos:definition "Non-Oxide ceramics are advanced ceramics that are composed of compounds other than metal oxides."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0000546 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020249
+                                ] ;
+                rdfs:label "non-oxide ceramic"@en ;
+                skos:definition "ceramic consisting primarily of non-oxide elements"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050063
 pmd:PMD_0050063 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050062 ;
-                rdfs:label "carbide ceramics"@en ;
-                skos:definition "Carbide ceramics are non-oxide ceramics that consist of metal carbides."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050062 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020030
+                                ] ;
+                rdfs:label "carbide ceramic"@en ;
+                skos:definition "non-oxide ceramic consisting of a metal and carbon"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050064
 pmd:PMD_0050064 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050063 ;
-                rdfs:label "silicon carbide"@en ;
-                skos:definition "Silicon carbide is a carbide ceramic that is a non-oxide ceramic composed of silicon and carbon, celebrated for its high hardness and thermal conductivity."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
-                pmd:PMD_0050117 "SiC" .
+                rdfs:subClassOf pmd:PMD_0050063 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020050
+                                ] ;
+                rdfs:label "silicon carbide ceramic"@en ;
+                skos:definition "carbide with silicon"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050065
 pmd:PMD_0050065 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050063 ;
-                rdfs:label "tungsten carbide"@en ;
-                skos:definition "Tungsten carbide is a carbide ceramic that is a non-oxide ceramic composed of tungsten and carbon, recognized for its exceptional wear resistance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
-                pmd:PMD_0050117 "WC" .
+                rdfs:subClassOf pmd:PMD_0050063 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020032
+                                ] ;
+                rdfs:label "tungsten carbide ceramic"@en ;
+                skos:definition "carbide with tungsten"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050066
 pmd:PMD_0050066 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050063 ;
-                rdfs:label "boron carbide"@en ;
+                rdfs:label "boron carbide ceramic"@en ;
                 skos:definition "Boron carbide is a carbide ceramic that is a non-oxide ceramic composed of boron and carbon, known for its remarkable hardness and low density."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "B₄C" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050067
 pmd:PMD_0050067 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050062 ;
-                rdfs:label "nitride ceramics"@en ;
-                skos:definition "Nitride ceramics are non-oxide ceramics that are composed of metal nitrides."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050062 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020038
+                                ] ;
+                rdfs:label "nitride ceramic"@en ;
+                skos:definition "non-oxide ceramic consisting of a metal and nitrogen"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050068
 pmd:PMD_0050068 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050067 ;
-                rdfs:label "silicon nitride"@en ;
-                skos:definition "Silicon nitride is a nitride ceramic that is a non-oxide ceramic composed of silicon and nitrogen, offering high fracture toughness."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
-                pmd:PMD_0050117 "Si₃N₄" .
+                rdfs:subClassOf pmd:PMD_0050067 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020050
+                                ] ;
+                rdfs:label "silicon nitride ceramic"@en ;
+                skos:definition "nitritde with silicon"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050069
 pmd:PMD_0050069 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050067 ;
-                rdfs:label "aluminum nitride"@en ;
+                rdfs:subClassOf pmd:PMD_0050067 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020071
+                                ] ;
+                rdfs:label "aluminum nitride ceramic"@en ;
                 skos:definition "Aluminum nitride is a nitride ceramic that is a non-oxide ceramic composed of aluminum and nitrogen, prized for its high thermal conductivity."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "AlN" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050070
 pmd:PMD_0050070 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050067 ;
-                rdfs:label "boron nitride"@en ;
-                skos:definition "Boron nitride is a nitride ceramic that is a non-oxide ceramic composed of boron and nitrogen, with a structure analogous to graphite."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
-                pmd:PMD_0050117 "BN" .
+                rdfs:subClassOf pmd:PMD_0050067 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020048
+                                ] ;
+                rdfs:label "boron nitride ceramic"@en ;
+                skos:definition "nitritde with boron"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050071
 pmd:PMD_0050071 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050062 ;
-                rdfs:label "boride ceramics"@en ;
-                skos:definition "Boride ceramics are non-oxide ceramics that consist of metal borides."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050062 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom pmd:PMD_0020048
+                                ] ;
+                rdfs:label "boride ceramic"@en ;
+                skos:definition "non-oxide ceramic consisting of a boron and another element"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050072
 pmd:PMD_0050072 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050071 ;
-                rdfs:label "titanium diboride"@en ;
+                rdfs:label "titanium diboride ceramic"@en ;
                 skos:definition "Titanium diboride is a boride ceramic that is a non-oxide ceramic composed of titanium and boron, valued for its high hardness and melting point."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "TiB₂" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050073
 pmd:PMD_0050073 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050071 ;
-                rdfs:label "zirconium diboride"@en ;
+                rdfs:label "zirconium diboride ceramic"@en ;
                 skos:definition "Zirconium diboride is a boride ceramic that is a non-oxide ceramic composed of zirconium and boron, known for its excellent thermal conductivity and stability."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "ZrB₂" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050074
 pmd:PMD_0050074 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050054 ;
-                rdfs:label "ceramic matrix composite"@en ,
-                           "composite ceramics"@en ;
-                skos:altLabel "Ceramic Matrix Composites; CMC" ;
-                skos:definition "A composite material consisting of a ceramic matrix and one or more reinforcement Materials."@en ,
-                                "Composite ceramics are advanced ceramics that are produced by combining two or more ceramic phases to enhance overall performance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0000116 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0020001
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000546
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0000845
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "ceramic matrix composite"@en ;
+                skos:definition "A composite material consisting of a ceramic matrix and one or more reinforcement Materials."@en ;
+                pmd:PMD_0050117 "CMC" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050075
 pmd:PMD_0050075 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0011033 ,
-                                pmd:PMD_0050074 ;
-                rdfs:label "oxide-oxide Composites"@en ,
-                           "oxide-oxide composites"@en ;
-                skos:definition "Oxide-Oxide Composites are composite ceramic that consist entirely of oxide ceramic phases."@en ,
-                                "Oxide-oxide composites are composite ceramics that consist entirely of oxide ceramic phases."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050074 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0050055
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0000845
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0050055
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0020001
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "oxide-oxide composite"@en ;
+                skos:definition "Oxide-Oxide Composites are ceramic matrix composites that consist entirely of oxide ceramic phases for both the matrix and reinforcement."@en ;
+                skos:example "aluminum oxide composites" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050076
 pmd:PMD_0050076 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050075 ;
                 rdfs:label "alumina matrix composites"@en ;
-                skos:definition "Alumina matrix composites are oxide-oxide composites that use alumina as the primary matrix reinforced by secondary oxide phases."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Alumina matrix composites are oxide-oxide composites that use alumina as the primary matrix reinforced by secondary oxide phases."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050077
 pmd:PMD_0050077 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050075 ;
                 rdfs:label "zirconia matrix composites"@en ;
-                skos:definition "Zirconia matrix composites are oxide-oxide composites that use zirconia as the primary matrix reinforced by additional oxide phases."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Zirconia matrix composites are oxide-oxide composites that use zirconia as the primary matrix reinforced by additional oxide phases."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050078
 pmd:PMD_0050078 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050074 ;
-                rdfs:label "non-oxide composites"@en ;
-                skos:definition "Non-Oxide composites are composite ceramics that are formed by combining ceramic phases other than oxides."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050074 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0020001
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0050062
+                                                                                                   [ rdf:type owl:Restriction ;
+                                                                                                     owl:onProperty obo:RO_0000087 ;
+                                                                                                     owl:someValuesFrom pmd:PMD_0000845
+                                                                                                   ]
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "non-oxide composite"@en ;
+                skos:definition "Non-oxide composites are ceramic matrix composites that consist of non-oxide ceramic phases (typically carbides, nitrides, or borides) for both the matrix and the reinforcement."@en ;
+                skos:example "Silicon Carbide (SiC) Matrix Composite; Carbon-Carbon (C/C) Composite" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050079
 pmd:PMD_0050079 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050080 ;
-                rdfs:label "silicon carbide matrix composites"@en ;
-                skos:altLabel "carbon-silicon carbide" ;
-                skos:definition "SiC matrix composites are non-oxide composites that are built with silicon carbide as the primary matrix reinforced by other ceramic phases."@en ,
-                                "silicon carbide (SiC) Matrix Composites are non-oxide composite that are built with silicon carbide as the primary matrix reinforced by other ceramic phases."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050078 ;
+                rdfs:label "silicon carbide matrix composite"@en ;
+                skos:definition "silicon carbide (SiC) Matrix Composites are non-oxide composite that are built with silicon carbide as the primary matrix reinforced by other ceramic phases."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050080
 pmd:PMD_0050080 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000577 ,
-                                pmd:PMD_0011033 ,
-                                pmd:PMD_0050078 ;
-                rdfs:label "carbon-silicon carbide composites (carbon-silicon carbide)"@en ,
-                           "non-oxide composite"@en ;
-                skos:definition "C-SiC Composites are non-oxide composites that consist of a carbon matrix reinforced with silicon carbide, enhancing high-temperature performance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050078 ;
+                rdfs:label "carbon-silicon carbide composite"@en ;
+                skos:definition "C-SiC Composites are non-oxide composites that consist of a carbon matrix reinforced with silicon carbide, enhancing high-temperature performance."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050081
 pmd:PMD_0050081 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000546 ;
-                rdfs:label "electroceramics"@en ;
-                skos:definition "Electroceramics are ceramics that are specifically engineered for electrical, magnetic, or superconducting applications."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000546
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000091 ;
+                                                             owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                  owl:unionOf ( pmd:PMD_0000111
+                                                                                                pmd:PMD_0000112
+                                                                                                pmd:PMD_0000825
+                                                                                              )
+                                                                                ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0000546 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom [ rdf:type owl:Class ;
+                                                       owl:unionOf ( pmd:PMD_0000111
+                                                                     pmd:PMD_0000112
+                                                                     pmd:PMD_0000825
+                                                                   )
+                                                     ]
+                                ] ;
+                rdfs:label "electroceramic"@en ;
+                skos:definition "Electroceramics are ceramics that are specifically engineered for electrical, magnetic, or superconducting applications."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050082
 pmd:PMD_0050082 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050081 ;
-                rdfs:label "dielectric ceramics"@en ;
-                skos:definition "Dielectric ceramics are electroceramics that serve primarily as electrical insulators due to their high dielectric constants."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0050081
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000091 ;
+                                                             owl:someValuesFrom pmd:PMD_0000112
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0050081 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0000112
+                                ] ;
+                rdfs:label "dielectric ceramic"@en ;
+                skos:definition "Dielectric ceramics are electroceramics that serve primarily as electrical insulators due to their high dielectric constants."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050083
 pmd:PMD_0050083 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050082 ;
-                rdfs:label "barium titanate"@en ;
+                rdfs:subClassOf pmd:PMD_0050055 ,
+                                pmd:PMD_0050082 ;
+                rdfs:label "barium titanate ceramic"@en ;
                 skos:definition "Barium titanate is a dielectric ceramic that is an electroceramic composed of barium, titanium, and oxygen, noted for its ferroelectric properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "BaTiO₃" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050084
 pmd:PMD_0050084 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050082 ;
-                rdfs:label "lead zirconate titanate"@en ;
+                rdfs:subClassOf pmd:PMD_0050055 ,
+                                pmd:PMD_0050082 ;
+                rdfs:label "lead zirconate titanate ceramic"@en ;
                 skos:definition "Lead zirconate titanate is a dielectric ceramic that is an electroceramic composed of lead, zirconium, and titanium, renowned for its piezoelectric behavior."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PZT" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050085
 pmd:PMD_0050085 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050081 ;
-                rdfs:label "magnetic ceramics (ferrites)"@en ;
-                skos:definition "Magnetic ceramics are electroceramics that exhibit magnetic properties, typically based on iron oxides combined with other metal oxides."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050086
-pmd:PMD_0050086 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050085 ;
-                rdfs:label "soft ferrites"@en ;
-                skos:definition "Soft ferrites are magnetic ceramics that are characterized by low coercivity and high permeability, making them ideal for transformer cores."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050087
-pmd:PMD_0050087 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050085 ;
-                rdfs:label "hard ferrites"@en ;
-                skos:definition "Hard ferrites are magnetic ceramics that are characterized by high coercivity, making them suitable for permanent magnets."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0050081
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000091 ;
+                                                             owl:someValuesFrom pmd:PMD_0000825
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0050081 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0000825
+                                ] ;
+                rdfs:label "magnetic ceramic"@en ;
+                skos:altLabel "ferrites" ;
+                skos:definition "Magnetic ceramics are electroceramics that exhibit magnetic properties, typically based on iron oxides combined with other metal oxides."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050088
 pmd:PMD_0050088 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050081 ;
-                rdfs:label "superconducting ceramics"@en ;
-                skos:definition "Superconducting ceramics are electroceramics that exhibit zero electrical resistance below a critical temperature."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0050081
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000091 ;
+                                                             owl:someValuesFrom pmd:PMD_0000111
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0050081 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0000111
+                                ] ;
+                rdfs:label "superconducting ceramic"@en ;
+                skos:definition "Superconducting ceramics are electroceramics that exhibit zero electrical resistance below a critical temperature."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050089
 pmd:PMD_0050089 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050088 ;
-                rdfs:label "yttrium barium copper oxide"@en ;
-                skos:definition "Yttrium barium copper oxide is a superconducting ceramic that is composed of yttrium, barium, copper, and oxygen, notable for its high critical temperature."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050055 ,
+                                pmd:PMD_0050088 ;
+                rdfs:label "yttrium barium copper oxide ceramic"@en ;
+                skos:definition "Yttrium barium copper oxide is a superconducting ceramic that is composed of yttrium, barium, copper, and oxygen, notable for its high critical temperature."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050090
 pmd:PMD_0050090 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050088 ;
-                rdfs:label "bismuth strontium calcium copper oxide"@en ;
-                skos:definition "Bismuth strontium calcium copper oxide is a superconducting ceramic that is composed of bismuth, strontium, calcium, copper, and oxygen, featuring a layered crystal structure."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050055 ,
+                                pmd:PMD_0050088 ;
+                rdfs:label "bismuth strontium calcium copper oxide ceramic"@en ;
+                skos:definition "Bismuth strontium calcium copper oxide is a superconducting ceramic that is composed of bismuth, strontium, calcium, copper, and oxygen, featuring a layered crystal structure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050091
@@ -12113,34 +12277,27 @@ pmd:PMD_0050091 rdf:type owl:Class ;
                                                                    )
                                                      ]
                                 ] ;
-                rdfs:label "bioceramic"@en ,
-                           "bioceramics"@en ;
-                skos:definition "Bioceramics are ceramics that are engineered to be compatible with biological systems."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "bioceramic"@en ;
+                skos:definition "Bioceramics are ceramics that are engineered to be compatible with biological systems."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050092
 pmd:PMD_0050092 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050091 ;
-                rdfs:label "bioinert ceramics"@en ;
-                skos:definition "Bioinert ceramics are bioceramics that are designed to remain inert in biological environments to minimize adverse reactions."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050093
-pmd:PMD_0050093 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050092 ;
-                rdfs:label "alumina-based ceramics"@en ;
-                skos:definition "Alumina-based ceramics are bioinert ceramics that are composed primarily of alumina, valued for their biocompatibility."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050094
-pmd:PMD_0050094 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050092 ;
-                rdfs:label "zirconia-based ceramics"@en ;
-                skos:definition "Zirconia-based ceramics are bioinert ceramics that are composed primarily of zirconia, offering high strength and inertness."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000546
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000091 ;
+                                                             owl:someValuesFrom pmd:PMD_0010024
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0050091 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0010024
+                                ] ;
+                rdfs:label "bioinert ceramic"@en ;
+                skos:definition "Bioinert ceramics are bioceramics that are designed to remain inert in biological environments to minimize adverse reactions."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050095
@@ -12158,26 +12315,16 @@ pmd:PMD_0050095 rdf:type owl:Class ;
                                   owl:onProperty obo:RO_0000091 ;
                                   owl:someValuesFrom pmd:PMD_0010023
                                 ] ;
-                rdfs:label "bioactive ceramic"@en ,
-                           "bioactive ceramics"@en ;
-                skos:definition "Bioactive ceramics are bioceramics that interact with biological tissues to promote bonding or regeneration."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "bioactive ceramic"@en ;
+                skos:definition "Bioactive ceramics are bioceramics that interact with biological tissues to promote bonding or regeneration."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050096
 pmd:PMD_0050096 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050095 ;
-                rdfs:label "hydroxyapatite"@en ;
-                skos:definition "Hydroxyapatite is a bioactive ceramic that is composed of calcium phosphate and closely resembles the mineral component of bone."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050097
-pmd:PMD_0050097 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050095 ;
-                rdfs:label "bioglass"@en ;
-                skos:definition "Bioglass is a bioactive ceramic that is a silicate-based glass formulated to bond with and stimulate biological tissues."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:subClassOf pmd:PMD_0050055 ,
+                                pmd:PMD_0050095 ;
+                rdfs:label "hydroxyapatite ceramic"@en ;
+                skos:definition "Hydroxyapatite is a bioactive ceramic that is composed of calcium phosphate and closely resembles the mineral component of bone."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050098
@@ -12195,26 +12342,8 @@ pmd:PMD_0050098 rdf:type owl:Class ;
                                   owl:onProperty obo:RO_0000091 ;
                                   owl:someValuesFrom pmd:PMD_0010025
                                 ] ;
-                rdfs:label "bioresorbable ceramic"@en ,
-                           "bioresorbable ceramics"@en ;
-                skos:definition "Bioresorbable ceramics are bioceramics that are designed to gradually be resorbed and replaced by natural tissue."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050099
-pmd:PMD_0050099 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050098 ;
-                rdfs:label "tricalcium phosphate"@en ;
-                skos:definition "Tricalcium phosphate is a bioresorbable ceramic that is composed of calcium phosphate, commonly used in bone grafting applications."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
-
-
-###  https://w3id.org/pmd/co/PMD_0050100
-pmd:PMD_0050100 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050098 ;
-                rdfs:label "calcium sulfate"@en ;
-                skos:definition "Calcium sulfate is a bioresorbable ceramic that is composed of calcium sulfate, known for its solubility in biological environments."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "bioresorbable ceramic"@en ;
+                skos:definition "Bioresorbable ceramics are bioceramics that are designed to gradually be resorbed and replaced by natural tissue."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050101
@@ -12456,7 +12585,8 @@ pmd:PMD_0050126 rdf:type owl:Class ;
                                                          ) ;
                                       rdf:type owl:Class
                                     ] ;
-                rdfs:subClassOf pmd:PMD_0000661 ,
+                rdfs:subClassOf pmd:PMD_0000002 ,
+                                pmd:PMD_0000661 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:OBI_0000312 ;
                                   owl:someValuesFrom pmd:PMD_0000103
@@ -12467,7 +12597,7 @@ pmd:PMD_0050126 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050127
 pmd:PMD_0050127 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000577 ;
+                rdfs:subClassOf pmd:PMD_0000118 ;
                 rdfs:label "laminated glass"@en ;
                 skos:definition "Laminated glass is a specialty glass that is composed of multiple bonded layers to improve safety and acoustic performance."@en .
 
@@ -12830,7 +12960,7 @@ pmd:PMD_0090000 rdf:type owl:Class ;
                                       owl:onProperty obo:RO_0000091 ;
                                       owl:someValuesFrom pmd:PMD_0090001
                                     ] ;
-                rdfs:subClassOf pmd:PMD_0000002 ,
+                rdfs:subClassOf pmd:PMD_0000000 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:RO_0000086 ;
                                   owl:someValuesFrom pmd:PMD_0090002
@@ -12846,7 +12976,7 @@ pmd:PMD_0090000 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0090001
 pmd:PMD_0090001 rdf:type owl:Class ;
-                rdfs:subClassOf obo:BFO_0000016 ;
+                rdfs:subClassOf pmd:PMD_0000005 ;
                 rdfs:label "semiconductivity"@en ;
                 skos:definition "Semiconductivity is the disposition of a material to conduct electricity only when a certain level of excitation (via temperature, impurities, photonic excitation, electric field) elevates electrons from the valence band into the conduction band."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
