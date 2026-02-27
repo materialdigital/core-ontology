@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-25/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-27/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-02-25" .
+                                  owl:versionInfo "2026-02-27" .
 
 #################################################################
 #    Annotation properties
@@ -2646,6 +2646,10 @@ obo:CHEBI_60003 rdf:type owl:Class ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
+###  http://purl.obolibrary.org/obo/CHEBI_60616
+obo:CHEBI_60616 rdf:type owl:Class .
+
+
 ###  http://purl.obolibrary.org/obo/CHEBI_81045
 obo:CHEBI_81045 rdf:type owl:Class ;
                 rdfs:subClassOf obo:CHEBI_23367 ;
@@ -3824,7 +3828,8 @@ pmd:PMD_0000113 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000114
 pmd:PMD_0000114 rdf:type owl:Class ;
-                rdfs:subClassOf [ owl:intersectionOf ( pmd:PMD_0000000
+                rdfs:subClassOf pmd:PMD_0000115 ,
+                                [ owl:intersectionOf ( pmd:PMD_0000000
                                                        [ rdf:type owl:Restriction ;
                                                          owl:onProperty obo:BFO_0000051 ;
                                                          owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000546
@@ -3836,14 +3841,20 @@ pmd:PMD_0000114 rdf:type owl:Class ;
                                                      ) ;
                                   rdf:type owl:Class
                                 ] ;
-                rdfs:label "clay"@en .
+                rdfs:label "clay"@en ;
+                skos:definition "A naturally occurring, fine-grained earthy material composed primarily of hydrous aluminum silicates and other minerals, formed by the geological processes."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000115
 pmd:PMD_0000115 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000000 ;
+                rdfs:subClassOf pmd:PMD_0000000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0010027
+                                ] ;
                 owl:disjointWith pmd:PMD_0000868 ;
-                rdfs:label "natural inorganic material"@en .
+                rdfs:label "natural inorganic material"@en ;
+                skos:definition "A naturally occurring inorganic Material formed through geological or biological processes"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000116
@@ -6500,21 +6511,14 @@ pmd:PMD_0000867 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000868
 pmd:PMD_0000868 rdf:type owl:Class ;
-                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0000000
-                                                           [ rdf:type owl:Restriction ;
-                                                             owl:onProperty obo:RO_0002353 ;
-                                                             owl:someValuesFrom obo:GO_0008150
-                                                           ]
-                                                         ) ;
-                                      rdf:type owl:Class
-                                    ] ;
                 rdfs:subClassOf pmd:PMD_0000000 ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty obo:RO_0002353 ;
-                                  owl:someValuesFrom obo:GO_0008150
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0010026
                                 ] ;
                 rdfs:label "natural organic material"@en ;
-                skos:definition "Natural organic materials are materials derived from natural biological sources, primarily composed of carbon-based compounds."@en ;
+                skos:definition "Natural organic materials are materials derived from natural biological sources, primarily composed of carbon-based compounds."@en ,
+                                "a naturaly occuring organic materials are materials derived from natural biological sources or processes , primarily composed of carbon-based compounds."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8188,6 +8192,258 @@ pmd:PMD_0010025 rdf:type owl:Class ;
                 skos:definition "a biocompatibility and gradually degrading and being resorbed by the body over time"@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0010026
+pmd:PMD_0010026 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000016 ;
+                rdfs:label "organic"@en ;
+                skos:definition "A material characterized by a primary molecular structure of carbon atoms covalently bonded to hydrogen (C-H bonds), typically forming linear, branched, or networked chains."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010027
+pmd:PMD_0010027 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000016 ;
+                rdfs:label "inorganic"@en ;
+                skos:definition "material composed of chemical elements other than those defining organic compounds, typically characterized by ionic or metallic bonding and the absence of a carbon-hydrogen ($C-H$) framework"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010029
+pmd:PMD_0010029 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000019 ;
+                rdfs:label "specific strength"@en ;
+                skos:comment """* SI unit for specific strength is Pa⋅m3/kg, or N⋅m/kg, which is dimensionally equivalent to m2/s2,
+* In fiber or textile applications, tenacity is the usual measure of specific strength
+""" ;
+                skos:definition "The specific strength also strength-to-weight ratio, a material's tensile strength (at failure) divided by its density"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010030
+pmd:PMD_0010030 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000868 ;
+                rdfs:label "biological material"@en ;
+                skos:definition "A natural organic material produced by a living organism."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010099
+pmd:PMD_0010099 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000000 ;
+                rdfs:label "bio-medical material"@en ;
+                skos:altLabel "biomaterials" ;
+                skos:comment "related to the use of a material.   it is part of objects which participates some medical processes" ;
+                skos:definition "A non-living material intended to interface with biological systems to evaluate, treat, augment, or replace any tissue, organ, or function of the body."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010100
+pmd:PMD_0010100 rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0090000
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0002351 ;
+                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                             owl:onClass [ owl:intersectionOf ( pmd:PMD_0020140
+                                                                                                [ rdf:type owl:Restriction ;
+                                                                                                  owl:onProperty obo:RO_0000091 ;
+                                                                                                  owl:someValuesFrom pmd:PMD_0090001
+                                                                                                ]
+                                                                                              ) ;
+                                                                           rdf:type owl:Class
+                                                                         ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf pmd:PMD_0090000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002351 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0020140
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000091 ;
+                                                                              owl:someValuesFrom pmd:PMD_0090001
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002351 ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass pmd:PMD_0020140
+                                ] ;
+                rdfs:label "elemental semiconductor"@en ;
+                skos:comment "Primarily includes group 14 elements like Silicon, Carbon, Germanium, Tin but also Selenium (group 16) and Boron (group 13)." ;
+                skos:definition "A semiconductor that shows semiconductive behavior as a pure element."@en ;
+                skos:example "Silicon, Carbon, Germanium, alpha-Tin" .
+
+
+###  https://w3id.org/pmd/co/PMD_0010101
+pmd:PMD_0010101 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0090000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002351 ;
+                                  owl:someValuesFrom pmd:PMD_0020140
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0002351 ;
+                                  owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                  owl:onClass pmd:PMD_0020140
+                                ] ;
+                rdfs:label "compound semiconductor"@en ;
+                skos:altLabel "alloy semiconductor" ;
+                skos:definition "A semiconductor which is composed of two or more pure elements."@en ;
+                skos:example "boron nitride (BN), gallium arsenide (GaAs), aluminium gallium arsenide (AlGaAs), indium gallium nitride (InGaN)" .
+
+
+###  https://w3id.org/pmd/co/PMD_0010102
+pmd:PMD_0010102 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0090000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0000091 ;
+                                                                              owl:someValuesFrom pmd:PMD_0010026
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0010026
+                                ] ;
+                rdfs:label "organic semiconductor"@en ;
+                skos:definition "A semiconductor which consists of   organic (carbon based) molecules or polymer."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010103
+pmd:PMD_0010103 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0090000 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom pmd:PMD_0010102
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:RO_0002351 ;
+                                                         owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                              owl:unionOf ( pmd:PMD_0010100
+                                                                                            pmd:PMD_0010101
+                                                                                          )
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "hybrid semiconductor"@en ;
+                skos:definition "A semiconductor which consists of organic semiconductors and non-organic semiconductors."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010104
+pmd:PMD_0010104 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010101 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_27563
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_49631
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "gallium arsenide"@en ;
+                skos:altLabel "activator role" ;
+                skos:definition "A compound semiconductor which consists of atoms of gallium and arsenic."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010105
+pmd:PMD_0010105 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010101 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_28659
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_30430
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "indium phosphide"@en ;
+                skos:definition "A compound semiconductor which consists of atoms of indium and phosphorus."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010106
+pmd:PMD_0010106 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010101 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_27573
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_27594
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "silicon carbide"@en ;
+                skos:definition "A compound semiconductor which consists of silicon carbide."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010107
+pmd:PMD_0010107 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010101 ,
+                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_25555
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_30430
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty obo:BFO_0000051 ;
+                                                         owl:someValuesFrom obo:CHEBI_49631
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:label "indium gallium nitride"@en ;
+                skos:definition "A compound semiconductor which consists of atoms of indium, gallium and nitrogen."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010108
+pmd:PMD_0010108 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010101 ;
+                rdfs:label "zinc oxide"@en ;
+                skos:definition "A compound semiconductor which consists of zinc oxide."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010109
+pmd:PMD_0010109 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010102 ;
+                rdfs:label "pentacene"@en ;
+                skos:definition "An organic semiconductor which consists of pentacene, a polycyclic aromatic hydrocarbon."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010110
+pmd:PMD_0010110 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010102 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:CHEBI_60616
+                                ] ;
+                rdfs:label "polythiophene"@en ;
+                skos:definition "An organic semiconductor which consists of polythiophene, a sulfur heterocycle polymer."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010111
+pmd:PMD_0010111 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010102 ;
+                rdfs:label "fullerene derivative"@en ;
+                skos:definition "An organic semiconductor which consists of a fullerene derivative, a sulfur heterocycle polymer."@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0011023
 pmd:PMD_0011023 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050055 ,
@@ -8239,7 +8495,8 @@ pmd:PMD_0011034 rdf:type owl:Class ;
                                   rdf:type owl:Class
                                 ] ;
                 rdfs:label "cermet"@en ;
-                skos:definition "a metal matrix with ceramic filler"@en .
+                skos:altLabel "ceramic-metal composite" ;
+                skos:definition "a metal matrix composite material consisting of a ceramic phase (typically carbides or nitrides) bonded with a continuous metallic phase."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020000
@@ -8744,13 +9001,21 @@ pmd:PMD_0020049 rdf:type owl:Class ;
 pmd:PMD_0020050 rdf:type owl:Class ;
                 owl:equivalentClass [ owl:intersectionOf ( pmd:PMD_0020140
                                                            [ rdf:type owl:Restriction ;
+                                                             owl:onProperty obo:RO_0000091 ;
+                                                             owl:someValuesFrom pmd:PMD_0090001
+                                                           ]
+                                                           [ rdf:type owl:Restriction ;
                                                              owl:onProperty obo:BFO_0000051 ;
                                                              owl:allValuesFrom obo:CHEBI_27573
                                                            ]
                                                          ) ;
                                       rdf:type owl:Class
                                     ] ;
-                rdfs:subClassOf pmd:PMD_0020140 ;
+                rdfs:subClassOf pmd:PMD_0020140 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000091 ;
+                                  owl:someValuesFrom pmd:PMD_0090001
+                                ] ;
                 rdfs:comment "A Portion Of Matter that consists of only silicon atoms."@en ;
                 rdfs:label "portion of silicon"@en ;
                 skos:definition "A 'Portion Of Silicon' is a 'Portion Of Pure Substance' that 'consists of' only chebi:silicon atom."@en .
@@ -9573,8 +9838,11 @@ pmd:PMD_0020105 rdf:type owl:Class ;
                                   owl:onProperty obo:RO_0002353 ;
                                   owl:someValuesFrom pmd:PMD_0000110
                                 ] ;
-                rdfs:label "mineral"@en ;
-                skos:definition "A mineral is a material that has part some crystal."@en ;
+                rdfs:label "mineral"@en ,
+                           "mineral (geogenic)"@en ;
+                skos:definition "A mineral is a material that has part some crystal."@en ,
+                                "A naturally occurring inorganic Material formed through geological processes"@en ;
+                skos:example "such as Quartz (Silicates) or calcite (Carbonate) or Feldspar (Aluminosilicate)" ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -9684,21 +9952,21 @@ pmd:PMD_0020130 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020131
 pmd:PMD_0020131 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000019 ,
-                                _:genid891 ;
+                                _:genid944 ;
                 owl:disjointWith pmd:PMD_0020148 ;
                 rdfs:label "intensive quality"@en ;
                 skos:altLabel "Point property"@en ;
                 skos:definition "An intensive quality is a quality that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid891 rdf:type owl:Restriction ;
+_:genid944 rdf:type owl:Restriction ;
             owl:onProperty obo:RO_0000080 ;
             owl:someValuesFrom pmd:PMD_0000001 .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0020131 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid891 ;
+   owl:annotatedTarget _:genid944 ;
    rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en
  ] .
 
@@ -11264,20 +11532,15 @@ pmd:PMD_0050003 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050004
 pmd:PMD_0050004 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000888 ;
-                rdfs:label "thermoplastic polymers"@en ,
-                           "thermoplastics"@en ;
-                skos:definition "A thermoplastic is a polymer that becomes moldable when heated and solidifies upon cooling."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "thermoplastic polymer"@en ;
+                skos:definition "A thermoplastic is a polymer that becomes moldable when heated and solidifies upon cooling."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050005
 pmd:PMD_0050005 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ;
                 rdfs:label "polyethylene"@en ;
-                skos:definition "Polyethylene is a thermoplastic that is composed of repeating ethylene monomer units."@en ,
-                                "poylethylen is a thermoplastic polymer produced by polymerization of the monomer ethylene including further crosslinking and modifications using other comonomers; it excludes ultra hight molecular polyethylen."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
-                pmd:PMD_0050117 "PE" .
+                skos:definition "poylethylen is a thermoplastic polymer produced by polymerization of the monomer ethylene including further crosslinking and modifications using other comonomers; it excludes ultra hight molecular polyethylen."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050006
@@ -11285,7 +11548,6 @@ pmd:PMD_0050006 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050005 ;
                 rdfs:label "low-density polyethylene"@en ;
                 skos:definition "Low-Density polyethylene is a polyethylene that is characterized by a branched molecular structure and low density."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PE-LD" .
 
 
@@ -11294,7 +11556,6 @@ pmd:PMD_0050007 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050005 ;
                 rdfs:label "high-density polyethylene"@en ;
                 skos:definition "High-Density polyethylene is a polyethylene that is characterized by a linear molecular structure and high density."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PE-HD" .
 
 
@@ -11303,7 +11564,6 @@ pmd:PMD_0050008 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050005 ;
                 rdfs:label "linear low-density polyethylene"@en ;
                 skos:definition "Linear low-density polyethylene is a polyethylene that is distinguished by its linear backbone with short-chain branching."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PE_LLD" .
 
 
@@ -11313,9 +11573,7 @@ pmd:PMD_0050009 rdf:type owl:Class ;
                 rdfs:label "polypropylene"@en ;
                 skos:altLabel "polyethene" ;
                 skos:comment "this excludes ultra hight molecular polyethylen because very high molecular weight polyethylene is not thermoplastic anymore" ;
-                skos:definition "Polypropylene is a thermoplastic that is composed of repeating propylene monomer units."@en ,
-                                "poylpropylene is a thermoplastic polymer produced by polymerization of the monomer propylene including further crosslinking and modifications using other comonomers"@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
+                skos:definition "poylpropylene is a thermoplastic polymer produced by polymerization of the monomer propylene including further crosslinking and modifications using other comonomers"@en ;
                 pmd:PMD_0050117 "PP" .
 
 
@@ -11324,7 +11582,6 @@ pmd:PMD_0050010 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050009 ;
                 rdfs:label "isotactic polypropylene"@en ;
                 skos:definition "Isotactic polypropylene is a polypropylene in which all the methyl groups are aligned on the same side of the polymer chain."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "iPP" .
 
 
@@ -11333,7 +11590,6 @@ pmd:PMD_0050011 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050009 ;
                 rdfs:label "syndiotactic polypropylene"@en ;
                 skos:definition "Syndiotactic polypropylene is a polypropylene in which the methyl groups alternate regularly along the polymer chain."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "sPP" .
 
 
@@ -11342,7 +11598,6 @@ pmd:PMD_0050012 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050009 ;
                 rdfs:label "atactic polypropylene"@en ;
                 skos:definition "Atactic polypropylene is a polypropylene in which the methyl groups are randomly distributed along the polymer chain."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "aPP" .
 
 
@@ -11352,9 +11607,7 @@ pmd:PMD_0050013 rdf:type owl:Class ;
                 rdfs:label "polyvinyl chloride"@en ;
                 skos:altLabel "vinyl or polyvinyl" ;
                 skos:comment "they are usualy hard or soft and flexible with incrased use of plasticisers." ;
-                skos:definition "Polyvinyl chloride is a thermoplastic that is formed by the polymerization of vinyl chloride monomers."@en ,
-                                "polyvinyl chloride is a thermoplastic polymer produced by polymerization of the monomer vinyl chloride."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
+                skos:definition "polyvinyl chloride is a thermoplastic polymer produced by polymerization of the monomer vinyl chloride."@en ;
                 pmd:PMD_0050117 "PVC" .
 
 
@@ -11363,8 +11616,7 @@ pmd:PMD_0050014 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050013 ;
                 rdfs:label "rigid polyvinyl chloride"@en ;
                 skos:definition "Rigid PVC is a polyvinyl chloride that is characterized by its stiffness and durability."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
-                pmd:PMD_0050117 "uPVC"@en .
+                pmd:PMD_0050117 "uPVC" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050015
@@ -11372,7 +11624,6 @@ pmd:PMD_0050015 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050013 ;
                 rdfs:label "flexible polyvinyl chloride"@en ;
                 skos:definition "Flexible PVC is a polyvinyl chloride that has been modified with plasticizers to impart flexibility."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "fPVC" .
 
 
@@ -11380,9 +11631,7 @@ pmd:PMD_0050015 rdf:type owl:Class ;
 pmd:PMD_0050016 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ;
                 rdfs:label "polystyrene"@en ;
-                skos:definition "Polystyrene is a thermoplastic that is produced by the polymerization of styrene monomers."@en ,
-                                "polystyrene is a thermoplastic polymer produced by polymerization of the monomer aromatic hydrocarbon"@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
+                skos:definition "Polystyrene is a thermoplastic polymer produced by polymerization of the aromatic hydrocarbon styrene"@en ;
                 pmd:PMD_0050117 "PS" .
 
 
@@ -11390,26 +11639,22 @@ pmd:PMD_0050016 rdf:type owl:Class ;
 pmd:PMD_0050017 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050016 ;
                 rdfs:label "general purpose polystyrene"@en ;
-                skos:definition "General purpose polystyrene is a polystyrene that is valued for its clarity and ease of processing."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "General purpose polystyrene is a polystyrene that is valued for its clarity and ease of processing."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050018
 pmd:PMD_0050018 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050016 ;
                 rdfs:label "high impact polystyrene"@en ;
-                skos:definition "High impact polystyrene is a polystyrene that is modified with rubber to improve its impact resistance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "High impact polystyrene is a polystyrene that is modified with rubber to improve its impact resistance."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050019
 pmd:PMD_0050019 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ;
                 rdfs:label "polyethylene terephthalate"@en ;
-                skos:definition "Polyethylene terephthalate is a thermoplastic polyester produced by polycondensation of ethylene glycol and terephthalate precursors."@en ,
-                                "Polyethylene terephthalate is a thermoplastic that is synthesized from terephthalic acid and ethylene glycol."@en ;
+                skos:definition "Polyethylene terephthalate is a thermoplastic polyester produced by polycondensation of ethylene glycol and terephthalate precursors."@en ;
                 skos:example "it is the dominant polyester utilized in global packaging and fiber applications" ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "PET" .
 
 
@@ -11418,7 +11663,6 @@ pmd:PMD_0050020 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050019 ;
                 rdfs:label "amorphous polyethylene terephthalate"@en ;
                 skos:definition "Amorphous PET is a polyethylene terephthalate that is characterized by a non-crystalline structure."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "APET" .
 
 
@@ -11427,16 +11671,14 @@ pmd:PMD_0050021 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050019 ;
                 rdfs:label "crystalline polyethylene terephthalate"@en ;
                 skos:definition "Crystalline PET is a polyethylene terephthalate that is distinguished by its ordered, crystalline structure."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0050117 "CPET" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050022
 pmd:PMD_0050022 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000888 ;
-                rdfs:label "thermosetting polymers"@en ;
-                skos:definition "Thermosetting polymer is a polymer that, once cured, irreversibly sets into a permanent shape."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "thermosetting polymer"@en ;
+                skos:definition "Thermosetting polymer is a polymer that, once cured, irreversibly sets into a permanent shape."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050023
@@ -11444,26 +11686,22 @@ pmd:PMD_0050023 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
                 rdfs:label "epoxy resins"@en ;
                 skos:altLabel "epoxy or polyepoxide" ;
-                skos:definition "Epoxy resins are epoxide-functional oligomers curing via ring-opening into crosslinked thermoset networks."@en ,
-                                "Epoxy resins are thermosetting polymers that form rigid, cross-linked networks upon curing."@en ;
-                skos:example "they are utilized for high-performance structural adhesives, composite matrices, and protective coatings." ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Epoxy resins are epoxide-functional oligomers curing via ring-opening into crosslinked thermoset networks."@en ;
+                skos:example "they are utilized for high-performance structural adhesives, composite matrices, and protective coatings." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050024
 pmd:PMD_0050024 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050023 ;
                 rdfs:label "bisphenol a epoxy"@en ;
-                skos:definition "Bisphenol a epoxy is an epoxy resin that is formulated using bisphenol a to enhance its mechanical properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Bisphenol a epoxy is an epoxy resin that is formulated using bisphenol a to enhance its mechanical properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050025
 pmd:PMD_0050025 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050023 ;
                 rdfs:label "novolac epoxy"@en ;
-                skos:definition "Novolac epoxy is an epoxy resin that is based on novolac resins to provide improved thermal and chemical resistance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Novolac epoxy is an epoxy resin that is based on novolac resins to provide improved thermal and chemical resistance."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050026
@@ -11472,18 +11710,15 @@ pmd:PMD_0050026 rdf:type owl:Class ;
                 rdfs:label "phenolic resins"@en ;
                 skos:altLabel "phenol-formaldehyde" ;
                 skos:comment "they form rigid, char-forming crosslinked networks" ;
-                skos:definition "Phenolic resins are thermosetting polymers formed by the reaction of phenol with formaldehyde."@en ,
-                                "Phenolic resins are thermosetting polymers synthesized via condensation of phenol and formaldehyde"@en ;
-                skos:example "they are utilized for flame-resistant adhesives, friction materials, and molded components" ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Phenolic resins are thermosetting polymers synthesized via condensation of phenol and formaldehyde"@en ;
+                skos:example "they are utilized for flame-resistant adhesives, friction materials, and molded components" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050027
 pmd:PMD_0050027 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050026 ;
                 rdfs:label "phenol-formaldehyde resin"@en ;
-                skos:definition "Phenol-Formaldehyde resin is a phenolic resin that is synthesized from phenol and formaldehyde."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Phenol-Formaldehyde resin is a phenolic resin that is synthesized from phenol and formaldehyde."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050028
@@ -11492,26 +11727,22 @@ pmd:PMD_0050028 rdf:type owl:Class ;
                 rdfs:label "melamine formaldehyde"@en ;
                 skos:altLabel "melamine-formaldehyde" ;
                 skos:comment "they form hard, durable crosslinked networks." ;
-                skos:definition "Melamine formaldehyde is a thermosetting polymer produced from melamine and formaldehyde, known for its high hardness."@en ,
-                                "Melamine resin is a thermosetting aminoplast polymer synthesized via condensation"@en ;
-                skos:example "they are widely used in decorative laminates, kitchenware, and coating crosslinkers." ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Melamine resin is a thermosetting aminoplast polymer synthesized via condensation"@en ;
+                skos:example "they are widely used in decorative laminates, kitchenware, and coating crosslinkers." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050029
 pmd:PMD_0050029 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
                 rdfs:label "urea formaldehyde"@en ;
-                skos:definition "Urea formaldehyde is a thermosetting polymer formed from urea and formaldehyde, commonly used in adhesives and molding compounds."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Urea formaldehyde is a thermosetting polymer formed from urea and formaldehyde, commonly used in adhesives and molding compounds."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050030
 pmd:PMD_0050030 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000888 ;
-                rdfs:label "elastomers"@en ;
-                skos:definition "An elastomer is a polymer that exhibits elasticity by returning to its original shape after deformation."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                rdfs:label "elastomer"@en ;
+                skos:definition "An elastomer is a polymer that exhibits elasticity by returning to its original shape after deformation."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050031
@@ -11519,50 +11750,42 @@ pmd:PMD_0050031 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050030 ;
                 rdfs:label "natural rubber"@en ;
                 skos:comment "they are predominantly cis-1,4-polyisoprene," ;
-                skos:definition "Natural rubber is an elastomer polymer, and a biopolymer harvested as plant latex; consisting of cis-1,4-polyisoprene chains; typically sulfur-vulcanized to create crosslinks between chains."@en ,
-                                "Natural rubber is an elastomer that is derived from the latex of rubber trees."@en ;
-                skos:example "they are used widely in Heavy-duty truck tires" ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Natural rubber is an elastomer polymer, and a biopolymer harvested as plant latex; consisting of cis-1,4-polyisoprene chains; typically sulfur-vulcanized to create crosslinks between chains."@en ;
+                skos:example "they are used widely in Heavy-duty truck tires" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050032
 pmd:PMD_0050032 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050030 ;
                 rdfs:label "synthetic rubber"@en ;
-                skos:definition "Synthetic rubber is an elastomer that is produced through chemical synthesis to mimic natural rubber’s properties."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Synthetic rubber is an elastomer that is produced through chemical synthesis to mimic natural rubber’s properties."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050033
 pmd:PMD_0050033 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050032 ;
                 rdfs:label "styrene-butadiene rubber"@en ;
-                skos:definition "Styrene-Butadiene rubber is a synthetic rubber that is composed of styrene and butadiene to enhance abrasion resistance."@en ,
-                                "Styrene–butadiene rubber is a synthetic rubber, and is a family of synthetic random copolymer elastomers of styrene and butadiene, made by emulsion or solution polymerization and typically vulcanized."@en ;
-                skos:example "used widely for its good abrasion resistance and tunable hardness, for instance in tire treads." ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Styrene–butadiene rubber is a synthetic rubber, and is a family of synthetic random copolymer elastomers of styrene and butadiene, made by emulsion or solution polymerization and typically vulcanized."@en ;
+                skos:example "used widely for its good abrasion resistance and tunable hardness, for instance in tire treads." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050034
 pmd:PMD_0050034 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050032 ;
-                rdfs:label "nitrile butadiene rubber"@en ,
-                           "nitrile butadiene rubber'"@en ;
+                rdfs:label "nitrile butadiene rubber"@en ;
                 skos:altLabel "Nitrile " ;
                 skos:comment "Oil resistance, Fuel resistance" ,
                              "it can have tunable polarity and oil/fuel resistance" ;
-                skos:definition "Nitrile butadiene rubber is a synthetic rubber that is formulated from acrylonitrile and butadiene to provide resistance to oils and chemicals."@en ,
-                                "nitrile butadiene rubber is a synthetic rubber, and is a family of synthetic acrylonitrile–butadiene copolymer elastomers"@en ;
-                skos:example " it is widely used in oil/fuel resistance applicaitons such as seals, fuel hoses, and protective gloves" ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "nitrile butadiene rubber is a synthetic rubber, and is a family of synthetic acrylonitrile–butadiene copolymer elastomers"@en ;
+                skos:example " it is widely used in oil/fuel resistance applicaitons such as seals, fuel hoses, and protective gloves" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050035
 pmd:PMD_0050035 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050032 ;
                 rdfs:label "ethylene propylene diene monomer"@en ;
-                skos:definition "Ethylene propylene diene monomer is a synthetic rubber produced from ethylene, propylene, and a diene monomer to offer excellent weather resistance."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:comment "it offers excellent weather resistance" ;
+                skos:definition "Ethylene propylene diene monomer is a synthetic rubber produced from ethylene, propylene, and a diene monomer"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050036
@@ -11580,27 +11803,23 @@ pmd:PMD_0050036 rdf:type owl:Class ;
                                   owl:onProperty obo:RO_0000091 ;
                                   owl:someValuesFrom pmd:PMD_0200001
                                 ] ;
-                rdfs:isDefinedBy pmd:PMD_0200001 ;
                 rdfs:label "biodegradable polymers"@en ;
                 skos:definition "Biodegradable polymers are polymers that have the biodegradability disposition. They can be decomposed by biological organisms into environmentally benign substances (carbon dioxide and methane, mineral salts or new biomass) in a non-harmful timescale."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean ;
                 pmd:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/126" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050037
 pmd:PMD_0050037 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050036 ;
+                rdfs:subClassOf pmd:PMD_0050030 ;
                 rdfs:label "polylactic acid"@en ;
-                skos:definition "Polylactic acid is a biodegradable polymer produced from renewable resources such as corn starch."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "Polylactic acid is a biodegradable polymer produced from renewable resources such as corn starch."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050038
 pmd:PMD_0050038 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0050036 ;
+                rdfs:subClassOf pmd:PMD_0000888 ;
                 rdfs:label "polyhydroxyalkanoates"@en ;
-                skos:definition "polyhydroxyalkanoates are biodegradable polymers that are biosynthesized by microorganisms from sugars or lipids."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "polyhydroxyalkanoates are biodegradable polymers that are biosynthesized by microorganisms from sugars or lipids."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050039
@@ -11608,9 +11827,7 @@ pmd:PMD_0050039 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ,
                                 pmd:PMD_0050036 ;
                 rdfs:label "polybutylene succinate"@en ;
-                skos:definition "A biodegradable thermolpastic polyester polymer; synthesized via the polycondensation of succinic acid and 1,4-butanediol."@en ,
-                                "Polybutylene succinate is a biodegradable polymer that is a thermoplastic polyester recognized for its compostability."@en ;
-                pmd:PMD_0000060 "true"^^xsd:boolean .
+                skos:definition "A biodegradable thermolpastic polyester polymer; synthesized via the polycondensation of succinic acid and 1,4-butanediol."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050040
@@ -11791,7 +12008,7 @@ pmd:PMD_0050051 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050052
 pmd:PMD_0050052 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050050 ;
-                rdfs:label "leucite-based glass-ceramics"@en ;
+                rdfs:label "leucite-based glass-ceramic"@en ;
                 skos:definition "Leucite-Based glass-ceramics are glass-ceramics that are non-clay ceramics containing leucite crystals to enhance thermal and mechanical properties."@en .
 
 
@@ -12073,14 +12290,14 @@ pmd:PMD_0050075 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050076
 pmd:PMD_0050076 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050075 ;
-                rdfs:label "alumina matrix composites"@en ;
+                rdfs:label "alumina matrix composite"@en ;
                 skos:definition "Alumina matrix composites are oxide-oxide composites that use alumina as the primary matrix reinforced by secondary oxide phases."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050077
 pmd:PMD_0050077 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050075 ;
-                rdfs:label "zirconia matrix composites"@en ;
+                rdfs:label "zirconia matrix composite"@en ;
                 skos:definition "Zirconia matrix composites are oxide-oxide composites that use zirconia as the primary matrix reinforced by additional oxide phases."@en .
 
 
@@ -12637,7 +12854,7 @@ pmd:PMD_0050131 rdf:type owl:Class ;
                                                 ]
                                               )
                                 ] ;
-                rdfs:label "lithium disilicate glass-ceramics"@en ;
+                rdfs:label "lithium disilicate glass-ceramic"@en ;
                 skos:comment "Provides transparent attenuation of X‑rays (and, depending on design, gamma radiation)." ;
                 skos:definition "Lithium disilicate glass-ceramics are glass-ceramics that contain lithium disilicate crystals to provide high strength and aesthetic appeal."@en .
 
@@ -12645,7 +12862,7 @@ pmd:PMD_0050131 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050132
 pmd:PMD_0050132 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050050 ;
-                rdfs:label "transparent glass-ceramics"@en ;
+                rdfs:label "transparent glass-ceramic"@en ;
                 skos:definition "Transparent glass-ceramics are glass-ceramics that are engineered to maintain optical transparency despite partial crystallization."@en .
 
 
@@ -12992,6 +13209,171 @@ pmd:PMD_0090002 rdf:type owl:Class ;
                 skos:example "Silicon has a band gap of 1.107 eV at room temperature."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0090004
+pmd:PMD_0090004 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000120 ;
+                rdfs:label "aluminum matrix composite"@en ;
+                skos:comment "often used to improve stiffness/wear at low weight," ;
+                skos:definition "A metal matrix composite, consisting of an aluminum or aluminum alloy matrix and one or more reinforcement materials."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0090005
+pmd:PMD_0090005 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000120 ;
+                rdfs:label "titanium matrix composite"@en ;
+                skos:comment "often chosen for elevated-temperature capability" ;
+                skos:definition "A metal matrix composite, consisting of a titanium or titanium alloy matrix and one or more reinforcement materials."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0090006
+pmd:PMD_0090006 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000120 ;
+                rdfs:label "magnesium matrix composite"@en ;
+                skos:comment "known for its ultra-low density and improved specific strength." ;
+                skos:definition "A metal matrix composite, consisting of a magnesium or magnesium alloy matrix and one or more reinforcement materials."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0090007
+pmd:PMD_0090007 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000120 ;
+                rdfs:label "copper matrix composite"@en ;
+                skos:comment "often used for thermal management with high conductivity and tailored CTE (coefficient of thermal expansion)" ;
+                skos:definition "A metal matrix composite, consisting of a copper or copper alloy matrix and one or more reinforcement materials."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0090009
+pmd:PMD_0090009 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000121 ;
+                rdfs:label "carbon fiber reinforced polymer composite"@en ;
+                skos:definition "A polymer-matrix composite, consisting of a polymer matrix reinforced with carbon fibers."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0090010
+pmd:PMD_0090010 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000121 ;
+                rdfs:label "aramid fiber composite"@en ;
+                skos:altLabel "Kevlar" ;
+                skos:definition "A polymer-matrix composite, consisting of a polymer matrix reinforced with aramid (aromatic polyamide) fibers"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0090011
+pmd:PMD_0090011 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000121 ;
+                rdfs:label "natural fiber composite"@en ;
+                skos:definition "A polymer-matrix composite, consisting of a polymer matrix reinforced with fibers derived from biological sources"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0090012
+pmd:PMD_0090012 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000868 ;
+                rdfs:label "biological material"@en ;
+                skos:comment "produced through biological synthesis processes like Biological growth, morphogenesis, secretion etc." ;
+                skos:definition "A natural organic material produced by a living organism."@en ;
+                skos:example """Biological Comosite such as Wood, Bone, Silk, Wool; 
+Biopolymers/Biomacromoleules such as cellulose, colagene; 
+Biogenic minerals such as hydroxyapatite""" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090013
+pmd:PMD_0090013 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010030 ;
+                rdfs:label "biological composite"@en ;
+                skos:definition "a biological material consisting of two or more distinct material phases organized in a multi-scale structure that act synergistically to fulfill specific properties or functions"@en ;
+                skos:example " such as Wood, Bone, Silk, Wool;" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090014
+pmd:PMD_0090014 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010030 ;
+                rdfs:label "biopolymer"@en ;
+                skos:altLabel "biomacromoleules" ;
+                skos:definition "A natural organic polymer produced by the metabolic processes of a living organism."@en ;
+                skos:example "such as Polysaccharides like cellulose or Chitin; Proteins like colagene or Fibroin" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090015
+pmd:PMD_0090015 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0010030 ;
+                rdfs:label "mineral (biogenic)"@en ;
+                skos:definition "An inorganic crystalline or amorphous solid synthesized by a living organism"@en ;
+                skos:example "such as Calcium Carbonates (in shells), Calcium Phosphates (Hydroxyapatite in bone/teeth), or Silica (in diatoms)" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090016
+pmd:PMD_0090016 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0000868 ;
+                rdfs:label "bio-based material"@en ;
+                skos:comment "produced through industrial syntesis processes like Chemical extraction, fermentation, or polymerization" ;
+                skos:definition "An engineered material intentionally processed from materials derived from living (or once-living) organisms"@en ;
+                skos:example """Engineered Biopolymers such as Polylactic Acid (PLA); 
+Reconstituted Biopolymers such as Regenerated Cellulose (Rayon/Viscose);
+Biocomposites such as Wood-Plastic Composites (WPC); 
+Biochemicals (e.g. Bio-based Adhesives)""" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090017
+pmd:PMD_0090017 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0090016 ;
+                rdfs:label "engineered biopolymer"@en ;
+                skos:definition "A bio-based polymer synthesized through the intentional industrial transformation, synthesis, or reconstitution processes using materials derived from living (or once-living) organisms"@en ;
+                skos:example "synthetic Bio-polymer such as Polylactic Acid (PLA): or Regenrated Biopolymrs like Rayon / Viscose reconstituted from pulp cellulose; or microbial Biopolymers like Polyhydroxyalkanoates (PHA) synthesised by bacteria" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090018
+pmd:PMD_0090018 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0090016 ;
+                rdfs:label "bio-based composite"@en ;
+                skos:altLabel "biocomposite; bio-composite" ;
+                skos:definition "Bio-based composites are engineered composite consisting of at least one constituent derived from biological or bio-based sources"@en ;
+                skos:example "such as Wood-Plastic Composite (WPC), Hemp-fiber reinforced Polypropylene" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090019
+pmd:PMD_0090019 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0090016 ;
+                rdfs:label "bio-based chemical"@en ;
+                skos:altLabel "biochemicals" ;
+                skos:definition "A manufactured chemical compound produced from bio-based precursors"@en ;
+                skos:example "such as bio-based adhesives (e.g. Lignin-based); Bio-epoxy resin." .
+
+
+###  https://w3id.org/pmd/co/PMD_0090050
+pmd:PMD_0090050 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0050022 ;
+                rdfs:label "polyurethanes"@en ;
+                skos:definition "Polyurethanes are a polymer family defined by urethane linkages, formed by reacting polyisocyanates with polyols"@en ;
+                skos:example "they are it offers high versatility in mechanical properties" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090051
+pmd:PMD_0090051 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0050022 ;
+                rdfs:label "unsaturated polyester resins"@en ;
+                skos:definition "Unsaturated polyester resin is a thermosetting polymer system of unsaturated polyester prepolymers in reactive vinyl monomers; it cures by radical crosslinking into rigid networks."@en ;
+                skos:example "they are used for fiber-reinforced composites" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090052
+pmd:PMD_0090052 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0050032 ;
+                rdfs:label "silicone rubber"@en ;
+                skos:comment "it is available in multiple formulations and often filled." ,
+                             "wide service temperature range" ;
+                skos:definition "Silicone rubber is a synthetic rubber, and is a crosslinked polysiloxane elastomer family, with organic side groups."@en ;
+                skos:example "widely used for its broad service temperature range in medical devices, gaskets, and culinary tools" .
+
+
+###  https://w3id.org/pmd/co/PMD_0090053
+pmd:PMD_0090053 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0050032 ;
+                rdfs:label "polychloropren"@en ;
+                skos:altLabel " Neoprene" ;
+                skos:comment "it offers good weathering and ozone resistance." ,
+                             "weathering resistance; ozone resistance" ;
+                skos:definition "Polychloroprene is a synthetic rubber, and is a family of synthetic elastomeric rubbers; synthesised typically through emulsion polymerization of chloroprene"@en ;
+                skos:example " it is widely used in gaskets and wetsuits. " .
+
+
 ###  https://w3id.org/pmd/co/PMD_0200000
 pmd:PMD_0200000 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000907 ;
@@ -13100,43 +13482,6 @@ pmd:PMD_0200008 rdf:type owl:Class ;
                 skos:definition "A primary shaping process in which a manually workable plastic mass (such as clay, wax, plastiline or gypsum paste) is shaped directly by hand and simple tools into a final or intermediate geometry and subsequently hardened, dried or fired to obtain a solid body."@en ,
                                 "Ein Urformverfahren, bei dem eine mit Hand und einfachen Werkzeugen formbare plastische Masse (z. B. Ton, Wachs, Plastilin oder Gipspaste) direkt zur gewünschten Geometrie modelliert und anschließend durch Trocknen, Brennen oder Aushärten zu einem festen Körper verfestigt wird."@de ;
                 skos:example "Hand modelling of clay prior to firing (e.g. pottery, sculptures); modelling of wax or plasticine for casting patterns."@en .
-
-
-###  https://w3id.org/pmd/co/PMD_90000
-pmd:PMD_90000 rdf:type owl:Class ;
-              rdfs:subClassOf pmd:PMD_0050022 ;
-              rdfs:label "polyurethanes"@en ;
-              skos:definition "Polyurethanes are a polymer family defined by urethane linkages, formed by reacting polyisocyanates with polyols"@en ;
-              skos:example "they are it offers high versatility in mechanical properties" .
-
-
-###  https://w3id.org/pmd/co/PMD_90001
-pmd:PMD_90001 rdf:type owl:Class ;
-              rdfs:subClassOf pmd:PMD_0050022 ;
-              rdfs:label "unsaturated polyester resins"@en ;
-              skos:definition "Unsaturated polyester resin is a thermosetting polymer system of unsaturated polyester prepolymers in reactive vinyl monomers; it cures by radical crosslinking into rigid networks."@en ;
-              skos:example "they are used for fiber-reinforced composites" .
-
-
-###  https://w3id.org/pmd/co/PMD_90002
-pmd:PMD_90002 rdf:type owl:Class ;
-              rdfs:subClassOf pmd:PMD_0050030 ;
-              rdfs:label "silicone rubber"@en ;
-              skos:comment "it is available in multiple formulations and often filled." ,
-                           "wide service temperature range" ;
-              skos:definition "Silicone rubber is a synthetic rubber, and is a crosslinked polysiloxane elastomer family, with organic side groups."@en ;
-              skos:example "widely used for its broad service temperature range in medical devices, gaskets, and culinary tools" .
-
-
-###  https://w3id.org/pmd/co/PMD_90003
-pmd:PMD_90003 rdf:type owl:Class ;
-              rdfs:subClassOf pmd:PMD_0050030 ;
-              rdfs:label "polychloropren"@en ;
-              skos:altLabel " Neoprene" ;
-              skos:comment "it offers good weathering and ozone resistance." ,
-                           "weathering resistance; ozone resistance" ;
-              skos:definition "Polychloroprene is a synthetic rubber, and is a family of synthetic elastomeric rubbers; synthesised typically through emulsion polymerization of chloroprene"@en ;
-              skos:example " it is widely used in gaskets and wetsuits. " .
 
 
 #################################################################
