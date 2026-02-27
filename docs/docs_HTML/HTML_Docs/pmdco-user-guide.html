@@ -1263,6 +1263,47 @@
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* View toggle radio buttons (Full / Upper / File) */
+        .view-toggle {
+            display: flex;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-right: 4px;
+        }
+
+        .view-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 0 12px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: var(--color-bg-tertiary);
+            border: none;
+            border-right: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .view-toggle-btn:last-child {
+            border-right: none;
+        }
+
+        .view-toggle-btn:hover:not(.active) {
+            color: var(--color-text-primary);
+            background: var(--color-bg-hover);
+        }
+
+        .view-toggle-btn.active {
+            color: #fff;
+            background: var(--color-primary);
+            font-weight: 600;
         }
 
         .graph-btn {
@@ -1600,6 +1641,12 @@
             padding: var(--spacing-md) var(--spacing-lg);
             background: var(--color-bg-secondary);
             border-bottom: 1px solid var(--color-border);
+        }
+
+        .fullscreen-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
         }
 
         .fullscreen-title {
@@ -3264,6 +3311,11 @@
             margin-bottom: var(--spacing-md);
         }
 
+        /* Ordered lists use CSS counters for numbering */
+        .content ol, .article-content ol {
+            counter-reset: list-counter;
+        }
+
         .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
         .content ol > li, .article-content ol > li {
             position: relative;
@@ -3272,8 +3324,8 @@
             line-height: 1.7;
         }
 
-        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before,
-        .content ol > li::before, .article-content ol > li::before {
+        /* Unordered list bullets (dot) */
+        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -3282,6 +3334,19 @@
             height: 6px;
             background: var(--color-primary);
             border-radius: 50%;
+        }
+
+        /* Ordered list numbers (counter) */
+        .content ol > li, .article-content ol > li {
+            counter-increment: list-counter;
+        }
+        .content ol > li::before, .article-content ol > li::before {
+            content: counter(list-counter) ".";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 600;
+            color: var(--color-primary);
         }
 
         /* Ensure ontology-tree nested lists have no bullets */
@@ -3812,6 +3877,12 @@
 </svg>
                             User Guide
                         </a></li>
+                    <li><a class="nav-link" href="./obsolete-ontology-terms.html">
+                            <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
+    <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM12 15L12 15 18 9"></path><path d="M12 9 L12 9 18 15"></path>
+</svg>
+                            Term Obsoletion
+                        </a></li>
                     <li><a class="nav-link" href="./reused-ontologies.html">
                             <svg fill="none" height="18" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18">
     <path d="M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path><path d="M8.59 13.51l6.83 3.98"></path><path d="M15.41 6.51l-6.82 3.98"></path>
@@ -4060,9 +4131,9 @@ The tutorials follow a central use case, helping you understand not just how to 
                     <span class="page-nav-label">&larr; Previous</span>
                     <span class="page-nav-title">Usage Patterns</span>
                 </a>
-                <a class="page-nav-link next" href="./reused-ontologies.html">
+                <a class="page-nav-link next" href="./obsolete-ontology-terms.html">
                     <span class="page-nav-label">Next &rarr;</span>
-                    <span class="page-nav-title">Reused Ontologies</span>
+                    <span class="page-nav-title">Term Obsoletion</span>
                 </a></nav>
 
             <footer class="footer">
@@ -4103,9 +4174,16 @@ The tutorials follow a central use case, helping you understand not just how to 
     <div class="fullscreen-overlay" id="fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen graph viewer">
         <div class="fullscreen-header">
             <div class="fullscreen-title" id="fullscreen-title">Graph</div>
-            <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
-                <span aria-hidden="true">✕</span> Close
-            </button>
+            <div class="fullscreen-controls">
+                <div class="view-toggle fullscreen-view-toggle" id="fullscreen-view-toggle" role="radiogroup" aria-label="Hierarchy view" style="display:none;">
+                    <button class="view-toggle-btn active" data-view="full" aria-pressed="true" title="Full class hierarchy">Full</button>
+                    <button class="view-toggle-btn" data-view="upper" aria-pressed="false" title="One superclass level above">Upper</button>
+                    <button class="view-toggle-btn" data-view="file" aria-pressed="false" title="File content only">File</button>
+                </div>
+                <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
+                    <span aria-hidden="true">✕</span> Close
+                </button>
+            </div>
         </div>
         <div class="fullscreen-viewport" id="fullscreen-viewport">
             <div class="fullscreen-wrapper" id="fullscreen-wrapper"></div>
@@ -4578,10 +4656,12 @@ function parseEdgeTitle(title) {
             const closeBtn = document.getElementById('fullscreen-close');
             const zoomInBtn = document.getElementById('fs-zoom-in');
             const zoomOutBtn = document.getElementById('fs-zoom-out');
+            const fsViewToggle = document.getElementById('fullscreen-view-toggle');
 
             let fsScale = 1, fsTx = 0, fsTy = 0, fsDrag = false, fsSx = 0, fsSy = 0;
             let currentSvg = null;
             let onNodeClick = null;
+            let currentDiagramId = null;
 
             const update = () => {
                 wrapper.style.transform = `translate(${fsTx}px, ${fsTy}px) scale(${fsScale})`;
@@ -4613,6 +4693,55 @@ function parseEdgeTitle(title) {
 
             zoomInBtn.addEventListener('click', () => { fsScale = Math.min(5, fsScale * 1.2); update(); });
             zoomOutBtn.addEventListener('click', () => { fsScale = Math.max(0.1, fsScale / 1.2); update(); });
+
+            // Fullscreen view toggle click handlers
+            fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!currentDiagramId) return;
+                    const view = btn.dataset.view;
+                    const viewKey = `${currentDiagramId}__${view}`;
+                    const dot = dotDiagrams[viewKey];
+                    if (!dot) return;
+
+                    // Update fullscreen toggle active state
+                    fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+
+                    // Also sync the inline toggle buttons
+                    const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
+                    if (inlineContainer) {
+                        inlineContainer.querySelectorAll('.view-toggle-btn').forEach(b => {
+                            const isActive = b.dataset.view === view;
+                            b.classList.toggle('active', isActive);
+                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        });
+                    }
+
+                    // Re-render in both inline viewer and fullscreen
+                    const viewer = viewerRegistry[currentDiagramId];
+                    if (viewer) {
+                        viewer.dotCode = dot;
+                        viewer.nodeData = nodeData[viewKey] || {};
+                        await viewer.init();
+                        // Re-render fullscreen SVG
+                        const newSvg = viewer.diagramEl.querySelector('svg');
+                        if (newSvg) {
+                            wrapper.innerHTML = '';
+                            const clone = newSvg.cloneNode(true);
+                            wrapper.appendChild(clone);
+                            currentSvg = clone;
+                            sanitizeGraphSvg(clone);
+                            fsScale = 1; fsTx = 0; fsTy = 0;
+                            update();
+                            setTimeout(fit, 50);
+                        }
+                    }
+                });
+            });
 
             viewport.addEventListener('wheel', (e) => {
                 if (!overlay.classList.contains('active')) return;
@@ -4661,11 +4790,12 @@ function parseEdgeTitle(title) {
             }, true);
 
             return {
-                open({ svg, title, onNodeClick: handler }) {
+                open({ svg, title, onNodeClick: handler, diagramId }) {
                     if (!svg) return;
                     overlay.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     titleEl.textContent = title || 'Graph View';
+                    currentDiagramId = diagramId || null;
 
                     wrapper.innerHTML = '';
                     const clone = svg.cloneNode(true);
@@ -4674,6 +4804,22 @@ function parseEdgeTitle(title) {
                     onNodeClick = handler || null;
 
                     sanitizeGraphSvg(clone);
+
+                    // Show/hide fullscreen view toggle based on multi-view availability
+                    if (currentDiagramId && dotDiagrams[`${currentDiagramId}__full`]) {
+                        fsViewToggle.style.display = '';
+                        // Sync active state with inline toggle
+                        const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
+                        const activeInlineBtn = inlineContainer?.querySelector('.view-toggle-btn.active');
+                        const activeView = activeInlineBtn?.dataset?.view || 'full';
+                        fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
+                            const isActive = b.dataset.view === activeView;
+                            b.classList.toggle('active', isActive);
+                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        });
+                    } else {
+                        fsViewToggle.style.display = 'none';
+                    }
 
                     fsScale = 1; fsTx = 0; fsTy = 0; fsDrag = false; fsSx = 0; fsSy = 0;
                     update();
@@ -5008,10 +5154,13 @@ function parseEdgeTitle(title) {
                 if (!svg) return this.showToast('Graph not ready');
                 const graphTitle = this.container.querySelector('.graph-title');
                 const title = graphTitle ? graphTitle.textContent : 'Graph View';
+                // Strip "diagram-" prefix so the id matches dotDiagrams keys
+                const baseId = this.diagramId.replace(/^diagram-/, '');
 
                 FullscreenManager.open({
                     svg,
                     title,
+                    diagramId: baseId,
                     onNodeClick: (nodeG, x, y) => this.showPopForNode(nodeG, x, y)
                 });
             }
@@ -5177,17 +5326,81 @@ function parseEdgeTitle(title) {
             }
         }
 
+        // Registry of GraphvizGraphViewer instances keyed by base diagram id
+        const viewerRegistry = {};
+
         // Create viewers sequentially to avoid Viz render conflicts
         async function initAllDiagrams() {
-            // Initialize Graphviz (DOT) diagrams
-            const entries = Object.entries(dotDiagrams);
-            for (const [id, dot] of entries) {
+            // Determine base diagram ids (those without __ suffix)
+            // A base id has matching __full, __upper, __file variants in dotDiagrams
+            const allKeys = Object.keys(dotDiagrams);
+            const baseIds = new Set();
+            const viewKeys = new Set();
+
+            for (const key of allKeys) {
+                const sep = key.lastIndexOf('__');
+                if (sep !== -1) {
+                    const suffix = key.slice(sep + 2);
+                    if (['full', 'upper', 'file'].includes(suffix)) {
+                        baseIds.add(key.slice(0, sep));
+                        viewKeys.add(key);
+                    }
+                }
+            }
+
+            // Initialize Graphviz (DOT) diagrams — only base ids with multi-view
+            for (const baseId of baseIds) {
+                // Detect which view is active by default from the HTML toggle buttons
+                const container = document.getElementById(`graph-${baseId}`);
+                const activeBtn = container?.querySelector('.view-toggle-btn.active');
+                const defaultView = activeBtn?.dataset?.view || 'full';
+                const defaultKey = `${baseId}__${defaultView}`;
+                const dot = dotDiagrams[defaultKey] || dotDiagrams[baseId] || '';
+                const data = nodeData[defaultKey] || nodeData[baseId] || {};
+                const containerId = `graph-${baseId}`;
+                const diagramId = `diagram-${baseId}`;
+                const viewer = new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                viewerRegistry[baseId] = viewer;
+                await new Promise(resolve => setTimeout(resolve, 30));
+            }
+
+            // Initialize any remaining single-view diagrams (no __ variants)
+            for (const [id, dot] of Object.entries(dotDiagrams)) {
+                if (viewKeys.has(id) || baseIds.has(id)) continue; // skip view variants and base duplicates
                 const containerId = `graph-${id}`;
                 const diagramId = `diagram-${id}`;
                 const data = nodeData[id] || {};
-                new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                const viewer = new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                viewerRegistry[id] = viewer;
                 await new Promise(resolve => setTimeout(resolve, 30));
             }
+
+            // Bind view toggle buttons
+            document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const view = btn.dataset.view;           // 'full', 'upper', or 'file'
+                    const baseId = btn.dataset.diagram;      // base diagram id
+                    const viewKey = `${baseId}__${view}`;
+                    const dot = dotDiagrams[viewKey];
+                    if (!dot) return;
+
+                    // Update active state on buttons
+                    btn.closest('.view-toggle').querySelectorAll('.view-toggle-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+
+                    // Re-render the diagram with the new DOT code
+                    const viewer = viewerRegistry[baseId];
+                    if (viewer) {
+                        viewer.dotCode = dot;
+                        viewer.nodeData = nodeData[viewKey] || {};
+                        await viewer.init();
+                    }
+                });
+            });
 
             // Initialize Mermaid diagrams
             await initMermaidDiagrams();

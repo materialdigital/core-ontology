@@ -14,6 +14,7 @@ Markdown + TTL/OWL  ──▶  Interactive HTML Documentation
 |---------|-------------|
 | **Ontology Trees** | Auto-generate expandable class hierarchies from OWL files |
 | **Graph Diagrams** | Render TTL/SHACL as interactive Graphviz diagrams |
+| **Hierarchy Views** | Switch between Full, Upper, and File views per diagram |
 | **Full-Text Search** | Cross-page search with relevance ranking |
 | **Dark/Light Themes** | Auto-detects system preference |
 | **Zero Config** | Define pages in YAML, run one command |
@@ -158,11 +159,23 @@ Special HTML comments trigger dynamic content generation during build.
 
 ### `@Graphviz_renderer` — TTL to Interactive Diagram
 
-Converts Turtle/SHACL files into pan-zoom-export graph viewers.
+Converts Turtle/SHACL files into pan-zoom-export graph viewers with three hierarchy views.
 
 ```markdown
 <!--@Graphviz_renderer:URL_OR_PATH-->
 ```
+
+**Hierarchy Views:**
+
+Each diagram automatically includes three switchable views via toggle buttons:
+
+| View | Description |
+|------|-------------|
+| **Full** | Complete class hierarchy from the PMD core ontology |
+| **Upper** | One superclass level above each class |
+| **File** | File content only — no hierarchy expansion |
+
+Users can switch between views using the **Full / Upper / File** toggle buttons in the diagram header. The same toggle is available in fullscreen mode.
 
 **Supported Input Types:**
 
@@ -183,8 +196,9 @@ Converts Turtle/SHACL files into pan-zoom-export graph viewers.
 **Generated Features:**
 - Mouse wheel zoom / drag to pan
 - Click nodes for URI tooltips
+- Switch between Full / Upper / File hierarchy views
 - Export as SVG or PNG
-- Fullscreen mode
+- Fullscreen mode with view toggle
 
 ---
 
@@ -287,7 +301,7 @@ Auto-detects language from extension (`.ttl`, `.py`, `.json`, etc.)
 
 | Tag | Input | Output |
 |-----|-------|--------|
-| `@Graphviz_renderer` | TTL/OWL URL | Interactive graph |
+| `@Graphviz_renderer` | TTL/OWL URL | Interactive graph (Full/Upper/File views) |
 | `@module_indicator` | OWL URL | Class tree |
 | `@property_indicator` | `object`/`data`/`annotation` | Property tree |
 | `@Graphviz_renderer_manual` | DOT code block | Interactive graph |

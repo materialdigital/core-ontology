@@ -1774,6 +1774,47 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* View toggle radio buttons (Full / Upper / File) */
+        .view-toggle {
+            display: flex;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-right: 4px;
+        }
+
+        .view-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            padding: 0 12px;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: var(--color-bg-tertiary);
+            border: none;
+            border-right: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .view-toggle-btn:last-child {
+            border-right: none;
+        }
+
+        .view-toggle-btn:hover:not(.active) {
+            color: var(--color-text-primary);
+            background: var(--color-bg-hover);
+        }
+
+        .view-toggle-btn.active {
+            color: #fff;
+            background: var(--color-primary);
+            font-weight: 600;
         }
 
         .graph-btn {
@@ -2111,6 +2152,12 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             padding: var(--spacing-md) var(--spacing-lg);
             background: var(--color-bg-secondary);
             border-bottom: 1px solid var(--color-border);
+        }
+
+        .fullscreen-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
         }
 
         .fullscreen-title {
@@ -3775,6 +3822,11 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             margin-bottom: var(--spacing-md);
         }
 
+        /* Ordered lists use CSS counters for numbering */
+        .content ol, .article-content ol {
+            counter-reset: list-counter;
+        }
+
         .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
         .content ol > li, .article-content ol > li {
             position: relative;
@@ -3783,8 +3835,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             line-height: 1.7;
         }
 
-        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before,
-        .content ol > li::before, .article-content ol > li::before {
+        /* Unordered list bullets (dot) */
+        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -3793,6 +3845,19 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             height: 6px;
             background: var(--color-primary);
             border-radius: 50%;
+        }
+
+        /* Ordered list numbers (counter) */
+        .content ol > li, .article-content ol > li {
+            counter-increment: list-counter;
+        }
+        .content ol > li::before, .article-content ol > li::before {
+            content: counter(list-counter) ".";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 600;
+            color: var(--color-primary);
         }
 
         /* Ensure ontology-tree nested lists have no bullets */
@@ -4320,9 +4385,16 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
     <div class="fullscreen-overlay" id="fullscreen-overlay" role="dialog" aria-modal="true" aria-label="Fullscreen graph viewer">
         <div class="fullscreen-header">
             <div class="fullscreen-title" id="fullscreen-title">Graph</div>
-            <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
-                <span aria-hidden="true">✕</span> Close
-            </button>
+            <div class="fullscreen-controls">
+                <div class="view-toggle fullscreen-view-toggle" id="fullscreen-view-toggle" role="radiogroup" aria-label="Hierarchy view" style="display:none;">
+                    <button class="view-toggle-btn active" data-view="full" aria-pressed="true" title="Full class hierarchy">Full</button>
+                    <button class="view-toggle-btn" data-view="upper" aria-pressed="false" title="One superclass level above">Upper</button>
+                    <button class="view-toggle-btn" data-view="file" aria-pressed="false" title="File content only">File</button>
+                </div>
+                <button class="fullscreen-close" id="fullscreen-close" aria-label="Close fullscreen">
+                    <span aria-hidden="true">✕</span> Close
+                </button>
+            </div>
         </div>
         <div class="fullscreen-viewport" id="fullscreen-viewport">
             <div class="fullscreen-wrapper" id="fullscreen-wrapper"></div>
@@ -4795,10 +4867,12 @@ function parseEdgeTitle(title) {
             const closeBtn = document.getElementById('fullscreen-close');
             const zoomInBtn = document.getElementById('fs-zoom-in');
             const zoomOutBtn = document.getElementById('fs-zoom-out');
+            const fsViewToggle = document.getElementById('fullscreen-view-toggle');
 
             let fsScale = 1, fsTx = 0, fsTy = 0, fsDrag = false, fsSx = 0, fsSy = 0;
             let currentSvg = null;
             let onNodeClick = null;
+            let currentDiagramId = null;
 
             const update = () => {
                 wrapper.style.transform = `translate(${fsTx}px, ${fsTy}px) scale(${fsScale})`;
@@ -4830,6 +4904,55 @@ function parseEdgeTitle(title) {
 
             zoomInBtn.addEventListener('click', () => { fsScale = Math.min(5, fsScale * 1.2); update(); });
             zoomOutBtn.addEventListener('click', () => { fsScale = Math.max(0.1, fsScale / 1.2); update(); });
+
+            // Fullscreen view toggle click handlers
+            fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!currentDiagramId) return;
+                    const view = btn.dataset.view;
+                    const viewKey = `${currentDiagramId}__${view}`;
+                    const dot = dotDiagrams[viewKey];
+                    if (!dot) return;
+
+                    // Update fullscreen toggle active state
+                    fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+
+                    // Also sync the inline toggle buttons
+                    const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
+                    if (inlineContainer) {
+                        inlineContainer.querySelectorAll('.view-toggle-btn').forEach(b => {
+                            const isActive = b.dataset.view === view;
+                            b.classList.toggle('active', isActive);
+                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        });
+                    }
+
+                    // Re-render in both inline viewer and fullscreen
+                    const viewer = viewerRegistry[currentDiagramId];
+                    if (viewer) {
+                        viewer.dotCode = dot;
+                        viewer.nodeData = nodeData[viewKey] || {};
+                        await viewer.init();
+                        // Re-render fullscreen SVG
+                        const newSvg = viewer.diagramEl.querySelector('svg');
+                        if (newSvg) {
+                            wrapper.innerHTML = '';
+                            const clone = newSvg.cloneNode(true);
+                            wrapper.appendChild(clone);
+                            currentSvg = clone;
+                            sanitizeGraphSvg(clone);
+                            fsScale = 1; fsTx = 0; fsTy = 0;
+                            update();
+                            setTimeout(fit, 50);
+                        }
+                    }
+                });
+            });
 
             viewport.addEventListener('wheel', (e) => {
                 if (!overlay.classList.contains('active')) return;
@@ -4878,11 +5001,12 @@ function parseEdgeTitle(title) {
             }, true);
 
             return {
-                open({ svg, title, onNodeClick: handler }) {
+                open({ svg, title, onNodeClick: handler, diagramId }) {
                     if (!svg) return;
                     overlay.classList.add('active');
                     document.body.style.overflow = 'hidden';
                     titleEl.textContent = title || 'Graph View';
+                    currentDiagramId = diagramId || null;
 
                     wrapper.innerHTML = '';
                     const clone = svg.cloneNode(true);
@@ -4891,6 +5015,22 @@ function parseEdgeTitle(title) {
                     onNodeClick = handler || null;
 
                     sanitizeGraphSvg(clone);
+
+                    // Show/hide fullscreen view toggle based on multi-view availability
+                    if (currentDiagramId && dotDiagrams[`${currentDiagramId}__full`]) {
+                        fsViewToggle.style.display = '';
+                        // Sync active state with inline toggle
+                        const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
+                        const activeInlineBtn = inlineContainer?.querySelector('.view-toggle-btn.active');
+                        const activeView = activeInlineBtn?.dataset?.view || 'full';
+                        fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
+                            const isActive = b.dataset.view === activeView;
+                            b.classList.toggle('active', isActive);
+                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                        });
+                    } else {
+                        fsViewToggle.style.display = 'none';
+                    }
 
                     fsScale = 1; fsTx = 0; fsTy = 0; fsDrag = false; fsSx = 0; fsSy = 0;
                     update();
@@ -5225,10 +5365,13 @@ function parseEdgeTitle(title) {
                 if (!svg) return this.showToast('Graph not ready');
                 const graphTitle = this.container.querySelector('.graph-title');
                 const title = graphTitle ? graphTitle.textContent : 'Graph View';
+                // Strip "diagram-" prefix so the id matches dotDiagrams keys
+                const baseId = this.diagramId.replace(/^diagram-/, '');
 
                 FullscreenManager.open({
                     svg,
                     title,
+                    diagramId: baseId,
                     onNodeClick: (nodeG, x, y) => this.showPopForNode(nodeG, x, y)
                 });
             }
@@ -5394,17 +5537,81 @@ function parseEdgeTitle(title) {
             }
         }
 
+        // Registry of GraphvizGraphViewer instances keyed by base diagram id
+        const viewerRegistry = {};
+
         // Create viewers sequentially to avoid Viz render conflicts
         async function initAllDiagrams() {
-            // Initialize Graphviz (DOT) diagrams
-            const entries = Object.entries(dotDiagrams);
-            for (const [id, dot] of entries) {
+            // Determine base diagram ids (those without __ suffix)
+            // A base id has matching __full, __upper, __file variants in dotDiagrams
+            const allKeys = Object.keys(dotDiagrams);
+            const baseIds = new Set();
+            const viewKeys = new Set();
+
+            for (const key of allKeys) {
+                const sep = key.lastIndexOf('__');
+                if (sep !== -1) {
+                    const suffix = key.slice(sep + 2);
+                    if (['full', 'upper', 'file'].includes(suffix)) {
+                        baseIds.add(key.slice(0, sep));
+                        viewKeys.add(key);
+                    }
+                }
+            }
+
+            // Initialize Graphviz (DOT) diagrams — only base ids with multi-view
+            for (const baseId of baseIds) {
+                // Detect which view is active by default from the HTML toggle buttons
+                const container = document.getElementById(`graph-${baseId}`);
+                const activeBtn = container?.querySelector('.view-toggle-btn.active');
+                const defaultView = activeBtn?.dataset?.view || 'full';
+                const defaultKey = `${baseId}__${defaultView}`;
+                const dot = dotDiagrams[defaultKey] || dotDiagrams[baseId] || '';
+                const data = nodeData[defaultKey] || nodeData[baseId] || {};
+                const containerId = `graph-${baseId}`;
+                const diagramId = `diagram-${baseId}`;
+                const viewer = new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                viewerRegistry[baseId] = viewer;
+                await new Promise(resolve => setTimeout(resolve, 30));
+            }
+
+            // Initialize any remaining single-view diagrams (no __ variants)
+            for (const [id, dot] of Object.entries(dotDiagrams)) {
+                if (viewKeys.has(id) || baseIds.has(id)) continue; // skip view variants and base duplicates
                 const containerId = `graph-${id}`;
                 const diagramId = `diagram-${id}`;
                 const data = nodeData[id] || {};
-                new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                const viewer = new GraphvizGraphViewer(containerId, diagramId, dot, data);
+                viewerRegistry[id] = viewer;
                 await new Promise(resolve => setTimeout(resolve, 30));
             }
+
+            // Bind view toggle buttons
+            document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const view = btn.dataset.view;           // 'full', 'upper', or 'file'
+                    const baseId = btn.dataset.diagram;      // base diagram id
+                    const viewKey = `${baseId}__${view}`;
+                    const dot = dotDiagrams[viewKey];
+                    if (!dot) return;
+
+                    // Update active state on buttons
+                    btn.closest('.view-toggle').querySelectorAll('.view-toggle-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-pressed', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+
+                    // Re-render the diagram with the new DOT code
+                    const viewer = viewerRegistry[baseId];
+                    if (viewer) {
+                        viewer.dotCode = dot;
+                        viewer.nodeData = nodeData[viewKey] || {};
+                        await viewer.init();
+                    }
+                });
+            });
 
             // Initialize Mermaid diagrams
             await initMermaidDiagrams();
@@ -7033,10 +7240,11 @@ function parseEdgeTitle(title) {
 # =============================================================================
 
 # Graphviz renderer tag pattern - matches all variants:
-#   <!--@Graphviz_renderer:URL-->              → default (full hierarchy)
-#   <!--@Graphviz_renderer_full:URL-->         → explicit full hierarchy
-#   <!--@Graphviz_renderer_only_upper:URL-->   → one superclass level above
-#   <!--@Graphviz_renderer_only_file:URL-->    → file content only, no hierarchy
+#   <!--@Graphviz_renderer:URL-->              → renders all 3 hierarchy views (Full/Upper/File)
+#   <!--@Graphviz_renderer_full:URL-->         → (legacy) same as default
+#   <!--@Graphviz_renderer_only_upper:URL-->   → (legacy) same as default
+#   <!--@Graphviz_renderer_only_file:URL-->    → (legacy) same as default
+# Note: All variants now generate all three views with an interactive toggle.
 GRAPHVIZ_TAG_RE = re.compile(
     r"<!--\s*@Graphviz_renderer(?:_(full|only_upper|upper|only_file|file))?\s*:\s*([^\s>]+)\s*-->",
     re.IGNORECASE,
@@ -7361,14 +7569,22 @@ def _fallback_slugify(stem: str) -> str:
     return s or "diagram"
 
 
-def make_graph_container(diagram_id: str, title: str) -> str:
+def make_graph_container(diagram_id: str, title: str, default_view: str = "full") -> str:
     title = title.strip()
+    views = {"full": "", "upper": "", "file": ""}
+    views[default_view] = " active"
+    pressed = {k: ("true" if k == default_view else "false") for k in views}
     return (
         """
 <div class="mermaid-graph-container" id="graph-{diagram_id}" role="figure" aria-label="{title}">
   <div class="graph-header">
     <div class="graph-title">{title}</div>
     <div class="graph-controls" role="toolbar" aria-label="Graph controls">
+      <div class="view-toggle" role="radiogroup" aria-label="Hierarchy view">
+        <button class="view-toggle-btn{cls_full}" data-view="full" data-diagram="{diagram_id}" aria-pressed="{pr_full}" title="Full class hierarchy">Full</button>
+        <button class="view-toggle-btn{cls_upper}" data-view="upper" data-diagram="{diagram_id}" aria-pressed="{pr_upper}" title="One superclass level above">Upper</button>
+        <button class="view-toggle-btn{cls_file}" data-view="file" data-diagram="{diagram_id}" aria-pressed="{pr_file}" title="File content only, no hierarchy">File</button>
+      </div>
       <button class="graph-btn" data-action="fit" aria-label="Fit to view">⊡ Fit</button>
       <button class="graph-btn" data-action="reset" aria-label="Reset view">⊙ Reset</button>
       <button class="graph-btn" data-action="fullscreen" aria-label="View fullscreen">⛶ Fullscreen</button>
@@ -7406,7 +7622,11 @@ def make_graph_container(diagram_id: str, title: str) -> str:
   </div>
 </div>
 """
-    ).format(diagram_id=diagram_id, title=title).strip()
+    ).format(
+        diagram_id=diagram_id, title=title,
+        cls_full=views["full"], cls_upper=views["upper"], cls_file=views["file"],
+        pr_full=pressed["full"], pr_upper=pressed["upper"], pr_file=pressed["file"],
+    ).strip()
 
 
 # Hierarchy modes for @Graphviz_renderer tag variants
@@ -7427,12 +7647,15 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
     """
     Extract all ``<!--@Graphviz_renderer*:...-->`` placeholders from Markdown.
 
+    All variants now render three views (Full/Upper/File) with an interactive toggle.
+    The suffix only determines which view is selected by default.
+
     Supported tag variants (case-insensitive)::
 
-        <!--@Graphviz_renderer:URL-->              full hierarchy (default)
-        <!--@Graphviz_renderer_full:URL-->          explicit full hierarchy
-        <!--@Graphviz_renderer_only_upper:URL-->    one superclass level above
-        <!--@Graphviz_renderer_only_file:URL-->     file content only, no hierarchy
+        <!--@Graphviz_renderer:URL-->              all 3 views, default: full
+        <!--@Graphviz_renderer_full:URL-->          all 3 views, default: full
+        <!--@Graphviz_renderer_only_upper:URL-->    all 3 views, default: upper
+        <!--@Graphviz_renderer_only_file:URL-->     all 3 views, default: file
 
     Returns a list of :class:`DiagramRef` in document order.
     """
@@ -7502,7 +7725,8 @@ def inject_graph_containers(md_text: str, refs: List[DiagramRef]) -> str:
             out_lines.append(line)
             continue
         ref = next(it)
-        out_lines.append(make_graph_container(ref.diagram_id, ref.title))
+        default_view = {HIERARCHY_FULL: "full", HIERARCHY_ONLY_UPPER: "upper", HIERARCHY_ONLY_FILE: "file"}.get(ref.hierarchy_mode, "full")
+        out_lines.append(make_graph_container(ref.diagram_id, ref.title, default_view=default_view))
     return "\n".join(out_lines)
 
 
@@ -7811,6 +8035,13 @@ def _resolve_diagram_sources(
         # HIERARCHY_FULL (default)
         return {}
 
+    # All three hierarchy modes to render for each diagram
+    ALL_MODES = [
+        (HIERARCHY_FULL, "full"),
+        (HIERARCHY_ONLY_UPPER, "upper"),
+        (HIERARCHY_ONLY_FILE, "file"),
+    ]
+
     diagrams: Dict[str, str] = {}
     node_data_all: Dict[str, Dict[str, Dict[str, str]]] = {}
 
@@ -7833,14 +8064,21 @@ def _resolve_diagram_sources(
                     tmp_path = Path(tmp_file.name)
                 
                 try:
-                    hkw = _hierarchy_kwargs(ref.hierarchy_mode)
-                    print(f"    Hierarchy mode: {ref.hierarchy_mode}")
-                    res = converter.render_graph(tmp_path, diagram_id=ref.diagram_id, **hkw)
-                    dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
-                    nd = _get_attr(res, "node_data", "nodeData")
-                    diagrams[ref.diagram_id] = str(dot)
-                    node_data_all[ref.diagram_id] = dict(nd)
-                    print(f"    Generated diagram: {ref.diagram_id}")
+                    # Render all three hierarchy views
+                    for mode, suffix in ALL_MODES:
+                        view_id = f"{ref.diagram_id}__{suffix}"
+                        hkw = _hierarchy_kwargs(mode)
+                        print(f"    Rendering view: {suffix} (hierarchy mode: {mode})")
+                        res = converter.render_graph(tmp_path, diagram_id=ref.diagram_id, **hkw)
+                        dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
+                        nd = _get_attr(res, "node_data", "nodeData")
+                        diagrams[view_id] = str(dot)
+                        node_data_all[view_id] = dict(nd)
+                    # Also store the default view under the base id (for backward compat)
+                    default_suffix = {HIERARCHY_FULL: "full", HIERARCHY_ONLY_UPPER: "upper", HIERARCHY_ONLY_FILE: "file"}.get(ref.hierarchy_mode, "full")
+                    diagrams[ref.diagram_id] = diagrams[f"{ref.diagram_id}__{default_suffix}"]
+                    node_data_all[ref.diagram_id] = node_data_all[f"{ref.diagram_id}__{default_suffix}"]
+                    print(f"    Generated 3 views for diagram: {ref.diagram_id}")
                 finally:
                     # Clean up temp file
                     try:
@@ -7864,12 +8102,19 @@ def _resolve_diagram_sources(
 
         ttl = _find_shape_ttl(pattern_dir)
         if ttl and ttl.exists():
-            hkw = _hierarchy_kwargs(ref.hierarchy_mode)
-            res = converter.render_graph(ttl, diagram_id=ref.diagram_id, **hkw)  # type: ignore[attr-defined]
-            dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
-            nd = _get_attr(res, "node_data", "nodeData")
-            diagrams[ref.diagram_id] = str(dot)
-            node_data_all[ref.diagram_id] = dict(nd)
+            # Render all three hierarchy views
+            for mode, suffix in ALL_MODES:
+                view_id = f"{ref.diagram_id}__{suffix}"
+                hkw = _hierarchy_kwargs(mode)
+                res = converter.render_graph(ttl, diagram_id=ref.diagram_id, **hkw)  # type: ignore[attr-defined]
+                dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
+                nd = _get_attr(res, "node_data", "nodeData")
+                diagrams[view_id] = str(dot)
+                node_data_all[view_id] = dict(nd)
+            # Also store default view under base id
+            default_suffix = {HIERARCHY_FULL: "full", HIERARCHY_ONLY_UPPER: "upper", HIERARCHY_ONLY_FILE: "file"}.get(ref.hierarchy_mode, "full")
+            diagrams[ref.diagram_id] = diagrams[f"{ref.diagram_id}__{default_suffix}"]
+            node_data_all[ref.diagram_id] = node_data_all[f"{ref.diagram_id}__{default_suffix}"]
 
             if write_per_pattern_js:
                 out_js = pattern_dir / f"{ref.diagram_id}_shape_data.js"
