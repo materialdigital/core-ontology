@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-02-27/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-03-02/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-02-27" .
+                                  owl:versionInfo "2026-03-02" .
 
 #################################################################
 #    Annotation properties
@@ -2562,6 +2562,17 @@ obo:CHEBI_33521 rdf:type owl:Class ;
                 rdfs:label "metal atom" .
 
 
+###  http://purl.obolibrary.org/obo/CHEBI_33839
+obo:CHEBI_33839 rdf:type owl:Class ;
+                rdfs:subClassOf obo:CHEBI_23367 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000051 ;
+                                  owl:someValuesFrom obo:BFO_0000040
+                                ] ;
+                obo:IAO_0000115 "A macromolecule is a molecule of high relative molecular mass, the structure of which essentially comprises the multiple repetition of units derived, actually or conceptually, from molecules of low relative molecular mass." ;
+                rdfs:label "macromolecule" .
+
+
 ###  http://purl.obolibrary.org/obo/CHEBI_37376
 obo:CHEBI_37376 rdf:type owl:Class ;
                 rdfs:subClassOf obo:CHEBI_23367 ;
@@ -2627,6 +2638,13 @@ obo:CHEBI_49957 rdf:type owl:Class ;
                 rdfs:label "xenon atom" .
 
 
+###  http://purl.obolibrary.org/obo/CHEBI_53284
+obo:CHEBI_53284 rdf:type owl:Class ;
+                rdfs:subClassOf obo:CHEBI_33839 ;
+                obo:IAO_0000115 "A homopolymer macromolecule composed of units connected by carbamate (-O-CO-NH-) linkages." ;
+                rdfs:label "polyurethane macromolecule" .
+
+
 ###  http://purl.obolibrary.org/obo/CHEBI_59999
 obo:CHEBI_59999 rdf:type owl:Class ;
                 rdfs:subClassOf obo:CHEBI_24431 ,
@@ -2650,9 +2668,7 @@ obo:CHEBI_60003 rdf:type owl:Class ;
 obo:CHEBI_74236 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000023 ;
                 obo:IAO_0000115 "Any compound used as a monomer for a polymerisation process. The term is generally used in relation to industrial polymerisation processes." ;
-                rdfs:label "monomer"@en ,
-                           "polymerisation monomer" ;
-                skos:definition "Any compound used as a monomer for a polymerisation process. The term is generally used in relation to industrial polymerisation processes."@en .
+                rdfs:label "polymerisation monomer" .
 
 
 ###  http://purl.obolibrary.org/obo/CHEBI_81045
@@ -3410,7 +3426,7 @@ pmd:PMD_0000005 rdf:type owl:Class ;
                                   owl:onProperty obo:BFO_0000054 ;
                                   owl:someValuesFrom pmd:PMD_0000950
                                 ] ,
-                                _:genid176 ;
+                                _:genid177 ;
                 rdfs:comment """Technical materials are complex object aggregates. The properties that are determined for those object aggregates are intrinsically associated with the methodologies employed in the measurement process. This is in contrast to typical 'physical' properties, which like e.g. mass that can be determined to high accuracy independently of the measurement process. 
 As a consequence, the behavoiral material properties in the ontology are differeciated according to their measurement method, e.g. Brinell hardness and Vickers hardness are different types of indentation hardness rather than different measures/quantification (GDC) of the materials property 'indentation hardness'.
  The 'unit idenifieres' of such properties (e.g. \"HV1\", \"HV10\", \"HBW\") are strictly speaking not units but rather references to the measurement methodology used to determine a numeric value that quantifies the property."""@en ;
@@ -3422,7 +3438,7 @@ As a consequence, the behavoiral material properties in the ontology are differe
 We only deal with intensive (system-size independent) material properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules."""@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid176 rdf:type owl:Restriction ;
+_:genid177 rdf:type owl:Restriction ;
             owl:onProperty obo:RO_0000052 ;
             owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000001
                                                       [ rdf:type owl:Restriction ;
@@ -3436,7 +3452,7 @@ _:genid176 rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0000005 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid176 ;
+   owl:annotatedTarget _:genid177 ;
    rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en
  ] .
 
@@ -3771,44 +3787,54 @@ pmd:PMD_0000101 rdf:type owl:Class ;
 pmd:PMD_0000103 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000833 ;
                 rdfs:label "hardening"@en ;
-                skos:altLabel "toughening" .
+                skos:altLabel "toughening" ;
+                skos:definition "A manufacturing process that increases the strength and hardness of a material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000104
 pmd:PMD_0000104 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000103 ;
-                rdfs:label "ion-exchange hardening"@en .
+                rdfs:label "ion-exchange hardening"@en ;
+                skos:definition "Hardening process used in glass manufacturing where ions in the glass are replaced by larger ions from a solution which create compressive stress and increased hardness."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000107
 pmd:PMD_0000107 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000877 ;
-                rdfs:label "non-linear optical property"@en .
+                rdfs:label "nonlinear optical property"@en ,
+                           "optical non-linearity"@en ;
+                skos:definition "Optical property that is dependent on the intensity of the input light."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000110
 pmd:PMD_0000110 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 rdfs:label "geological process"@en ;
-                rdfs:seeAlso "https://terminology.tib.eu/ts/ontologies/gemet/terms?iri=http%3A%2F%2Fwww.eionet.europa.eu%2Fgemet%2Fconcept%2F3648&obsoletes=false&lang=en" .
+                rdfs:seeAlso "https://terminology.tib.eu/ts/ontologies/gemet/terms?iri=http%3A%2F%2Fwww.eionet.europa.eu%2Fgemet%2Fconcept%2F3648&obsoletes=false&lang=en" ;
+                skos:definition "A natural process that operates within the Earth system to transform, transport, or deform Earth materials, thereby changing Earth structures and landforms"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000111
 pmd:PMD_0000111 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000016 ;
-                rdfs:label "superconducting"@en .
+                rdfs:label "superconducting"@en ;
+                skos:definition "The disposition of a material to conduct electricity without electrical resistance or infinite electrical conductance respectively." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000112
 pmd:PMD_0000112 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000016 ;
-                rdfs:label "dielectric"@en .
+                rdfs:label "dielectric disposition" ;
+                skos:definition "The disposition of an electric insulator to be polarized when subjected to an electric field."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000113
 pmd:PMD_0000113 rdf:type owl:Class ;
                 rdfs:subClassOf obo:COB_0000035 ;
-                rdfs:label "conventional ceramics manufacturing"@en .
+                rdfs:label "conventional ceramics manufacturing"@en ;
+                skos:definition "A manufacturing process that relies on traditional and manual methods to produce ceramics."@en ;
+                skos:example """forming green bodies by hand
+using a bonfire, pit or kiln for firing/sintering"""@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000114
@@ -3863,37 +3889,6 @@ pmd:PMD_0000118 rdf:type owl:Class ;
                                                      ]
                                 ] ;
                 rdfs:label "laminated composite"@en .
-
-
-###  https://w3id.org/pmd/co/PMD_0000119
-pmd:PMD_0000119 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000117 ,
-                                [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                         owl:onProperty obo:BFO_0000051 ;
-                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
-                                                                                                   [ rdf:type owl:Restriction ;
-                                                                                                     owl:onProperty obo:RO_0000087 ;
-                                                                                                     owl:someValuesFrom pmd:PMD_0000124
-                                                                                                   ]
-                                                                                                 ) ;
-                                                                              rdf:type owl:Class
-                                                                            ]
-                                                       ]
-                                                       [ rdf:type owl:Restriction ;
-                                                         owl:onProperty obo:BFO_0000051 ;
-                                                         owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0000000
-                                                                                                   [ rdf:type owl:Restriction ;
-                                                                                                     owl:onProperty obo:RO_0000087 ;
-                                                                                                     owl:someValuesFrom pmd:PMD_0000125
-                                                                                                   ]
-                                                                                                 ) ;
-                                                                              rdf:type owl:Class
-                                                                            ]
-                                                       ]
-                                                     ) ;
-                                  rdf:type owl:Class
-                                ] ;
-                rdfs:label "sandwich panel composite"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000120
@@ -3965,7 +3960,8 @@ pmd:PMD_0000121 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000122
 pmd:PMD_0000122 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000023 ;
-                rdfs:label "laminate ply role"@en .
+                rdfs:label "laminate ply role"@en ;
+                skos:definition "a single two-dimensional sheet that provides a specific high-strength orientation within a multi-layered stack"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000123
@@ -3983,13 +3979,17 @@ pmd:PMD_0000123 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000124
 pmd:PMD_0000124 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000023 ;
-                rdfs:label "sandwich sheet role"@en .
+                rdfs:label "sandwich sheet"@en ,
+                           "sandwich sheet role"@en ;
+                skos:definition "a stiff, strong material that carries bending loads through tensile and compressive stresses when integrated into a panel assembly"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000125
 pmd:PMD_0000125 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000023 ;
-                rdfs:label "sandwich core role"@en .
+                rdfs:label "sandwich core"@en ,
+                           "sandwich core role"@en ;
+                skos:definition "a lightweight, low-density material that maintains the separation of face sheets and withstands transverse shear stresses"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000501
@@ -7950,8 +7950,7 @@ pmd:PMD_0001999 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0010000
 pmd:PMD_0010000 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000005 ;
-                rdfs:label "corrosion resistant" ,
-                           "corrosion resistant"@en ;
+                rdfs:label "corrosion resistant" ;
                 skos:definition "a disposition to withstand corrosive attack to a certain extend" .
 
 
@@ -8035,8 +8034,7 @@ pmd:PMD_0010012 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0010013
 pmd:PMD_0010013 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000005 ;
-                rdfs:label "hardenable" ,
-                           "hardenable"@en ;
+                rdfs:label "hardenable" ;
                 skos:definition "a disposition to gain a greatly increased hardness at the surface or entire volume by the process of hardening" .
 
 
@@ -8137,16 +8135,14 @@ pmd:PMD_0010021 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0010022
 pmd:PMD_0010022 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000005 ;
-                rdfs:label "containing magnetic species" ,
-                           "containing magnetic species"@en ;
+                rdfs:label "containing magnetic species" ;
                 skos:definition "A disposition that inheres in a material entity in virtue of the presence of one or more magnetic species (e.g. ferromagnetic, paramagnetic, or diamagnetic particles or atoms), and that manifests under appropriate conditions as the ability of that material entity to exhibit a magnetic response or influence in a magnetic field."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0010023
 pmd:PMD_0010023 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000016 ;
-                rdfs:label "bioactive" ,
-                           "bioactive"@en ;
+                rdfs:label "bioactive" ;
                 skos:definition "A disposition that inheres in a material entity and is realized in an organismal context as a specific interaction with one or more biological systems, producing a measurable biological effect (e.g., therapeutic, toxic, or signaling outcome)."@en .
 
 
@@ -8184,10 +8180,9 @@ pmd:PMD_0010027 rdf:type owl:Class ;
 pmd:PMD_0010029 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000019 ;
                 rdfs:label "specific strength"@en ;
-                skos:comment """* SI unit for specific strength is Pa⋅m3/kg, or N⋅m/kg, which is dimensionally equivalent to m2/s2,
-* In fiber or textile applications, tenacity is the usual measure of specific strength
+                skos:comment """SI unit for specific strength is Pa⋅m3/kg, or N⋅m/kg, which is dimensionally equivalent to m2/s2, In fiber or textile applications, tenacity is the usual measure of specific strength
 """ ;
-                skos:definition "The specific strength also strength-to-weight ratio, a material's tensile strength (at failure) divided by its density"@en .
+                skos:definition "Specific strength is a quality that inheres in a material entity and is defined as the ratio of its tensile strength to its density."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0010033
@@ -8206,9 +8201,13 @@ pmd:PMD_0010034 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0010099
 pmd:PMD_0010099 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000000 ;
-                rdfs:label "bio-medical material"@en ;
-                skos:altLabel "biomaterials" ;
+                rdfs:subClassOf pmd:PMD_0000000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000087 ;
+                                  owl:someValuesFrom pmd:PMD_0010112
+                                ] ;
+                rdfs:label "biomedical material"@en ;
+                skos:altLabel "biomaterial" ;
                 skos:comment "related to the use of a material.   it is part of objects which participates some medical processes" ;
                 skos:definition "A non-living material intended to interface with biological systems to evaluate, treat, augment, or replace any tissue, organ, or function of the body."@en .
 
@@ -8315,6 +8314,13 @@ pmd:PMD_0010103 rdf:type owl:Class ;
                                 ] ;
                 rdfs:label "hybrid semiconductor"@en ;
                 skos:definition "A semiconductor which consists of organic semiconductors and non-organic semiconductors."@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0010112
+pmd:PMD_0010112 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000023 ;
+                rdfs:label "medical application role"@en ;
+                skos:definition "a role realized through the intentional interface with a biological system for the purpose of evaluating, treating, augmenting, or replacing any tissue, organ, or function of the body"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0011023
@@ -9712,7 +9718,7 @@ pmd:PMD_0020105 rdf:type owl:Class ;
                                   owl:someValuesFrom pmd:PMD_0000110
                                 ] ;
                 rdfs:label "mineral (geogenic)"@en ;
-                skos:definition "A naturally occurring inorganic Material formed through geological processes"@en ;
+                skos:definition "A mineral (geogenic) is a natural inorganic material that is formed through geological processes."@en ;
                 skos:example "such as Quartz (Silicates) or calcite (Carbonate) or Feldspar (Aluminosilicate)" .
 
 
@@ -9822,21 +9828,21 @@ pmd:PMD_0020130 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020131
 pmd:PMD_0020131 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000019 ,
-                                _:genid909 ;
+                                _:genid898 ;
                 owl:disjointWith pmd:PMD_0020148 ;
                 rdfs:label "intensive quality"@en ;
                 skos:altLabel "Point property"@en ;
                 skos:definition "An intensive quality is a quality that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid909 rdf:type owl:Restriction ;
+_:genid898 rdf:type owl:Restriction ;
             owl:onProperty obo:RO_0000080 ;
             owl:someValuesFrom pmd:PMD_0000001 .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0020131 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid909 ;
+   owl:annotatedTarget _:genid898 ;
    rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en
  ] .
 
@@ -11014,8 +11020,9 @@ pmd:PMD_0020246 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020247
 pmd:PMD_0020247 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000790 ;
-                rdfs:comment "dispersion in optical glass is a refractiion dependent on wavelength"@en ;
-                rdfs:label "dispersion"@en .
+                rdfs:comment "dispersion in optical glass is a refraction dependent on wavelength"@en ;
+                rdfs:label "dispersion"@en ;
+                skos:definition "Material property describing the wavelength dependent phase velocity." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020248
@@ -11541,8 +11548,8 @@ pmd:PMD_0050018 rdf:type owl:Class ;
 pmd:PMD_0050019 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050004 ;
                 rdfs:label "polyethylene terephthalate"@en ;
+                skos:comment "it is the dominant polyester utilized in global packaging and fiber applications" ;
                 skos:definition "Polyethylene terephthalate is a thermoplastic polyester produced by polycondensation of ethylene glycol and terephthalate precursors."@en ;
-                skos:example "it is the dominant polyester utilized in global packaging and fiber applications" ;
                 pmd:PMD_0050117 "PET" .
 
 
@@ -11576,10 +11583,10 @@ pmd:PMD_0050022 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050023
 pmd:PMD_0050023 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
-                rdfs:label "epoxy resins"@en ;
+                rdfs:label "epoxy resin"@en ;
                 skos:altLabel "epoxy or polyepoxide" ;
-                skos:definition "Epoxy resins are epoxide-functional oligomers curing via ring-opening into crosslinked thermoset networks."@en ;
-                skos:example "they are utilized for high-performance structural adhesives, composite matrices, and protective coatings." .
+                skos:comment "they are utilized for high-performance structural adhesives, composite matrices, and protective coatings." ;
+                skos:definition "Epoxy resins are epoxide-functional oligomers curing via ring-opening into crosslinked thermoset networks."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050024
@@ -11599,11 +11606,11 @@ pmd:PMD_0050025 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0050026
 pmd:PMD_0050026 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
-                rdfs:label "phenolic resins"@en ;
+                rdfs:label "phenolic resin"@en ;
                 skos:altLabel "phenol-formaldehyde" ;
-                skos:comment "they form rigid, char-forming crosslinked networks" ;
-                skos:definition "Phenolic resins are thermosetting polymers synthesized via condensation of phenol and formaldehyde"@en ;
-                skos:example "they are utilized for flame-resistant adhesives, friction materials, and molded components" .
+                skos:comment "they are utilized for flame-resistant adhesives, friction materials, and molded components" ,
+                             "they form rigid, char-forming crosslinked networks" ;
+                skos:definition "Phenolic resins are thermosetting polymers synthesized via condensation of phenol and formaldehyde"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050027
@@ -11618,9 +11625,9 @@ pmd:PMD_0050028 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
                 rdfs:label "melamine formaldehyde"@en ;
                 skos:altLabel "melamine-formaldehyde" ;
-                skos:comment "they form hard, durable crosslinked networks." ;
-                skos:definition "Melamine resin is a thermosetting aminoplast polymer synthesized via condensation"@en ;
-                skos:example "they are widely used in decorative laminates, kitchenware, and coating crosslinkers." .
+                skos:comment "they are widely used in decorative laminates, kitchenware, and coating crosslinkers." ,
+                             "they form hard, durable crosslinked networks." ;
+                skos:definition "Melamine resin is a thermosetting aminoplast polymer synthesized via condensation"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050029
@@ -11641,9 +11648,9 @@ pmd:PMD_0050030 rdf:type owl:Class ;
 pmd:PMD_0050031 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050030 ;
                 rdfs:label "natural rubber"@en ;
-                skos:comment "they are predominantly cis-1,4-polyisoprene," ;
-                skos:definition "Natural rubber is an elastomer polymer, and a biopolymer harvested as plant latex; consisting of cis-1,4-polyisoprene chains; typically sulfur-vulcanized to create crosslinks between chains."@en ;
-                skos:example "they are used widely in Heavy-duty truck tires" .
+                skos:comment "they are predominantly cis-1,4-polyisoprene," ,
+                             "they are used widely in Heavy-duty truck tires" ;
+                skos:definition "Natural rubber is an elastomer polymer, and a biopolymer harvested as plant latex; consisting of cis-1,4-polyisoprene chains; typically sulfur-vulcanized to create crosslinks between chains."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050032
@@ -11657,8 +11664,8 @@ pmd:PMD_0050032 rdf:type owl:Class ;
 pmd:PMD_0050033 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050032 ;
                 rdfs:label "styrene-butadiene rubber"@en ;
-                skos:definition "Styrene–butadiene rubber is a synthetic rubber, and is a family of synthetic random copolymer elastomers of styrene and butadiene, made by emulsion or solution polymerization and typically vulcanized."@en ;
-                skos:example "used widely for its good abrasion resistance and tunable hardness, for instance in tire treads." .
+                skos:comment "used widely for its good abrasion resistance and tunable hardness, for instance in tire treads." ;
+                skos:definition "Styrene–butadiene rubber is a synthetic rubber, and is a family of synthetic random copolymer elastomers of styrene and butadiene, made by emulsion or solution polymerization and typically vulcanized."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050034
@@ -11883,7 +11890,8 @@ pmd:PMD_0050050 rdf:type owl:Class ;
                                   rdf:type owl:Class
                                 ] ;
                 rdfs:label "glass-ceramic"@en ;
-                skos:definition "Glass‑ceramics are inorganic, non‑metallic materials prepared by controlled crystallization of glasses via different processing methods; they contain at least one type of functional crystalline phase and a residual glass, and the crystallized volume fraction may vary from ppm to almost 100%."@en .
+                skos:definition "Glass‑ceramics are inorganic, non‑metallic material prepared by controlled crystallization of glasses via different processing methods; they contain at least one type of functional crystalline phase and a residual glass, and the crystallized volume fraction may vary from ppm to almost 100%."@en ,
+                                "Glass‑ceramics are inorganic, non‑metallic materials prepared by controlled crystallization of glasses via different processing methods; they contain at least one type of functional crystalline phase and a residual glass, and the crystallized volume fraction may vary from ppm to almost 100%."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050051
@@ -12702,7 +12710,11 @@ pmd:PMD_0050126 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0050127
 pmd:PMD_0050127 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000118 ;
+                rdfs:subClassOf pmd:PMD_0000661 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:BFO_0000050 ;
+                                  owl:someValuesFrom pmd:PMD_0000118
+                                ] ;
                 rdfs:label "laminated glass"@en ;
                 skos:definition "Laminated glass is a specialty glass that is composed of multiple bonded layers to improve safety and acoustic performance."@en .
 
@@ -12857,7 +12869,7 @@ pmd:PMD_0050140 rdf:type owl:Class ;
                                   owl:someValuesFrom pmd:PMD_0000107
                                 ] ;
                 rdfs:label "nonlinear optical glass"@en ;
-                skos:definition "Nonlinear optical glass is functional glass that is engineered to display nonlinear optical responses under intense light."@en .
+                skos:definition "A functional glass that is engineered to display nonlinear optical responses under intense light."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050141
@@ -13134,14 +13146,14 @@ pmd:PMD_0090008 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000121 ;
                 rdfs:label "glass fiber reinforced polymer"@en ;
                 skos:altLabel "GFRP/GRP" ;
-                skos:definition "A polymer-matrix composite, consisting of a polymer matrix reinforced with glass fibers"@en .
+                skos:definition "A polymer matrix composite, consisting of a polymer matrix reinforced with glass fibers"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0090009
 pmd:PMD_0090009 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000121 ;
                 rdfs:label "carbon fiber reinforced polymer composite"@en ;
-                skos:definition "A polymer-matrix composite, consisting of a polymer matrix reinforced with carbon fibers."@en .
+                skos:definition "A polymer matrix composite, consisting of a polymer matrix reinforced with carbon fibers."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0090010
@@ -13149,24 +13161,25 @@ pmd:PMD_0090010 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000121 ;
                 rdfs:label "aramid fiber composite"@en ;
                 skos:altLabel "Kevlar" ;
-                skos:definition "A polymer-matrix composite, consisting of a polymer matrix reinforced with aramid (aromatic polyamide) fibers"@en .
+                skos:definition "A polymer matrix composite, consisting of a polymer matrix reinforced with aramid (aromatic polyamide) fibers"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0090011
 pmd:PMD_0090011 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000121 ;
                 rdfs:label "natural fiber composite"@en ;
-                skos:definition "A polymer-matrix composite, consisting of a polymer matrix reinforced with fibers derived from biological sources"@en .
+                skos:definition "A polymer matrix composite, consisting of a polymer matrix reinforced with fibers derived from biological sources"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0090012
 pmd:PMD_0090012 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000868 ;
                 rdfs:label "biological material"@en ;
+                skos:altLabel "biomaterial" ;
                 skos:comment "produced through biological synthesis processes like Biological growth, morphogenesis, secretion etc." ;
                 skos:definition "A natural organic material produced by a living organism."@en ;
                 skos:example """Biological Comosite such as Wood, Bone, Silk, Wool; 
-Biopolymers/Biomacromoleules such as cellulose, colagene; 
+Biopolymers such as cellulose, colagene; 
 Biogenic minerals such as hydroxyapatite""" .
 
 
@@ -13236,16 +13249,18 @@ pmd:PMD_0090019 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0090050
 pmd:PMD_0090050 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
-                rdfs:label "polyurethanes"@en ;
-                skos:example "they are it offers high versatility in mechanical properties" .
+                rdfs:label "thermosetting polyurethane"@en ;
+                skos:comment "offers high versatility in mechanical properties" ;
+                skos:definition "A thermosetting polymer with carbamate crosslinks."@en ;
+                pmd:PMD_0050117 "PUR" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0090051
 pmd:PMD_0090051 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0050022 ;
                 rdfs:label "unsaturated polyester resins"@en ;
-                skos:definition "Unsaturated polyester resin is a thermosetting polymer system of unsaturated polyester prepolymers in reactive vinyl monomers; it cures by radical crosslinking into rigid networks."@en ;
-                skos:example "they are used for fiber-reinforced composites" .
+                skos:comment "they are used for fiber-reinforced composites" ;
+                skos:definition "Unsaturated polyester resin is a thermosetting polymer system of unsaturated polyester prepolymers in reactive vinyl monomers; it cures by radical crosslinking into rigid networks."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0090052
