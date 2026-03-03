@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-03-02/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-03-03/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-03-02" .
+                                  owl:versionInfo "2026-03-03" .
 
 #################################################################
 #    Annotation properties
@@ -3427,15 +3427,16 @@ pmd:PMD_0000005 rdf:type owl:Class ;
                                   owl:someValuesFrom pmd:PMD_0000950
                                 ] ,
                                 _:genid177 ;
+                obo:IAO_0000119 """A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
+
+(Callister, W.D., Rethwisch, D.G., Materials Science and Engineering, Wiley, 2014)
+
+We only deal with intensive (system-size independent) material properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules.""" ;
                 rdfs:comment """Technical materials are complex object aggregates. The properties that are determined for those object aggregates are intrinsically associated with the methodologies employed in the measurement process. This is in contrast to typical 'physical' properties, which like e.g. mass that can be determined to high accuracy independently of the measurement process. 
 As a consequence, the behavoiral material properties in the ontology are differeciated according to their measurement method, e.g. Brinell hardness and Vickers hardness are different types of indentation hardness rather than different measures/quantification (GDC) of the materials property 'indentation hardness'.
  The 'unit idenifieres' of such properties (e.g. \"HV1\", \"HV10\", \"HBW\") are strictly speaking not units but rather references to the measurement methodology used to determine a numeric value that quantifies the property."""@en ;
                 rdfs:label "material property"@en ;
-                skos:definition """A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
-
-(Callister, W.D., Rethwisch, D.G., Materials Science and Engineering, Wiley, 2014)
-
-We only deal with intensive (system-size independent) material properties. Extensive properties that depend on the testpiece/specimen/probe size should be found in the respective testing method modules."""@en ;
+                skos:definition "A material property is a disposition that inheres in a material entity and is characterized by the kind and magnitude of its response to a specific imposed stimulus, independently of shape and size."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 _:genid177 rdf:type owl:Restriction ;
@@ -3618,7 +3619,7 @@ pmd:PMD_0000054 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000969 ;
                 rdfs:label "Heizfunktion"@de ,
                            "heating function"@en ;
-                skos:definition "A heating function is a (realizable) function that, when realized, enables a system or device to increase the thermal energy of a material, typically to reach temperatures required for processing, transformation, or reaction."@en ,
+                skos:definition "A temperature change function that, when realized, enables a system or device to increase the thermal energy of a material, typically to reach temperatures required for processing, transformation, or reaction."@en ,
                                 "Eine Heizfunktion ist eine (realisierbare) Funktion, die ein System oder Gerät in die Lage versetzt, die Wärmeenergie eines Materials zu erhöhen, um die für die Verarbeitung, Umwandlung oder Reaktion erforderlichen Temperaturen zu erreichen."@de ;
                 skos:example "The function of a resistance heater in a vacuum furnace."@en .
 
@@ -3628,7 +3629,7 @@ pmd:PMD_0000055 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000969 ;
                 rdfs:label "Kühlfunktion"@de ,
                            "cooling function"@en ;
-                skos:definition "A cooling function is a (realizable) function that, when realized, enables a system or device to lower the temperature of a material, often to control solidification or maintain a stable state below a desired thermal threshold."@en ,
+                skos:definition "A temperature change function that enables a system or device to lower the temperature of a material, often to control solidification or maintain a stable state below a desired thermal threshold."@en ,
                                 "Eine Kühlfunktion ist eine (realisierbare) Funktion, die es einem System oder Gerät ermöglicht, die Temperatur eines Materials zu senken, häufig um die Erstarrung zu steuern oder einen stabilen Zustand unterhalb eines gewünschten thermischen Schwellenwerts aufrechtzuerhalten."@de ;
                 skos:example "The function of a water-cooled mold to solidify molten metal in casting."@en .
 
@@ -3656,7 +3657,7 @@ pmd:PMD_0000057 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000054 ;
                 rdfs:label "Schmelzfunktion"@de ,
                            "melting function"@en ;
-                skos:definition "A melting function is a heating function that, when realized, enables a device or system to initiate or sustain the phase transition of a solid material into a liquid by raising its temperature above the melting point."@en ,
+                skos:definition "A heating function that, when realized, enables a device or system to initiate or sustain the phase transition of a solid material into a liquid by raising its temperature above the melting point."@en ,
                                 "Eine Schmelzfunktion ist eine Heizfunktion, die es einem Gerät oder System ermöglicht, den Phasenübergang eines festen Materials in eine Flüssigkeit einzuleiten oder aufrechtzuerhalten, indem seine Temperatur über den Schmelzpunkt angehoben wird."@de ;
                 skos:example "The function of an induction coil in a furnace to heat metal until it melts."@en .
 
@@ -3747,8 +3748,9 @@ pmd:PMD_0000068 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0000075
 pmd:PMD_0000075 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000602 ;
-                rdfs:label "mold device"@en ;
-                skos:definition "A form used to cast an object of a desired shape."@en .
+                rdfs:label "mold"@en-us ,
+                           "mould"@en ;
+                skos:definition "A device consisting of a hollowed-out cavity that shapes fluid or plastic material into a specific form through the process of solidification or cooling."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000100
@@ -3996,7 +3998,7 @@ pmd:PMD_0000125 rdf:type owl:Class ;
 pmd:PMD_0000501 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000027 ;
                 rdfs:label "1D"@en ;
-                skos:definition "1-D is an information content entity representing a one-dimensional structure or model representing a single linear dimension, often used in material science simulations or analysis."@en ;
+                skos:definition "1D is a data item representing a one-dimensional structure or model representing a single linear dimension, often used in material science simulations or analysis."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4004,7 +4006,7 @@ pmd:PMD_0000501 rdf:type owl:Class ;
 pmd:PMD_0000502 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000027 ;
                 rdfs:label "2D"@en ;
-                skos:definition "A two-dimensional information content entity is a representation or analysis, commonly applied in studying planar material properties or surface phenomena."@en ;
+                skos:definition "A two-dimensional data item is a representation or analysis, commonly applied in studying planar material properties or surface phenomena."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4061,7 +4063,7 @@ pmd:PMD_0000506 rdf:type owl:Class ;
                                   owl:someValuesFrom pmd:PMD_0000517
                                 ] ;
                 rdfs:label "acoustic property"@en ;
-                skos:definition "An acoustic property is a mechanical property representing characteristics of a material that determine its interaction with sound waves, such as absorption, reflection, and transmission."@en ;
+                skos:definition "An acoustic property is a material property representing characteristics of a material that determine its interaction with sound waves, such as absorption, reflection, and transmission."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4104,7 +4106,7 @@ pmd:PMD_0000510 rdf:type owl:Class ;
                 obo:IAO_0000112 "A screwdriver used to adjust a grub screw."@en ;
                 rdfs:label "Einstellungsgeräterolle"@de ,
                            "adjustment device role"@en ;
-                skos:definition "Role of a device that is used to adjust another device (SubjectOfAdjustmentRole). The role is realized in an adjustment process."@en ,
+                skos:definition "A device role that is used to adjust another device (SubjectOfAdjustmentRole). The role is realized in an adjustment process."@en ,
                                 "Rolle eines Gerätes, das zum Einstellen eines anderen Gerätes (SubjectOfAdjustmentRole) verwendet wird. Die Rolle wird in einem Einstellungsprozess realisiert."@de .
 
 
@@ -4139,42 +4141,42 @@ pmd:PMD_0000513 rdf:type owl:Class ;
 pmd:PMD_0000517 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 rdfs:label "acoustic wave"@en ;
-                skos:definition "A mechanical disturbance that propagates through a medium"@en .
+                skos:definition "An acoustic wave is a process that consists of a mechanical disturbance propagating through a material medium."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000518
 pmd:PMD_0000518 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 rdfs:label "impact"@en ;
-                skos:definition "impact is a short-duration, high-force interaction between two bodies in contact"@en .
+                skos:definition "An impact is a process consisting of a short-duration, high-force interaction between two bodies in contact."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000519
 pmd:PMD_0000519 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 rdfs:label "flow of electric charge"@en ;
-                skos:definition "movement of charged particles"@en .
+                skos:definition "Flow of electric charge is a process in which charged particles move through or within a material."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000520
 pmd:PMD_0000520 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 rdfs:label "heat flow"@en ;
-                skos:definition "transfer of thermal energy between or within material entities"@en .
+                skos:definition "Heat flow is a process in which thermal energy is transferred between or within material entities."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000521
 pmd:PMD_0000521 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 rdfs:label "generation of magnetic field"@en ;
-                skos:definition "reaction to change of elctric field or movement of charges"@en .
+                skos:definition "Generation of magnetic field is a process in which a magnetic field arises in response to changing electric fields or moving electric charges."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000522
 pmd:PMD_0000522 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 rdfs:label "mechanical loading"@en ;
-                skos:definition "application of external forces, moments, or imposed displacements to objects or the equivalent loadings (stresses, strains) to materials."@en .
+                skos:definition "Mechanical loading is a process in which external forces, moments, or imposed displacements are applied to objects or materials."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000524
@@ -4182,7 +4184,7 @@ pmd:PMD_0000524 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000833 ;
                 rdfs:label "Assemblierungsprozess"@de ,
                            "assembling process"@en ;
-                skos:definition "A process to mount or demount a component."@en .
+                skos:definition "An assembling process is a manufacturing process that mounts or demounts components."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000525
@@ -4190,15 +4192,16 @@ pmd:PMD_0000525 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000855 ;
                 rdfs:label "Atomkraftmikroskop"@de ,
                            "atomic force microscope"@en ;
-                skos:definition "An atomic force microscope (AFM) is a measuring device that maps the surface topography of materials at the nanoscale by scanning it with a mechanical probe."@en ,
-                                "Ein Atomkraftmikroskop (AFM) ist ein Messgerät, das die Oberflächentopographie von Materialien im Nanobereich durch Abtasten mit einer mechanischen Sonde kartiert."@de .
+                skos:definition "A microscope that maps the surface topography of materials at the nanoscale by scanning it with a mechanical probe."@en ,
+                                "Ein Mikroskop, das die Oberflächentopographie von Materialien im Nanobereich durch Abtasten mit einer mechanischen Sonde kartiert."@de ;
+                pmd:PMD_0050117 "AFM"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000526
 pmd:PMD_0000526 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000027 ;
                 rdfs:label "atomic structure"@en ;
-                skos:definition "The atomic structure is a material structure that describes the arrangement and composition of atoms in a material, influencing its physical and chemical properties."@en ;
+                skos:definition "The atomic structure is an object aggregate that describes the arrangement and composition of atoms in a material, influencing its physical and chemical properties."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4289,7 +4292,7 @@ pmd:PMD_0000536 rdf:type owl:Class ;
 pmd:PMD_0000537 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000789 ;
                 rdfs:label "brinell hardness"@en ;
-                skos:definition "The brinell hardness is a scalar representing a measure of material hardness obtained by indenting the material with a steel or tungsten carbide ball under a specific load."@en ;
+                skos:definition "An indentation hardness scalar representing a measure of material hardness obtained by indenting the material with a steel or tungsten carbide ball under a specific load."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4353,8 +4356,8 @@ pmd:PMD_0000542 rdf:type owl:Class ;
                                 pmd:PMD_0001011 ;
                 rdfs:label "CNC-Schweißmaschine"@de ,
                            "cnc welding machine"@en ;
-                skos:definition "A CNC welding machine is a device that performs welding operations controlled by a computer numerical control system."@en ,
-                                "Eine CNC-Schweißmaschine ist ein Gerät, das Schweißoperationen durch ein computergesteuertes System ausführt."@de .
+                skos:definition "A cnc machine that performs welding operations."@en ,
+                                "Eine CNC-Schweißmaschine ist eine CNC-Maschine, die Schweißoperationen ausführt."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000543
@@ -4362,7 +4365,7 @@ pmd:PMD_0000543 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000603 ;
                 rdfs:label "Kalibrierungsgeräterolle"@de ,
                            "calibration device role"@en ;
-                skos:definition "Role of a device that is used for calibration of itself or another device, which has the \"Subject Of Calibration Role\". The role is realized in a calibration process."@en ,
+                skos:definition "A device role that is used for calibration of itself or another device, which has the \"Subject Of Calibration Role\". The role is realized in a calibration process."@en ,
                                 "Rolle eines Geräts, das zum Kalibrieren sich selbst oder eines anderen Gerätes, das die \"Subject Of Calibration Role\" inne hat, verwendet wird. Die Rolle wird in einem Kalibrierungsprozess realisiert."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -4564,7 +4567,7 @@ pmd:PMD_0000564 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000575 ;
                 rdfs:label "Beschichtungsanwendungsfunktion"@de ,
                            "coating application function"@en ;
-                skos:definition "A subfunction of coating performed to apply a coating to a surface."@en ,
+                skos:definition "A coating application function is a coating function that is realized in applying a coating to a surface."@en ,
                                 "Eine Unterfunktion der Beschichtung, die durchgeführt wird, um eine Beschichtung auf eine Oberfläche aufzutragen."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -4680,9 +4683,13 @@ pmd:PMD_0000576 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000577
 pmd:PMD_0000577 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000000 ;
+                rdfs:subClassOf pmd:PMD_0000890 ;
                 rdfs:label "composite"@en ;
-                skos:definition "A composite material is an engineered material that 'consists of' some material that has a matrix role and of some material that has a filler role."@en ;
+                skos:definition "An object aggregate that consists of two or more bonded materials with dissimilar physical or chemical properties which are used to complement each other where the parts remain seperate and distinct in the resulting object aggregate."@en ;
+                skos:example """carbon fibre reinforced polymer
+laminated glass
+wood
+hard metal composites for abrasive tools""" ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4732,9 +4739,9 @@ pmd:PMD_0000582 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000602 ;
                 rdfs:label "Computer"@de ,
                            "computing device"@en ;
-                skos:definition """A computing system that provides an execution environment for, e.g., simulation processes or prediction models.
+                skos:definition """A device that provides an execution environment for, e.g., simulation processes or prediction models.
 A computing system can be virtual (e.g., a container or virtual machine) or physical (e.g., a bare-metal servers), uses digital representations of objects as inputs and produces digital measurements, such as simulation results or predictions, as outputs."""@en ,
-                                """Ein Rechnersystem, das eine Ausführungsumgebung bspw. für Simulationsprozesse oder Vorhersagemodelle bereitstellt.
+                                """Ein Gerät, das eine Ausführungsumgebung bspw. für Simulationsprozesse oder Vorhersagemodelle bereitstellt.
 Ein Rechenknoten kann virtuell (bspw. ein Container oder eine virtuelle Maschine) oder physisch (z. B. ein Bare-Metal-Server) ausgestaltet sein und verwendet in der Regel digitale Repräsentationen von Objekten als Eingaben und erzeugt digitale Messungen, wie z.B. Simulationsergebnisse oder Vorhersagen, als Ausgaben."""@de .
 
 
@@ -4765,15 +4772,15 @@ pmd:PMD_0000584 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000833 ;
                 rdfs:label "Konditionierungsprozess"@de ,
                            "conditioning process"@en ;
-                skos:definition "Diese Aktivität beschreibt den Prozess und die Maßnahmen, die ergriffen werden, um einen materiellen Gegenstand auf vordefinierte Umgebungsbedingungen einzustellen."@de ,
-                                "This activity describes the process of and the measures taken to set a tangible object to pre-defined environmental conditions."@en .
+                skos:definition "A conditioning process is a manufacturing process that sets a material entity to predefined environmental conditions."@en ,
+                                "Diese Aktivität beschreibt den Prozess und die Maßnahmen, die ergriffen werden, um einen materiellen Gegenstand auf vordefinierte Umgebungsbedingungen einzustellen."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000585
 pmd:PMD_0000585 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000931 ;
                 rdfs:label "continuous simulation"@en ;
-                skos:definition "A simulation approach where changes in a system are modeled continuously over time."@en ;
+                skos:definition "A simulation method specification where changes in a system are modeled continuously over time."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4781,7 +4788,7 @@ pmd:PMD_0000585 rdf:type owl:Class ;
 pmd:PMD_0000586 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000802 ;
                 rdfs:label "absorption of corpuscular radiation"@en ;
-                skos:definition "process of taking up corpuscular radiation by a material entity"@en .
+                skos:definition "An absorption of radiation process regarding the uptake of corpuscular radiation by a material entity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000587
@@ -4889,7 +4896,7 @@ pmd:PMD_0000597 rdf:type owl:Class ;
 pmd:PMD_0000601 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000931 ;
                 rdfs:label "deterministic simulation"@en ;
-                skos:definition "A simulation approach where outcomes are precisely determined through known relationships without random variability."@en ;
+                skos:definition "A simulation method specification where outcomes are precisely determined through known relationships without random variability."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -4898,7 +4905,7 @@ pmd:PMD_0000602 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000030 ;
                 rdfs:label "Gerät"@de ,
                            "device"@en ;
-                skos:definition "A physical or virtual entity used to perform a specific function or task, often involving measurement, manipulation, or analysis of materials."@en ,
+                skos:definition "A device is an object that is designed to perform a specific function or task involving measurement, manipulation, processing, or analysis."@en ,
                                 "Ein physisches oder virtuelles Objekt, das verwendet wird, um eine bestimmte Funktion oder Aufgabe auszuführen, häufig im Zusammenhang mit der Messung, Manipulation oder Analyse von Materialien."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -4966,8 +4973,8 @@ pmd:PMD_0000610 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000847 ;
                 rdfs:label "Dimensionierungsfunktion"@de ,
                            "dimension measuring function"@en ;
-                skos:definition "A subfunction of measuring performed to determine the dimensions of an object or material."@en ,
-                                "Eine Unterfunktion des Messens, die durchgeführt wird, um die Abmessungen eines Objekts oder Materials zu bestimmen."@de ;
+                skos:definition "A measuring function performed to determine the dimensions of an object or material."@en ,
+                                "Eine Messfunktion um die Abmessungen eines Objekts oder Materials zu bestimmen."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5000,7 +5007,7 @@ pmd:PMD_0000612 rdf:type owl:Class ;
 pmd:PMD_0000613 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000931 ;
                 rdfs:label "discrete-event simulation"@en ;
-                skos:definition "A simulation method where events are processed at distinct points in time, commonly used for modeling systems with discrete state changes."@en ;
+                skos:definition "A simulation method specification where events are processed at distinct points in time, commonly used for modeling systems with discrete state changes."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5021,8 +5028,8 @@ pmd:PMD_0000615 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000648 ;
                 rdfs:label "Bohrmaschine"@de ,
                            "drilling machine"@en ;
-                skos:definition "A drilling machine is a device that creates holes in a workpiece by means of a rotating drill bit."@en ,
-                                "Eine Bohrmaschine ist ein Gerät, das Löcher in ein Werkstück durch ein sich drehendes Bohrwerkzeug erzeugt."@de .
+                skos:definition "A forming machine that creates holes in a workpiece by means of a rotating drill bit."@en ,
+                                "Eine Formmaschine, die Löcher in einem Werkstück durch ein sich drehendes Bohrwerkzeug erzeugt."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000616
@@ -5118,7 +5125,7 @@ pmd:PMD_0000624 rdf:type owl:Class ;
                 obo:IAO_0000119 "“Electron microscope.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/electron%20microscope. Accessed 24 Nov. 2022."@en ;
                 rdfs:label "Elektronenmikroskop"@de ,
                            "electron microscope"@en ;
-                skos:definition "A device that uses a beam of electrons to create high-resolution images of a sample's surface or structure."@en ,
+                skos:definition "A microscope that uses a beam of electrons to create high-resolution images of a sample's surface or structure."@en ,
                                 "An electron-optical instrument in which a beam of electrons is used to produce an enlarged image of a minute object."@en ,
                                 "Ein Gerät, das einen Elektronenstrahl verwendet, um hochauflösende Bilder der Oberfläche oder Struktur einer Probe zu erstellen."@de .
 
@@ -5275,8 +5282,8 @@ pmd:PMD_0000644 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000847 ;
                 rdfs:label "Kraftmessfunktion"@de ,
                            "force measuring function"@en ;
-                skos:definition "A subfunction of measuring performed to determine the force applied to or by an object."@en ,
-                                "Eine Unterfunktion des Messens, die durchgeführt wird, um die auf ein Objekt ausgeübte oder von ihm ausgeübte Kraft zu bestimmen."@de ;
+                skos:definition "A measuring function performed to determine the force applied to or by an object."@en ,
+                                "Eine Messfunktion um die auf ein Objekt ausgeübte oder von ihm ausgeübte Kraft zu bestimmen."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5421,8 +5428,8 @@ pmd:PMD_0000655 rdf:type owl:Class ;
                 obo:IAO_0000119 "“Furnace.” Merriam-Webster.com Dictionary, Merriam-Webster, https://www.merriam-webster.com/dictionary/furnace. Accessed 13 Jan. 2023."@en ;
                 rdfs:label "Ofen"@de ,
                            "furnace"@en ;
-                skos:definition "An enclosed structure in which heat is produced (as for heating a house or for reducing ore)."@en ,
-                                "Eine geschlossene Struktur, in der Wärme erzeugt wird (z. B. zum Heizen eines Hauses oder zum Einschmelzen von Erz)."@de .
+                skos:definition "A device that generates and contains high-intensity thermal energy within an insulated enclosure."@en ,
+                                "Ein Gerät, das hochintensive thermische Energie innerhalb eines isolierten Gehäuses erzeugt und speichert."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000656
@@ -5440,8 +5447,8 @@ pmd:PMD_0000657 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000557 ;
                 rdfs:label "Gaschromatographiesystem"@de ,
                            "gas chromatography system"@en ;
-                skos:definition "A device used for separating and analyzing compounds in a gas mixture using a chromatographic column."@en ,
-                                "Ein Gerät zur Trennung und Analyse von Verbindungen in einem Gasgemisch unter Verwendung einer chromatographischen Säule."@de .
+                skos:definition "A chromatography system used for separating and analyzing compounds in a gas mixture using a chromatographic column."@en ,
+                                "Ein Chromatographiesystem zur Trennung und Analyse von Verbindungen in einem Gasgemisch unter Verwendung einer chromatographischen Säule."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000658
@@ -5459,8 +5466,8 @@ pmd:PMD_0000659 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000557 ;
                 rdfs:label "Gelpermeations-Chromatographiesystem"@de ,
                            "gel permeation chromatography system"@en ;
-                skos:definition "A device used for separating and analyzing polymers based on their molecular size using gel permeation chromatography."@en ,
-                                "Ein Gerät zur Trennung und Analyse von Polymeren basierend auf ihrer Molekülgröße durch Gelpermeationschromatographie."@de .
+                skos:definition "A chromatography system used for separating and analyzing polymers based on their molecular size using gel permeation chromatography."@en ,
+                                "Ein Chromatographiesystem zur Trennung und Analyse von Polymeren basierend auf ihrer Molekülgröße durch Gelpermeationschromatographie."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000660
@@ -5759,8 +5766,8 @@ pmd:PMD_0000784 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000557 ;
                 rdfs:label "Hochleistungsflüssigkeitschromatographiesystem"@de ,
                            "high performance liquid chromatography system"@en ;
-                skos:definition "A device used for separating, identifying, and quantifying compounds in liquid samples through high performance liquid chromatography."@en ,
-                                "Ein Gerät zur Trennung, Identifizierung und Quantifizierung von Verbindungen in Flüssigkeitsproben durch Hochleistungsflüssigkeitschromatographie."@de .
+                skos:definition "A chromatography system used for separating, identifying, and quantifying compounds in liquid samples through high performance liquid chromatography."@en ,
+                                "Ein Chromatographiesystem zur Trennung, Identifizierung und Quantifizierung von Verbindungen in Flüssigkeitsproben durch Hochleistungsflüssigkeitschromatographie."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000785
@@ -5768,15 +5775,15 @@ pmd:PMD_0000785 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000657 ;
                 rdfs:label "Hochtemperatur-Gaschromatographiesystem"@de ,
                            "high temperature gas chromatography system"@en ;
-                skos:definition "A device used for separating and analyzing compounds in a gas mixture at high temperatures using a chromatographic column."@en ,
-                                "Ein Gerät zur Trennung und Analyse von Verbindungen in einem Gasgemisch bei hohen Temperaturen unter Verwendung einer chromatographischen Säule."@de .
+                skos:definition "A gas chromatography system used for separating and analyzing compounds in a gas mixture at high temperatures using a chromatographic column."@en ,
+                                "Ein Gaschromatographiesystem zur Trennung und Analyse von Verbindungen in einem Gasgemisch bei hohen Temperaturen unter Verwendung einer chromatographischen Säule."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000786
 pmd:PMD_0000786 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000931 ;
                 rdfs:label "hybrid simulation"@en ;
-                skos:definition "A simulation approach that combines physical and computational models to analyze material behavior."@en ;
+                skos:definition "A simulation method specification that combines physical and computational models to analyze material behavior."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5804,7 +5811,7 @@ pmd:PMD_0000790 rdf:type owl:Class ;
                 owl:disjointWith pmd:PMD_0000911 ;
                 rdfs:comment "e.g., air into glass"@en ;
                 rdfs:label "refraction (optical)"@en ;
-                skos:definition "the bending of light as it passes from one medium into another due to a change in the light’s speed."@en ;
+                skos:definition "Optical property which describes the bending of light as it passes from one medium into another due to a change in the light’s speed."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -5841,8 +5848,8 @@ pmd:PMD_0000796 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000557 ;
                 rdfs:label "Ionenaustausch-Chromatographiesystem"@de ,
                            "ion exchange chromatography system"@en ;
-                skos:definition "A device used for separating ions in a sample using ion exchange resins in a chromatographic column."@en ,
-                                "Ein Gerät zur Trennung von Ionen in einer Probe unter Verwendung von Ionenaustauschharzen in einer chromatographischen Säule."@de .
+                skos:definition "A chromatography system used for separating ions in a sample using ion exchange resins in a chromatographic column."@en ,
+                                "Ein Chromatographiesystem zur Trennung von Ionen in einer Probe unter Verwendung von Ionenaustauschharzen in einer chromatographischen Säule."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000797
@@ -5850,8 +5857,8 @@ pmd:PMD_0000797 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000855 ;
                 rdfs:label "Ionenmikroskop"@de ,
                            "ion microscope"@en ;
-                skos:definition "A device that uses ions to create high-resolution images of the surface or structure of a sample."@en ,
-                                "Ein Gerät, das Ionen verwendet, um hochauflösende Bilder der Oberfläche oder Struktur einer Probe zu erstellen."@de .
+                skos:definition "A microscope that uses ions to create high-resolution images of the surface or structure of a sample."@en ,
+                                "Ein Mikroskop, das Ionen verwendet, um hochauflösende Bilder der Oberfläche oder Struktur einer Probe zu erstellen."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000798
@@ -6059,8 +6066,8 @@ pmd:PMD_0000818 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000648 ;
                 rdfs:label "Drehmaschine"@de ,
                            "lathe"@en ;
-                skos:definition "A lathe is a device that rotates a workpiece on its axis to perform various operations such as cutting, sanding, drilling, or deformation."@en ,
-                                "Eine Drehmaschine ist ein Gerät, das ein Werkstück um seine Achse dreht, um verschiedene Operationen wie Schneiden, Schleifen, Bohren oder Verformung durchzuführen."@de .
+                skos:definition "A lathe is a forming machine that rotates a workpiece on its axis to perform various operations such as cutting, sanding, drilling, or deformation."@en ,
+                                "Eine Drehmaschine ist eine Formmaschine, das ein Werkstück um seine Achse dreht, um verschiedene Operationen wie Schneiden, Schleifen, Bohren oder Verformung durchzuführen."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000819
@@ -6079,7 +6086,7 @@ pmd:PMD_0000820 rdf:type owl:Class ;
                 obo:IAO_0000119 "https://en.wikipedia.org/wiki/Load_cell"@en ;
                 rdfs:label "Kraftmessdose"@de ,
                            "load cell"@en ;
-                skos:definition "A load cell converts a force such as tension, compression, pressure, or torque into an electrical signal that can be measured and standardized. It is a force transducer. As the force applied to the load cell increases, the electrical signal changes proportionally. The most common types of load cell are pneumatic, hydraulic, and strain gauges."@en .
+                skos:definition "A device that converts mechanical force into a measurable signal by sensing the physical deformation of a structural element."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000821
@@ -6232,7 +6239,7 @@ A manufacturing process is always a transformative process."""@en ,
 pmd:PMD_0000834 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000502 ;
                 rdfs:label "map"@en ;
-                skos:definition "A map is a 2-D information content entity describing a representation of spatial data or relationships, often used in material science for visualizing properties or distributions."@en ;
+                skos:definition "A map is a 2D information content entity describing a representation of spatial data or relationships, often used in material science for visualizing properties or distributions."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -6391,7 +6398,7 @@ pmd:PMD_0000857 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000001 ;
                 rdfs:comment "The focus of interest when looking at an object through the microstructure perspective is often its morphology."@en ;
                 rdfs:label "microstructure"@en ;
-                skos:definition "The microstructure represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope."@en ;
+                skos:definition "A microstructure is a portion of matter that represents the small-scale structure of a material, including grains, phases, and defects, visible under a microscope."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -6411,15 +6418,15 @@ pmd:PMD_0000859 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000648 ;
                 rdfs:label "Fräsmaschine"@de ,
                            "milling machine"@en ;
-                skos:definition "A milling machine is a device that performs machining operations to remove material from a workpiece using rotary cutters."@en ,
-                                "Eine Fräsmaschine ist ein Gerät, das Bearbeitungsoperationen durchführt, um Material von einem Werkstück mithilfe von Fräsern zu entfernen."@de .
+                skos:definition "A milling machine is a forming machine that performs machining operations to remove material from a workpiece using rotary cutters."@en ,
+                                "Eine Fräsmaschine ist eine Formmaschine, das Bearbeitungsoperationen durchführt, um Material von einem Werkstück mithilfe von Fräsern zu entfernen."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000861
 pmd:PMD_0000861 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000924 ;
-                rdfs:label "mohs hardness"@en ;
-                skos:definition "Mohs hardness is a scalar (scale) used to rank materials based on their ability to scratch one another."@en ;
+                rdfs:label "Mohs hardness"@en ;
+                skos:definition "Scalar scratch hardness scale used to rank materials based on their ability to scratch one another."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -6515,7 +6522,7 @@ pmd:PMD_0000876 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000966 ;
                 rdfs:label "Optisches Profilometer"@de ,
                            "optical profilometer"@en ;
-                skos:definition "An optical profilometer is a device that measures surface profiles and roughness by analyzing the interference patterns of light reflected from a specimen's surface."@en ,
+                skos:definition "An optical profilometer is a surface profilometer that measures surface profiles and roughness by analyzing the interference patterns of light reflected from a specimen's surface."@en ,
                                 "Ein optisches Profilometer ist ein Gerät, das Oberflächenprofile und Rauheit misst, indem es die Interferenzmuster von Licht analysiert, das von der Oberfläche eines Präparats reflektiert wird."@de .
 
 
@@ -6566,7 +6573,7 @@ pmd:PMD_0000883 rdf:type owl:Class ;
 pmd:PMD_0000884 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000931 ;
                 rdfs:label "physical simulation"@en ;
-                skos:definition "A simulating approach describing the use of computational or experimental methods to replicate physical behaviors or processes under defined conditions."@en ;
+                skos:definition "A simulation method specification describing the use of computational or experimental methods to replicate physical behaviors or processes under defined conditions."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -6627,7 +6634,7 @@ pmd:PMD_0000889 rdf:type owl:Class ;
 pmd:PMD_0000890 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000027 ;
                 rdfs:label "connected material entity aggregate"@en ;
-                skos:definition "A material entity aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity."@en ;
+                skos:definition "An object aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity."@en ;
                 skos:example "the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -6636,7 +6643,7 @@ pmd:PMD_0000890 rdf:type owl:Class ;
 pmd:PMD_0000891 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000027 ;
                 rdfs:label "disconnected material entity aggregate"@en ;
-                skos:definition "A material entity aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group."@en ;
+                skos:definition "An object aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group."@en ;
                 skos:example "a heap of stones, a colony of honeybees, a group of synapses, the trees of a forest, the canopy of a forest, the fish of a shoal, a group of commuters on the subway, the patients in a hospital"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -6645,7 +6652,7 @@ pmd:PMD_0000891 rdf:type owl:Class ;
 pmd:PMD_0000893 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000891 ;
                 rdfs:label "powder"@en ;
-                skos:definition "A powder is a dry, solid disconnected material entity aggragate composed of many very fine particles. These particles can flow freely when shaken or tilted."@en ;
+                skos:definition "A powder is a dry, solid disconnected material entity aggregate composed of many very fine particles. These particles can flow freely when shaken or tilted."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -6685,8 +6692,8 @@ pmd:PMD_0000898 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000847 ;
                 rdfs:label "Druckmessfunktion"@de ,
                            "pressure measuring function"@en ;
-                skos:definition "A subfunction of measuring performed to determine the pressure of gases or liquids."@en ,
-                                "Eine Unterfunktion des Messens, die durchgeführt wird, um den Druck von Gasen oder Flüssigkeiten zu bestimmen."@de ;
+                skos:definition "A measuring function performed to determine the pressure of gases or liquids."@en ,
+                                "Eine Messfunktion, um den Druck von Gasen oder Flüssigkeiten zu bestimmen."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -7000,7 +7007,7 @@ pmd:PMD_0000932 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000582 ;
                 rdfs:label "Simulationsknoten"@de ,
                            "simulation device"@en ;
-                skos:definition "A processing node that implements foo as well as consumes and creates simulation objects and parameters."@en .
+                skos:definition "A computing device that implements foo as well as consumes and creates simulation objects and parameters."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000933
@@ -7037,7 +7044,8 @@ pmd:PMD_0000936 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000602 ;
                 rdfs:label "Schlitten"@de ,
                            "slide"@en ;
-                skos:definition "A moving piece that is guided by a part along its path, providing the mount for objects."@en .
+                skos:definition "A moving device that is guided by a part along its path, providing the mount for objects."@en ,
+                                "Eine bewegliche Vorrichtung (Gerät), die von einem Teil entlang ihrer Bahn geführt wird und die Halterung für Objekte bildet."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000937
@@ -7054,7 +7062,7 @@ pmd:PMD_0000939 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000812 ;
                 rdfs:label "Lötfunktion"@de ,
                            "soldering function"@en ;
-                skos:definition "A subfunction of joining performed to connect materials using soldering techniques."@en ,
+                skos:definition "A soldering function is a joining function that is realized in connecting materials using solder."@en ,
                                 "Eine Unterfunktion des Verbindens, die durchgeführt wird, um Materialien durch Löttechniken zu verbinden."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -7134,7 +7142,7 @@ pmd:PMD_0000949 rdf:type owl:Class ;
                                 ] ;
                 owl:disjointWith pmd:PMD_0000952 ;
                 rdfs:label "stiffness"@en ;
-                skos:definition "The stiffness is a mechanical property describing the resistance of a material to deformation under an applied force."@en ;
+                skos:definition "The stiffness is a material property describing the resistance of a material to deformation under an applied force."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -7184,7 +7192,7 @@ pmd:PMD_0000950 rdf:type owl:Class ;
 pmd:PMD_0000951 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000931 ;
                 rdfs:label "stochastic simulation"@en ;
-                skos:definition "A simulation approach that incorporates random variables to model probabilistic systems or processes."@en ;
+                skos:definition "A simulation method specification that incorporates random variables to model probabilistic systems or processes."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -7192,7 +7200,7 @@ pmd:PMD_0000951 rdf:type owl:Class ;
 pmd:PMD_0000952 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000848 ;
                 rdfs:label "strength"@en ;
-                skos:definition "The strength is a mechanical property describing the maximum stress a material can withstand before failure."@en ;
+                skos:definition "The strength is a material property describing the maximum stress a material can withstand before failure."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -7251,7 +7259,7 @@ pmd:PMD_0000959 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000603 ;
                 rdfs:label "Einstellungsgegenstandsrolle"@de ,
                            "subject of adjustment role"@en ;
-                skos:definition "Role of a device that is being adjusted. The role is realized in an adjustment process."@en ,
+                skos:definition "A device role that is being adjusted. The role is realized in an adjustment process."@en ,
                                 "Rolle eines Gerätes (Einstellungsgegenstand), das eingestellt wird. Die Rolle wird ein einem Einstellungsprozess realisiert."@de .
 
 
@@ -7260,7 +7268,7 @@ pmd:PMD_0000960 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000603 ;
                 rdfs:label "Kalibrierungsgegenstandsrolle"@de ,
                            "subject of calibration role"@en ;
-                skos:definition "Role of a device that is being calibrated. The role is realized in a calibration process."@en ,
+                skos:definition "A device role that is being calibrated. The role is realized in a calibration process."@en ,
                                 "Rolle eines Gerätes (Kalibrierungsgegenstand), das kalibriert wird. Die Rolle wird ein einem Kalibrierungsprozess realisiert."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -7288,8 +7296,8 @@ pmd:PMD_0000963 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000557 ;
                 rdfs:label "supercritical fluid chromatography system"@en ,
                            "Überkritisches Fluid-Chromatographiesystem"@de ;
-                skos:definition "A device used for separating and analyzing compounds using supercritical fluids as the mobile phase in chromatography."@en ,
-                                "Ein Gerät zur Trennung und Analyse von Verbindungen unter Verwendung von überkritischen Flüssigkeiten als mobile Phase in der Chromatographie."@de .
+                skos:definition "A chromatography system for separating and analyzing compounds using supercritical fluids as the mobile phase in chromatography."@en ,
+                                "Ein Chromatographiesystem zur Trennung und Analyse von Verbindungen unter Verwendung überkritischer Flüssigkeiten als mobile Phase in der Chromatographie."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000964
@@ -7352,7 +7360,7 @@ pmd:PMD_0000969 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000034 ;
                 rdfs:label "Temperaturänderungsfunktion"@de ,
                            "temperature change function"@en ;
-                skos:definition "A subfunction of heat treatment performed to induce changes in temperature to alter material properties."@en ,
+                skos:definition "A function in heat treatment performed to induce changes in temperature to alter material properties."@en ,
                                 "Eine Unterfunktion der Wärmebehandlung, die durchgeführt wird, um Temperaturänderungen hervorzurufen, um die Materialeigenschaften zu verändern."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -7362,8 +7370,8 @@ pmd:PMD_0000971 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000847 ;
                 rdfs:label "Temperaturmessfunktion"@de ,
                            "temperature measuring function"@en ;
-                skos:definition "A subfunction of measuring performed to determine the temperature of an object or environment."@en ,
-                                "Eine Unterfunktion des Messens, die durchgeführt wird, um die Temperatur eines Objekts oder einer Umgebung zu bestimmen."@de ;
+                skos:definition "A measuring function performed to determine the temperature of an object or environment."@en ,
+                                "Eine Messefunktion, die durchgeführt wird, um die Temperatur eines Objekts oder einer Umgebung zu bestimmen."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -7381,7 +7389,7 @@ pmd:PMD_0000973 rdf:type owl:Class ;
                 rdfs:label "Zugprüfmaschine"@de ,
                            "tensile testing machine"@en ;
                 skos:definition "A device used to test the tensile strength and elongation of materials by applying a stretching force."@en ,
-                                "Ein Gerät zur Prüfung der Zugfestigkeit und Dehnung von Materialien durch Anwendung einer Dehnkraft."@en .
+                                "Ein Gerät zur Prüfung der Zugfestigkeit und Dehnung von Materialien durch Anwendung einer Dehnkraft."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000974
@@ -7456,7 +7464,7 @@ pmd:PMD_0000980 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000847 ;
                 rdfs:label "Wärmeleitfähigkeitsmessfunktion"@de ,
                            "thermal conductivity measuring function"@en ;
-                skos:definition "A function that inheres in devices used to measure the thermal conductivity of materials."@en ,
+                skos:definition "A measuring function that inheres in devices used to measure the thermal conductivity of materials."@en ,
                                 "Eine Funktion, die in Geräten besteht, die zur Messung der Wärmeleitfähigkeit von Materialien verwendet werden."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -7522,7 +7530,7 @@ pmd:PMD_0000987 rdf:type owl:Class ;
                                 pmd:PMD_0000982 ;
                 rdfs:label "Thermomechanische Analyse-Verfahren"@de ,
                            "thermomechanical analysis process"@en ;
-                skos:definition "A thermoanalytical process that measures the dimensional changes of a material as a function of temperature, determining its coefficient of thermal expansion."@en ,
+                skos:definition "A thermomechanical property analyzing process that measures the dimensional changes of a material as a function of temperature, determining its coefficient of thermal expansion."@en ,
                                 "Ein Thermoanalytisches Verfahren, das die Maßänderungen eines Materials als Funktion der Temperatur misst und seinen thermischen Ausdehnungskoeffizienten bestimmt."@de ;
                 skos:example "Thermomechanical analysis of a polymer to ensure it maintains dimensional stability under varying temperature conditions."@en ;
                 pmd:PMD_0050117 "TMA"@en .
@@ -7553,8 +7561,8 @@ pmd:PMD_0000990 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000557 ;
                 rdfs:label "Dünnschichtchromatographiesystem"@de ,
                            "thin layer chromatography system"@en ;
-                skos:definition "A device used for separating compounds in a sample using a thin layer of adsorbent material on a plate."@en ,
-                                "Ein Gerät zur Trennung von Verbindungen in einer Probe unter Verwendung einer dünnen Schicht adsorbierenden Materials auf einer Platte."@de .
+                skos:definition "A chromatography system used for separating compounds in a sample using a thin layer of adsorbent material on a plate."@en ,
+                                "Ein Chromatographiesystem zur Trennung von Verbindungen in einer Probe unter Verwendung einer dünnen Schicht adsorbierenden Materials auf einer Platte."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000991
@@ -7678,7 +7686,7 @@ pmd:PMD_0001007 rdf:type owl:Class ;
 pmd:PMD_0001008 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000802 ;
                 rdfs:label "absorption of wave radiation"@en ;
-                skos:definition "process of taking up elctromagnetic radiation by a material entity"@en .
+                skos:definition "An absorption of radiation process regarding the absorption of electromagnetic radiation by a material entity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0001009
@@ -7714,7 +7722,7 @@ pmd:PMD_0001013 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000812 ;
                 rdfs:label "Schweißfunktion"@de ,
                            "welding function"@en ;
-                skos:definition "A subfunction of joining performed to fuse materials together using welding techniques."@en ,
+                skos:definition "A welding function is a joining function that is realized in fusing materials by welding."@en ,
                                 "Eine Unterfunktion des Verbindens, die durchgeführt wird, um Materialien durch Schweißtechniken zu verbinden."@de ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -8113,7 +8121,7 @@ pmd:PMD_0010020 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only rhodium atoms."@en ;
                 rdfs:label "portion of rhodium"@en ;
-                skos:definition "A 'Portion Of Rhodium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:rhodium atom."@en .
+                skos:definition "A 'portion of rhodium' is a 'portion of pure chemical element' that 'consists of' only chebi:rhodium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0010021
@@ -8129,14 +8137,14 @@ pmd:PMD_0010021 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only tellurium atoms."@en ;
                 rdfs:label "portion of tellurium"@en ;
-                skos:definition "A 'Portion Of Tellurium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:tellurium atom."@en .
+                skos:definition "A 'portion of tellurium' is a 'portion of pure chemical element' that 'consists of' only chebi:tellurium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0010022
 pmd:PMD_0010022 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000005 ;
                 rdfs:label "containing magnetic species" ;
-                skos:definition "A disposition that inheres in a material entity in virtue of the presence of one or more magnetic species (e.g. ferromagnetic, paramagnetic, or diamagnetic particles or atoms), and that manifests under appropriate conditions as the ability of that material entity to exhibit a magnetic response or influence in a magnetic field."@en .
+                skos:definition "A material property that inheres in a material entity in virtue of the presence of one or more magnetic species (e.g. ferromagnetic, paramagnetic, or diamagnetic particles or atoms), and that manifests under appropriate conditions as the ability of that material entity to exhibit a magnetic response or influence in a magnetic field."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0010023
@@ -8173,7 +8181,7 @@ pmd:PMD_0010026 rdf:type owl:Class ;
 pmd:PMD_0010027 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0025001 ;
                 rdfs:label "inorganic composition"@en ;
-                skos:definition "material composed of chemical elements other than those defining organic compounds, typically characterized by ionic or metallic bonding and the absence of a carbon-hydrogen ($C-H$) framework"@en .
+                skos:definition "Inorganic is a disposition of a material composed of chemical elements other than those defining organic compounds, typically characterized by ionic or metallic bonding and the absence of a carbon-hydrogen ($C-H$) framework"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0010029
@@ -8382,7 +8390,7 @@ pmd:PMD_0011034 rdf:type owl:Class ;
 pmd:PMD_0020000 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000040 ;
                 rdfs:label "phase (thermodynamic)"@en ;
-                skos:definition "A thermodynamic phase is portion of matter that is part of a thermodynamic system and has homogeneus thermodynamic properties."@en ;
+                skos:definition "A thermodynamic phase is a material entity that forms a homogeneous portion of matter within a thermodynamic system and is characterized by uniform thermodynamic properties."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8443,7 +8451,7 @@ To understand the difference between the composition and the composition data it
 pmd:PMD_0020005 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020131 ;
                 rdfs:label "porosity"@en ;
-                skos:definition "The porosity is a quality describing the fraction of the materials (enclosing) spatial region occupied by pores."@en ;
+                skos:definition "The porosity is an intensive quality describing the fraction of the materials (enclosing) spatial region occupied by pores."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -8470,7 +8478,7 @@ pmd:PMD_0020022 rdf:type owl:Class ;
                                 ] ;
                 rdfs:comment "Corrosion is typically of interest when the change of the material affects the objects ability to fulfill its function."@en ;
                 rdfs:label "corrosion"@en ;
-                skos:definition "corrosion is a slow chemical or electrochemical degradation of a material entity due to its interaction with the surrounding environment."@en .
+                skos:definition "Corrosion is a process in which a material entity undergoes chemical or electrochemical degradation due to interaction with its environment."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020023
@@ -8521,7 +8529,7 @@ pmd:PMD_0020026 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only Iron atoms."@en ;
                 rdfs:label "portion of iron"@en ;
-                skos:definition "A 'Portion Of Iron' is a 'Poriton Of Pure Substance' that 'consists of' only chebi:iron atom."@en .
+                skos:definition "A 'portion of iron' is a 'Poriton Of Pure Substance' that 'consists of' only chebi:iron atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020028
@@ -8537,7 +8545,7 @@ pmd:PMD_0020028 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only indium atoms."@en ;
                 rdfs:label "portion of indium"@en ;
-                skos:definition "A 'Portion Of Indium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:indium atom."@en .
+                skos:definition "A 'portion of indium' is a 'portion of pure chemical element' that 'consists of' only chebi:indium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020029
@@ -8553,7 +8561,7 @@ pmd:PMD_0020029 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only chromium atoms."@en ;
                 rdfs:label "portion of chromium"@en ;
-                skos:definition "A 'Portion Of Chromium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:chromium atom."@en .
+                skos:definition "A 'portion of chromium' is a 'portion of pure chemical element' that 'consists of' only chebi:chromium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020030
@@ -8569,7 +8577,7 @@ pmd:PMD_0020030 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only carbon atoms."@en ;
                 rdfs:label "portion of carbon"@en ;
-                skos:definition "A 'Portion Of Carbon' is a 'Portion Of Pure Substance' that 'consists of' only chebi:carbon atom."@en .
+                skos:definition "A 'portion of carbon' is a 'portion of pure chemical element' that 'consists of' only chebi:carbon atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020031
@@ -8585,7 +8593,7 @@ pmd:PMD_0020031 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only germanium atoms."@en ;
                 rdfs:label "portion of germanium"@en ;
-                skos:definition "A 'Portion Of Germanium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:germanium atom."@en .
+                skos:definition "A 'portion of germanium' is a 'portion of pure chemical element' that 'consists of' only chebi:germanium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020032
@@ -8601,7 +8609,7 @@ pmd:PMD_0020032 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only tungsten atoms."@en ;
                 rdfs:label "portion of tungsten"@en ;
-                skos:definition "A 'Portion Of Tungsten' is a 'Portion Of Pure Substance' that 'consists of' only chebi:tungsten."@en .
+                skos:definition "A 'portion of tungsten' is a 'portion of pure chemical element' that 'consists of' only chebi:tungsten."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020033
@@ -8617,7 +8625,7 @@ pmd:PMD_0020033 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only erbium atoms."@en ;
                 rdfs:label "portion of erbium"@en ;
-                skos:definition "A 'Portion Of Erbium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:erbium."@en .
+                skos:definition "A 'portion of erbium' is a 'portion of pure chemical element' that 'consists of' only chebi:erbium."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020034
@@ -8633,7 +8641,7 @@ pmd:PMD_0020034 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only molybdenum atoms."@en ;
                 rdfs:label "portion of molybdenum"@en ;
-                skos:definition "A 'Portion Of Molybdenum' is a 'Portion Of Pure Substance' that 'consists of' only chebi:molybdenum atom."@en .
+                skos:definition "A 'portion of molybdenum' is a 'portion of pure chemical element' that 'consists of' only chebi:molybdenum atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020035
@@ -8649,7 +8657,7 @@ pmd:PMD_0020035 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only niobium atoms."@en ;
                 rdfs:label "portion of niobium"@en ;
-                skos:definition "A 'Portion Of Niobium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:niobium atom."@en .
+                skos:definition "A 'portion of niobium' is a 'portion of pure chemical element' that 'consists of' only chebi:niobium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020036
@@ -8665,7 +8673,7 @@ pmd:PMD_0020036 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only rhenium atoms."@en ;
                 rdfs:label "portion of rhenium"@en ;
-                skos:definition "A 'Portion Of Rhenium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:rhenium atom."@en .
+                skos:definition "A 'portion of rhenium' is a 'portion of pure chemical element' that 'consists of' only chebi:rhenium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020037
@@ -8681,7 +8689,7 @@ pmd:PMD_0020037 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only lithium atoms."@en ;
                 rdfs:label "portion of lithium"@en ;
-                skos:definition "A 'Portion Of Lithium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:lithium atom."@en .
+                skos:definition "A 'portion of lithium' is a 'portion of pure chemical element' that 'consists of' only chebi:lithium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020038
@@ -8697,7 +8705,7 @@ pmd:PMD_0020038 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only nitrogen atoms."@en ;
                 rdfs:label "portion of nitrogen"@en ;
-                skos:definition "A 'Portion Of Nitrogen' is a 'Portion Of Pure Substance' that 'consists of' only chebi:nitrogen atom."@en .
+                skos:definition "A 'portion of nitrogen' is a 'portion of pure chemical element' that 'consists of' only chebi:nitrogen atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020039
@@ -8713,7 +8721,7 @@ pmd:PMD_0020039 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only cobalt atoms."@en ;
                 rdfs:label "portion of cobalt"@en ;
-                skos:definition "A 'Portion Of Cobalt' is a 'Portion Of Pure Substance' that 'consists of' only chebi:cobalt atom."@en .
+                skos:definition "A 'portion of cobalt' is a 'portion of pure chemical element' that 'consists of' only chebi:cobalt atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020040
@@ -8729,7 +8737,7 @@ pmd:PMD_0020040 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only gold atoms."@en ;
                 rdfs:label "portion of gold"@en ;
-                skos:definition "A 'Portion Of Gold' is a 'Portion Of Pure Substance' that 'consists of' only chebi:gold atom."@en .
+                skos:definition "A 'portion of gold' is a 'portion of pure chemical element' that 'consists of' only chebi:gold atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020041
@@ -8745,7 +8753,7 @@ pmd:PMD_0020041 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only argon atoms."@en ;
                 rdfs:label "portion of argon"@en ;
-                skos:definition "A 'Portion Of Argon' is a 'Portion Of Pure Substance' that 'consists of' only chebi:argon atom."@en .
+                skos:definition "A 'portion of argon' is a 'portion of pure chemical element' that 'consists of' only chebi:argon atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020042
@@ -8761,7 +8769,7 @@ pmd:PMD_0020042 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only cadmium atoms."@en ;
                 rdfs:label "portion of cadmium"@en ;
-                skos:definition "A 'Portion Of Cadmium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:cadmium atom."@en .
+                skos:definition "A 'portion of cadmium' is a 'portion of pure chemical element' that 'consists of' only chebi:cadmium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020043
@@ -8777,7 +8785,7 @@ pmd:PMD_0020043 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only barium atoms."@en ;
                 rdfs:label "portion of barium"@en ;
-                skos:definition "A 'Portion Of Barium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:barium atom."@en .
+                skos:definition "A 'portion of barium' is a 'portion of pure chemical element' that 'consists of' only chebi:barium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020044
@@ -8793,7 +8801,7 @@ pmd:PMD_0020044 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only tantalum atoms."@en ;
                 rdfs:label "portion of tantalum"@en ;
-                skos:definition "A 'Portion Of Tantalum' is a 'Portion Of Pure Substance' that 'consists of' only chebi:tantalum atom."@en .
+                skos:definition "A 'portion of tantalum' is a 'portion of pure chemical element' that 'consists of' only chebi:tantalum atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020045
@@ -8809,7 +8817,7 @@ pmd:PMD_0020045 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only antimony atoms."@en ;
                 rdfs:label "portion of antimony"@en ;
-                skos:definition "A 'Portion Of Antimony' is a 'Portion Of Pure Substance' that 'consists of' only chebi:antimony atom."@en .
+                skos:definition "A 'portion of antimony' is a 'portion of pure chemical element' that 'consists of' only chebi:antimony atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020046
@@ -8825,7 +8833,7 @@ pmd:PMD_0020046 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only potassium atoms."@en ;
                 rdfs:label "portion of potassium"@en ;
-                skos:definition "A 'Portion Of Potassium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:potassium atom."@en .
+                skos:definition "A 'portion of potassium' is a 'portion of pure chemical element' that 'consists of' only chebi:potassium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020047
@@ -8841,7 +8849,7 @@ pmd:PMD_0020047 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only phosphorus atoms."@en ;
                 rdfs:label "portion of phosphorus"@en ;
-                skos:definition "A 'Portion Of Phosphorus' is a 'Portion Of Pure Substance' that 'consists of' only chebi:phosphorus atom."@en .
+                skos:definition "A 'portion of phosphorus' is a 'portion of pure chemical element' that 'consists of' only chebi:phosphorus atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020048
@@ -8857,7 +8865,7 @@ pmd:PMD_0020048 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only boron atoms."@en ;
                 rdfs:label "portion of boron"@en ;
-                skos:definition "A 'Portion Of Boron' is a 'Portion Of Pure Substance' that 'consists of' only chebi:boron atom."@en .
+                skos:definition "A 'portion of boron' is a 'portion of pure chemical element' that 'consists of' only chebi:boron atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020049
@@ -8873,7 +8881,7 @@ pmd:PMD_0020049 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only helium atoms."@en ;
                 rdfs:label "portion of helium"@en ;
-                skos:definition "A 'Portion Of Helium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:helium atom."@en .
+                skos:definition "A 'portion of helium' is a 'portion of pure chemical element' that 'consists of' only chebi:helium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020050
@@ -8897,7 +8905,7 @@ pmd:PMD_0020050 rdf:type owl:Class ;
                                 ] ;
                 rdfs:comment "A Portion Of Matter that consists of only silicon atoms."@en ;
                 rdfs:label "portion of silicon"@en ;
-                skos:definition "A 'Portion Of Silicon' is a 'Portion Of Pure Substance' that 'consists of' only chebi:silicon atom."@en .
+                skos:definition "A 'portion of silicon' is a 'portion of pure chemical element' that 'consists of' only chebi:silicon atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020051
@@ -8913,7 +8921,7 @@ pmd:PMD_0020051 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only nickel atoms."@en ;
                 rdfs:label "portion of nickel"@en ;
-                skos:definition "A 'Portion Of Nickel' is a 'Portion Of Pure Substance' that 'consists of' only chebi:nickel atom."@en .
+                skos:definition "A 'portion of nickel' is a 'portion of pure chemical element' that 'consists of' only chebi:nickel atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020052
@@ -8929,7 +8937,7 @@ pmd:PMD_0020052 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only yttrium atoms."@en ;
                 rdfs:label "portion of yttrium"@en ;
-                skos:definition "A 'Portion Of Yttrium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:yttrium atom."@en .
+                skos:definition "A 'portion of yttrium' is a 'portion of pure chemical element' that 'consists of' only chebi:yttrium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020053
@@ -8945,7 +8953,7 @@ pmd:PMD_0020053 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only zirconium atoms."@en ;
                 rdfs:label "portion of zirconium"@en ;
-                skos:definition "A 'Portion Of Zirconium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:zirconium atom."@en .
+                skos:definition "A 'portion of zirconium' is a 'portion of pure chemical element' that 'consists of' only chebi:zirconium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020054
@@ -8961,7 +8969,7 @@ pmd:PMD_0020054 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only copper atoms."@en ;
                 rdfs:label "portion of copper"@en ;
-                skos:definition "A 'Portion Of Copper' is a 'Portion Of Pure Substance' that 'consists of' only chebi:copper atom."@en .
+                skos:definition "A 'portion of copper' is a 'portion of pure chemical element' that 'consists of' only chebi:copper atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020055
@@ -8977,7 +8985,7 @@ pmd:PMD_0020055 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only bohrium atoms."@en ;
                 rdfs:label "portion of bohrium"@en ;
-                skos:definition "A 'Portion Of Bohrium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:bohrium atom."@en .
+                skos:definition "A 'portion of bohrium' is a 'portion of pure chemical element' that 'consists of' only chebi:bohrium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020056
@@ -8993,7 +9001,7 @@ pmd:PMD_0020056 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only fluorine atoms."@en ;
                 rdfs:label "portion of fluorine"@en ;
-                skos:definition "A 'Portion Of Fluorine' is a 'Portion Of Pure Substance' that 'consists of' only chebi:fluorine atom."@en .
+                skos:definition "A 'portion of fluorine' is a 'portion of pure chemical element' that 'consists of' only chebi:fluorine atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020057
@@ -9009,7 +9017,7 @@ pmd:PMD_0020057 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only platinum atoms."@en ;
                 rdfs:label "portion of platinum"@en ;
-                skos:definition "A 'Portion Of Platinum' is a 'Portion Of Pure Substance' that 'consists of' only chebi:platinum."@en .
+                skos:definition "A 'portion of platinum' is a 'portion of pure chemical element' that 'consists of' only chebi:platinum."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020058
@@ -9025,7 +9033,7 @@ pmd:PMD_0020058 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only cerium atoms."@en ;
                 rdfs:label "portion of cerium"@en ;
-                skos:definition "A 'Portion Of Cerium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:cerium."@en .
+                skos:definition "A 'portion of cerium' is a 'portion of pure chemical element' that 'consists of' only chebi:cerium."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020059
@@ -9041,7 +9049,7 @@ pmd:PMD_0020059 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only sulfur atoms."@en ;
                 rdfs:label "portion of sulfur"@en ;
-                skos:definition "A 'Portion Of Sulfur' is a 'Portion Of Pure Substance' that 'consists of' only chebi:sulfur atom."@en .
+                skos:definition "A 'portion of sulfur' is a 'portion of pure chemical element' that 'consists of' only chebi:sulfur atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020060
@@ -9057,7 +9065,7 @@ pmd:PMD_0020060 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only lead atoms."@en ;
                 rdfs:label "portion of lead"@en ;
-                skos:definition "A 'Portion Of Lead' is a 'Portion Of Pure Substance' that 'consists of' only chebi:lead atom."@en .
+                skos:definition "A 'portion of lead' is a 'portion of pure chemical element' that 'consists of' only chebi:lead atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020061
@@ -9073,7 +9081,7 @@ pmd:PMD_0020061 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only krypton atoms."@en ;
                 rdfs:label "portion of krypton"@en ;
-                skos:definition "A 'Portion Of Krypton' is a 'Portion Of Pure Substance' that 'consists of' only chebi:krypton atom."@en .
+                skos:definition "A 'portion of krypton' is a 'portion of pure chemical element' that 'consists of' only chebi:krypton atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020062
@@ -9089,7 +9097,7 @@ pmd:PMD_0020062 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only bismuth atoms."@en ;
                 rdfs:label "portion of bismuth"@en ;
-                skos:definition "A 'Portion Of Bismuth' is a 'Portion Of Pure Substance' that 'consists of' only chebi:bismuth atom."@en .
+                skos:definition "A 'portion of bismuth' is a 'portion of pure chemical element' that 'consists of' only chebi:bismuth atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020063
@@ -9105,7 +9113,7 @@ pmd:PMD_0020063 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only neon atoms."@en ;
                 rdfs:label "portion of neon"@en ;
-                skos:definition "A 'Portion Of Neon' is a 'Portion Of Pure Substance' that 'consists of' only chebi:neon atom."@en .
+                skos:definition "A 'portion of neon' is a 'portion of pure chemical element' that 'consists of' only chebi:neon atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020064
@@ -9121,7 +9129,7 @@ pmd:PMD_0020064 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only thallium atoms."@en ;
                 rdfs:label "portion of thallium"@en ;
-                skos:definition "A 'Portion Of Thallium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:thallium."@en .
+                skos:definition "A 'portion of thallium' is a 'portion of pure chemical element' that 'consists of' only chebi:thallium."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020065
@@ -9137,7 +9145,7 @@ pmd:PMD_0020065 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only selenium atoms."@en ;
                 rdfs:label "portion of selenium"@en ;
-                skos:definition "A 'Portion Of Selenium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:selenium atom."@en .
+                skos:definition "A 'portion of selenium' is a 'portion of pure chemical element' that 'consists of' only chebi:selenium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020066
@@ -9153,7 +9161,7 @@ pmd:PMD_0020066 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only ruthenium atoms."@en ;
                 rdfs:label "portion of ruthenium"@en ;
-                skos:definition "A 'Portion Of Ruthenium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:ruthenium atom."@en .
+                skos:definition "A 'portion of ruthenium' is a 'portion of pure chemical element' that 'consists of' only chebi:ruthenium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020067
@@ -9169,7 +9177,7 @@ pmd:PMD_0020067 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only magnesium atoms."@en ;
                 rdfs:label "portion of magnesium"@en ;
-                skos:definition "A 'Portion Of Magnesium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:magnesium atom."@en .
+                skos:definition "A 'portion of magnesium' is a 'portion of pure chemical element' that 'consists of' only chebi:magnesium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020068
@@ -9185,7 +9193,7 @@ pmd:PMD_0020068 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only zinc atoms."@en ;
                 rdfs:label "portion of zinc"@en ;
-                skos:definition "A 'Portion Of Zinc' is a 'Portion Of Pure Substance' that 'consists of' only chebi:zinc atom."@en .
+                skos:definition "A 'portion of zinc' is a 'portion of pure chemical element' that 'consists of' only chebi:zinc atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020069
@@ -9201,7 +9209,7 @@ pmd:PMD_0020069 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only mercury atoms."@en ;
                 rdfs:label "portion of mercury"@en ;
-                skos:definition "A 'Portion Of Mercury' is a 'Portion Of Pure Substance' that 'consists of' only chebi:mercury atom."@en .
+                skos:definition "A 'portion of mercury' is a 'portion of pure chemical element' that 'consists of' only chebi:mercury atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020070
@@ -9217,7 +9225,7 @@ pmd:PMD_0020070 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only xenon atoms."@en ;
                 rdfs:label "portion of xenon"@en ;
-                skos:definition "A 'Portion Of Xenon' is a 'Portion Of Pure Substance' that 'consists of' only chebi:xenon atom."@en .
+                skos:definition "A 'portion of xenon' is a 'portion of pure chemical element' that 'consists of' only chebi:xenon atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020071
@@ -9233,7 +9241,7 @@ pmd:PMD_0020071 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only aluminium atoms."@en ;
                 rdfs:label "portion of aluminium"@en ;
-                skos:definition "A 'Portion Of Aluminium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:aluminium atom."@en .
+                skos:definition "A 'portion of aluminium' is a 'portion of pure chemical element' that 'consists of' only chebi:aluminium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020072
@@ -9249,7 +9257,7 @@ pmd:PMD_0020072 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only sodium atoms."@en ;
                 rdfs:label "portion of sodium"@en ;
-                skos:definition "A 'Portion Of Sodium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:sodium atom."@en .
+                skos:definition "A 'portion of sodium' is a 'portion of pure chemical element' that 'consists of' only chebi:sodium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020073
@@ -9265,7 +9273,7 @@ pmd:PMD_0020073 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only iodine atoms."@en ;
                 rdfs:label "portion of iodine"@en ;
-                skos:definition "A 'Portion Of Iodine' is a 'Portion Of Pure Substance' that 'consists of' only chebi:iodine atom."@en .
+                skos:definition "A 'portion of iodine' is a 'portion of pure chemical element' that 'consists of' only chebi:iodine atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020074
@@ -9281,7 +9289,7 @@ pmd:PMD_0020074 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only caesium atoms."@en ;
                 rdfs:label "portion of caesium"@en ;
-                skos:definition "A 'Portion Of Caesium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:caesium atom."@en .
+                skos:definition "A 'portion of caesium' is a 'portion of pure chemical element' that 'consists of' only chebi:caesium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020075
@@ -9297,7 +9305,7 @@ pmd:PMD_0020075 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only chlorine atoms."@en ;
                 rdfs:label "portion of chlorine"@en ;
-                skos:definition "A 'Portion Of Chlorine' is a 'Portion Of Pure Substance' that 'consists of' only chebi:chlorine atom."@en .
+                skos:definition "A 'portion of chlorine' is a 'portion of pure chemical element' that 'consists of' only chebi:chlorine atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020076
@@ -9313,7 +9321,7 @@ pmd:PMD_0020076 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only silver atoms."@en ;
                 rdfs:label "portion of silver"@en ;
-                skos:definition "A 'Portion Of Silver' is a 'Portion Of Pure Substance' that 'consists of' only chebi:silver atom."@en .
+                skos:definition "A 'portion of silver' is a 'portion of pure chemical element' that 'consists of' only chebi:silver atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020077
@@ -9329,7 +9337,7 @@ pmd:PMD_0020077 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only samarium atoms."@en ;
                 rdfs:label "portion of samarium"@en ;
-                skos:definition "A 'Portion Of Samarium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:samarium atom."@en .
+                skos:definition "A 'portion of samarium' is a 'portion of pure chemical element' that 'consists of' only chebi:samarium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020078
@@ -9345,7 +9353,7 @@ pmd:PMD_0020078 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only manganese atoms."@en ;
                 rdfs:label "portion of manganese"@en ;
-                skos:definition "A 'Portion Of Manganese' is a 'Portion Of Pure Substance' that 'consists of' only chebi:manganese atom."@en .
+                skos:definition "A 'portion of manganese' is a 'portion of pure chemical element' that 'consists of' only chebi:manganese atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020079
@@ -9361,7 +9369,7 @@ pmd:PMD_0020079 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only arsenic atoms."@en ;
                 rdfs:label "portion of arsenic"@en ;
-                skos:definition "A 'Portion Of Arsenic' is a 'Portion Of Pure Substance' that 'consists of' only chebi:arsenic atom."@en .
+                skos:definition "A 'portion of arsenic' is a 'portion of pure chemical element' that 'consists of' only chebi:arsenic atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020080
@@ -9377,7 +9385,7 @@ pmd:PMD_0020080 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only beryllium atoms."@en ;
                 rdfs:label "portion of beryllium"@en ;
-                skos:definition "A 'Portion Of Beryllium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:beryllium atom."@en .
+                skos:definition "A 'portion of beryllium' is a 'portion of pure chemical element' that 'consists of' only chebi:beryllium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020081
@@ -9393,7 +9401,7 @@ pmd:PMD_0020081 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only calcium atoms."@en ;
                 rdfs:label "portion of calcium"@en ;
-                skos:definition "A 'Portion Of Calcium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:calcium atom."@en .
+                skos:definition "A 'portion of calcium' is a 'portion of pure chemical element' that 'consists of' only chebi:calcium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020082
@@ -9409,7 +9417,7 @@ pmd:PMD_0020082 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only neodymium atoms."@en ;
                 rdfs:label "portion of neodymium"@en ;
-                skos:definition "A 'Portion Of Neodymium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:neodymium atom."@en .
+                skos:definition "A 'portion of neodymium' is a 'portion of pure chemical element' that 'consists of' only chebi:neodymium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020083
@@ -9425,7 +9433,7 @@ pmd:PMD_0020083 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only hydrogen atoms."@en ;
                 rdfs:label "portion of hydrogen"@en ;
-                skos:definition "A 'Portion Of Hydrogen' is a 'Portion Of Pure Substance' that 'consists of' only chebi:hydrogen atom."@en .
+                skos:definition "A 'portion of hydrogen' is a 'portion of pure chemical element' that 'consists of' only chebi:hydrogen atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020084
@@ -9441,7 +9449,7 @@ pmd:PMD_0020084 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only osmium atoms."@en ;
                 rdfs:label "portion of osmium"@en ;
-                skos:definition "A 'Portion Of Osmium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:osmium atom."@en .
+                skos:definition "A 'portion of osmium' is a 'portion of pure chemical element' that 'consists of' only chebi:osmium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020085
@@ -9457,7 +9465,7 @@ pmd:PMD_0020085 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only iridium atoms."@en ;
                 rdfs:label "portion of iridium"@en ;
-                skos:definition "A 'Portion Of Iridium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:iridium atom."@en .
+                skos:definition "A 'portion of iridium' is a 'portion of pure chemical element' that 'consists of' only chebi:iridium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020086
@@ -9473,7 +9481,7 @@ pmd:PMD_0020086 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only gallium atoms."@en ;
                 rdfs:label "portion of gallium"@en ;
-                skos:definition "A 'Portion Of Gallium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:gallium atom."@en .
+                skos:definition "A 'portion of gallium' is a 'portion of pure chemical element' that 'consists of' only chebi:gallium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020087
@@ -9489,7 +9497,7 @@ pmd:PMD_0020087 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only bromine atoms."@en ;
                 rdfs:label "portion of bromine"@en ;
-                skos:definition "A 'Portion Of Bromine' is a 'Portion Of Pure Substance' that 'consists of' only chebi:bromine atom."@en .
+                skos:definition "A 'portion of bromine' is a 'portion of pure chemical element' that 'consists of' only chebi:bromine atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020088
@@ -9505,7 +9513,7 @@ pmd:PMD_0020088 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only tin atoms."@en ;
                 rdfs:label "portion of tin"@en ;
-                skos:definition "A 'Portion Of Tin' is a 'Portion Of Pure Substance' that 'consists of' only chebi:tin atom."@en .
+                skos:definition "A 'portion of tin' is a 'portion of pure chemical element' that 'consists of' only chebi:tin atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020089
@@ -9521,7 +9529,7 @@ pmd:PMD_0020089 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only hafnium atoms."@en ;
                 rdfs:label "portion of hafnium"@en ;
-                skos:definition "A 'Portion Of Hafnium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:hafnium atom."@en .
+                skos:definition "A 'portion of hafnium' is a 'portion of pure chemical element' that 'consists of' only chebi:hafnium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020090
@@ -9537,7 +9545,7 @@ pmd:PMD_0020090 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only uranium atoms."@en ;
                 rdfs:label "portion of uranium"@en ;
-                skos:definition "A 'Portion Of Uranium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:uranium atom."@en .
+                skos:definition "A 'portion of uranium' is a 'portion of pure chemical element' that 'consists of' only chebi:uranium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020091
@@ -9553,7 +9561,7 @@ pmd:PMD_0020091 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only oxygen atoms."@en ;
                 rdfs:label "portion of oxygen"@en ;
-                skos:definition "A 'Portion Of Oxygen' is a 'Portion Of Pure Substance' that 'consists of' only chebi:oxygen atom."@en .
+                skos:definition "A 'portion of oxygen' is a 'portion of pure chemical element' that 'consists of' only chebi:oxygen atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020092
@@ -9569,7 +9577,7 @@ pmd:PMD_0020092 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only palladium atoms."@en ;
                 rdfs:label "portion of palladium"@en ;
-                skos:definition "A 'Portion Of Palladium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:palladium."@en .
+                skos:definition "A 'portion of palladium' is a 'portion of pure chemical element' that 'consists of' only chebi:palladium."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020093
@@ -9585,7 +9593,7 @@ pmd:PMD_0020093 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only vanadium atoms."@en ;
                 rdfs:label "portion of vanadium"@en ;
-                skos:definition "A 'Portion Of Vanadium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:vanadium atom."@en .
+                skos:definition "A 'portion of vanadium' is a 'portion of pure chemical element' that 'consists of' only chebi:vanadium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020094
@@ -9601,7 +9609,7 @@ pmd:PMD_0020094 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only scandium atoms."@en ;
                 rdfs:label "portion of scandium"@en ;
-                skos:definition "A 'Portion Of Scandium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:scandium atom."@en .
+                skos:definition "A 'portion of scandium' is a 'portion of pure chemical element' that 'consists of' only chebi:scandium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020095
@@ -9617,7 +9625,7 @@ pmd:PMD_0020095 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020140 ;
                 rdfs:comment "A Portion Of Matter that consists of only titanium atoms."@en ;
                 rdfs:label "portion of titanium"@en ;
-                skos:definition "A 'Portion Of Titanium' is a 'Portion Of Pure Substance' that 'consists of' only chebi:titanium atom."@en .
+                skos:definition "A 'portion of titanium' is a 'portion of pure chemical element' that 'consists of' only chebi:titanium atom."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020096
@@ -9731,7 +9739,7 @@ pmd:PMD_0020106 rdf:type owl:Class ;
                                 ] ;
                 rdfs:label "polycrystal"@en ;
                 skos:altLabel "Polycrystalline structure"@en ;
-                skos:definition "Polycrystal is a connected object aggregate that has continuant part some crystal grains"@en ;
+                skos:definition "A polycrystal is a connected material entity aggregate that consists of multiple crystal grains joined through crystallographic interfaces."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -9791,12 +9799,13 @@ pmd:PMD_0020116 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0020126
 pmd:PMD_0020126 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000890 ;
-                rdfs:label "foam"@en ;
-                skos:definition """A foam is a material entity aggregate that is also a composite material c. 
+                obo:IAO_0000119 """old defintion: A foam is a material entity aggregate that is also a composite material c. 
 The parts of c that have the filler role are vacuum-filled or gas filled pores. 
 The parts of c that have the matrix role consist of a material that is bearer of solid or liquid aggregate state. 
 One pore with its surrounding matrix is called 'cell'. 
-Depending on the interconnectedness of the pores the foam is open- or closed-cell."""@en ;
+Depending on the interconnectedness of the pores the foam is open- or closed-cell.""" ;
+                rdfs:label "foam"@en ;
+                skos:definition "A foam is a connected material entity aggregate that consists of a solid or liquid matrix containing gas-filled or vacuum-filled pores forming cellular structures."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -9820,7 +9829,7 @@ pmd:PMD_0020129 rdf:type owl:Class ;
 pmd:PMD_0020130 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000145 ;
                 rdfs:label "driving force of phase in system"@en ;
-                skos:definition "Driving force is relational property between two material entities, the species and the material (system). The driving force is a factor that promotes a physical process or (eletro-)chemical reaction in a material (system) to occur and proceed towards completion. It can be quantified as the gradient of the activity of the participating species."@en ;
+                skos:definition "Driving force of phase in a system is a relational quality that inheres between two material entities, the species and the material (system). The driving force is a factor that promotes a physical process or (eletro-)chemical reaction in a material (system) to occur and proceed towards completion. It can be quantified as the gradient of the activity of the participating species."@en ;
                 skos:example "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -10104,8 +10113,10 @@ Martensite is a microconstituent that has as part the thermodynamic ferrite phas
 ###  https://w3id.org/pmd/co/PMD_0020161
 pmd:PMD_0020161 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000145 ;
+                obo:IAO_0000119 """old defintion: 
+Activity (a_X) is a relational property between a chemical species X and a non-ideal solution. a_X is a measure of the effective concentration of a chemical species X in the non-ideal solution, accounting for interactions between particles. It is defined as the product of the concentration and an activity coefficient, where the activity coefficient corrects for non-ideal behavior.""" ;
                 rdfs:label "activity (thermodynamic)"@en ;
-                skos:definition "Activity (a_X) is a relational property between a chemical species X and a non-ideal solution. a_X is a measure of the effective concentration of a chemical species X in the non-ideal solution, accounting for interactions between particles. It is defined as the product of the concentration and an activity coefficient, where the activity coefficient corrects for non-ideal behavior."@en .
+                skos:definition "Thermodynamic activity is a relational quality that inheres between a chemical species and a non-ideal solution and represents the effective concentration of the species accounting for particle interactions."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020162
@@ -10351,7 +10362,7 @@ pmd:PMD_0020189 rdf:type owl:Class ;
 pmd:PMD_0020190 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000965 ;
                 rdfs:label "metallographic section (surface)"@en ;
-                skos:definition "A metallographic section is part of an object which at the same time is a metal and the object is specified output of a planned process which describes the preparation of the surface."@en .
+                skos:definition "A surface layer (fiat object part) of an object which at the same time is a metal and the object is specified output of a planned process which describes the preparation of the surface."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020191
@@ -10402,28 +10413,29 @@ pmd:PMD_0020196 rdf:type owl:Class ;
 pmd:PMD_0020197 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000147 ;
                 rdfs:label "lattice point"@en ;
-                skos:definition "a site in a crystal where an entity resides in the regular arrangement"@en .
+                skos:definition "A lattice point is a fiat point that represents a position in a crystal lattice at which structural entities are regularly arranged."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020198
 pmd:PMD_0020198 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000029 ;
                 rdfs:label "interstitial site"@en ;
-                skos:definition "a stie between regular lattice points of a crystal"@en .
+                skos:definition "An interstitial site is a site that is located between regular lattice points in a crystal structure."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020199
 pmd:PMD_0020199 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000146 ;
                 rdfs:label "slip plane"@en ;
-                skos:definition "a crystallographic plane of a 3D crystal along which dislocations can glide"@en .
+                skos:definition "A slip plane is a fiat surface that corresponds to a crystallographic plane of a 3D crystal along which dislocations can glide"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020200
 pmd:PMD_0020200 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000017 ;
+                obo:IAO_0000119 "Old definition: Force is a reciprocal relation realized between two objects where the other object exerts the same force with opposite sign onto the first. Force may be responsible for changes in velocity and/or deformation of objects." ;
                 rdfs:label "force"@en ;
-                skos:definition "Force is a reciprocal relation realized between two objects where the other object exerts the same force with opposite sign onto the first. Force may be responsible for changes in velocity and/or deformation of objects."@en ;
+                skos:definition "A force is a realizable entity that consists of a reciprocal interaction between two objects and is realized as equal and opposite influences capable of changing motion or causing deformation."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -10438,7 +10450,7 @@ pmd:PMD_0020201 rdf:type owl:Class ;
 pmd:PMD_0020202 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000029 ;
                 rdfs:label "crack"@en ;
-                skos:definition "A crack is a physical separation of a material entity at the level of (atomic) Bonds."@en ;
+                skos:definition "A crack is a site that consists of a physical separation within a material entity occurring at the level of atomic bonds."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -10446,7 +10458,7 @@ pmd:PMD_0020202 rdf:type owl:Class ;
 pmd:PMD_0020203 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000029 ;
                 rdfs:label "notch"@en ;
-                skos:definition "A notch is a geometric feature of the 'surface layer' of an object that introduces a strong change in shape or cross section."@en ;
+                skos:definition "A notch is a site that consists of a geometric surface feature of an object characterized by a strong local change in shape or cross-section."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -10454,7 +10466,7 @@ pmd:PMD_0020203 rdf:type owl:Class ;
 pmd:PMD_0020204 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000029 ;
                 rdfs:label "pore"@en ;
-                skos:definition "A pore is a cavity in the 'bulk' of an object"@en ;
+                skos:definition "A pore is a site that consists of a cavity located within the bulk of a material entity."@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
 
@@ -10471,7 +10483,7 @@ pmd:PMD_0020205 rdf:type owl:Class ;
 pmd:PMD_0020206 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000028 ;
                 rdfs:label "unit cell (3D crystal)"@en ;
-                skos:definition "the smallest three dimensional region in a crystal that, when translated through space, reproduces the crystal lattice"@en .
+                skos:definition "A unit cell (3D crystal) is a three-dimensional spatial region that represents the smallest repeating region whose spatial translation reproduces a crystal lattice."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020207
@@ -10485,7 +10497,7 @@ pmd:PMD_0020207 rdf:type owl:Class ;
 pmd:PMD_0020208 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000142 ;
                 rdfs:label "slip direction"@en ;
-                skos:definition "the crystallographic direction along which dislocations glide on a slip plane"@en .
+                skos:definition "A slip direction is a fiat line that corresponds to the crystallographic direction along which dislocations glide os a slip plane."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020209
@@ -10556,7 +10568,7 @@ pmd:PMD_0020213 rdf:type owl:Class ;
                                               ]
                                 ] ;
                 rdfs:label "grain boundary"@en ;
-                skos:definition "fiat surface that separates on grain (crystallite) from another"@en ,
+                skos:definition "A grain boundary is a fiat surface that separates adjacent grains in a polycrystalline material and is characterized by structural discontinuity."@en ,
                                 "the part of a grain that is close to the grain boundary and possibly characterized by disorder is a fiat object part (grain surface layer)"@en .
 
 
@@ -10564,7 +10576,7 @@ pmd:PMD_0020213 rdf:type owl:Class ;
 pmd:PMD_0020214 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 rdfs:label "diffraction"@en ;
-                skos:definition "interference of waves scattered by a material’s periodic features that produces characteristic patterns"@en .
+                skos:definition "Diffraction is a process in which waves interfere as a result of being scattered by periodic features of a material, producing characteristic patterns."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020215
@@ -10573,7 +10585,7 @@ pmd:PMD_0020215 rdf:type owl:Class ;
                 rdfs:comment """may propagate through a medium or vacuum
 characterized by frequency, wavelength, and speed"""@en ;
                 rdfs:label "wave"@en ;
-                skos:definition "propagating disturbance that transports energy and momentum"@en .
+                skos:definition "A wave is a process in which a disturbance propagates through a medium while transporting energy and momentum."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020216
@@ -10685,7 +10697,7 @@ pmd:PMD_0020226 rdf:type owl:Class ;
                                   owl:someValuesFrom pmd:PMD_0020246
                                 ] ;
                 rdfs:label "flow"@en ;
-                skos:definition "amount of transported entites per time"@en .
+                skos:definition "Flow is a process attribute that specifies the quantity of transported entities per unit time."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020227
@@ -11006,7 +11018,7 @@ pmd:PMD_0020245 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000015 ;
                 obo:IAO_0000116 "the moved entity is passive, locomotion would be the active counterpart"@en ;
                 rdfs:label "transport"@en ;
-                skos:definition "an entity being moved within or accross another entity"@en .
+                skos:definition "A transport is a process in which an entity is moved within or across another entity."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020246
@@ -11019,10 +11031,10 @@ pmd:PMD_0020246 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0020247
 pmd:PMD_0020247 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000790 ;
+                rdfs:subClassOf pmd:PMD_0000877 ;
                 rdfs:comment "dispersion in optical glass is a refraction dependent on wavelength"@en ;
                 rdfs:label "dispersion"@en ;
-                skos:definition "Material property describing the wavelength dependent phase velocity." .
+                skos:definition "Optical property describing the wavelength dependent phase velocity." .
 
 
 ###  https://w3id.org/pmd/co/PMD_0020248
@@ -11159,7 +11171,7 @@ pmd:PMD_0025004 rdf:type owl:Class ;
 pmd:PMD_0025005 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000027 ;
                 rdfs:label "3D"@en ;
-                skos:definition "A three-dimensional information content entity is a representation or analysis, commonly applied in studying material properties in its volume or describing a dependency of one variable on two other variables."@en ;
+                skos:definition "A three-dimensional data item is a representation or analysis, commonly applied in studying material properties in its volume or describing a dependency of one variable on two other variables."@en ;
                 skos:example "Orientation distribution function (ODF), potential energy landscape"@en .
 
 
@@ -11176,8 +11188,9 @@ pmd:PMD_0025008 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000624 ;
                 rdfs:label "Transmissionselektronenmikroskop"@de ,
                            "transmission electron microscope"@en ;
-                skos:definition "A transmission electron microscope (SEM) is a measuring device that produces high-resolution images of a sample's internal structure by transmitting electrons through the sample."@en ,
-                                "Ein Transmissionselektronenmikroskop (TEM) ist ein Messgerät, das hochauflösende Bilder der inneren Struktur einer Probe erzeugt, indem es Elektronen durch die Probe strahlt."@de .
+                skos:definition "An electron microscope that produces high-resolution images of a sample's internal structure by transmitting electrons through the sample."@en ,
+                                "Ein Elektronenmikroskop, das hochauflösende Bilder der inneren Struktur einer Probe erzeugt, indem es Elektronen durch die Probe strahlt."@de ;
+                pmd:PMD_0050117 "TEM" .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025009
@@ -11316,7 +11329,7 @@ pmd:PMD_0025019 rdf:type owl:Class ;
 pmd:PMD_0025020 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0000849 ;
                 rdfs:label "single fatigue testing process"@en ;
-                skos:definition "A single fatigue testing process is a occurent part of a fatigue testing process (S-N testing process). A single fatigue testing process assesses how many cycles a material can withstand under the given loading."@en .
+                skos:definition "Mechanical property analyzing process that is an occurent part of a fatigue testing process (S-N testing process). A single fatigue testing process assesses how many cycles a material can withstand under the given loading."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025021
@@ -11325,8 +11338,8 @@ pmd:PMD_0025021 rdf:type owl:Class ;
                 obo:IAO_0000119 "https://en.wikipedia.org/wiki/Stamping_press" ;
                 rdfs:label "Stanzmachine"@de ,
                            "stamping press"@en ;
-                skos:definition "Eine Stanzmachine ist ein Werkzeug zur Metallbearbeitung, das dazu dient, geschnittenes Metall durch Verformung mit einer Matrize zu formen."@de ,
-                                "Stamping press is a metalworking tool which is used to shape a cut metal by deforming it with a die."@en .
+                skos:definition "Eine Stanzmachine ist ein Werkzeug/Gerät zur Metallbearbeitung, das dazu dient, geschnittenes Metall durch Verformung mit einer Matrize zu formen."@de ,
+                                "Stamping press is a metalworking device which is used to shape a cut metal by deforming it with a die."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025997
@@ -13014,7 +13027,7 @@ pmd:PMD_0050155 rdf:type owl:Class ;
                 rdfs:label "Form"@de ,
                            "shape"@en ;
                 skos:definition "Das sichtbare Ausstattungsmerkmal (räumliche Form oder Kontur) eines bestimmten Objektes oder einer Art von Objekt."@de ,
-                                "The visible makeup characteristic (spatial form or contour) of a particular item or kind of item.a"@en .
+                                "Extemsive quality, the visible makeup characteristic (spatial form or contour) of a particular item or kind of item."@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0050156
@@ -13064,9 +13077,9 @@ pmd:PMD_0060008 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0060009
 pmd:PMD_0060009 rdf:type owl:Class ;
                 rdfs:subClassOf obo:IAO_0000033 ;
-                rdfs:comment "The intend of the specification datum is to express the \"Sollwert\" of some qualitiy or behavioral material property. Then, the specification datum can be further specified by  some value specification."@en ;
+                rdfs:comment "The intent of the specification datum is to express the \"Sollwert\" of some qualitiy or behavioral material property. Then, the specification datum can be further specified by  some value specification."@en ;
                 rdfs:label "specification datum"@en ;
-                skos:definition "Specification datum is a data item that provides an information of a setpoint of some value, i.e., it is an intended value."@en ;
+                skos:definition "A directive information entity that provides information of a setpoint of some value, i.e., it is an intended value."@en ;
                 skos:example "The setpoint value of a ultimate tensile strength of some steel material"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
@@ -13292,18 +13305,20 @@ pmd:PMD_0200000 rdf:type owl:Class ;
                 rdfs:label "Pressformen"@de ,
                            "compression molding"@en ;
                 skos:altLabel "compression moulding"@en ;
-                skos:definition "A primary shaping process in which a pre-measured, usually preheated molding compound is placed in an open, heated mold cavity and shaped by closing the mold and applying pressure until the material cures or solidifies to the final part geometry."@en ,
+                skos:definition "A primary shaping from the plastic state process in which a pre-measured, usually preheated molding compound is placed in an open, heated mold cavity and shaped by closing the mold and applying pressure until the material cures or solidifies to the final part geometry."@en ,
                                 "Ein Urformverfahren, bei dem eine dosierte, meist vorgewärmte Formmasse in eine offene, beheizte Formkavität eingelegt und durch Schließen des Werkzeugs unter Druck zur endgültigen Bauteilgeometrie ausgehärtet bzw. erstarrt wird."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0200001
 pmd:PMD_0200001 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000016 ;
-                obo:IAO_0000119 "European Commission: Directorate-General for Research and Innovation, Biodegradability of plastics in the open environment, Publications Office of the European Union, 2021, https://data.europa.eu/doi/10.2777/690248" ;
+                obo:IAO_0000119 """orginal: \"[biodegradability] [...] is understood as the microbial conversion of all its organic constituents to carbon dioxide (or carbon dioxide and methane in conditions where oxygen is not present), new microbial biomass and mineral salts, within a timescale short enough not to lead to lasting harm or accumulation in the open environment.\"
+
+European Commission: Directorate-General for Research and Innovation, Biodegradability of plastics in the open environment, Publications Office of the European Union, 2021, https://data.europa.eu/doi/10.2777/690248""" ;
                 rdfs:label "Biologische Abbaubarkeit"@de ,
                            "biodegradability"@en ;
                 skos:definition "\"[Biologische Abbaubarkeit] [...] beschreibt die mikrobielle Umwandlung all seiner organischen Bestandteile in Kohlendioxid oder – unter sauerstofffreien Bedingungen – in Kohlendioxid und Methan, neue mikrobielle Biomasse und Mineralsalze verstanden, und zwar innerhalb eines Zeitraums, der so kurz ist, dass es nicht zu dauerhaften Schäden oder Anreicherungen in der offenen Umwelt kommt.\""@de ,
-                                "\"[biodegradability] [...] is understood as the microbial conversion of all its organic constituents to carbon dioxide (or carbon dioxide and methane in conditions where oxygen is not present), new microbial biomass and mineral salts, within a timescale short enough not to lead to lasting harm or accumulation in the open environment.\""@en ,
+                                "Biodegradability is a disposition that is realized when microorganisms convert the organic constituents of a material into carbon dioxide (and optionally methane), biomass, and mineral salts within an environmentally non-harmful timescale."@en ,
                                 "biodegradability is a disposition of a material which specifies its capability to be fully microbially converted into inorganic end products (CO₂, CH₄, mineral salts, biomass) within an environmentally non-harmful timescale."@en ;
                 pmd:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/126" .
 
@@ -13316,7 +13331,7 @@ pmd:PMD_0200002 rdf:type owl:Class ;
                 rdfs:label "Spritzgießen"@de ,
                            "injection molding"@en ;
                 skos:altLabel "injection moulding; plastic injection molding"@en ;
-                skos:definition "A primary shaping process in which plastic granules are plasticised in an injection unit and the melt is injected under high pressure into a closed mold cavity, where it cools and solidifies to the final part shape."@en ,
+                skos:definition "A primary shaping from the plastic state process in which plastic granules are plasticised in an injection unit and the melt is injected under high pressure into a closed mold cavity, where it cools and solidifies to the final part shape."@en ,
                                 "Urformverfahren, bei dem Kunststoffgranulat in einem Plastifizieraggregat aufgeschmolzen und die Schmelze mit hohem Druck in einen geschlossenen Formhohlraum eingespritzt wird, wo sie verdichtet, abkühlt und zum Formteil erstarrt."@de ;
                 skos:example "Injection molding of polypropylene housings."@en .
 
@@ -13329,7 +13344,7 @@ pmd:PMD_0200003 rdf:type owl:Class ;
                 rdfs:label "Spritzpressen"@de ,
                            "injection-compression molding"@en ;
                 skos:altLabel "injection–compression moulding; transfer molding (Spritzpressen)"@en ;
-                skos:definition "A hybrid primary shaping process that combines injection and compression: a pre-plasticised charge or melt is injected into a closed or partially open mold and then compressed by further mold closure or a plunger so that the material completely fills the cavity and cures or solidifies under heat and pressure."@en ,
+                skos:definition "A hybrid primary shaping from the plastic state process that combines injection and compression: a pre-plasticised charge or melt is injected into a closed or partially open mold and then compressed by further mold closure or a plunger so that the material completely fills the cavity and cures or solidifies under heat and pressure."@en ,
                                 "Urformverfahren, bei dem eine vorplastifizierte Formmasse aus einer beheizten Vorkammer bzw. einem Plastifizieraggregat in ein (teil-)geschlossenes Werkzeug eingespritzt und anschließend durch Schließen des Werkzeugs bzw. Nachdrücken verpresst wird, bis der Werkstoff unter Wärme und Druck aushärtet."@de ;
                 skos:example "Injection-compression molding of epoxy-encapsulated electronic components."@en .
 
@@ -13341,7 +13356,7 @@ pmd:PMD_0200004 rdf:type owl:Class ;
                            "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.4 "@de ;
                 rdfs:label "extrusion"@en ,
                            "strangpressen (extrudieren)"@de ;
-                skos:definition "A primary shaping process in which a plastically deformable material, typically a polymer melt, is continuously forced by pressure through a shaping die to produce an endless strand with constant cross-section, which solidifies by cooling or curing."@en ,
+                skos:definition "A primary shaping from the plastic state process in which a plastically deformable material, typically a polymer melt, is continuously forced by pressure through a shaping die to produce an endless strand with constant cross-section, which solidifies by cooling or curing."@en ,
                                 "Ein Urformverfahren, bei dem ein plastifizierter Werkstoff, meist eine Polymerschmelze, kontinuierlich unter Druck durch eine formgebende Düse gepresst wird und dabei einen Strang mit konstantem Querschnitt bildet, der durch Abkühlen oder Aushärten verfestigt wird."@de ;
                 skos:example "Extrusion of PVC window profiles; extrusion of plastic films or pipes from polyethylene melt."@en .
 
@@ -13353,7 +13368,7 @@ pmd:PMD_0200005 rdf:type owl:Class ;
                            "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.5 "@de ;
                 rdfs:label "Ziehformen"@de ,
                            "drawing forming"@en ;
-                skos:definition "A primary shaping process in which a plastically deformable mass (for example fibre-reinforced resin or glass/plastic strands) is pulled through one or more shaping tools or dies so that the cross-section and surface are formed by tensile forces, while the material solidifies or cures to produce continuous profiles. It is conceptually related to pultrusion / profile drawing."@en ,
+                skos:definition "A primary shaping from the plastic state process in which a plastically deformable mass (for example fibre-reinforced resin or glass/plastic strands) is pulled through one or more shaping tools or dies so that the cross-section and surface are formed by tensile forces, while the material solidifies or cures to produce continuous profiles. It is conceptually related to pultrusion / profile drawing."@en ,
                                 "Ein Urformverfahren, bei dem eine plastisch verformbare Masse (z. B. faserverstärkte Harzsysteme oder glasige/kunststoffhaltige Stränge) durch Zugkräfte durch formgebende Düsen oder Werkzeuge gezogen wird, sodass Querschnitt und Oberfläche ausgebildet und der Werkstoff dabei verfestigt bzw. ausgehärtet wird. Das Verfahren ist verwandt mit dem Strangzieh- bzw. Pultrusionsverfahren."@de ;
                 skos:example "Pultrusion of glass-fibre-reinforced polymer profiles; drawing of continuous fibre-reinforced rods through a heated die."@en .
 
@@ -13365,7 +13380,7 @@ pmd:PMD_0200006 rdf:type owl:Class ;
                            "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.6 "@de ;
                 rdfs:label "Kalandrieren"@de ,
                            "calendering"@en ;
-                skos:definition "A primary shaping process in which a viscous polymer melt or plastic mass is passed through the narrow gaps between several counter-rotating, polished rolls so that it is compressed and rolled out into sheet or film of defined thickness and surface quality, then cooled to solidify."@en ,
+                skos:definition "A primary shaping from the plastic state process in which a viscous polymer melt or plastic mass is passed through the narrow gaps between several counter-rotating, polished rolls so that it is compressed and rolled out into sheet or film of defined thickness and surface quality, then cooled to solidify."@en ,
                                 "Ein Urformverfahren, bei dem eine zähflüssige Polymerschmelze oder plastische Masse durch enge Spalte zwischen mehreren gegenläufig rotierenden, polierten Walzen geführt wird, wodurch sie verdichtet und zu Platten oder Folien definierter Dicke und Oberflächenqualität ausgewalzt und anschließend verfestigt wird."@de ;
                 skos:example "Calendering of plasticised PVC into rigid or flexible sheets and films; calendering of ABS sheet for thermoforming."@en .
 
@@ -13377,7 +13392,7 @@ pmd:PMD_0200007 rdf:type owl:Class ;
                            "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.7 "@de ;
                 rdfs:label "Blasformen"@de ,
                            "blow molding"@en ;
-                skos:definition "A primary shaping process in which a tube or preform of molten or plasticised material is enclosed in a mold and expanded by internal gas pressure so that it conforms to the mold cavity, producing hollow bodies which then solidify."@en ,
+                skos:definition "A primary shaping from the plastic state process in which a tube or preform of molten or plasticised material is enclosed in a mold and expanded by internal gas pressure so that it conforms to the mold cavity, producing hollow bodies which then solidify."@en ,
                                 "Ein Urformverfahren, bei dem ein Schlauch oder ein Vorformling aus geschmolzenem bzw. plastifizierten Werkstoff in ein Werkzeug eingelegt und durch inneren Gasdruck an die Formwand aufgeblasen wird, sodass ein Hohlkörper entsteht, der anschließend verfestigt wird."@de ;
                 skos:example "Extrusion blow molding of HDPE bottles; stretch-blow molding of PET beverage containers; blow molding of fuel tanks for automotive applications."@en .
 
@@ -13389,7 +13404,7 @@ pmd:PMD_0200008 rdf:type owl:Class ;
                            "Offizielle Definition findet man in: DIN 8580, Gruppe 1.2.8 "@de ;
                 rdfs:label "Modellieren"@de ,
                            "modelling"@en ;
-                skos:definition "A primary shaping process in which a manually workable plastic mass (such as clay, wax, plastiline or gypsum paste) is shaped directly by hand and simple tools into a final or intermediate geometry and subsequently hardened, dried or fired to obtain a solid body."@en ,
+                skos:definition "A primary shaping from the plastic state process in which a manually workable plastic mass (such as clay, wax, plastiline or gypsum paste) is shaped directly by hand and simple tools into a final or intermediate geometry and subsequently hardened, dried or fired to obtain a solid body."@en ,
                                 "Ein Urformverfahren, bei dem eine mit Hand und einfachen Werkzeugen formbare plastische Masse (z. B. Ton, Wachs, Plastilin oder Gipspaste) direkt zur gewünschten Geometrie modelliert und anschließend durch Trocknen, Brennen oder Aushärten zu einem festen Körper verfestigt wird."@de ;
                 skos:example "Hand modelling of clay prior to firing (e.g. pottery, sculptures); modelling of wax or plasticine for casting patterns."@en .
 
