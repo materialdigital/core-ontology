@@ -11,32 +11,58 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: main
-        path: v3.0.0-rc2
+        path: v3.0.0
     - name: Build HTML for main
       run: |
            # generate widoco
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
            
            mkdir public
-           mkdir public/3.0.0-rc2
+           mkdir public/3.0.0
+           java -jar widoco.jar -ontFile v3.0.0/pmdco.owl -outFolder public/3.0.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.0.0/doc           
+           cp public/3.0.0/doc/index-en.html public/3.0.0/doc/index.html
+           cp public/3.0.0/doc/ontology.owl public/3.0.0/doc/ontology.rdf
+           # make it available also at "base" 
+           cp -r public/3.0.0/doc/* public  
+
+           # generate static docs 
+           pip install markdown2 rdflib pyyaml
+           python v3.0.0/docs/docs_HTML/scripts/run_all.py
+           ls 
+           ls v3.0.0
+           ls v3.0.0/docs/docs_HTML/HTML_Docs/
+    
+           mkdir public/docs
+           mkdir public/3.0.0/docs
+           cp -r v3.0.0/docs/docs_HTML/HTML_Docs/* public/docs/
+           cp -r v3.0.0/docs/docs_HTML/HTML_Docs/* public/3.0.0/docs/
+
+
+    - uses: actions/checkout@v3
+      with:
+        ref: main
+        path: v3.0.0-rc2
+    - name: Build HTML for main
+      run: |
+           # install D2
+           curl -fsSL https://d2lang.com/install.sh | sh -s --
+           pip install mkdocs-d2-plugin
+          
            java -jar widoco.jar -ontFile v3.0.0-rc2/pmdco.owl -outFolder public/3.0.0-rc2  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
            ls public/3.0.0-rc2/doc           
            cp public/3.0.0-rc2/doc/index-en.html public/3.0.0-rc2/doc/index.html
            cp public/3.0.0-rc2/doc/ontology.owl public/3.0.0-rc2/doc/ontology.rdf
-           # make it available also at "base" 
-           cp -r public/3.0.0-rc2/doc/* public  
 
-           # generate static docs 
-           pip install markdown2 rdflib pyyaml
-           python v3.0.0-rc2/docs/docs_HTML/scripts/run_all.py
-           ls 
-           ls v3.0.0-rc2
-           ls v3.0.0-rc2/docs/docs_HTML/HTML_Docs/
-    
-           mkdir public/docs
+           pip install mkdocs
+           cd v3.0.0-rc2
+           mkdocs build -f mkdocs.yaml
+
+           cd ..
            mkdir public/3.0.0-rc2/docs
-           cp -r v3.0.0-rc2/docs/docs_HTML/HTML_Docs/* public/docs/
-           cp -r v3.0.0-rc2/docs/docs_HTML/HTML_Docs/* public/3.0.0-rc2/docs/
+           cp -r v3.0.0-rc2/site/* public/3.0.0-rc2/docs/
+           cp -r public/3.0.0-rc2/doc/* public/3.0.0-rc2
+
 
     - uses: actions/checkout@v3
       with:
