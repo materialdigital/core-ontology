@@ -11,7 +11,7 @@ echo "working on: $1"
 mkdir -p tmp
 echo "merging pmdco"
 $ROBOT merge --catalog ../src/ontology/catalog-v001.xml --input ../src/ontology/pmdco-edit.owl --output tmp/merged-pmdco.ttl
-echo '<?xml version="1.0" encoding="UTF-8"?> <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public"> <uri name="https://w3id.org/pmd/co" uri="merged-pmdco.owl" /> </catalog>' > tmp/catalog-v001.xml
+echo '<?xml version="1.0" encoding="UTF-8"?> <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public"> <uri name="https://w3id.org/pmd/co" uri="merged-pmdco.ttl" /> </catalog>' > tmp/catalog-v001.xml
 echo "merging pmdco into data"
 $ROBOT --catalog tmp/catalog-v001.xml merge --input tmp/merged-pmdco.ttl --input "$1/shape-data.ttl" remove --select imports --output tmp/merged2.ttl 
 echo "reasoning"
