@@ -81,7 +81,8 @@ def literal_to_ofn(lit: Literal) -> str:
     """Serialize an rdflib Literal to OWL FS notation."""
     text = str(lit).replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
     if lit.language:
-        return f'"{text}"@{lit.language}'
+        lang = lit.language if lit.language != "en-US" else "en"
+        return f'"{text}"@{lang}'
     if lit.datatype and str(lit.datatype) != str(XSD.string):
         dtype = str(lit.datatype)
         if dtype == str(XSD.boolean):
