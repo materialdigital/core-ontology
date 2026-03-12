@@ -79,7 +79,7 @@ def iri_to_ofn(iri: str, prefixes: dict) -> str:
 
 def literal_to_ofn(lit: Literal) -> str:
     """Serialize an rdflib Literal to OWL FS notation."""
-    text = str(lit).replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+    text = str(lit).replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
     if lit.language:
         return f'"{text}"@{lit.language}'
     if lit.datatype and str(lit.datatype) != str(XSD.string):
