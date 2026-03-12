@@ -81,7 +81,7 @@ def literal_to_ofn(lit: Literal) -> str:
     """Serialize an rdflib Literal to OWL FS notation."""
     text = str(lit).replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
     if lit.language:
-        lang = lit.language if lit.language != "en-US" else "en"
+        lang = "en" if lit.language.lower() == "en-us" else lit.language
         return f'"{text}"@{lang}'
     if lit.datatype and str(lit.datatype) != str(XSD.string):
         dtype = str(lit.datatype)
@@ -278,7 +278,7 @@ def generate_class_block(
 
     # Label for comment header
     label_en = next(
-        (str(o) for o in graph.objects(iof_iri, RDFS.label) if getattr(o, "language", None) in ("en-US", "en", None)),
+        (str(o) for o in graph.objects(iof_iri, RDFS.label) if getattr(o, "language", None) in ("en-US", "en-us", "en", None)),
         str(iof_iri).rsplit("/", 1)[-1],
     )
 
@@ -394,9 +394,33 @@ def traverse(
     # Determine the PMD IRI for this IOF class                            #
     # ------------------------------------------------------------------ #
     if iof_str in existing_map:
-        # Maps to a pre-existing PMDco/BFO IRI — never re-emit, just reference
+        # Maps to a pre-existing PMDco/BFO IRI — emit SubClassOf + German annotations
         pmd_iri = existing_map[iof_str]
         print(f"  [EXISTS]  {iof_str} -> {pmd_iri}")
+        # Only wire PMDco terms (not BFO/RO placeholders)
+        if "pmd/co/PMD_" in pmd_iri and target_parent_iri:
+            pmd_ref = iri_to_ofn(pmd_iri, PREFIXES)
+            parent_ref = iri_to_ofn(target_parent_iri, PREFIXES)
+            label_en = next(
+                (str(o) for o in graph.objects(iof_iri, RDFS.label)
+                 if getattr(o, "language", None) in ("en-US", "en-us", "en", None)),
+                iof_str.rsplit("/", 1)[-1],
+            )
+            body_lines.append(f"# Class: {pmd_ref} ({label_en}) [EXISTS — re-parented]")
+            body_lines.append(f"# Adopted from IOF: <{iof_iri}>")
+            body_lines.append("")
+            # German label from IOF
+            for o in graph.objects(iof_iri, RDFS.label):
+                if getattr(o, "language", None) == "de":
+                    body_lines.append(f"AnnotationAssertion(rdfs:label {pmd_ref} {literal_to_ofn(o)})")
+            # German definition from IOF (IAO_0000115)
+            IAO_DEF = URIRef("http://purl.obolibrary.org/obo/IAO_0000115")
+            for o in graph.objects(iof_iri, IAO_DEF):
+                if getattr(o, "language", None) == "de":
+                    target_ref = PMDCO_PROP_IRIREF.get(str(IAO_DEF), f"<{IAO_DEF}>")
+                    body_lines.append(f"AnnotationAssertion({target_ref} {pmd_ref} {literal_to_ofn(o)})")
+            body_lines.append(f"SubClassOf({pmd_ref} {parent_ref})")
+            body_lines.append("")
 
     elif iof_str in new_map:
         # Previously assigned by an earlier run of this script
@@ -617,7 +641,7 @@ def main():
 
 def _label(iof_iri: URIRef, graph: Graph) -> str:
     """Best English label for a class, falling back to local name."""
-    for lang in ("en-US", "en", None):
+    for lang in ("en-US", "en-us", "en", None):
         for lit in graph.objects(iof_iri, RDFS.label):
             if lang is None or getattr(lit, "language", None) == lang:
                 return str(lit)
