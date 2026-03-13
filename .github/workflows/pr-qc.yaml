@@ -28,22 +28,24 @@ jobs:
           cd src/ontology/
           make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
 
-      # --- Merge + DL profile check ---
+      # --- Merge + DL profile check (reuse ODK's merged file) ---
       - name: Merge and validate OWL DL profile
         run: |
-          robot merge \
-            --catalog src/ontology/catalog-v001.xml \
-            --input src/ontology/pmdco-edit.owl \
-            --output merged.ttl
-          robot validate-profile --profile DL --input merged.ttl --output validation.txt \
-            || { cat validation.txt; exit 1; }
+          cd src/ontology
+          robot --catalog catalog-v001.xml \
+            validate-profile --profile DL \
+            --input tmp/merged-pmdco-edit.ofn \
+            --output ../../validation.txt \
+            || { cat ../../validation.txt; exit 1; }
 
       # --- Determine curation status via SPARQL, then auto-annotate ---
       - name: Query other violations for curation status
         run: |
-          robot query --input merged.ttl \
-            --query .github/workflow_resources/q_pmdco_other_violations.sparql \
-            other_violations.csv
+          cd src/ontology
+          robot --catalog catalog-v001.xml query \
+            --input tmp/merged-pmdco-edit.ofn \
+            --query ../../.github/workflow_resources/q_pmdco_other_violations.sparql \
+            ../../other_violations.csv
       - id: fix
         name: Add missing IAO_0000114 / IAO_0000117 to component files
         run: |
@@ -65,22 +67,27 @@ jobs:
       # --- Final check and report on patched ontology ---
       - name: Merge patched ontology
         run: |
-          robot merge \
-            --catalog src/ontology/catalog-v001.xml \
-            --input src/ontology/pmdco-edit.owl \
-            --output pmdco-merged.ttl
+          cd src/ontology
+          robot merge --catalog catalog-v001.xml \
+            --input pmdco-edit.owl \
+            --output ../../pmdco-merged.ttl
       - name: Check for blocking violations (robot verify)
         run: |
-          robot verify --input pmdco-merged.ttl \
-            --queries .github/workflow_resources/q_pmdco_blocking.sparql
+          cd src/ontology
+          robot --catalog catalog-v001.xml verify \
+            --input ../../pmdco-merged.ttl \
+            --queries ../../.github/workflow_resources/q_pmdco_blocking.sparql
       - name: Generate and render violations report
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          robot query --input pmdco-merged.ttl \
-            --query .github/workflow_resources/q_pmdco_blocking.sparql \
-            violations.csv
+          cd src/ontology
+          robot --catalog catalog-v001.xml query \
+            --input ../../pmdco-merged.ttl \
+            --query ../../.github/workflow_resources/q_pmdco_blocking.sparql \
+            ../../violations.csv
+          cd ../..
           python3 - <<'EOF'
           import csv, os, subprocess
 
