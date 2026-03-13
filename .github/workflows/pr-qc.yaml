@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
 
@@ -91,6 +92,63 @@ jobs:
             --query .github/workflow_resources/q_listValidationResults.sparql ValidationReport.csv
           robot query --input shacl_report.ttl \
             --query .github/workflow_resources/q_countValidationResults.sparql ValidationSummary.csv
+      - name: Render reports to job summary and PR comment
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'EOF'
+          import csv, os, subprocess, sys
+
+          def csv_to_md(path, fallback):
+              try:
+                  rows = list(csv.reader(open(path)))
+              except FileNotFoundError:
+                  return fallback
+              if len(rows) < 2:
+                  return "_No results._"
+              header = "| " + " | ".join(rows[0]) + " |\n"
+              sep    = "| " + " | ".join(["---"] * len(rows[0])) + " |\n"
+              body   = "".join("| " + " | ".join(r) + " |\n" for r in rows[1:])
+              return header + sep + body
+
+          summary_md = csv_to_md("ValidationSummary.csv", "_Summary not available._")
+          report_md  = csv_to_md("ValidationReport.csv",  "_Report not available._")
+
+          md = f"""## SHACL Validation Results
+
+          ### Summary
+          {summary_md}
+          <details><summary>Full violation list</summary>
+
+          {report_md}
+          </details>
+          """
+
+          # Write to Actions job summary
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write(md)
+
+          # Post as PR comment (update existing bot comment if present)
+          marker = "<!-- shacl-validation-report -->"
+          body = marker + "\n" + md
+          pr = os.environ.get("GITHUB_REF", "").replace("refs/pull/", "").replace("/merge", "")
+          if pr.isdigit():
+              repo = os.environ["GITHUB_REPOSITORY"]
+              # Find existing bot comment with marker
+              result = subprocess.run(
+                  ["gh", "api", f"repos/{repo}/issues/{pr}/comments", "--jq",
+                   f'[.[] | select(.body | startswith("{marker}")) | .id][0]'],
+                  capture_output=True, text=True
+              )
+              comment_id = result.stdout.strip()
+              if comment_id and comment_id != "null":
+                  subprocess.run(["gh", "api", f"repos/{repo}/issues/comments/{comment_id}",
+                                  "-X", "PATCH", "-f", f"body={body}"], check=True)
+              else:
+                  subprocess.run(["gh", "pr", "comment", pr, "--repo", repo,
+                                  "--body", body], check=True)
+          EOF
       - name: Archive validation reports
         if: always()
         uses: actions/upload-artifact@v4
