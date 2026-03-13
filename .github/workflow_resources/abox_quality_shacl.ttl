@@ -102,28 +102,46 @@ ex:SkosExamplePropertyShape a sh:PropertyShape ;
     sh:message "should have at least one skos:example"@en .
 
 ex:ClassConvention a rdfs:Class, sh:NodeShape ;
-	sh:targetClass owl:Class ;
-	sh:property ex:TermEditorPropertyShape ,
-				ex:CurationStatusPropertyShape ,
-				ex:EnglishRdfsLabelPropertyShape ,
-				ex:EnglishSkosDefinitionPropertyShape ,
-				ex:ClassRdfsLabelPropertyShape ,
-				ex:GermanRdfsLabelPropertyShape ,
-				ex:GermanSkosDefinitionPropertyShape ,
-				ex:UniqueLabelLanguagePropertyShape ,
-				ex:UniqueDefinitionLanguagePropertyShape ,
-				ex:SkosExamplePropertyShape ;
-	.
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this a owl:Class .
+                FILTER(STRSTARTS(STR(?this), "https://w3id.org/pmd/co/"))
+            }
+        """ ;
+    ] ;
+    sh:property ex:TermEditorPropertyShape ,
+                ex:CurationStatusPropertyShape ,
+                ex:EnglishRdfsLabelPropertyShape ,
+                ex:EnglishSkosDefinitionPropertyShape ,
+                ex:ClassRdfsLabelPropertyShape ,
+                ex:GermanRdfsLabelPropertyShape ,
+                ex:GermanSkosDefinitionPropertyShape ,
+                ex:UniqueLabelLanguagePropertyShape ,
+                ex:UniqueDefinitionLanguagePropertyShape ,
+                ex:SkosExamplePropertyShape ;
+    .
 
 ex:PropertyConvention a rdfs:Class, sh:NodeShape ;
-	sh:targetClass owl:AnnotationProperty , owl:ObjectProperty ;
-	sh:property ex:TermEditorPropertyShape ,
-				ex:CurationStatusPropertyShape ,
-				ex:EnglishRdfsLabelPropertyShape ,
-				ex:EnglishSkosDefinitionPropertyShape ,
-				ex:PropertyRdfsLabelPropertyShape ,
-				ex:GermanRdfsLabelPropertyShape ,
-				ex:GermanSkosDefinitionPropertyShape ,
-				ex:UniqueLabelLanguagePropertyShape ,
-				ex:UniqueDefinitionLanguagePropertyShape ;
-	.
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                { ?this a owl:ObjectProperty }
+                UNION
+                { ?this a owl:AnnotationProperty }
+                FILTER(STRSTARTS(STR(?this), "https://w3id.org/pmd/co/"))
+            }
+        """ ;
+    ] ;
+    sh:property ex:TermEditorPropertyShape ,
+                ex:CurationStatusPropertyShape ,
+                ex:EnglishRdfsLabelPropertyShape ,
+                ex:EnglishSkosDefinitionPropertyShape ,
+                ex:PropertyRdfsLabelPropertyShape ,
+                ex:GermanRdfsLabelPropertyShape ,
+                ex:GermanSkosDefinitionPropertyShape ,
+                ex:UniqueLabelLanguagePropertyShape ,
+                ex:UniqueDefinitionLanguagePropertyShape ;
+    .

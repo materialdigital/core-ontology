@@ -5,14 +5,66 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
+
+  auto-annotate:
+    name: Auto-fill missing IAO annotations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Python dependencies
+        run: pip install pyshacl rdflib
+      - name: Download ROBOT
+        run: curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
+      - name: Merge and reason
+        run: |
+          java -jar robot.jar merge \
+            --catalog src/ontology/catalog-v001.xml \
+            --input src/ontology/pmdco-edit.owl \
+            --output merged.ttl
+          java -jar robot.jar reason \
+            --reasoner elk \
+            --input merged.ttl \
+            --output reasoned.ttl
+      - name: Run initial SHACL pass
+        run: |
+          trap 'E=$?; test $E -eq 1 && exit 0 || exit $E' EXIT
+          python3 -m pyshacl \
+            -f turtle \
+            --advanced \
+            -s .github/workflow_resources/abox_quality_shacl.ttl \
+            reasoned.ttl > shacl_initial.ttl
+      - name: Add missing IAO_0000114 / IAO_0000117 to component files
+        run: |
+          trap - EXIT
+          python3 scripts/fix_missing_annotations.py \
+            src/ontology/components \
+            --shacl-report shacl_initial.ttl
+      - name: Commit annotation fixes (same-repo PRs only)
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add src/ontology/components/
+          git diff --cached --quiet && echo "Nothing to commit." || \
+            git commit -m "chore: auto-fill missing IAO_0000114/IAO_0000117 annotations [skip ci]"
+          git push
 
   odk-make-test:
     name: ODK make test
+    needs: auto-annotate
     runs-on: ubuntu-latest
     container: obolibrary/odkfull:v1.6
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       - name: make test_fast
         run: |
           cd src/ontology/
@@ -20,10 +72,12 @@ jobs:
 
   annotation-shacl:
     name: Annotation standard SHACL
+    needs: auto-annotate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref }}
           path: main
       - name: Merge and reason
         run: |
@@ -34,11 +88,11 @@ jobs:
         run: |
           pip install pyshacl
           trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
-          python3 -m pyshacl -f turtle -s main/.github/workflow_resources/abox_quality_shacl.ttl pmd-core-reasoned.ttl > shacl_report.ttl
+          python3 -m pyshacl -f turtle --advanced -s main/.github/workflow_resources/abox_quality_shacl.ttl pmd-core-reasoned.ttl > shacl_report.ttl
       - name: Check for violations (errors only, PMDco terms only)
         run: |
           trap - EXIT
-          java -jar robot.jar verify --input shacl_report.ttl --queries main/.github/workflow_resources/q_shacl_errors_only.sparql
+          python3 main/scripts/check_shacl_violations.py shacl_report.ttl
       - name: Generate validation reports
         if: always()
         run: |
