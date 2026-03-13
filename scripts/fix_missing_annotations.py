@@ -107,9 +107,10 @@ def load_violations(report_path: Path):
 def load_robot_violations(report_path: Path):
     """Parse a ROBOT OBO report TSV (columns: Level, Rule Name, Subject, ...).
 
-    Returns a dict mapping term IRI → set of rule names where Level is WARN or ERROR.
-    A term appearing in the dict with an empty set has no violations (clean).
-    Terms not in the dict are also clean.
+    Returns a dict mapping term IRI → set of rule names where Level is ERROR.
+    Only ERROR-level issues affect curation status; WARNs like multiple_labels
+    are expected for multilingual ontologies and are excluded.
+    Terms not in the dict have no blocking errors (ready for release).
     """
     violations = {}
     with open(report_path, newline="", encoding="utf-8") as f:
@@ -120,7 +121,7 @@ def load_robot_violations(report_path: Path):
             rule = row.get("Rule Name", "").strip()
             if not subject.startswith(PMDCO_PREFIX):
                 continue
-            if level in ("ERROR", "WARN"):
+            if level == "ERROR":
                 if subject not in violations:
                     violations[subject] = set()
                 violations[subject].add(rule)

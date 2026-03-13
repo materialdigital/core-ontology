@@ -28,7 +28,13 @@ jobs:
           cd src/ontology/
           make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
 
-      # --- DL profile check ---
+      # --- Install pyshacl in isolated venv (ODK Python is externally managed) ---
+      - name: Set up pyshacl venv
+        run: |
+          python3 -m venv /opt/pyshacl-venv
+          /opt/pyshacl-venv/bin/pip install --quiet pyshacl rdflib
+
+      # --- Merge + DL profile check ---
       - name: Merge and validate OWL DL profile
         run: |
           robot merge \
@@ -38,14 +44,21 @@ jobs:
           robot validate-profile --profile DL --input merged.ttl --output validation.txt \
             || { cat validation.txt; exit 1; }
 
-      # --- Auto-annotate using the ROBOT OBO report produced above ---
+      # --- Initial SHACL pass → auto-annotate component files ---
+      - name: Run initial SHACL pass
+        run: |
+          trap 'E=$?; test $E -eq 1 && exit 0 || exit $E' EXIT
+          /opt/pyshacl-venv/bin/python3 -m pyshacl \
+            -f turtle --advanced \
+            -s .github/workflow_resources/abox_quality_shacl.ttl \
+            merged.ttl > shacl_initial.ttl
       - id: fix
         name: Add missing IAO_0000114 / IAO_0000117 to component files
         run: |
-          python3 scripts/fix_missing_annotations.py \
+          trap - EXIT
+          /opt/pyshacl-venv/bin/python3 scripts/fix_missing_annotations.py \
             src/ontology/components \
-            --robot-report src/ontology/reports/pmdco-edit.owl-obo-report.tsv \
-            | tee annotation_log.txt
+            --shacl-report shacl_initial.ttl | tee annotation_log.txt
           if grep -q "No missing annotations" annotation_log.txt; then
             echo "annotations_added=false" >> $GITHUB_OUTPUT
           else
@@ -58,23 +71,41 @@ jobs:
           path: src/ontology/components/
           retention-days: 1
 
-      # --- Render OBO report to job summary and PR comment ---
-      - name: Render OBO report to job summary and PR comment
+      # --- Final SHACL on patched+merged ontology ---
+      - name: Merge patched ontology for SHACL
+        run: |
+          robot merge \
+            --catalog src/ontology/catalog-v001.xml \
+            --input src/ontology/pmdco-edit.owl \
+            --output pmdco-merged.ttl
+      - name: Run SHACL validation
+        run: |
+          trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
+          /opt/pyshacl-venv/bin/python3 -m pyshacl \
+            -f turtle --advanced \
+            -s .github/workflow_resources/abox_quality_shacl.ttl \
+            pmdco-merged.ttl > shacl_report.ttl
+      - name: Check for violations (errors only, PMDco terms only)
+        run: |
+          trap - EXIT
+          /opt/pyshacl-venv/bin/python3 scripts/check_shacl_violations.py shacl_report.ttl
+      - name: Generate and render SHACL reports
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPORT: src/ontology/reports/pmdco-edit.owl-obo-report.tsv
         run: |
-          python3 - <<'EOF'
+          robot query --input shacl_report.ttl \
+            --query .github/workflow_resources/q_listValidationResults.sparql ValidationReport.csv
+          robot query --input shacl_report.ttl \
+            --query .github/workflow_resources/q_countValidationResults.sparql ValidationSummary.csv
+          /opt/pyshacl-venv/bin/python3 - <<'EOF'
           import csv, os, subprocess
 
-          report_path = os.environ["REPORT"]
-
-          def tsv_to_md(path):
+          def csv_to_md(path, fallback):
               try:
-                  rows = list(csv.reader(open(path), delimiter="\t"))
+                  rows = list(csv.reader(open(path)))
               except FileNotFoundError:
-                  return "_Report not available._"
+                  return fallback
               if len(rows) < 2:
                   return "_No violations found — all terms conform._"
               header = "| " + " | ".join(rows[0]) + " |\n"
@@ -82,23 +113,14 @@ jobs:
               body   = "".join("| " + " | ".join(r) + " |\n" for r in rows[1:])
               return header + sep + body
 
-          report_md = tsv_to_md(report_path)
+          summary_md = csv_to_md("ValidationSummary.csv", "_Summary not available._")
+          report_md  = csv_to_md("ValidationReport.csv",  "_Report not available._")
 
-          # Count by level
-          counts = {}
-          try:
-              for row in csv.DictReader(open(report_path), delimiter="\t"):
-                  lvl = row.get("Level", "?")
-                  counts[lvl] = counts.get(lvl, 0) + 1
-          except FileNotFoundError:
-              pass
-          summary = "  ".join(f"**{k}**: {v}" for k, v in sorted(counts.items())) or "_No results._"
+          md = f"""## SHACL Validation Results
 
-          md = f"""## OBO Report
-
-          {summary}
-
-          <details><summary>Full report</summary>
+          ### Summary
+          {summary_md}
+          <details><summary>Full violation list</summary>
 
           {report_md}
           </details>
@@ -107,7 +129,7 @@ jobs:
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
               f.write(md)
 
-          marker = "<!-- obo-report -->"
+          marker = "<!-- shacl-validation-report -->"
           body = marker + "\n" + md
           pr = os.environ.get("GITHUB_REF", "").replace("refs/pull/", "").replace("/merge", "")
           if pr.isdigit():
@@ -125,12 +147,14 @@ jobs:
                   subprocess.run(["gh", "pr", "comment", pr, "--repo", repo,
                                   "--body", body], check=True)
           EOF
-      - name: Archive OBO report
+      - name: Archive validation reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: obo-report
-          path: src/ontology/reports/pmdco-edit.owl-obo-report.tsv
+          name: validation_reports
+          path: |
+            ValidationReport.csv
+            ValidationSummary.csv
 
   commit-annotations:
     name: Commit annotation fixes
