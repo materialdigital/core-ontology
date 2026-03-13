@@ -77,3 +77,199 @@ Detailed description of the pattern.
 ````
 
 !! please follow the naming conventions, because the patterns are evaluated through automated scripting.
+
+
+
+
+# Further good practices
+
+Patterns are used to:
+
+* Validate data and ontology structures
+* Demonstrate modeling approaches
+* Support education and understanding
+
+Because patterns are designed for human consumption, they should be easy to read and understand.
+
+A pattern represents only a small part of a larger model. Therefore, patterns should remain simple and focused.
+
+
+## Keep Patterns Small and Focused
+
+A pattern should represent one atomic aspect of a model, not an entire complex model.
+
+Avoid creating large and complex patterns that are difficult to understand quickly.
+
+Guideline: 
+
+* Do not create a pattern for an entire model.
+* Create patterns for individual modeling aspects.
+
+If a model is complex:
+
+* Break it down into smaller conceptual pieces.
+* Create separate patterns for each piece.
+
+This improves: readability, maintainability, educational value
+
+## Turtle Representation Size
+
+Use turtle as serialization.
+
+As a rule of thumb:
+
+* The Turtle representation of a pattern should fit on a single screen.
+* Recommended size: ~20–30 lines of Turtle code
+
+This is not always possible, but it should be the target whenever feasible.
+
+Keeping patterns small helps readers understand the pattern quickly.
+
+
+
+## Example Data
+
+Each pattern should include example data written in Turtle.
+
+The example data should be:
+
+* human-readable
+* simple
+* illustrative
+
+**Prefixes**
+
+Readable prefixes should be used for all resources. 
+Create a prefix for **each** class and property. Name the prefix nicely, so it is readable. 
+
+This significantly improves readability.
+
+```turtle
+@prefix ex: <http://example.org/> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix computing_process: <https://w3id.org/pmd/co/PMD_0000583> .
+
+ex:process_1 a computing_process: ;
+    has_specified_input: ex:data_1 ;
+    has_specified_output: ex:data_2 .
+```
+Be explicit about special modeling details or assumptions.
+
+
+## Creating Turtle Files
+
+It is recommended to manually create Turtle files using a **text** editor.
+
+Reasons:
+
+* Better readability
+	* Tools such as Protégé may generate Turtle that is difficult for humans to read.
+For example:
+	* unclear prefixes
+	* overly compact formatting
+* Better understanding
+	* Writing Turtle manually helps developers learn and understand RDF modeling better.
+
+	
+	
+## SHACL Shapes
+
+When creating SHACL shapes for patterns, consider the following guidelines.
+
+### Unique Identifier
+
+* Each SHACL shape should have a unique IRI: Currently we have no strict organization scheme, so simply choose a reasonable unique identifier.
+* Author Information: Author information can optionally be included, for example:
+author name, contact, organization
+
+This can be helpful but is not mandatory.
+
+* Open vs Closed Shapes: Be explicit about whether a shape is: open (additional properties allowed), closed (only specified properties allowed)
+
+Understanding this distinction is important when designing validation patterns.
+
+## Reasoning
+
+Reasoning is often required for correct validation.
+
+Consider the following example.
+
+Ontology hierarchy
+
+```
+Process
+  └── ManufacturingProcess
+        └── AssemblingProcess
+```
+
+The SHACL shape states:
+
+```
+ManufacturingProcess
+  min 1 hasInput
+  min 1 hasOutput
+```
+
+Example data
+
+```
+process_1 a AssemblingProcess .
+process_1 hasInput data_1 .
+process_1 hasOutput data_2 .
+```
+
+**Problem**
+
+Without reasoning, SHACL may not recognize that:
+
+```
+AssemblingProcess ⊆ ManufacturingProcess
+```
+
+Therefore the validator may fail to apply the shape correctly.
+
+**Solution**
+
+Before validation, materialize inferred triples:
+
+```
+process_1 a ManufacturingProcess .
+```
+
+This ensures the shape is applied properly.
+
+Best Practice: Always perform reasoning before SHACL validation.
+
+
+## Ignored Properties
+
+When reasoning is applied, additional triples may be inferred.
+For example: sub-properties, transitive properties, etc.
+
+These may create additional triples that introduce new properties or violate cardinality constraints.
+
+For example, a sub-property may infer a super-property that was not explicitly present in the data.
+
+If this causes validation problems, consider adding those properties to the ignored properties list in SHACL.
+
+
+## Validation Workflow
+
+The current validation workflow is as follows:
+
+1 Merge ontology with the data
+2 Run reasoning to materialize inferred triples
+3 Run SHACL validation using pySHACL
+
+```
+Data + Ontology
+        ↓
+Reasoning / Inference
+        ↓
+Materialized Graph
+        ↓
+SHACL Validation (pySHACL)
+```
+
+Other workflows are of course possible, but this approach works well for most use cases.
