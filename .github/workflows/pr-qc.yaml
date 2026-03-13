@@ -13,6 +13,8 @@ jobs:
   auto-annotate:
     name: Auto-fill missing IAO annotations
     runs-on: ubuntu-latest
+    outputs:
+      annotations_added: ${{ steps.fix.outputs.annotations_added }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -57,20 +59,10 @@ jobs:
           name: patched-components
           path: src/ontology/components/
           retention-days: 1
-      - name: Fail if annotations were auto-filled (please commit them)
-        if: steps.fix.outputs.annotations_added == 'true'
-        run: |
-          echo "::error::Missing IAO_0000114/IAO_0000117 annotations were detected and auto-filled."
-          echo "::error::Please run the following locally and commit the result before pushing:"
-          echo "::error::  pip install pyshacl rdflib"
-          echo "::error::  python3 scripts/fix_missing_annotations.py src/ontology/components"
-          cat annotation_log.txt
-          exit 1
 
   odk-make-test:
     name: ODK make test
     needs: auto-annotate
-    if: always()
     runs-on: ubuntu-latest
     container: obolibrary/odkfull:v1.6
     steps:
@@ -82,40 +74,46 @@ jobs:
         with:
           name: patched-components
           path: src/ontology/components/
+      - name: Build imports and release file
+        run: |
+          cd src/ontology/
+          make refresh-imports pmdco.ttl
       - name: make test_fast
         run: |
           cd src/ontology/
           make test_fast
+      - name: Upload assembled ontology
+        uses: actions/upload-artifact@v4
+        with:
+          name: assembled-ontology
+          path: src/ontology/pmdco.ttl
+          retention-days: 1
 
   annotation-shacl:
     name: Annotation standard SHACL
-    needs: auto-annotate
-    if: always()
+    needs: odk-make-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           path: main
-      - name: Apply patched component files
+      - name: Download assembled ontology
         uses: actions/download-artifact@v4
         with:
-          name: patched-components
-          path: main/src/ontology/components/
-      - name: Merge and reason
-        run: |
-          curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
-          java -jar robot.jar merge --catalog main/src/ontology/catalog-v001.xml --input main/src/ontology/pmdco-edit.owl --output pmd-core-merged.ttl
-          java -jar robot.jar reason --reasoner elk --input pmd-core-merged.ttl --output pmd-core-reasoned.ttl
+          name: assembled-ontology
       - name: pyshacl
         run: |
           pip install pyshacl
           trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
-          python3 -m pyshacl -f turtle --advanced -s main/.github/workflow_resources/abox_quality_shacl.ttl pmd-core-reasoned.ttl > shacl_report.ttl
+          python3 -m pyshacl -f turtle --advanced -s main/.github/workflow_resources/abox_quality_shacl.ttl pmdco.ttl > shacl_report.ttl
       - name: Check for violations (errors only, PMDco terms only)
         run: |
           trap - EXIT
           python3 main/scripts/check_shacl_violations.py shacl_report.ttl
+      - name: Download ROBOT for reports
+        if: always()
+        run: curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
       - name: Generate validation reports
         if: always()
         run: |
@@ -129,3 +127,32 @@ jobs:
           path: |
             ValidationReport.csv
             ValidationSummary.csv
+
+  commit-annotations:
+    name: Commit annotation fixes
+    needs: [auto-annotate, annotation-shacl]
+    if: |
+      needs.auto-annotate.outputs.annotations_added == 'true' &&
+      needs.annotation-shacl.result == 'success' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Apply patched component files
+        uses: actions/download-artifact@v4
+        with:
+          name: patched-components
+          path: src/ontology/components/
+      - name: Commit and push
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add src/ontology/components/
+          git diff --cached --quiet && echo "Nothing to commit." || \
+            git commit -m "chore: auto-fill missing IAO_0000114/IAO_0000117 annotations"
+          git push
