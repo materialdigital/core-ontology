@@ -54,7 +54,7 @@ PMDCO_PROP_IRIREF = {
     "http://www.w3.org/2000/01/rdf-schema#label": "rdfs:label",
     "http://www.w3.org/2004/02/skos/core#altLabel": "skos:altLabel",
     "http://www.w3.org/2004/02/skos/core#example": "skos:example",
-    "http://purl.obolibrary.org/obo/IAO_0000115": "obo:IAO_0000115",
+    "http://www.w3.org/2004/02/skos/core#definition": "skos:definition",
     "http://purl.obolibrary.org/obo/IAO_0000116": "obo:IAO_0000116",
     "http://purl.obolibrary.org/obo/IAO_0000119": "obo:IAO_0000119",
 }
@@ -413,12 +413,11 @@ def traverse(
             for o in graph.objects(iof_iri, RDFS.label):
                 if getattr(o, "language", None) == "de":
                     body_lines.append(f"AnnotationAssertion(rdfs:label {pmd_ref} {literal_to_ofn(o)})")
-            # German definition from IOF (IAO_0000115)
-            IAO_DEF = URIRef("http://purl.obolibrary.org/obo/IAO_0000115")
-            for o in graph.objects(iof_iri, IAO_DEF):
+            # German definition from IOF (naturalLanguageDefinition → skos:definition)
+            IOF_NL_DEF = URIRef("https://spec.industrialontologies.org/ontology/annotation/naturalLanguageDefinition")
+            for o in graph.objects(iof_iri, IOF_NL_DEF):
                 if getattr(o, "language", None) == "de":
-                    target_ref = PMDCO_PROP_IRIREF.get(str(IAO_DEF), f"<{IAO_DEF}>")
-                    body_lines.append(f"AnnotationAssertion({target_ref} {pmd_ref} {literal_to_ofn(o)})")
+                    body_lines.append(f"AnnotationAssertion(skos:definition {pmd_ref} {literal_to_ofn(o)})")
             body_lines.append(f"SubClassOf({pmd_ref} {parent_ref})")
             body_lines.append("")
 
