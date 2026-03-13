@@ -61,46 +61,6 @@ ex:EnglishSkosDefinitionPropertyShape a sh:PropertyShape ;
     sh:qualifiedMinCount 1 ;
     sh:message "must have at least one skos:definition with language \"en\""@en .
 
-# --- Warnings (do not block PR, reported in ValidationReport.csv) ---
-
-ex:GermanRdfsLabelPropertyShape a sh:PropertyShape ;
-    sh:path rdfs:label ;
-    sh:qualifiedValueShape [
-        sh:datatype rdf:langString ;
-        sh:languageIn ( "de" ) ;
-    ] ;
-    sh:qualifiedMinCount 1 ;
-    sh:severity sh:Warning ;
-    sh:message "should have at least one rdfs:label with language \"de\""@en .
-
-ex:GermanSkosDefinitionPropertyShape a sh:PropertyShape ;
-    sh:path skos:definition ;
-    sh:qualifiedValueShape [
-        sh:datatype rdf:langString ;
-        sh:languageIn ( "de" ) ;
-    ] ;
-    sh:qualifiedMinCount 1 ;
-    sh:severity sh:Warning ;
-    sh:message "should have at least one skos:definition with language \"de\""@en .
-
-ex:UniqueLabelLanguagePropertyShape a sh:PropertyShape ;
-    sh:path rdfs:label ;
-    sh:uniqueLang true ;
-    sh:severity sh:Warning ;
-    sh:message "multiple rdfs:labels with the same language tag found — use skos:altLabel for synonyms"@en .
-
-ex:UniqueDefinitionLanguagePropertyShape a sh:PropertyShape ;
-    sh:path skos:definition ;
-    sh:uniqueLang true ;
-    sh:severity sh:Warning ;
-    sh:message "multiple skos:definitions with the same language tag found — a term should have exactly one definition per language"@en .
-
-ex:SkosExamplePropertyShape a sh:PropertyShape ;
-    sh:path skos:example ;
-    sh:minCount 1 ;
-    sh:severity sh:Warning ;
-    sh:message "should have at least one skos:example"@en .
-
 ex:ClassConvention a rdfs:Class, sh:NodeShape ;
     sh:target [
         a sh:SPARQLTarget ;
@@ -115,12 +75,7 @@ ex:ClassConvention a rdfs:Class, sh:NodeShape ;
                 ex:CurationStatusPropertyShape ,
                 ex:EnglishRdfsLabelPropertyShape ,
                 ex:EnglishSkosDefinitionPropertyShape ,
-                ex:ClassRdfsLabelPropertyShape ,
-                ex:GermanRdfsLabelPropertyShape ,
-                ex:GermanSkosDefinitionPropertyShape ,
-                ex:UniqueLabelLanguagePropertyShape ,
-                ex:UniqueDefinitionLanguagePropertyShape ,
-                ex:SkosExamplePropertyShape ;
+                ex:ClassRdfsLabelPropertyShape ;
     .
 
 ex:PropertyConvention a rdfs:Class, sh:NodeShape ;
@@ -139,9 +94,5 @@ ex:PropertyConvention a rdfs:Class, sh:NodeShape ;
                 ex:CurationStatusPropertyShape ,
                 ex:EnglishRdfsLabelPropertyShape ,
                 ex:EnglishSkosDefinitionPropertyShape ,
-                ex:PropertyRdfsLabelPropertyShape ,
-                ex:GermanRdfsLabelPropertyShape ,
-                ex:GermanSkosDefinitionPropertyShape ,
-                ex:UniqueLabelLanguagePropertyShape ,
-                ex:UniqueDefinitionLanguagePropertyShape ;
+                ex:PropertyRdfsLabelPropertyShape ;
     .
