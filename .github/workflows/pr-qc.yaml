@@ -28,12 +28,6 @@ jobs:
           cd src/ontology/
           make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
 
-      # --- Install pyshacl in isolated venv (ODK Python is externally managed) ---
-      - name: Set up pyshacl venv
-        run: |
-          python3 -m venv /opt/pyshacl-venv
-          /opt/pyshacl-venv/bin/pip install --quiet pyshacl rdflib
-
       # --- Merge + DL profile check ---
       - name: Merge and validate OWL DL profile
         run: |
@@ -44,21 +38,18 @@ jobs:
           robot validate-profile --profile DL --input merged.ttl --output validation.txt \
             || { cat validation.txt; exit 1; }
 
-      # --- Initial SHACL pass → auto-annotate component files ---
-      - name: Run initial SHACL pass
+      # --- Determine curation status via SPARQL, then auto-annotate ---
+      - name: Query other violations for curation status
         run: |
-          trap 'E=$?; test $E -eq 1 && exit 0 || exit $E' EXIT
-          /opt/pyshacl-venv/bin/python3 -m pyshacl \
-            -f turtle --advanced \
-            -s .github/workflow_resources/abox_quality_shacl.ttl \
-            merged.ttl > shacl_initial.ttl
+          robot query --input merged.ttl \
+            --query .github/workflow_resources/q_pmdco_other_violations.sparql \
+            other_violations.csv
       - id: fix
         name: Add missing IAO_0000114 / IAO_0000117 to component files
         run: |
-          trap - EXIT
-          /opt/pyshacl-venv/bin/python3 scripts/fix_missing_annotations.py \
+          python3 scripts/fix_missing_annotations.py \
             src/ontology/components \
-            --shacl-report shacl_initial.ttl | tee annotation_log.txt
+            --violations-report other_violations.csv | tee annotation_log.txt
           if grep -q "No missing annotations" annotation_log.txt; then
             echo "annotations_added=false" >> $GITHUB_OUTPUT
           else
@@ -71,41 +62,33 @@ jobs:
           path: src/ontology/components/
           retention-days: 1
 
-      # --- Final SHACL on patched+merged ontology ---
-      - name: Merge patched ontology for SHACL
+      # --- Final check and report on patched ontology ---
+      - name: Merge patched ontology
         run: |
           robot merge \
             --catalog src/ontology/catalog-v001.xml \
             --input src/ontology/pmdco-edit.owl \
             --output pmdco-merged.ttl
-      - name: Run SHACL validation
+      - name: Check for blocking violations (robot verify)
         run: |
-          trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
-          /opt/pyshacl-venv/bin/python3 -m pyshacl \
-            -f turtle --advanced \
-            -s .github/workflow_resources/abox_quality_shacl.ttl \
-            pmdco-merged.ttl > shacl_report.ttl
-      - name: Check for violations (errors only, PMDco terms only)
-        run: |
-          trap - EXIT
-          /opt/pyshacl-venv/bin/python3 scripts/check_shacl_violations.py shacl_report.ttl
-      - name: Generate and render SHACL reports
+          robot verify --input pmdco-merged.ttl \
+            --queries .github/workflow_resources/q_pmdco_blocking.sparql
+      - name: Generate and render violations report
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          robot query --input shacl_report.ttl \
-            --query .github/workflow_resources/q_listValidationResults.sparql ValidationReport.csv
-          robot query --input shacl_report.ttl \
-            --query .github/workflow_resources/q_countValidationResults.sparql ValidationSummary.csv
-          /opt/pyshacl-venv/bin/python3 - <<'EOF'
+          robot query --input pmdco-merged.ttl \
+            --query .github/workflow_resources/q_pmdco_blocking.sparql \
+            violations.csv
+          python3 - <<'EOF'
           import csv, os, subprocess
 
-          def csv_to_md(path, fallback):
+          def csv_to_md(path):
               try:
                   rows = list(csv.reader(open(path)))
               except FileNotFoundError:
-                  return fallback
+                  return "_Report not available._"
               if len(rows) < 2:
                   return "_No violations found — all terms conform._"
               header = "| " + " | ".join(rows[0]) + " |\n"
@@ -113,23 +96,16 @@ jobs:
               body   = "".join("| " + " | ".join(r) + " |\n" for r in rows[1:])
               return header + sep + body
 
-          summary_md = csv_to_md("ValidationSummary.csv", "_Summary not available._")
-          report_md  = csv_to_md("ValidationReport.csv",  "_Report not available._")
-
-          md = f"""## SHACL Validation Results
-
-          ### Summary
-          {summary_md}
-          <details><summary>Full violation list</summary>
+          report_md = csv_to_md("violations.csv")
+          md = f"""## PMDco Quality Check
 
           {report_md}
-          </details>
           """
 
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
               f.write(md)
 
-          marker = "<!-- shacl-validation-report -->"
+          marker = "<!-- pmdco-quality-report -->"
           body = marker + "\n" + md
           pr = os.environ.get("GITHUB_REF", "").replace("refs/pull/", "").replace("/merge", "")
           if pr.isdigit():
@@ -147,14 +123,12 @@ jobs:
                   subprocess.run(["gh", "pr", "comment", pr, "--repo", repo,
                                   "--body", body], check=True)
           EOF
-      - name: Archive validation reports
+      - name: Archive violations report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: validation_reports
-          path: |
-            ValidationReport.csv
-            ValidationSummary.csv
+          name: violations-report
+          path: violations.csv
 
   commit-annotations:
     name: Commit annotation fixes

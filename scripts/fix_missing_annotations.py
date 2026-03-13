@@ -128,6 +128,28 @@ def load_robot_violations(report_path: Path):
     return violations
 
 
+def load_sparql_violations(report_path: Path):
+    """Parse a robot query CSV with columns 'term' and 'issue'.
+
+    Returns a dict mapping term IRI → set of issue strings.
+    Terms in the dict get IAO_0000123 (metadata incomplete);
+    terms absent from the dict get IAO_0000122 (ready for release).
+    """
+    violations = {}
+    with open(report_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)  # comma-separated
+        for row in reader:
+            term = row.get("term", "").strip()
+            issue = row.get("issue", "").strip()
+            if not term.startswith(PMDCO_PREFIX):
+                continue
+            if term not in violations:
+                violations[term] = set()
+            if issue:
+                violations[term].add(issue)
+    return violations
+
+
 def pmdco_prefix_alias(text: str) -> str:
     """Return the prefix alias (e.g. ':' or 'pmdco:') that maps to PMDCO_PREFIX."""
     for m in re.finditer(
@@ -233,11 +255,20 @@ def main():
         help="Path to the components/ directory (e.g. src/ontology/components)",
     )
     parser.add_argument(
+        "--violations-report",
+        metavar="FILE",
+        help=(
+            "robot query CSV (columns: term, issue) from q_pmdco_other_violations.sparql. "
+            "Terms present in this file get IAO_0000123 (metadata incomplete); "
+            "absent terms get IAO_0000122 (ready for release)."
+        ),
+    )
+    parser.add_argument(
         "--robot-report",
         metavar="FILE",
         help=(
             "ROBOT OBO report TSV used to determine curation status. "
-            "Terms with no WARN/ERROR get IAO_0000122 (ready for release); "
+            "Terms with no ERROR get IAO_0000122 (ready for release); "
             "others get IAO_0000123 (metadata incomplete)."
         ),
     )
@@ -258,18 +289,22 @@ def main():
     args = parser.parse_args()
 
     violations = None
-    if args.robot_report:
+    if args.violations_report:
+        print(f"Loading SPARQL violations from {args.violations_report} ...")
+        violations = load_sparql_violations(Path(args.violations_report))
+        print(f"  {len(violations)} term(s) with violations found")
+    elif args.robot_report:
         print(f"Loading ROBOT report violations from {args.robot_report} ...")
         violations = load_robot_violations(Path(args.robot_report))
-        print(f"  {len(violations)} term(s) with WARN/ERROR violations found")
+        print(f"  {len(violations)} term(s) with ERROR violations found")
     elif args.shacl_report:
         print(f"Loading SHACL violations from {args.shacl_report} ...")
         violations = load_violations(Path(args.shacl_report))
         print(f"  {len(violations)} term(s) with violations found")
     else:
         print(
-            "No --robot-report or --shacl-report given: missing IAO_0000114 will default to "
-            "IAO_0000123 (metadata incomplete)"
+            "No --violations-report, --robot-report, or --shacl-report given: "
+            "missing IAO_0000114 will default to IAO_0000123 (metadata incomplete)"
         )
 
     components_dir = Path(args.components_dir)
