@@ -3,8 +3,9 @@
 # Mirrors sh:Warning shapes in abox_quality_shacl.ttl:
 #   ClassRdfsLabelPropertyShape, PropertyRdfsLabelPropertyShape (lowercase EN label),
 #   GermanRdfsLabelPropertyShape, GermanSkosDefinitionPropertyShape,
-#   UniqueLabelLanguagePropertyShape, UniqueDefinitionLanguagePropertyShape,
 #   SkosExamplePropertyShape.
+# Note: duplicate_label_language / duplicate_definition_language only fire when
+#       two or more values share the exact same language tag on one term.
 PREFIX owl:  <http://www.w3.org/2002/07/owl#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -31,14 +32,28 @@ SELECT ?term ?issue WHERE {
     FILTER NOT EXISTS { ?term skos:definition ?d . FILTER(LANG(?d) = "de") }
     BIND("missing_de_definition" AS ?issue)
   } UNION {
-    # two different labels sharing the same language tag (sh:uniqueLang)
-    ?term rdfs:label ?l1 ; rdfs:label ?l2 .
-    FILTER(STR(?l1) < STR(?l2) && LANG(?l1) = LANG(?l2) && LANG(?l1) != "")
+    # two or more rdfs:labels sharing the same language tag on one term
+    {
+      SELECT ?term WHERE {
+        ?term rdfs:label ?l .
+        FILTER(LANG(?l) != "")
+        BIND(LANG(?l) AS ?lang)
+      }
+      GROUP BY ?term ?lang
+      HAVING (COUNT(DISTINCT ?l) > 1)
+    }
     BIND("duplicate_label_language" AS ?issue)
   } UNION {
-    # two different definitions sharing the same language tag (sh:uniqueLang)
-    ?term skos:definition ?d1 ; skos:definition ?d2 .
-    FILTER(STR(?d1) < STR(?d2) && LANG(?d1) = LANG(?d2) && LANG(?d1) != "")
+    # two or more skos:definitions sharing the same language tag on one term
+    {
+      SELECT ?term WHERE {
+        ?term skos:definition ?d .
+        FILTER(LANG(?d) != "")
+        BIND(LANG(?d) AS ?lang)
+      }
+      GROUP BY ?term ?lang
+      HAVING (COUNT(DISTINCT ?d) > 1)
+    }
     BIND("duplicate_definition_language" AS ?issue)
   } UNION {
     FILTER NOT EXISTS { ?term skos:example ?e }
