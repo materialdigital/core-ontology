@@ -28,32 +28,24 @@ jobs:
           cd src/ontology/
           make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
 
-      # --- Merge + DL profile, then auto-annotate based on initial SHACL ---
-      - name: Merge for SHACL passes and DL profile check
+      # --- DL profile check ---
+      - name: Merge and validate OWL DL profile
         run: |
           robot merge \
             --catalog src/ontology/catalog-v001.xml \
             --input src/ontology/pmdco-edit.owl \
             --output merged.ttl
-      - name: Validate OWL DL profile
-        run: |
           robot validate-profile --profile DL --input merged.ttl --output validation.txt \
             || { cat validation.txt; exit 1; }
-      - name: Run initial SHACL pass
-        run: |
-          trap 'E=$?; test $E -eq 1 && exit 0 || exit $E' EXIT
-          python3 -m pyshacl \
-            -f turtle \
-            --advanced \
-            -s .github/workflow_resources/abox_quality_shacl.ttl \
-            merged.ttl > shacl_initial.ttl
+
+      # --- Auto-annotate using the ROBOT OBO report produced above ---
       - id: fix
         name: Add missing IAO_0000114 / IAO_0000117 to component files
         run: |
-          trap - EXIT
           python3 scripts/fix_missing_annotations.py \
             src/ontology/components \
-            --shacl-report shacl_initial.ttl | tee annotation_log.txt
+            --robot-report src/ontology/reports/pmdco-edit.owl-obo-report.tsv \
+            | tee annotation_log.txt
           if grep -q "No missing annotations" annotation_log.txt; then
             echo "annotations_added=false" >> $GITHUB_OUTPUT
           else
@@ -66,76 +58,60 @@ jobs:
           path: src/ontology/components/
           retention-days: 1
 
-      # --- Final SHACL on the patched+merged ontology ---
-      - name: Merge patched ontology for SHACL
-        run: |
-          robot merge \
-            --catalog src/ontology/catalog-v001.xml \
-            --input src/ontology/pmdco-edit.owl \
-            --output pmdco-merged.ttl
-      - name: Run SHACL validation
-        run: |
-          trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
-          python3 -m pyshacl \
-            -f turtle \
-            --advanced \
-            -s .github/workflow_resources/abox_quality_shacl.ttl \
-            pmdco-merged.ttl > shacl_report.ttl
-      - name: Check for violations (errors only, PMDco terms only)
-        run: |
-          trap - EXIT
-          python3 scripts/check_shacl_violations.py shacl_report.ttl
-      - name: Generate validation reports
-        if: always()
-        run: |
-          robot query --input shacl_report.ttl \
-            --query .github/workflow_resources/q_listValidationResults.sparql ValidationReport.csv
-          robot query --input shacl_report.ttl \
-            --query .github/workflow_resources/q_countValidationResults.sparql ValidationSummary.csv
-      - name: Render reports to job summary and PR comment
+      # --- Render OBO report to job summary and PR comment ---
+      - name: Render OBO report to job summary and PR comment
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPORT: src/ontology/reports/pmdco-edit.owl-obo-report.tsv
         run: |
           python3 - <<'EOF'
-          import csv, os, subprocess, sys
+          import csv, os, subprocess
 
-          def csv_to_md(path, fallback):
+          report_path = os.environ["REPORT"]
+
+          def tsv_to_md(path):
               try:
-                  rows = list(csv.reader(open(path)))
+                  rows = list(csv.reader(open(path), delimiter="\t"))
               except FileNotFoundError:
-                  return fallback
+                  return "_Report not available._"
               if len(rows) < 2:
-                  return "_No results._"
+                  return "_No violations found — all terms conform._"
               header = "| " + " | ".join(rows[0]) + " |\n"
               sep    = "| " + " | ".join(["---"] * len(rows[0])) + " |\n"
               body   = "".join("| " + " | ".join(r) + " |\n" for r in rows[1:])
               return header + sep + body
 
-          summary_md = csv_to_md("ValidationSummary.csv", "_Summary not available._")
-          report_md  = csv_to_md("ValidationReport.csv",  "_Report not available._")
+          report_md = tsv_to_md(report_path)
 
-          md = f"""## SHACL Validation Results
+          # Count by level
+          counts = {}
+          try:
+              for row in csv.DictReader(open(report_path), delimiter="\t"):
+                  lvl = row.get("Level", "?")
+                  counts[lvl] = counts.get(lvl, 0) + 1
+          except FileNotFoundError:
+              pass
+          summary = "  ".join(f"**{k}**: {v}" for k, v in sorted(counts.items())) or "_No results._"
 
-          ### Summary
-          {summary_md}
-          <details><summary>Full violation list</summary>
+          md = f"""## OBO Report
+
+          {summary}
+
+          <details><summary>Full report</summary>
 
           {report_md}
           </details>
           """
 
-          # Write to Actions job summary
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
               f.write(md)
 
-          # Post as PR comment (update existing bot comment if present)
-          marker = "<!-- shacl-validation-report -->"
+          marker = "<!-- obo-report -->"
           body = marker + "\n" + md
           pr = os.environ.get("GITHUB_REF", "").replace("refs/pull/", "").replace("/merge", "")
           if pr.isdigit():
               repo = os.environ["GITHUB_REPOSITORY"]
-              # Find existing bot comment with marker
               result = subprocess.run(
                   ["gh", "api", f"repos/{repo}/issues/{pr}/comments", "--jq",
                    f'[.[] | select(.body | startswith("{marker}")) | .id][0]'],
@@ -149,14 +125,12 @@ jobs:
                   subprocess.run(["gh", "pr", "comment", pr, "--repo", repo,
                                   "--body", body], check=True)
           EOF
-      - name: Archive validation reports
+      - name: Archive OBO report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: validation_reports
-          path: |
-            ValidationReport.csv
-            ValidationSummary.csv
+          name: obo-report
+          path: src/ontology/reports/pmdco-edit.owl-obo-report.tsv
 
   commit-annotations:
     name: Commit annotation fixes

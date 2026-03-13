@@ -3,17 +3,21 @@
 annotations to PMDco component OWL files (OFN format).
 
 Curation status is set only when the annotation is completely absent:
+  - If --robot-report is given: terms with no WARN/ERROR in the ROBOT OBO report
+    get IAO_0000122 (ready for release); others get IAO_0000123 (metadata incomplete).
   - If --shacl-report is given: terms with no non-IAO_0000114 violations
     get IAO_0000122 (ready for release); others get IAO_0000123 (metadata incomplete).
-  - Without --shacl-report: all missing statuses default to IAO_0000123.
+  - Without either flag: all missing statuses default to IAO_0000123.
 
 Term editor is determined from the IRI numeric range (pmdco-idranges.owl).
 Only adds annotations that are completely absent for a given term.
 
 Usage:
+    python3 fix_missing_annotations.py <components_dir> [--robot-report FILE]
     python3 fix_missing_annotations.py <components_dir> [--shacl-report FILE]
 """
 
+import csv
 import re
 import sys
 import argparse
@@ -97,6 +101,29 @@ def load_violations(report_path: Path):
             violations[iri] = set()
         if path and path not in FILLED_PATHS:
             violations[iri].add(path)
+    return violations
+
+
+def load_robot_violations(report_path: Path):
+    """Parse a ROBOT OBO report TSV (columns: Level, Rule Name, Subject, ...).
+
+    Returns a dict mapping term IRI → set of rule names where Level is WARN or ERROR.
+    A term appearing in the dict with an empty set has no violations (clean).
+    Terms not in the dict are also clean.
+    """
+    violations = {}
+    with open(report_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f, delimiter="\t")
+        for row in reader:
+            level = row.get("Level", "").strip()
+            subject = row.get("Subject", "").strip()
+            rule = row.get("Rule Name", "").strip()
+            if not subject.startswith(PMDCO_PREFIX):
+                continue
+            if level in ("ERROR", "WARN"):
+                if subject not in violations:
+                    violations[subject] = set()
+                violations[subject].add(rule)
     return violations
 
 
@@ -205,6 +232,15 @@ def main():
         help="Path to the components/ directory (e.g. src/ontology/components)",
     )
     parser.add_argument(
+        "--robot-report",
+        metavar="FILE",
+        help=(
+            "ROBOT OBO report TSV used to determine curation status. "
+            "Terms with no WARN/ERROR get IAO_0000122 (ready for release); "
+            "others get IAO_0000123 (metadata incomplete)."
+        ),
+    )
+    parser.add_argument(
         "--shacl-report",
         metavar="FILE",
         help=(
@@ -221,13 +257,17 @@ def main():
     args = parser.parse_args()
 
     violations = None
-    if args.shacl_report:
+    if args.robot_report:
+        print(f"Loading ROBOT report violations from {args.robot_report} ...")
+        violations = load_robot_violations(Path(args.robot_report))
+        print(f"  {len(violations)} term(s) with WARN/ERROR violations found")
+    elif args.shacl_report:
         print(f"Loading SHACL violations from {args.shacl_report} ...")
         violations = load_violations(Path(args.shacl_report))
         print(f"  {len(violations)} term(s) with violations found")
     else:
         print(
-            "No --shacl-report given: missing IAO_0000114 will default to "
+            "No --robot-report or --shacl-report given: missing IAO_0000114 will default to "
             "IAO_0000123 (metadata incomplete)"
         )
 
