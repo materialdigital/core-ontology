@@ -1,0 +1,35 @@
+# Warning-level quality issues on PMDco terms.
+# These do not block a PR but are reported so contributors know what to improve.
+# Checks: missing German label, missing German definition, missing skos:example,
+#         duplicate language tags on rdfs:label or skos:definition.
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?term ?issue WHERE {
+  {
+    { ?term a owl:Class }
+    UNION { ?term a owl:ObjectProperty }
+    UNION { ?term a owl:AnnotationProperty }
+  }
+  FILTER(STRSTARTS(STR(?term), "https://w3id.org/pmd/co/"))
+  {
+    FILTER NOT EXISTS { ?term rdfs:label ?l . FILTER(LANG(?l) = "de") }
+    BIND("missing_de_label" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term skos:definition ?d . FILTER(LANG(?d) = "de") }
+    BIND("missing_de_definition" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term skos:example ?e }
+    BIND("missing_skos_example" AS ?issue)
+  } UNION {
+    ?term rdfs:label ?l1 ; rdfs:label ?l2 .
+    FILTER(?l1 != ?l2 && LANG(?l1) = LANG(?l2) && LANG(?l1) != "")
+    BIND("duplicate_label_language" AS ?issue)
+  } UNION {
+    ?term skos:definition ?d1 ; skos:definition ?d2 .
+    FILTER(?d1 != ?d2 && LANG(?d1) = LANG(?d2) && LANG(?d1) != "")
+    BIND("duplicate_definition_language" AS ?issue)
+  }
+}
+ORDER BY ?term ?issue

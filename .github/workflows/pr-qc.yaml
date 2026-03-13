@@ -87,27 +87,58 @@ jobs:
             --input ../../pmdco-merged.ttl \
             --query ../../.github/workflow_resources/q_pmdco_blocking.sparql \
             ../../violations.csv
+          robot --catalog catalog-v001.xml query \
+            --input ../../pmdco-merged.ttl \
+            --query ../../.github/workflow_resources/q_pmdco_warnings.sparql \
+            ../../warnings.csv
           cd ../..
           python3 - <<'EOF'
-          import csv, os, subprocess
+          import csv, os, re, subprocess
 
-          def csv_to_md(path):
+          def annotation_table(log_path):
               try:
-                  rows = list(csv.reader(open(path)))
+                  lines = open(log_path).readlines()
               except FileNotFoundError:
-                  return "_Report not available._"
-              if len(rows) < 2:
-                  return "_No violations found — all terms conform._"
-              header = "| " + " | ".join(rows[0]) + " |\n"
-              sep    = "| " + " | ".join(["---"] * len(rows[0])) + " |\n"
-              body   = "".join("| " + " | ".join(r) + " |\n" for r in rows[1:])
-              return header + sep + body
+                  return "_Annotation log not available._"
+              rows = []
+              for line in lines:
+                  m = re.search(r'(\S+\.owl):\s+\+(\d+) annotation\(s\) on (\d+) term\(s\)', line)
+                  if m:
+                      rows.append((m.group(1), m.group(3), m.group(2)))
+              if not rows:
+                  return "_No annotations were auto-added._"
+              total_terms = sum(int(r[1]) for r in rows)
+              total_ann   = sum(int(r[2]) for r in rows)
+              tbl  = "| file | terms | annotations added |\n"
+              tbl += "| --- | --- | --- |\n"
+              for fname, terms, ann in rows:
+                  tbl += f"| {fname} | {terms} | {ann} |\n"
+              tbl += f"| **Total** | **{total_terms}** | **{total_ann}** |\n"
+              return tbl
 
-          report_md = csv_to_md("violations.csv")
-          md = f"""## PMDco Quality Check
+          def issues_table(violations_path, warnings_path):
+              rows = []
+              for path, severity in [(violations_path, "Blocking"), (warnings_path, "Warning")]:
+                  try:
+                      for row in csv.DictReader(open(path)):
+                          rows.append((row.get("term",""), row.get("issue",""), severity))
+                  except FileNotFoundError:
+                      pass
+              if not rows:
+                  return "_No issues found — all terms conform._"
+              tbl  = "| term | issue | severity |\n"
+              tbl += "| --- | --- | --- |\n"
+              for term, issue, sev in rows:
+                  tbl += f"| {term} | {issue} | {sev} |\n"
+              return tbl
 
-          {report_md}
-          """
+          ann_md    = annotation_table("annotation_log.txt")
+          issues_md = issues_table("violations.csv", "warnings.csv")
+          md = (
+              "## PMDco Quality Check\n\n"
+              "### Auto-added annotations\n" + ann_md + "\n\n"
+              "### Hygiene issues\n" + issues_md + "\n"
+          )
 
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
               f.write(md)
@@ -135,7 +166,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: violations-report
-          path: violations.csv
+          path: |
+            violations.csv
+            warnings.csv
+            annotation_log.txt
 
   commit-annotations:
     name: Commit annotation fixes
