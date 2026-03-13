@@ -74,19 +74,29 @@ jobs:
         with:
           name: patched-components
           path: src/ontology/components/
-      - name: Build imports and release file
+      - name: Prepare release file for profile validation
         run: |
           cd src/ontology/
-          make refresh-imports pmdco.ttl
+          robot convert -i pmdco.ttl -f owl -o pmdco.owl
       - name: make test_fast
         run: |
           cd src/ontology/
           make test_fast
+      - name: Assemble merged+reasoned ontology from patched components
+        run: |
+          robot merge \
+            --catalog src/ontology/catalog-v001.xml \
+            --input src/ontology/pmdco-edit.owl \
+            --output pmdco-merged.ttl
+          robot reason \
+            --reasoner elk \
+            --input pmdco-merged.ttl \
+            --output pmdco-reasoned.ttl
       - name: Upload assembled ontology
         uses: actions/upload-artifact@v4
         with:
           name: assembled-ontology
-          path: src/ontology/pmdco.ttl
+          path: pmdco-reasoned.ttl
           retention-days: 1
 
   annotation-shacl:
@@ -106,7 +116,7 @@ jobs:
         run: |
           pip install pyshacl
           trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
-          python3 -m pyshacl -f turtle --advanced -s main/.github/workflow_resources/abox_quality_shacl.ttl pmdco.ttl > shacl_report.ttl
+          python3 -m pyshacl -f turtle --advanced -s main/.github/workflow_resources/abox_quality_shacl.ttl pmdco-reasoned.ttl > shacl_report.ttl
       - name: Check for violations (errors only, PMDco terms only)
         run: |
           trap - EXIT
