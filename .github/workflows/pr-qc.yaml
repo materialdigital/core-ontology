@@ -21,15 +21,23 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      # --- Auto-annotate: initial SHACL to determine curation status, patch files ---
-      - name: Install Python dependencies
-        run: pip install pyshacl rdflib
-      - name: Merge for initial SHACL pass
+      # --- ODK tests on the committed workspace ---
+      - name: ODK tests (IRI ranges, consistency, SPARQL checks, OBO report)
+        run: |
+          cd src/ontology/
+          make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
+
+      # --- Merge + DL profile, then auto-annotate based on initial SHACL ---
+      - name: Merge for SHACL passes and DL profile check
         run: |
           robot merge \
             --catalog src/ontology/catalog-v001.xml \
             --input src/ontology/pmdco-edit.owl \
             --output merged.ttl
+      - name: Validate OWL DL profile
+        run: |
+          robot validate-profile --profile DL --input merged.ttl --output validation.txt \
+            || { cat validation.txt; exit 1; }
       - name: Run initial SHACL pass
         run: |
           trap 'E=$?; test $E -eq 1 && exit 0 || exit $E' EXIT
@@ -56,16 +64,6 @@ jobs:
           name: patched-components
           path: src/ontology/components/
           retention-days: 1
-
-      # --- ODK tests on the patched workspace ---
-      - name: ODK tests (IRI ranges, consistency, SPARQL checks, OBO report)
-        run: |
-          cd src/ontology/
-          make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
-      - name: Validate OWL DL profile
-        run: |
-          robot validate-profile --profile DL --input merged.ttl --output validation.txt \
-            || { cat validation.txt; exit 1; }
 
       # --- Final SHACL on the patched+merged ontology ---
       - name: Merge patched ontology for SHACL
