@@ -48,8 +48,8 @@ ID_RANGES = [
     (200000, 999999, "PMDco Team"),
 ]
 
-STATUS_READY      = "obo:IAO_0000122"   # ready for release
-STATUS_INCOMPLETE = "obo:IAO_0000123"   # metadata incomplete
+STATUS_READY      = "<http://purl.obolibrary.org/obo/IAO_0000122>"   # ready for release
+STATUS_INCOMPLETE = "<http://purl.obolibrary.org/obo/IAO_0000123>"   # metadata incomplete
 
 
 def editor_for_iri(iri: str) -> str:
@@ -137,11 +137,11 @@ def process_file(owl_file: Path, violations, dry_run: bool = False) -> tuple:
     has_114 = set()
     has_117 = set()
     for m in re.finditer(
-        r"AnnotationAssertion\s*\(\s*obo:IAO_0000114\s+" + alias_re + r"PMD_(\d+)", text
+        r"AnnotationAssertion\s*\(\s*(?:obo:IAO_0000114|<http://purl\.obolibrary\.org/obo/IAO_0000114>)\s+" + alias_re + r"PMD_(\d+)", text
     ):
         has_114.add(m.group(1).zfill(7))
     for m in re.finditer(
-        r"AnnotationAssertion\s*\(\s*obo:IAO_0000117\s+" + alias_re + r"PMD_(\d+)", text
+        r"AnnotationAssertion\s*\(\s*(?:obo:IAO_0000117|<http://purl\.obolibrary\.org/obo/IAO_0000117>)\s+" + alias_re + r"PMD_(\d+)", text
     ):
         has_117.add(m.group(1).zfill(7))
 
@@ -155,7 +155,7 @@ def process_file(owl_file: Path, violations, dry_run: bool = False) -> tuple:
         if num not in has_117:
             editor = editor_for_iri(iri)
             new_lines.append(
-                f'AnnotationAssertion(obo:IAO_0000117 {alias}PMD_{num} "{editor}")'
+                f'AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> {alias}PMD_{num} "{editor}")'
             )
             changed = True
 
@@ -166,7 +166,7 @@ def process_file(owl_file: Path, violations, dry_run: bool = False) -> tuple:
             else:
                 status = STATUS_INCOMPLETE  # conservative default without a report
             new_lines.append(
-                f"AnnotationAssertion(obo:IAO_0000114 {alias}PMD_{num} {status})"
+                f"AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> {alias}PMD_{num} {status})"
             )
             changed = True
 
