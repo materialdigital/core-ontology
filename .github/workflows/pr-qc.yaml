@@ -10,29 +10,26 @@ permissions:
 
 jobs:
 
-  auto-annotate:
-    name: Auto-fill missing IAO annotations
+  pr-checks:
+    name: PR Quality Checks
     runs-on: ubuntu-latest
+    container: obolibrary/odkfull:v1.6
     outputs:
       annotations_added: ${{ steps.fix.outputs.annotations_added }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
+
+      # --- Auto-annotate: initial SHACL to determine curation status, patch files ---
       - name: Install Python dependencies
         run: pip install pyshacl rdflib
-      - name: Download ROBOT
-        run: curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
-      - name: Merge and reason
+      - name: Merge for initial SHACL pass
         run: |
-          java -jar robot.jar merge \
+          robot merge \
             --catalog src/ontology/catalog-v001.xml \
             --input src/ontology/pmdco-edit.owl \
             --output merged.ttl
-          java -jar robot.jar reason \
-            --reasoner elk \
-            --input merged.ttl \
-            --output reasoned.ttl
       - name: Run initial SHACL pass
         run: |
           trap 'E=$?; test $E -eq 1 && exit 0 || exit $E' EXIT
@@ -40,7 +37,7 @@ jobs:
             -f turtle \
             --advanced \
             -s .github/workflow_resources/abox_quality_shacl.ttl \
-            reasoned.ttl > shacl_initial.ttl
+            merged.ttl > shacl_initial.ttl
       - id: fix
         name: Add missing IAO_0000114 / IAO_0000117 to component files
         run: |
@@ -60,75 +57,42 @@ jobs:
           path: src/ontology/components/
           retention-days: 1
 
-  odk-make-test:
-    name: ODK make test
-    needs: auto-annotate
-    runs-on: ubuntu-latest
-    container: obolibrary/odkfull:v1.6
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-      - name: Apply patched component files
-        uses: actions/download-artifact@v4
-        with:
-          name: patched-components
-          path: src/ontology/components/
-      - name: Prepare release file for profile validation
+      # --- ODK tests on the patched workspace ---
+      - name: ODK tests (IRI ranges, consistency, SPARQL checks, OBO report)
         run: |
           cd src/ontology/
-          robot convert -i pmdco.ttl -f owl -o pmdco.owl
-      - name: make test_fast
+          make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
+      - name: Validate OWL DL profile
         run: |
-          cd src/ontology/
-          make test_fast
-      - name: Assemble merged+reasoned ontology from patched components
+          robot validate-profile --profile DL --input merged.ttl --output validation.txt \
+            || { cat validation.txt; exit 1; }
+
+      # --- Final SHACL on the patched+merged ontology ---
+      - name: Merge patched ontology for SHACL
         run: |
           robot merge \
             --catalog src/ontology/catalog-v001.xml \
             --input src/ontology/pmdco-edit.owl \
             --output pmdco-merged.ttl
-          robot reason \
-            --reasoner elk \
-            --input pmdco-merged.ttl \
-            --output pmdco-reasoned.ttl
-      - name: Upload assembled ontology
-        uses: actions/upload-artifact@v4
-        with:
-          name: assembled-ontology
-          path: pmdco-reasoned.ttl
-          retention-days: 1
-
-  annotation-shacl:
-    name: Annotation standard SHACL
-    needs: odk-make-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          path: main
-      - name: Download assembled ontology
-        uses: actions/download-artifact@v4
-        with:
-          name: assembled-ontology
-      - name: pyshacl
+      - name: Run SHACL validation
         run: |
-          pip install pyshacl
           trap 'E=$?; test $E -eq 1 && echo "trapped exit code 1" && exit 0 || exit $E' EXIT
-          python3 -m pyshacl -f turtle --advanced -s main/.github/workflow_resources/abox_quality_shacl.ttl pmdco-reasoned.ttl > shacl_report.ttl
+          python3 -m pyshacl \
+            -f turtle \
+            --advanced \
+            -s .github/workflow_resources/abox_quality_shacl.ttl \
+            pmdco-merged.ttl > shacl_report.ttl
       - name: Check for violations (errors only, PMDco terms only)
         run: |
           trap - EXIT
-          python3 main/scripts/check_shacl_violations.py shacl_report.ttl
-      - name: Download ROBOT for reports
-        if: always()
-        run: curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
+          python3 scripts/check_shacl_violations.py shacl_report.ttl
       - name: Generate validation reports
         if: always()
         run: |
-          java -jar robot.jar query --input shacl_report.ttl --query main/.github/workflow_resources/q_listValidationResults.sparql ValidationReport.csv
-          java -jar robot.jar query --input shacl_report.ttl --query main/.github/workflow_resources/q_countValidationResults.sparql ValidationSummary.csv
+          robot query --input shacl_report.ttl \
+            --query .github/workflow_resources/q_listValidationResults.sparql ValidationReport.csv
+          robot query --input shacl_report.ttl \
+            --query .github/workflow_resources/q_countValidationResults.sparql ValidationSummary.csv
       - name: Archive validation reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -140,10 +104,10 @@ jobs:
 
   commit-annotations:
     name: Commit annotation fixes
-    needs: [auto-annotate, annotation-shacl]
+    needs: pr-checks
     if: |
-      needs.auto-annotate.outputs.annotations_added == 'true' &&
-      needs.annotation-shacl.result == 'success' &&
+      needs.pr-checks.outputs.annotations_added == 'true' &&
+      needs.pr-checks.result == 'success' &&
       github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: write
