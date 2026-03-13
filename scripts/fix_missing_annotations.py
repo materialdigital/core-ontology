@@ -26,7 +26,11 @@ except ImportError:
     HAS_RDFLIB = False
 
 PMDCO_PREFIX = "https://w3id.org/pmd/co/"
-OBO_IAO_0000114_IRI = "http://purl.obolibrary.org/obo/IAO_0000114"
+# Paths we are filling ourselves — excluded when deciding curation status
+FILLED_PATHS = {
+    "http://purl.obolibrary.org/obo/IAO_0000114",
+    "http://purl.obolibrary.org/obo/IAO_0000117",
+}
 
 # IRI range → full person name (from pmdco-idranges.owl + pmdco-edit.owl labels)
 ID_RANGES = [
@@ -91,9 +95,18 @@ def load_violations(report_path: Path):
         path = str(row.resultPath) if row.resultPath else None
         if iri not in violations:
             violations[iri] = set()
-        if path and path != OBO_IAO_0000114_IRI:
+        if path and path not in FILLED_PATHS:
             violations[iri].add(path)
     return violations
+
+
+def pmdco_prefix_alias(text: str) -> str:
+    """Return the prefix alias (e.g. ':' or 'pmdco:') that maps to PMDCO_PREFIX."""
+    for m in re.finditer(
+        r'Prefix\s*\(\s*(\w*:)\s*=\s*<' + re.escape(PMDCO_PREFIX) + r'>\s*\)', text
+    ):
+        return m.group(1)
+    return ":"  # fallback
 
 
 def process_file(owl_file: Path, violations, dry_run: bool = False) -> tuple:
@@ -103,12 +116,16 @@ def process_file(owl_file: Path, violations, dry_run: bool = False) -> tuple:
     """
     text = owl_file.read_text(encoding="utf-8")
 
+    # Detect which prefix alias this file uses for the PMDco namespace
+    alias = pmdco_prefix_alias(text)
+    alias_re = re.escape(alias)
+
     # Find all declared PMDco term IDs (stored as zero-padded 7-digit strings)
     declared = set()
     for m in re.finditer(
         r"Declaration\s*\(\s*"
         r"(?:Class|ObjectProperty|AnnotationProperty|DataProperty)\s*"
-        r"\(\s*:PMD_(\d+)\s*\)\s*\)",
+        r"\(\s*" + alias_re + r"PMD_(\d+)\s*\)\s*\)",
         text,
     ):
         declared.add(m.group(1).zfill(7))
@@ -120,11 +137,11 @@ def process_file(owl_file: Path, violations, dry_run: bool = False) -> tuple:
     has_114 = set()
     has_117 = set()
     for m in re.finditer(
-        r"AnnotationAssertion\s*\(\s*obo:IAO_0000114\s+:PMD_(\d+)", text
+        r"AnnotationAssertion\s*\(\s*obo:IAO_0000114\s+" + alias_re + r"PMD_(\d+)", text
     ):
         has_114.add(m.group(1).zfill(7))
     for m in re.finditer(
-        r"AnnotationAssertion\s*\(\s*obo:IAO_0000117\s+:PMD_(\d+)", text
+        r"AnnotationAssertion\s*\(\s*obo:IAO_0000117\s+" + alias_re + r"PMD_(\d+)", text
     ):
         has_117.add(m.group(1).zfill(7))
 
@@ -138,7 +155,7 @@ def process_file(owl_file: Path, violations, dry_run: bool = False) -> tuple:
         if num not in has_117:
             editor = editor_for_iri(iri)
             new_lines.append(
-                f'AnnotationAssertion(obo:IAO_0000117 :PMD_{num} "{editor}")'
+                f'AnnotationAssertion(obo:IAO_0000117 {alias}PMD_{num} "{editor}")'
             )
             changed = True
 
@@ -149,7 +166,7 @@ def process_file(owl_file: Path, violations, dry_run: bool = False) -> tuple:
             else:
                 status = STATUS_INCOMPLETE  # conservative default without a report
             new_lines.append(
-                f"AnnotationAssertion(obo:IAO_0000114 :PMD_{num} {status})"
+                f"AnnotationAssertion(obo:IAO_0000114 {alias}PMD_{num} {status})"
             )
             changed = True
 
