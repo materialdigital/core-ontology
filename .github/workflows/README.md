@@ -24,13 +24,13 @@ Builds versioned HTML documentation for all releases using Widoco and MkDocs, th
 ### `pr-qc.yaml` — PR Quality Checks
 Three jobs run in sequence to gate every PR before it can be merged:
 
-1. **`auto-annotate`** — Runs an initial SHACL pass, then automatically adds any missing `IAO_0000114` (curation status) and `IAO_0000117` (term editor) annotations to component files. Curation status is derived from the SHACL result; the term editor is looked up from `pmdco-idranges.owl`. Changes are committed back to the PR branch. Existing annotations are never overwritten.
+1. **`odk-make-test`** — Runs ODK `make` checks (IRI range validation, ELK consistency reasoning, SPARQL violation queries, ROBOT OBO report) on the updated branch.
+   
+2. **`auto-annotate`** — Runs an initial SHACL pass, then automatically adds any missing `IAO_0000114` (curation status) and `IAO_0000117` (term editor) annotations to component files. Curation status is derived from the SHACL result; the term editor is looked up from `pmdco-idranges.owl`. Changes are committed back to the PR branch. Existing annotations are never overwritten.
 
-2. **`odk-make-test`** — Runs ODK `make` checks (IRI range validation, ELK consistency reasoning, SPARQL violation queries, ROBOT OBO report) on the updated branch.
+3. **`sparql term checks`** — Runs Sparql checks on the updated branch. Fails the PR on any `sh:Violation` for PMDco-namespaced terms. Warnings (missing German labels/definitions, missing `skos:example`, duplicate language tags) are reported in the artifact but do not block the PR.
 
-3. **`annotation-shacl`** — Re-runs SHACL on the updated branch. Fails the PR on any `sh:Violation` for PMDco-namespaced terms. Warnings (missing German labels/definitions, missing `skos:example`, duplicate language tags) are reported in the artifact but do not block the PR.
-
-Artifacts `ValidationReport.csv` and `ValidationSummary.csv` are always uploaded so reviewers can inspect the full annotation status.
+Artifacts `violations.csv` and `warnings.csv` are always uploaded so reviewers can inspect the full annotation status.
 
 ---
 
