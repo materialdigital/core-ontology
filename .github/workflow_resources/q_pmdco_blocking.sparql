@@ -1,0 +1,32 @@
+# Blocking violations on PMDco terms.
+# Used by: robot verify (fails if any rows returned)
+#          robot query  (produces CSV for PR comment)
+# Checks: missing term editor, missing curation status,
+#         missing English definition, missing English label.
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX obo:  <http://purl.obolibrary.org/obo/>
+
+SELECT ?term ?issue WHERE {
+  {
+    { ?term a owl:Class }
+    UNION { ?term a owl:ObjectProperty }
+    UNION { ?term a owl:AnnotationProperty }
+  }
+  FILTER(STRSTARTS(STR(?term), "https://w3id.org/pmd/co/"))
+  {
+    FILTER NOT EXISTS { ?term obo:IAO_0000117 ?e . FILTER(STRSTARTS(STR(?e), "PERSON:")) }
+    BIND("missing_term_editor (IAO_0000117)" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term obo:IAO_0000114 ?s }
+    BIND("missing_curation_status (IAO_0000114)" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term skos:definition ?d . FILTER(LANG(?d) = "en") }
+    BIND("missing_en_definition" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term rdfs:label ?l . FILTER(LANG(?l) = "en") }
+    BIND("missing_en_label" AS ?issue)
+  }
+}
+ORDER BY ?term ?issue
