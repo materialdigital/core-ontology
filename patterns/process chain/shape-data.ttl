@@ -14,21 +14,22 @@
 @prefix starts_with: <http://purl.obolibrary.org/obo/RO_0002224> . #ObjectProperty
 @prefix ends_with: <http://purl.obolibrary.org/obo/RO_0002230> . #ObjectProperty
 @prefix simultaneous_with: <http://purl.obolibrary.org/obo/RO_0002082> . #ObjectProperty
-
+@prefix has_occurrent_part: http://purl.obolibrary.org/obo/BFO_0000117 .
+@prefix has_proper_occurrent_part: http://purl.obolibrary.org/obo/BFO_0000118 .
 <https://w3id.org/pmd/co/test/shape/process_chain> rdf:type owl:Ontology .
 
-ex:process_parent a process: .
-ex:process_step1 a process: .
-ex:process_step2a a process: .
-ex:process_step2b a process: .
-ex:process_step3 a process: .
+ex:hot_rolling a process: .
+ex:heating a process: .
+ex:rolling_pass a process: .
+ex:deformation a process: .
+ex:cooling a process: .
 
 
-ex:process_parent starts_with: ex:process_step1 .
-ex:process_parent ends_with: ex:process_step3 .
-ex:process_parent has_part: ex:process_step1, ex:process_step2a, ex:process_step2b, ex:process_step3 .
+ex:hot_rolling starts_with: ex:heating .
+ex:hot_rolling ends_with: ex:cooling .
+ex:hot_rolling has_proper_occurrent_part: ex:heating, ex:rolling_pass, ex:deformation, ex:cooling .
 
-ex:process_step1 precedes: ex:process_step2a, ex:process_step2b, ex:process_step3 .
+ex:heating precedes: ex:rolling_pass, ex:deformation, ex:cooling .
 
-ex:process_step2a precedes: ex:process_step3 .
-ex:process_step2a simultaneous_with: ex:process_step2b .
+ex:rolling_pass precedes: ex:cooling .
+ex:rolling_pass simultaneous_with: ex:deformation .

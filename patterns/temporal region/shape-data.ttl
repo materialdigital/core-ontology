@@ -9,31 +9,38 @@
 
 @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . #Class
 @prefix continuant: <http://purl.obolibrary.org/obo/BFO_0000002> .  #Class
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
 @prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . #Class
 @prefix one-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000038> . #Class
 @prefix zero-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000148> . #Class
+@prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
+@prefix temporal_instant: <http://purl.obolibrary.org/obo/BFO_0000203> .
 
 @prefix occupies_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000199> . #ObjectProperty
 @prefix proper_temporal_part_of: <http://purl.obolibrary.org/obo/BFO_0000136> . #ObjectProperty
+@prefix temporal_part_of: http://purl.obolibrary.org/obo/BFO_0000139> .
 @prefix has_first_instant: <http://purl.obolibrary.org/obo/BFO_0000222> . #ObjectProperty
 @prefix has_last_instant: <http://purl.obolibrary.org/obo/BFO_0000224> . #ObjectProperty
 @prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . #ObjectProperty
+@prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> . 
+
 
 <https://w3id.org/pmd/co/test/shape/temporal_region> rdf:type owl:Ontology .
 
-ex:process_1 a process: .
-ex:process_2 a process: .
-ex:period_1 a one-dimensional_temporal_region: .
-ex:period_2 a one-dimensional_temporal_region: . 
-ex:some_time a temporal_region: .
-ex:object_1 a continuant: .
-ex:start a zero-dimensional_temporal_region: .
-ex:end a zero-dimensional_temporal_region: .
+ex:annealing_1 a process: .
+ex:heat_treatment_1 a process: .
+ex:period_of_annealing_1 a temporal_interval: .
+ex:period_of_heat_treatment_1 a temporal_interval: . 
+ex:furnace_operation_life a temporal_interval: .
+ex:furnace_1 a object: .
+ex:start a temporal_instant: .
+ex:end a temporal_instant: .
 
-ex:process_1 occupies_temporal_region: ex:period_1 . 
-ex:process_2 occupies_temporal_region: ex:period_2 .
-ex:period_2 has_first_instant: ex:start . 
-ex:period_2 has_last_instant: ex:end .
-ex:period_1 proper_temporal_part_of: ex:period_2 .
-ex:object_1 exists_at: ex:some_time .
-
+ex:annealing_1 occupies_temporal_region: ex:period_of_annealing_1 . 
+ex:heat_treatment_1 occupies_temporal_region: ex:period_of_heat_treatment_1 .
+ex:period_of_heat_treatment_1 has_first_instant: ex:start . 
+ex:period_of_heat_treatment_1 has_last_instant: ex:end .
+ex:period_of_annealing_1 proper_temporal_part_of: ex:period_of_heat_treatment_1 .
+ex:period_of_heat_treatment_1 temporal_part_of: ex:furnace_operation_life .
+ex:furnace_1 exists_at: ex:furnace_operation_life .
+ex:furnace_1 participates_in: ex:annealing_1 .
