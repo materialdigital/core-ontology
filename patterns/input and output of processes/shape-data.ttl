@@ -12,20 +12,24 @@
 @prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
 @prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
 
 <https://w3id.org/pmd/co/test> rdf:type owl:Ontology  .
 
-ex:process1 a manufacturing_process: ;   
-        has_specified_input: ex:object1 ;
-        has_specified_output: ex:object2 ;
-        realizes: :plan1 . 
+ex:cold_rolling a manufacturing_process: ;   
+        has_specified_input: ex:sheet_1 ;
+        has_specified_output: ex:cold_rolled_sheet_1 ;
+        realizes: ex:plan_cold_rolling . 
 
-ex:process2 a coating:;  
-        has_specified_input: ex:object2  ; 
-        has_specified_output: ex:object3 ;
-        realizes: :plan2 . 
+ex:process2 a manufacturing_process:;  
+        has_specified_input: ex:cold_rolled_sheet_1  ; 
+        has_specified_output: ex:annealed_sheet_1 ;
+        realizes: ex:plan_annealing . 
 
-ex:object1 a object: .
-ex:object2 a object: .
-ex:object3 a object: .
+ex:sheet_1 a object: .
+ex:cold_rolled_sheet_1 a object: .
+ex:annealed_sheet_1 a object: .
+
+ex:plan_annealing a plan: .
+ex:plan_cold_rolling  a plan: .
