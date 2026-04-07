@@ -24,21 +24,26 @@
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
 @prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
 @prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix has_some_value_spec: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
 
 <https://w3id.org/pmd/co/test/role> rdf:type owl:Ontology  .
 
 ex:tensile_testing a assay: .
 ex:tensile_testing has_specified_input: ex:tensile_test_piece .
-# ex:tensile_testing achieves_planned_objective: ex:objective_1 .
+ex:tensile_testing achieves_planned_objective: ex:objective_1 .
 ex:tensile_testing has_specified_output: ex:stress_strain_curve .
-# ex:tensile_testing assay_measures_characteristic: ex:ultimate_tensile_strength .
+ex:tensile_testing assay_measures_characteristic: ex:ultimate_tensile_strength .
 ex:tensile_testing realizes: ex:plan_of_tensile_test .
 
- ex:stress_strain_curve a  measurement_datum: .
-ex:plan_of_tensile_test a plan: .
+ex:stress_strain_curve a  measurement_datum: .
 
-# ex:objective_1 is_about: ex:tensile_test_piece .
+ex:plan_of_tensile_test a plan: ; concretizes: ex:some_specification .
+
+ex:objective_1 is_about: ex:tensile_test_piece .
 ex:stress_strain_curve  is_about: ex:tensile_test_piece .
+ex:stress_strain_curve  has_some_value_spec: ex:some_value_spec .
 
 ex:tensile_test_piece a object: .
 ex:tensile_test_piece has_role: ex:evaluant_role_of_test_piece .
