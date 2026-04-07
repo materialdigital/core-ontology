@@ -13,7 +13,8 @@
 @prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
 @prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
 @prefix planned_process: <http://purl.obolibrary.org/obo/COB_0000035> .
-@prefix fatigue_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
+@prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix tensile_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
 @prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
 @prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
 @prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
@@ -21,23 +22,27 @@
 @prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
 @prefix has_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000117> .
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
 
 <https://w3id.org/pmd/co/test/role> rdf:type owl:Ontology  .
 
-ex:process_1 a fatigue_testing_process: .
-ex:process_1 has_specified_input: ex:object_1 .
-ex:process_1 achieves_planned_objective: ex:objective_1 .
-ex:process_1 has_specified_output: ex:result_1 .
-ex:process_1 assay_measures_characteristic: ex:quality_1 .
-ex:process_1 realizes: ex:plan_1 .
-ex:process_1 has_occurrent_part: ex:sub_process_1 .
+ex:tensile_testing a assay: .
+ex:tensile_testing has_specified_input: ex:tensile_test_piece .
+# ex:tensile_testing achieves_planned_objective: ex:objective_1 .
+ex:tensile_testing has_specified_output: ex:stress_strain_curve .
+# ex:tensile_testing assay_measures_characteristic: ex:ultimate_tensile_strength .
+ex:tensile_testing realizes: ex:plan_of_tensile_test .
 
-ex:objective_1 is_about: ex:object_1 .
-ex:result_1  is_about: ex:object_1 .
+ ex:stress_strain_curve a  measurement_datum: .
+ex:plan_of_tensile_test a plan: .
 
-ex:object_1 a object: .
-ex:object_1 has_role: ex:role_1 .
+# ex:objective_1 is_about: ex:tensile_test_piece .
+ex:stress_strain_curve  is_about: ex:tensile_test_piece .
 
-ex:role_1 a evaluant_role: .
-ex:role_1 has_realization: ex:process_1  .
+ex:tensile_test_piece a object: .
+ex:tensile_test_piece has_role: ex:evaluant_role_of_test_piece .
+
+ex:evaluant_role_of_test_piece a evaluant_role: .
+ex:evaluant_role_of_test_piece has_realization: ex:tensile_testing  .
 

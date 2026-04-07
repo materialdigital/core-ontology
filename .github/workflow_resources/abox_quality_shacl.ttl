@@ -33,14 +33,24 @@ ex:EnglishRdfsLabelPropertyShape a sh:PropertyShape ;
     sh:message "must have at least one rdfs:label with language \"en\""@en .
 
 ex:ClassRdfsLabelPropertyShape a sh:PropertyShape ;
-	sh:path rdfs:label ;
-	sh:pattern "^(([A-Z][a-z]+)( |$))+" ;
-    sh:message "must be like \"Entitled String Style\" (Pattern: \"^(([A-Z][a-z]+)( |$))+\")" .
+    sh:path rdfs:label ;
+    sh:qualifiedValueShape [
+        sh:datatype rdf:langString ;
+        sh:languageIn ( "en" ) ;
+        sh:pattern "^(([a-z]+)( |$))+" ;
+    ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "English rdfs:label must be lower case natural language (Pattern: \"^(([a-z]+)( |$))+\")"@en .
 
 ex:PropertyRdfsLabelPropertyShape a sh:PropertyShape ;
-	sh:path rdfs:label ;
-	sh:pattern "^(([a-z]+)( |$))+" ;
-    sh:message "must be like \"natural language string style\" (Pattern: \"^(([a-z]+)( |$))+\")" .
+    sh:path rdfs:label ;
+    sh:qualifiedValueShape [
+        sh:datatype rdf:langString ;
+        sh:languageIn ( "en" ) ;
+        sh:pattern "^(([a-z]+)( |$))+" ;
+    ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "English rdfs:label must be lower case natural language (Pattern: \"^(([a-z]+)( |$))+\")"@en .
 
 ex:EnglishSkosDefinitionPropertyShape a sh:PropertyShape ;
     sh:path skos:definition ;
@@ -52,19 +62,37 @@ ex:EnglishSkosDefinitionPropertyShape a sh:PropertyShape ;
     sh:message "must have at least one skos:definition with language \"en\""@en .
 
 ex:ClassConvention a rdfs:Class, sh:NodeShape ;
-	sh:targetClass owl:Class ;
-	sh:property ex:TermEditorPropertyShape ,
-				ex:CurationStatusPropertyShape ,
-				ex:EnglishRdfsLabelPropertyShape ,
-				ex:EnglishSkosDefinitionPropertyShape ,
-				ex:ClassRdfsLabelPropertyShape ;
-	.
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                ?this a owl:Class .
+                FILTER(STRSTARTS(STR(?this), "https://w3id.org/pmd/co/"))
+            }
+        """ ;
+    ] ;
+    sh:property ex:TermEditorPropertyShape ,
+                ex:CurationStatusPropertyShape ,
+                ex:EnglishRdfsLabelPropertyShape ,
+                ex:EnglishSkosDefinitionPropertyShape ,
+                ex:ClassRdfsLabelPropertyShape ;
+    .
 
 ex:PropertyConvention a rdfs:Class, sh:NodeShape ;
-	sh:targetClass owl:AnnotationProperty , owl:ObjectProperty ;
-	sh:property ex:TermEditorPropertyShape ,
-				ex:CurationStatusPropertyShape ,
-				ex:EnglishRdfsLabelPropertyShape ,
-				ex:EnglishSkosDefinitionPropertyShape ,
-				ex:PropertyRdfsLabelPropertyShape ;
-	.
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            SELECT ?this WHERE {
+                { ?this a owl:ObjectProperty }
+                UNION
+                { ?this a owl:AnnotationProperty }
+                FILTER(STRSTARTS(STR(?this), "https://w3id.org/pmd/co/"))
+            }
+        """ ;
+    ] ;
+    sh:property ex:TermEditorPropertyShape ,
+                ex:CurationStatusPropertyShape ,
+                ex:EnglishRdfsLabelPropertyShape ,
+                ex:EnglishSkosDefinitionPropertyShape ,
+                ex:PropertyRdfsLabelPropertyShape ;
+    .
