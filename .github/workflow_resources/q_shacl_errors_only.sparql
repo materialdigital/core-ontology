@@ -1,0 +1,10 @@
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+SELECT ?focusNode ?resultMessage
+WHERE {
+    ?vr a sh:ValidationResult ;
+        sh:focusNode ?focusNode ;
+        sh:resultMessage ?resultMessage ;
+        sh:resultSeverity sh:Violation .
+    FILTER(STRSTARTS(STR(?focusNode), "https://w3id.org/pmd/co/"))
+}

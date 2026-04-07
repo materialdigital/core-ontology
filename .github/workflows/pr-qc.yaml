@@ -1,0 +1,212 @@
+name: PR Quality Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+
+  pr-checks:
+    name: PR Quality Checks
+    runs-on: ubuntu-latest
+    container: obolibrary/odkfull:v1.6
+    outputs:
+      annotations_added: ${{ steps.fix.outputs.annotations_added }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      # --- ODK tests on the committed workspace ---
+      - name: ODK tests (IRI ranges, consistency, SPARQL checks, OBO report)
+        run: |
+          cd src/ontology/
+          make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
+
+      # --- Merge + DL profile check (reuse ODK's merged file) ---
+      - name: Merge and validate OWL DL profile
+        run: |
+          cd src/ontology
+          robot --catalog catalog-v001.xml \
+            validate-profile --profile DL \
+            --input tmp/merged-pmdco-edit.ofn \
+            --output ../../validation.txt \
+            || { cat ../../validation.txt; exit 1; }
+
+      # --- Determine curation status via SPARQL, then auto-annotate ---
+      - name: Query other violations for curation status
+        run: |
+          cd src/ontology
+          robot --catalog catalog-v001.xml query \
+            --input tmp/merged-pmdco-edit.ofn \
+            --query ../../.github/workflow_resources/q_pmdco_other_violations.sparql \
+            ../../other_violations.csv
+      - id: fix
+        name: Add missing IAO_0000114 / IAO_0000117 to component files
+        run: |
+          python3 scripts/fix_missing_annotations.py \
+            src/ontology/components \
+            --violations-report other_violations.csv | tee annotation_log.txt
+          if grep -q "No missing annotations" annotation_log.txt; then
+            echo "annotations_added=false" >> $GITHUB_OUTPUT
+          else
+            echo "annotations_added=true" >> $GITHUB_OUTPUT
+          fi
+      - name: Upload patched component files
+        uses: actions/upload-artifact@v4
+        with:
+          name: patched-components
+          path: src/ontology/components/
+          retention-days: 1
+
+      # --- Final check and report on patched ontology ---
+      - name: Merge patched ontology
+        run: |
+          cd src/ontology
+          robot merge --catalog catalog-v001.xml \
+            --input pmdco-edit.owl \
+            --output ../../pmdco-merged.ttl
+      - name: Check for blocking violations (robot verify)
+        run: |
+          cd src/ontology
+          robot --catalog catalog-v001.xml verify \
+            --input ../../pmdco-merged.ttl \
+            --queries ../../.github/workflow_resources/q_pmdco_blocking.sparql
+      - name: Generate and render violations report
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd src/ontology
+          robot --catalog catalog-v001.xml query \
+            --input ../../pmdco-merged.ttl \
+            --query ../../.github/workflow_resources/q_pmdco_blocking.sparql \
+            ../../violations.csv
+          robot --catalog catalog-v001.xml query \
+            --input ../../pmdco-merged.ttl \
+            --query ../../.github/workflow_resources/q_pmdco_warnings.sparql \
+            ../../warnings.csv
+          cd ../..
+          python3 - <<'EOF'
+          import csv, os, re, subprocess
+
+          def annotation_table(log_path):
+              try:
+                  lines = open(log_path).readlines()
+              except FileNotFoundError:
+                  return "_Annotation log not available._"
+              rows = []
+              for line in lines:
+                  m = re.search(r'(\S+\.owl):\s+\+(\d+) annotation\(s\) on (\d+) term\(s\)', line)
+                  if m:
+                      rows.append((m.group(1), m.group(3), m.group(2)))
+              if not rows:
+                  return "_No annotations were auto-added._"
+              total_terms = sum(int(r[1]) for r in rows)
+              total_ann   = sum(int(r[2]) for r in rows)
+              tbl  = "| file | terms | annotations added |\n"
+              tbl += "| --- | --- | --- |\n"
+              for fname, terms, ann in rows:
+                  tbl += f"| {fname} | {terms} | {ann} |\n"
+              tbl += f"| **Total** | **{total_terms}** | **{total_ann}** |\n"
+              return tbl
+
+          def issues_table(violations_path, warnings_path):
+              rows = []
+              for path, severity in [(violations_path, "Blocking"), (warnings_path, "Warning")]:
+                  try:
+                      for row in csv.DictReader(open(path)):
+                          rows.append((row.get("term",""), row.get("issue",""), severity))
+                  except FileNotFoundError:
+                      pass
+              if not rows:
+                  return "_No issues found — all terms conform._"
+              tbl  = "| term | issue | severity |\n"
+              tbl += "| --- | --- | --- |\n"
+              for term, issue, sev in rows:
+                  tbl += f"| {term} | {issue} | {sev} |\n"
+              return tbl
+
+          ann_md    = annotation_table("annotation_log.txt")
+          issues_md = issues_table("violations.csv", "warnings.csv")
+          md = (
+              "## PMDco Quality Check\n\n"
+              "### Auto-added annotations\n" + ann_md + "\n\n"
+              "### Hygiene issues\n" + issues_md + "\n"
+          )
+
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write(md)
+
+          marker = "<!-- pmdco-quality-report -->"
+          body = marker + "\n" + md
+          pr = os.environ.get("GITHUB_REF", "").replace("refs/pull/", "").replace("/merge", "")
+          if pr.isdigit():
+              repo = os.environ["GITHUB_REPOSITORY"]
+              result = subprocess.run(
+                  ["gh", "api", f"repos/{repo}/issues/{pr}/comments", "--jq",
+                   f'[.[] | select(.body | startswith("{marker}")) | .id][0]'],
+                  capture_output=True, text=True
+              )
+              comment_id = result.stdout.strip()
+              if comment_id and comment_id != "null":
+                  subprocess.run(["gh", "api", f"repos/{repo}/issues/comments/{comment_id}",
+                                  "-X", "PATCH", "-f", f"body={body}"], check=True)
+              else:
+                  subprocess.run(["gh", "pr", "comment", pr, "--repo", repo,
+                                  "--body", body], check=True)
+          EOF
+      - name: Archive violations report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: violations-report
+          path: |
+            violations.csv
+            warnings.csv
+            annotation_log.txt
+
+  commit-annotations:
+    name: Commit annotation fixes
+    needs: pr-checks
+    if: |
+      needs.pr-checks.outputs.annotations_added == 'true' &&
+      needs.pr-checks.result == 'success' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: write
+      statuses: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Apply patched component files
+        uses: actions/download-artifact@v4
+        with:
+          name: patched-components
+          path: src/ontology/components/
+      - name: Commit and push
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add src/ontology/components/
+          git diff --cached --quiet && echo "Nothing to commit." || \
+            git commit -m "chore: auto-fill missing IAO_0000114/IAO_0000117 annotations"
+          git push
+      - name: Forward check status to new commit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_SHA=$(git rev-parse HEAD)
+          gh api repos/${{ github.repository }}/statuses/$NEW_SHA \
+            -f state=success \
+            -f context="PR Quality Checks / pr-checks" \
+            -f description="All checks passed (annotations auto-filled)" \
+            -f target_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"

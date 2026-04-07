@@ -1,0 +1,63 @@
+# Warning-level quality issues on PMDco terms.
+# These do not block a PR but are reported so contributors know what to improve.
+# Mirrors sh:Warning shapes in abox_quality_shacl.ttl:
+#   ClassRdfsLabelPropertyShape, PropertyRdfsLabelPropertyShape (lowercase EN label),
+#   GermanRdfsLabelPropertyShape, GermanSkosDefinitionPropertyShape,
+#   SkosExamplePropertyShape.
+# Note: duplicate_label_language / duplicate_definition_language only fire when
+#       two or more values share the exact same language tag on one term.
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?term ?issue WHERE {
+  {
+    { ?term a owl:Class }
+    UNION { ?term a owl:ObjectProperty }
+    UNION { ?term a owl:AnnotationProperty }
+  }
+  FILTER(STRSTARTS(STR(?term), "https://w3id.org/pmd/co/"))
+  {
+    # EN label exists but is not lowercase natural language
+    FILTER EXISTS { ?term rdfs:label ?any . FILTER(LANG(?any) = "en") }
+    FILTER NOT EXISTS {
+      ?term rdfs:label ?l .
+      FILTER(LANG(?l) = "en" && REGEX(STR(?l), "^(([a-z]+)( |$))+"))
+    }
+    BIND("en_label_not_lowercase" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term rdfs:label ?l . FILTER(LANG(?l) = "de") }
+    BIND("missing_de_label" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term skos:definition ?d . FILTER(LANG(?d) = "de") }
+    BIND("missing_de_definition" AS ?issue)
+  } UNION {
+    # two or more rdfs:labels sharing the same language tag on one term
+    {
+      SELECT ?term WHERE {
+        ?term rdfs:label ?l .
+        FILTER(LANG(?l) != "")
+        BIND(LANG(?l) AS ?lang)
+      }
+      GROUP BY ?term ?lang
+      HAVING (COUNT(DISTINCT ?l) > 1)
+    }
+    BIND("duplicate_label_language" AS ?issue)
+  } UNION {
+    # two or more skos:definitions sharing the same language tag on one term
+    {
+      SELECT ?term WHERE {
+        ?term skos:definition ?d .
+        FILTER(LANG(?d) != "")
+        BIND(LANG(?d) AS ?lang)
+      }
+      GROUP BY ?term ?lang
+      HAVING (COUNT(DISTINCT ?d) > 1)
+    }
+    BIND("duplicate_definition_language" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term skos:example ?e }
+    BIND("missing_skos_example" AS ?issue)
+  }
+}
+ORDER BY ?term ?issue

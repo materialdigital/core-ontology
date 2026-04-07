@@ -1,0 +1,23 @@
+# Terms with quality issues OTHER than missing IAO_0000114/IAO_0000117.
+# Used to determine curation status: terms appearing here get IAO_0000123
+# (metadata incomplete); terms absent get IAO_0000122 (ready for release).
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?term ?issue WHERE {
+  {
+    { ?term a owl:Class }
+    UNION { ?term a owl:ObjectProperty }
+    UNION { ?term a owl:AnnotationProperty }
+  }
+  FILTER(STRSTARTS(STR(?term), "https://w3id.org/pmd/co/"))
+  {
+    FILTER NOT EXISTS { ?term skos:definition ?d . FILTER(LANG(?d) = "en") }
+    BIND("missing_en_definition" AS ?issue)
+  } UNION {
+    FILTER NOT EXISTS { ?term rdfs:label ?l . FILTER(LANG(?l) = "en") }
+    BIND("missing_en_label" AS ?issue)
+  }
+}
+ORDER BY ?term ?issue
