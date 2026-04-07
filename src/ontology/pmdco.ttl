@@ -16,7 +16,7 @@
 @base <https://w3id.org/pmd/pmdco.ttl> .
 
 <https://w3id.org/pmd/pmdco.ttl> rdf:type owl:Ontology ;
-                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-03-20/pmdco.ttl> ;
+                                  owl:versionIRI <https://w3id.org/pmd/co/releases/2026-04-07/pmdco.ttl> ;
                                   dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                                   <https://orcid.org/0000-0001-7192-7143> ,
                                                   <https://orcid.org/0000-0002-1058-3102> ,
@@ -43,7 +43,7 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                                   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                                   dcterms:title "PMD Core Ontology" ;
                                   doap:repository <https://github.com/materialdigital/core-ontology> ;
-                                  owl:versionInfo "2026-03-20" .
+                                  owl:versionInfo "2026-04-07" .
 
 #################################################################
 #    Annotation properties
@@ -59,8 +59,11 @@ obo:IAO_0000112 rdf:type owl:AnnotationProperty ;
 
 ###  http://purl.obolibrary.org/obo/IAO_0000115
 obo:IAO_0000115 rdf:type owl:AnnotationProperty ;
-                obo:IAO_0000115 "The official OBI definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ,
-                                "The official definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ;
+                obo:IAO_0000115 "A property representing the English language definitions of what NCI means by the concept. They may also include information about the definition's source and attribution in a form that can easily be interpreted by software." ,
+                                "English language definitions of what NCI means by the concept. These are limited to 1024 characters. They may also include information about the definition's source and attribution in a form that can easily be interpreted by software." ,
+                                "The official OBI definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ,
+                                "The official definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ,
+                                "The official definition." ;
                 obo:IAO_0000116 """2012-04-05: 
 Barry Smith
 
@@ -211,6 +214,7 @@ oboInOwl:hasExactSynonym rdf:type owl:AnnotationProperty ;
 
 ###  http://www.w3.org/2000/01/rdf-schema#label
 rdfs:label rdf:type owl:AnnotationProperty ;
+           obo:IAO_0000115 "A human readable name for this class." ;
            rdfs:label "label" ,
                       "label"@en .
 
@@ -291,7 +295,8 @@ obo:BFO_0000050 rdf:type owl:ObjectProperty ;
                                 """Parthood requires the part and the whole to have compatible classes: only an occurrent can be part of an occurrent; only a process can be part of a process; only a continuant can be part of a continuant; only an independent continuant can be part of an independent continuant; only an immaterial entity can be part of an immaterial entity; only a specifically dependent continuant can be part of a specifically dependent continuant; only a generically dependent continuant can be part of a generically dependent continuant. (This list is not exhaustive.)
 
 A continuant cannot be part of an occurrent: use 'participates in'. An occurrent cannot be part of a continuant: use 'has participant'. A material entity cannot be part of an immaterial entity: use 'has location'. A specifically dependent continuant cannot be part of an independent continuant: use 'inheres in'. An independent continuant cannot be part of a specifically dependent continuant: use 'bearer of'."""@en ;
-                rdfs:label "part of"@en .
+                rdfs:label "part of" ,
+                           "part of"@en .
 
 
 ###  http://purl.obolibrary.org/obo/BFO_0000051
@@ -6910,18 +6915,13 @@ pmd:PMD_0000918 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000919
 pmd:PMD_0000919 rdf:type owl:Class ;
-                rdfs:subClassOf obo:BFO_0000023 ;
-                obo:IAO_0000116 """ANMERKUNG: Ein Sample ist ein Teil (oder das Ganze) eines Probestücks. Das Probestück wird bei der Herstellung eines industriell verwendeten Produktes gezielt für die Überprüfung des Produkteigenschaften bereitgestellt. CAVE: Diese Anmerkung beschreibt das Objekt, welches die Rolle, die durch diese owl:Class definiert wird, realisiert.
-ANMERKUNG: Die exakte Wortwahl der EN 10021 wurde verallgemeinert."""@de ,
-                                "In certain cases, the sample can be the specimen or the test piece itself."@en ,
-                                "Mitunter kann der Probenabschnitt (Sample) unmittelbar als Prüfling (Specimen) oder Probe dienen."@de ,
-                                """NOTE: A Sample is a part (or the whole) of a Sample product. The Sample product is specifically produced portion of an industrially used and traded product for the purpose of determining the properties/quality of the product. CAVE: This note describes the object, that realizes the role defined by this owl:Class.
-NOTE: The wording used in EN 10021 was generalized."""@en ;
-                obo:IAO_0000119 "EN 10021:2006-12 (European standardization committee: CEN/TC 459/SC 12/WG 4)"@en ;
-                rdfs:label "Probe-Rolle"@de ,
-                           "sample role"@en ;
-                skos:definition "Role of an object, which is a quantity of material taken from a (sample) product, that is sufficient for the purpose of obtaining test pieces."@en ,
-                                "Rolle eines Objektes, das eine von einem Probestück/Material entnommene Menge ist, welche (vom Umfang her) geeignet ist Proben (Test Pieces) herzustellen."@de .
+                rdfs:comment "Duplicate with https://w3id.org/pmd/co/PMD_0000975 (\"test piece role\")" ;
+                rdfs:label "DEPRECATED Probe-Rolle"@de ,
+                           "DEPRECATED sample role"@en ;
+                rdfs:seeAlso pmd:PMD_0000975 ;
+                owl:deprecated "true"^^xsd:boolean ;
+                skos:definition "DEPRECATED Role of an object, which is a quantity of material taken from a (sample) product, that is sufficient for the purpose of obtaining test pieces."@en ,
+                                "DEPRECATED Rolle eines Objektes, das eine von einem Probestück/Material entnommene Menge ist, welche (vom Umfang her) geeignet ist Proben (Test Pieces) herzustellen."@de .
 
 
 ###  https://w3id.org/pmd/co/PMD_0000920
@@ -7446,7 +7446,7 @@ pmd:PMD_0000974 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0000975
 pmd:PMD_0000975 rdf:type owl:Class ;
-                rdfs:subClassOf obo:BFO_0000023 ;
+                rdfs:subClassOf obo:OBI_0000067 ;
                 obo:IAO_0000116 """ANMERKUNG: Ein Test Piece ist ein Teilstück (potenziell alles) eines Specimens, welches die Bedingungen erfüllt, die durch ein anzuwendendes Prüfverfahren gestellt werden. Ein Specimen erfüllt diese Anforderungen im Allgemeinen erst nach weiterer Bearbeitung. CAVE: Diese Anmerkung beschreibt das Objekt, welches die Rolle, die durch diese owl:Class definiert wird, realisiert.
 ANMERKUNG: Die exakte Wortwahl der EN 10021 wurde verallgemeinert."""@de ,
                                 "In certain cases, the test piece can be the sample or the specimen itself."@en ,
