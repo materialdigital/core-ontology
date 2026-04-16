@@ -29,9 +29,6 @@
 @prefix melting_point: <https://w3id.org/pmd/co/PMD_0000851> .
 @prefix relational_quality: <http://purl.obolibrary.org/obo/BFO_0000145> .
 @prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> .
-# mass_proportion (PMD_0020102) is an intensive quality (mass_ratio → composition → intensive_quality).
-# domain of quality_of (RO_0000080) = BFO_0000019 AND NOT BFO_0000145; using relational_quality_of
-# (PMD_0025999) infers BFO_0000145 via its inverse's range → OWL inconsistency. Use quality_of.
 @prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
 @prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
 @prefix gram: <http://purl.obolibrary.org/obo/UO_0000021> . 
@@ -121,7 +118,7 @@ ex:change_of_temperature_during_melting a change_of_temperature: .
 ex:some_iron a portion_of_iron: . 
 
 ex:mass_proportion_iron a mass_proportion: ;
-            quality_of: ex:metal_sheet .
+            relational_quality_of:  ex:some_iron , ex:metal_sheet .
 
 ex:fraction_iron a fraction_value_specification: ;
             has_specified_numeric_value: "97.7"^^xsd:float ;

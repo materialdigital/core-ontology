@@ -56,18 +56,11 @@ ex:chem_comp_spec has_member: ex:fraction_silicon_spec .
 ex:chem_comp is_subject_of: ex:chem_comp_spec .
 
 ### Define proportions ###
-# mass_proportion (PMD_0020102) is classified as: mass_ratio → composition (PMD_0025001) → intensive quality (PMD_0020131)
-# intensive quality has OWL axiom: SubClassOf quality_of some portion_of_matter (uses RO_0000080).
-# domain of quality_of (RO_0000080) = BFO_0000019 AND NOT BFO_0000145 (non-relational quality only!).
-# Using relational_quality_of (PMD_0025999) here causes OWL inconsistency: its inverse
-# has_relational_quality (PMD_0025998) has range BFO_0000145 (relational quality) — contradiction.
-# Fix: proportion is quality_of the material (not relational_quality_of the component).
-# material (PMD_0000000) ⊆ portion_of_matter, so the intensive quality axiom is satisfied.
 ex:mass_proportion_iron a mass_proportion: .
-ex:mass_proportion_iron quality_of: ex:material_no27_14 .
+ex:mass_proportion_iron relational_quality_of: ex:some_iron .
 ex:mass_proportion_iron specified_by_value: ex:fraction_iron_spec .
 ex:mass_proportion_silicon a mass_proportion: .
-ex:mass_proportion_silicon quality_of: ex:material_no27_14 .
+ex:mass_proportion_silicon relational_quality_of: ex:some_silicon .
 ex:mass_proportion_silicon specified_by_value: ex:fraction_silicon_spec .
 
 ### Define fraction specifcations ###
