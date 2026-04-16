@@ -7,6 +7,7 @@
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix pmd: <https://w3id.org/pmd/co/> .
 @base <https://w3id.org/pmd/co/test#> .
 
 <https://w3id.org/pmd/co/test/shape-qudt-quantity-value> rdf:type owl:Ontology .
@@ -15,9 +16,8 @@
 @prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
 @prefix measurement_unit: <http://purl.obolibrary.org/obo/IAO_0000003> .
 
-# --- UO-based representation (classic OBI/IAO pattern) ---
-# Unit is a UO individual typed as IAO measurement unit (IAO_0000003).
-# Uses IAO_0000039 (has measurement unit label) and OBI_0001937 (has specified numeric value).
+# UO-based representation: classic OBI/IAO scalar value specification pattern.
+# Unit typed as IAO:measurement_unit, value via OBI:has_specified_numeric_value.
 
 ex:tensile_strength_UO
     rdf:type obo:OBI_0001931 ;
@@ -27,14 +27,15 @@ ex:tensile_strength_UO
 <http://purl.obolibrary.org/obo/UO_0000015>
     rdf:type measurement_unit: .
 
-# --- QUDT-based representation (QUDT quantity value pattern) ---
-# Unit is a QUDT unit individual typed as qudt:Unit.
-# Uses qudt:unit (SubPropertyOf IAO_0000039) and qudt:numericValue (SubPropertyOf OBI_0001937).
-# The individual is typed as pmd:PMD_0080205 (QUDT scalar quantity value),
-# which is EquivalentTo OBI_0001931 AND (qudt:unit some qudt:Unit).
+# QUDT-based representation: uses qudt:QuantityValue + QUDT properties.
+# Individual typed as both qudt:QuantityValue and pmd:PMD_0080205.
+# pmd:PMD_0080205 ≡ OBI_0001931 AND (qudt:unit some qudt:Unit)
+# qudt:unit SubPropertyOf IAO_0000039 → satisfies UO shape too.
+# qudt:numericValue SubPropertyOf OBI_0001937 → satisfies numeric value constraint.
 
 ex:tensile_strength_QUDT
-    rdf:type <https://w3id.org/pmd/co/PMD_0080205> ;
+    rdf:type qudt:QuantityValue ;
+    rdf:type pmd:PMD_0080205 ;
     qudt:unit unit:MegaPA ;
     qudt:numericValue 450.0 .
 
