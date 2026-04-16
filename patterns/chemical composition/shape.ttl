@@ -14,7 +14,7 @@ shape:
   owl:imports sh: .
   
 #TODO feature, write SPARQL queries to check if, e.g., proportions are correct classes
-#TODO feature write or statements for the fractions being qualities of material (proportions are intensive qualities, not relational qualities)
+#TODO feature write or statements for the fractions being relational qualtities of material and pure chemical elements
 
 # See Frame 351 on Miro, chemical composition (reworked after hackathon 2025)
 
@@ -57,13 +57,10 @@ shape:proportion
         sh:maxCount 1 ; 
         sh:node shape:fraction_value_specification ;
     ] ;
-    # proportion is classified as intensive quality (mass_ratio → composition → intensive quality).
-    # domain of quality_of (RO_0000080) = non-relational quality only; relational_quality_of (PMD_0025999)
-    # would infer BFO_0000145 via the inverse property range → OWL inconsistency. Use quality_of.
     sh:property [
-        sh:path obo:RO_0000080 ; # quality of (the material, not relational_quality_of the component)
-        sh:minCount 1 ;
-        sh:class pmd:PMD_0000000 ; # material (⊆ portion_of_matter, satisfies intensive quality axiom)
+        sh:path pmd:PMD_0025999 ; # relational quality of
+        sh:minCount 1 ; 
+        sh:class pmd:PMD_0000001 ; # portion of matter TODO:separate between material and chemical elements
     ] ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
