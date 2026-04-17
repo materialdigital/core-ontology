@@ -151,9 +151,24 @@ $(ONT)-base.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(IMPORT_FILES)
 		--output $@.tmp.owl && mv $@.tmp.owl $@
 
 
-$(ONT)-minimal.owl: 
+$(ONT)-minimal.owl:
 	$(ROBOT)  query --input $(ONT).owl --query ../sparql/select-minimal-profile.sparql $(TMPDIR)/minimal_profile.txt && \
 	$(ROBOT)  extract --input $(ONT).owl --term-file $(TMPDIR)/minimal_profile.txt --method BOT --intermediates minimal --output $@
+
+
+# OWL-RL ready artifact: HermiT materializes all property chain entailments as
+# explicit triples, then chain axioms are stripped. OWL-RL forward-chaining
+# engines loop indefinitely on self-referential chains (BFO/RO pattern); this
+# artifact preserves all semantics while being safe for rule-based reasoners.
+.PHONY: owlrl-ready
+owlrl-ready: $(RELEASEDIR)/$(ONT)-owlrl.ttl
+
+$(RELEASEDIR)/$(ONT)-owlrl.ttl: $(ONT)-full.owl
+	$(ROBOT) reason --reasoner HermiT --input $< \
+		         --annotate-inferred-axioms false \
+		 query --update ../sparql/strip-property-chains.ru \
+		 annotate --ontology-iri $(ONTBASE)/$@ $(ANNOTATE_ONTOLOGY_VERSION) \
+		 convert --check false -f ttl -o $@.tmp.ttl && mv $@.tmp.ttl $@
 
 
 CITATION="'PMDco: Platform Material Digital Ontology. Version $(VERSION), https://w3id.org/pmd/co/'"
