@@ -149,23 +149,62 @@ def _short(uri) -> str:
 # DL expressivity loss analysis
 # ---------------------------------------------------------------------------
 
-def detect_dl_loss(g: rdflib.ConjunctiveGraph) -> dict:
-    loss = {}
+# Axioms OWL-RL handles incompletely vs full DL (HermiT/ELK).
+# Axioms are NOT removed — they stay in the graph.
+# What is lost: specific inference directions OWL-RL's Datalog rules cannot derive.
+DL_LOSS_EXPLANATIONS = {
+    "allValuesFrom": (
+        "OWL-RL only propagates allValuesFrom along known property assertions. "
+        "Cannot infer closed-world filler constraints as DL does."
+    ),
+    "complementOf": (
+        "Datalog has no negation. OWL-RL cannot derive class membership "
+        "from complement expressions."
+    ),
+    "disjointWith": (
+        "OWL-RL detects inconsistency from disjointness but cannot derive "
+        "negative class membership or use disjointness for classification."
+    ),
+    "oneOf (nominals)": (
+        "OWL-RL cannot reason about named individuals as class extensions "
+        "in combination with other constructors."
+    ),
+    "hasValue": (
+        "OWL-RL handles hasValue for instance checking but misses "
+        "some inferences when combined with complex class hierarchies."
+    ),
+    "equivalentClass (complex)": (
+        "OWL-RL handles only one direction: right-to-left subsumption. "
+        "It cannot decompose a class into existential fillers (needs witness creation) "
+        "or disjunctive members (Datalog has no disjunctive rule heads)."
+    ),
+    "unionOf": (
+        "A ⊆ B⊔C: OWL-RL cannot derive 'x is B or x is C' from 'x is A'. "
+        "Disjunction in rule conclusions is outside Datalog."
+    ),
+}
 
-    all_values = list(g.subjects(OWL.allValuesFrom, None))
-    loss["allValuesFrom restrictions"] = len(all_values)
 
-    complement = list(g.subjects(OWL.complementOf, None))
-    loss["complementOf"] = len(complement)
+def detect_dl_loss(g: rdflib.ConjunctiveGraph) -> list[dict]:
+    items = []
 
-    disjoints = list(g.triples((None, OWL.disjointWith, None)))
-    loss["disjointWith axioms"] = len(disjoints)
+    def add(key, count, explanation):
+        items.append({"label": key, "count": count, "explanation": explanation})
 
-    one_of = list(g.subjects(OWL.oneOf, None))
-    loss["oneOf (nominals)"] = len(one_of)
+    add("allValuesFrom", len(list(g.subjects(OWL.allValuesFrom, None))),
+        DL_LOSS_EXPLANATIONS["allValuesFrom"])
 
-    has_value = list(g.subjects(OWL.hasValue, None))
-    loss["hasValue restrictions"] = len(has_value)
+    add("complementOf", len(list(g.subjects(OWL.complementOf, None))),
+        DL_LOSS_EXPLANATIONS["complementOf"])
+
+    add("disjointWith", len(list(g.triples((None, OWL.disjointWith, None)))),
+        DL_LOSS_EXPLANATIONS["disjointWith"])
+
+    add("oneOf (nominals)", len(list(g.subjects(OWL.oneOf, None))),
+        DL_LOSS_EXPLANATIONS["oneOf (nominals)"])
+
+    add("hasValue", len(list(g.subjects(OWL.hasValue, None))),
+        DL_LOSS_EXPLANATIONS["hasValue"])
 
     equiv_complex = sum(
         1 for _, _, o in g.triples((None, OWL.equivalentClass, None))
@@ -173,12 +212,13 @@ def detect_dl_loss(g: rdflib.ConjunctiveGraph) -> dict:
         or (o, OWL.intersectionOf, None) in g
         or (o, OWL.unionOf, None) in g
     )
-    loss["equivalentClass with complex expressions"] = equiv_complex
+    add("equivalentClass (complex)", equiv_complex,
+        DL_LOSS_EXPLANATIONS["equivalentClass (complex)"])
 
-    unions = list(g.subjects(OWL.unionOf, None))
-    loss["unionOf class expressions"] = len(unions)
+    add("unionOf", len(list(g.subjects(OWL.unionOf, None))),
+        DL_LOSS_EXPLANATIONS["unionOf"])
 
-    return loss
+    return items
 
 
 # ---------------------------------------------------------------------------
@@ -312,16 +352,31 @@ def main():
     print(f"  Loaded {len(g):,} triples in {time.time()-t0:.1f}s\n")
 
     # DL coverage loss analysis
-    print("--- DL Expressivity: Axioms OWL-RL Cannot Handle ---")
+    print("--- DL Coverage: Inferences OWL-RL Cannot Derive ---")
+    print("  (Axioms stay in graph; only specific inference directions are lost)\n")
     dl_loss = detect_dl_loss(g)
-    total_dropped = sum(v for v in dl_loss.values())
-    if total_dropped == 0:
-        print("  No DL-only axioms detected — full coverage with OWL-RL.\n")
+    affected = [i for i in dl_loss if i["count"] > 0]
+    if not affected:
+        print("  No DL-only patterns detected — OWL-RL fully covers this ontology.\n")
     else:
-        for label, count in dl_loss.items():
-            flag = "  DROPPED" if count > 0 else "  ok     "
-            print(f"  {flag}  {count:>4}  {label}")
-        print(f"\n  Total axiom types dropped from DL reasoning: {total_dropped}\n")
+        for item in dl_loss:
+            if item["count"] > 0:
+                print(f"  [{item['count']:>3}]  {item['label']}")
+                # wrap explanation at 70 chars
+                words = item["explanation"].split()
+                line, lines = [], []
+                for w in words:
+                    if sum(len(x)+1 for x in line) + len(w) > 70:
+                        lines.append(" ".join(line))
+                        line = [w]
+                    else:
+                        line.append(w)
+                if line:
+                    lines.append(" ".join(line))
+                for ln in lines:
+                    print(f"         {ln}")
+                print()
+        print(f"  {len(affected)} of {len(dl_loss)} axiom types have incomplete OWL-RL coverage.\n")
 
     # Static analysis
     print("--- Static Analysis: Loop-Prone Patterns ---")
