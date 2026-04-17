@@ -16,6 +16,8 @@ import time
 import signal
 import argparse
 import textwrap
+import subprocess
+import tempfile
 from pathlib import Path
 
 import rdflib
@@ -144,6 +146,42 @@ def _short(uri) -> str:
 
 
 # ---------------------------------------------------------------------------
+# DL expressivity loss analysis
+# ---------------------------------------------------------------------------
+
+def detect_dl_loss(g: rdflib.ConjunctiveGraph) -> dict:
+    loss = {}
+
+    all_values = list(g.subjects(OWL.allValuesFrom, None))
+    loss["allValuesFrom restrictions"] = len(all_values)
+
+    complement = list(g.subjects(OWL.complementOf, None))
+    loss["complementOf"] = len(complement)
+
+    disjoints = list(g.triples((None, OWL.disjointWith, None)))
+    loss["disjointWith axioms"] = len(disjoints)
+
+    one_of = list(g.subjects(OWL.oneOf, None))
+    loss["oneOf (nominals)"] = len(one_of)
+
+    has_value = list(g.subjects(OWL.hasValue, None))
+    loss["hasValue restrictions"] = len(has_value)
+
+    equiv_complex = sum(
+        1 for _, _, o in g.triples((None, OWL.equivalentClass, None))
+        if (o, RDF.type, OWL.Restriction) in g
+        or (o, OWL.intersectionOf, None) in g
+        or (o, OWL.unionOf, None) in g
+    )
+    loss["equivalentClass with complex expressions"] = equiv_complex
+
+    unions = list(g.subjects(OWL.unionOf, None))
+    loss["unionOf class expressions"] = len(unions)
+
+    return loss
+
+
+# ---------------------------------------------------------------------------
 # Reasoning attempt with growth monitoring
 # ---------------------------------------------------------------------------
 
@@ -182,6 +220,52 @@ def attempt_reasoning(g: rdflib.ConjunctiveGraph, timeout_sec: int, sample_inter
 
 
 # ---------------------------------------------------------------------------
+# ROBOT benchmark (ELK + HermiT via docker ODK)
+# ---------------------------------------------------------------------------
+
+ALLOWED_REASONERS = {"ELK", "HermiT"}
+ALLOWED_ODK_IMAGE_PREFIX = "obolibrary/odkfull"
+
+
+def run_robot_reasoner(owl_file: Path, reasoner: str, odk_image: str, merge: bool = False) -> dict:
+    if reasoner not in ALLOWED_REASONERS:
+        raise ValueError(f"Reasoner must be one of {ALLOWED_REASONERS}")
+    if not odk_image.startswith(ALLOWED_ODK_IMAGE_PREFIX):
+        raise ValueError(f"ODK image must start with '{ALLOWED_ODK_IMAGE_PREFIX}'")
+    with tempfile.NamedTemporaryFile(suffix=".owl", delete=False) as tmp:
+        out = tmp.name
+    # merge --input resolves imports before reasoning; required for fair timing from edit file
+    robot_cmd = ["robot"]
+    if merge:
+        robot_cmd += ["merge", "--input", owl_file.name]
+    else:
+        robot_cmd += ["--input", owl_file.name]
+    robot_cmd += ["reason", "--reasoner", reasoner, "--output", out]
+    cmd = [
+        "docker", "run", "--rm",
+        "-v", f"{owl_file.parent.resolve()}:/work",
+        "-w", "/work",
+        "-e", "ROBOT_JAVA_ARGS=-Xmx8G",
+        odk_image,
+    ] + robot_cmd
+    t0 = time.time()
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        elapsed = round(time.time() - t0, 2)
+        label = f"{reasoner} (merge+reason)" if merge else f"{reasoner} (reason only)"
+        return {
+            "reasoner": label,
+            "status": "SUCCESS" if result.returncode == 0 else "ERROR",
+            "elapsed_sec": elapsed,
+            "error": result.stderr.strip() if result.returncode != 0 else None,
+        }
+    except subprocess.TimeoutExpired:
+        return {"reasoner": reasoner, "status": "TIMEOUT", "elapsed_sec": 600, "error": "timed out"}
+    except FileNotFoundError:
+        return {"reasoner": reasoner, "status": "ERROR", "elapsed_sec": 0, "error": "docker not found"}
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -201,6 +285,10 @@ def main():
     parser.add_argument("--timeout", type=int, default=60, help="Reasoning timeout in seconds (default: 60)")
     parser.add_argument("--skip-reasoning", action="store_true", help="Only run static analysis, skip OWL-RL attempt")
     parser.add_argument("--format", default="turtle", help="RDFLib parse format: turtle, xml, n3, nt (default: turtle)")
+    parser.add_argument("--benchmark", metavar="OWL_FILE",
+                        help="Also time ELK+HermiT via ROBOT docker on this OWL file (merge+reason for fair comparison)")
+    parser.add_argument("--odk-image", default="obolibrary/odkfull:latest",
+                        help="ODK docker image for benchmark (default: obolibrary/odkfull:latest)")
     args = parser.parse_args()
 
     path = Path(args.ontology)
@@ -223,6 +311,18 @@ def main():
         sys.exit(1)
     print(f"  Loaded {len(g):,} triples in {time.time()-t0:.1f}s\n")
 
+    # DL coverage loss analysis
+    print("--- DL Expressivity: Axioms OWL-RL Cannot Handle ---")
+    dl_loss = detect_dl_loss(g)
+    total_dropped = sum(v for v in dl_loss.values())
+    if total_dropped == 0:
+        print("  No DL-only axioms detected — full coverage with OWL-RL.\n")
+    else:
+        for label, count in dl_loss.items():
+            flag = "  DROPPED" if count > 0 else "  ok     "
+            print(f"  {flag}  {count:>4}  {label}")
+        print(f"\n  Total axiom types dropped from DL reasoning: {total_dropped}\n")
+
     # Static analysis
     print("--- Static Analysis: Loop-Prone Patterns ---")
     issues = detect_problematic_patterns(g)
@@ -237,6 +337,7 @@ def main():
         print()
 
     # Reasoning
+    res = None
     if args.skip_reasoning:
         print("(Skipping OWL-RL reasoning as requested)\n")
     else:
@@ -255,6 +356,32 @@ def main():
         if res["error"]:
             print(f"  Error   : {res['error']}")
         print()
+
+    # Benchmark
+    if args.benchmark:
+        bpath = Path(args.benchmark)
+        if not bpath.exists():
+            print(f"  ERROR: benchmark file not found: {bpath}\n", file=sys.stderr)
+        else:
+            print("--- DL Reasoner Benchmark (via ROBOT docker) ---")
+            print(f"  Input : {bpath.name} (merge + reason)\n")
+            results = []
+            for reasoner in ("ELK", "HermiT"):
+                print(f"  Running {reasoner}...", flush=True)
+                r = run_robot_reasoner(bpath, reasoner, args.odk_image, merge=True)
+                results.append(r)
+                icon = "✓" if r["status"] == "SUCCESS" else "✗"
+                print(f"  {icon} {r['reasoner']}: {r['elapsed_sec']}s  [{r['status']}]")
+                if r["error"]:
+                    print(f"    {r['error']}")
+            print()
+            if not args.skip_reasoning and res is not None:
+                print("  Comparison summary:")
+                for r in results:
+                    print(f"    {r['reasoner']}: {r['elapsed_sec']}s")
+                if res["status"] == "SUCCESS":
+                    print(f"    OWL-RL on {path.name}: {res['elapsed_sec']}s  (after HermiT pre-materialization)")
+                print()
 
     # Summary
     critical = [i for i in issues if i["severity"] == "CRITICAL"]
