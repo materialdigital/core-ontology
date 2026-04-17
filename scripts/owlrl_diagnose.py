@@ -1,14 +1,68 @@
 #!/usr/bin/env python3
-"""
-OWL-RL reasoning diagnostic tool for PMDco.
+r"""
+OWL-RL Diagnostic & Benchmark Tool for PMDco
+=============================================
 
-Tries OWL-RL reasoning with a configurable timeout, then reports:
-- Whether reasoning succeeded / timed out / errored
-- Triple count growth (detects runaway expansion)
-- Detected loop-prone axiom patterns (circular property chains, transitive+inverse combos)
+WHY THIS EXISTS
+---------------
+PMDco uses BFO/RO upper ontologies. These contain self-referential property
+chains (e.g. "has_part ∘ has_relational_quality ⊆ has_relational_quality")
+that are valid OWL 2 DL but cause OWL-RL forward-chaining reasoners to loop
+indefinitely. ELK and HermiT (tableau-based, backward-chaining) work fine
+because they detect cycles; OWL-RL (Datalog/forward-chaining) has no such
+mechanism.
 
-Default input: pmdco-full.ttl (Turtle release artifact in repo root).
-Use source OWL files via ODK container ROBOT conversion if needed.
+THE SOLUTION: pmdco-owlrl.ttl
+------------------------------
+A dedicated release artifact built by:
+  1. HermiT materialises all property chain entailments as explicit triples
+  2. owl:propertyChainAxiom triples are then stripped
+
+All semantics derivable from chains are preserved as asserted triples.
+OWL-RL sees no chains to loop on. Build with:  make owlrl-ready
+
+WHAT THIS SCRIPT REPORTS
+-------------------------
+1. DL Coverage — which axiom types OWL-RL handles incompletely and why:
+   OWL-RL is a forward-only Datalog engine. It cannot:
+   - create existential witnesses  (e.g. left-to-right equivalentClass with ∃)
+   - derive disjunctive conclusions (e.g. A ⊆ B⊔C left-to-right)
+   - use negation                  (complementOf, disjointWith classification)
+   Axioms are NOT removed — only specific inference directions are unavailable.
+
+2. Loop-Prone Patterns — static analysis for self-referential chains,
+   transitive+inverse feedback loops, symmetric+transitive properties.
+   CRITICAL = will loop; HIGH = may be expensive with a rich ABox.
+
+3. OWL-RL Reasoning Attempt — timed run with triple-count growth monitoring.
+   Non-converging runs show runaway growth before timeout.
+
+4. DL Benchmark (--benchmark) — times ELK and HermiT via ROBOT for direct
+   comparison. Uses merge+reason so import resolution is included in timing.
+
+ADVANTAGES OF pmdco-owlrl.ttl
+------------------------------
+- Enables rule-based reasoning tools (owlrl, RDFLib, SPARQL engines with
+  OWL-RL entailment) that cannot load a raw BFO-based ontology
+- Pre-computed property chain closures are available as explicit triples —
+  queryable without any reasoner
+- Same wall-time as HermiT on raw input (~30s) but reusable as static artifact
+- pySHACL can use it directly as pre-materialized ontology graph
+
+USAGE
+-----
+  # Check if an artifact is OWL-RL safe and time reasoning:
+  python scripts/owlrl_diagnose.py pmdco-owlrl.ttl
+
+  # Static analysis only (fast, no reasoning):
+  python scripts/owlrl_diagnose.py pmdco-owlrl.ttl --skip-reasoning
+
+  # Compare with DL reasoners (requires Docker + ODK image):
+  python scripts/owlrl_diagnose.py pmdco-owlrl.ttl \\
+      --benchmark src/ontology/pmdco-edit.owl
+
+  # Diagnose raw full artifact (will timeout — shows the problem):
+  python scripts/owlrl_diagnose.py pmdco-full.ttl --timeout 30
 """
 
 import sys
