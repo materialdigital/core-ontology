@@ -60,6 +60,7 @@
 @prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
 @prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
 @prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
+@prefix part_of: <http://purl.obolibrary.org/obo/BFO_0000050> .
 
 
 ### Instances ###
@@ -114,16 +115,17 @@ ex:application_of_heat_flux a application_of_heat_flux: .
 
 ex:change_of_temperature_during_melting a change_of_temperature: .
 
-# Relational quality
-ex:some_iron a portion_of_iron: . 
+# Composition quality (mass proportion of iron in the metal sheet)
+ex:some_iron a portion_of_iron: ;
+            part_of: ex:metal_sheet .
 
 ex:mass_proportion_iron a mass_proportion: ;
-            relational_quality_of:  ex:some_iron , ex:metal_sheet .
+            quality_of: ex:metal_sheet ;
+            specified_by_value: ex:fraction_iron .
 
 ex:fraction_iron a fraction_value_specification: ;
             has_specified_numeric_value: "97.7"^^xsd:float ;
-            has_measurement_unit_label: mass_percentage: ; 
-            specifies_value_of: ex:mass_proportion_iron .
+            has_measurement_unit_label: mass_percentage: .
 
 
 
