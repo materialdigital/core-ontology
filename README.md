@@ -1,4 +1,4 @@
-![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/shacl.yaml/badge.svg)
+![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/pr-shacl.yaml/badge.svg)
 ![basic checks](https://github.com/materialdigital/core-ontology/actions/workflows/quality-checks.yaml/badge.svg)
 
 
