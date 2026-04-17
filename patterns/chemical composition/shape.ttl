@@ -58,8 +58,8 @@ shape:proportion
         sh:node shape:fraction_value_specification ;
     ] ;
     sh:property [
-        sh:path pmd:PMD_0025999 ; # relational quality of
-        sh:minCount 1 ; 
+        sh:path obo:RO_0000080 ; # quality of (non-relational quality bearer)
+        sh:minCount 1 ;
         sh:class pmd:PMD_0000001 ; # portion of matter TODO:separate between material and chemical elements
     ] ;
     sh:closed false ;
@@ -67,17 +67,18 @@ shape:proportion
 
 shape:pure_substance_chemical_element
     rdf:type sh:NodeShape ;
-    sh:description "an instance of pure substance (any chemical element) has relational quality an instance of proportion. " ;
+    sh:description "an instance of a chemical element portion is part of a material that has a proportion (composition quality) for it." ;
     sh:targetClass pmd:PMD_0020140 ; # portion of single chemical element
     sh:property [
-        sh:path pmd:PMD_0025998 ; # has relational quality
-        sh:node shape:proportion  ;
+        sh:path ( obo:BFO_0000050 [ sh:inversePath obo:RO_0000080 ] ) ; # part_of / inverse(quality_of): navigate to qualities of the parent material
+        sh:qualifiedValueShape shape:proportion ;
+        sh:qualifiedMinCount 1 ;
     ] ;
     sh:property [
         sh:path obo:BFO_0000050 ; # part of
         sh:class pmd:PMD_0000000  ; # material
     ] ;
-    
+
     sh:closed false ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
