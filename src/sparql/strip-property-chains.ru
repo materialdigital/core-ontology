@@ -3,11 +3,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 DELETE {
     ?prop owl:propertyChainAxiom ?chain .
-    ?chain rdf:rest* ?node .
-    ?node ?p ?o .
 }
 WHERE {
     ?prop owl:propertyChainAxiom ?chain .
-    ?chain rdf:rest* ?node .
-    ?node ?p ?o .
 }
