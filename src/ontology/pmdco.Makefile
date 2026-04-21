@@ -116,7 +116,6 @@ $(IMPORTDIR)/chebi_import.owl: #$(MIRRORDIR)/chebi.owl
 		filter --term-file $(IMPORTDIR)/chebi_terms.txt --select "self annotations" reduce --reasoner ELK \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
  		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
-		      --exclude-term "https://w3id.org/chemrof\generalized_empirical_formula" \
 			  --term-file $(IMPORTDIR)/chebi_terms.txt \
 		      --select complement --select annotation-properties \
 		$(ANNOTATE_CONVERT_FILE); fi
@@ -143,7 +142,6 @@ autoshapes:
 $(ONT)-base.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(IMPORT_FILES)
 	$(ROBOT_RELEASE_IMPORT_MODE) \
 	reason --reasoner ELK --equivalent-classes-allowed asserted-only --exclude-tautologies structural --annotate-inferred-axioms False \
-	query --update ../sparql/enrich_chemical_labels.sparql \
 	relax \
 	reduce -r ELK \
 	remove --base-iri $(URIBASE)/ --axioms external --preserve-structure false --trim false \
