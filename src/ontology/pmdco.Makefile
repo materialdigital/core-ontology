@@ -151,9 +151,18 @@ $(ONT)-base.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(IMPORT_FILES)
 		--output $@.tmp.owl && mv $@.tmp.owl $@
 
 
-$(ONT)-minimal.owl: 
+$(ONT)-minimal.owl:
 	$(ROBOT)  query --input $(ONT).owl --query ../sparql/select-minimal-profile.sparql $(TMPDIR)/minimal_profile.txt && \
 	$(ROBOT)  extract --input $(ONT).owl --term-file $(TMPDIR)/minimal_profile.txt --method BOT --intermediates minimal --output $@
+
+
+# OWL-RL ready artifact: HermiT materializes all property chain entailments as
+# explicit triples, then chain axioms are stripped. OWL-RL forward-chaining
+# engines loop indefinitely on self-referential chains (BFO/RO pattern); this
+# artifact preserves all semantics while being safe for rule-based reasoners.
+$(ONT)-owlrl.owl: $(ONT)-full.owl
+	$(ROBOT) reason --reasoner HermiT --input $< --annotate-inferred-axioms false \
+		 query --update ../sparql/strip-property-chains.ru --output $@
 
 
 CITATION="'PMDco: Platform Material Digital Ontology. Version $(VERSION), https://w3id.org/pmd/co/'"
@@ -177,8 +186,9 @@ update-ontology-annotations:
 	$(ROBOT) annotate --input ../../pmdco-base.owl $(ALL_ANNOTATIONS) --output ../../pmdco-base.owl && \
 	$(ROBOT) annotate --input ../../pmdco-base.ttl $(ALL_ANNOTATIONS) --output ../../pmdco-base.ttl && \
 	$(ROBOT) annotate --input ../../pmdco-minimal.owl $(ALL_ANNOTATIONS) --output ../../pmdco-minimal.owl && \
-	$(ROBOT) annotate --input ../../pmdco-minimal.ttl $(ALL_ANNOTATIONS) --output ../../pmdco-minimal.ttl 
-
+	$(ROBOT) annotate --input ../../pmdco-minimal.ttl $(ALL_ANNOTATIONS) --output ../../pmdco-minimal.ttl && \
+	$(ROBOT) annotate --input ../../pmdco-owlrl.owl $(ALL_ANNOTATIONS) --output ../../pmdco-owlrl.owl && \
+	$(ROBOT) annotate --input ../../pmdco-owlrl.ttl $(ALL_ANNOTATIONS) --output ../../pmdco-owlrl.ttl  
 
 
 
