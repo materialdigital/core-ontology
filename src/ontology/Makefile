@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                a8e46d8c151175f55cac74760226f2df9363d0c9742bb1b77dd324f2728d1d88
+CONFIG_HASH=                8700addd8a55cdb81c70f5b3a4657df5fbc2acb4a7669ff60df63a9beafbbf7a
 
 
 # ----------------------------------------
@@ -188,7 +188,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo ro iao obi chebi stato uo cob nfdicore time qudt
+IMPORTS =  bfo ro iao obi chebi stato uo cob nfdicore time
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -670,13 +670,6 @@ mirror-nfdicore: | $(TMPDIR)
 .PRECIOUS: $(MIRRORDIR)/time.owl
 mirror-time: | $(TMPDIR)
 	$(ROBOT) convert -I https://raw.githubusercontent.com/w3c/sdw/gh-pages/time/rdf/time.ttl -o $(TMPDIR)/$@.owl
-
-
-## ONTOLOGY: qudt
-.PHONY: mirror-qudt
-.PRECIOUS: $(MIRRORDIR)/qudt.owl
-mirror-qudt: | $(TMPDIR)
-	$(ROBOT) convert -I https://qudt.org/2.1/schema/qudt.ttl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)
