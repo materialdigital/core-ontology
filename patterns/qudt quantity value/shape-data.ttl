@@ -20,23 +20,23 @@
 # Unit typed as IAO:measurement_unit, value via OBI:has_specified_numeric_value.
 
 ex:tensile_strength_UO
-    rdf:type obo:OBI_0001931 ;
-    has_measurement_unit_label: <http://purl.obolibrary.org/obo/UO_0000015> ;
+    rdf:type obo:OBI_0001931 ; # scalar value specification
+    has_measurement_unit_label: <http://purl.obolibrary.org/obo/UO_0000015> ;   # UO centimeter
     has_specified_numeric_value: 450.0 .
 
-<http://purl.obolibrary.org/obo/UO_0000015>
+<http://purl.obolibrary.org/obo/UO_0000015> 
     rdf:type measurement_unit: .
 
 # QUDT-based representation: uses qudt:QuantityValue + QUDT properties.
 # Individual typed as both qudt:QuantityValue and pmd:PMD_0080205.
 # pmd:PMD_0080205 ≡ OBI_0001931 AND (qudt:unit some qudt:Unit)
-# qudt:unit SubPropertyOf IAO_0000039 → satisfies UO shape too.
+# qudt:hasUnit SubPropertyOf IAO_0000039 → satisfies UO shape too.
 # qudt:numericValue SubPropertyOf OBI_0001937 → satisfies numeric value constraint.
 
 ex:tensile_strength_QUDT
     rdf:type qudt:QuantityValue ;
     rdf:type pmd:PMD_0080205 ;
-    qudt:unit unit:MegaPA ;
+    qudt:hasUnit unit:MegaPA ;
     qudt:numericValue 450.0 .
 
 unit:MegaPA
