@@ -1,0 +1,73 @@
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix qudt:  <http://qudt.org/schema/qudt/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix shape: <https://w3id.org/pmd/co/shapes/qudt_quantity_value/> .
+@prefix : shape: .
+@base shape: .
+
+shape:
+  rdf:type owl:Ontology ;
+  owl:imports sh: .
+
+# Shape for the classic OBI/IAO scalar value specification (UO-based).
+# Both UO and QUDT representations satisfy this shape because
+# qudt:unit SubPropertyOf IAO_0000039 and qudt:numericValue SubPropertyOf OBI_0001937.
+
+shape:scalar_value_specification
+    rdf:type sh:NodeShape ;
+    sh:targetClass obo:OBI_0001931 ;
+    sh:property [
+        sh:path obo:OBI_0001937 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:or (
+            [ sh:datatype xsd:integer ; ]
+            [ sh:datatype xsd:decimal ; ]
+            [ sh:datatype xsd:float ; ]
+            [ sh:datatype xsd:double ; ]
+        ) ;
+        sh:message "Scalar value specification must have exactly one numerical value." ;
+    ] ;
+    sh:property [
+        sh:path obo:IAO_0000039 ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Scalar value specification must have exactly one unit label (IRI)." ;
+    ] .
+
+# Shape for the QUDT scalar quantity value (pmd:PMD_0080205).
+# Targets instances that use qudt:unit pointing to a qudt:Unit.
+# These are also OBI_0001931 instances by the equivalence axiom.
+
+shape:qudt_scalar_quantity_value
+    rdf:type sh:NodeShape ;
+    sh:targetClass pmd:PMD_0080205 ;
+    sh:property [
+        sh:path qudt:numericValue ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:or (
+            [ sh:datatype xsd:integer ; ]
+            [ sh:datatype xsd:decimal ; ]
+            [ sh:datatype xsd:float ; ]
+            [ sh:datatype xsd:double ; ]
+        ) ;
+        sh:message "QUDT scalar quantity value must have exactly one qudt:numericValue." ;
+    ] ;
+    sh:property [
+        sh:path qudt:hasUnit ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:class qudt:Unit ;
+        sh:message "QUDT scalar quantity value must have exactly one qudt:unit pointing to a qudt:Unit." ;
+    ] .
+ 
