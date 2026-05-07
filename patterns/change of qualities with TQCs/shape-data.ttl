@@ -1,0 +1,62 @@
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix si: <https://si-digital-framework.org/SI#> .
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+
+<https://w3id.org/pmd/co/shapes/change_of_quality_with_tqc/> rdf:type owl:Ontology .
+
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
+@prefix has_characteristic: <http://purl.obolibrary.org/obo/RO_0000053> .
+@prefix has_state: <https://w3id.org/pmd/co/PMD_0000069> .
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix thickness: <https://w3id.org/pmd/co/PMD_0050153> .
+@prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
+@prefix svs: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+
+
+thickness: rdfs:subClassOf quality: .
+material: rdfs:subClassOf independent_continuant: .
+
+# Define anchor/base
+ex:base_material a material: . 
+ex:base_material has_state: ex:object_at_t1  .
+ex:base_material has_state: ex:object_at_t2  .
+
+# tcq1 has quality thickness with value 40 mm
+ex:object_at_t1 a temporally_qualified_continuant: .
+ex:object_at_t1 a object: .
+ex:object_at_t1 is_state_of: ex:base_material .
+ex:object_at_t1 has_characteristic: ex:thickness_t1 .
+ex:thickness_t1 a thickness: .
+ex:thickness_t1 specified_by_value: ex:SVS_40_mm . 
+ex:SVS_40_mm a svs: ;
+	has_measurement_unit_label: <http://purl.obolibrary.org/obo/UO_0000016> ; # millimeter
+    has_specified_numeric_value: "40"^^xsd:float .
+
+
+
+# tcq2 has quality thickness with value 2.5 mm
+ex:object_at_t2 a temporally_qualified_continuant: .
+ex:object_at_t2 a object: .
+ex:object_at_t2 is_state_of: ex:base_material .
+ex:object_at_t2 has_characteristic: ex:thickness_t2 .
+ex:thickness_t2 a thickness: .
+ex:thickness_t2 specified_by_value: ex:SVS_2.5_mm . 
+ex:SVS_2.5_mm a svs: ;
+	has_measurement_unit_label: <http://purl.obolibrary.org/obo/UO_0000016> ; # millimeter
+    has_specified_numeric_value: "2.5"^^xsd:float .
