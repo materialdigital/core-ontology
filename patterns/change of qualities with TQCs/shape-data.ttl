@@ -27,7 +27,7 @@
 @prefix svs: <http://purl.obolibrary.org/obo/OBI_0001931> .
 @prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
 @prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
-
+@prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> .
 
 thickness: rdfs:subClassOf quality: .
 material: rdfs:subClassOf independent_continuant: .
@@ -40,6 +40,8 @@ ex:base_material has_state: ex:object_at_t2  .
 # tcq1 has quality thickness with value 40 mm
 ex:object_at_t1 a temporally_qualified_continuant: .
 ex:object_at_t1 a object: .
+ex:object_at_t1 exists_at: ex:temporal_region_1: .
+ex:temporal_region_1: a temporal_region: .
 ex:object_at_t1 is_state_of: ex:base_material .
 ex:object_at_t1 has_characteristic: ex:thickness_t1 .
 ex:thickness_t1 a thickness: .
@@ -48,11 +50,14 @@ ex:SVS_40_mm a svs: ;
 	has_measurement_unit_label: <http://purl.obolibrary.org/obo/UO_0000016> ; # millimeter
     has_specified_numeric_value: "40"^^xsd:float .
 
-
+# minimalistic temporal ordering
+ex:temporal_region_1: precedes: ex:temporal_region_2: .
 
 # tcq2 has quality thickness with value 2.5 mm
 ex:object_at_t2 a temporally_qualified_continuant: .
 ex:object_at_t2 a object: .
+ex:object_at_t2 exists_at: ex:temporal_region_2: .
+ex:temporal_region_2: a temporal_region: .
 ex:object_at_t2 is_state_of: ex:base_material .
 ex:object_at_t2 has_characteristic: ex:thickness_t2 .
 ex:thickness_t2 a thickness: .
