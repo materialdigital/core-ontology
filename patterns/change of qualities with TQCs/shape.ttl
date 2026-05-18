@@ -1,0 +1,73 @@
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix shape: <https://w3id.org/pmd/co/shapes/change_of_quality_with_tqc/> .
+@base shape: .
+
+shape:tqc_pair_quality_change
+    a sh:NodeShape ;
+    sh:targetClass pmd:PMD_0000068 ; # temporally qualified continuant
+    sh:description """
+        For any TQC (tqc1) that is a state of some base individual, if there exists
+        another TQC (tqc2) that is also a state of the same individual, and both TQCs
+        bear qualities of the same lowest-level class, then those quality values must differ.
+        This captures that a change of quality actually occurred between two states.
+    """ ;
+
+    sh:severity sh:Violation ;
+    sh:message "Two TQCs that are states of the same individual bear qualities of the same lowest-level class, but their quality values are identical — no change of quality occurred." ;
+
+    sh:sparql
+    [
+        a sh:SPARQLConstraint ;
+        sh:select """
+            PREFIX pmd:  <https://w3id.org/pmd/co/>
+            PREFIX obo:  <http://purl.obolibrary.org/obo/>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT DISTINCT $this ?tqc2 ?sharedQualityClass ?svs1 ?svs2
+            WHERE {
+
+                # STEP 1. Both TQCs are states of the same base individual 
+                ?baseIndividual pmd:PMD_0000069 $this .   # base -->has state--> tqc1
+                ?baseIndividual pmd:PMD_0000069 ?tqc2 .  # base -->has state--> tqc2
+                FILTER ( $this != ?tqc2 )                # they must be distinct TQCs
+
+                # STEP 2. tqc1 has quality; find its lowest-level class ─
+                $this obo:RO_0000053 ?quality1 . # has characteristic
+                ?quality1 a ?sharedQualityClass .
+                FILTER NOT EXISTS {
+                    ?childClass1 rdfs:subClassOf ?sharedQualityClass .
+                    ?quality1 a ?childClass1
+                }
+
+                # STEP 3. tqc2 has quality of the same lowest-level class ─
+                ?tqc2 obo:RO_0000053 ?quality2 .  # has characteristic
+                ?quality2 a ?sharedQualityClass . # same class as quality1
+                FILTER NOT EXISTS {
+                    ?childClass2 rdfs:subClassOf ?sharedQualityClass .
+                    ?quality2 a ?childClass2
+                }
+
+                # STEP 4. Get the concrete values of both qualities 
+                ?quality1 pmd:PMD_0000077 ?svs1 . # WARNING: THE PREDICATE MIGHT CHANGE SOON
+                ?quality2 pmd:PMD_0000077 ?svs2 .
+
+                ?svs1 obo:OBI_0001937 ?value1 ; 
+                      obo:IAO_0000039 ?unit1 . 
+
+                ?svs2 obo:OBI_0001937 ?value2 ; 
+                      obo:IAO_0000039 ?unit2 .
+
+                #  STEP 5. The values must NOT be equal — violation if they are ─
+                FILTER ( ?value1 = ?value2 && ?unit1 = ?unit2)
+            }
+        """ ;
+    ] ;
+
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
