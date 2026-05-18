@@ -109,6 +109,60 @@ git diff src/ontology/components/
 Check that only `rdfs:label` and `skos:definition` lines changed.  
 SHACL validation runs automatically on the PR via CI (`pr-shacl.yaml`).
 
+## Label and definition style rules
+
+These rules govern what the agent suggests and what is valid in the
+`*_suggested` columns.  They follow **ISO 704** (Terminology work — Principles
+and methods) and standard IEC/ISO/ASTM materials-engineering terminology.
+
+### Labels (`rdfs:label`)
+
+| Rule | Correct | Wrong |
+|------|---------|-------|
+| Plain noun phrase | `tensile strength` | `Tensile Strength`, `measures tensile` |
+| Lowercase first letter (EN) | `yield strength` | `Yield strength` |
+| German: DIN/VDI/DGM term | `Streckgrenze` | `Fließgrenze` (when DIN uses `Streckgrenze`) |
+| No trailing period | `cooling rate` | `cooling rate.` |
+| No leading article | `process attribute` | `A process attribute` |
+
+### Definitions (`skos:definition`)
+
+Definitions must be **ISO 704 noun-phrase** form — not a full sentence.
+
+| Rule | Correct | Wrong |
+|------|---------|-------|
+| Noun-phrase, no sentence | `mechanical property that quantifies…` | `A yield strength is a mechanical property…` |
+| No leading article (EN) | `process attribute that describes…` | `A process attribute that describes…` |
+| No trailing period | `…per unit time` | `…per unit time.` |
+| German: no leading article | `Prozessattribut, das die Änderung…` | `Ein Prozessattribut, das die Änderung….` |
+| Genus = most specific parent | `material property that…` (not `quality that…`) | |
+| One differentia clause | single relative clause | two independent clauses |
+| No circular reference | genus ≠ term itself | `yield strength: the yield strength of…` |
+| No hedging | definitive statement | `typically`, `often`, `generally` |
+
+**Structure:** `[genus] [differentia]`
+
+Example:
+```
+✓  mechanical property that quantifies the stress at which a material begins
+   to deform plastically
+✗  A yield strength is a mechanical property that quantifies the stress at
+   which a material begins to deform plastically.
+```
+
+### Post-processing existing suggestions
+
+If suggestions were generated with sentence form (leading article + period),
+run the normalizer:
+
+```bash
+python3 scripts/label_workflow/normalize_suggestions.py \
+  --input scripts/label_workflow/pmdco_labels_reviewed.csv
+```
+
+This strips leading articles (`A`/`An`/`Ein`/`Eine`) and trailing periods from
+all `*_suggested` columns in-place (writes a `.bak` backup first).
+
 ## CSV column reference
 
 | Column | Description |

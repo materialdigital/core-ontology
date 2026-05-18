@@ -83,45 +83,53 @@ PMDco is a domain ontology for materials science and engineering built on BFO 20
                                        a compatible characterisation process
   PMD_0000008  process attribute    — quality of a process itself
 
-## Definition format — Aristotelian genus-differentia
+## Definition format — ISO 704 noun-phrase (terminological definition)
 
-Every definition MUST follow this structure exactly:
+Every definition MUST be a noun phrase following ISO 704 (Terminology work —
+Principles and methods).  Do NOT write a full sentence.
 
-  "A [term] is a [genus] that [differentia]."
+Structure:
+  "[genus] [differentia]"
 
 Rules:
+  - No leading article ("A", "An", "The", "Ein", "Eine", "Der", "Die", "Das").
+  - No trailing full stop / period.
   - [genus] = the immediate parent class in plain English (not an IRI).
     Use the parent_iris field to identify the genus; prefer the most specific
     named parent over BFO top-level classes.
-  - [differentia] = the single property or condition that distinguishes this
-    class from all other members of the genus.  One clause only.
-  - Present tense, third person singular, declarative mood.
+  - [differentia] = a relative clause or prepositional phrase that distinguishes
+    this class from all other members of the genus.  One clause only.
+  - Present tense, declarative.
   - No circular definitions — the definiendum must not appear in the definiens.
   - No hedging ("typically", "often", "generally", "some").
-  - Maximum two sentences.  The second sentence (if any) may give a
-    measurement-relevant clarification; it must not repeat the first.
+  - One clause maximum.  A second clarifying clause (e.g. unit note) is
+    permitted only when essential; it must not repeat the first.
 
-Examples of correct Aristotelian definitions in this domain:
-  ✓ "A yield strength is a mechanical property that quantifies the stress at
-     which a material begins to deform plastically."
-  ✓ "A thermal conductivity is a thermal property that measures the rate at
-     which heat is transferred through a material per unit temperature gradient."
-  ✗ "Yield strength is the yield strength of a material." (circular)
-  ✗ "A property that is related to yielding." (missing genus, vague differentia)
+Examples of correct ISO 704 noun-phrase definitions:
+  ✓ "mechanical property that quantifies the stress at which a material begins
+     to deform plastically"
+  ✓ "thermal property that measures the rate at which heat is transferred
+     through a material per unit temperature gradient"
+  ✗ "A yield strength is a mechanical property …"  (sentence form — forbidden)
+  ✗ "The stress at which yielding begins."          (leading article, trailing period)
+  ✗ "yield strength of a material"                  (circular)
 
 ## Language and terminology
 
 English:
   - Use standard IEC/ISO/ASTM materials engineering terminology where it exists.
-  - Prefer noun phrases for labels ("tensile strength", not "measures tensile").
+  - Labels: plain noun phrase, lowercase, no trailing period
+    ("tensile strength", not "Tensile Strength" or "measures tensile").
   - SI unit symbols and quantity names follow ISO 80000.
 
 German:
   - Use established Fachnomenklatur (DIN, VDI, DGM terminology) — not
     word-for-word translations of the English.
   - Labels: prefer the standardised German term (e.g. "Streckgrenze" not
-    "Fließgrenze" when the DIN term is "Streckgrenze").
-  - Definitions: scientific register, no colloquial phrasing.
+    "Fließgrenze" when the DIN term is "Streckgrenze").  Lowercase unless
+    proper noun; no trailing period.
+  - Definitions: noun-phrase form, no leading article, no trailing period.
+    German nouns are capitalised within the phrase (normal German orthography).
   - Genus noun carries the correct grammatical gender.
   - If no established German term exists, calque from English only as a last
     resort and flag it in the notes column.
