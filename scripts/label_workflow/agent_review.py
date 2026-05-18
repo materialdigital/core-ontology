@@ -44,6 +44,28 @@ try:
 except ImportError:
     pass  # python-dotenv optional
 
+
+def _default_model() -> str:
+    """Return default model ID from env, mirroring claudeCode.environmentVariables."""
+    return os.environ.get("ANTHROPIC_DEFAULT_SONNET_MODEL", "claude-sonnet-4-6")
+
+
+def _build_client() -> anthropic.Anthropic:
+    """Build Anthropic client, preferring Azure Foundry when env vars are set."""
+    foundry_key = os.environ.get("ANTHROPIC_FOUNDRY_API_KEY", "")
+    foundry_url = os.environ.get("ANTHROPIC_FOUNDRY_BASE_URL", "")
+    direct_key  = os.environ.get("ANTHROPIC_API_KEY", "")
+
+    if foundry_key and foundry_url:
+        return anthropic.Anthropic(api_key=foundry_key, base_url=foundry_url)
+    if direct_key:
+        return anthropic.Anthropic(api_key=direct_key)
+    sys.exit(
+        "ERROR: no API key found.\n"
+        "Set ANTHROPIC_FOUNDRY_API_KEY + ANTHROPIC_FOUNDRY_BASE_URL (Azure Foundry)\n"
+        "or ANTHROPIC_API_KEY (direct Anthropic API)."
+    )
+
 SYSTEM_PROMPT = """\
 You are an expert ontology engineer and materials scientist editing the PMDco
 (Platform MaterialDigital Core Ontology).
@@ -263,8 +285,11 @@ def main() -> None:
     )
     parser.add_argument(
         "--model",
-        default="claude-sonnet-4-6",
-        help="Anthropic model ID (default: claude-sonnet-4-6)",
+        default=_default_model(),
+        help=(
+            "Anthropic model ID. Defaults to $ANTHROPIC_DEFAULT_SONNET_MODEL "
+            f"(currently: {_default_model()})"
+        ),
     )
     parser.add_argument(
         "--dry-run",
@@ -317,12 +342,7 @@ def main() -> None:
         print(json.dumps(example, indent=2))
         sys.exit(0)
 
-    # Check API key
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key:
-        sys.exit("ERROR: ANTHROPIC_API_KEY not set in environment or .env file")
-
-    client = anthropic.Anthropic(api_key=api_key)
+    client = _build_client()
 
     # System prompt with cache_control for repeated batches
     system_content = [
