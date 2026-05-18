@@ -122,8 +122,9 @@ and methods) and standard IEC/ISO/ASTM materials-engineering terminology.
 | Plain noun phrase | `tensile strength` | `Tensile Strength`, `measures tensile` |
 | Lowercase first letter (EN) | `yield strength` | `Yield strength` |
 | German: DIN/VDI/DGM term | `Streckgrenze` | `Fließgrenze` (when DIN uses `Streckgrenze`) |
+| German: capitalised noun | `Streckgrenze`, `Abkühlrate` | `streckgrenze`, `abkühlrate` |
 | No trailing period | `cooling rate` | `cooling rate.` |
-| No leading article | `process attribute` | `A process attribute` |
+| No leading article (EN only) | `process attribute` | `A process attribute` |
 
 ### Definitions (`skos:definition`)
 

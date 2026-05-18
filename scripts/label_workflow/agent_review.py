@@ -126,8 +126,8 @@ German:
   - Use established Fachnomenklatur (DIN, VDI, DGM terminology) — not
     word-for-word translations of the English.
   - Labels: prefer the standardised German term (e.g. "Streckgrenze" not
-    "Fließgrenze" when the DIN term is "Streckgrenze").  Lowercase unless
-    proper noun; no trailing period.
+    "Fließgrenze" when the DIN term is "Streckgrenze").  German nouns are
+    capitalised — labels start with an uppercase letter; no trailing period.
   - Definitions: noun-phrase form, no leading article, no trailing period.
     German nouns are capitalised within the phrase (normal German orthography).
   - Genus noun carries the correct grammatical gender.

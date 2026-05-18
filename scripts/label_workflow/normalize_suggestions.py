@@ -76,7 +76,7 @@ def _norm_de(s: str) -> str:
     return dep + s
 
 
-def _norm_label(s: str) -> str:
+def _norm_label_en(s: str) -> str:
     s = s.strip().rstrip('.')
     if not s:
         return s
@@ -89,11 +89,17 @@ def _norm_label(s: str) -> str:
     return s
 
 
+def _norm_label_de(s: str) -> str:
+    # German nouns are capitalised — never lowercase the first character.
+    # Only strip trailing period.
+    return s.strip().rstrip('.')
+
+
 TRANSFORMS = {
     "definition_en_suggested": _norm_en,
     "definition_de_suggested": _norm_de,
-    "label_en_suggested":      _norm_label,
-    "label_de_suggested":      _norm_label,
+    "label_en_suggested":      _norm_label_en,
+    "label_de_suggested":      _norm_label_de,
 }
 
 
