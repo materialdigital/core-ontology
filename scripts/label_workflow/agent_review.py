@@ -277,7 +277,7 @@ def call_api_with_retry(
         try:
             response = client.messages.create(
                 model=model,
-                max_tokens=4096,
+                max_tokens=8192,
                 system=system_content,
                 messages=[{"role": "user", "content": user_message}],
             )
@@ -358,9 +358,9 @@ def main() -> None:
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=20,
+        default=10,
         metavar="N",
-        help="Number of terms per API call (default: 20)",
+        help="Number of terms per API call (default: 10)",
     )
     parser.add_argument(
         "--model",
@@ -444,6 +444,17 @@ def main() -> None:
     # Build an index of rows by IRI for fast updates
     row_index: dict[str, dict] = {r["iri"]: r for r in rows}
 
+    # Prepare output path early for incremental writes
+    output_path = Path(args.output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    out_fields = CSV_FIELDS
+
+    def _write_output() -> None:
+        with open(output_path, "w", newline="", encoding="utf-8") as fh:
+            writer = csv.DictWriter(fh, fieldnames=out_fields, extrasaction="ignore")
+            writer.writeheader()
+            writer.writerows(rows)
+
     # Process in batches
     batches = [pending[i: i + args.batch_size] for i in range(0, len(pending), args.batch_size)]
     total_suggested = 0
@@ -470,18 +481,7 @@ def main() -> None:
                 updated += 1
         total_suggested += updated
         print(f"OK ({updated}/{len(batch)} updated)")
-
-    # Write output CSV (preserves all columns, all rows)
-    output_path = Path(args.output)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    # Use input fieldnames to preserve any extra columns in order
-    out_fields = CSV_FIELDS
-
-    with open(output_path, "w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=out_fields, extrasaction="ignore")
-        writer.writeheader()
-        writer.writerows(rows)
+        _write_output()  # persist after every batch
 
     print(f"\nWrote {len(rows)} rows → {output_path}")
     print(f"Suggestions added: {total_suggested} terms updated.")
