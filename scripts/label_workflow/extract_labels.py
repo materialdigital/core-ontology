@@ -25,12 +25,18 @@ PMDCO_BASE = "https://w3id.org/pmd/co/"
 COMPONENTS_IRI_BASE = "https://w3id.org/pmd/co/components/"
 
 CSV_FIELDS = [
+    "idx",
     "iri", "source_file", "parent_iris",
-    "label_en", "label_de", "label_none",
-    "definition_en", "definition_de", "definition_none",
-    "label_en_suggested", "label_de_suggested",
-    "definition_en_suggested", "definition_de_suggested",
+    "label_en",        "label_en_suggested",
+    "label_de",        "label_de_suggested",
+    "label_none",
+    "definition_en",   "definition_en_suggested",
+    "definition_de",   "definition_de_suggested",
+    "definition_none",
+    "example_en_suggested",
+    "example_de_suggested",
     "notes",
+    "term_editor",
 ]
 
 # AnnotationAssertion with a string literal; re.DOTALL lets value span lines
@@ -69,7 +75,7 @@ PROP_SKOS_DEF = frozenset({
 # ---------------------------------------------------------------------------
 
 def ofn_unescape(s: str) -> str:
-    """Resolve OFN string escapes (\\\" → \", \\\\ → \\) for human-readable CSV output."""
+    """Resolve OFN string escapes for human-readable CSV output."""
     result = []
     i = 0
     while i < len(s):
@@ -79,6 +85,10 @@ def ofn_unescape(s: str) -> str:
                 result.append('"')
             elif nc == '\\':
                 result.append('\\')
+            elif nc == 'n':
+                result.append('\n')
+            elif nc == 't':
+                result.append('\t')
             else:
                 result.append('\\')
                 result.append(nc)
@@ -87,6 +97,11 @@ def ofn_unescape(s: str) -> str:
             result.append(s[i])
             i += 1
     return ''.join(result)
+
+
+def _flatten(s: str) -> str:
+    """Collapse embedded newlines/tabs to a single space for CSV compatibility."""
+    return re.sub(r'[\r\n\t]+', ' ', s).strip()
 
 
 def extract_prefixes(text: str) -> dict[str, str]:
@@ -162,7 +177,7 @@ def parse_component(owl_path: Path, repo_root: Path) -> list[dict]:
             lang = "en"
         lang = lang or "none"
 
-        display_value = ofn_unescape(raw_value)
+        display_value = _flatten(ofn_unescape(raw_value))
         key = (prop_key, lang)
 
         if key in annotations[subj]:
@@ -197,20 +212,24 @@ def parse_component(owl_path: Path, repo_root: Path) -> list[dict]:
             parent_list.append("[complex]")
 
         rows.append({
+            "idx": "",
             "iri": iri,
             "source_file": rel_path,
             "parent_iris": " | ".join(parent_list),
-            "label_en": ann.get(("label", "en"), ""),
-            "label_de": ann.get(("label", "de"), ""),
-            "label_none": ann.get(("label", "none"), ""),
-            "definition_en": ann.get(("definition", "en"), ""),
-            "definition_de": ann.get(("definition", "de"), ""),
-            "definition_none": ann.get(("definition", "none"), ""),
+            "label_en":        ann.get(("label", "en"), ""),
             "label_en_suggested": "",
+            "label_de":        ann.get(("label", "de"), ""),
             "label_de_suggested": "",
+            "label_none":      ann.get(("label", "none"), ""),
+            "definition_en":   ann.get(("definition", "en"), ""),
             "definition_en_suggested": "",
+            "definition_de":   ann.get(("definition", "de"), ""),
             "definition_de_suggested": "",
+            "definition_none": ann.get(("definition", "none"), ""),
+            "example_en_suggested": "",
+            "example_de_suggested": "",
             "notes": "",
+            "term_editor": "",
         })
 
     rows.sort(key=lambda r: int(re.search(r"PMD_0*(\d+)$", r["iri"]).group(1)))
@@ -261,11 +280,10 @@ def main() -> None:
         print(f"{len(rows)} terms with labels/definitions")
         all_rows.extend(rows)
 
-    # Final sort: by source_file then by numeric IRI
-    all_rows.sort(key=lambda r: (
-        r["source_file"],
-        int(re.search(r"PMD_0*(\d+)$", r["iri"]).group(1)),
-    ))
+    # Sort globally by numeric IRI
+    all_rows.sort(key=lambda r: int(re.search(r"PMD_0*(\d+)$", r["iri"]).group(1)))
+    for i, row in enumerate(all_rows, 1):
+        row["idx"] = i
 
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)

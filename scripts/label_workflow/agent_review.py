@@ -136,47 +136,115 @@ German:
 
 ## Your task
 
-Review each term and suggest improvements.  Return "" for any field you consider
-already correct and complete — only fill fields that genuinely need improvement.
+For each term, return a JSON object with the following keys.  Use "" for any
+field that is already correct or where you have no suggestion.
 
-Do NOT change the ontological classification, add new axioms, or introduce concepts
-not present in the source term.  Suggestions must be conservative and faithful to
-the existing meaning.
+### label_en_suggested / label_de_suggested
+Suggest a corrected label only if the current one is unclear, mistranslated, or
+violates the style rules above.  Conservative changes only.
+
+### definition_en_suggested / definition_de_suggested
+Suggest an improved definition in ISO 704 noun-phrase form.
+**Preserve** all factually correct content from the existing definition — do not
+discard accurate genus or differentia.  Fix structure, terminology, and style;
+keep the meaning.  If the existing definition is already correct and complete,
+return "".
+
+### example_en_suggested / example_de_suggested
+Provide one short, concrete usage example that illustrates the term in a
+realistic materials-science context.  Format: plain sentence or noun phrase,
+≤ two sentences.  Examples must be grounded in the ontology context provided.
+
+### notes
+Use the `notes` field to record:
+1. **Missing concepts** — concepts mentioned in the definition (or strongly
+   implied by the term) that do not appear as named classes in the ontology
+   term index below.  For each, give: concept name, why it should exist, and
+   a suggested IRI range (use Thomas Hanke's range PMD_008xxxx for new terms).
+2. **Possible axioms** — OWL axioms (in plain English or OFN) that would make
+   this term more formally precise, e.g. SubClassOf restrictions, domain/range
+   declarations, or inverse-property links.  Only suggest axioms that follow
+   from the term's definition and the existing ontology structure.
+
+Separate multiple notes items with a blank line.  Leave "" if nothing to report.
+
+Do NOT invent new concepts wholesale, change ontological classification, or
+suggest axioms that contradict the existing hierarchy.
 """
 
 CSV_FIELDS = [
+    "idx",
     "iri", "source_file", "parent_iris",
-    "label_en", "label_de", "label_none",
-    "definition_en", "definition_de", "definition_none",
-    "label_en_suggested", "label_de_suggested",
-    "definition_en_suggested", "definition_de_suggested",
+    "label_en",        "label_en_suggested",
+    "label_de",        "label_de_suggested",
+    "label_none",
+    "definition_en",   "definition_en_suggested",
+    "definition_de",   "definition_de_suggested",
+    "definition_none",
+    "example_en_suggested",
+    "example_de_suggested",
     "notes",
+    "term_editor",
 ]
 
+# Rows are considered reviewed when all core suggested fields are filled.
+# example_* columns are allowed to be empty (not a blocking condition).
 SUGGESTED_FIELDS = [
     "label_en_suggested",
     "label_de_suggested",
     "definition_en_suggested",
     "definition_de_suggested",
+    "example_en_suggested",
+    "example_de_suggested",
 ]
 
 
+PMDCO_BASE = "https://w3id.org/pmd/co/"
+
+
+def build_ontology_index(rows: list[dict]) -> str:
+    """Build a compact term index to give the agent full ontology context."""
+    lines = [
+        "## PMDco term index",
+        "",
+        "Complete list of all terms in the ontology.  Use this to verify whether"
+        " concepts mentioned in definitions already exist as named classes, and to"
+        " identify missing concepts or axiom opportunities.",
+        "",
+        "Format: short_id | label_en | label_de | parent_short_ids",
+        "",
+    ]
+    for row in rows:
+        iri = row.get("iri", "")
+        short = iri.replace(PMDCO_BASE, "")
+        label_en = row.get("label_en") or row.get("label_en_suggested") or ""
+        label_de = row.get("label_de") or row.get("label_de_suggested") or ""
+        parents_raw = row.get("parent_iris", "")
+        # Shorten parent IRIs to local IDs
+        parents_short = " | ".join(
+            p.split("/")[-1].split("#")[-1]
+            for p in parents_raw.split(" | ")
+            if p and p != "[complex]"
+        )
+        lines.append(f"{short} | {label_en} | {label_de} | {parents_short}")
+    return "\n".join(lines)
+
+
 def row_is_reviewed(row: dict) -> bool:
-    """Return True if all four suggested columns are already non-empty."""
+    """Return True if all core suggested columns are already non-empty."""
     return all(row.get(f, "").strip() for f in SUGGESTED_FIELDS)
 
 
 def build_batch_prompt(batch: list[dict]) -> str:
     """Build the user message for a batch of terms."""
     lines = [
-        "Review the following PMDco terms. For each term, suggest improvements to the"
-        " label and definition fields. Return a JSON array — one object per term —"
-        " with these exact keys:",
-        '  "iri", "label_en_suggested", "label_de_suggested",'
-        ' "definition_en_suggested", "definition_de_suggested"',
+        "Review the following PMDco terms and return a JSON array — one object per"
+        " term — with these exact keys:",
+        '  "iri", "label_en_suggested", "label_de_suggested",',
+        '  "definition_en_suggested", "definition_de_suggested",',
+        '  "example_en_suggested", "example_de_suggested", "notes"',
         "",
-        'Use "" (empty string) for any field you consider already acceptable.',
-        "Do not change the ontological classification or introduce new concepts.",
+        'Use "" for any field where you have no suggestion or improvement.',
         "",
         "Terms:",
         "",
@@ -184,11 +252,11 @@ def build_batch_prompt(batch: list[dict]) -> str:
     for row in batch:
         iri_short = row["iri"].split("/")[-1]
         lines.append(f"IRI: {row['iri']}  ({iri_short})")
-        lines.append(f"  Parent(s):       {row.get('parent_iris', '') or '(none recorded)'}")
-        lines.append(f"  label_en:        {row.get('label_en', '') or '(missing)'}")
-        lines.append(f"  label_de:        {row.get('label_de', '') or '(missing)'}")
-        lines.append(f"  definition_en:   {row.get('definition_en', '') or '(missing)'}")
-        lines.append(f"  definition_de:   {row.get('definition_de', '') or '(missing)'}")
+        lines.append(f"  Parent(s):        {row.get('parent_iris', '') or '(none recorded)'}")
+        lines.append(f"  label_en:         {row.get('label_en', '') or '(missing)'}")
+        lines.append(f"  label_de:         {row.get('label_de', '') or '(missing)'}")
+        lines.append(f"  definition_en:    {row.get('definition_en', '') or '(missing)'}")
+        lines.append(f"  definition_de:    {row.get('definition_de', '') or '(missing)'}")
         lines.append("")
     lines.append(
         "Return ONLY valid JSON — a top-level array, no markdown fences, no prose."
@@ -259,10 +327,13 @@ def parse_suggestions(response_text: str, batch: list[dict]) -> dict[str, dict]:
         if not iri:
             continue
         result[iri] = {
-            "label_en_suggested": str(item.get("label_en_suggested", "")),
-            "label_de_suggested": str(item.get("label_de_suggested", "")),
-            "definition_en_suggested": str(item.get("definition_en_suggested", "")),
-            "definition_de_suggested": str(item.get("definition_de_suggested", "")),
+            "label_en_suggested":       str(item.get("label_en_suggested", "")),
+            "label_de_suggested":       str(item.get("label_de_suggested", "")),
+            "definition_en_suggested":  str(item.get("definition_en_suggested", "")),
+            "definition_de_suggested":  str(item.get("definition_de_suggested", "")),
+            "example_en_suggested":     str(item.get("example_en_suggested", "")),
+            "example_de_suggested":     str(item.get("example_de_suggested", "")),
+            "notes":                    str(item.get("notes", "")),
         }
     return result
 
@@ -344,6 +415,9 @@ def main() -> None:
                 "label_de_suggested": "",
                 "definition_en_suggested": "<suggested definition>",
                 "definition_de_suggested": "",
+                "example_en_suggested": "<usage example>",
+                "example_de_suggested": "",
+                "notes": "",
             }
             for r in first_batch[:2]
         ]
@@ -352,13 +426,19 @@ def main() -> None:
 
     client = _build_client()
 
-    # System prompt with cache_control for repeated batches
+    # System prompt + cached ontology index for full context
+    ontology_index = build_ontology_index(rows)
     system_content = [
         {
             "type": "text",
             "text": SYSTEM_PROMPT,
             "cache_control": {"type": "ephemeral"},
-        }
+        },
+        {
+            "type": "text",
+            "text": ontology_index,
+            "cache_control": {"type": "ephemeral"},
+        },
     ]
 
     # Build an index of rows by IRI for fast updates

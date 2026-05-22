@@ -96,10 +96,13 @@ def _norm_label_de(s: str) -> str:
 
 
 TRANSFORMS = {
-    "definition_en_suggested": _norm_en,
-    "definition_de_suggested": _norm_de,
-    "label_en_suggested":      _norm_label_en,
-    "label_de_suggested":      _norm_label_de,
+    "definition_en_suggested":  _norm_en,
+    "definition_de_suggested":  _norm_de,
+    "label_en_suggested":       _norm_label_en,
+    "label_de_suggested":       _norm_label_de,
+    # examples: same rules as definitions (noun phrase / sentence, strip trailing period)
+    "example_en_suggested":     _norm_en,
+    "example_de_suggested":     _norm_de,
 }
 
 

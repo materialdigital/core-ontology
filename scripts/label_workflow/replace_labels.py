@@ -36,9 +36,11 @@ ANNOTATION_COLUMNS = {
     "definition_en_suggested":  ("definition", "en"),
     "definition_de_suggested":  ("definition", "de"),
     "definition_none_suggested": ("definition", "none"),  # not in CSV but handled if present
+    "example_en_suggested":     ("example",    "en"),
+    "example_de_suggested":     ("example",    "de"),
 }
 
-# Current-value columns corresponding to each suggested column
+# Current-value columns corresponding to each suggested column (examples have none — always appended)
 CURRENT_COLUMNS = {
     "label_en_suggested":       "label_en",
     "label_de_suggested":       "label_de",
@@ -48,8 +50,9 @@ CURRENT_COLUMNS = {
 
 # OFN property expressions (primary prefixed form; also accept full IRI)
 PROP_PATTERNS = {
-    "label": r'(?:rdfs:label|<http://www\.w3\.org/2000/01/rdf-schema#label>)',
+    "label":      r'(?:rdfs:label|<http://www\.w3\.org/2000/01/rdf-schema#label>)',
     "definition": r'(?:skos:definition|<http://www\.w3\.org/2004/02/skos/core#definition>)',
+    "example":    r'(?:skos:example|<http://www\.w3\.org/2004/02/skos/core#example>)',
 }
 
 
@@ -140,13 +143,12 @@ def patch_file(
             # Replace existing annotation
             old_raw = ofn_escape(old_display)
 
-            # Warn and skip multiline old values
-            if "\n" in old_raw:
-                print(
-                    f"  WARNING: multiline value for {prop_key}@{lang} on {local_id} — skipping",
-                    file=sys.stderr,
-                )
-                continue
+            # Multiline old values: collapse whitespace in the pattern so the
+            # regex matches even if the OFN file has different line-break style.
+            # The CSV stores values with newlines collapsed to spaces (extract_labels
+            # _flatten), so old_raw here is already flat after round-tripping.
+            # Belt-and-suspenders: if newlines somehow survived, normalise them.
+            old_raw = re.sub(r'\r?\n\s*', ' ', old_raw).strip()
 
             pattern = build_annotation_pattern(prop_re, subject, old_raw, lang)
 
@@ -224,8 +226,9 @@ def patch_file(
 
 # Canonical property string for emitting in replacement lines
 PROP_PATTERNS_CANONICAL = {
-    "label": "rdfs:label",
+    "label":      "rdfs:label",
     "definition": "skos:definition",
+    "example":    "skos:example",
 }
 
 
