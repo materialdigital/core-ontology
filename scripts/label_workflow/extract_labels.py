@@ -68,6 +68,10 @@ PROP_SKOS_DEF = frozenset({
     "skos:definition",
     "<http://www.w3.org/2004/02/skos/core#definition>",
 })
+PROP_TERM_EDITOR = frozenset({
+    "obo:IAO_0000117",
+    "<http://purl.obolibrary.org/obo/IAO_0000117>",
+})
 
 
 # ---------------------------------------------------------------------------
@@ -154,12 +158,21 @@ def parse_component(owl_path: Path, repo_root: Path) -> list[dict]:
 
     # annotations[full_iri][(prop_type, lang)] = display_value
     annotations: dict[str, dict[tuple[str, str], str]] = defaultdict(dict)
+    # term_editors[full_iri] = list of editor strings
+    term_editors: dict[str, list[str]] = defaultdict(list)
 
     for m in ANN_RE.finditer(text):
         prop = m.group("prop")
         subj = expand_iri(m.group("subj"), prefixes)
 
         if not subj.startswith(PMDCO_BASE + "PMD_"):
+            continue
+
+        if prop in PROP_TERM_EDITOR:
+            val = _flatten(ofn_unescape(m.group("value")))
+            # Strip leading "PERSON: " prefix used by OBO convention
+            val = re.sub(r'^PERSON:\s*', '', val)
+            term_editors[subj].append(val)
             continue
 
         if prop in PROP_RDFS_LABEL:
@@ -229,7 +242,7 @@ def parse_component(owl_path: Path, repo_root: Path) -> list[dict]:
             "example_en_suggested": "",
             "example_de_suggested": "",
             "notes": "",
-            "term_editor": "",
+            "term_editor": " | ".join(term_editors.get(iri, [])),
         })
 
     rows.sort(key=lambda r: int(re.search(r"PMD_0*(\d+)$", r["iri"]).group(1)))
