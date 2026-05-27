@@ -1,0 +1,162 @@
+@prefix ex: <https://www.example.org/> .
+@base <https://www.example.org/reduced-polycrystal-pattern/> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix ro: <http://purl.obolibrary.org/obo/RO_> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix obi: <http://purl.obolibrary.org/obo/OBI_> .
+@prefix iao: <http://purl.obolibrary.org/obo/IAO_> .
+
+ex:CeramicPelletObject
+    a owl:Class ;
+    rdfs:label "ceramic pellet object" .
+
+ex:PortionOfPolycrystallineCeramicC
+    a owl:Class ;
+    rdfs:label "portion of polycrystalline ceramic C" .
+
+ex:PolycrystallineCeramicCPortion
+    a owl:Class ;
+    rdfs:subClassOf ex:PortionOfPolycrystallineCeramicC ;
+    rdfs:label "portion of polycrystalline ceramic C" .
+
+ex:ObjectOSurface
+    a owl:Class ;
+    rdfs:label "O-surface" .
+
+ex:ObjectOBulk
+    a owl:Class ;
+    rdfs:label "O-bulk" .
+
+ex:BCrystalFormPortionOfCeramic
+    a owl:Class ;
+    rdfs:subClassOf ex:PortionOfPolycrystallineCeramicC ;
+    rdfs:label "B-crystal-form portion of ceramic" .
+
+ex:PropertyOfBCrystalForm
+    a owl:Class ;
+    rdfs:label "property of B-crystal" .
+
+ex:HarderSurfaceProperty
+    a owl:Class ;
+    rdfs:label "harder surface property" .
+
+ex:SofterBulkProperty
+    a owl:Class ;
+    rdfs:label "softer bulk property" .
+
+ex:CeramicCProperty
+    a owl:Class ;
+    rdfs:label "ceramic C property" .
+
+ex:VolumeProportionQuality
+    a owl:Class ;
+    rdfs:label "volume proportion quality" .
+
+pmd:relational_quality_of
+    a owl:ObjectProperty ;
+    rdfs:label "pmd:PMD_0025999" .
+
+ex:Object_pellet_O_and_portion_of_Ceramic_C
+    rdf:type ex:CeramicPelletObject , ex:PortionOfPolycrystallineCeramicC ;
+    ro:0000086 ex:mass_of_pellet ;
+    bfo:0000051 ex:portion_of_polycrystalline_ceramic_C , ex:O_bulk , ex:O_surface ;
+    rdfs:label "Object pellet O & portion of Ceramic C" .
+
+ex:mass_of_pellet
+    rdf:type pmd:PMD_0020133 ;
+    rdfs:label "mass of pellet" .
+
+ex:portion_of_polycrystalline_ceramic_C
+    rdf:type ex:PolycrystallineCeramicCPortion ;
+    ro:0000086 ex:composition_of_ceramic_C ,
+               ex:ceramic_C_property ;
+    rdfs:label "portion of polycrystalline ceramic C" .
+
+ex:composition_of_ceramic_C
+    rdf:type pmd:PMD_0000551 ;
+    rdfs:label "composition of ceramic C" .
+
+ex:ceramic_C_property
+    rdf:type ex:CeramicCProperty ;
+    rdfs:label "ceramic C property" .
+
+ex:O_bulk
+    rdf:type ex:ObjectOBulk ;
+    ro:0000086 ex:softer_bulk_property ;
+    bfo:0000051 ex:B_crystal_form_in_bulk ;
+    rdfs:label "O-bulk" .
+
+ex:O_surface
+    rdf:type ex:ObjectOSurface ;
+    ro:0000086 ex:harder_surface_property ;
+    bfo:0000051 ex:B_crystal_form_in_surface ;
+    rdfs:label "O-surface" .
+
+ex:softer_bulk_property
+    rdf:type ex:SofterBulkProperty ;
+    rdfs:label "softer bulk property" .
+
+ex:harder_surface_property
+    rdf:type ex:HarderSurfaceProperty ;
+    rdfs:label "harder surface property" .
+
+ex:B_crystal_form_in_bulk
+    rdf:type ex:BCrystalFormPortionOfCeramic ;
+    ro:0000086 ex:property_of_B_crystal_for_bulk ;
+    rdfs:label "B-crystal-form in bulk" .
+
+ex:B_crystal_form_in_surface
+    rdf:type ex:BCrystalFormPortionOfCeramic ;
+    ro:0000086 ex:property_of_B_crystal_for_surface ;
+    rdfs:label "B-crystal-form in surface" .
+
+ex:property_of_B_crystal_for_bulk
+    rdf:type ex:PropertyOfBCrystalForm ;
+    rdfs:label "property of B-crystal" .
+
+ex:property_of_B_crystal_for_surface
+    rdf:type ex:PropertyOfBCrystalForm ;
+    rdfs:label "property of B-crystal" .
+
+ex:volume_proportion_of_B_crystal_in_bulk
+    rdf:type ex:VolumeProportionQuality ;
+    pmd:relational_quality_of ex:B_crystal_form_in_bulk , ex:O_bulk ;
+    rdfs:label "volume proportion of B-crystal in bulk" .
+
+ex:B_Crys_Vol_fraction_in_bulk
+    rdf:type owl:Thing ;
+    obi:0001927 ex:volume_proportion_of_B_crystal_in_bulk ;
+    iao:0000039 ex:mass_volume_percentage_for_bulk ;
+    obi:0001937 ex:numeric_value_5_for_bulk ;
+    rdfs:label "B-Crys.Vol.fraction in bulk" .
+
+ex:mass_volume_percentage_for_bulk
+    rdfs:label "mass volume percentage" .
+
+ex:numeric_value_5_for_bulk
+    rdfs:label "5" .
+
+ex:volume_proportion_of_B_crystal_in_surface
+    rdf:type ex:VolumeProportionQuality ;
+    pmd:relational_quality_of ex:B_crystal_form_in_surface , ex:O_surface ;
+    rdfs:label "volume proportion of B-crystal in surface" .
+
+ex:B_Crys_Vol_fraction_in_surface
+    rdf:type owl:Thing ;
+    obi:0001927 ex:volume_proportion_of_B_crystal_in_surface ;
+    iao:0000039 ex:mass_volume_percentage_for_surface ;
+    obi:0001937 ex:numeric_value_80_for_surface ;
+    rdfs:label "B-Crys.Vol.fraction in surface" .
+
+ex:mass_volume_percentage_for_surface
+    rdfs:label "mass volume percentage" .
+
+ex:numeric_value_80_for_surface
+
+
+    rdfs:label "80" .
