@@ -63,12 +63,20 @@ Available renderer tag variants:
 (see folder:     [patterns/duality object material/](https://github.com/materialdigital/core-ontology/tree/main/patterns/duality%20object%20material) )
 ---
 
-## Pattern 2 - Temporal dimensions of a process
+## Pattern 2 - Temporal dimensions of a process ...
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/pattern.md-->
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
 (see folder:     [patterns/temporal region/](https://github.com/materialdigital/core-ontology/tree/main/patterns/temporal%20region) )
 ---
+## ... and the participant objects states
+
+<!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20%of%20ingot/pattern.md-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20%of%20ingot/shape-data.ttl-->
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20%of%20ingot/shape-data.ttl-->
+(see folder:     [patterns/TQC microstructure of ingot/](https://github.com/materialdigital/core-ontology/tree/main/patterns/TQC%20microstructure%20%of%20ingot) )
+---
+
 
 ## Pattern 3 - Process Chain
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/pattern.md-->
