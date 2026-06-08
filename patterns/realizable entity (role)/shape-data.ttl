@@ -9,9 +9,11 @@
 @base <https://w3id.org/pmd/co/test> .
 
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
 @prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
 @prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
 @prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix indentation_hardness: <https://w3id.org/pmd/co/PMD_0000789> .
 @prefix planned_process: <http://purl.obolibrary.org/obo/COB_0000035> .
 @prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
 @prefix tensile_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
@@ -24,30 +26,34 @@
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
 @prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
 @prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
 @prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
 @prefix has_some_value_spec: <http://purl.obolibrary.org/obo/OBI_0001938> .
 @prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
+@prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
+
 
 <https://w3id.org/pmd/co/test/role> rdf:type owl:Ontology  .
 
-ex:tensile_testing a assay: .
-ex:tensile_testing has_specified_input: ex:tensile_test_piece .
-ex:tensile_testing achieves_planned_objective: ex:objective_1 .
-ex:tensile_testing has_specified_output: ex:stress_strain_curve .
-ex:tensile_testing assay_measures_characteristic: ex:ultimate_tensile_strength .
-ex:tensile_testing realizes: ex:plan_of_tensile_test .
 
-ex:stress_strain_curve a  measurement_datum: .
+# SDCs
+ex:the_materials_hardness a indentation_hardness: .
+ex:evaluant_role_of_slab a evaluant_role: ;
+    has_realization: ex:the_vickers_test .
 
-ex:plan_of_tensile_test a plan: ; concretizes: ex:some_specification .
+# objects
+ex:the_slab_and_material a slab: , material: .
 
-ex:objective_1 is_about: ex:tensile_test_piece .
-ex:stress_strain_curve  is_about: ex:tensile_test_piece .
-ex:stress_strain_curve  has_some_value_spec: ex:some_value_spec .
+# GDCs
+ex:the_vickers_datum a measurement_datum: .
+ex:the_vickers_test_standard a plan_specification: .
 
-ex:tensile_test_piece a object: .
-ex:tensile_test_piece has_role: ex:evaluant_role_of_test_piece .
-
-ex:evaluant_role_of_test_piece a evaluant_role: .
-ex:evaluant_role_of_test_piece has_realization: ex:tensile_testing  .
-
+# process
+ex:the_vickers_test a assay: ;
+    has_specified_input: ex:the_slab_and_material ;
+    has_specified_output: ex:the_vickers_datum ;
+    assay_measures_characteristic: ex:the_materials_hardness ;
+    realizes: [
+        a plan: ;
+            concretizes: ex:the_vickers_test_standard .
+    ] .
