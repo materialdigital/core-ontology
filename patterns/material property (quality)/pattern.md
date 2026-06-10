@@ -1,16 +1,5 @@
-- **Purpose**: Represent materials, their qualities, and their behaviors at different moments/periods of time.
-- **Example Use Case**: 
-This example defines a set of example individuals illustrating how materials, their qualities, and their behaviors can be semantically represented. 
-The example models three main themes:
-
-	1. Intrinsic material qualities: Examples include mass, and density.
-		
-		- A metal sheet is modeled as a material object that has a mass quality with a given numeric value (3.3 g).
-		- A steel material has an associated density quality (7.5 g/cm³).
-
-	2. Behavioral material properties and processes: These represent how a material behaves under certain conditions.
-		- A steel material has a melting point (1500 °C), which is realized through a melting process.
-		- The melting process is triggered by an application of heat flux and involves a change of temperature as the material responds.
-
-	3. Relational material qualities: These capture qualities that depend on relations between materials and objects.
-		- A mass proportion is expressed between some portion of iron and the metal sheet, with a value of 97.7 %.
+**Purpose**: Represent materials, their structure and their (behavioral) properties 
+**Example Use Case**: We split this example into three parts: 
+- first we talk about "fundamental" properties of a material or an object. We call these properties fundamental because they are always present. For a portion of matter, such a fundamental property would be its density. For an object, the correlated fundamental properties would be its volume and its mass. (Remember: if we zoom into a different level of granularity where we dont look at the portion of matter anymore but lets say on a bunch of molecules, these molecules would be perceived as objects and every object would have volume and mass.) 
+- second we talk about "behavoiral" material properties. We call these properties behavioral because they are a manifestation of the materials behavior in a specific circumstance or process. Such a behavioral material property of (a solid) material would be the stress at which it starts straining irreversably (due to some inelastic rearrangement in its structure). For an object, the correlated property would be the force at which it starts deforming irreversably.
+- third we talk about relational properties that we encounter in portions and objects. Portions may have other portions as parts, e.g. a portion of high alloy steel may have a portion of chromium as part. A relational property (beyond the qualitative parthood) between these two portions is that the portion of chromium (which forms a part) has a mass/volume/molar proportion relation to the portion of high alloy steel (which forms the whole). For two objects, a relational property could express the mechanical force excerted from one to the other. 
