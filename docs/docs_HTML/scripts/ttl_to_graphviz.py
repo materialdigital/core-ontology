@@ -166,6 +166,7 @@ CLASSDEF_STYLES: Dict[str, str] = {
     "cat": "fill:#99F6E4,stroke:#0D9488,stroke-width:2px,color:#134E4A",       # Categorical value (teal)
     "shacl": "fill:#A5F3FC,stroke:#0891B2,stroke-width:2px,color:#164E63",     # SHACL Shape (cyan)
     "constraint": "fill:#FED7AA,stroke:#EA580C,stroke-width:2px,color:#7C2D12",# Constraint (orange)
+    "blank": "fill:#FFFFFF,stroke:#22C55E,stroke-width:2px,color:#333333",     # Blank node (empty green circle)
     # Ontology-specific styles for TBox classes
     "bfo": "fill:#F556CB,stroke:#C93DA0,stroke-width:2px,color:#333333",       # BFO (pink)
     "obi": "fill:#F5D5B1,stroke:#D4B08A,stroke-width:2px,color:#333333",       # OBI (warm peach)
@@ -187,6 +188,7 @@ GRAPHVIZ_NODE_STYLES: Dict[str, Dict[str, str]] = {
     "cat": {"fillcolor": "#99F6E4", "color": "#0D9488", "penwidth": "2", "fontcolor": "#134E4A"},
     "shacl": {"fillcolor": "#A5F3FC", "color": "#0891B2", "penwidth": "2", "fontcolor": "#164E63"},
     "constraint": {"fillcolor": "#FED7AA", "color": "#EA580C", "penwidth": "2", "fontcolor": "#7C2D12"},
+    "blank": {"fillcolor": "#FFFFFF", "color": "#22C55E", "penwidth": "2", "fontcolor": "#333333"},
     # Ontology-specific styles
     "bfo": {"fillcolor": "#F556CB", "color": "#C93DA0", "penwidth": "2", "fontcolor": "#333333"},
     "obi": {"fillcolor": "#F5D5B1", "color": "#D4B08A", "penwidth": "2", "fontcolor": "#333333"},
@@ -884,6 +886,7 @@ class RdfToDiagram:
         direction: str = "BT",
         output_format: str = "mermaid",
         include_bnodes: bool = True,
+        bnode_as_circle: bool = False,
         enrich: bool = False,
         superclass_depth: int = 0,
         ontology_cache_dir: Optional[Path] = None,
@@ -901,6 +904,10 @@ class RdfToDiagram:
             direction: Graph layout direction ('BT', 'TD', 'LR', 'RL').
             output_format: Diagram format ('dot' or 'mermaid').
             include_bnodes: Include blank nodes in output.
+            bnode_as_circle: Render blank nodes as small empty circles
+                (instead of labelled diamond constraints). Implies that
+                blank nodes are shown even if they would otherwise be
+                hidden. Used by the @Graphviz_renderer_with_BNode tag.
             enrich: Enable remote ontology enrichment.
             superclass_depth: Levels of remote superclasses to fetch.
             ontology_cache_dir: Cache directory for downloaded ontologies.
@@ -918,6 +925,12 @@ class RdfToDiagram:
             raise ValueError("output_format must be 'mermaid' or 'dot'")
 
         self.include_bnodes = include_bnodes
+        # When rendering blank nodes as empty circles we must also make
+        # sure they are actually collected into the graph, so this flag
+        # forces blank-node inclusion on regardless of include_bnodes.
+        self.bnode_as_circle = bool(bnode_as_circle)
+        if self.bnode_as_circle:
+            self.include_bnodes = True
         self.enrich = enrich
         # Ensure non-negative depth and at-least-1 caps to avoid degenerate runs.
         self.superclass_depth = max(0, int(superclass_depth))
@@ -1104,6 +1117,8 @@ class RdfToDiagram:
             return "lit"
         if kind == "Constraint":
             return "constraint"
+        if kind == "Blank":
+            return "blank"
         if kind == "SHACL Shape":
             return "shacl"
         if kind == "Categorical":
@@ -1384,7 +1399,10 @@ class RdfToDiagram:
                 base = "val_" + safe_mermaid_id(str(n))
 
             elif isinstance(n, BNode):
-                kind = "Constraint"
+                # In bnode-as-circle mode blank nodes become empty green
+                # circles ("Blank"); otherwise they keep the legacy diamond
+                # "Constraint" styling with a "_:id" label.
+                kind = "Blank" if self.bnode_as_circle else "Constraint"
                 uri = ""
                 base = "bn_" + safe_mermaid_id(str(n))
 
@@ -1441,6 +1459,7 @@ class RdfToDiagram:
         constraint_nodes: List[NodeInfo] = []
         abox_nodes: List[NodeInfo] = []
         lit_nodes: List[NodeInfo] = []
+        blank_nodes: List[NodeInfo] = []
 
         style_bucket_by_id: Dict[str, str] = {}
 
@@ -1451,6 +1470,9 @@ class RdfToDiagram:
             elif info.kind == "Constraint":
                 constraint_nodes.append(info)
                 style_bucket_by_id[info.node_id] = "constraint"
+            elif info.kind == "Blank":
+                blank_nodes.append(info)
+                style_bucket_by_id[info.node_id] = "blank"
             elif info.kind == "SHACL Shape":
                 shape_nodes.append(info)
                 style_bucket_by_id[info.node_id] = "shacl"
@@ -1464,7 +1486,7 @@ class RdfToDiagram:
                 abox_nodes.append(info)
                 style_bucket_by_id[info.node_id] = "ind"
 
-        for group in (class_nodes, shape_nodes, constraint_nodes, abox_nodes, lit_nodes):
+        for group in (class_nodes, shape_nodes, constraint_nodes, abox_nodes, lit_nodes, blank_nodes):
             group.sort(key=lambda ni: ni.node_id)
 
         lines: List[str] = [f"flowchart {self.direction}"]
@@ -1489,6 +1511,11 @@ class RdfToDiagram:
 
         for info in lit_nodes:
             lines.append(f'  {info.node_id}["{escape_mermaid_label(info.label)}"]')
+
+        # Blank nodes render as small empty circles using Mermaid's
+        # double-parenthesis circle syntax with a blank label.
+        for info in blank_nodes:
+            lines.append(f'  {info.node_id}(("&nbsp;"))')
 
         filtered: List[Tuple[str, str, str, bool]] = []
         for s, p, o in edges:
@@ -1536,6 +1563,7 @@ class RdfToDiagram:
         constraint_nodes: List[NodeInfo] = []
         abox_nodes: List[NodeInfo] = []
         lit_nodes: List[NodeInfo] = []
+        blank_nodes: List[NodeInfo] = []
 
         style_bucket_by_id: Dict[str, str] = {}
 
@@ -1546,6 +1574,7 @@ class RdfToDiagram:
                 "Categorical": "box",
                 "SHACL Shape": "hexagon",
                 "Constraint": "diamond",
+                "Blank": "circle",
                 "Literal": "note",
             }.get(kind, "box")
 
@@ -1556,6 +1585,9 @@ class RdfToDiagram:
             elif info.kind == "Constraint":
                 constraint_nodes.append(info)
                 style_bucket_by_id[info.node_id] = "constraint"
+            elif info.kind == "Blank":
+                blank_nodes.append(info)
+                style_bucket_by_id[info.node_id] = "blank"
             elif info.kind == "SHACL Shape":
                 shape_nodes.append(info)
                 style_bucket_by_id[info.node_id] = "shacl"
@@ -1569,7 +1601,7 @@ class RdfToDiagram:
                 abox_nodes.append(info)
                 style_bucket_by_id[info.node_id] = "ind"
 
-        for group in (class_nodes, shape_nodes, constraint_nodes, abox_nodes, lit_nodes):
+        for group in (class_nodes, shape_nodes, constraint_nodes, abox_nodes, lit_nodes, blank_nodes):
             group.sort(key=lambda ni: ni.node_id)
 
         rankdir = {"TD": "TB", "BT": "BT", "LR": "LR", "RL": "RL"}.get(self.direction, "BT")
@@ -1577,7 +1609,14 @@ class RdfToDiagram:
         lines: List[str] = []
         lines.append("digraph G {")
         lines.append(f'  rankdir="{rankdir}";')
-        lines.append('  graph [bgcolor="transparent",compound="true",splines="true"];')
+        # Layout tuning for a clean, vertical top-to-bottom flow:
+        #   - ranksep "equally" forces uniform spacing between hierarchy levels
+        #     so ranks line up in straight horizontal bands instead of drifting.
+        #   - nodesep keeps same-rank nodes compact (taller, less skewed shape).
+        #   - concentrate merges shared subClassOf edges into clean trunks.
+        #   - newrank gives the ranking algorithm more freedom to align levels.
+        lines.append('  graph [bgcolor="transparent",compound="true",splines="true",'
+                     'nodesep="0.35",ranksep="0.75 equally",concentrate="true",newrank="true"];')
         lines.append('  node  [fontname="Arial",fontsize="10"];')
         lines.append('  edge  [fontname="Arial",fontsize="9"];')
 
@@ -1595,6 +1634,15 @@ class RdfToDiagram:
                     escaped_label = info.label.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
                     font_color = style.get("fontcolor", "#333333")
                     attrs["label"] = f'<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD><B><FONT COLOR="{font_color}">{escaped_label}</FONT></B></TD></TR></TABLE>>'
+                elif info.kind == "Blank":
+                    # Blank nodes are drawn as small, empty circles — no
+                    # label, fixed size so they stay compact like the
+                    # reference visualization.
+                    attrs["label"] = ""
+                    attrs["fixedsize"] = "true"
+                    attrs["width"] = "0.3"
+                    attrs["height"] = "0.3"
+                    attrs["margin"] = "0,0"
                 else:
                     attrs["label"] = info.label
                 if info.uri:
@@ -1624,6 +1672,7 @@ class RdfToDiagram:
             emit_cluster("ABOX", abox_nodes)
 
         emit_nodes(lit_nodes)
+        emit_nodes(blank_nodes)
 
         filtered: List[Tuple[str, str, str, bool]] = []
         for s, p, o in edges:
@@ -1651,6 +1700,8 @@ class RdfToDiagram:
         diagram_id: Optional[str] = None,
         use_full_hierarchy: Optional[bool] = None,
         full_hierarchy_max_depth: Optional[int] = None,
+        include_bnodes: Optional[bool] = None,
+        bnode_as_circle: Optional[bool] = None,
     ) -> DiagramResult:
         """Render a TTL file to a diagram.
 
@@ -1659,6 +1710,10 @@ class RdfToDiagram:
             diagram_id: Custom diagram identifier (default: derived from filename).
             use_full_hierarchy: Override instance setting for this call.
             full_hierarchy_max_depth: Override instance setting for this call.
+            include_bnodes: Override blank-node inclusion for this call.
+            bnode_as_circle: Override empty-circle blank-node rendering for
+                this call (used by the @Graphviz_renderer_with_BNode tag).
+                When True, blank nodes are always included.
 
         Returns:
             DiagramResult containing the rendered source and metadata.
@@ -1669,11 +1724,21 @@ class RdfToDiagram:
         # others without, using a single RdfToDiagram instance.
         orig_use = self.use_full_hierarchy
         orig_depth = self.full_hierarchy_max_depth
+        orig_include_bnodes = self.include_bnodes
+        orig_bnode_as_circle = self.bnode_as_circle
         try:
             if use_full_hierarchy is not None:
                 self.use_full_hierarchy = bool(use_full_hierarchy and self.full_ontology is not None)
             if full_hierarchy_max_depth is not None:
                 self.full_hierarchy_max_depth = max(1, int(full_hierarchy_max_depth))
+            if include_bnodes is not None:
+                self.include_bnodes = bool(include_bnodes)
+            if bnode_as_circle is not None:
+                self.bnode_as_circle = bool(bnode_as_circle)
+                # Rendering blank nodes as circles requires them to be
+                # collected, so force inclusion on when enabled.
+                if self.bnode_as_circle:
+                    self.include_bnodes = True
 
             # Phase 1: Parse the input TTL file.
             g = Graph()
@@ -1701,6 +1766,104 @@ class RdfToDiagram:
             # Always restore original settings, even on exceptions.
             self.use_full_hierarchy = orig_use
             self.full_hierarchy_max_depth = orig_depth
+            self.include_bnodes = orig_include_bnodes
+            self.bnode_as_circle = orig_bnode_as_circle
+
+    def render_elements(
+        self,
+        ttl_path: Path,
+        diagram_id: Optional[str] = None,
+        use_full_hierarchy: Optional[bool] = None,
+        full_hierarchy_max_depth: Optional[int] = None,
+        include_bnodes: Optional[bool] = None,
+        bnode_as_circle: Optional[bool] = None,
+    ) -> Tuple[Dict[str, list], Dict[str, Dict[str, str]]]:
+        """Render a TTL file to a renderer-agnostic element graph.
+
+        Produces the same nodes/edges/labels/colors the Graphviz output uses,
+        but as plain JSON (``{"nodes": [...], "edges": [...]}``) suitable for a
+        Cytoscape.js + ELK viewer.  Each node carries its display label, kind,
+        shape, fill/stroke/font colors and source IRI; each edge carries its
+        predicate label and kind (``subclass`` | ``type`` | ``prop``).
+
+        Returns:
+            ``(elements, node_data)`` where ``elements`` is the graph dict and
+            ``node_data`` is the per-node metadata map (label/type/uri).
+        """
+        # Renderer-neutral shape tokens (Cytoscape shape names).
+        shape_for_kind = {
+            "Class": "round-rectangle",
+            "Individual": "ellipse",
+            "Categorical": "round-rectangle",
+            "SHACL Shape": "hexagon",
+            "Constraint": "diamond",
+            "Blank": "ellipse",
+            "Literal": "round-rectangle",
+        }
+
+        orig_use = self.use_full_hierarchy
+        orig_depth = self.full_hierarchy_max_depth
+        orig_include_bnodes = self.include_bnodes
+        orig_bnode_as_circle = self.bnode_as_circle
+        try:
+            if use_full_hierarchy is not None:
+                self.use_full_hierarchy = bool(use_full_hierarchy and self.full_ontology is not None)
+            if full_hierarchy_max_depth is not None:
+                self.full_hierarchy_max_depth = max(1, int(full_hierarchy_max_depth))
+            if include_bnodes is not None:
+                self.include_bnodes = bool(include_bnodes)
+            if bnode_as_circle is not None:
+                self.bnode_as_circle = bool(bnode_as_circle)
+                if self.bnode_as_circle:
+                    self.include_bnodes = True
+
+            g = Graph()
+            parse_turtle_safely(g, ttl_path)
+            did = diagram_id or slugify(ttl_path.stem)
+
+            classes, shapes, categorical, nodes, edges = self._collect_schema_and_instances(g)
+            node_infos, node_data = self._assign_ids_and_metadata(g, did, classes, shapes, categorical, nodes)
+            self._set_predicate_cache(g, edges)
+
+            json_nodes = []
+            for n, info in node_infos.items():
+                uri = n if isinstance(n, URIRef) else None
+                bucket = self._style_bucket_for_node(uri, info.kind)
+                style = GRAPHVIZ_NODE_STYLES.get(bucket, GRAPHVIZ_NODE_STYLES["cls"])
+                json_nodes.append({
+                    "id": info.node_id,
+                    "label": info.label,
+                    "kind": info.kind,
+                    "bucket": bucket,
+                    "shape": shape_for_kind.get(info.kind, "round-rectangle"),
+                    "fill": style.get("fillcolor", "#FDFDC8"),
+                    "stroke": style.get("color", "#D4D48A"),
+                    "fontcolor": style.get("fontcolor", "#333333"),
+                    "uri": info.uri,
+                })
+
+            json_edges = []
+            idx = 0
+            for s, p, o in edges:
+                if s not in node_infos or o not in node_infos or not isinstance(p, URIRef):
+                    continue
+                plabel = self._pred_label_cache.get(str(p), uri_local_name(str(p)))
+                kind = "type" if p == RDF.type else ("subclass" if p == RDFS.subClassOf else "prop")
+                json_edges.append({
+                    "id": f"e{idx}",
+                    "source": node_infos[s].node_id,
+                    "target": node_infos[o].node_id,
+                    "label": plabel,
+                    "kind": kind,
+                })
+                idx += 1
+
+            return {"nodes": json_nodes, "edges": json_edges}, node_data
+        finally:
+            self.use_full_hierarchy = orig_use
+            self.full_hierarchy_max_depth = orig_depth
+            self.include_bnodes = orig_include_bnodes
+            self.bnode_as_circle = orig_bnode_as_circle
 
 
 # =============================================================================
@@ -1863,6 +2026,7 @@ Examples:
     p.add_argument("--format", default="mermaid", choices=["mermaid", "dot"], help="Diagram output format.")
     p.add_argument("--direction", default="BT", choices=["BT", "TD", "LR", "RL"], help="Diagram flow direction.")
     p.add_argument("--no-bnodes", action="store_true", help="Exclude blank nodes (BNodes) from diagrams.")
+    p.add_argument("--bnode-as-circle", action="store_true", help="Render blank nodes as small empty circles (implies including BNodes).")
 
     p.add_argument("--enrich", action="store_true", help="Enable remote ontology enrichment.")
     p.add_argument("--superclass-depth", type=int, default=0, help="With --enrich, include up to N rdfs:subClassOf levels.")
@@ -1926,6 +2090,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         direction=args.direction,
         output_format=args.format,
         include_bnodes=not args.no_bnodes,
+        bnode_as_circle=args.bnode_as_circle,
         enrich=args.enrich,
         superclass_depth=args.superclass_depth,
         ontology_cache_dir=args.ontology_cache,
