@@ -1,8 +1,3 @@
-- **Purpose**: Represent measured value of some material characteristic. 
-- **Example Use Case**: This example represents a measurement workflow:
-
-	- An assay with an objective assesses a material entity.
-	- The entity has a quality that the assay evaluates, there is also another quality which is not evaluates.
-	- The assay produces a measurement datum representing the measurement result of that quality.
-	- The datum includes a value specification providing numeric value and units. 
-	- The value specification also relates to the quality.
+**Purpose**: Represent different aspects of a measured value of some material property 
+**Example Use Case**:  This example builds on "pattern 5 - realizable entities and the measurand role realized in an assay". The measurand role is ommitted for clarity in this example and the focus is on the different relations between the measurand and the measurement result. First thing is that we have an assay ex:the_vickers_test that has an object (ex:the_slab_and_material) as specified input and a data item (ex:the_vickers_test_result) as specified output. The ex:the_vickers_test_result has a part - a very specific part denoted by has_value_specification - that represents the physical quanity of the measurement result with a magnitude of 245 and an unit of HV5. This physical quantity also points to the material property that it is about with the relation specifies_value_of. In addtion, the assay relates to the property of ex:the_slab_and_material that it measures using is_quality_measurement_of and the assay also relates in a weak manner to its measurand using  is_about.  
+Additionally we added a realtion stating which directive information entity was concretized by realizing (executing) the plan of the assay: an entity with the label "ISO 6507".
