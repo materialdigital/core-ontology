@@ -31,6 +31,7 @@
 @prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
 @prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
 @prefix has_specifed_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix realized_in: <http://purl.obolibrary.org/obo/BFO_0000054> .
 
 
 ex:Object_pellet_O_and_portion_of_Ceramic_C
@@ -49,12 +50,12 @@ ex:portion_of_polycrystalline_ceramic_C
     has_disposition: ex:ceramic_C_property ;
     rdfs:label "portion of polycrystalline ceramic C" .
 
-
 ex:composition_of_ceramic_C
     rdf:type chemical_composition: ;
     rdfs:label "composition of ceramic C" .
 
 ex:ceramic_C_property
+    realized_in: ex:some_proc2 ;
     rdf:type mechanical_property: ;
     rdfs:label "ceramic C property" .
 
@@ -71,28 +72,34 @@ ex:O_surface
     rdfs:label "O-surface" .
 
 ex:softer_bulk_property
+    realized_in: ex:some_proc4 ;
     rdf:type hardness: ;
     rdfs:label "softer bulk property" .
 
 ex:harder_surface_property
+    realized_in: ex:some_proc3 ;
     rdf:type hardness: ;
     rdfs:label "harder surface property" .
 
 ex:B_crystal_form_in_bulk
     rdf:type crystallite: ;
+    has_quality: ex:some_qual5 ;
     has_disposition: ex:property_of_B_crystal_for_bulk ;
     rdfs:label "B-crystal-form in bulk" .
 
 ex:B_crystal_form_in_surface
     rdf:type crystallite: ;
+    has_quality: ex:some_qual6 ;
     has_disposition: ex:property_of_B_crystal_for_surface ;
     rdfs:label "B-crystal-form in surface" .
 
 ex:property_of_B_crystal_for_bulk
+    realized_in: ex:some_proc5 ;
     rdf:type mechanical_property: ;
     rdfs:label "property of B-crystal" .
 
 ex:property_of_B_crystal_for_surface
+    realized_in: ex:some_proc1 ;
     rdf:type mechanical_property: ;
     rdfs:label "property of B-crystal" .
 
@@ -102,7 +109,7 @@ ex:volume_proportion_of_B_crystal_in_bulk
     rdfs:label "volume proportion of B-crystal in bulk" .
 
 ex:B_Crys_Vol_fraction_in_bulk
-    rdf:type fraction_value:specifcation: ;
+    rdf:type fraction_value_specifcation: ;
     specifies_value_of: ex:volume_proportion_of_B_crystal_in_bulk ;
     has_measurement_unit_label: ex:mass_volume_percentage_for_bulk ;
     has_specifed_numeric_value: "5"^^xsd:decimal ;
@@ -111,12 +118,10 @@ ex:B_Crys_Vol_fraction_in_bulk
 ex:mass_volume_percentage_for_bulk
     rdfs:label "mass volume percentage" .
 
-
 ex:volume_proportion_of_B_crystal_in_surface
     rdf:type volume_ratio: ;
     relational_quality_of: ex:B_crystal_form_in_surface , ex:O_surface ;
     rdfs:label "volume proportion of B-crystal in surface" .
-
 
 ex:B_Crys_Vol_fraction_in_surface
     rdf:type pmd:PMD_0025997 ;
