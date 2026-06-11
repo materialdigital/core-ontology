@@ -5,6 +5,9 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <https://w3id.org/pmd/co/test/shape3#> .
+@prefix ex: <http://www.example.org#> .
+
+
 
 @prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
@@ -29,43 +32,65 @@
 @prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
 @prefix has_measurement_value: <http://purl.obolibrary.org/obo/IAO_0000004> .
 @prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix indentation_hardness: <https://w3id.org/pmd/co/PMD_0000789> .
+@prefix planned_process: <http://purl.obolibrary.org/obo/COB_0000035> .
+@prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix tensile_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136>  .
+@prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
+@prefix has_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000117> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix has_some_value_spec: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
+@prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix vickers_hardness_hv5_iso6507: <https://w3id.org/pmd/vto/VTO_0000002> .
+@prefix hv5_unit: <https://w3id.org/pmd/vto/HV5> .
+@prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
+@prefix label: <http://www.w3.org/2000/01/rdf-schema#label> .
+@prefix has_characteristic: <http://purl.obolibrary.org/obo/RO_0000053> .
 
 <https://w3id.org/pmd/co/test/shape3> rdf:type owl:Ontology  .
 
+# SDCs
+ex:the_materials_hv5_hardness a vickers_hardness_hv5_iso6507: .
 
-:my_assay a assay: ;
-          realizes: :my_entities_evaluant_role ;
-          has_specified_input: :my_evaluated_entity ;
-          has_specified_output: :my_qualities_measurement_datum ;
-          achieves_planned_objective: :my_objective ;
-          assay_measures_characteristic: quality: .
+# objects
+ex:the_slab_and_material a slab: , material: ;
+    has_characteristic: ex:the_materials_hv5_hardness .
 
-:my_objective is_about: :my_evaluated_entity .
+# GDCs
+ex:the_vickers_datum a measurement_datum: ;
+    has_value_specification: [
+        a scalar_value_specification: ;
+        has_specified_numeric_value: "245"^^xsd:float ;
+        has_measurement_unit_label: hv5_unit: ; 
+        specifies_value_of: ex:the_materials_hv5_hardness 
+    ] ;
+    is_quality_measurement_of: ex:the_materials_hv5_hardness ;
+    is_about: ex:the_slab_and_material .
 
-:my_entities_evaluant_role a evaluant_role: ;
-          realized_in: :my_assay .
+ex:iso_6507 a directive_information_entity: ;
+    label: "ISO 6507" .
 
-:my_entities_preexising_quality a quality: .
-
-:my_entities_quality a quality: ;
-          quality_is_specified_as: :my_qualities_measurement_datum .
-
-:my_evaluated_entity a material_entity: ;
-          has_quality: :my_entities_preexising_quality ,
-          :my_entities_quality ;
-          has_role: :my_entities_evaluant_role .
-
-:my_qualities_measurement_datum a 
-          measurement_datum: ;
-          is_about: :my_evaluated_entity ;
-          is_quality_measurement_of: :my_entities_quality ;
-          has_value_specification: :my_measurment_datums_value_specification .
-
-:my_measurment_datums_value_specification 
-          has_measurement_unit_label: centimeter: ;
-          is_about: :my_evaluated_entity ;
-          specifies_value_of: :my_entities_quality ;
-          has_specified_numeric_value: 1.0 .
-
-
-
+# process
+ex:the_vickers_test a assay: ;
+    has_specified_input: ex:the_slab_and_material ;
+    has_specified_output: ex:the_vickers_datum ;
+    assay_measures_characteristic: ex:the_materials_hv5_hardness ;
+    realizes: [
+        a plan: ;
+        concretizes: ex:iso_6507  
+    ] .
