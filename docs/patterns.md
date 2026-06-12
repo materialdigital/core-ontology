@@ -72,7 +72,7 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 ## Pattern 2b - ... and the participant objects states
 
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20of%20ingot/pattern.md-->
-<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20of%20ingot/shape-data.ttl-->
+<!--@Graphviz_renderer_with_BNode:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20of%20ingot/shape-data.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20of%20ingot/shape-data.ttl-->
 (see folder:     [patterns/TQC microstructure of ingot/](https://github.com/materialdigital/core-ontology/tree/main/patterns/TQC%20microstructure%20of%20ingot) )
 ---
