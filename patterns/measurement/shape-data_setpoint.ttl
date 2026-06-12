@@ -49,6 +49,7 @@
 @prefix has_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000117> .
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
 @prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix specification_datum: <https://w3id.org/pmd/co/PMD_0060009> .
 @prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
 @prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
 @prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
@@ -61,6 +62,8 @@
 @prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
 @prefix label: <http://www.w3.org/2000/01/rdf-schema#label> .
 @prefix has_characteristic: <http://purl.obolibrary.org/obo/RO_0000053> .
+@prefix is_concretized_as: <http://purl.obolibrary.org/obo/RO_0000058> .
+
 
 <https://w3id.org/pmd/co/test/shape3> rdf:type owl:Ontology  .
 
@@ -72,25 +75,16 @@ ex:the_slab_and_material a slab: , material: ;
     has_characteristic: ex:the_materials_hv5_hardness .
 
 # GDCs
-ex:the_vickers_test_result a measurement_datum: ;
+ex:the_materials_hardness_specification a specification_datum: ;
     has_value_specification: [
         a scalar_value_specification: ;
-        has_specified_numeric_value: "245"^^xsd:float ;
+        has_specified_numeric_value: "210"^^xsd:float ;
         has_measurement_unit_label: hv5_unit: ; 
         specifies_value_of: ex:the_materials_hv5_hardness 
     ] ;
-    is_quality_measurement_of: ex:the_materials_hv5_hardness ;
+    is_concretized_as: ex:the_materials_hv5_hardness ;
     is_about: ex:the_slab_and_material .
 
-ex:iso_6507 a directive_information_entity: ;
-    label: "ISO 6507" .
-
-# process
-ex:the_vickers_test a assay: ;
-    has_specified_input: ex:the_slab_and_material ;
-    has_specified_output: ex:the_vickers_test_result ;
-    assay_measures_characteristic: ex:the_materials_hv5_hardness ;
-    realizes: [
-        a plan: ;
-        concretizes: ex:iso_6507  
-    ] .
+ex:EN_10088 a directive_information_entity: ;
+    label: "EN 10088" ;
+    has_part: ex:the_materials_hardness_specification .
