@@ -53,7 +53,6 @@ Available renderer tag variants:
                                         blank nodes (e.g. an inline [ ... ]).
 -->
 
-## Pattern 1 - Duality of object and material
 <!--Please provide the link to the pattern (raw data ttl file) in the repository-->
 
 ### Pattern 1 - Duality of object and material
