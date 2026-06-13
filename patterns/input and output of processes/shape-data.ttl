@@ -32,10 +32,7 @@
 
 # the anchor
 ex:the_material a material: ;
-        is_subject_of: ex:the_cropping_plan_specification ; # autoshape requirement of the plan specification
-        has_part: [ # autoshape requirement of the plan specification
-                a directive_information_entity: 
-        ] .
+        is_subject_of: ex:the_cropping_plan_specification . # autoshape requirement of the plan specification
 
 # the temporal regions (autoshape requirement)
 ex:intvl_before_cropping a temporal_interval: .
@@ -57,7 +54,11 @@ ex:slab_2 a slab: ,
 
 
 # the intentions
-ex:the_cropping_plan_specification a plan_specification: .
+ex:the_cropping_plan_specification a plan_specification: ;
+        has_part: [ # autoshape requirement of the plan specification
+                a directive_information_entity: 
+        ] .
+
 ex:the_cropping_plan a plan: ;
         concretizes: ex:the_cropping_plan_specification .
 
