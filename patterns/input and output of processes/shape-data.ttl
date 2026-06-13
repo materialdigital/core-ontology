@@ -21,22 +21,40 @@
 @prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
 @prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
 @prefix is_specified_input_of: <http://purl.obolibrary.org/obo/OBI_0000295> .
+@prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
+@prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> .
+
 
 <https://w3id.org/pmd/co/test> rdf:type owl:Ontology  .
 
 # the anchor
-ex:the_material a material: .
+ex:the_material a material: ;
+        is_subject_of: ex:the_cropping_plan_specification ; # autoshape requirement of the plan specification
+        has_part: [ # autoshape requirement of the plan specification
+                a directive_information_entity: 
+        ] .
+
+# the temporal regions (autoshape requirement)
+ex:intvl_before_cropping a temporal_interval: .
+ex:intvl_after_cropping a temporal_interval: .
 
 # The participants (and states)
 ex:the_strand a object: ,
                 temporally_qualified_continuant: ;
-        is_state_of: ex:the_material .
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_before_cropping .
 ex:slab_1 a slab: ,
                 temporally_qualified_continuant: ;
-        is_state_of: ex:the_material .
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_after_cropping .
 ex:slab_2 a slab: ,
                 temporally_qualified_continuant: ;
-        is_state_of: ex:the_material .
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_after_cropping .
+
 
 # the intentions
 ex:the_cropping_plan_specification a plan_specification: .
