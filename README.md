@@ -1,61 +1,208 @@
-![shacl validation](https://github.com/materialdigital/core-ontology/actions/workflows/pr-shacl.yaml/badge.svg)
-![basic checks](https://github.com/materialdigital/core-ontology/actions/workflows/quality-checks.yaml/badge.svg)
+<div align="center">
 
+<img src="docs/assets/header.png" alt="Platform MaterialDigital Core Ontology (PMDco) — a mid-level semantic framework for Materials Science and Engineering" width="100%" />
 
-# PMD Core Ontology
+<br><br>
 
-## Introduction
+[![SHACL validation](https://img.shields.io/github/actions/workflow/status/materialdigital/core-ontology/abox_conventions_shacl.yaml?style=flat-square&label=SHACL%20validation&labelColor=0f172a)](https://github.com/materialdigital/core-ontology/actions/workflows/abox_conventions_shacl.yaml)
+[![Quality checks](https://img.shields.io/github/actions/workflow/status/materialdigital/core-ontology/quality-checks.yaml?style=flat-square&label=Quality%20checks&labelColor=0f172a)](https://github.com/materialdigital/core-ontology/actions/workflows/quality-checks.yaml)
+[![Release](https://img.shields.io/github/v/release/materialdigital/core-ontology?style=flat-square&label=Release&color=0077b3&labelColor=0f172a)](https://github.com/materialdigital/core-ontology/releases)
+[![DOI](https://img.shields.io/badge/DOI-10.1016%2Fj.matdes.2023.112603-0077b3?style=flat-square&labelColor=0f172a)](https://doi.org/10.1016/j.matdes.2023.112603)
+![License](https://img.shields.io/badge/License-CC%20BY%204.0-0077b3?style=flat-square&labelColor=0f172a)
+![Foundation](https://img.shields.io/badge/Foundation-BFO-0077b3?style=flat-square&labelColor=0f172a)
+![Standard](https://img.shields.io/badge/Standard-ISO%2FIEC%2021838--2-0077b3?style=flat-square&labelColor=0f172a)
 
-The **Platform MaterialDigital Core Ontology (PMDco)** is a mid-level semantic framework for **Materials Science and Engineering (MSE)**. Aligning with the ISO/IEC 21838-2:2021 standard, PMDco constructed on basis of *Basic Formal Ontology (BFO)* and reuses several BFO-aligned ontologies like RO, IAO, and OBI. The scope of PMDco follows the fundamental paradigm of MSE (processing, structure, and properties) and encompasses the following domains:
+<strong>
+<a href="https://materialdigital.github.io/core-ontology/docs/">Documentation</a>
+&nbsp;·&nbsp;
+<a href="https://materialdigital.github.io/core-ontology/">Class Reference</a>
+&nbsp;·&nbsp;
+<a href="https://github.com/materialdigital/core-ontology/tree/main/patterns">Patterns</a>
+&nbsp;·&nbsp;
+<a href="https://github.com/materialdigital/core-ontology/discussions">Discussions</a>
+&nbsp;·&nbsp;
+<a href="https://github.com/materialdigital/core-ontology/issues">Issues</a>
+</strong>
 
-* **Processes:** Representation of MSE-related process chains, including materials manufacturing, characterization, and simulation processes.
-* **Structure/state:** Description of substances, engineered materials, and specification of materials, their composition, and multiscale structural features.
-* **Properties:** Specification of material properties and qualities, representing processing-structure-properties dependences.
+</div>
 
-PMDco also provides general entities required for representing the fundamental MSE topics (e.g., thermodynamics), as well as general semantics for entities commonly required across MSE disciplines (such as devices, roles, functions, and plans).
+<br>
 
+The **Platform MaterialDigital Core Ontology (PMDco)** is a mid-level semantic framework for Materials Science and Engineering (MSE). Aligning with the ISO/IEC 21838-2:2021 standard, PMDco is built on the *Basic Formal Ontology (BFO)* and reuses several BFO-aligned ontologies such as **RO**, **IAO**, and **OBI**. Its scope follows the fundamental paradigm of MSE — **processing, structure, and properties** — and provides general semantics for entities commonly required across MSE disciplines, such as devices, roles, functions, and plans.
+
+<table>
+<tr>
+<td width="33%" valign="top" align="center">
+<br>
+<strong>Processes</strong>
+<br><br>
+<sub>MSE-related process chains, including materials manufacturing, characterization, and simulation processes.</sub>
+<br><br>
+</td>
+<td width="33%" valign="top" align="center">
+<br>
+<strong>Structure &amp; State</strong>
+<br><br>
+<sub>Substances, engineered materials, their composition, and multiscale structural features.</sub>
+<br><br>
+</td>
+<td width="33%" valign="top" align="center">
+<br>
+<strong>Properties</strong>
+<br><br>
+<sub>Material properties and qualities, representing processing–structure–property dependences.</sub>
+<br><br>
+</td>
+</tr>
+</table>
+
+<br>
+
+## Ontology Versions
+
+Each variant is published in both `.owl` and `.ttl` serializations. Pick the smallest one that covers your needs.
+
+| Variant | Description | Best for |
+| :--- | :--- | :--- |
+| **`pmdco-minimal`** | Lightweight minimal version with the essential class skeleton ([#121](https://github.com/materialdigital/core-ontology/issues/121)). | Quick onboarding &amp; beginners |
+| **`pmdco-simple`** | Simplified version with basic subclass and existential axioms. | Lightweight applications |
+| **`pmdco-base`** | Core entities without extended imports. | Building application ontologies |
+| **`pmdco-full`** | Complete ontology with all imports and full axiomatization. | Reasoning &amp; full inference |
+| **`pmdco`** | Main ontology file — contains the full version. | General use |
+
+<br>
 
 ## Repository Structure
 
-This repository provides the modular implementation of PMDco, developed and maintained using the [Ontology Development Kit (ODK)](https://github.com/INCATools/ontology-development-kit).
-### Top-level directories
-* **.github/:** GitHub configuration files, including CI workflows and templates.
-* **docs/:** Documentation sources for the ontology website and user guides.
-* **patterns/:** Logical patterns and SHACL shapes used to maintain consistent ontology design.
-* **src/:** Main development folder generated and managed through ODK.
-  * **ontology/components/:** – Modular ontology components (classes, properties, axioms).
-  * **ontology/pmdco-edit.owl:** – Primary editable ontology file used during development (ontology editors' version).
+This repository provides the modular implementation of PMDco, developed and maintained with the [Ontology Development Kit (ODK)](https://github.com/INCATools/ontology-development-kit).
 
-### Ontology versions
-* **pmdco-full.owl/ttl:** Complete ontology with all imports and full axiomatization.
-* **pmdco-base.owl/ttl:** Core entities without extended imports.
-* **pmdco-simple.owl/ttl:** Simplified version with basic subclass and existential axioms.
-* **pmdco-minimal.owl/ttl:** Lightweight minimal version for quick onboarding (recommended for beginners, see issue [#121](https://github.com/materialdigital/core-ontology/issues/121)).
-* **pmdco.owl/ttl:** Main ontology file contains the full version.
+<details>
+<summary><strong>Browse the layout</strong></summary>
 
-### Other files
-* README.md, LICENSE.txt, CONTRIBUTING.md – Project overview, license, and contribution guidelines.
-* mkdocs.yaml – Configuration for building the documentation site.
+<br>
 
+```text
+core-ontology/
+├─ src/ontology/         Main development folder, generated and managed through ODK
+│  ├─ components/        Modular ontology components (classes, properties, axioms)
+│  └─ pmdco-edit.owl     Primary editable ontology used during development
+├─ patterns/            Logical patterns and SHACL shapes for consistent design
+├─ docs/                Documentation sources for the website and user guides
+├─ .github/             CI workflows and issue/PR templates
+├─ mkdocs.yaml          Configuration for building the documentation site
+└─ README · LICENSE · CONTRIBUTING
+```
 
-## Documentation
-**[PMDco documentation page]( https://materialdigital.github.io/core-ontology/docs/)** is designed to provide a clear overview of the core concepts, modules, and design principles of the Platform Material Digital Core Ontology. It offers guidance for users and developers on how the ontology is structured, how it should be applied in real-world MSE data workflows, and how the components relate to each other. The site includes detailed explanations, examples, patterns, and release information, helping new users get started quickly while supporting advanced users in integrating PMDco into their data and knowledge graph environments.
+</details>
 
-### Further documentation sources:
-* **[Widoco List of Classes and Properties](https://materialdigital.github.io/core-ontology/)**
-* **[PMDCo in MatPortal](https://matportal.org/ontologies/PMDCO)**
-* **[Publications related to PMDco]( https://materialdigital.github.io/core-ontology/docs/publications/)**
+<br>
 
+## Documentation &amp; Resources
 
-## Contribution
+The **[PMDco documentation site](https://materialdigital.github.io/core-ontology/docs/)** gives a clear overview of the core concepts, modules, and design principles — how PMDco is structured, how to apply it in real-world MSE data workflows, and how the components relate, with detailed explanations, examples, patterns, and release information.
 
-We welcome contributions to the Platform MaterialDigital core ontology (PMDco)!
+<table>
+<tr>
+<td width="50%" valign="top">
+<br>
+<strong><a href="https://materialdigital.github.io/core-ontology/docs/">Documentation Site</a></strong>
+<br>
+<sub>Concepts, modules, design principles, examples, and release notes.</sub>
+<br><br>
+</td>
+<td width="50%" valign="top">
+<br>
+<strong><a href="https://materialdigital.github.io/core-ontology/">Class &amp; Property Reference</a></strong>
+<br>
+<sub>Widoco-generated full listing of all classes and properties.</sub>
+<br><br>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<strong><a href="https://matportal.org/ontologies/PMDCO">PMDco in MatPortal</a></strong>
+<br>
+<sub>Browse, search, and download from the materials ontology portal.</sub>
+<br><br>
+</td>
+<td width="50%" valign="top">
+<strong><a href="https://materialdigital.github.io/core-ontology/docs/publications.html">Publications</a></strong>
+<br>
+<sub>Peer-reviewed publications related to PMDco.</sub>
+<br><br>
+</td>
+</tr>
+</table>
 
-To get involved:
+<br>
 
-- Please use this GitHub repository's **[Issue tracker](https://github.com/materialdigital/core-ontology/issues)** to request new terms/classes or report errors or specific concerns related to the ontology.
-- For creation of application ontologies using PMD core ontologies, we advise using the **[application-ontology-template](https://github.com/materialdigital/application-ontology-template/)**. It applies the same framework used here and mirrors the pmdco with all its modules.
-- Write about your specific modeling concerns or any other discussable topics in the **[discussion forum](https://github.com/materialdigital/core-ontology/discussions)**.
-- Participate in our **PMD Playground Meetings**: Our Ontology Playground, organized online every second Friday from 1-2 pm (CET), is a great opportunity to connect with developers and our proactive community to shape the PMDco. Please register via our [mailing list](https://www.lists.kit.edu/sympa/subscribe/ontology-playground?previous_action=info).
-- If you need further information, please feel free to contact us via **[info@material-digital.de](info@material-digital.de)**
+## Contributing
 
+We welcome contributions to the Platform MaterialDigital Core Ontology — here is how to get involved.
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<br>
+<strong>Request terms or report issues</strong>
+<br>
+<sub>Use the <a href="https://github.com/materialdigital/core-ontology/issues">issue tracker</a> to request new terms or classes, or to report errors and concerns about the ontology.</sub>
+<br><br>
+</td>
+<td width="50%" valign="top">
+<br>
+<strong>Build application ontologies</strong>
+<br>
+<sub>Start from the <a href="https://github.com/materialdigital/application-ontology-template/">application-ontology-template</a>, which applies the same framework and mirrors PMDco with all its modules.</sub>
+<br><br>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<strong>Join the discussion</strong>
+<br>
+<sub>Share modeling concerns or other discussable topics in the <a href="https://github.com/materialdigital/core-ontology/discussions">discussion forum</a>.</sub>
+<br><br>
+</td>
+<td width="50%" valign="top">
+<strong>PMD Playground meetings</strong>
+<br>
+<sub>Our online Ontology Playground runs every second Friday, 1–2 pm CET. Register via the <a href="https://www.lists.kit.edu/sympa/subscribe/ontology-playground?previous_action=info">mailing list</a>.</sub>
+<br><br>
+</td>
+</tr>
+</table>
+
+Please also read our [Contributing guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md). Need more information? Reach us at **[info@material-digital.de](mailto:info@material-digital.de)**.
+
+<br>
+
+## How to Cite
+
+If you use PMDco in your work, please cite the peer-reviewed article.
+
+> Bayerlein, B., Schilling, M., Birkholz, H., Jung, M., Waitelonis, J., Mädler, L., &amp; Sack, H. (2024). **PMD Core Ontology: Achieving semantic interoperability in materials science.** *Materials &amp; Design*, 237, 112603. https://doi.org/10.1016/j.matdes.2023.112603
+
+<details>
+<summary><strong>BibTeX</strong></summary>
+
+```bibtex
+@article{bayerlein2024pmdco,
+  title   = {PMD Core Ontology: Achieving semantic interoperability in materials science},
+  author  = {Bayerlein, Bernd and Schilling, Markus and Birkholz, Henk and Jung, Matthias
+             and Waitelonis, J\"org and M\"adler, Lutz and Sack, Harald},
+  journal = {Materials \& Design},
+  volume  = {237},
+  pages   = {112603},
+  year    = {2024},
+  doi     = {10.1016/j.matdes.2023.112603}
+}
+```
+
+</details>
+
+<br>
+
+<div align="center">
+<sub>Maintained by the <a href="https://www.material-digital.de/">Platform MaterialDigital</a> community &nbsp;·&nbsp; Licensed under <a href="LICENSE.txt">CC BY 4.0</a></sub>
+</div>
