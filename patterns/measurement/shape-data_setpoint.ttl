@@ -63,16 +63,18 @@
 @prefix label: <http://www.w3.org/2000/01/rdf-schema#label> .
 @prefix has_characteristic: <http://purl.obolibrary.org/obo/RO_0000053> .
 @prefix is_concretized_as: <http://purl.obolibrary.org/obo/RO_0000058> .
-
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
 
 <https://w3id.org/pmd/co/test/shape3> rdf:type owl:Ontology  .
 
 # SDCs
-ex:the_materials_hv5_hardness a vickers_hardness_hv5_iso6507: .
+ex:the_materials_hv5_hardness a vickers_hardness_hv5_iso6507: ;
+    is_subject_of: ex:the_materials_hardness_specification .
 
 # objects
 ex:the_slab_and_material a slab: , material: ;
-    has_characteristic: ex:the_materials_hv5_hardness .
+    has_characteristic: ex:the_materials_hv5_hardness ;
+    is_subject_of: ex:EN_10088 .
 
 # GDCs
 ex:the_materials_hardness_specification a specification_datum: ;
