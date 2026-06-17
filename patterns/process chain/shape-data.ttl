@@ -26,7 +26,7 @@
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
 @prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
 @prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
-
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
 
 
 <https://w3id.org/pmd/co/test/shape/process_chain> rdf:type owl:Ontology .
@@ -48,10 +48,12 @@ ex:rolling_specs a directive_information_entity: .
 ex:hot_rolling realizes: [
         a plan: ;
         concretizes: ex:rolling_specs   
-    ] .
-ex:hot_rolling starts_with: ex:heating .
-ex:hot_rolling ends_with: ex:cooling .
-ex:hot_rolling has_proper_occurrent_part: ex:heating, ex:rolling_pass, ex:cooling .
+    ] ;
+    is_subject_of: ex:rolling_specs ;
+    starts_with: ex:heating ;
+    ends_with: ex:cooling ;
+    has_proper_occurrent_part: ex:heating, 
+        ex:rolling_pass, ex:cooling .
 
 ex:heating precedes: ex:rolling_pass .
 ex:rolling_pass precedes: ex:cooling .
