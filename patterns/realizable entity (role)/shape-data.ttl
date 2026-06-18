@@ -56,14 +56,14 @@ ex:the_slab_and_material a slab: , material: .
 
 # GDCs
 ex:the_vickers_measurement_datum a measurement_datum: ;
-    has_value_specification: [
-        a value_specification: 
-    ] ; # This is a requirement from the autoshape.
-    has_part: [
-        a value_specification: 
-    ] . # This is a requirement from the autoshape.
+    has_value_specification: ex:the_vickers_svs . 
+
+ex:the_vickers_svs a value_specification: . # HERMIT reasoner shortcomming: if the_vickers_svs was a BNode, the autoshape-required superpoperty has_part would not be inferred.
+
+
 ex:the_vickers_test_standard a plan_specification: ;
     has_part: ex:vickers_specification_datum .
+
 
 # process
 ex:the_vickers_test a assay: ;
