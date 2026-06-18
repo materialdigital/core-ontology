@@ -12,10 +12,15 @@
 @prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
 @prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
 @prefix measurement_unit: <http://purl.obolibrary.org/obo/IAO_0000003> .
+@prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
+@prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> . 
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
 
 
-ex:scalar_value_specification_X has_measurement_unit_label: ex:unit_X ;
-                                has_specified_numeric_value: 135.0 .
 
-ex:unit_X a measurement_unit: .
+ex:the_property a specifically_dependent_continuant: ;
+    specified_by_value: ex:the_scalar_value_specification .
 
+ex:the_scalar_value_specification a scalar_value_specification: ;
+    has_measurement_unit_label: <http://purl.obolibrary.org/obo/UO_0000019> ; # Angstrom
+    has_specified_numeric_value: "42"^^xsd:float .
