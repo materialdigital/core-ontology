@@ -31,30 +31,49 @@
 @prefix has_some_value_spec: <http://purl.obolibrary.org/obo/OBI_0001938> .
 @prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
 @prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
+@prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
+@prefix objective_specification: <http://purl.obolibrary.org/obo/IAO_0000005> .
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+@prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix value_specification: <http://purl.obolibrary.org/obo/OBI_0001933> . 
 
 
 <https://w3id.org/pmd/co/test/role> rdf:type owl:Ontology  .
 
 
 # SDCs
-ex:the_materials_hardness a indentation_hardness: .
+ex:the_materials_hardness a indentation_hardness: ;
+    is_subject_of: ex:vickers_specification_datum ;
+    has_realization: ex:the_vickers_test ;
+    characteristic_of: ex:the_slab_and_material .
+
 ex:evaluant_role_of_slab a evaluant_role: ;
-    has_realization: ex:the_vickers_test .
+    has_realization: ex:the_vickers_test ;
+    characteristic_of: ex:the_slab_and_material .
 
 # objects
 ex:the_slab_and_material a slab: , material: .
 
 # GDCs
-ex:the_vickers_datum a measurement_datum: .
-ex:the_vickers_test_standard a plan_specification: .
+ex:the_vickers_measurement_datum a measurement_datum: ;
+    has_value_specification: [
+        a value_specification: 
+    ] . # This is a requirement from the autoshape.
+ex:the_vickers_test_standard a plan_specification: ;
+    has_part: ex:vickers_specification_datum .
 
 # process
 ex:the_vickers_test a assay: ;
     has_specified_input: ex:the_slab_and_material ;
-    has_specified_output: ex:the_vickers_datum ;
+    has_specified_output: ex:the_vickers_measurement_datum ;
     assay_measures_characteristic: ex:the_materials_hardness ;
     realizes: [
         a plan: ;
         concretizes: ex:the_vickers_test_standard 
     ] , 
-        ex:evaluant_role_of_slab .
+        ex:evaluant_role_of_slab ;
+    is_subject_of: ex:the_vickers_test_standard ;
+    achieves_planned_objective: [
+        a objective_specification: ;
+        is_about: [] # I will have to think about what the objective of the assay is. This is a requirement from the autoshape.
+    ] .
