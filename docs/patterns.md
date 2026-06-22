@@ -61,6 +61,7 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/shape-data.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/duality%20object%20material/shape-data.ttl-->
 (see folder:     [patterns/duality object material/](https://github.com/materialdigital/core-ontology/tree/main/patterns/duality%20object%20material) )
+
 ---
 
 ## Pattern 2a - Temporal dimensions of a process ...
@@ -68,6 +69,7 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/temporal%20region/shape-data.ttl-->
 (see folder:     [patterns/temporal region/](https://github.com/materialdigital/core-ontology/tree/main/patterns/temporal%20region) )
+
 ---
 ## Pattern 2b - ... and the participant objects states
 
@@ -75,6 +77,7 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 <!--@Graphviz_renderer_with_BNode:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20of%20ingot/shape-data.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/TQC%20microstructure%20of%20ingot/shape-data.ttl-->
 (see folder:     [patterns/TQC microstructure of ingot/](https://github.com/materialdigital/core-ontology/tree/main/patterns/TQC%20microstructure%20of%20ingot) )
+
 ---
 
 
@@ -83,6 +86,7 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/shape-data.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/process%20chain/shape-data.ttl-->
 (see folder:     [patterns/process chain/](https://github.com/materialdigital/core-ontology/tree/main/patterns/process%20chain) )
+
 ---
 
 ## Pattern 4 - A manufacturing process with its input and outputs
@@ -90,6 +94,7 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/shape-data.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/input%20and%20output%20of%20processes/shape-data.ttl-->
 (see folder:     [patterns/input and output of processes/](https://github.com/materialdigital/core-ontology/tree/main/patterns/input%20and%20output%20of%20processes) )
+
 ---
 
 ## Pattern 5 - Realization of a role
@@ -97,6 +102,7 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 <!--@Graphviz_renderer_with_BNode:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/shape-data.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/realizable%20entity%20(role)/shape-data.ttl-->
 (see folder:     [patterns/realizable entity (role)/](https://github.com/materialdigital/core-ontology/tree/main/patterns/realizable%20entity%20(role)) )
+
 ---
 
 # Section 2:  FAP (frequently applied patterns)
@@ -115,6 +121,7 @@ Some facts are frequently expressed in the domain of MSE. The propably most freq
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data_relational.ttl-->
 <!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data_relational.ttl-->
 (see folder:     [patterns/material property (quality)/](https://github.com/materialdigital/core-ontology/tree/main/patterns/material%20property%20(quality)) )
+
 ---
 
 
