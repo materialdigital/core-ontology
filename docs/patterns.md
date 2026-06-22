@@ -105,13 +105,15 @@ Some facts are frequently expressed in the domain of MSE. The propably most freq
 
 ## Pattern 6 - Different types of material properties
 <!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/pattern.md-->
-### fundamental property
+## Pattern 6a - fundamental property
 <!--@Graphviz_renderer_with_BNode:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data_fundamental.ttl-->
-### behavoiral property
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data_fundamental.ttl-->
+## Pattern 6b - behavoiral property
 <!--@Graphviz_renderer_with_BNode:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data_behavioral.ttl-->
-### relational property
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data_behavioral.ttl-->
+## Pattern 6c - relational property
 <!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data_relational.ttl-->
-<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data.ttl-->
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/material%20property%20(quality)/shape-data_relational.ttl-->
 (see folder:     [patterns/material property (quality)/](https://github.com/materialdigital/core-ontology/tree/main/patterns/material%20property%20(quality)) )
 ---
 
