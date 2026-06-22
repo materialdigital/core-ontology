@@ -73,4 +73,22 @@
 @prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
 @prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
 
-# TODO
+
+### Instances ###
+
+# Relational quality
+# A "mass proportion" is a relational quality: unlike an intrinsic quality it
+# does not inhere in a single bearer but holds *between* several material
+# entities. Here it relates a portion of iron to the metal sheet it is part of,
+# and its magnitude is given as 97.7 mass-%.
+ex:metal_sheet a object: .
+
+ex:some_iron a portion_of_iron: .
+
+ex:mass_proportion_iron a mass_proportion: ;
+            relational_quality_of: ex:some_iron , ex:metal_sheet .
+
+ex:fraction_iron a fraction_value_specification: ;
+            has_specified_numeric_value: "97.7"^^xsd:float ;
+            has_measurement_unit_label: mass_percentage: ;
+            specifies_value_of: ex:mass_proportion_iron .
