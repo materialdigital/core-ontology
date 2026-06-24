@@ -82,6 +82,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -352,13 +353,16 @@ def build_all(
         if is_patterns:
             cmd.extend(["--mode", "patterns", "--diagrams-root", str(diagrams_root)])
 
-        # Execute build command
+        # Execute build command. Skip per-page llms regeneration in the
+        # subprocess - run_all generates llms.txt/llms-full.txt once at the end.
+        sub_env = {**os.environ, "PMDCO_SKIP_LLMS": "1"}
         try:
             result = subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
-                cwd=str(script_dir)
+                cwd=str(script_dir),
+                env=sub_env,
             )
 
             if result.returncode == 0:
@@ -388,6 +392,11 @@ def build_all(
         with open(index_path, 'w', encoding='utf-8') as f:
             json.dump(search_index, f, ensure_ascii=False)
         print(f"  Search index: {index_path.name} ({len(search_index)} entries)")
+
+        # Generate AI-agent discovery files (llms.txt / llms-full.txt) and sitemap
+        print("Generating llms.txt for AI agents...")
+        generate_llms_files(md_dir, config, out_dir, verbose)
+        generate_sitemap(md_dir, config, out_dir, verbose)
 
     # Print build summary
     if verbose:
@@ -702,6 +711,185 @@ def generate_search_index(md_dir: Path, config: dict, out_dir: Path) -> List[dic
         print(f"  Total searchable words: {total_words:,}")
 
     return index
+
+
+# =============================================================================
+# LLMS.TXT GENERATION (AI-AGENT DISCOVERY)
+# =============================================================================
+# Implements the llmstxt.org convention: a curated, link-rich Markdown index
+# that lets LLM agents reliably discover and read the documentation, plus a
+# companion llms-full.txt that concatenates every page's cleaned Markdown so an
+# agent can ingest the whole doc set in a single fetch.
+# =============================================================================
+
+# Canonical base URL of the published custom HTML docs. The deploy workflow
+# (.github/workflows/deploy.yaml) copies HTML_Docs/* into public/docs/, so the
+# pages are served from <site>/docs/<href>.
+LLMS_DOCS_BASE_URL = "https://materialdigital.github.io/core-ontology/docs/"
+
+
+def _extract_page_summary(raw_md: str, max_len: int = 200) -> str:
+    """Return a one-line plain-text summary from a markdown document.
+
+    Picks the first substantive prose paragraph, skipping HTML comments and
+    ``@tag`` markers, headings, tables, images and short fragments.
+
+    Args:
+        raw_md: Raw markdown text of the page.
+        max_len: Maximum length of the returned summary (truncated on a word
+            boundary with an ellipsis when exceeded).
+
+    Returns:
+        A clean single-line summary, or an empty string if none is found.
+    """
+    text = re.sub(r'<!--[\s\S]*?-->', '', raw_md)  # drop HTML comments / @tags
+    for block in re.split(r'\n\s*\n', text):
+        line = block.strip()
+        if not line or line[0] in '#<|!':
+            continue
+        if line.startswith('---') or line.startswith('```'):
+            continue
+        line = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', line)  # links -> text
+        line = re.sub(r'[`*_>#]', '', line)
+        line = re.sub(r'\s+', ' ', line).strip()
+        if len(line) < 20:
+            continue
+        if len(line) > max_len:
+            line = line[:max_len].rsplit(' ', 1)[0].rstrip() + '…'
+        return line
+    return ''
+
+
+def generate_llms_files(md_dir: Path, config: dict, out_dir: Path,
+                        verbose: bool = True) -> None:
+    """Generate ``llms.txt`` and ``llms-full.txt`` for AI-agent discovery.
+
+    Both files are written into ``out_dir`` (the published docs root), so the
+    deploy workflow ships them at ``<site>/docs/llms.txt`` and
+    ``<site>/docs/llms-full.txt``.
+
+    Args:
+        md_dir: Directory containing markdown sources and navigator.yaml.
+        config: Parsed navigator.yaml configuration.
+        out_dir: Output directory (HTML_Docs) where the files are written.
+        verbose: If True, print the resulting file sizes.
+    """
+    sections = config.get('sections', [])
+
+    index_lines: List[str] = [
+        "# PMD Core Ontology (PMDco) Documentation",
+        "",
+        "> PMDco is a mid-level ontology for materials science and engineering "
+        "(MSE), developed by the Platform MaterialDigital (PMD). It provides "
+        "reusable, BFO-aligned classes, properties, usage patterns and SHACL "
+        "shapes for representing materials, processes, measurements and "
+        "simulations in knowledge graphs.",
+        "",
+        "This file helps AI agents and LLMs navigate the documentation. Each "
+        "link points to a published documentation page; see llms-full.txt for "
+        "the complete text of every page in a single file.",
+        "",
+    ]
+
+    full_parts: List[str] = ["# PMD Core Ontology (PMDco) - Full Documentation"]
+
+    for section in sections:
+        stitle = (section.get('title') or '').strip()
+        pages = section.get('pages', [])
+        if not pages:
+            continue
+        index_lines.append(f"## {stitle}")
+        index_lines.append("")
+        for page in pages:
+            title = (page.get('title') or '').strip()
+            href = (page.get('href') or '').strip()
+            md_name = (page.get('md') or '').strip()
+            if not title or not href:
+                continue
+            url = LLMS_DOCS_BASE_URL + href
+
+            summary = ''
+            raw = ''
+            if md_name:
+                mp = md_dir / md_name
+                if mp.exists():
+                    raw = mp.read_text(encoding='utf-8-sig')
+                    summary = _extract_page_summary(raw)
+
+            if summary:
+                index_lines.append(f"- [{title}]({url}): {summary}")
+            else:
+                index_lines.append(f"- [{title}]({url})")
+
+            if raw:
+                cleaned = re.sub(r'<!--[\s\S]*?-->', '', raw).strip()
+                full_parts.append(
+                    f"\n\n---\n\n# {title}\n\nSource: {url}\n\n{cleaned}"
+                )
+        index_lines.append("")
+
+    # Machine-readable ontology artefacts and the repository itself.
+    index_lines.extend([
+        "## Ontology files & resources",
+        "",
+        "- [PMDco full ontology (TTL)](https://raw.githubusercontent.com/"
+        "materialdigital/core-ontology/main/pmdco.ttl): complete ontology in Turtle.",
+        "- [PMDco full ontology (OWL)](https://raw.githubusercontent.com/"
+        "materialdigital/core-ontology/main/pmdco.owl): complete ontology in RDF/XML.",
+        "- [Modeling patterns](https://github.com/materialdigital/core-ontology/"
+        "tree/main/patterns): reusable usage patterns with example data (TTL) and SHACL shapes.",
+        "- [Repository](https://github.com/materialdigital/core-ontology): "
+        "source, issues and contribution guide.",
+        "",
+    ])
+
+    (out_dir / "llms.txt").write_text("\n".join(index_lines), encoding="utf-8")
+    (out_dir / "llms-full.txt").write_text(
+        "".join(full_parts).strip() + "\n", encoding="utf-8"
+    )
+
+    if verbose:
+        size_idx = (out_dir / "llms.txt").stat().st_size / 1024
+        size_full = (out_dir / "llms-full.txt").stat().st_size / 1024
+        print(f"  llms.txt ({size_idx:.1f} KB), llms-full.txt ({size_full:.1f} KB)")
+
+
+def generate_sitemap(md_dir: Path, config: dict, out_dir: Path,
+                     verbose: bool = True) -> None:
+    """Generate a sitemap.xml of all documentation pages.
+
+    Lists each published documentation page (plus the agent-discovery files) so
+    search engines can crawl the full set. The file is written into ``out_dir``
+    (HTML_Docs); the deploy workflow also copies it to the published site root.
+
+    Note: a sitemap is most effective when referenced from a root-level
+    robots.txt or submitted via Search Console; on a GitHub Pages *project*
+    site, robots.txt directives are only honoured at the domain root.
+
+    Args:
+        md_dir: Directory containing markdown sources and navigator.yaml.
+        config: Parsed navigator.yaml configuration.
+        out_dir: Output directory (HTML_Docs) where sitemap.xml is written.
+        verbose: If True, print the number of URLs written.
+    """
+    urls: List[str] = []
+    for section in config.get('sections', []):
+        for page in section.get('pages', []):
+            href = (page.get('href') or '').strip()
+            if href:
+                urls.append(LLMS_DOCS_BASE_URL + href)
+    # Agent-discovery entry points
+    urls.append(LLMS_DOCS_BASE_URL + "llms.txt")
+
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for u in urls:
+        lines.append(f"  <url><loc>{u}</loc></url>")
+    lines.append("</urlset>")
+
+    (out_dir / "sitemap.xml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    if verbose:
+        print(f"  sitemap.xml ({len(urls)} URLs)")
 
 
 # =============================================================================

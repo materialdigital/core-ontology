@@ -1,0 +1,3 @@
+# Caveat 1: inverse OP not pointing to BNodes
+If a BNode bn has an outgoing object property p connecting it to individual i and p has an inverse property pinv, then reasoning will not make pinv point from i to the bn although bn is "visible" in the local scope of the reasoner.  
+Command line to test: `robot reason --reasoner hermit --create-new-ontology true --input patterns/caveats/inverse_OP_of_BN.owl --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" convert --output patterns/caveats/new_axioms.ttl`  

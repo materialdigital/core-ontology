@@ -40,6 +40,13 @@ jobs:
            cp -r v3.0.0/docs/docs_HTML/HTML_Docs/* public/docs/
            cp -r v3.0.0/docs/docs_HTML/HTML_Docs/* public/3.0.0/docs/
 
+           # AI-agent discovery: publish a root-level llms.txt (llmstxt.org
+           # convention) so agents that probe <site>/llms.txt find the docs.
+           cp v3.0.0/docs/docs_HTML/llms-root.txt public/llms.txt
+           # robots.txt + sitemap.xml at the site root for search/AI crawlers.
+           cp v3.0.0/docs/docs_HTML/robots.txt public/robots.txt
+           cp v3.0.0/docs/docs_HTML/HTML_Docs/sitemap.xml public/sitemap.xml
+
 
     - uses: actions/checkout@v3
       with:

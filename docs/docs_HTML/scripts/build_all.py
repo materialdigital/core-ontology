@@ -157,12 +157,14 @@ Exit Codes
 
 Author: PMDCore Team
 License: CC BY 4.0
+For any questions or issues, please contact the PMDCore maintainers or open an issue on GitHub.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import urllib.parse
 import urllib.request
@@ -507,7 +509,14 @@ def generate_page_nav_html(active_page: str, script_dir: Path = None) -> str:
 # - __PAGE_NAV__: Previous/next page navigation
 # - __DIAGRAMS_OBJECT__: Graphviz DOT source code (patterns mode)
 # - __NODEDATA_OBJECT__: Node metadata for graph tooltips (patterns mode)
+# - __PAGE_URL__: Canonical published URL of the page (Open Graph / canonical)
 # =============================================================================
+
+# Canonical base URL of the published custom HTML docs (see deploy.yaml, which
+# copies HTML_Docs/* into public/docs/). Used for <link rel="canonical"> and
+# Open Graph URLs so search engines and AI answer engines resolve a single
+# authoritative URL per page.
+DOCS_BASE_URL = "https://materialdigital.github.io/core-ontology/docs/"
 
 TEMPLATE_HTML = r'''<!DOCTYPE html>
 <html lang="en">
@@ -515,8 +524,19 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="Usage Patterns - PMDco Documentation" name="description" />
-    <title>Usage Patterns | PMDco Documentation</title>
+    <meta content="__PAGE_TITLE__ - PMDco Documentation" name="description" />
+    <meta name="keywords" content="PMDco, PMD core ontology, materials science ontology, materials science and engineering, MSE, materials informatics, semantic web, knowledge graph, BFO, SHACL, RDF, OWL, ontology, Platform MaterialDigital" />
+    <title>__PAGE_TITLE__ | PMDco Documentation</title>
+    <link rel="canonical" href="__PAGE_URL__" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="PMD Core Ontology (PMDco)" />
+    <meta property="og:title" content="__PAGE_TITLE__" />
+    <meta property="og:description" content="__PAGE_TITLE__ - PMD Core Ontology (PMDco): a BFO-aligned ontology for materials science and engineering." />
+    <meta property="og:url" content="__PAGE_URL__" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="__PAGE_TITLE__" />
+    <meta name="twitter:description" content="PMD Core Ontology (PMDco) documentation for materials science and engineering." />
+    __JSONLD__
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
@@ -4498,7 +4518,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
     <main class="main-content">
         <div class="content-wrapper">
             <nav class="breadcrumbs">
-                <a href="./">Home</a><span>/</span><span class="current">Usage Patterns</span>
+                <a href="./">Home</a><span>/</span><span class="current">__PAGE_TITLE__</span>
             </nav>
 
             <article class="content">
@@ -6778,6 +6798,13 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
 
     refs: List[DiagramRef] = []
     current_title = ""
+    # Track diagram ids already assigned in this document so that multiple
+    # shape files living in the SAME pattern folder (e.g. Pattern 6's
+    # fundamental/behavioral/relational variants, or Pattern 7's measurement
+    # plus setpoint) do not collapse onto one id. A collision would emit
+    # duplicate DOM ids and overwrite the per-diagram data, so only the first
+    # diagram in the folder would render.
+    used_ids: Dict[str, int] = {}
     for line in md_text.splitlines():
         if line.lstrip().startswith("## "):
             current_title = line.lstrip()[3:].strip()
@@ -6795,14 +6822,18 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
         # empty circles across all three hierarchy views.
         show_bnodes = (normalized_suffix == "with_bnode")
 
-        # For URLs pointing to TTL files, extract the parent folder name as diagram_id
-        # Keep the original URL (with encoding) for HTTP requests
+        # For URLs/paths pointing to TTL files, extract the parent folder name
+        # as the basis of the diagram id, and also capture the file stem so we
+        # can disambiguate several shape files sharing one folder.
+        # Keep the original URL (with encoding) for HTTP requests.
+        file_stem = ""
         if raw.startswith("http://") or raw.startswith("https://"):
             parsed_path = urllib.parse.urlparse(raw).path
             decoded_path = urllib.parse.unquote(parsed_path)
             path_parts = [p for p in decoded_path.split('/') if p]
             if len(path_parts) >= 2 and path_parts[-1].endswith('.ttl'):
                 folder_name = path_parts[-2]
+                file_stem = path_parts[-1][:-len('.ttl')]
             else:
                 folder_name = path_parts[-1] if path_parts else "diagram"
             rel = raw
@@ -6817,10 +6848,26 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
                 # Path to a file - use the parent folder name as the diagram id,
                 # matching the URL behaviour above.
                 folder_name = rel_obj.parent.name or rel_obj.stem
+                file_stem = rel_obj.stem
             else:
                 folder_name = rel_obj.name
 
-        diagram_id = slugify_fn(folder_name)
+        base_id = slugify_fn(folder_name)
+        # Derive a distinguishing suffix from the file stem by stripping the
+        # generic "shape-data"/"shape_data"/"shape" prefix. A plain
+        # "shape-data.ttl" yields no suffix, so the common single-diagram case
+        # keeps its original folder-only id (no behaviour change).
+        suffix_src = re.sub(r'(?i)^shape[-_]?data', '', file_stem).strip(' -_')
+        suffix_slug = slugify_fn(suffix_src) if suffix_src else ""
+        diagram_id = f"{base_id}-{suffix_slug}" if suffix_slug else base_id
+        # Final guard: guarantee uniqueness within the document even if two
+        # files reduce to the same id.
+        if diagram_id in used_ids:
+            used_ids[diagram_id] += 1
+            diagram_id = f"{diagram_id}-{used_ids[diagram_id]}"
+        else:
+            used_ids[diagram_id] = 1
+
         title = current_title or folder_name
         refs.append(DiagramRef(
             diagram_id=diagram_id,
@@ -7483,7 +7530,17 @@ def build_html(
     page_nav_html = generate_page_nav_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__PAGE_NAV__", page_nav_html)
 
+    # Resolve the per-page title for <title>/<meta>/breadcrumb (otherwise the
+    # template's hard-coded label would appear on every page).
+    page_title = lookup_page_title(active_page, Path(__file__).parent) or extract_title_from_html(article_html)
+    html_out = html_out.replace("__PAGE_TITLE__", html_module.escape(page_title))
+    html_out = html_out.replace("__PAGE_URL__", html_module.escape(DOCS_BASE_URL + active_page))
+    html_out = html_out.replace("__JSONLD__", build_jsonld(page_title, DOCS_BASE_URL + active_page))
+
     out_html.write_text(html_out, encoding="utf-8")
+
+    # Keep AI-agent discovery files in sync on single-page rebuilds.
+    _maybe_refresh_llms(out_html.parent)
 
 
 def main(argv: Optional[List[str]] = None) -> int:
@@ -8626,7 +8683,128 @@ def extract_title_from_html(article_html: str) -> str:
     return "Documentation"
 
 
-def build_page_nav(prev_page: Optional[Tuple[str, str]] = None, 
+def build_jsonld(page_title: str, page_url: str) -> str:
+    """Build a schema.org JSON-LD ``<script>`` block for a documentation page.
+
+    Embeds machine-readable structured data so search engines and AI answer
+    engines recognise the page as PMDco materials-science documentation. The
+    block lives in <head> and is not visible on the rendered page. The author
+    attribution is carried discreetly in the ``contributor`` field.
+
+    Args:
+        page_title: Human-readable page title.
+        page_url: Canonical published URL of the page.
+
+    Returns:
+        A ``<script type="application/ld+json">`` block as a string.
+    """
+    data = {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": page_title,
+        "name": page_title,
+        "url": page_url,
+        "inLanguage": "en",
+        "description": (
+            "PMD Core Ontology (PMDco) documentation for materials science "
+            "and engineering."
+        ),
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PMD Core Ontology (PMDco)",
+            "url": "https://materialdigital.github.io/core-ontology/",
+        },
+        "about": {
+            "@type": "Dataset",
+            "name": "PMD Core Ontology (PMDco)",
+            "description": (
+                "A BFO-aligned mid-level ontology for materials science and "
+                "engineering (MSE)."
+            ),
+            "url": "https://materialdigital.github.io/core-ontology/",
+            "license": "https://creativecommons.org/licenses/by/4.0/",
+            "keywords": [
+                "materials science ontology", "materials science and engineering",
+                "MSE", "materials informatics", "BFO", "semantic web",
+                "knowledge graph", "SHACL", "RDF", "OWL","SKOS", "SPARQL",
+                "ontology engineering", "data interoperability", "FAIR data",
+                "open science", "research data management", "scientific metadata",
+                "data integration", "data sharing", "data reuse", "linked data",
+                "knowledge representation", "conceptual modeling", "data standards",
+                "data curation", "data stewardship", "data governance",
+            ],
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Platform MaterialDigital (PMD)",
+            "url": "https://materialdigital.de/",
+        },
+    }
+    return ('<script type="application/ld+json">\n'
+            + json.dumps(data, ensure_ascii=False, indent=2)
+            + '\n</script>')
+
+
+def lookup_page_title(active_page: Optional[str], script_dir: Optional[Path] = None) -> Optional[str]:
+    """Resolve a page's human-readable title from navigator.yaml.
+
+    The HTML template hard-codes a single title/breadcrumb value, so without
+    this every generated page would show the same label. We look the title up
+    from navigator.yaml using the output filename - the same key
+    :func:`generate_sidebar_html` uses to mark the active page - so the
+    breadcrumb and ``<title>`` always match the sidebar.
+
+    Args:
+        active_page: Output HTML filename (e.g. ``"patterns.html"``).
+        script_dir: Directory used to locate navigator.yaml.
+
+    Returns:
+        The matching page title, or ``None`` if it cannot be resolved.
+    """
+    if not active_page:
+        return None
+    config = load_NAVIGATOR_CONFIG(script_dir)
+    if not config:
+        return None
+    target = active_page.replace('./', '').replace('\\', '/').strip()
+    for section in config.get('sections', []):
+        for page in section.get('pages', []):
+            href = str(page.get('href', '')).replace('./', '').replace('\\', '/').strip()
+            if href and href == target:
+                title = page.get('title')
+                if title:
+                    return str(title)
+    return None
+
+
+def _maybe_refresh_llms(out_dir: Path) -> None:
+    """Regenerate llms.txt / llms-full.txt after a single-page build.
+
+    Single-page rebuilds invoke this module directly (not run_all.py), so the
+    AI-agent discovery files would otherwise go stale. We reuse run_all's
+    generator. During a full ``run_all.py`` build each page is built in a
+    subprocess with ``PMDCO_SKIP_LLMS=1`` so this is skipped there - run_all
+    generates the files once at the end instead.
+
+    Failures are non-fatal: a page build must never fail because the optional
+    agent-discovery files could not be written.
+    """
+    if os.environ.get("PMDCO_SKIP_LLMS"):
+        return
+    try:
+        import run_all  # same scripts/ directory; no side effects on import
+        script_dir = Path(__file__).parent
+        config = load_NAVIGATOR_CONFIG(script_dir)
+        if not config:
+            return
+        md_dir = script_dir.parent.parent  # docs/
+        run_all.generate_llms_files(md_dir, config, out_dir, verbose=False)
+        run_all.generate_sitemap(md_dir, config, out_dir, verbose=False)
+    except Exception as exc:
+        print(f"  Note: could not refresh llms.txt/sitemap.xml: {exc}")
+
+
+def build_page_nav(prev_page: Optional[Tuple[str, str]] = None,
                    next_page: Optional[Tuple[str, str]] = None) -> str:
     """Build page navigation HTML."""
     if not prev_page and not next_page:
@@ -8728,9 +8906,14 @@ def build_doc_html(
         print("  Processing @property_indicator tags...")
         article_html = process_property_indicators(article_html)
 
-    # Extract title if not provided
+    # Extract title if not provided: prefer the navigator.yaml title (keeps the
+    # breadcrumb/<title> consistent with the sidebar), then fall back to the
+    # first H1 in the rendered content.
     if not page_title:
-        page_title = extract_title_from_html(article_html)
+        page_title = (
+            lookup_page_title(out_html.name, Path(__file__).parent)
+            or extract_title_from_html(article_html)
+        )
 
     # Build TOC
     toc_items = build_toc_list_items(article_html)
@@ -8771,9 +8954,12 @@ def build_doc_html(
 
     html_out = html_out.replace("__ARTICLE_CONTENT__", article_html)
     html_out = html_out.replace("__TOC_LIST_ITEMS__", toc_items)
+    html_out = html_out.replace("__PAGE_TITLE__", html_module.escape(page_title))
 
     # Generate dynamic sidebar from navigator.yaml
     active_page = out_html.name  # Use output filename to determine active page
+    html_out = html_out.replace("__PAGE_URL__", html_module.escape(DOCS_BASE_URL + active_page))
+    html_out = html_out.replace("__JSONLD__", build_jsonld(page_title, DOCS_BASE_URL + active_page))
     sidebar_html = generate_sidebar_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__SIDEBAR_HTML__", sidebar_html)
 
@@ -8785,6 +8971,9 @@ def build_doc_html(
     out_html.parent.mkdir(parents=True, exist_ok=True)
     out_html.write_text(html_out, encoding="utf-8")
     print(f"Generated: {out_html} ({out_html.stat().st_size / 1024:.1f} KB)")
+
+    # Keep AI-agent discovery files in sync on single-page rebuilds.
+    _maybe_refresh_llms(out_html.parent)
 
 
 if __name__ == "__main__":
