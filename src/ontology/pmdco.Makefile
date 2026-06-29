@@ -125,6 +125,13 @@ $(IMPORTDIR)/uo_import.owl: $(MIRRORDIR)/uo.owl $(IMPORTDIR)/uo_terms.txt
 	$(ROBOT) filter --input mirror/uo.owl --term-file imports/uo_terms.txt --allow-punning true --select "annotations self parents" \
 		 $(ANNOTATE_CONVERT_FILE)
 
+$(IMPORTDIR)/pato_import.owl: $(MIRRORDIR)/pato.owl $(IMPORTDIR)/pato_terms.txt
+	$(ROBOT) filter --input $(MIRRORDIR)/pato.owl \
+		--term-file $(IMPORTDIR)/pato_terms.txt \
+		--select "self annotations" \
+		--preserve-structure false \
+		$(ANNOTATE_CONVERT_FILE)
+
 
 $(TEMPLATEDIR)/materials-listing.tsv:
 	curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmflWvRYJEO0K_k9EtLHDTkyIcntG0jW-i9ZNlURUxQET8N9eadI2HdI94hrNMWBcDQAKzE9KWVY6b/pub?gid=0&single=true&output=tsv" -o $@
