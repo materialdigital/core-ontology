@@ -61,6 +61,9 @@ Annotation(dcterms:title "PMD Core Ontology")
 Annotation(<http://usefulinc.com/ns/doap#repository> <https://github.com/materialdigital/core-ontology>)
 
 Declaration(Class(pmd:PMD_0000136))
+Declaration(Class(pmd:PMD_0000141))
+Declaration(Class(pmd:PMD_0000142))
+Declaration(Class(pmd:PMD_0000143))
 Declaration(ObjectProperty(pmd:PMD_0060001))
 Declaration(ObjectProperty(pmd:PMD_0060002))
 Declaration(AnnotationProperty(dcterms:contributor))
@@ -76,10 +79,26 @@ Declaration(AnnotationProperty(<http://usefulinc.com/ns/doap#repository>))
 #   Classes
 ############################
 
-# Class: pmd:PMD_0000136 (thermodynamic disposition)
+# Class: pmd:PMD_0000142 (crystal grain size)
 
-AnnotationAssertion(rdfs:label pmd:PMD_0000136 "thermodynamic disposition"@en)
-EquivalentClasses(pmd:PMD_0000136 ObjectIntersectionOf(obo:BFO_0000016 ObjectSomeValuesFrom(obo:RO_0000092 pmd:PMD_0020128)))
+AnnotationAssertion(rdfs:label pmd:PMD_0000142 "crystal grain size"@en)
+AnnotationAssertion(skos:definition pmd:PMD_0000142 "Korngröße eines Polykristalls"@de)
+AnnotationAssertion(skos:definition pmd:PMD_0000142 "grain size of some polycrystal"@en)
+EquivalentClasses(pmd:PMD_0000142 ObjectIntersectionOf(pmd:PMD_0020243 ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0020106)))
+SubClassOf(pmd:PMD_0000142 pmd:PMD_0020243)
+
+# Class: pmd:PMD_0000143 (duration)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0000143 "duration"@en)
+SubClassOf(pmd:PMD_0000143 obo:OBI_0001933)
+
+# Class: pmd:PMD_0020128 (thermodynamic system)
+
+EquivalentClasses(pmd:PMD_0020128 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000053 ObjectUnionOf(pmd:PMD_0000136 pmd:PMD_0080005))))
+
+# Class: pmd:PMD_0020131 (intensive quality)
+
+EquivalentClasses(pmd:PMD_0020131 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0000001)))
 
 
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0001-6772-1943> "Martin Glauer")
@@ -94,4 +113,20 @@ AnnotationAssertion(rdfs:label <https://orcid.org/0000-0003-0410-3616> "Simon St
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0003-1649-6832> "Thomas Hanke")
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0003-2612-8515> "Kostiantyn Hubaiev")
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0003-4971-3645> "Philipp von Hartrott")
+AnnotationAssertion(owl:deprecated pmd:PMD_0000503 "true"^^xsd:boolean)
+AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0000591 "will move to CryO")
+AnnotationAssertion(obo:IAO_0000232 pmd:PMD_0020108 "use something like  TemperedMaterial === material and \"ouput of\" some TemperingProcess")
+AnnotationAssertion(owl:deprecated pmd:PMD_0020108 "true"^^xsd:boolean)
+AnnotationAssertion(obo:IAO_0100001 pmd:PMD_0020112 obo:STATO_0000225)
+AnnotationAssertion(owl:deprecated pmd:PMD_0020112 "true"^^xsd:boolean)
+AnnotationAssertion(rdfs:label pmd:PMD_0020130 "driving force of phase in system"@en)
+AnnotationAssertion(skos:definition pmd:PMD_0020130 "Driving force of phase in a system is a relational quality that inheres between two material entities, the species and the material (system). The driving force is a factor that promotes a physical process or (eletro-)chemical reaction in a material (system) to occur and proceed towards completion. It can be quantified as the gradient of the activity of the participating species.")
+AnnotationAssertion(skos:example pmd:PMD_0020130 "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0")
+AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0020206 "--> will soon be moved to CryO")
+AnnotationAssertion(obo:IAO_0100001 pmd:PMD_0080003 pmd:PMD_0000848)
+AnnotationAssertion(owl:deprecated pmd:PMD_0080003 "true"^^xsd:boolean)
+AnnotationAssertion(obo:IAO_0100001 pmd:PMD_0080004 pmd:PMD_0000877)
+AnnotationAssertion(owl:deprecated pmd:PMD_0080004 "true"^^xsd:boolean)
+AnnotationAssertion(owl:deprecated pmd:PMD_0080058 "true"^^xsd:boolean)
+AnnotationAssertion(owl:deprecated pmd:PMD_0080059 "true"^^xsd:boolean)
 )
