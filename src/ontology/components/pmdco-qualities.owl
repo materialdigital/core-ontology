@@ -28,6 +28,9 @@ Declaration(Class(pmdco:PMD_0000005))
 Declaration(Class(pmdco:PMD_0000107))
 Declaration(Class(pmdco:PMD_0000111))
 Declaration(Class(pmdco:PMD_0000112))
+Declaration(Class(pmdco:PMD_0000136))
+Declaration(Class(pmdco:PMD_0000141))
+Declaration(Class(pmdco:PMD_0000143))
 Declaration(Class(pmdco:PMD_0000503))
 Declaration(Class(pmdco:PMD_0000505))
 Declaration(Class(pmdco:PMD_0000506))
@@ -107,7 +110,6 @@ Declaration(Class(pmdco:PMD_0010025))
 Declaration(Class(pmdco:PMD_0010026))
 Declaration(Class(pmdco:PMD_0010027))
 Declaration(Class(pmdco:PMD_0010029))
-Declaration(Class(pmdco:PMD_0020000))
 Declaration(Class(pmdco:PMD_0020003))
 Declaration(Class(pmdco:PMD_0020004))
 Declaration(Class(pmdco:PMD_0020005))
@@ -471,7 +473,7 @@ SymmetricObjectProperty(pmdco:PMD_0020020)
 ObjectPropertyDomain(pmdco:PMD_0020020 obo:BFO_0000040)
 ObjectPropertyRange(pmdco:PMD_0020020 obo:BFO_0000040)
 
-# Object Property: pmdco:PMD_0025013 (changes quality)
+# Object Property: pmdco:PMD_0025013 (verändert die Qualität)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0025013 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0025013 "PERSON: Kamilla Zaripova")
@@ -578,18 +580,27 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000112 "Anordnung eines elektrisc
 AnnotationAssertion(skos:definition pmdco:PMD_0000112 "disposition of an electric insulator to be polarized when subjected to an electric field"@en)
 SubClassOf(pmdco:PMD_0000112 obo:BFO_0000016)
 
-# Class: pmdco:PMD_0000503 (ASTM grainsize)
+# Class: pmdco:PMD_0000136 (thermodynamic disposition)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0000136 "thermodynamic disposition"@en)
+EquivalentClasses(pmdco:PMD_0000136 ObjectIntersectionOf(obo:BFO_0000016 ObjectSomeValuesFrom(obo:RO_0000092 pmdco:PMD_0020128)))
+
+# Class: pmdco:PMD_0000141 (distance)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0000141 "distance"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0000141 "a relational quality that represents the magnitude of length of a path connecting two independent continuants"@en)
+SubClassOf(pmdco:PMD_0000141 pmdco:PMD_0025018)
+
+# Class: pmdco:PMD_0000503 (OBSOLETE ASTM grainsize)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000503 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0000503 "TODO: axiom needs refinement"@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000503 "PERSON: Joerg Waitelonis")
-AnnotationAssertion(rdfs:label pmdco:PMD_0000503 "ASTM grainsize"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000503 "ASTM-Korngröße"@de)
+AnnotationAssertion(rdfs:label pmdco:PMD_0000503 "OBSOLETE ASTM grainsize"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000503 "Die ASTM-Korngröße ist eine Qualität, die durch ein Verfahren gemessen wird, das dem ASTM-Standard folgt."@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0000503 "The ASTM grain size is a quality that is measured through a process that follows the ASTM standard."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000503 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000503 pmdco:PMD_0020243)
-SubClassOf(pmdco:PMD_0000503 ObjectSomeValuesFrom(obo:IAO_0000417 ObjectIntersectionOf(obo:IAO_0000109 ObjectSomeValuesFrom(obo:OBI_0000312 ObjectIntersectionOf(obo:BFO_0000015 ObjectSomeValuesFrom(obo:STATO_0000102 obo:IAO_0000104))))))
 
 # Class: pmdco:PMD_0000505 (acoustic absorption coefficient)
 
@@ -800,7 +811,6 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000553 "chemisches Potential"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0000553 "a quality of a thermodynamic system describing the energy change associated with the addition of a small quantity of a substance to a system at constant temperature and pressure."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000553 "eine intensive Qualität eines thermodynamischen Systems, die die Energieänderung beschreibt, die mit der Zugabe einer kleinen Menge einer Substanz zu einem System bei konstanter Temperatur und konstantem Druck verbunden ist."@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000553 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000553 obo:BFO_0000019)
 SubClassOf(pmdco:PMD_0000553 pmdco:PMD_0080005)
 
 # Class: pmdco:PMD_0000586 (Absorption von Korpuskularstrahlung)
@@ -831,11 +841,11 @@ AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000591 "PERSON: Joerg Waitelonis"
 AnnotationAssertion(rdfs:comment pmdco:PMD_0000591 "The finite set of periodic geometric arrangements is described e.g. by the 14 possible Bravais Lattices in three-dimensional space."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000591 "Kristallstruktur"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000591 "crystal structure"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000591 "an intensive qualtty of a crystal that embodies the periodic geometric arrangement of entities in a crystal lattice."@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0000591 "an intensive quality of a crystal that embodies the periodic geometric arrangement of entities in a crystal lattice."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000591 "eine intensive Kristallqualität, die die periodische geometrische Anordnung von Einheiten in einem Kristallgitter verkörpert."@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000591 "true"^^xsd:boolean)
 EquivalentClasses(pmdco:PMD_0000591 ObjectExactCardinality(1 pmdco:PMD_0000077 pmdco:PMD_0020099))
-SubClassOf(pmdco:PMD_0000591 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0000591 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
 
 # Class: pmdco:PMD_0000595 (Defektdichte)
 
@@ -903,7 +913,6 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000619 "elektrisches Potential"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0000619 "an extensvie quality describing the amount of work needed to move a unit charge from a reference point to a specific location in an electric field."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000619 "eine ausführliche Qualität, die den Arbeitsaufwand beschreibt, der erforderlich ist, um eine Einheitsladung von einem Referenzpunkt zu einem bestimmten Ort in einem elektrischen Feld zu bewegen."@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000619 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000619 obo:BFO_0000019)
 SubClassOf(pmdco:PMD_0000619 pmdco:PMD_0080116)
 
 # Class: pmdco:PMD_0000620 (elektrische Leitfähigkeit)
@@ -1103,7 +1112,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000853 "kristallographische Textur"@de
 AnnotationAssertion(skos:definition pmdco:PMD_0000853 "an intensive quality describing the arrangement and orientation of grains in a polychrystal"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000853 "eine intensive Qualität, die die Anordnung und Ausrichtung der Körner in einem Polykristall beschreibt"@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000853 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000853 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0000853 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
 
 # Class: pmdco:PMD_0000861 (Mohs hardness)
 
@@ -1257,7 +1266,7 @@ AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000950 "true"^^xsd:boolean)
 EquivalentClasses(pmdco:PMD_0000950 ObjectIntersectionOf(obo:BFO_0000015 ObjectSomeValuesFrom(obo:BFO_0000055 ObjectIntersectionOf(ObjectUnionOf(obo:BFO_0000016 pmdco:PMD_0000005) ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001)))))
 SubClassOf(pmdco:PMD_0000950 obo:BFO_0000015)
 
-# Class: pmdco:PMD_0000952 (Stärke)
+# Class: pmdco:PMD_0000952 (strength)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000952 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000952 "PERSON: Joerg Waitelonis")
@@ -1358,7 +1367,7 @@ SubClassOf(pmdco:PMD_0000981 obo:BFO_0000016)
 SubClassOf(pmdco:PMD_0000981 pmdco:PMD_0000005)
 SubClassOf(pmdco:PMD_0000981 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000520))
 
-# Class: pmdco:PMD_0000996 (triple point)
+# Class: pmdco:PMD_0000996 (Tripelpunkt)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000996 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000996 "PERSON: Joerg Waitelonis")
@@ -1639,27 +1648,25 @@ SubClassOf(pmdco:PMD_0020104 pmdco:PMD_0080069)
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020106 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020106 "PERSON: Philipp von Hartrott")
 
-# Class: pmdco:PMD_0020108 (temper)
+# Class: pmdco:PMD_0020108 (OBSOLETE temper)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020108 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020108 "PERSON: Philipp von Hartrott")
-AnnotationAssertion(rdfs:label pmdco:PMD_0020108 "temper"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020108 "OBSOLETE temper"@en)
 AnnotationAssertion(skos:comment pmdco:PMD_0020108 "The temper is not expressed in terms of the structure of a material but by the process steps that have been applied to the material. It thus contributes to the \"process aspect\" in the definition of a material.
 
 Typically tempering involes process steps of heat treatment and forming."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020108 "an intensive quality of an alloy that is output of a tempering process"@en)
-SubClassOf(pmdco:PMD_0020108 obo:BFO_0000019)
 
-# Class: pmdco:PMD_0020112 (Korngrößenverteilung)
+# Class: pmdco:PMD_0020112 (OBSOLETE grain size distribution)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020112 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020112 "PERSON: Philipp von Hartrott")
 AnnotationAssertion(rdfs:label pmdco:PMD_0020112 "Korngrößenverteilung"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0020112 "grain size distribution"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020112 "OBSOLETE grain size distribution"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020112 "An intensive quality describing the lower length scale object aggregate (grains) that is part of the material."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020112 "Eine intensive Qualität, die das Objektaggregat (Körner) auf niedrigerer Längenskala beschreibt, das Teil des Materials ist."@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020112 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0020112 obo:BFO_0000019)
 
 # Class: pmdco:PMD_0020116 (DEPRECATED aggregierter Zustandswert)
 
@@ -1685,13 +1692,8 @@ SubClassOf(pmdco:PMD_0020129 obo:BFO_0000015)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020130 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020130 "PERSON: Philipp von Hartrott")
-AnnotationAssertion(rdfs:comment pmdco:PMD_0020130 "It can be quantified as the gradient of the activity of the parts of the thermodynamic system."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020130 "Triebkraft einer Phase im System"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0020130 "driving force of phase in system"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020130 "Driving force of a phase p in a system is an energy difference between the phase's p internal energy in the final state of a thermodynamic system and the phase's p internal energy in the current state of a thermodynamic system."@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020130 "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0"@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020130 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0020130 pmdco:PMD_0080005)
+SubClassOf(pmdco:PMD_0020130 pmdco:PMD_0080116)
 
 # Class: pmdco:PMD_0020131 (intensive quality)
 
@@ -1703,7 +1705,6 @@ AnnotationAssertion(skos:altLabel pmdco:PMD_0020131 "Point property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020131 "An intensive quality is a quality that inheres in only portion of matter and thus is independent of the bearers (system-) size."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020131 "Eine intensive Qualität ist eine Qualität, die nur einem Teil der Materie innewohnt und daher unabhängig von der (System-)Größe des Trägers ist."@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020131 "true"^^xsd:boolean)
-EquivalentClasses(pmdco:PMD_0020131 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
 DisjointClasses(pmdco:PMD_0020131 pmdco:PMD_0020148)
 
 # Class: pmdco:PMD_0020132 (dimension quality)
@@ -1717,7 +1718,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020132 "Die Dimensionsqualität i
 AnnotationAssertion(skos:definition pmdco:PMD_0020132 "Dimension quality is a quality of a material entity that pertains to its measurable spatial extent, such as length, area, or volume"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0020132 "the wall thickness of a steel pipe is a dimension quality determining its pressure resistance"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020132 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0020132 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0020132 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 ObjectUnionOf(obo:BFO_0000024 obo:BFO_0000027 obo:BFO_0000029 obo:BFO_0000030 obo:BFO_0000140))))
 
 # Class: pmdco:PMD_0020133 (Masse)
 
@@ -1835,7 +1836,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0020161 "activity (thermodynamic)"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020161 "thermodynamische Aktivität"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0020161 "Thermodynamic activity is a relational quality that inheres between a chemical species and a non-ideal solution and represents the effective concentration of the species accounting for particle interactions."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020161 "Thermodynamische Aktivität ist eine Beziehungsqualität, die zwischen einer chemischen Spezies und einer nicht idealen Lösung innewohnt und die effektive Konzentration der Spezies darstellt, die für Partikelwechselwirkungen verantwortlich ist."@de)
-SubClassOf(pmdco:PMD_0020161 pmdco:PMD_0080005)
+SubClassOf(pmdco:PMD_0020161 obo:BFO_0000145)
 
 # Class: pmdco:PMD_0020162 (Aktivierungsenergie)
 
@@ -1882,7 +1883,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020165 "disposition of a phase to
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020165 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0020165 obo:BFO_0000016)
 
-# Class: pmdco:PMD_0020167 (structural boundary)
+# Class: pmdco:PMD_0020167 (strukturelle Grenze)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020167 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020167 "PERSON: Philipp von Hartrott")
@@ -2034,7 +2035,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020209 "Gibt den Wert der Kristal
 AnnotationAssertion(skos:definition pmdco:PMD_0020209 "specifies the value of the crystal slip plane together with the slip direction."@en)
 SubClassOf(pmdco:PMD_0020209 obo:OBI_0001930)
 
-# Class: pmdco:PMD_0020211 (Allotropie eines Elementarkristalls)
+# Class: pmdco:PMD_0020211 (allotropy of an elemental crystal)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020211 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020211 "different structures of a crystal could be linked by a relational property 'allotrope of'"@en)
@@ -2061,11 +2062,11 @@ SubClassOf(pmdco:PMD_0020212 obo:BFO_0000016)
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020215 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020215 "PERSON: Philipp von Hartrott")
 
-# Class: pmdco:PMD_0020216 (order scale value)
+# Class: pmdco:PMD_0020216 (Ordnungsmaßstab)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020216 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020216 "PERSON: Philipp von Hartrott")
-AnnotationAssertion(rdfs:label pmdco:PMD_0020216 "Staffelwert bestellen"@de)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020216 "Ordnungsmaßstab"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020216 "order scale value"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020216 "Mögliche Werte der charakteristischen Länge, über die strukturelle Zusammenhänge in einem Material bestehen bleiben"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0020216 "possible values of characteristic length over which structural correlations persist in a material"@en)
@@ -2137,10 +2138,9 @@ AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020243 "size values of indiviudal
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020243 "PERSON: Philipp von Hartrott")
 AnnotationAssertion(rdfs:label pmdco:PMD_0020243 "Körnung"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020243 "grain size"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020243 "an intensive quality epitomizing the average size of the grains of a polycrystal"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020243 "eine intensive Qualität, die die durchschnittliche Größe der Körner eines Polykristalls verkörpert"@de)
-SubClassOf(pmdco:PMD_0020243 obo:BFO_0000019)
-SubClassOf(pmdco:PMD_0020243 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0020106))
+AnnotationAssertion(skos:definition pmdco:PMD_0020243 "Qualität, die die durchschnittliche Größe von Körnern repräsentiert"@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0020243 "quality that is characterizing the volumetric extend of the grains of something"@en)
+SubClassOf(pmdco:PMD_0020243 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 ObjectUnionOf(obo:BFO_0000027 obo:BFO_0000030))))
 
 # Class: pmdco:PMD_0020247 (Dispersion)
 
@@ -2174,7 +2174,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0025001 "Zusammensetzung ist eine 
 AnnotationAssertion(skos:example pmdco:PMD_0025001 "4 vol.% nitric acid solution, Styrene-Butadiene-Styrene (SBS) Block Copolymer with 50 vol.% of both styrene and butadiene"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0025001 "true"^^xsd:boolean)
 AnnotationAssertion(pmdco:PMD_0000064 pmdco:PMD_0025001 "Composition is a collective property of a portion of matter, i.e., the triple portion of matter has quality composition holds. As \"has quality\" is an inverse  functional property, only one instance of portion of matter can have this specific composition. However, proportions describe the relation between the prortion of matter (the whole) and some compound (the part). Thus, the following triples hold: portion of matter has relational quality proportion; portion of matter has part some substance (or whatever is your part); substance has relational quality proportion. \"Has relational quality\" is not inverse functional, i.e., it can point to a single object from 2 distinct subjects."@en)
-SubClassOf(pmdco:PMD_0025001 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0025001 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
 
 # Class: pmdco:PMD_0025002 (chemical composition data item)
 
@@ -2422,7 +2422,7 @@ AnnotationAssertion(skos:example pmdco:PMD_0080000 "The acoustic quality of a co
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080000 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080000 obo:BFO_0000019)
 
-# Class: pmdco:PMD_0080001 (electrical quality)
+# Class: pmdco:PMD_0080001 (elektrische Qualität)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080001 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080001 "Necessary and sufficient conditions for 'electrical quality' have not yet been formalized. The term is defined as a specific subtype of 'physical quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
@@ -2446,33 +2446,31 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080002 "Die magnetische Qualität
 AnnotationAssertion(skos:definition pmdco:PMD_0080002 "Magnetic quality characterizes a material entity's response to external magnetic fields or its emission of magnetic fields"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080002 "The magnetic susceptibility of paramagnetic aluminum is a magnetic quality measured by a magnetometer"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080002 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080002 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0080002 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 ObjectUnionOf(obo:BFO_0000027 obo:BFO_0000030 pmdco:PMD_0000001))))
 
 # Class: pmdco:PMD_0080003 (mechanische Qualität)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080003 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080003 "Necessary and sufficient conditions for 'mechanical quality' have not yet been formalized. The term is defined as a specific subtype of 'physical quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080003 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080003 "mechanical quality"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080003 "OBSOLETE mechanical quality"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080003 "mechanische Qualität"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080003 "Die mechanische Qualität bezieht sich auf die Leistung eines Materials, wenn es mechanischen Belastungen standhält"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080003 "Mechanical quality is related to the performance of a material when enduring mechanical loads"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080003 "The fatigue strength of a connecting rod is a mechanical quality critical for engine reliability"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080003 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080003 obo:BFO_0000019)
 
-# Class: pmdco:PMD_0080004 (optische Qualität)
+# Class: pmdco:PMD_0080004 (OBSOLETE optical quality)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080004 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080004 "Necessary and sufficient conditions for 'optical quality' have not yet been formalized. The term is defined as a specific subtype of 'physical quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080004 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080004 "optical quality"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080004 "OBSOLETE optical quality"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080004 "optische Qualität"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080004 "Die optische Qualität charakterisiert die Interaktionsergebnisse materieller Einheiten mit Lichtemissionen oder deren Erzeugung von Lichtemissionen"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080004 "Optical quality characterizes the interaction results of material entities with light emissions or their generation of light emissions"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080004 "The optical quality of a mirror is assessed by its surface flatness and reflectance uniformity"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080004 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080004 obo:BFO_0000019)
 
 # Class: pmdco:PMD_0080005 (thermodynamische Qualität)
 
@@ -2485,7 +2483,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080005 "Thermo dynamic quality ch
 AnnotationAssertion(skos:definition pmdco:PMD_0080005 "Thermodynamische Qualität beschreibt das Verhalten oder den Zustand eines materiellen Wesens in Bezug auf thermische Erwärmung oder Kühlung"@de)
 AnnotationAssertion(skos:example pmdco:PMD_0080005 "The melting point of iron at 1538 C is a thermo dynamic quality governing its processing in a blast furnace"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080005 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080005 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 ObjectUnionOf(pmdco:PMD_0020000 pmdco:PMD_0020128))))
+SubClassOf(pmdco:PMD_0080005 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0020128)))
 
 # Class: pmdco:PMD_0080006 (fluid dynamic quality)
 
@@ -2501,18 +2499,18 @@ AnnotationAssertion(skos:example pmdco:PMD_0080006 "The Reynolds number of flow 
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080006 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080006 obo:BFO_0000019)
 
-# Class: pmdco:PMD_0080007 (radiologische Qualität)
+# Class: pmdco:PMD_0080007 (radiologic disposition)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080007 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080007 "Necessary and sufficient conditions for 'radiologic quality' have not yet been formalized. The term is defined as a specific subtype of 'physical quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080007 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080007 "radiologic quality"@en)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080007 "radiologische Qualität"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080007 "Radiologic quality pertains to properties or characteristics related to an entity's interaction with radiant energy"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080007 "radiologic disposition"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080007 "radiologische Eigenschaft"@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0080007 "Radiologic disposition pertains to properties or characteristics related to an entity's interaction with radiant energy"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080007 "Radiologische Qualität bezieht sich auf die Eigenschaften oder Merkmale im Zusammenhang mit der Wechselwirkung einer Entität mit Strahlungsenergie"@de)
 AnnotationAssertion(skos:example pmdco:PMD_0080007 "The dose equivalent a patient receives from a chest X-ray is a radiologic quality of the examination"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080007 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080007 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0080007 obo:BFO_0000016)
 
 # Class: pmdco:PMD_0080008 (olfactoric quality)
 
@@ -2689,7 +2687,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080022 "Electric charge refers to
 AnnotationAssertion(skos:definition pmdco:PMD_0080022 "Elektrische Ladung bezieht sich auf die physikalische Eigenschaft von Materie, die dazu führt, dass sie eine Kraft erfährt, wenn sie in ein elektromagnetisches Feld gebracht wird"@de)
 AnnotationAssertion(skos:example pmdco:PMD_0080022 "A capacitor stores 10 µC of electric charge at a voltage of 5 V"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080022 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080022 pmdco:PMD_0080001)
+SubClassOf(pmdco:PMD_0080022 ObjectIntersectionOf(pmdco:PMD_0080001 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
 
 # Class: pmdco:PMD_0080023 (elektrische Feldstärke)
 
@@ -2717,7 +2715,7 @@ AnnotationAssertion(skos:altLabel pmdco:PMD_0080024 "E_ds"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080024 "Dielectric strength is an electrical quality of an insulating material that specifies the maximum electric field intensity the material can sustain without undergoing electrical breakdown"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080024 "Durchschlagsfestigkeit ist eine elektrische Qualität eines Isoliermaterials, die die maximale elektrische Feldstärke angibt, die das Material aushalten kann, ohne einen elektrischen Durchschlag zu erleiden"@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080024 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080024 pmdco:PMD_0080001)
+SubClassOf(pmdco:PMD_0080024 ObjectIntersectionOf(pmdco:PMD_0080001 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
 
 # Class: pmdco:PMD_0080025 (magnetic flux)
 
@@ -2779,7 +2777,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080029 "Dehnung ist als relative 
 AnnotationAssertion(skos:definition pmdco:PMD_0080029 "Strain is defined as relative deformation, compared to a reference position configuration"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080029 "Under a tensile load, a polymer film exhibits a strain of 2 % before yielding"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080029 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080029 pmdco:PMD_0080003)
+SubClassOf(pmdco:PMD_0080029 obo:BFO_0000145)
 
 # Class: pmdco:PMD_0080030 (technische Dehnung)
 
@@ -2890,7 +2888,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080036 "Lichtstärke ist die Meng
 AnnotationAssertion(skos:definition pmdco:PMD_0080036 "Luminous intensity quantifies the visible light emitted per unit solid angle in a particular direction from a source, measured in candela (cd)"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080036 "A standard LED lamp emits a luminous intensity of 800 cd in the forward direction"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080036 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080036 pmdco:PMD_0080004)
+SubClassOf(pmdco:PMD_0080036 pmdco:PMD_0000008)
 
 # Class: pmdco:PMD_0080037 (Belichtungszeit)
 
@@ -2899,12 +2897,11 @@ AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080037 "Necessary and sufficient 
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080037 "PERSON: Thomas Hanke")
 AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0080037 <https://en.wikipedia.org/wiki/Exposure_(photography)>)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080037 "Belichtungszeit"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080037 "exposure"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080037 "light exposure"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080037 "Exposure in photography refers to the amount of light per unit area reaching film or sensor, determined by shutter speed, lens F-number, and scene luminance"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080037 "Unter Belichtung versteht man in der Fotografie die Lichtmenge pro Flächeneinheit, die den Film oder Sensor erreicht, bestimmt durch Verschlusszeit, Blendenzahl des Objektivs und Helligkeit der Szene"@de)
-AnnotationAssertion(skos:example pmdco:PMD_0080037 "A worker is exposed to a UV radiation exposure of 30 J/m2 during outdoor operations"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080037 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080037 pmdco:PMD_0080004)
+SubClassOf(pmdco:PMD_0080037 pmdco:PMD_0000143)
 
 # Class: pmdco:PMD_0080038 (Curie temperature)
 
@@ -3130,7 +3127,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080054 "Verdampfungsenthalpie ist
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080054 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080054 pmdco:PMD_0080052)
 
-# Class: pmdco:PMD_0080055 (auto-ignition temperature)
+# Class: pmdco:PMD_0080055 (Selbstzündungstemperatur)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080055 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080055 "Necessary and sufficient conditions for 'auto-ignition temperature' have not yet been formalized. The term is defined as a specific subtype of 'thermo dynamic quality'. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions."@en)
@@ -3173,33 +3170,31 @@ AnnotationAssertion(skos:example pmdco:PMD_0080057 "The characteristic odor of a
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080057 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080057 pmdco:PMD_0080008)
 
-# Class: pmdco:PMD_0080058 (odorless)
+# Class: pmdco:PMD_0080058 (OBSOLETE odorless)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080058 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080058 "Necessary and sufficient conditions for 'odorless' have not yet been formalized. The term is defined as a specific subtype of 'odor'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: http://purl.obolibrary.org/obo/PATO_0001208."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080058 "PERSON: Thomas Hanke")
 AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0080058 obo:PATO_0001208)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080058 "OBSOLETE odorless"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080058 "geruchlos"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080058 "odorless"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080058 "Geruchlos bezeichnet eine Geruchsqualität, die einem geruchlosen Träger innewohnt"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080058 "Odorless denotes an odor quality inhering in a bearer lacking odor"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080058 "Distilled water is odorless under standard conditions, emitting no detectable volatile compounds"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080058 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080058 pmdco:PMD_0080057)
 
-# Class: pmdco:PMD_0080059 (odorous)
+# Class: pmdco:PMD_0080059 (OBSOLETE odorous)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080059 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080059 "Necessary and sufficient conditions for 'odorous' have not yet been formalized. The term is defined as a specific subtype of 'odor'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: http://purl.obolibrary.org/obo/PATO_0001331."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080059 "PERSON: Thomas Hanke")
 AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0080059 obo:PATO_0001331)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080059 "odorous"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080059 "OBSOLETE odorous"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080059 "riechend"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080059 "Geruchlich bezeichnet eine Geruchsqualität, die einem Geruchsträger innewohnt"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080059 "Odorous denotes an odor quality inhering in a bearer possessing odor"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080059 "Hydrogen sulfide is odorous, detectable by humans at concentrations as low as 0.5 ppb"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080059 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080059 pmdco:PMD_0080057)
 
 # Class: pmdco:PMD_0080061 (radius)
 
@@ -3494,7 +3489,7 @@ AnnotationAssertion(skos:example pmdco:PMD_0080085 "A concrete block has a weigh
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080085 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080085 pmdco:PMD_0020200)
 
-# Class: pmdco:PMD_0080086 (friction)
+# Class: pmdco:PMD_0080086 (Reibung)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080086 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080086 "Necessary and sufficient conditions for 'friction' have not yet been formalized. The term is defined as a specific subtype of 'force'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://www.britannica.com/science/friction."@en)
@@ -4768,7 +4763,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080184 "Resilience is a mechanica
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080184 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080184 pmdco:PMD_0000848)
 
-# Class: pmdco:PMD_0080186 (radiation reflection capability)
+# Class: pmdco:PMD_0080186 (Strahlungsreflexionsfähigkeiten)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080186 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080186 "Necessary and sufficient conditions for 'radiation reflection capability' have not yet been formalized. The term is defined as a specific subtype of 'optical capability'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
@@ -4891,7 +4886,7 @@ AnnotationAssertion(skos:example pmdco:PMD_0080196 "The thermal expansion coeffi
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080196 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080196 pmdco:PMD_0000981)
 
-# Class: pmdco:PMD_0080197 (volumetric thermal expansion coefficient)
+# Class: pmdco:PMD_0080197 (thermischer Volumenausdehnungskoeffizient)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080197 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080197 "Necessary and sufficient conditions for 'volumetric thermal expansion coefficient' have not yet been formalized. The term is defined as a specific subtype of 'thermal expansion coefficient'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
@@ -4917,7 +4912,7 @@ AnnotationAssertion(skos:example pmdco:PMD_0080198 "Aluminum has a linear therma
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080198 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080198 pmdco:PMD_0080196)
 
-# Class: pmdco:PMD_0080200 (flame resistance)
+# Class: pmdco:PMD_0080200 (Flammbeständigkeit)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080200 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080200 "Necessary and sufficient conditions for 'flame resistance' have not yet been formalized. The term is defined as a specific subtype of 'thermal capability', disjoint from 'flammability' as the inverse capability. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions."@en)
@@ -4957,7 +4952,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080202 "Thermoschockbeständigkei
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080202 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080202 pmdco:PMD_0000981)
 
-# Class: pmdco:PMD_0080203 (Strahlungsemissionsfähigkeit)
+# Class: pmdco:PMD_0080203 (radiation emission capability)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080203 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080203 "Necessary and sufficient conditions for 'radiation emission capability' have not yet been formalized. The term is defined as a specific subtype of 'physical capability'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
@@ -4968,7 +4963,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080203 "Die Strahlungsemissionsf�
 AnnotationAssertion(skos:definition pmdco:PMD_0080203 "Radiation emission capability is a physical capability of a material entity to emit electromagnetic radiation, realized in processes where the bearer radiates energy in the form of electromagnetic waves"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080203 "A tungsten filament at 2800 K has significant radiation emission capability, producing visible white light"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080203 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080203 obo:BFO_0000016)
+SubClassOf(pmdco:PMD_0080203 pmdco:PMD_0080007)
 
 # Class: pmdco:PMD_0080204 (Wasseraufnahme)
 
@@ -5011,18 +5006,14 @@ AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0090002 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0090002 "PERSON: thnlrd")
 AnnotationAssertion(rdfs:label pmdco:PMD_0090002 "Bandlücke"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0090002 "band gap"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0090002 "bandgap"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0090002 "energy gap"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0090002 "A bandgap is an energy range between the valence band and the conduction band in a solid where no electronic states exist.")
-AnnotationAssertion(skos:example pmdco:PMD_0090002 "Silicon has a band gap of 1.107 eV at room temperature."@en)
-SubClassOf(pmdco:PMD_0090002 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0090002 pmdco:PMD_0020142)
 
 
 ############################
 #   Named Individuals
 ############################
 
-# Individual: pmdco:PMD_0020006 (bravais lattice triclinic primitive)
+# Individual: pmdco:PMD_0020006 (Triklines Primitiv des Bravais-Gitters)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020006 "Triklines Primitiv des Bravais-Gitters"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020006 "bravais lattice triclinic primitive"@en)
@@ -5046,7 +5037,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020008 "monoclinic Bravais lattic
 AnnotationAssertion(skos:definition pmdco:PMD_0020008 "monoklines Bravais-Gitter mit basiszentrierter Zentrierung (mC), einer zweizähligen Rotationsachse und zusätzlichen Gitterpunkten in der Mitte eines Flächenpaares"@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020008 "true"^^xsd:boolean)
 
-# Individual: pmdco:PMD_0020009 (bravais lattice orthorombic primitive)
+# Individual: pmdco:PMD_0020009 (Bravais-Gitter orthorombisches Grundelement)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020009 "Bravais-Gitter orthorombisches Grundelement"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020009 "bravais lattice orthorombic primitive"@en)
@@ -5280,7 +5271,7 @@ AnnotationAssertion(owl:deprecated pmdco:PMD_0020125 "true"^^xsd:boolean)
 AnnotationAssertion(skos:definition pmdco:PMD_0020125 "DEPRECATED A state that exhibits suprafluid and solid properties."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020125 "DEPRECATED Ein Zustand, der suprafluide und feste Eigenschaften aufweist."@de)
 
-# Individual: pmdco:PMD_0020217 (Kurzstreckenauftrag)
+# Individual: pmdco:PMD_0020217 (short range order)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020217 "Kurzstreckenauftrag"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020217 "short range order"@en)
@@ -5308,7 +5299,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0020242 "no range order"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020242 "keine periodische Anordnung struktureller Merkmale von Entitäten"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0020242 "no periodic arrangement of structural features of entites"@en)
 
-# Individual: pmdco:PMD_0020288 (DEPRECATED atom gas)
+# Individual: pmdco:PMD_0020288 (atom gas)
 
 
 # Individual: pmdco:PMD_0020289 (gas)
