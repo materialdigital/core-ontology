@@ -195,6 +195,9 @@ Declaration(Class(pmdco:PMD_0020335))
 Declaration(Class(pmdco:PMD_0020336))
 Declaration(Class(pmdco:PMD_0020337))
 Declaration(Class(pmdco:PMD_0020339))
+Declaration(Class(pmdco:PMD_0020345))
+Declaration(Class(pmdco:PMD_0020346))
+Declaration(Class(pmdco:PMD_0020347))
 Declaration(Class(pmdco:PMD_0025001))
 Declaration(Class(pmdco:PMD_0025002))
 Declaration(Class(pmdco:PMD_0025003))
@@ -570,7 +573,6 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000005 "a disposition of a portio
 AnnotationAssertion(skos:definition pmdco:PMD_0000005 "eine Disposition eines Teils der Materie, die in einem kompatiblen Prozess realisiert wird und deren Umsetzung auf den intensiven Eigenschaften der Teile beruht"@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000005 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000005 obo:BFO_0000016)
-SubClassOf(pmdco:PMD_0000005 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000950))
 SubClassOf(Annotation(rdfs:comment "Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom."@en) pmdco:PMD_0000005 ObjectSomeValuesFrom(obo:RO_0000052 ObjectIntersectionOf(pmdco:PMD_0000001 ObjectSomeValuesFrom(obo:RO_0000056 obo:BFO_0000015))))
 
 # Class: pmdco:PMD_0000107 (nonlinear optical property)
@@ -779,10 +781,9 @@ AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000539 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000539 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000539 "Kompressionsmodul"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000539 "bulk modulus"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000539 "Der Kompressionsmodul ist ein Elastizitätsmodul, der ein Maß für den Widerstand eines Materials gegenüber gleichmäßiger Kompression darstellt."@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0000539 "The bulk modulus is an elastic modulus representing a measure of a material's resistance to uniform compression."@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0000539 "a measure of a material's stiffness under pressure"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000539 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000539 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0000896) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020150)))
+SubClassOf(pmdco:PMD_0000539 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000)) ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020150)) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0000896)))
 
 # Class: pmdco:PMD_0000547 (Änderung des Aggregatzustandes)
 
@@ -880,14 +881,15 @@ SubClassOf(pmdco:PMD_0000595 pmdco:PMD_0080009)
 
 # Class: pmdco:PMD_0000596 (deformation)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000596 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000596 "PERSON: Joerg Waitelonis")
+AnnotationAssertion(rdfs:comment pmdco:PMD_0000596 "According to the modelling pattern we use TQCs to represent the participants properties before and after the process"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000596 "Verformung"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000596 "deformation"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000596 "Die Verformung ist ein Prozess, der eine Veränderung der Form, Größe oder Struktur eines Materials beschreibt, häufig unter dem Einfluss von Spannung oder Kraft."@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0000596 "The deformation is a process describing a change in the shape, size, or structure of a material often under the influence of stress or force."@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0000596 "a process that changes the 'dimension quality' of a participant. It excludes translations and rotations."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000596 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000596 obo:BFO_0000015)
+SubClassOf(Annotation(rdfs:comment "simple form: 
+process and ('has participant' some 
+('temporally qualified continuant' and ('has quality' some 'dimension quality')))") pmdco:PMD_0000596 ObjectIntersectionOf(obo:BFO_0000015 ObjectSomeValuesFrom(obo:RO_0000057 ObjectIntersectionOf(pmdco:PMD_0000068 ObjectSomeValuesFrom(obo:BFO_0000108 ObjectIntersectionOf(obo:BFO_0000202 ObjectSomeValuesFrom(obo:BFO_0000063 ObjectIntersectionOf(obo:BFO_0000202 ObjectSomeValuesFrom(ObjectInverseOf(obo:BFO_0000108) ObjectIntersectionOf(pmdco:PMD_0000068 ObjectSomeValuesFrom(obo:RO_0000086 pmdco:PMD_0020132))))))) ObjectSomeValuesFrom(obo:RO_0000086 pmdco:PMD_0020132)))))
 
 # Class: pmdco:PMD_0000597 (Massendichte)
 
@@ -918,10 +920,9 @@ AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000618 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000618 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000618 "Elastizitätsmodul"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000618 "elastic modulus"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000618 "represents a material's stiffness, defined as the ratio of stress to strain in the elastic deformation region."@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000618 "stellt die Steifigkeit eines Materials dar, definiert als das Verhältnis von Spannung zu Dehnung im elastischen Verformungsbereich."@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0000618 "represents a material's stiffness to loading in the normal direction, defined as the ratio of stress to strain in the elastic deformation region."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000618 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000618 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0080108) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080034)))
+SubClassOf(pmdco:PMD_0000618 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000) ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020331)) ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080034))))
 
 # Class: pmdco:PMD_0000619 (elektrisches Potential)
 
@@ -1266,20 +1267,17 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000949 "Steifigkeit"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000949 "stiffness"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000949 "The stiffness is an object property describing the resistance of the object to deformation under an applied force."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000949 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000949 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 obo:BFO_0000030) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020200) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0050155)))
+SubClassOf(pmdco:PMD_0000949 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 obo:BFO_0000030) ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020200)) ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020132))))
 DisjointClasses(pmdco:PMD_0000949 pmdco:PMD_0000952)
 
-# Class: pmdco:PMD_0000950 (stimulating process)
+# Class: pmdco:PMD_0000950 (DEPRECATED stimulating process)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000950 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000950 "PERSON: Joerg Waitelonis")
-AnnotationAssertion(rdfs:label pmdco:PMD_0000950 "anregender Prozess"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0000950 "stimulating process"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000950 "Der Stimulationsprozess ist ein Prozess, der die Anwendung eines äußeren Einflusses wie Kraft, Wärme oder Strahlung beschreibt, um die materielle Reaktion zu untersuchen."@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0000950 "The stimulating process is a process describing the application of an external influence, such as force, heat, or radiation, to study material response."@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000950 "true"^^xsd:boolean)
-EquivalentClasses(pmdco:PMD_0000950 ObjectIntersectionOf(obo:BFO_0000015 ObjectSomeValuesFrom(obo:BFO_0000055 ObjectIntersectionOf(ObjectUnionOf(obo:BFO_0000016 pmdco:PMD_0000005) ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001)))))
-SubClassOf(pmdco:PMD_0000950 obo:BFO_0000015)
+AnnotationAssertion(rdfs:comment pmdco:PMD_0000950 "Might come back later with appropriate axioms")
+AnnotationAssertion(rdfs:label pmdco:PMD_0000950 "DEPRECATED anregender Prozess"@de)
+AnnotationAssertion(rdfs:label pmdco:PMD_0000950 "DEPRECATED stimulating process"@en)
+AnnotationAssertion(owl:deprecated pmdco:PMD_0000950 "true"^^xsd:boolean)
+AnnotationAssertion(skos:definition pmdco:PMD_0000950 "DEPRECATED Der Stimulationsprozess ist ein Prozess, der die Anwendung eines äußeren Einflusses wie Kraft, Wärme oder Strahlung beschreibt, um die materielle Reaktion zu untersuchen."@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0000950 "DEPRECATED The stimulating process is a process describing the application of an external influence, such as force, heat, or radiation, to study material response."@en)
 
 # Class: pmdco:PMD_0000952 (strength)
 
@@ -2254,7 +2252,7 @@ EquivalentClasses(pmdco:PMD_0020329 ObjectIntersectionOf(pmdco:PMD_0020328 Objec
 # Class: pmdco:PMD_0020331 (normal stress)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020331 "normal stress"@en)
-SubClassOf(pmdco:PMD_0020331 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020332)))
+SubClassOf(pmdco:PMD_0020331 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020332))))
 
 # Class: pmdco:PMD_0020332 (normal force)
 
@@ -2269,11 +2267,11 @@ SubClassOf(pmdco:PMD_0020333 pmdco:PMD_0020200)
 # Class: pmdco:PMD_0020334 (shear stress)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020334 "shear stress"@en)
-SubClassOf(pmdco:PMD_0020334 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020334)))
+SubClassOf(pmdco:PMD_0020334 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020333))))
 
-# Class: pmdco:PMD_0020335 (Materialkennwert)
+# Class: pmdco:PMD_0020335 (characteristic material property)
 
-AnnotationAssertion(rdfs:label pmdco:PMD_0020335 "Materialkennwert"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020335 "characteristic material property"@en)
 EquivalentClasses(pmdco:PMD_0020335 ObjectIntersectionOf(obo:BFO_0000020 ObjectSomeValuesFrom(obo:BFO_0000054 obo:OBI_0000070) ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000)))
 SubClassOf(pmdco:PMD_0020335 obo:BFO_0000020)
 
@@ -2286,6 +2284,22 @@ SubClassOf(pmdco:PMD_0020336 pmdco:PMD_0020332)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020337 "compressive force"@en)
 SubClassOf(pmdco:PMD_0020337 pmdco:PMD_0020332)
+
+# Class: pmdco:PMD_0020345 (perpendicular force)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020345 "perpendicular force"@en)
+SubClassOf(pmdco:PMD_0020345 pmdco:PMD_0020200)
+
+# Class: pmdco:PMD_0020346 (bending stress)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020346 "bending stress"@en)
+SubClassOf(pmdco:PMD_0020346 ObjectIntersectionOf(pmdco:PMD_0020331 ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020345))))
+
+# Class: pmdco:PMD_0020347 (realizable entity (with axiom))
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020347 "realizable entity (with axiom)"@en)
+EquivalentClasses(pmdco:PMD_0020347 ObjectSomeValuesFrom(obo:BFO_0000054 obo:BFO_0000015))
+SubClassOf(pmdco:PMD_0020347 obo:BFO_0000017)
 
 # Class: pmdco:PMD_0025001 (Zusammensetzung)
 
@@ -2338,7 +2352,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0025009 "material reacting process"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0025009 "materieller Reaktionsprozess"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0025009 "Ein materieller Reaktionsprozess ist ein Prozess, der in einem Teil der Materie aufgrund einiger seiner Dispositionen oder Verhaltenseigenschaften stattfindet, die in einem stimulierenden Prozess umgesetzt werden. Sowohl der materielle Reaktionsprozess als auch der stimulierende Prozess müssen stattfindende Teile eines geplanten Prozesses sein, wenn der geplante Prozess stattfindet."@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0025009 "Material reacting process is a process which occurs in a portion of matter due to some of its disposition or behavioral material property which has realization in some  stimulating process. Both the material reacting process and stimulating process must be occurent parts of a planned process, if the planned process takes place."@en)
-EquivalentClasses(pmdco:PMD_0025009 ObjectIntersectionOf(obo:BFO_0000015 ObjectSomeValuesFrom(obo:BFO_0000066 pmdco:PMD_0000001) ObjectSomeValuesFrom(pmdco:PMD_0001028 ObjectIntersectionOf(ObjectUnionOf(obo:BFO_0000016 pmdco:PMD_0000005) ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000950)))))
+EquivalentClasses(pmdco:PMD_0025009 ObjectIntersectionOf(obo:BFO_0000015 ObjectSomeValuesFrom(obo:BFO_0000066 pmdco:PMD_0000001) ObjectSomeValuesFrom(pmdco:PMD_0001028 ObjectUnionOf(obo:BFO_0000016 pmdco:PMD_0000005))))
 SubClassOf(pmdco:PMD_0025009 obo:BFO_0000015)
 
 # Class: pmdco:PMD_0025010 (heating)
@@ -2889,17 +2903,13 @@ SubClassOf(pmdco:PMD_0080027 pmdco:PMD_0080002)
 
 # Class: pmdco:PMD_0080029 (strain)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080029 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080029 "Necessary and sufficient conditions for 'strain' have not yet been formalized. The term is defined as a specific subtype of 'deformation'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://en.wikipedia.org/wiki/Strain_(mechanics)."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080029 "PERSON: Thomas Hanke")
-AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0080029 <https://en.wikipedia.org/wiki/Strain_(mechanics)>)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080029 "Dehnung"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080029 "strain"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080029 "Dehnung ist als relative Verformung definiert, verglichen mit einer Referenzpositionskonfiguration"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080029 "Strain is defined as relative deformation, compared to a reference position configuration"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080029 "Under a tensile load, a polymer film exhibits a strain of 2 % before yielding"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080029 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080029 obo:BFO_0000145)
+SubClassOf(pmdco:PMD_0080029 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000596)))
 
 # Class: pmdco:PMD_0080030 (technische Dehnung)
 
@@ -4242,17 +4252,13 @@ SubClassOf(pmdco:PMD_0080136 pmdco:PMD_0000848)
 
 # Class: pmdco:PMD_0080137 (Poissonzahl)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080137 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080137 "Necessary and sufficient conditions for 'poisson's ratio' have not yet been formalized. The term is defined as a specific subtype of 'poisson effect'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://en.wikipedia.org/wiki/Poisson%27s_ratio."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080137 "PERSON: Thomas Hanke")
-AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0080137 <https://en.wikipedia.org/wiki/Poisson%27s_ratio>)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080137 "Poissonzahl"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080137 "poisson's ratio"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080137 "Poisson's ratio is a measure of the Poisson effect, with values typically between 0.0 and 0.5 for most materials"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080137 "Poissonzahl ist ein Maß für den Poisson-Effekt, mit Werten typischerweise zwischen 0,0 und 0,5 für die meisten Materialien"@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0080137 "a classical mechanics property defining the strain in one direction, given the strain in a perpendicular direction."@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080137 "Rubber has a Poisson's ratio close to 0.5, indicating nearly incompressible behavior under loading"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080137 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080137 pmdco:PMD_0020311)
+SubClassOf(Annotation(rdfs:comment "The two strains should be perpendicular to each other"@en) pmdco:PMD_0080137 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0080029)) ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080029))))
 
 # Class: pmdco:PMD_0080138 (material fatigue)
 
@@ -4565,21 +4571,18 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0080164 "elasticity"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080164 "Elasticity is the disposition of a material to resume its initial shape after deformation"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080164 "Rubber exhibits high elasticity, recovering its original shape after 300 % elongation"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080164 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080164 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000)))
+SubClassOf(Annotation(rdfs:comment "Should comprise reversibility/non-dissipative aspect in process"@en) pmdco:PMD_0080164 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000)))
 
 # Class: pmdco:PMD_0080166 (shear modulus)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080166 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080166 "Necessary and sufficient conditions for 'shear modulus' have not yet been formalized. The term is defined as a specific subtype of 'stiffness'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://en.wikipedia.org/wiki/Shear_modulus."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080166 "PERSON: Thomas Hanke")
-AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0080166 <https://en.wikipedia.org/wiki/Shear_modulus>)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080166 "Schubmodul"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080166 "shear modulus"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080166 "Schubmodul ist ein Maß für die elastische Schersteifigkeit, definiert als Verhältnis von Schubspannung zu Scherdehnung"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080166 "Shear modulus is a measure of elastic shear stiffness, defined as the ratio of shear stress to shear strain"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080166 "The shear modulus of aluminum is 26 GPa, governing torsional deformation of shafts"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080166 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080166 pmdco:PMD_0000949)
+SubClassOf(pmdco:PMD_0080166 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000) ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020334)) ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080034))))
 
 # Class: pmdco:PMD_0080167 (specific elastic modulus)
 
@@ -4595,21 +4598,17 @@ AnnotationAssertion(skos:altLabel pmdco:PMD_0080167 "spezifischer Modul"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080167 "Specific elastic modulus is a stiffness quality of a material expressed as the ratio of its elastic modulus to its density, representing the material's elastic stiffness per unit mass"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080167 "Spezifischer Elastizitätsmodul ist eine Steifigkeitsqualität eines Materials, ausgedrückt als Verhältnis seines Elastizitätsmoduls zu seiner Dichte und repräsentiert die elastische Steifigkeit des Materials je Masseneinheit"@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080167 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080167 pmdco:PMD_0000949)
+SubClassOf(pmdco:PMD_0080167 pmdco:PMD_0020311)
 
 # Class: pmdco:PMD_0080168 (flexural modulus)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080168 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080168 "Necessary and sufficient conditions for 'flexural modulus' have not yet been formalized. The term is defined as a specific subtype of 'stiffness'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080168 "PERSON: Thomas Hanke")
 AnnotationAssertion(rdfs:label pmdco:PMD_0080168 "Biegemodul"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080168 "flexural modulus"@en)
 AnnotationAssertion(skos:altLabel pmdco:PMD_0080168 "bending modulus"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080168 "Biegemodul ist eine Steifigkeitsqualität eines Materials, die das Verhältnis von Spannung zu Dehnung im elastischen Bereich eines Biegeversuchs beschreibt und den Widerstand gegen elastische Verformung unter Biegebelastung repräsentiert"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080168 "Flexural modulus is a stiffness quality of a material that specifies the ratio of stress to strain in the elastic region of a bending test, representing resistance to elastic deformation under flexural load"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080168 "Flexural modulus of a glass-fibre reinforced polyamide measured as 9.5 GPa under ISO 178 three-point bending test conditions."@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080168 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080168 pmdco:PMD_0000949)
+SubClassOf(pmdco:PMD_0080168 ObjectIntersectionOf(pmdco:PMD_0000618 ObjectSomeValuesFrom(obo:RO_0002351 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020346))))
 
 # Class: pmdco:PMD_0080169 (Haftfestigkeit)
 
@@ -4626,7 +4625,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080169 "Adhesion strength measure
 AnnotationAssertion(skos:definition pmdco:PMD_0080169 "Haftfestigkeit ist das Maß für die Kraft, die erforderlich ist, um zwei miteinander verbundene Oberflächen zu trennen"@de)
 AnnotationAssertion(skos:example pmdco:PMD_0080169 "An epoxy adhesive joint on steel substrates has an adhesion strength of 20 MPa in lap shear testing"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080169 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080169 pmdco:PMD_0000952)
+SubClassOf(pmdco:PMD_0080169 ObjectIntersectionOf(pmdco:PMD_0000952 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0020339)))
 
 # Class: pmdco:PMD_0080170 (plasticity)
 
