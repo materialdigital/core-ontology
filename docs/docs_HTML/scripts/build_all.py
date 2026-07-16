@@ -157,12 +157,14 @@ Exit Codes
 
 Author: PMDCore Team
 License: CC BY 4.0
+For any questions or issues, please contact the PMDCore maintainers or open an issue on GitHub.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import urllib.parse
 import urllib.request
@@ -507,7 +509,14 @@ def generate_page_nav_html(active_page: str, script_dir: Path = None) -> str:
 # - __PAGE_NAV__: Previous/next page navigation
 # - __DIAGRAMS_OBJECT__: Graphviz DOT source code (patterns mode)
 # - __NODEDATA_OBJECT__: Node metadata for graph tooltips (patterns mode)
+# - __PAGE_URL__: Canonical published URL of the page (Open Graph / canonical)
 # =============================================================================
+
+# Canonical base URL of the published custom HTML docs (see deploy.yaml, which
+# copies HTML_Docs/* into public/docs/). Used for <link rel="canonical"> and
+# Open Graph URLs so search engines and AI answer engines resolve a single
+# authoritative URL per page.
+DOCS_BASE_URL = "https://materialdigital.github.io/core-ontology/docs/"
 
 TEMPLATE_HTML = r'''<!DOCTYPE html>
 <html lang="en">
@@ -515,12 +524,23 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="Usage Patterns - PMDco Documentation" name="description" />
-    <title>Usage Patterns | PMDco Documentation</title>
+    <meta content="__PAGE_TITLE__ - PMDco Documentation" name="description" />
+    <meta name="keywords" content="PMDco, PMD core ontology, materials science ontology, materials science and engineering, MSE, materials informatics, semantic web, knowledge graph, BFO, SHACL, RDF, OWL, ontology, Platform MaterialDigital" />
+    <title>__PAGE_TITLE__ | PMDco Documentation</title>
+    <link rel="canonical" href="__PAGE_URL__" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="PMD Core Ontology (PMDco)" />
+    <meta property="og:title" content="__PAGE_TITLE__" />
+    <meta property="og:description" content="__PAGE_TITLE__ - PMD Core Ontology (PMDco): a BFO-aligned ontology for materials science and engineering." />
+    <meta property="og:url" content="__PAGE_URL__" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="__PAGE_TITLE__" />
+    <meta name="twitter:description" content="PMD Core Ontology (PMDco) documentation for materials science and engineering." />
+    __JSONLD__
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Merriweather:wght@400;700&family=Source+Serif+Pro:wght@400;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet" />
     <style>
         /* =====================================================
@@ -572,32 +592,37 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             --spacing-xs: 0.25rem;
             --spacing-sm: 0.5rem;
             --spacing-md: 1rem;
-            --spacing-lg: 1.5rem;
-            --spacing-xl: 2rem;
-            --spacing-2xl: 3rem;
-            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-family-heading: 'Source Serif Pro', Georgia, 'Times New Roman', serif;
-            --font-family-body: 'Merriweather', Georgia, serif;
-            --font-family-mono: 'JetBrains Mono', monospace;
-            --font-size-xs: 0.75rem;
-            --font-size-sm: 0.875rem;
-            --font-size-base: 1rem;
-            --font-size-lg: 1.125rem;
-            --font-size-xl: 1.25rem;
-            --font-size-2xl: 1.5rem;
-            --font-size-3xl: 1.875rem;
-            --font-size-4xl: 2.25rem;
+            --spacing-lg: clamp(1.25rem, 1.05rem + 0.6vw, 1.6rem);
+            --spacing-xl: clamp(1.75rem, 1.4rem + 1.1vw, 2.5rem);
+            --spacing-2xl: clamp(2.5rem, 1.9rem + 2.2vw, 4rem);
+            /* Distinctive editorial type system: Fraunces (display serif),
+               Source Serif 4 (reading body), Hanken Grotesk (UI), JetBrains Mono. */
+            --font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-family-heading: 'Fraunces', Georgia, 'Times New Roman', serif;
+            --font-family-body: 'Source Serif 4', Georgia, serif;
+            --font-family-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+            /* Fluid type scale — clamps stay within 1.4x so WCAG zoom (SC 1.4.4) passes */
+            --font-size-xs: clamp(0.72rem, 0.70rem + 0.10vw, 0.78rem);
+            --font-size-sm: clamp(0.84rem, 0.81rem + 0.14vw, 0.92rem);
+            --font-size-base: clamp(0.98rem, 0.94rem + 0.20vw, 1.08rem);
+            --font-size-lg: clamp(1.10rem, 1.04rem + 0.30vw, 1.26rem);
+            --font-size-xl: clamp(1.22rem, 1.13rem + 0.45vw, 1.45rem);
+            --font-size-2xl: clamp(1.45rem, 1.28rem + 0.85vw, 1.90rem);
+            --font-size-3xl: clamp(1.78rem, 1.50rem + 1.40vw, 2.40rem);
+            --font-size-4xl: clamp(2.10rem, 1.70rem + 2.00vw, 3.00rem);
             --radius-sm: 0.25rem;
             --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
             --radius-xl: 1rem;
             --radius-full: 9999px;
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
-            --shadow-glow: 0 0 20px rgba(0, 160, 227, 0.3);
-            --transition-fast: 150ms ease;
-            --transition-normal: 250ms ease;
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 2px 4px rgba(15, 23, 42, 0.04), 0 6px 18px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 4px 10px rgba(15, 23, 42, 0.05), 0 18px 44px rgba(15, 23, 42, 0.13);
+            --shadow-glow: 0 0 0 1px rgba(0, 160, 227, 0.16), 0 10px 34px rgba(0, 160, 227, 0.18);
+            --transition-fast: 160ms cubic-bezier(0.22, 1, 0.36, 1);
+            --transition-normal: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
             --sidebar-width: 280px;
             --header-height: 64px;
             --toc-width: 240px;
@@ -789,6 +814,10 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         h1 {
             font-size: var(--font-size-4xl);
             font-weight: 700;
+            line-height: 1.25;
+            /* padding-bottom extends the gradient's paint box so descenders
+               (g, y, p) are not clipped by background-clip: text */
+            padding-bottom: 0.08em;
             background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -3432,23 +3461,12 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .toc-list a::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-left: 4px solid var(--color-primary);
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
+        /* No triangle/arrow marker on TOC links — the left bar, background
+           and bold weight already indicate the active section. */
+        .toc-list a::before,
         .toc-list a.active::before {
-            opacity: 1;
+            content: none;
+            display: none;
         }
 
         .toc-list a:hover {
@@ -3776,7 +3794,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             font-size: clamp(2rem, 5vw, 2.75rem);
             font-weight: 800;
             letter-spacing: -0.03em;
-            line-height: 1.1;
+            line-height: 1.22;
+            padding-bottom: 0.1em;   /* room for descenders under background-clip: text */
             margin-bottom: var(--spacing-xl);
         }
 
@@ -3811,7 +3830,16 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             font-size: 1.0625rem;
             line-height: 1.8;
             color: var(--color-text-secondary);
+            /* Justified body with auto-hyphenation to avoid uneven "rivers".
+               Headings/lists stay left-aligned. */
+            text-align: justify;
+            text-justify: inter-word;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
         }
+        /* Don't justify short or structural paragraphs (folder links, etc.) */
+        .content p:last-child, .article-content p:last-child { text-align: left; hyphens: manual; }
 
         /* === PREMIUM LIST STYLING === */
         /* Exclude ontology-tree from premium list styling */
@@ -4279,6 +4307,147 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             }
         }
 
+        /* =====================================================
+           PREMIUM ENHANCEMENT LAYER
+           Appended last so it refines — not replaces — the base.
+           Microinteractions, fluid polish, atmosphere, a11y rings.
+           ===================================================== */
+
+        /* Momentum-aware scrolling with header-aware anchor offset */
+        html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 1.25rem); }
+
+        /* Crisper text + OpenType niceties */
+        body {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+        }
+        .content h1, .content h2, .content h3,
+        .article-content h1, .article-content h2, .article-content h3 {
+            font-optical-sizing: auto;
+            font-feature-settings: "liga" 1, "dlig" 1;
+        }
+        .content p, .content li, .article-content p, .article-content li {
+            font-optical-sizing: auto;
+            hanging-punctuation: first;
+        }
+
+        /* Branded text selection */
+        ::selection { background: rgba(0, 160, 227, 0.22); color: var(--color-text-primary); }
+
+        /* Atmospheric depth — soft, fixed, GPU-light radial washes */
+        body::before {
+            content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background:
+                radial-gradient(900px 520px at 12% -8%, rgba(0, 160, 227, 0.07), transparent 60%),
+                radial-gradient(820px 600px at 100% 0%, rgba(125, 211, 252, 0.06), transparent 55%);
+        }
+        body.theme-dark::before {
+            background:
+                radial-gradient(900px 520px at 12% -8%, rgba(0, 160, 227, 0.11), transparent 60%),
+                radial-gradient(820px 600px at 100% 0%, rgba(0, 119, 179, 0.12), transparent 55%);
+        }
+
+        /* Glass header that deepens once you start scrolling */
+        .header {
+            -webkit-backdrop-filter: blur(12px) saturate(140%);
+            backdrop-filter: blur(12px) saturate(140%);
+            transition: box-shadow var(--transition-normal), background var(--transition-normal), border-color var(--transition-normal);
+        }
+        .header.is-scrolled { box-shadow: var(--shadow-md); border-bottom-color: var(--color-border-hover); }
+
+        /* Header nav pills: subtle lift */
+        .header-nav a { transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast); }
+        .header-nav a:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+
+        /* Logo wink on hover */
+        .header-logo img { transition: transform var(--transition-normal); }
+        .header-logo:hover img { transform: scale(1.05) rotate(-1deg); }
+
+        /* Content card: refined elevation transition */
+        .content, .article-content { transition: box-shadow var(--transition-normal), border-color var(--transition-normal); }
+
+        /* Sidebar nav: slide-in affordance */
+        .nav-link { transition: color var(--transition-fast), background var(--transition-fast), padding-left var(--transition-fast); }
+        .nav-link:hover { padding-left: calc(var(--spacing-md) + 5px); }
+
+        /* TOC active marker nudge */
+        .toc-list a { transition: color var(--transition-fast), border-left-color var(--transition-fast), background var(--transition-fast), padding-left var(--transition-fast); }
+        .toc-list a.active { padding-left: calc(var(--spacing-sm) + 4px); font-weight: 600; }
+
+        /* Tactile controls */
+        .theme-toggle, .back-to-top { transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast); }
+        .theme-toggle:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+        .theme-toggle:active, .back-to-top:active { transform: translateY(0) scale(0.96); }
+        /* Diagram toolbar / zoom / view-toggle buttons: smooth + tactile press */
+        .graph-btn, .zoom-btn, .view-toggle-btn { transition: transform var(--transition-fast), background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast); }
+        .graph-btn:active, .zoom-btn:active, .view-toggle-btn:active { transform: scale(0.94); }
+        /* Search results: tactile selected/hover lift */
+        .search-result-item { transition: background var(--transition-fast), transform var(--transition-fast); }
+        .search-result-item.selected, .search-result-item:hover { transform: translateX(2px); }
+
+        /* Premium, accessible focus ring */
+        a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+            outline: none; box-shadow: 0 0 0 3px rgba(0, 160, 227, 0.35); border-radius: var(--radius-sm);
+        }
+
+        /* Prose tables: quiet header, responsive row hover */
+        .content table, .article-content table { width: 100%; }
+        .content thead th, .article-content thead th {
+            font-family: var(--font-family); font-weight: 600; letter-spacing: 0.01em;
+            background: var(--color-bg-tertiary);
+        }
+        .content tbody tr, .article-content tbody tr { transition: background var(--transition-fast); }
+        .content tbody tr:hover, .article-content tbody tr:hover { background: var(--color-bg-hover); }
+
+        /* Thin, themed scrollbars everywhere */
+        * { scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+        *::-webkit-scrollbar { width: 9px; height: 9px; }
+        *::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-full); border: 2px solid transparent; background-clip: padding-box; }
+        *::-webkit-scrollbar-thumb:hover { background: var(--color-border-hover); background-clip: padding-box; }
+
+        /* Fluid reading column padding — screen-size independent */
+        .content, .article-content { padding: clamp(1.25rem, 0.7rem + 2.4vw, 3rem); }
+
+        /* Scroll-reveal (JS adds .reveal to off-screen blocks, .is-visible when seen) */
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); will-change: opacity, transform; }
+        .reveal.is-visible { opacity: 1; transform: none; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal { opacity: 1 !important; transform: none !important; }
+            .header-logo:hover img, .header-nav a:hover, .theme-toggle:hover, .nav-link:hover { transform: none !important; }
+        }
+
+
+        /* === Cytoscape + ELK diagram host === */
+        .mermaid-graph-container .graph-wrapper {
+            position: absolute; inset: 0; transform: none !important;
+            display: block; min-width: 0; min-height: 0;
+        }
+        .mermaid-graph-container .mermaid-diagram { width: 100%; height: 100%; }
+        .mermaid-graph-container .graph-viewport { cursor: default; }
+        :fullscreen .graph-viewport, :-webkit-full-screen .graph-viewport { max-height: none; height: 100vh; }
+        .cy-pop {
+            position: fixed; z-index: 9999; max-width: 280px; pointer-events: auto;
+            background: var(--color-bg-card, #fff); color: var(--color-text-primary, #0f172a);
+            border: 1px solid var(--color-border, #e2e8f0); border-radius: 10px;
+            box-shadow: var(--shadow-lg, 0 18px 44px rgba(15,23,42,.18)); padding: 12px 14px;
+            font-family: var(--font-family, sans-serif); font-size: 13px; opacity: 0; visibility: hidden;
+            transform: translateY(4px); transition: opacity .16s ease, transform .16s ease;
+        }
+        .cy-pop.visible { opacity: 1; visibility: visible; transform: none; }
+        .cy-pop-h { font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .cy-pop-badge { font-size: 10.5px; font-weight: 600; color: #fff;
+            background: linear-gradient(135deg, var(--color-primary, #00a0e3), var(--color-primary-dark, #0077b3));
+            padding: 2px 8px; border-radius: 999px; }
+        .cy-pop-uri { margin-top: 6px; font-family: var(--font-family-mono, monospace); font-size: 11px;
+            color: var(--color-text-muted, #475569); word-break: break-all; }
+        .cy-pop-link { display: inline-block; margin-top: 8px; font-weight: 600; font-size: 12px;
+            color: var(--color-primary-dark, #0077b3); text-decoration: none; }
+        .cy-pop-link:hover { text-decoration: underline; }
+
 </style>
 </head>
 
@@ -4349,7 +4518,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
     <main class="main-content">
         <div class="content-wrapper">
             <nav class="breadcrumbs">
-                <a href="./">Home</a><span>/</span><span class="current">Usage Patterns</span>
+                <a href="./">Home</a><span>/</span><span class="current">__PAGE_TITLE__</span>
             </nav>
 
             <article class="content">
@@ -4407,1411 +4576,322 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
     </div>
 
 
-    <!-- Viz.js (Graphviz) -->
-    <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.js"></script>
-
-    <!-- Mermaid.js for diagram rendering -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-
-<script type="module">
-// ========== GRAPHVIZ (VIZ.JS) DIAGRAMS ==========
-        const dotDiagrams = __DIAGRAMS_OBJECT__;
-
-const nodeData = __NODEDATA_OBJECT__;
-
-// ========== MERMAID DIAGRAMS ==========
-const mermaidDiagrams = __MERMAID_DIAGRAMS_OBJECT__;
-
-        // ========== GRAPH VIEWER CLASS ==========
-
-
-        // ========== VIZ.JS RENDERING ==========
-        // Viz.js v2.1.2 (Graphviz compiled to JS/WASM). We load viz.js + full.render.js as classic scripts.
-        // This module relies on global Viz / Module / render injected by those scripts.
-        const createViz = () => {
-            try {
-                if (typeof Module !== 'undefined' && typeof render !== 'undefined') {
-                    return new Viz({ Module, render });
-                }
-            } catch (_) { /* ignore */ }
-            return new Viz();
-        };
-
-        let viz = createViz();
-
-                const CSS_DPI = 96; // browser/CSS pixel density baseline
-        const DEFAULT_EXPORT_DPI = 1200; // requested production export setting
-        const MAX_EXPORT_PIXELS = 80_000_000; // safety cap (~320MB RGBA)
-
-                function normalizeDot(dot) {
-            if (!dot) return dot;
-
-            // Fix a common JS-escaping pitfall: DOT snippets that include `\"` in source
-            // may end up as double-quoted attribute values at runtime (e.g., label=""sh:or"").
-            // Graphviz treats this as a broken string and typically errors near the first ':'.
-            //
-            // Normalize: label=""..."" -> label="..."
-            // Apply to a small allowlist of attributes that commonly carry human text.
-            dot = dot.replace(/\b(label|tooltip|xlabel)\s*=\s*""([^"\n]*?)""/g, '$1="$2"');
-
-            // Defensive normalization for DOT emitted by diverse toolchains.
-            // Primary fix: attribute values containing ':' (e.g., sh:targetClass) MUST be quoted in DOT when unquoted.
-            // Secondary: some generators emit unquoted attribute values with spaces; DOT requires quoting.
-            // Strategy: quote attribute values up to the next ',', ']' or ';' when they contain ':' or whitespace.
-            return dot.replace(/(=)\s*([^"\[\]<>][^,\]\n;]*)/g, (m, eq, rawVal) => {
-                const v = String(rawVal).trim();
-                if (!v) return m;
-
-                // leave numerics/booleans as-is
-                if (/^[+-]?\d+(\.\d+)?$/.test(v)) return `${eq}${v}`;
-                if (/^(true|false)$/i.test(v)) return `${eq}${v}`;
-
-                // HTML-like values are valid without quotes: label=<...>
-                if (v.startsWith('<') && v.endsWith('>')) return `${eq}${v}`;
-
-                const needsQuotes = v.includes(':') || /\s/.test(v) || v.includes('//');
-                if (!needsQuotes) return `${eq}${v}`;
-
-                const escaped = v.replace(/"/g, '\\"');
-                return `${eq}"${escaped}"`;
-            });
-        }
-
-        async function renderDotToSvg(dot) {
-            const normalized = normalizeDot(dot);
-            try {
-                return await viz.renderSVGElement(normalized);
-            } catch (err) {
-                // Viz instances can become unusable after a render error; recreate and retry once.
-                viz = createViz();
-                return await viz.renderSVGElement(normalized);
-            }
-        }
-
-        function sanitizeGraphSvg(svg) {
-            // Prevent navigation: remove all hyperlink targets/hrefs injected by DOT URL/href attributes.
-            svg.querySelectorAll('a').forEach(a => {
-                a.removeAttribute('href');
-                a.removeAttribute('xlink:href');
-                a.removeAttribute('target');
-                a.style.cursor = 'pointer';
-            });
-
-            // Make sure SVG is well-formed for downloads.
-            svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-            svg.style.maxWidth = 'none';
-            svg.style.overflow = 'visible';
-
-            // Improve text rendering consistency.
-            svg.querySelectorAll('text').forEach(t => {
-                t.style.userSelect = 'none';
-            });
-
-            // Rotate edge labels to follow the edge direction
-            rotateEdgeLabels(svg);
-        }
-
-        function rotateEdgeLabels(svg) {
-            // Find all edge groups in the SVG
-            svg.querySelectorAll('g.edge').forEach(edgeGroup => {
-                // Get the path element (the edge line)
-                const path = edgeGroup.querySelector('path');
-                // Get the text element (the label)
-                const text = edgeGroup.querySelector('text');
-                
-                if (!path || !text) return;
-                
-                // Get the path's d attribute
-                const d = path.getAttribute('d');
-                if (!d) return;
-                
-                // Parse the path to get start and end points
-                // Graphviz paths typically use M (moveto) and C (curveto) or L (lineto)
-                const points = parsePathPoints(d);
-                if (points.length < 2) return;
-                
-                // Get the text position
-                const textX = parseFloat(text.getAttribute('x')) || 0;
-                const textY = parseFloat(text.getAttribute('y')) || 0;
-                
-                // Find the closest segment to the text label
-                const angle = calculateAngleAtPoint(points, textX, textY);
-                
-                // Apply rotation transform to the text
-                // Rotate around the text's anchor point
-                if (Math.abs(angle) > 0.1) { // Only rotate if angle is significant
-                    // Adjust angle to keep text readable (not upside down)
-                    let displayAngle = angle;
-                    if (displayAngle > 90) displayAngle -= 180;
-                    if (displayAngle < -90) displayAngle += 180;
-                    
-                    text.setAttribute('transform', `rotate(${displayAngle}, ${textX}, ${textY})`);
-                }
-            });
-        }
-
-        function parsePathPoints(d) {
-            const points = [];
-            // Match path commands: M, L, C, Q, etc. followed by coordinates
-            const regex = /([MLCQSTZ])([^MLCQSTZ]*)/gi;
-            let match;
-            let currentX = 0, currentY = 0;
-            
-            while ((match = regex.exec(d)) !== null) {
-                const cmd = match[1].toUpperCase();
-                const coords = match[2].trim().split(/[\\s,]+/).map(parseFloat).filter(n => !isNaN(n));
-                
-                switch (cmd) {
-                    case 'M':
-                    case 'L':
-                        if (coords.length >= 2) {
-                            currentX = coords[0];
-                            currentY = coords[1];
-                            points.push({ x: currentX, y: currentY });
-                        }
-                        break;
-                    case 'C': // Cubic bezier: x1,y1 x2,y2 x,y
-                        if (coords.length >= 6) {
-                            // Add control points and end point
-                            points.push({ x: coords[0], y: coords[1] });
-                            points.push({ x: coords[2], y: coords[3] });
-                            currentX = coords[4];
-                            currentY = coords[5];
-                            points.push({ x: currentX, y: currentY });
-                        }
-                        break;
-                    case 'Q': // Quadratic bezier: x1,y1 x,y
-                        if (coords.length >= 4) {
-                            points.push({ x: coords[0], y: coords[1] });
-                            currentX = coords[2];
-                            currentY = coords[3];
-                            points.push({ x: currentX, y: currentY });
-                        }
-                        break;
-                }
-            }
-            return points;
-        }
-
-        function calculateAngleAtPoint(points, textX, textY) {
-            if (points.length < 2) return 0;
-            
-            // Find the two closest points to the text position
-            let minDist = Infinity;
-            let closestIdx = 0;
-            
-            for (let i = 0; i < points.length; i++) {
-                const dist = Math.sqrt(Math.pow(points[i].x - textX, 2) + Math.pow(points[i].y - textY, 2));
-                if (dist < minDist) {
-                    minDist = dist;
-                    closestIdx = i;
-                }
-            }
-            
-            // Get the segment containing or near the closest point
-            let p1, p2;
-            if (closestIdx === 0) {
-                p1 = points[0];
-                p2 = points[1];
-            } else if (closestIdx === points.length - 1) {
-                p1 = points[points.length - 2];
-                p2 = points[points.length - 1];
-            } else {
-                // Use the surrounding points
-                p1 = points[closestIdx - 1];
-                p2 = points[closestIdx + 1];
-            }
-            
-            // Calculate angle in degrees
-            const dx = p2.x - p1.x;
-            const dy = p2.y - p1.y;
-            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-            
-            return angle;
-        }
-
-        
-
-        // ---------- High-resolution PNG export (1200 DPI default) ----------
-        function parseSvgLengthToPx(lenStr) {
-            if (!lenStr) return null;
-            const s = String(lenStr).trim();
-            const m = s.match(/^([+-]?\d*\.?\d+)([a-z%]*)$/i);
-            if (!m) return null;
-            const value = parseFloat(m[1]);
-            const unit = (m[2] || '').toLowerCase();
-            if (!isFinite(value)) return null;
-
-            // CSS px baseline is 96 DPI.
-            switch (unit) {
-                case '':
-                case 'px': return value;
-                case 'pt': return value * (CSS_DPI / 72);
-                case 'pc': return value * (CSS_DPI / 6);
-                case 'in': return value * CSS_DPI;
-                case 'cm': return value * (CSS_DPI / 2.54);
-                case 'mm': return value * (CSS_DPI / 25.4);
-                default: return value; // fallback
-            }
-        }
-
-        function getSvgSizePx(svg) {
-            const wAttr = svg.getAttribute('width');
-            const hAttr = svg.getAttribute('height');
-            const w = parseSvgLengthToPx(wAttr);
-            const h = parseSvgLengthToPx(hAttr);
-            if (w && h) return { width: w, height: h };
-
-            const vb = svg.getAttribute('viewBox');
-            if (vb) {
-                const parts = vb.trim().split(/\s+/).map(Number);
-                if (parts.length === 4 && parts.every(n => isFinite(n))) {
-                    return { width: Math.abs(parts[2]), height: Math.abs(parts[3]) };
-                }
-            }
-
-            const rect = svg.getBoundingClientRect?.();
-            if (rect && rect.width && rect.height) return { width: rect.width, height: rect.height };
-            return { width: 1200, height: 800 };
-        }
-
-        function crc32(buf) {
-            let crc = 0xFFFFFFFF;
-            for (let i = 0; i < buf.length; i++) {
-                crc ^= buf[i];
-                for (let k = 0; k < 8; k++) {
-                    const mask = -(crc & 1);
-                    crc = (crc >>> 1) ^ (0xEDB88320 & mask);
-                }
-            }
-            return (crc ^ 0xFFFFFFFF) >>> 0;
-        }
-
-        function makePngChunk(type, data) {
-            const t = new TextEncoder().encode(type);
-            const len = data.length;
-            const chunk = new Uint8Array(8 + len + 4);
-            chunk[0] = (len >>> 24) & 255;
-            chunk[1] = (len >>> 16) & 255;
-            chunk[2] = (len >>> 8) & 255;
-            chunk[3] = (len) & 255;
-            chunk.set(t, 4);
-            chunk.set(data, 8);
-
-            const crcBuf = new Uint8Array(t.length + data.length);
-            crcBuf.set(t, 0);
-            crcBuf.set(data, t.length);
-            const crc = crc32(crcBuf);
-
-            const o = 8 + len;
-            chunk[o + 0] = (crc >>> 24) & 255;
-            chunk[o + 1] = (crc >>> 16) & 255;
-            chunk[o + 2] = (crc >>> 8) & 255;
-            chunk[o + 3] = (crc) & 255;
-            return chunk;
-        }
-
-        async function setPngDpi(blob, dpi) {
-            try {
-                const ab = await blob.arrayBuffer();
-                const bytes = new Uint8Array(ab);
-                const sig = [137, 80, 78, 71, 13, 10, 26, 10];
-                for (let i = 0; i < sig.length; i++) if (bytes[i] !== sig[i]) return blob;
-
-                const ppm = Math.max(1, Math.round(dpi / 0.0254));
-                const data = new Uint8Array(9);
-                data[0] = (ppm >>> 24) & 255;
-                data[1] = (ppm >>> 16) & 255;
-                data[2] = (ppm >>> 8) & 255;
-                data[3] = (ppm) & 255;
-                data[4] = data[0];
-                data[5] = data[1];
-                data[6] = data[2];
-                data[7] = data[3];
-                data[8] = 1;
-
-                const pHYs = makePngChunk('pHYs', data);
-
-                const out = [];
-                out.push(bytes.slice(0, 8));
-
-                let offset = 8;
-                let inserted = false;
-
-                while (offset + 8 <= bytes.length) {
-                    const len = (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
-                    const type = String.fromCharCode(bytes[offset + 4], bytes[offset + 5], bytes[offset + 6], bytes[offset + 7]);
-                    const chunkTotal = 8 + len + 4;
-                    const chunkBytes = bytes.slice(offset, offset + chunkTotal);
-
-                    out.push(chunkBytes);
-
-                    if (!inserted && type === 'IHDR') {
-                        out.push(pHYs);
-                        inserted = true;
-                    }
-                    offset += chunkTotal;
-                    if (type === 'IEND') break;
-                }
-
-                const mergedLen = out.reduce((a, b) => a + b.length, 0);
-                const merged = new Uint8Array(mergedLen);
-                let p = 0;
-                for (const part of out) { merged.set(part, p); p += part.length; }
-
-                return new Blob([merged], { type: 'image/png' });
-            } catch (_) {
-                return blob;
-            }
-        }
-
-        function loadImageFromUrl(url) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.decoding = 'async';
-                img.onload = () => resolve(img);
-                img.onerror = reject;
-                img.src = url;
-            });
-        }
-
-        async function exportSvgToPng(svg, { dpi = DEFAULT_EXPORT_DPI, background = null } = {}) {
-            const size = getSvgSizePx(svg);
-            const baseW = Math.max(1, size.width);
-            const baseH = Math.max(1, size.height);
-
-            let scale = dpi / CSS_DPI;
-            let outW = Math.round(baseW * scale);
-            let outH = Math.round(baseH * scale);
-
-            const basePixels = baseW * baseH;
-            const desiredPixels = outW * outH;
-
-            let actualDpi = dpi;
-            if (desiredPixels > MAX_EXPORT_PIXELS) {
-                const safeScale = Math.sqrt(MAX_EXPORT_PIXELS / basePixels);
-                scale = Math.max(1, safeScale);
-                outW = Math.round(baseW * scale);
-                outH = Math.round(baseH * scale);
-                actualDpi = Math.round(scale * CSS_DPI);
-            }
-
-            const svgText = new XMLSerializer().serializeToString(svg);
-            const svgBlob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
-            const url = URL.createObjectURL(svgBlob);
-
-            try {
-                const img = await loadImageFromUrl(url);
-                const canvas = document.createElement('canvas');
-                canvas.width = outW;
-                canvas.height = outH;
-                const ctx = canvas.getContext('2d', { alpha: true });
-                if (!ctx) throw new Error('Canvas not available');
-
-                if (background) {
-                    ctx.fillStyle = background;
-                    ctx.fillRect(0, 0, outW, outH);
-                } else {
-                    ctx.clearRect(0, 0, outW, outH);
-                }
-
-                ctx.imageSmoothingEnabled = true;
-                ctx.setTransform(scale, 0, 0, scale, 0, 0);
-                ctx.drawImage(img, 0, 0);
-
-                const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
-                if (!blob) throw new Error('PNG generation failed');
-
-                const dpiBlob = await setPngDpi(blob, actualDpi);
-                return { blob: dpiBlob, dpi: actualDpi, width: outW, height: outH };
-            } finally {
-                URL.revokeObjectURL(url);
-            }
-        }
-
-function parseEdgeTitle(title) {
-            const raw = (title || '').trim();
-            const m1 = raw.match(/^(.+?)->(.+?)$/);
-            if (m1) return { src: m1[1].trim(), dst: m1[2].trim(), directed: true };
-            const m2 = raw.match(/^(.+?)--(.+?)$/);
-            if (m2) return { src: m2[1].trim(), dst: m2[2].trim(), directed: false };
-            return null;
-        }
-
-        function getNodeIdFromG(g) {
-            const t = g.querySelector('title')?.textContent?.trim();
-            return t || null;
-        }
-
-        function getNodeLabelFromG(g) {
-            const texts = Array.from(g.querySelectorAll('text')).map(t => (t.textContent || '').trim()).filter(Boolean);
-            return texts.join(' ');
-        }
-
-        function getNodeMetaFromG(g) {
-            const id = getNodeIdFromG(g) || g.getAttribute('id') || '';
-            const label = getNodeLabelFromG(g) || id;
-            const a = g.closest('a');
-            const tooltip = a?.getAttribute('xlink:title') || a?.getAttribute('title') || null;
-            return { id, label, tooltip };
-        }
-
-        // ========== FULLSCREEN MANAGER (ROBUST CLOSE) ==========
-        const FullscreenManager = (() => {
-            const overlay = document.getElementById('fullscreen-overlay');
-            const wrapper = document.getElementById('fullscreen-wrapper');
-            const titleEl = document.getElementById('fullscreen-title');
-            const viewport = document.getElementById('fullscreen-viewport');
-            const zoomLevel = document.getElementById('fs-zoom-level');
-            const closeBtn = document.getElementById('fullscreen-close');
-            const zoomInBtn = document.getElementById('fs-zoom-in');
-            const zoomOutBtn = document.getElementById('fs-zoom-out');
-            const fsViewToggle = document.getElementById('fullscreen-view-toggle');
-
-            let fsScale = 1, fsTx = 0, fsTy = 0, fsDrag = false, fsSx = 0, fsSy = 0;
-            let currentSvg = null;
-            let onNodeClick = null;
-            let currentDiagramId = null;
-
-            const update = () => {
-                wrapper.style.transform = `translate(${fsTx}px, ${fsTy}px) scale(${fsScale})`;
-                zoomLevel.textContent = `${Math.round(fsScale * 100)}%`;
-            };
-
-            const fit = () => {
-                if (!currentSvg) return;
-                const sr = currentSvg.getBoundingClientRect();
-                const vr = viewport.getBoundingClientRect();
-                if (!sr.width || !sr.height) return;
-                fsScale = Math.min(vr.width / sr.width, vr.height / sr.height, 2) * 0.92;
-                fsTx = (vr.width - sr.width * fsScale) / 2;
-                fsTy = (vr.height - sr.height * fsScale) / 2;
-                update();
-            };
-
-            const close = () => {
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-                wrapper.innerHTML = '';
-                currentSvg = null;
-                onNodeClick = null;
-            };
-
-            // Bind once (fixes "close button not working" across repeated opens).
-            closeBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); close(); });
-            overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
-
-            zoomInBtn.addEventListener('click', () => { fsScale = Math.min(5, fsScale * 1.2); update(); });
-            zoomOutBtn.addEventListener('click', () => { fsScale = Math.max(0.1, fsScale / 1.2); update(); });
-
-            // Fullscreen view toggle click handlers
-            fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    if (!currentDiagramId) return;
-                    const view = btn.dataset.view;
-                    const viewKey = `${currentDiagramId}__${view}`;
-                    const dot = dotDiagrams[viewKey];
-                    if (!dot) return;
-
-                    // Update fullscreen toggle active state
-                    fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
-                        b.classList.remove('active');
-                        b.setAttribute('aria-pressed', 'false');
-                    });
-                    btn.classList.add('active');
-                    btn.setAttribute('aria-pressed', 'true');
-
-                    // Also sync the inline toggle buttons
-                    const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
-                    if (inlineContainer) {
-                        inlineContainer.querySelectorAll('.view-toggle-btn').forEach(b => {
-                            const isActive = b.dataset.view === view;
-                            b.classList.toggle('active', isActive);
-                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-                        });
-                    }
-
-                    // Re-render in both inline viewer and fullscreen
-                    const viewer = viewerRegistry[currentDiagramId];
-                    if (viewer) {
-                        viewer.dotCode = dot;
-                        viewer.nodeData = nodeData[viewKey] || {};
-                        await viewer.init();
-                        // Re-render fullscreen SVG
-                        const newSvg = viewer.diagramEl.querySelector('svg');
-                        if (newSvg) {
-                            wrapper.innerHTML = '';
-                            const clone = newSvg.cloneNode(true);
-                            wrapper.appendChild(clone);
-                            currentSvg = clone;
-                            sanitizeGraphSvg(clone);
-                            fsScale = 1; fsTx = 0; fsTy = 0;
-                            update();
-                            setTimeout(fit, 50);
-                        }
-                    }
-                });
-            });
-
-            viewport.addEventListener('wheel', (e) => {
-                if (!overlay.classList.contains('active')) return;
-                e.preventDefault();
-                const ns = Math.max(0.1, Math.min(5, fsScale * (e.deltaY > 0 ? 0.9 : 1.1)));
-                const r = viewport.getBoundingClientRect();
-                const mx = e.clientX - r.left;
-                const my = e.clientY - r.top;
-                const sd = ns - fsScale;
-                fsTx -= (mx - fsTx) * (sd / fsScale);
-                fsTy -= (my - fsTy) * (sd / fsScale);
-                fsScale = ns;
-                update();
-            }, { passive: false });
-
-            viewport.addEventListener('mousedown', (e) => {
-                if (!overlay.classList.contains('active')) return;
-                if (e.target.closest('g.node')) return;
-                fsDrag = true;
-                fsSx = e.clientX - fsTx;
-                fsSy = e.clientY - fsTy;
-            });
-
-            window.addEventListener('mousemove', (e) => {
-                if (!overlay.classList.contains('active')) return;
-                if (!fsDrag) return;
-                fsTx = e.clientX - fsSx;
-                fsTy = e.clientY - fsSy;
-                update();
-            });
-
-            window.addEventListener('mouseup', () => { fsDrag = false; });
-
-            window.addEventListener('keydown', (e) => {
-                if (!overlay.classList.contains('active')) return;
-                if (e.key === 'Escape') close();
-            });
-
-            wrapper.addEventListener('click', (e) => {
-                if (!overlay.classList.contains('active')) return;
-                const node = e.target.closest('g.node');
-                if (!node) return;
-                if (e.target.closest('a')) e.preventDefault();
-                e.stopPropagation();
-                onNodeClick?.(node, e.clientX, e.clientY);
-            }, true);
-
-            return {
-                open({ svg, title, onNodeClick: handler, diagramId }) {
-                    if (!svg) return;
-                    overlay.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                    titleEl.textContent = title || 'Graph View';
-                    currentDiagramId = diagramId || null;
-
-                    wrapper.innerHTML = '';
-                    const clone = svg.cloneNode(true);
-                    wrapper.appendChild(clone);
-                    currentSvg = clone;
-                    onNodeClick = handler || null;
-
-                    sanitizeGraphSvg(clone);
-
-                    // Show/hide fullscreen view toggle based on multi-view availability
-                    if (currentDiagramId && dotDiagrams[`${currentDiagramId}__full`]) {
-                        fsViewToggle.style.display = '';
-                        // Sync active state with inline toggle
-                        const inlineContainer = document.getElementById(`graph-${currentDiagramId}`);
-                        const activeInlineBtn = inlineContainer?.querySelector('.view-toggle-btn.active');
-                        const activeView = activeInlineBtn?.dataset?.view || 'full';
-                        fsViewToggle.querySelectorAll('.view-toggle-btn').forEach(b => {
-                            const isActive = b.dataset.view === activeView;
-                            b.classList.toggle('active', isActive);
-                            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-                        });
-                    } else {
-                        fsViewToggle.style.display = 'none';
-                    }
-
-                    fsScale = 1; fsTx = 0; fsTy = 0; fsDrag = false; fsSx = 0; fsSy = 0;
-                    update();
-                    setTimeout(fit, 50);
-                },
-                close
-            };
-        })();
-
-        // ========== GRAPH VIEWER (DOT -> SVG) ==========
-        class GraphvizGraphViewer {
-            constructor(containerId, diagramId, dotCode, data) {
-                this.container = document.getElementById(containerId);
-                this.diagramId = diagramId;
-                this.dotCode = dotCode;
-                this.nodeData = data || {};
-                this.scale = 1;
-                this.tx = 0;
-                this.ty = 0;
-                this.drag = false;
-                this.sx = 0;
-                this.sy = 0;
-
-                this.wrapper = this.container.querySelector('.graph-wrapper');
-                this.viewport = this.container.querySelector('.graph-viewport');
-                this.diagramEl = this.container.querySelector('.mermaid-diagram'); // keep existing markup class
-                this.zoomLevel = this.container.querySelector('.zoom-level');
-                this.popover = document.getElementById('global-popover');
-                this.toast = document.getElementById('global-toast');
-
-                this.nodeIndex = new Map();
-                this.edges = [];
-                this.neighbors = new Map();
-
-                this.searchState = { query: '', matches: [], idx: 0 };
-                this.injectSearchUI();
-
-                this.init();
-            }
-
-            injectSearchUI() {
-                const header = this.container.querySelector('.graph-header .graph-controls');
-                if (!header) return;
-                if (header.querySelector('.graph-search')) return;
-
-                const searchId = `graph-search-${this.containerId || Date.now()}`;
-                const input = document.createElement('input');
-                input.className = 'graph-search';
-                input.type = 'search';
-                input.id = searchId;
-                input.name = searchId;
-                input.placeholder = 'Search nodes…';
-                input.autocomplete = 'off';
-                input.spellcheck = false;
-                input.setAttribute('aria-label', 'Search graph nodes');
-
-                const clear = document.createElement('button');
-                clear.className = 'graph-btn graph-search-clear';
-                clear.type = 'button';
-                clear.title = 'Clear search';
-                clear.textContent = '✕';
-                clear.setAttribute('aria-label', 'Clear search');
-
-                header.prepend(clear);
-                header.prepend(input);
-
-                input.addEventListener('input', () => this.applySearch(input.value));
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') { e.preventDefault(); this.jumpToNextMatch(); }
-                    if (e.key === 'Escape') { input.value = ''; this.applySearch(''); input.blur(); }
-                });
-
-                clear.addEventListener('click', () => { input.value = ''; this.applySearch(''); input.focus(); });
-            }
-
-            async init() {
-                try {
-                    const svg = await renderDotToSvg(this.dotCode);
-                    this.diagramEl.innerHTML = '';
-                    this.diagramEl.appendChild(svg);
-                    sanitizeGraphSvg(svg);
-
-                    this.indexSvg(svg);
-                    this.updateLegend(svg);
-                    this.bindEvents();
-                    setTimeout(() => this.fitView(), 80);
-                } catch (e) {
-                    console.error('Viz.js render error:', e);
-                    this.diagramEl.innerHTML = `<div style="color: var(--color-error); padding: 20px;">Error rendering diagram: ${e?.message || e}</div>`;
-                }
-            }
-
-            updateLegend(svg) {
-                // Detect which node types and ontologies are present in the graph
-                const legend = this.container.querySelector('.graph-legend');
-                if (!legend) return;
-
-                // Color to legend type mapping based on fill colors from GRAPHVIZ_NODE_STYLES
-                const colorToLegend = {
-                    '#F556CB': 'bfo',
-                    '#f556cb': 'bfo',
-                    '#F6A252': 'iao',
-                    '#f6a252': 'iao',
-                    '#F5D5B1': 'obi',
-                    '#f5d5b1': 'obi',
-                    '#93AFF3': 'cob',
-                    '#93aff3': 'cob',
-                    '#46CAD3': 'pmd',
-                    '#46cad3': 'pmd',
-                    '#F43F5E': 'ro',
-                    '#f43f5e': 'ro',
-                    '#C9DBFE': 'qudt',
-                    '#c9dbfe': 'qudt',
-                    '#FDFDC8': 'cls',
-                    '#fdfdc8': 'cls',
-                    '#E6E6E6': 'ind',
-                    '#e6e6e6': 'ind',
-                    '#93D053': 'lit',
-                    '#93d053': 'lit',
-                    '#99F6E4': 'cat',
-                    '#99f6e4': 'cat',
-                    '#A5F3FC': 'shacl',
-                    '#a5f3fc': 'shacl',
-                    '#FED7AA': 'constraint',
-                    '#fed7aa': 'constraint',
-                };
-
-                const foundTypes = new Set();
-
-                // Check all nodes for their fill colors
-                svg.querySelectorAll('g.node').forEach(node => {
-                    // Check ellipse, polygon, rect for fill color
-                    const shapes = node.querySelectorAll('ellipse, polygon, rect, path');
-                    shapes.forEach(shape => {
-                        const fill = shape.getAttribute('fill');
-                        if (fill && colorToLegend[fill]) {
-                            foundTypes.add(colorToLegend[fill]);
-                        }
-                        // Also check for ellipse shape which indicates individual
-                        if (shape.tagName === 'ellipse') {
-                            foundTypes.add('ind');
-                        }
-                    });
-                });
-
-                // Check for edges (always show property legend if there are edges)
-                const edges = svg.querySelectorAll('g.edge');
-                if (edges.length > 0) {
-                    foundTypes.add('property');
-                    // Check for dashed edges (rdf:type)
-                    edges.forEach(edge => {
-                        const path = edge.querySelector('path');
-                        if (path) {
-                            const style = path.getAttribute('style') || '';
-                            const strokeDasharray = path.getAttribute('stroke-dasharray');
-                            if (style.includes('dashed') || strokeDasharray) {
-                                foundTypes.add('type');
-                            }
-                        }
-                    });
-                }
-
-                // Check for literals (note shape)
-                svg.querySelectorAll('g.node polygon').forEach(poly => {
-                    const fill = poly.getAttribute('fill');
-                    if (fill && (fill.toLowerCase() === '#93d053')) {
-                        foundTypes.add('lit');
-                    }
-                });
-
-                // Show/hide legend items based on what's found
-                legend.querySelectorAll('.legend-item[data-legend]').forEach(item => {
-                    const legendType = item.getAttribute('data-legend');
-                    if (foundTypes.has(legendType)) {
-                        item.style.display = 'inline-flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            }
-
-            indexSvg(svg) {
-                this.nodeIndex.clear();
-                this.edges = [];
-                this.neighbors.clear();
-
-                svg.querySelectorAll('g.node').forEach(g => {
-                    const id = getNodeIdFromG(g);
-                    if (!id) return;
-                    const label = getNodeLabelFromG(g) || id;
-                    this.nodeIndex.set(id, { g, label });
-                });
-
-                svg.querySelectorAll('g.edge').forEach(g => {
-                    const title = g.querySelector('title')?.textContent || '';
-                    const parsed = parseEdgeTitle(title);
-                    if (!parsed) return;
-                    this.edges.push({ g, src: parsed.src, dst: parsed.dst, directed: parsed.directed });
-
-                    if (!this.neighbors.has(parsed.src)) this.neighbors.set(parsed.src, new Set());
-                    if (!this.neighbors.has(parsed.dst)) this.neighbors.set(parsed.dst, new Set());
-                    this.neighbors.get(parsed.src).add(parsed.dst);
-                    this.neighbors.get(parsed.dst).add(parsed.src);
-                });
-            }
-
-            update() {
-                this.wrapper.style.transform = `translate(${this.tx}px, ${this.ty}px) scale(${this.scale})`;
-                this.zoomLevel.textContent = `${Math.round(this.scale * 100)}%`;
-            }
-
-            zoomIn() { this.scale = Math.min(3, this.scale * 1.2); this.hidePop(); this.update(); }
-            zoomOut() { this.scale = Math.max(0.2, this.scale / 1.2); this.hidePop(); this.update(); }
-
-            resetView() { this.clearFocus(); this.hidePop(); this.fitView(); }
-
-            fitView() {
-                const svg = this.diagramEl.querySelector('svg');
-                if (!svg) return;
-                const sr = svg.getBoundingClientRect();
-                const wr = this.viewport.getBoundingClientRect();
-                if (!sr.width || !sr.height) return;
-                this.scale = Math.min(wr.width / sr.width, wr.height / sr.height, 1) * 0.88;
-                this.tx = (wr.width - sr.width * this.scale) / 2;
-                this.ty = (wr.height - sr.height * this.scale) / 2;
-                this.clearFocus();
-                this.hidePop();
-                this.update();
-            }
-
-            showToast(msg) {
-                this.toast.textContent = msg;
-                this.toast.style.display = 'block';
-                clearTimeout(this._toastTimeout);
-                this._toastTimeout = setTimeout(() => this.toast.style.display = 'none', 1800);
-            }
-
-            async copyText(text) {
-                try { await navigator.clipboard.writeText(text); this.showToast('Copied to clipboard'); }
-                catch { this.showToast('Copy failed'); }
-            }
-
-            showPopForNode(nodeG, x, y) {
-                const meta = getNodeMetaFromG(nodeG);
-                const nodeId = meta.id;
-
-                const data = this.nodeData[nodeId];
-                const label = data?.label || meta.label || nodeId;
-                const uri = data?.uri || meta.tooltip || null;
-
-                let cat;
-                switch (data?.type) {
-                    case 'Class': cat = 'Class (TBox)'; break;
-                    case 'Literal': cat = 'Literal'; break;
-                    case 'Categorical': cat = 'Categorical Value'; break;
-                    case 'SHACL Shape': cat = 'SHACL Shape'; break;
-                    case 'Constraint': cat = 'SHACL Constraint'; break;
-                    case undefined: cat = 'Node'; break;
-                    default: cat = 'Individual (ABox)';
-                }
-
-                this.popover.innerHTML = `<div class="pop-head">
-                    <button class="close-btn" type="button">×</button>
-                    <div class="pop-title">${label}<span class="badge">${cat}</span></div>
-                    <div class="pop-uri">${uri || 'No URI available'}</div>
-                    <div class="pop-actions">
-                        <button class="chip" type="button" data-copy="label">📋 Copy Label</button>
-                        ${uri ? '<button class="chip" type="button" data-copy="uri">🔗 Copy URI</button>' : ''}
-                        <button class="chip" type="button" data-copy="id">🆔 Copy ID</button>
-                    </div>
-                </div>`;
-
-                this.popover.querySelector('.close-btn')?.addEventListener('click', () => this.popover.classList.remove('visible'));
-                this.popover.querySelector('[data-copy="label"]')?.addEventListener('click', () => this.copyText(label));
-                this.popover.querySelector('[data-copy="uri"]')?.addEventListener('click', () => uri && this.copyText(uri));
-                this.popover.querySelector('[data-copy="id"]')?.addEventListener('click', () => this.copyText(nodeId));
-
-                this.popover.classList.add('visible');
-                const pr = this.popover.getBoundingClientRect();
-                this.popover.style.left = Math.max(10, Math.min(x + 10, window.innerWidth - pr.width - 10)) + 'px';
-                this.popover.style.top = Math.max(10, Math.min(y + 10, window.innerHeight - pr.height - 10)) + 'px';
-            }
-
-            hidePop() {
-                this.popover.classList.remove('visible');
-                this.diagramEl.querySelectorAll('g.node.selected').forEach(n => n.classList.remove('selected'));
-            }
-
-            downloadSVG() {
-                const svg = this.diagramEl.querySelector('svg');
-                if (!svg) return this.showToast('SVG not ready');
-                const clone = svg.cloneNode(true);
-                sanitizeGraphSvg(clone);
-                const svgText = new XMLSerializer().serializeToString(clone);
-                const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${this.diagramId}.svg`;
-                a.click();
-                URL.revokeObjectURL(url);
-                this.showToast('Downloading SVG…');
-            }
-
-            async downloadPNG() {
-                const svg = this.diagramEl.querySelector('svg');
-                if (!svg) return this.showToast('PNG not ready');
-
-                const clone = svg.cloneNode(true);
-                sanitizeGraphSvg(clone);
-
-                // Always use transparent background for PNG export
-                const background = null;
-
-                try {
-                    const { blob, dpi } = await exportSvgToPng(clone, { dpi: DEFAULT_EXPORT_DPI, background });
-                    const pngUrl = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = pngUrl;
-                    a.download = `${this.diagramId}-${dpi}dpi.png`;
-                    a.click();
-                    setTimeout(() => URL.revokeObjectURL(pngUrl), 2000);
-
-                    if (dpi === DEFAULT_EXPORT_DPI) this.showToast(`Downloading PNG (${dpi} DPI)…`);
-                    else this.showToast(`Downloading PNG (~${dpi} DPI)…`);
-                } catch (e) {
-                    console.error('PNG export failed', e);
-                    this.showToast('PNG export failed');
-                }
-            }openFullscreen() {
-                const svg = this.diagramEl.querySelector('svg');
-                if (!svg) return this.showToast('Graph not ready');
-                const graphTitle = this.container.querySelector('.graph-title');
-                const title = graphTitle ? graphTitle.textContent : 'Graph View';
-                // Strip "diagram-" prefix so the id matches dotDiagrams keys
-                const baseId = this.diagramId.replace(/^diagram-/, '');
-
-                FullscreenManager.open({
-                    svg,
-                    title,
-                    diagramId: baseId,
-                    onNodeClick: (nodeG, x, y) => this.showPopForNode(nodeG, x, y)
-                });
-            }
-
-            applySearch(query) {
-                this.searchState.query = (query || '').trim().toLowerCase();
-                this.searchState.matches = [];
-                this.searchState.idx = 0;
-
-                const q = this.searchState.query;
-                this.diagramEl.querySelectorAll('g.node.search-match').forEach(n => n.classList.remove('search-match'));
-                if (!q) return;
-
-                for (const [id, info] of this.nodeIndex.entries()) {
-                    if (info.label.toLowerCase().includes(q) || id.toLowerCase().includes(q)) {
-                        info.g.classList.add('search-match');
-                        this.searchState.matches.push(id);
-                    }
-                }
-            }
-
-            jumpToNextMatch() {
-                const matches = this.searchState.matches;
-                if (!matches.length) return this.showToast('No matches');
-                const id = matches[this.searchState.idx % matches.length];
-                this.searchState.idx = (this.searchState.idx + 1) % matches.length;
-                const info = this.nodeIndex.get(id);
-                if (!info) return;
-                this.selectNode(info.g);
-                this.panToNode(info.g);
-            }
-
-            panToNode(nodeG) {
-                const vr = this.viewport.getBoundingClientRect();
-                const nr = nodeG.getBoundingClientRect();
-                const cx = (nr.left + nr.right) / 2;
-                const cy = (nr.top + nr.bottom) / 2;
-                const tx = vr.left + vr.width / 2;
-                const ty = vr.top + vr.height / 2;
-                this.tx += (tx - cx);
-                this.ty += (ty - cy);
-                this.update();
-            }
-
-            selectNode(nodeG) {
-                this.diagramEl.querySelectorAll('g.node.selected').forEach(n => n.classList.remove('selected'));
-                nodeG.classList.add('selected');
-            }
-
-            setFocus(nodeId) {
-                const keep = new Set([nodeId]);
-                const neigh = this.neighbors.get(nodeId);
-                if (neigh) neigh.forEach(x => keep.add(x));
-
-                this.diagramEl.querySelectorAll('g.node').forEach(g => {
-                    const id = getNodeIdFromG(g);
-                    if (!id) return;
-                    g.classList.toggle('dimmed', !keep.has(id));
-                });
-
-                this.diagramEl.querySelectorAll('g.edge').forEach(g => g.classList.add('dimmed'));
-                this.edges.forEach(e => {
-                    const hit = e.src === nodeId || e.dst === nodeId;
-                    e.g.classList.toggle('highlight-edge', hit);
-                    e.g.classList.toggle('dimmed', !hit);
-                });
-            }
-
-            clearFocus() {
-                this.diagramEl.querySelectorAll('g.node.dimmed').forEach(g => g.classList.remove('dimmed'));
-                this.diagramEl.querySelectorAll('g.edge.dimmed').forEach(g => g.classList.remove('dimmed'));
-                this.diagramEl.querySelectorAll('g.edge.highlight-edge').forEach(g => g.classList.remove('highlight-edge'));
-            }
-
-            bindEvents() {
-                this.container.querySelectorAll('.zoom-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const action = btn.dataset.action;
-                        if (action === 'zoom-in') this.zoomIn();
-                        if (action === 'zoom-out') this.zoomOut();
-                    });
-                });
-
-                this.container.querySelectorAll('.graph-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const action = btn.dataset.action;
-                        if (action === 'fit') this.fitView();
-                        if (action === 'reset') this.resetView();
-                        if (action === 'svg') this.downloadSVG();
-                        if (action === 'png') this.downloadPNG();
-                        if (action === 'fullscreen') this.openFullscreen();
-                    });
-                });
-
-                this.viewport.addEventListener('wheel', (e) => {
-                    e.preventDefault();
-                    const ns = Math.max(0.2, Math.min(3, this.scale * (e.deltaY > 0 ? 0.9 : 1.1)));
-                    const r = this.viewport.getBoundingClientRect();
-                    const mx = e.clientX - r.left;
-                    const my = e.clientY - r.top;
-                    const sd = ns - this.scale;
-                    this.tx -= (mx - this.tx) * (sd / this.scale);
-                    this.ty -= (my - this.ty) * (sd / this.scale);
-                    this.scale = ns;
-                    this.hidePop();
-                    this.update();
-                }, { passive: false });
-
-                this.viewport.addEventListener('mousedown', (e) => {
-                    if (e.target.closest('g.node')) return;
-                    this.drag = true;
-                    this.sx = e.clientX - this.tx;
-                    this.sy = e.clientY - this.ty;
-                    this.hidePop();
-                });
-
-                window.addEventListener('mousemove', (e) => {
-                    if (!this.drag) return;
-                    this.tx = e.clientX - this.sx;
-                    this.ty = e.clientY - this.sy;
-                    this.update();
-                });
-
-                window.addEventListener('mouseup', () => { this.drag = false; });
-
-                this.diagramEl.addEventListener('click', (e) => {
-                    if (e.target.closest('a')) e.preventDefault();
-                    const node = e.target.closest('g.node');
-                    if (node) {
-                        const id = getNodeIdFromG(node);
-                        if (id) {
-                            this.selectNode(node);
-                            this.setFocus(id);
-                            this.showPopForNode(node, e.clientX, e.clientY);
-                        }
-                        e.stopPropagation();
-                    } else {
-                        this.clearFocus();
-                        this.hidePop();
-                    }
-                }, true);
-
-                this.diagramEl.addEventListener('mouseover', (e) => {
-                    const node = e.target.closest('g.node');
-                    if (node) node.classList.add('hovered');
-                });
-
-                this.diagramEl.addEventListener('mouseout', (e) => {
-                    const node = e.target.closest('g.node');
-                    if (node) node.classList.remove('hovered');
-                });
-
-                this.diagramEl.addEventListener('dblclick', (e) => { e.preventDefault(); this.fitView(); });
-
-                this.container.addEventListener('mouseenter', () => this._active = true);
-                this.container.addEventListener('mouseleave', () => this._active = false);
-                window.addEventListener('keydown', (e) => {
-                    if (!this._active) return;
-                    if (e.key === 'f') this.fitView();
-                    if (e.key === 'r') this.resetView();
-                    if (e.key === 'Escape') { this.clearFocus(); this.hidePop(); }
-                });
-            }
-        }
-
-        // Registry of GraphvizGraphViewer instances keyed by base diagram id
-        const viewerRegistry = {};
-
-        // Create viewers sequentially to avoid Viz render conflicts
-        async function initAllDiagrams() {
-            // Determine base diagram ids (those without __ suffix)
-            // A base id has matching __full, __upper, __file variants in dotDiagrams
-            const allKeys = Object.keys(dotDiagrams);
-            const baseIds = new Set();
-            const viewKeys = new Set();
-
-            for (const key of allKeys) {
-                const sep = key.lastIndexOf('__');
-                if (sep !== -1) {
-                    const suffix = key.slice(sep + 2);
-                    if (['full', 'upper', 'file'].includes(suffix)) {
-                        baseIds.add(key.slice(0, sep));
-                        viewKeys.add(key);
-                    }
-                }
-            }
-
-            // Initialize Graphviz (DOT) diagrams — only base ids with multi-view
-            for (const baseId of baseIds) {
-                // Detect which view is active by default from the HTML toggle buttons
-                const container = document.getElementById(`graph-${baseId}`);
-                const activeBtn = container?.querySelector('.view-toggle-btn.active');
-                const defaultView = activeBtn?.dataset?.view || 'full';
-                const defaultKey = `${baseId}__${defaultView}`;
-                const dot = dotDiagrams[defaultKey] || dotDiagrams[baseId] || '';
-                const data = nodeData[defaultKey] || nodeData[baseId] || {};
-                const containerId = `graph-${baseId}`;
-                const diagramId = `diagram-${baseId}`;
-                const viewer = new GraphvizGraphViewer(containerId, diagramId, dot, data);
-                viewerRegistry[baseId] = viewer;
-                await new Promise(resolve => setTimeout(resolve, 30));
-            }
-
-            // Initialize any remaining single-view diagrams (no __ variants)
-            for (const [id, dot] of Object.entries(dotDiagrams)) {
-                if (viewKeys.has(id) || baseIds.has(id)) continue; // skip view variants and base duplicates
-                const containerId = `graph-${id}`;
-                const diagramId = `diagram-${id}`;
-                const data = nodeData[id] || {};
-                const viewer = new GraphvizGraphViewer(containerId, diagramId, dot, data);
-                viewerRegistry[id] = viewer;
-                await new Promise(resolve => setTimeout(resolve, 30));
-            }
-
-            // Bind view toggle buttons
-            document.querySelectorAll('.view-toggle-btn').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const view = btn.dataset.view;           // 'full', 'upper', or 'file'
-                    const baseId = btn.dataset.diagram;      // base diagram id
-                    const viewKey = `${baseId}__${view}`;
-                    const dot = dotDiagrams[viewKey];
-                    if (!dot) return;
-
-                    // Update active state on buttons
-                    btn.closest('.view-toggle').querySelectorAll('.view-toggle-btn').forEach(b => {
-                        b.classList.remove('active');
-                        b.setAttribute('aria-pressed', 'false');
-                    });
-                    btn.classList.add('active');
-                    btn.setAttribute('aria-pressed', 'true');
-
-                    // Re-render the diagram with the new DOT code
-                    const viewer = viewerRegistry[baseId];
-                    if (viewer) {
-                        viewer.dotCode = dot;
-                        viewer.nodeData = nodeData[viewKey] || {};
-                        await viewer.init();
-                    }
-                });
-            });
-
-            // Initialize Mermaid diagrams
-            await initMermaidDiagrams();
-        }
-
-        // ========== MERMAID DIAGRAM RENDERING ==========
-        async function initMermaidDiagrams() {
-            const mermaidEntries = Object.entries(mermaidDiagrams);
-            if (mermaidEntries.length === 0) return;
-
-            // Initialize Mermaid with theme-aware configuration
-            const isDark = document.body.classList.contains('theme-dark');
-            mermaid.initialize({
-                startOnLoad: false,
-                theme: isDark ? 'dark' : 'default',
-                securityLevel: 'loose',
-                flowchart: {
-                    useMaxWidth: true,
-                    htmlLabels: true,
-                    curve: 'basis'
-                }
-            });
-
-            for (const [id, code] of mermaidEntries) {
-                const diagramEl = document.getElementById(`diagram-${id}`);
-                if (!diagramEl) {
-                    console.warn(`Mermaid diagram element not found: diagram-${id}`);
-                    continue;
-                }
-
-                try {
-                    const { svg } = await mermaid.render(`mermaid-svg-${id}`, code);
-                    diagramEl.innerHTML = svg;
-
-                    // Set up the viewer for the rendered Mermaid SVG
-                    const container = document.getElementById(`graph-${id}`);
-                    if (container) {
-                        new MermaidGraphViewer(container, diagramEl, id);
-                    }
-                } catch (err) {
-                    console.error(`Failed to render Mermaid diagram ${id}:`, err);
-                    diagramEl.innerHTML = `<div class="diagram-error">Failed to render diagram: ${err.message}</div>`;
-                }
-            }
-        }
-
-        // ========== MERMAID GRAPH VIEWER CLASS ==========
-        class MermaidGraphViewer {
-            constructor(container, diagramEl, diagramId) {
-                this.container = container;
-                this.diagramEl = diagramEl;
-                this.diagramId = diagramId;
-                this.viewport = container.querySelector('.graph-viewport');
-                this.wrapper = container.querySelector('.graph-wrapper');
-
-                this.scale = 1;
-                this.tx = 0;
-                this.ty = 0;
-                this.drag = false;
-                this.sx = 0;
-                this.sy = 0;
-
-                this.bindEvents();
-                setTimeout(() => this.fitView(), 100);
-            }
-
-            update() {
-                this.wrapper.style.transform = `translate(${this.tx}px, ${this.ty}px) scale(${this.scale})`;
-                const zoomLevel = this.container.querySelector('.zoom-level');
-                if (zoomLevel) zoomLevel.textContent = `${Math.round(this.scale * 100)}%`;
-            }
-
-            fitView() {
-                const svg = this.diagramEl.querySelector('svg');
-                if (!svg) return;
-
-                const vr = this.viewport.getBoundingClientRect();
-                const sr = svg.getBoundingClientRect();
-                const scaleX = (vr.width - 40) / sr.width;
-                const scaleY = (vr.height - 40) / sr.height;
-                this.scale = Math.min(scaleX, scaleY, 1.5);
-                this.tx = (vr.width - sr.width * this.scale) / 2;
-                this.ty = (vr.height - sr.height * this.scale) / 2;
-                this.update();
-            }
-
-            resetView() {
-                this.scale = 1;
-                this.tx = 0;
-                this.ty = 0;
-                this.update();
-            }
-
-            zoomIn() { this.scale = Math.min(3, this.scale * 1.2); this.update(); }
-            zoomOut() { this.scale = Math.max(0.2, this.scale / 1.2); this.update(); }
-
-            downloadSVG() {
-                const svg = this.diagramEl.querySelector('svg');
-                if (!svg) return;
-                const clone = svg.cloneNode(true);
-                clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-                const svgText = new XMLSerializer().serializeToString(clone);
-                const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${this.diagramId}.svg`;
-                a.click();
-                URL.revokeObjectURL(url);
-            }
-
-            async downloadPNG() {
-                const svg = this.diagramEl.querySelector('svg');
-                if (!svg) return;
-                const clone = svg.cloneNode(true);
-                clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-                try {
-                    const { blob, dpi } = await exportSvgToPng(clone, { dpi: 300, background: null });
-                    const pngUrl = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = pngUrl;
-                    a.download = `${this.diagramId}.png`;
-                    a.click();
-                    setTimeout(() => URL.revokeObjectURL(pngUrl), 2000);
-                } catch (e) {
-                    console.error('PNG export failed', e);
-                }
-            }
-
-            openFullscreen() {
-                const svg = this.diagramEl.querySelector('svg');
-                if (!svg) return;
-                const graphTitle = this.container.querySelector('.graph-title');
-                const title = graphTitle ? graphTitle.textContent : 'Mermaid Diagram';
-                FullscreenManager.open({ svg, title, onNodeClick: () => {} });
-            }
-
-            bindEvents() {
-                this.container.querySelectorAll('.zoom-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const action = btn.dataset.action;
-                        if (action === 'zoom-in') this.zoomIn();
-                        if (action === 'zoom-out') this.zoomOut();
-                    });
-                });
-
-                this.container.querySelectorAll('.graph-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const action = btn.dataset.action;
-                        if (action === 'fit') this.fitView();
-                        if (action === 'reset') this.resetView();
-                        if (action === 'svg') this.downloadSVG();
-                        if (action === 'png') this.downloadPNG();
-                        if (action === 'fullscreen') this.openFullscreen();
-                    });
-                });
-
-                this.viewport.addEventListener('wheel', (e) => {
-                    e.preventDefault();
-                    const ns = Math.max(0.2, Math.min(3, this.scale * (e.deltaY > 0 ? 0.9 : 1.1)));
-                    const r = this.viewport.getBoundingClientRect();
-                    const mx = e.clientX - r.left;
-                    const my = e.clientY - r.top;
-                    const sd = ns - this.scale;
-                    this.tx -= (mx - this.tx) * (sd / this.scale);
-                    this.ty -= (my - this.ty) * (sd / this.scale);
-                    this.scale = ns;
-                    this.update();
-                }, { passive: false });
-
-                this.viewport.addEventListener('mousedown', (e) => {
-                    if (e.target.closest('g.node')) return;
-                    this.drag = true;
-                    this.sx = e.clientX - this.tx;
-                    this.sy = e.clientY - this.ty;
-                });
-
-                window.addEventListener('mousemove', (e) => {
-                    if (!this.drag) return;
-                    this.tx = e.clientX - this.sx;
-                    this.ty = e.clientY - this.sy;
-                    this.update();
-                });
-
-                window.addEventListener('mouseup', () => { this.drag = false; });
-
-                this.diagramEl.addEventListener('dblclick', (e) => { e.preventDefault(); this.fitView(); });
-            }
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initAllDiagrams);
-        } else {
-            initAllDiagrams();
-        }
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') document.getElementById('global-popover')?.classList.remove('visible');
-        });
-
+    <!-- Cytoscape.js + ELK diagram engine -->
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/elkjs@0.9.3/lib/elk.bundled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-svg@0.4.0/cytoscape-svg.js"></script>
+
+<script>
+/* ============================================================================
+   Cytoscape.js + ELK diagram viewer
+   ----------------------------------------------------------------------------
+   Replaces the legacy Graphviz/viz.js engine. Renders the pattern graphs with
+   a clean layered top-to-bottom layout. Edge labels are positioned by ELK (as
+   first-class edge labels) and drawn as dedicated label nodes, so two labels
+   can never overlap, and each sits on a fully opaque white chip.
+   ============================================================================ */
+(function () {
+  "use strict";
+  var GRAPH_DIAGRAMS = __DIAGRAMS_OBJECT__;
+  var nodeData = __NODEDATA_OBJECT__;
+  window.__GRAPH_DIAGRAMS__ = GRAPH_DIAGRAMS;
+
+  if (typeof cytoscape === "undefined" || typeof ELK === "undefined") {
+    console.error("Cytoscape/ELK failed to load"); return;
+  }
+  // cytoscape-svg auto-registers itself with the global cytoscape when its
+  // script loads (cytoscape is loaded first), so no explicit cytoscape.use()
+  // is needed — calling it again would log a "svg already exists" warning.
+  // Register manually only as a fallback if the export method is missing.
+  (function () {
+    try {
+      var t = cytoscape({ headless: true });
+      var hasSvg = (typeof t.svg === "function");
+      t.destroy();
+      if (!hasSvg && window.cytoscapeSvg) cytoscape.use(window.cytoscapeSvg);
+    } catch (e) {}
+  })();
+
+  var NODE_FONT = '600 10px "Hanken Grotesk", system-ui, sans-serif';
+  var EDGE_FONT = '500 9px "Hanken Grotesk", system-ui, sans-serif';
+  var _ctx = document.createElement("canvas").getContext("2d");
+  function measure(t, font) { _ctx.font = font; return _ctx.measureText(t || "").width; }
+
+  function nodeSize(n) {
+    if (n.kind === "Blank") return { w: 16, h: 16 };
+    var tw = measure(n.label, NODE_FONT), maxW = 190;
+    if (tw + 22 <= maxW) return { w: Math.max(54, Math.round(tw + 22)), h: 30 };
+    var lines = Math.min(3, Math.ceil(tw / (maxW - 24)));
+    return { w: maxW, h: 22 + lines * 13 };
+  }
+  function labelSize(t) { return { w: Math.round(measure(t, EDGE_FONT)) + 12, h: 17 }; }
+
+  var LEGEND_KEY = { pmdco: "pmd" };
+
+  var STYLE = [
+    { selector: "node", style: {
+        "shape": "data(shape)", "background-color": "data(fill)", "background-opacity": 1,
+        "border-color": "data(stroke)", "border-width": 1.25,
+        "label": "data(label)", "color": "data(fontcolor)",
+        "font-family": "Hanken Grotesk, sans-serif", "font-size": 10, "font-weight": 600,
+        "text-valign": "center", "text-halign": "center", "text-wrap": "wrap",
+        "text-max-width": "data(w)", "width": "data(w)", "height": "data(h)",
+        "transition-property": "border-width border-color background-color", "transition-duration": "120ms" } },
+    { selector: 'node[kind = "Blank"]', style: { "width": 16, "height": 16, "label": "" } },
+    /* Edge labels ride the edge itself (so they follow nodes when dragged),
+       drawn on a fully opaque white chip for clarity. */
+    { selector: "edge", style: {
+        "curve-style": "taxi", "taxi-direction": "vertical", "taxi-turn": "50%", "taxi-turn-min-distance": "6px",
+        "width": 1, "line-color": "#aab6c4",
+        "target-arrow-color": "#aab6c4", "target-arrow-shape": "triangle", "arrow-scale": 0.6,
+        "label": "data(dlabel)", "font-family": "Hanken Grotesk, sans-serif", "font-size": 8.5, "font-weight": 500,
+        "color": "#475569", "text-rotation": "none",
+        "text-background-color": "#ffffff", "text-background-opacity": 1, "text-background-shape": "roundrectangle",
+        "text-background-padding": 2.5, "text-border-width": 1, "text-border-color": "#e6ebf1", "text-border-opacity": 1,
+        "text-events": "no", "z-index": 1 } },
+    /* Structural edges sit underneath; labeled object-property edges sit on top
+       so a crossing structural line never paints over a white label chip. */
+    { selector: "edge.type", style: { "line-style": "dashed", "line-color": "#c2ccd8", "target-arrow-color": "#c2ccd8", "color": "#64748b", "font-style": "italic", "z-index": 1 } },
+    { selector: "edge.subclass", style: { "line-color": "#8aa0b4", "target-arrow-color": "#8aa0b4", "z-index": 1 } },
+    { selector: "edge.prop", style: { "z-index": 12 } },
+    /* Parallel / bidirectional edges bow apart so neither the lines nor their
+       labels overlap (each curve gets its own midpoint). */
+    { selector: "edge.multi", style: { "curve-style": "bezier", "control-point-step-size": 48, "text-margin-y": -2 } },
+    { selector: ".dim", style: { "opacity": 0.10, "transition-property": "opacity", "transition-duration": "140ms" } },
+    { selector: "node.hl", style: { "border-width": 3, "border-color": "#00a0e3" } },
+    { selector: "edge.hl", style: { "line-color": "#00a0e3", "target-arrow-color": "#00a0e3", "width": 2, "color": "#0077b3", "label": "data(label)", "z-index": 60 } },
+    { selector: "node:selected", style: { "border-width": 3, "border-color": "#00a0e3" } }
+  ];
+
+  function getPop() {
+    var p = document.getElementById("cy-pop");
+    if (!p) { p = document.createElement("div"); p.id = "cy-pop"; p.className = "cy-pop"; document.body.appendChild(p); }
+    return p;
+  }
+  function hidePop() { var p = document.getElementById("cy-pop"); if (p) p.classList.remove("visible"); }
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") hidePop(); });
+
+  function CytoViewer(container) {
+    this.container = container;
+    this.base = (container.id || "").replace(/^graph-/, "");
+    this.host = container.querySelector(".mermaid-diagram");
+    this.zoomLabel = container.querySelector(".zoom-level");
+    this.cy = null;
+    var active = container.querySelector(".view-toggle-btn.active");
+    this.view = (active && active.dataset.view) || "full";
+    this.bindControls();
+    this.render(this.view);
+  }
+
+  CytoViewer.prototype.data = function (view) {
+    return GRAPH_DIAGRAMS[this.base + "__" + view] || GRAPH_DIAGRAMS[this.base] || { nodes: [], edges: [] };
+  };
+
+  CytoViewer.prototype.render = function (view) {
+    var self = this;
+    this.view = view;
+    var d = this.data(view), nodes = d.nodes || [], edges = d.edges || [];
+    if (!nodes.length) { if (this.cy) { this.cy.destroy(); this.cy = null; } return; }
+
+    var sized = {};
+    nodes.forEach(function (n) { sized[n.id] = nodeSize(n); });
+
+    var elkGraph = {
+      id: "root",
+      layoutOptions: {
+        "elk.algorithm": "layered",
+        "elk.direction": "UP",
+        "elk.edgeRouting": "ORTHOGONAL",
+        "elk.layered.nodePlacement.strategy": "BRANDES_KOEPF",
+        "elk.layered.nodePlacement.favorStraightEdges": "true",
+        "elk.layered.spacing.nodeNodeBetweenLayers": "52",
+        "elk.spacing.nodeNode": "28",
+        "elk.spacing.edgeNode": "18",
+        "elk.spacing.edgeLabel": "6",
+        "elk.layered.spacing.edgeEdgeBetweenLayers": "10",
+        "elk.layered.considerModelOrder.strategy": "NODES_AND_EDGES",
+        "elk.layered.crossingMinimization.semiInteractive": "true"
+      },
+      children: nodes.map(function (n) { return { id: n.id, width: sized[n.id].w, height: sized[n.id].h }; }),
+      edges: edges.map(function (e) {
+        // Only object-property labels are shown by default, so only those need
+        // ELK to reserve space — that keeps the visible labels non-overlapping
+        // while structural (subClassOf / type) edges stay compact.
+        var labels = [];
+        if (e.kind === "prop" && e.label) { var s = labelSize(e.label); labels = [{ id: e.id + "__l", text: e.label, width: s.w, height: s.h }]; }
+        return { id: e.id, sources: [e.source], targets: [e.target], labels: labels };
+      })
+    };
+
+    new ELK().layout(elkGraph).then(function (res) {
+      var posById = {};
+      (res.children || []).forEach(function (c) { posById[c.id] = c; });
+      var els = [];
+      nodes.forEach(function (n) {
+        var c = posById[n.id]; if (!c) return;
+        var sz = sized[n.id];
+        els.push({ group: "nodes",
+          data: { id: n.id, label: (n.kind === "Blank" ? "" : n.label), kind: n.kind, shape: n.shape,
+                  fill: (n.kind === "Blank" ? "#ffffff" : n.fill), stroke: n.stroke,
+                  fontcolor: n.fontcolor, w: sz.w, h: sz.h, uri: n.uri || "" },
+          position: { x: (c.x || 0) + sz.w / 2, y: (c.y || 0) + sz.h / 2 } });
+      });
+      // Edges carry their label natively so it stays glued to the edge and
+      // moves with the nodes when dragged. ELK was still given the label
+      // dimensions above, so it reserved space and kept edges spread apart.
+      // Count how many edges connect each unordered node pair, so parallel /
+      // bidirectional edges (e.g. realizes <-> has_realization) can be curved
+      // apart instead of stacking on the same line with overlapping labels.
+      var pairCount = {};
+      edges.forEach(function (e) {
+        var k = (e.source < e.target) ? (e.source + "|" + e.target) : (e.target + "|" + e.source);
+        pairCount[k] = (pairCount[k] || 0) + 1;
+      });
+      edges.forEach(function (e) {
+        // dlabel = the always-on label (object properties only); the full
+        // predicate stays in `label` and is revealed on hover.
+        var dlabel = (e.kind === "prop") ? (e.label || "") : "";
+        var k = (e.source < e.target) ? (e.source + "|" + e.target) : (e.target + "|" + e.source);
+        var cls = e.kind + (pairCount[k] > 1 ? " multi" : "");
+        els.push({ group: "edges", classes: cls,
+          data: { id: e.id, source: e.source, target: e.target, kind: e.kind, label: e.label || "", dlabel: dlabel } });
+      });
+
+      if (self.cy) { self.cy.destroy(); self.cy = null; }
+      self.cy = cytoscape({
+        container: self.host, elements: els, layout: { name: "preset" },
+        boxSelectionEnabled: false, autounselectify: false,
+        minZoom: 0.08, maxZoom: 4, style: STYLE
+      });
+      self.cy.on("zoom", function () { self.updateZoom(); });
+      self.bindCy();
+      self.cy.ready(function () { self.fit(); self.updateZoom(); });
+      self.updateLegend(nodes, edges);
+    }).catch(function (err) { console.error("ELK layout failed", err); });
+  };
+
+  CytoViewer.prototype.fit = function () { if (this.cy) this.cy.animate({ fit: { padding: 30 } }, { duration: 220 }); };
+  CytoViewer.prototype.reset = function () { this.render(this.view); };  // re-run ELK layout (undo manual drags)
+  CytoViewer.prototype.updateZoom = function () {
+    if (this.cy && this.zoomLabel) this.zoomLabel.textContent = Math.round(this.cy.zoom() * 100) + "%";
+  };
+  CytoViewer.prototype.zoomBy = function (f) {
+    if (!this.cy) return;
+    var c = { x: this.host.clientWidth / 2, y: this.host.clientHeight / 2 };
+    this.cy.zoom({ level: this.cy.zoom() * f, renderedPosition: c });
+  };
+  CytoViewer.prototype.toggleFullscreen = function () {
+    var el = this.container;
+    if (!document.fullscreenElement) { (el.requestFullscreen || el.webkitRequestFullscreen).call(el); }
+    else { (document.exitFullscreen || document.webkitExitFullscreen).call(document); }
+  };
+  CytoViewer.prototype.downloadPNG = function () {
+    if (!this.cy) return;
+    var data = this.cy.png({ full: true, scale: 2, bg: "#ffffff" });
+    var a = document.createElement("a"); a.href = data; a.download = this.base + ".png"; a.click();
+  };
+  CytoViewer.prototype.downloadSVG = function () {
+    if (!this.cy || typeof this.cy.svg !== "function") { this.downloadPNG(); return; }
+    var svg = this.cy.svg({ full: true, bg: "#ffffff" });
+    var blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a"); a.href = url; a.download = this.base + ".svg"; a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  CytoViewer.prototype.bindCy = function () {
+    var self = this, cy = this.cy;
+    // Hover: spotlight a node, its neighbours and connecting edges/labels.
+    cy.on("mouseover", "node", function (e) {
+      var n = e.target;
+      var keep = n.closedNeighborhood();
+      cy.elements().difference(keep).addClass("dim");
+      n.addClass("hl"); n.connectedEdges().addClass("hl");
+    });
+    cy.on("mouseout", "node", function () { cy.elements().removeClass("dim hl"); });
+    // Edge hover: emphasise just that relationship.
+    cy.on("mouseover", "edge", function (e) { e.target.addClass("hl"); });
+    cy.on("mouseout", "edge", function (e) { e.target.removeClass("hl"); });
+    // Double-tap a node to smoothly focus it.
+    cy.on("dbltap", "node", function (e) {
+      cy.animate({ center: { eles: e.target }, zoom: Math.min(2.2, cy.zoom() * 1.7) }, { duration: 280 });
+    });
+    cy.on("tap", "node", function (e) {
+      var n = e.target;
+      var d = nodeData[n.id()] || {};
+      var label = d.label || n.data("label") || n.id();
+      var kind = d.type || n.data("kind") || "Node";
+      var uri = d.uri || n.data("uri") || "";
+      var pop = getPop();
+      var html = '<div class="cy-pop-h">' + escapeHtml(label) + '<span class="cy-pop-badge">' + escapeHtml(kind) + '</span></div>';
+      if (uri) html += '<div class="cy-pop-uri">' + escapeHtml(uri) + '</div>' +
+        '<a class="cy-pop-link" href="' + encodeURI(uri) + '" target="_blank" rel="noopener">Open IRI &#8599;</a>';
+      pop.innerHTML = html;
+      var rp = e.renderedPosition || n.renderedPosition();
+      var box = self.host.getBoundingClientRect();
+      pop.style.left = Math.min(box.left + rp.x + 12, window.innerWidth - 280) + "px";
+      pop.style.top = (box.top + rp.y + 12) + "px";
+      pop.classList.add("visible");
+    });
+    cy.on("tap", function (e) { if (e.target === cy) hidePop(); });
+  };
+
+  CytoViewer.prototype.bindControls = function () {
+    var self = this, c = this.container;
+    c.querySelectorAll(".view-toggle-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        c.querySelectorAll(".view-toggle-btn").forEach(function (b) { b.classList.remove("active"); b.setAttribute("aria-pressed", "false"); });
+        btn.classList.add("active"); btn.setAttribute("aria-pressed", "true");
+        self.render(btn.dataset.view);
+      });
+    });
+    c.querySelectorAll(".graph-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var a = btn.dataset.action;
+        if (a === "fit") self.fit();
+        else if (a === "reset") self.reset();
+        else if (a === "fullscreen") self.toggleFullscreen();
+        else if (a === "png") self.downloadPNG();
+        else if (a === "svg") self.downloadSVG();
+      });
+    });
+    c.querySelectorAll(".zoom-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var a = btn.dataset.action;
+        if (a === "zoom-in") self.zoomBy(1.2);
+        else if (a === "zoom-out") self.zoomBy(1 / 1.2);
+      });
+    });
+    document.addEventListener("fullscreenchange", function () {
+      if (self.cy) { setTimeout(function () { self.cy.resize(); self.fit(); }, 60); }
+    });
+  };
+
+  CytoViewer.prototype.updateLegend = function (nodes, edges) {
+    var buckets = {}, ekinds = {};
+    nodes.forEach(function (n) { var k = LEGEND_KEY[n.bucket] || n.bucket; if (k) buckets[k] = 1; });
+    edges.forEach(function (e) { ekinds[e.kind] = 1; });
+    this.container.querySelectorAll(".legend-item[data-legend]").forEach(function (it) {
+      var k = it.dataset.legend, show;
+      if (k === "property") show = !!ekinds.prop;
+      else if (k === "type") show = !!ekinds.type;
+      else if (k === "subclass") show = !!ekinds.subclass;
+      else show = !!buckets[k];
+      it.style.display = show ? "" : "none";
+    });
+  };
+
+  function escapeHtml(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
+
+  function initAll() {
+    document.querySelectorAll(".mermaid-graph-container").forEach(function (c) {
+      try { new CytoViewer(c); } catch (e) { console.error("Viewer init failed", e); }
+    });
+  }
+  function start() { (document.fonts ? document.fonts.ready : Promise.resolve()).then(initAll); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+})();
     </script>
 
     <script>
@@ -7226,6 +6306,42 @@ function parseEdgeTitle(title) {
 
         // Initialize OntologyTreeManager
         new OntologyTreeManager();
+
+        /* ===== Premium microinteractions (lightweight, progressive) ===== */
+        (function () {
+            var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // Header elevates as soon as the page scrolls
+            var header = document.querySelector('.header');
+            if (header) {
+                var onScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 8); };
+                onScroll();
+                window.addEventListener('scroll', onScroll, { passive: true });
+            }
+
+            // Reveal reading blocks as they enter the viewport.
+            // Only off-screen text blocks are touched, so nothing is ever
+            // permanently hidden and the diagram viewers are left alone.
+            if (!reduce && 'IntersectionObserver' in window) {
+                var article = document.querySelector('.content, .article-content');
+                if (article) {
+                    var blocks = article.querySelectorAll(
+                        ':scope > h2, :scope > h3, :scope > p, :scope > ul:not(.ontology-tree), :scope > ol, :scope > table, :scope > blockquote, :scope > pre'
+                    );
+                    var io = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (en) {
+                            if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+                        });
+                    }, { rootMargin: '0px 0px -7% 0px', threshold: 0.06 });
+                    blocks.forEach(function (el) {
+                        var r = el.getBoundingClientRect();
+                        if (r.top < window.innerHeight * 0.92) return; // already visible at load
+                        el.classList.add('reveal');
+                        io.observe(el);
+                    });
+                }
+            }
+        })();
     </script>
 </body>
 
@@ -7244,9 +6360,14 @@ function parseEdgeTitle(title) {
 #   <!--@Graphviz_renderer_full:URL-->         → (legacy) same as default
 #   <!--@Graphviz_renderer_only_upper:URL-->   → (legacy) same as default
 #   <!--@Graphviz_renderer_only_file:URL-->    → (legacy) same as default
+#   <!--@Graphviz_renderer_with_BNode:URL-->   → same 3 views, but blank nodes
+#                                                are shown as small empty circles
 # Note: All variants now generate all three views with an interactive toggle.
+# The value may be a remote URL, a local file path (e.g. ../patterns/foo/shape-data.ttl),
+# or a pattern folder name. Spaces are allowed (the value is stripped downstream), so
+# local paths do not need %20 escaping.
 GRAPHVIZ_TAG_RE = re.compile(
-    r"<!--\s*@Graphviz_renderer(?:_(full|only_upper|upper|only_file|file))?\s*:\s*([^\s>]+)\s*-->",
+    r"<!--\s*@Graphviz_renderer(?:_(full|only_upper|upper|only_file|file|with_bnode))?\s*:\s*([^>]+?)\s*-->",
     re.IGNORECASE,
 )
 
@@ -7580,13 +6701,12 @@ def make_graph_container(diagram_id: str, title: str, default_view: str = "full"
   <div class="graph-header">
     <div class="graph-title">{title}</div>
     <div class="graph-controls" role="toolbar" aria-label="Graph controls">
-      <div class="view-toggle" role="radiogroup" aria-label="Hierarchy view">
-        <button class="view-toggle-btn{cls_full}" data-view="full" data-diagram="{diagram_id}" aria-pressed="{pr_full}" title="Full class hierarchy">Full</button>
-        <button class="view-toggle-btn{cls_upper}" data-view="upper" data-diagram="{diagram_id}" aria-pressed="{pr_upper}" title="One superclass level above">Upper</button>
-        <button class="view-toggle-btn{cls_file}" data-view="file" data-diagram="{diagram_id}" aria-pressed="{pr_file}" title="File content only, no hierarchy">File</button>
+      <div class="view-toggle" role="radiogroup" aria-label="Hierarchy depth">
+        <button class="view-toggle-btn{cls_full}" data-view="full" data-diagram="{diagram_id}" aria-pressed="{pr_full}" title="Full class hierarchy up to the BFO root">Full Hierarchy</button>
+        <button class="view-toggle-btn{cls_upper}" data-view="upper" data-diagram="{diagram_id}" aria-pressed="{pr_upper}" title="Each class with its direct superclasses only">Direct Parents</button>
+        <button class="view-toggle-btn{cls_file}" data-view="file" data-diagram="{diagram_id}" aria-pressed="{pr_file}" title="Only what is defined in this pattern (no hierarchy)">Pattern Only</button>
       </div>
       <button class="graph-btn" data-action="fit" aria-label="Fit to view">⊡ Fit</button>
-      <button class="graph-btn" data-action="reset" aria-label="Reset view">⊙ Reset</button>
       <button class="graph-btn" data-action="fullscreen" aria-label="View fullscreen">⛶ Fullscreen</button>
       <button class="graph-btn" data-action="svg" aria-label="Download as SVG">⬇ SVG</button>
       <button class="graph-btn" data-action="png" aria-label="Download as PNG">⬇ PNG</button>
@@ -7618,7 +6738,9 @@ def make_graph_container(diagram_id: str, title: str, default_view: str = "full"
     <span class="legend-item" data-legend="constraint" style="display:none;"><span class="legend-swatch shape-square swatch-constraint"></span>Constraint</span>
     <span class="legend-item" data-legend="lit" style="display:none;"><span class="legend-swatch shape-note swatch-literal"></span>Literal</span>
     <span class="legend-item" data-legend="property" style="display:none;"><span class="legend-swatch swatch-property"></span>Object Property</span>
+    <span class="legend-item" data-legend="subclass" style="display:none;"><span class="legend-swatch" style="height:2px;width:14px;border-radius:2px;background:#8aa0b4;"></span>rdfs:subClassOf</span>
     <span class="legend-item" data-legend="type" style="display:none;"><span class="legend-swatch swatch-type"></span>rdf:type (dashed)</span>
+    <span class="legend-hint" style="margin-left:auto;opacity:.7;font-style:italic;">hover an edge to see its label</span>
   </div>
 </div>
 """
@@ -7641,6 +6763,7 @@ class DiagramRef:
     rel_path: str
     title: str
     hierarchy_mode: str = HIERARCHY_FULL
+    show_bnodes: bool = False  # @Graphviz_renderer_with_BNode → draw blank nodes as empty circles
 
 
 def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[DiagramRef]:
@@ -7656,6 +6779,8 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
         <!--@Graphviz_renderer_full:URL-->          all 3 views, default: full
         <!--@Graphviz_renderer_only_upper:URL-->    all 3 views, default: upper
         <!--@Graphviz_renderer_only_file:URL-->     all 3 views, default: file
+        <!--@Graphviz_renderer_with_BNode:URL-->    all 3 views, default: full,
+                                                    blank nodes drawn as empty circles
 
     Returns a list of :class:`DiagramRef` in document order.
     """
@@ -7666,10 +6791,20 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
         "upper": HIERARCHY_ONLY_UPPER,
         "only_file": HIERARCHY_ONLY_FILE,
         "file": HIERARCHY_ONLY_FILE,
+        # with_bnode is orthogonal to hierarchy — it keeps the default
+        # (full) hierarchy but enables blank-node circles (handled below).
+        "with_bnode": HIERARCHY_FULL,
     }
 
     refs: List[DiagramRef] = []
     current_title = ""
+    # Track diagram ids already assigned in this document so that multiple
+    # shape files living in the SAME pattern folder (e.g. Pattern 6's
+    # fundamental/behavioral/relational variants, or Pattern 7's measurement
+    # plus setpoint) do not collapse onto one id. A collision would emit
+    # duplicate DOM ids and overwrite the per-diagram data, so only the first
+    # diagram in the folder would render.
+    used_ids: Dict[str, int] = {}
     for line in md_text.splitlines():
         if line.lstrip().startswith("## "):
             current_title = line.lstrip()[3:].strip()
@@ -7678,37 +6813,68 @@ def parse_diagram_refs(md_text: str, slugify_fn: Callable[[str], str]) -> List[D
         if not m:
             continue
 
-        mode_suffix = m.group(1)  # None | "full" | "only_upper" | "only_file"
+        mode_suffix = m.group(1)  # None | "full" | "only_upper" | "only_file" | "with_bnode"
         raw = m.group(2).strip()
 
-        hierarchy_mode = _MODE_MAP.get(
-            mode_suffix.lower() if mode_suffix else None,
-            HIERARCHY_FULL,
-        )
+        normalized_suffix = mode_suffix.lower() if mode_suffix else None
+        hierarchy_mode = _MODE_MAP.get(normalized_suffix, HIERARCHY_FULL)
+        # The with_bnode variant additionally renders blank nodes as
+        # empty circles across all three hierarchy views.
+        show_bnodes = (normalized_suffix == "with_bnode")
 
-        # For URLs pointing to TTL files, extract the parent folder name as diagram_id
-        # Keep the original URL (with encoding) for HTTP requests
+        # For URLs/paths pointing to TTL files, extract the parent folder name
+        # as the basis of the diagram id, and also capture the file stem so we
+        # can disambiguate several shape files sharing one folder.
+        # Keep the original URL (with encoding) for HTTP requests.
+        file_stem = ""
         if raw.startswith("http://") or raw.startswith("https://"):
             parsed_path = urllib.parse.urlparse(raw).path
             decoded_path = urllib.parse.unquote(parsed_path)
             path_parts = [p for p in decoded_path.split('/') if p]
             if len(path_parts) >= 2 and path_parts[-1].endswith('.ttl'):
                 folder_name = path_parts[-2]
+                file_stem = path_parts[-1][:-len('.ttl')]
             else:
                 folder_name = path_parts[-1] if path_parts else "diagram"
             rel = raw
         else:
+            # Local reference: either a path to a shape file
+            # (e.g. ../patterns/foo/shape-data.ttl) or a pattern folder name.
+            # Keep the relative path intact (do NOT strip leading ../ or ./)
+            # so it can be resolved against the markdown file's directory.
             rel = urllib.parse.unquote(raw).strip()
-            rel = rel.lstrip("./")
-            folder_name = Path(rel).name
+            rel_obj = Path(rel)
+            if rel_obj.suffix.lower() in (".ttl", ".dot"):
+                # Path to a file - use the parent folder name as the diagram id,
+                # matching the URL behaviour above.
+                folder_name = rel_obj.parent.name or rel_obj.stem
+                file_stem = rel_obj.stem
+            else:
+                folder_name = rel_obj.name
 
-        diagram_id = slugify_fn(folder_name)
+        base_id = slugify_fn(folder_name)
+        # Derive a distinguishing suffix from the file stem by stripping the
+        # generic "shape-data"/"shape_data"/"shape" prefix. A plain
+        # "shape-data.ttl" yields no suffix, so the common single-diagram case
+        # keeps its original folder-only id (no behaviour change).
+        suffix_src = re.sub(r'(?i)^shape[-_]?data', '', file_stem).strip(' -_')
+        suffix_slug = slugify_fn(suffix_src) if suffix_src else ""
+        diagram_id = f"{base_id}-{suffix_slug}" if suffix_slug else base_id
+        # Final guard: guarantee uniqueness within the document even if two
+        # files reduce to the same id.
+        if diagram_id in used_ids:
+            used_ids[diagram_id] += 1
+            diagram_id = f"{diagram_id}-{used_ids[diagram_id]}"
+        else:
+            used_ids[diagram_id] = 1
+
         title = current_title or folder_name
         refs.append(DiagramRef(
             diagram_id=diagram_id,
             rel_path=rel,
             title=title,
             hierarchy_mode=hierarchy_mode,
+            show_bnodes=show_bnodes,
         ))
     return refs
 
@@ -7883,6 +7049,51 @@ def _find_per_pattern_js(pattern_dir: Path) -> Optional[Path]:
     return js_files[0] if js_files else None
 
 
+def _resolve_local_diagram_path(
+    rel: str,
+    base_dir: Optional[Path] = None,
+    diagrams_root: Optional[Path] = None,
+) -> Optional[Tuple[Optional[Path], Path]]:
+    """Resolve a local @Graphviz_renderer reference to ``(shape_file, pattern_dir)``.
+
+    The reference may be either:
+      * a path to a shape file (``.ttl`` / ``.dot``), e.g.
+        ``../patterns/foo/shape-data.ttl`` - resolved to that file, with its
+        parent used as the pattern directory; or
+      * a pattern directory (or a bare folder name) - the shape file is then
+        auto-discovered inside it.
+
+    Relative paths are resolved, in order, against *base_dir* (the source
+    markdown's directory), *diagrams_root* (the ``--diagrams-root`` argument,
+    kept for backward compatibility), the current working directory, and finally
+    as-given. Paths may contain spaces.
+
+    Returns ``(shape_file_or_None, pattern_dir)`` for the first existing
+    candidate, or ``None`` if nothing resolves.
+    """
+    p = Path(rel)
+    candidates: List[Path] = []
+    if p.is_absolute():
+        candidates.append(p)
+    else:
+        if base_dir is not None:
+            candidates.append(base_dir / p)
+        if diagrams_root is not None:
+            candidates.append(diagrams_root / p)
+        candidates.append(Path.cwd() / p)
+        candidates.append(p)
+
+    for c in candidates:
+        try:
+            if c.is_file():
+                return (c, c.parent)
+            if c.is_dir():
+                return (_find_shape_ttl(c), c)
+        except OSError:
+            continue
+    return None
+
+
 def _extract_from_per_pattern_js(js_text: str) -> Tuple[Optional[str], Optional[dict]]:
     """
     Extract diagram DOT (template literal) and nodeData from a *_shape_data.js file.
@@ -7980,6 +7191,7 @@ def _resolve_diagram_sources(
     converter_path: Path,
     strict: bool = True,
     write_per_pattern_js: bool = False,
+    base_dir: Optional[Path] = None,
 ) -> Tuple[Dict[str, str], Dict[str, Dict[str, Dict[str, str]]], Callable[[str], str]]:
     mod = _dynamic_import_from_path(converter_path, "ttl_to_graphviz_dyn")
     Converter = _find_converter_class(mod)
@@ -8048,7 +7260,13 @@ def _resolve_diagram_sources(
     for ref in refs:
         # Check if rel_path is a remote URL
         is_remote_url = ref.rel_path.startswith("http://") or ref.rel_path.startswith("https://")
-        
+
+        # Blank-node rendering kwargs (from @Graphviz_renderer_with_BNode).
+        # When enabled, blank nodes are included and drawn as empty circles
+        # across all three hierarchy views; otherwise leave the converter's
+        # defaults (blank nodes hidden) untouched.
+        bkw = {"include_bnodes": True, "bnode_as_circle": True} if ref.show_bnodes else {}
+
         if is_remote_url:
             # Download TTL content from remote URL
             try:
@@ -8069,10 +7287,8 @@ def _resolve_diagram_sources(
                         view_id = f"{ref.diagram_id}__{suffix}"
                         hkw = _hierarchy_kwargs(mode)
                         print(f"    Rendering view: {suffix} (hierarchy mode: {mode})")
-                        res = converter.render_graph(tmp_path, diagram_id=ref.diagram_id, **hkw)
-                        dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
-                        nd = _get_attr(res, "node_data", "nodeData")
-                        diagrams[view_id] = str(dot)
+                        elements, nd = converter.render_elements(tmp_path, diagram_id=ref.diagram_id, **hkw, **bkw)
+                        diagrams[view_id] = json.dumps(elements, ensure_ascii=False)
                         node_data_all[view_id] = dict(nd)
                     # Also store the default view under the base id (for backward compat)
                     default_suffix = {HIERARCHY_FULL: "full", HIERARCHY_ONLY_UPPER: "upper", HIERARCHY_ONLY_FILE: "file"}.get(ref.hierarchy_mode, "full")
@@ -8093,23 +7309,24 @@ def _resolve_diagram_sources(
                 print(f"    Warning: Failed to fetch {ref.rel_path}: {e}")
                 continue
         
-        # Local file handling (original behavior)
-        pattern_dir = (diagrams_root / ref.rel_path).resolve()
-        if not pattern_dir.exists():
+        # Local file handling. The reference may be a direct path to a shape
+        # file (e.g. ../patterns/foo/shape-data.ttl) or a pattern directory /
+        # folder name. Paths are resolved relative to the markdown file's
+        # directory first, then diagrams_root (backward compatibility), then cwd.
+        resolved = _resolve_local_diagram_path(ref.rel_path, base_dir, diagrams_root)
+        if resolved is None:
             if strict:
-                raise FileNotFoundError(f"Pattern directory not found: {pattern_dir} (from {ref.rel_path})")
+                raise FileNotFoundError(f"Pattern source not found: {ref.rel_path}")
             continue
 
-        ttl = _find_shape_ttl(pattern_dir)
+        ttl, pattern_dir = resolved
         if ttl and ttl.exists():
             # Render all three hierarchy views
             for mode, suffix in ALL_MODES:
                 view_id = f"{ref.diagram_id}__{suffix}"
                 hkw = _hierarchy_kwargs(mode)
-                res = converter.render_graph(ttl, diagram_id=ref.diagram_id, **hkw)  # type: ignore[attr-defined]
-                dot = _get_attr(res, "source", "dot", "graphviz", "code", "mermaid")
-                nd = _get_attr(res, "node_data", "nodeData")
-                diagrams[view_id] = str(dot)
+                elements, nd = converter.render_elements(ttl, diagram_id=ref.diagram_id, **hkw, **bkw)  # type: ignore[attr-defined]
+                diagrams[view_id] = json.dumps(elements, ensure_ascii=False)
                 node_data_all[view_id] = dict(nd)
             # Also store default view under base id
             default_suffix = {HIERARCHY_FULL: "full", HIERARCHY_ONLY_UPPER: "upper", HIERARCHY_ONLY_FILE: "file"}.get(ref.hierarchy_mode, "full")
@@ -8119,11 +7336,13 @@ def _resolve_diagram_sources(
             if write_per_pattern_js:
                 out_js = pattern_dir / f"{ref.diagram_id}_shape_data.js"
                 out_js.write_text(
-                    "// Auto-generated by build_patterns_graphviz_advanced.py. Do not edit.\n"
-                    "const dotDiagrams = {\n"
-                    f'  "{ref.diagram_id}": `{js_escape(str(dot))}`\n'
-                    "};\n\n"
-                    "const nodeData = " + json.dumps({ref.diagram_id: nd}, ensure_ascii=False, indent=2) + ";\n",
+                    "// Auto-generated. Do not edit.\n"
+                    "const graphDiagrams = { "
+                    + json.dumps(ref.diagram_id) + ": " + diagrams[ref.diagram_id]
+                    + " };\n\n"
+                    "const nodeData = "
+                    + json.dumps({ref.diagram_id: node_data_all.get(ref.diagram_id, {})}, ensure_ascii=False, indent=2)
+                    + ";\n",
                     encoding="utf-8",
                 )
             continue
@@ -8156,11 +7375,21 @@ def _resolve_diagram_sources(
 
 
 def build_dot_diagrams_object(diagrams: Dict[str, str], js_escape_fn: Callable[[str], str]) -> str:
+    """Emit the diagrams JS object literal.
+
+    Each value is a Cytoscape element graph serialized as JSON (``{"nodes":...,
+    "edges":...}``).  Legacy/fallback values that are not JSON objects (e.g. a
+    raw ``.dot`` file) degrade to an empty graph so they can never break the
+    surrounding script.  ``</`` is escaped to ``<\\/`` to keep the JSON safe to
+    embed inside an inline ``<script>``.
+    """
     lines: List[str] = []
     lines.append("{")
     for k in sorted(diagrams.keys()):
-        code = js_escape_fn(diagrams[k])
-        lines.append(f'            "{k}": `{code}`,')
+        raw = diagrams[k]
+        value = raw if (isinstance(raw, str) and raw.lstrip().startswith("{")) else '{"nodes":[],"edges":[]}'
+        value = value.replace("</", "<\\/")
+        lines.append(f'            "{k}": {value},')
         lines.append("")
     if lines and lines[-1] == "":
         lines.pop()
@@ -8225,15 +7454,16 @@ def build_html(
         FileNotFoundError: If strict=True and a diagram source cannot be found.
         RuntimeError: If required template placeholders are missing.
     """
-    md_text_raw = markdown_path.read_text(encoding="utf-8")
+    md_text_raw = markdown_path.read_text(encoding="utf-8-sig")  # utf-8-sig strips a leading BOM
 
     # Process @md_file_renderer / @source_code_renderer before anything else
+    md_base_dir = markdown_path.parent
     if MD_FILE_RENDERER_RE.search(md_text_raw):
         print("  Processing @md_file_renderer tags...")
-        md_text_raw = process_md_file_renderers(md_text_raw)
+        md_text_raw = process_md_file_renderers(md_text_raw, base_dir=md_base_dir)
     if SOURCE_CODE_RENDERER_RE.search(md_text_raw):
         print("  Processing @source_code_renderer tags...")
-        md_text_raw = process_source_code_renderers(md_text_raw)
+        md_text_raw = process_source_code_renderers(md_text_raw, base_dir=md_base_dir)
 
     mod = _dynamic_import_from_path(converter_path, "ttl_to_graphviz_slug")
     slugify_fn = getattr(mod, "slugify", None)
@@ -8262,6 +7492,7 @@ def build_html(
         converter_path=converter_path,
         strict=strict,
         write_per_pattern_js=write_per_pattern_js,
+        base_dir=markdown_path.parent,
     )
 
     # Add manual diagrams to the diagrams object
@@ -8280,7 +7511,7 @@ def build_html(
     mermaid_obj = build_mermaid_diagrams_object(mermaid_diagrams, js_escape)
 
     html_out = TEMPLATE_HTML
-    for ph in ("__ARTICLE_CONTENT__", "__TOC_LIST_ITEMS__", "__DIAGRAMS_OBJECT__", "__NODEDATA_OBJECT__", "__MERMAID_DIAGRAMS_OBJECT__"):
+    for ph in ("__ARTICLE_CONTENT__", "__TOC_LIST_ITEMS__", "__DIAGRAMS_OBJECT__", "__NODEDATA_OBJECT__"):
         if ph not in html_out:
             raise RuntimeError(f"Template placeholder missing: {ph}")
 
@@ -8299,7 +7530,17 @@ def build_html(
     page_nav_html = generate_page_nav_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__PAGE_NAV__", page_nav_html)
 
+    # Resolve the per-page title for <title>/<meta>/breadcrumb (otherwise the
+    # template's hard-coded label would appear on every page).
+    page_title = lookup_page_title(active_page, Path(__file__).parent) or extract_title_from_html(article_html)
+    html_out = html_out.replace("__PAGE_TITLE__", html_module.escape(page_title))
+    html_out = html_out.replace("__PAGE_URL__", html_module.escape(DOCS_BASE_URL + active_page))
+    html_out = html_out.replace("__JSONLD__", build_jsonld(page_title, DOCS_BASE_URL + active_page))
+
     out_html.write_text(html_out, encoding="utf-8")
+
+    # Keep AI-agent discovery files in sync on single-page rebuilds.
+    _maybe_refresh_llms(out_html.parent)
 
 
 def main(argv: Optional[List[str]] = None) -> int:
@@ -8353,7 +7594,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     args = p.parse_args(argv)
 
     # Read markdown to detect mode if auto
-    md_text = args.markdown.read_text(encoding="utf-8")
+    md_text = args.markdown.read_text(encoding="utf-8-sig")
     mode = args.mode
     
     if mode == "auto":
@@ -8366,14 +7607,18 @@ def main(argv: Optional[List[str]] = None) -> int:
             print("Auto-detected mode: docs")
 
     if mode == "patterns":
-        # Patterns mode - require diagrams-root
-        if args.diagrams_root is None:
-            print("Error: --diagrams-root is required for patterns mode")
-            return 1
-        
+        # Patterns mode. --diagrams-root is optional: local @Graphviz_renderer
+        # paths (e.g. ../patterns/foo/shape-data.ttl) are resolved relative to
+        # the markdown file, so when it is omitted we default it to the
+        # markdown's directory.
+        if args.diagrams_root is not None:
+            diagrams_root = args.diagrams_root.resolve()
+        else:
+            diagrams_root = args.markdown.resolve().parent
+
         build_html(
             markdown_path=args.markdown.resolve(),
-            diagrams_root=args.diagrams_root.resolve(),
+            diagrams_root=diagrams_root,
             out_html=args.out.resolve(),
             converter_path=args.converter.resolve(),
             strict=not args.no_strict,
@@ -8414,11 +7659,11 @@ MODULE_INDICATOR_RE = re.compile(r"<!--\s*@module_indicator\s*:\s*(https?://[^\s
 # @property_indicator:TYPE - Generates property tree (TYPE = object|data|annotation)
 PROPERTY_INDICATOR_RE = re.compile(r"<!--\s*@property_indicator\s*:\s*(object|data|annotation)\s*-->", re.IGNORECASE)
 
-# @md_file_renderer:URL - Injects markdown content from remote URL
-MD_FILE_RENDERER_RE = re.compile(r"<!--\s*@md_file_renderer\s*:\s*(https?://[^\s>]+)\s*-->", re.IGNORECASE)
+# @md_file_renderer:SOURCE - Injects markdown content from a remote URL or local file path
+MD_FILE_RENDERER_RE = re.compile(r"<!--\s*@md_file_renderer\s*:\s*(.+?)\s*-->", re.IGNORECASE)
 
-# @source_code_renderer:URL - Injects source code from remote URL in fenced block
-SOURCE_CODE_RENDERER_RE = re.compile(r"<!--\s*@source_code_renderer\s*:\s*(https?://[^\s>]+)\s*-->", re.IGNORECASE)
+# @source_code_renderer:SOURCE - Injects source code from a remote URL or local file path in a fenced block
+SOURCE_CODE_RENDERER_RE = re.compile(r"<!--\s*@source_code_renderer\s*:\s*(.+?)\s*-->", re.IGNORECASE)
 
 
 @dataclass
@@ -9314,8 +8559,44 @@ def fetch_remote_content(url: str) -> Optional[str]:
         return None
 
 
+def _load_renderer_source(ref: str, base_dir: Optional[Path] = None) -> Optional[str]:
+    """Load text content for an @md_file_renderer / @source_code_renderer target.
+
+    Supports two forms:
+      * Remote URL (``http://`` or ``https://``) - fetched via :func:`fetch_remote_content`.
+      * Local file path - read from disk. Relative paths are resolved first
+        against *base_dir* (the source markdown's directory), then against the
+        current working directory, then as-given. Paths may contain spaces.
+
+    Returns the decoded text on success, or *None* on any failure.
+    """
+    ref = ref.strip()
+    if ref.startswith("http://") or ref.startswith("https://"):
+        return fetch_remote_content(ref)
+
+    # Local file path
+    p = Path(ref)
+    candidates: List[Path] = []
+    if p.is_absolute():
+        candidates.append(p)
+    else:
+        if base_dir is not None:
+            candidates.append(base_dir / p)
+        candidates.append(Path.cwd() / p)
+        candidates.append(p)
+    for c in candidates:
+        try:
+            if c.exists() and c.is_file():
+                print(f"    Reading local file: {c}")
+                return c.read_text(encoding="utf-8")
+        except Exception as exc:
+            print(f"    Warning: Failed to read {c}: {exc}")
+    print(f"    Warning: Local file not found for renderer: {ref}")
+    return None
+
+
 def _detect_language_from_url(url: str) -> str:
-    """Infer a code-block language hint from the file extension in *url*."""
+    """Infer a code-block language hint from the file extension in *url* or path."""
     path = urllib.parse.urlparse(url).path.lower()
     ext_map = {
         ".ttl": "turtle",
@@ -9335,47 +8616,49 @@ def _detect_language_from_url(url: str) -> str:
     return ""
 
 
-def process_md_file_renderers(md_text: str) -> str:
+def process_md_file_renderers(md_text: str, base_dir: Optional[Path] = None) -> str:
     """Process ``@md_file_renderer`` tags **before** markdown-to-HTML conversion.
 
-    Each tag is replaced with the raw markdown content fetched from the
-    specified URL so that it becomes part of the surrounding document and is
-    rendered together with the rest of the page.
+    Each tag is replaced with the raw markdown content loaded from the specified
+    source - either a remote URL or a local file path - so that it becomes part
+    of the surrounding document and is rendered together with the rest of the
+    page. Local relative paths are resolved against *base_dir*.
     """
     def _replace(match: re.Match) -> str:
-        url = match.group(1).strip()
-        content = fetch_remote_content(url)
+        src = match.group(1).strip()
+        content = _load_renderer_source(src, base_dir)
         if content is None:
             return (
                 f'\n\n> **Warning:** Could not load markdown file from '
-                f'[{url}]({url})\n\n'
+                f'`{src}`\n\n'
             )
-        print(f"    Injected markdown from {url} ({len(content)} chars)")
-        # Return fetched markdown as-is; it will be rendered with the rest
+        print(f"    Injected markdown from {src} ({len(content)} chars)")
+        # Return loaded markdown as-is; it will be rendered with the rest
         return f"\n\n{content}\n\n"
 
     return MD_FILE_RENDERER_RE.sub(_replace, md_text)
 
 
-def process_source_code_renderers(md_text: str) -> str:
+def process_source_code_renderers(md_text: str, base_dir: Optional[Path] = None) -> str:
     """Process ``@source_code_renderer`` tags **before** markdown-to-HTML conversion.
 
-    Each tag is replaced with the remote file content wrapped inside a fenced
-    code block so that the build's normal markdown pipeline renders it as a
-    styled ``<pre><code>`` element.
+    Each tag is replaced with the source file content - loaded from a remote URL
+    or a local file path - wrapped inside a fenced code block so that the build's
+    normal markdown pipeline renders it as a styled ``<pre><code>`` element.
+    Local relative paths are resolved against *base_dir*.
     """
     def _replace(match: re.Match) -> str:
-        url = match.group(1).strip()
-        content = fetch_remote_content(url)
+        src = match.group(1).strip()
+        content = _load_renderer_source(src, base_dir)
         if content is None:
             return (
                 f'\n\n> **Warning:** Could not load source file from '
-                f'[{url}]({url})\n\n'
+                f'`{src}`\n\n'
             )
-        lang = _detect_language_from_url(url)
+        lang = _detect_language_from_url(src)
         # Derive a short filename for the summary label
-        filename = urllib.parse.unquote(url.rsplit("/", 1)[-1]) if "/" in url else url
-        print(f"    Injected source code from {url} ({len(content)} chars)")
+        filename = urllib.parse.unquote(src.rsplit("/", 1)[-1]) if "/" in src else src
+        print(f"    Injected source code from {src} ({len(content)} chars)")
         return f"\n\n```{lang}\n{content}\n```\n\n"
 
     return SOURCE_CODE_RENDERER_RE.sub(_replace, md_text)
@@ -9400,7 +8683,128 @@ def extract_title_from_html(article_html: str) -> str:
     return "Documentation"
 
 
-def build_page_nav(prev_page: Optional[Tuple[str, str]] = None, 
+def build_jsonld(page_title: str, page_url: str) -> str:
+    """Build a schema.org JSON-LD ``<script>`` block for a documentation page.
+
+    Embeds machine-readable structured data so search engines and AI answer
+    engines recognise the page as PMDco materials-science documentation. The
+    block lives in <head> and is not visible on the rendered page. The author
+    attribution is carried discreetly in the ``contributor`` field.
+
+    Args:
+        page_title: Human-readable page title.
+        page_url: Canonical published URL of the page.
+
+    Returns:
+        A ``<script type="application/ld+json">`` block as a string.
+    """
+    data = {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": page_title,
+        "name": page_title,
+        "url": page_url,
+        "inLanguage": "en",
+        "description": (
+            "PMD Core Ontology (PMDco) documentation for materials science "
+            "and engineering."
+        ),
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PMD Core Ontology (PMDco)",
+            "url": "https://materialdigital.github.io/core-ontology/",
+        },
+        "about": {
+            "@type": "Dataset",
+            "name": "PMD Core Ontology (PMDco)",
+            "description": (
+                "A BFO-aligned mid-level ontology for materials science and "
+                "engineering (MSE)."
+            ),
+            "url": "https://materialdigital.github.io/core-ontology/",
+            "license": "https://creativecommons.org/licenses/by/4.0/",
+            "keywords": [
+                "materials science ontology", "materials science and engineering",
+                "MSE", "materials informatics", "BFO", "semantic web",
+                "knowledge graph", "SHACL", "RDF", "OWL","SKOS", "SPARQL",
+                "ontology engineering", "data interoperability", "FAIR data",
+                "open science", "research data management", "scientific metadata",
+                "data integration", "data sharing", "data reuse", "linked data",
+                "knowledge representation", "conceptual modeling", "data standards",
+                "data curation", "data stewardship", "data governance",
+            ],
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Platform MaterialDigital (PMD)",
+            "url": "https://materialdigital.de/",
+        },
+    }
+    return ('<script type="application/ld+json">\n'
+            + json.dumps(data, ensure_ascii=False, indent=2)
+            + '\n</script>')
+
+
+def lookup_page_title(active_page: Optional[str], script_dir: Optional[Path] = None) -> Optional[str]:
+    """Resolve a page's human-readable title from navigator.yaml.
+
+    The HTML template hard-codes a single title/breadcrumb value, so without
+    this every generated page would show the same label. We look the title up
+    from navigator.yaml using the output filename - the same key
+    :func:`generate_sidebar_html` uses to mark the active page - so the
+    breadcrumb and ``<title>`` always match the sidebar.
+
+    Args:
+        active_page: Output HTML filename (e.g. ``"patterns.html"``).
+        script_dir: Directory used to locate navigator.yaml.
+
+    Returns:
+        The matching page title, or ``None`` if it cannot be resolved.
+    """
+    if not active_page:
+        return None
+    config = load_NAVIGATOR_CONFIG(script_dir)
+    if not config:
+        return None
+    target = active_page.replace('./', '').replace('\\', '/').strip()
+    for section in config.get('sections', []):
+        for page in section.get('pages', []):
+            href = str(page.get('href', '')).replace('./', '').replace('\\', '/').strip()
+            if href and href == target:
+                title = page.get('title')
+                if title:
+                    return str(title)
+    return None
+
+
+def _maybe_refresh_llms(out_dir: Path) -> None:
+    """Regenerate llms.txt / llms-full.txt after a single-page build.
+
+    Single-page rebuilds invoke this module directly (not run_all.py), so the
+    AI-agent discovery files would otherwise go stale. We reuse run_all's
+    generator. During a full ``run_all.py`` build each page is built in a
+    subprocess with ``PMDCO_SKIP_LLMS=1`` so this is skipped there - run_all
+    generates the files once at the end instead.
+
+    Failures are non-fatal: a page build must never fail because the optional
+    agent-discovery files could not be written.
+    """
+    if os.environ.get("PMDCO_SKIP_LLMS"):
+        return
+    try:
+        import run_all  # same scripts/ directory; no side effects on import
+        script_dir = Path(__file__).parent
+        config = load_NAVIGATOR_CONFIG(script_dir)
+        if not config:
+            return
+        md_dir = script_dir.parent.parent  # docs/
+        run_all.generate_llms_files(md_dir, config, out_dir, verbose=False)
+        run_all.generate_sitemap(md_dir, config, out_dir, verbose=False)
+    except Exception as exc:
+        print(f"  Note: could not refresh llms.txt/sitemap.xml: {exc}")
+
+
+def build_page_nav(prev_page: Optional[Tuple[str, str]] = None,
                    next_page: Optional[Tuple[str, str]] = None) -> str:
     """Build page navigation HTML."""
     if not prev_page and not next_page:
@@ -9469,18 +8873,19 @@ def build_doc_html(
         next_page: Optional (href, title) tuple for next page navigation.
         active_nav: Optional identifier for the active navigation item.
     """
-    md_text_raw = markdown_path.read_text(encoding="utf-8")
+    md_text_raw = markdown_path.read_text(encoding="utf-8-sig")  # utf-8-sig strips a leading BOM
 
     # Strip document indicator
     md_text = strip_document_indicator(md_text_raw)
 
     # Process @md_file_renderer / @source_code_renderer before markdown conversion
+    md_base_dir = markdown_path.parent
     if MD_FILE_RENDERER_RE.search(md_text):
         print("  Processing @md_file_renderer tags...")
-        md_text = process_md_file_renderers(md_text)
+        md_text = process_md_file_renderers(md_text, base_dir=md_base_dir)
     if SOURCE_CODE_RENDERER_RE.search(md_text):
         print("  Processing @source_code_renderer tags...")
-        md_text = process_source_code_renderers(md_text)
+        md_text = process_source_code_renderers(md_text, base_dir=md_base_dir)
 
     # Parse manual diagram references (embedded DOT/Mermaid code)
     manual_refs = parse_manual_diagram_refs(md_text, _fallback_slugify)
@@ -9501,9 +8906,14 @@ def build_doc_html(
         print("  Processing @property_indicator tags...")
         article_html = process_property_indicators(article_html)
 
-    # Extract title if not provided
+    # Extract title if not provided: prefer the navigator.yaml title (keeps the
+    # breadcrumb/<title> consistent with the sidebar), then fall back to the
+    # first H1 in the rendered content.
     if not page_title:
-        page_title = extract_title_from_html(article_html)
+        page_title = (
+            lookup_page_title(out_html.name, Path(__file__).parent)
+            or extract_title_from_html(article_html)
+        )
 
     # Build TOC
     toc_items = build_toc_list_items(article_html)
@@ -9544,9 +8954,12 @@ def build_doc_html(
 
     html_out = html_out.replace("__ARTICLE_CONTENT__", article_html)
     html_out = html_out.replace("__TOC_LIST_ITEMS__", toc_items)
+    html_out = html_out.replace("__PAGE_TITLE__", html_module.escape(page_title))
 
     # Generate dynamic sidebar from navigator.yaml
     active_page = out_html.name  # Use output filename to determine active page
+    html_out = html_out.replace("__PAGE_URL__", html_module.escape(DOCS_BASE_URL + active_page))
+    html_out = html_out.replace("__JSONLD__", build_jsonld(page_title, DOCS_BASE_URL + active_page))
     sidebar_html = generate_sidebar_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__SIDEBAR_HTML__", sidebar_html)
 
@@ -9558,6 +8971,9 @@ def build_doc_html(
     out_html.parent.mkdir(parents=True, exist_ok=True)
     out_html.write_text(html_out, encoding="utf-8")
     print(f"Generated: {out_html} ({out_html.stat().st_size / 1024:.1f} KB)")
+
+    # Keep AI-agent discovery files in sync on single-page rebuilds.
+    _maybe_refresh_llms(out_html.parent)
 
 
 if __name__ == "__main__":

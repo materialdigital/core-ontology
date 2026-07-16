@@ -8,6 +8,10 @@
 @base <https://w3id.org/pmd/co/test#> .
 
 @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . #Class
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+
+
 
 @prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . #ObjectProperty 
 @prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> . #ObjectProperty
@@ -16,20 +20,42 @@
 @prefix simultaneous_with: <http://purl.obolibrary.org/obo/RO_0002082> . #ObjectProperty
 @prefix has_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000117> .
 @prefix has_proper_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000118> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+
+
 <https://w3id.org/pmd/co/test/shape/process_chain> rdf:type owl:Ontology .
 
+ex:the_dual_ingot_and_portion_of_steel a ingot: .
+ex:the_strand a object: .
+
 ex:hot_rolling a process: .
+ex:hot_rolling has_specified_input: ex:the_dual_ingot_and_portion_of_steel .
+ex:hot_rolling has_specified_output: ex:the_strand .
+
 ex:heating a process: .
 ex:rolling_pass a process: .
 ex:deformation a process: .
 ex:cooling a process: .
 
+ex:rolling_specs a directive_information_entity: .
 
-ex:hot_rolling starts_with: ex:heating .
-ex:hot_rolling ends_with: ex:cooling .
-ex:hot_rolling has_proper_occurrent_part: ex:heating, ex:rolling_pass, ex:cooling .
+ex:hot_rolling realizes: [
+        a plan: ;
+        concretizes: ex:rolling_specs   
+    ] ;
+    is_subject_of: ex:rolling_specs ;
+    starts_with: ex:heating ;
+    ends_with: ex:cooling ;
+    has_proper_occurrent_part: ex:heating, 
+        ex:rolling_pass, ex:cooling .
 
 ex:heating precedes: ex:rolling_pass .
-
 ex:rolling_pass precedes: ex:cooling .
+
 ex:rolling_pass simultaneous_with: ex:deformation .

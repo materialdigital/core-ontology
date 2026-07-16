@@ -7,30 +7,86 @@
 @prefix ex: <http://example.com/> .
 @base <https://w3id.org/pmd/co/test> .
 
-@prefix manufacturing_process: <https://w3id.org/pmd/co/PMD_0000833> .
+@prefix sawing: <https://w3id.org/pmd/co/PMD_0000822> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
 @prefix coating: <https://w3id.org/pmd/co/PMD_0000563> .
 @prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
 @prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
 @prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
 @prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
 @prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> .
+@prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
+@prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
+@prefix is_specified_input_of: <http://purl.obolibrary.org/obo/OBI_0000295> .
+@prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
+@prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> .
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix length: <https://w3id.org/pmd/co/PMD_0040001> .
+
 
 <https://w3id.org/pmd/co/test> rdf:type owl:Ontology  .
 
-ex:cold_rolling a manufacturing_process: ;   
-        has_specified_input: ex:sheet_1 ;
-        has_specified_output: ex:cold_rolled_sheet_1 ;
-        realizes: ex:plan_cold_rolling . 
+# the anchor
+ex:the_material a material: .
 
-ex:annealing a manufacturing_process:;  
-        has_specified_input: ex:cold_rolled_sheet_1  ; 
-        has_specified_output: ex:annealed_sheet_1 ;
-        realizes: ex:plan_annealing . 
+# the temporal regions (autoshape requirement)
+ex:intvl_before_cropping a temporal_interval: .
+ex:intvl_after_cropping a temporal_interval: .
 
-ex:sheet_1 a object: .
-ex:cold_rolled_sheet_1 a object: .
-ex:annealed_sheet_1 a object: .
+# The participants (and states)
+ex:the_strand a object: ,
+                temporally_qualified_continuant: ;
+        is_subject_of: ex:the_cropping_plan_specification ; # autoshape requirement of the plan specification
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_before_cropping .
 
-ex:plan_annealing a plan: ; concretizes: ex:some_annealing_specification .
-ex:plan_cold_rolling a plan: ; concretizes: ex:some_rolling_specification .
+ex:slab_1 a slab: ,
+                temporally_qualified_continuant: ;
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_after_cropping ;
+        has_quality: ex:slab_1_length .
+
+ex:slab_1_length a length: ;
+        is_subject_of: ex:the_slabs_length_requirement .
+
+
+# ex:slab_2 a slab: ,
+#                temporally_qualified_continuant: ;
+#        is_state_of: ex:the_material ;
+#        exists_at: ex:intvl_after_cropping ;
+#        has_quality: [
+#                a length: ;
+#                is_subject_of: ex:the_slabs_length_requirement 
+#        ] .
+
+ex:slab_2 a slab: ,
+                temporally_qualified_continuant: ;
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_after_cropping ;
+        has_quality: ex:slab_2_length .
+
+ex:slab_2_length a length: ;
+        is_subject_of: ex:the_slabs_length_requirement .
+
+
+# the intentions
+ex:the_cropping_plan_specification a plan_specification: ;
+        has_part: ex:the_slabs_length_requirement .
+
+ex:the_slabs_length_requirement a  directive_information_entity: .
+
+ex:the_cropping_plan a plan: ;
+        concretizes: ex:the_cropping_plan_specification .
+
+# the process
+ex:cropping a sawing: ;   
+        has_specified_input: ex:the_strand ;
+        has_specified_output: ex:slab_1 ,
+                ex:slab_2 ;
+        realizes: ex:the_cropping_plan . 

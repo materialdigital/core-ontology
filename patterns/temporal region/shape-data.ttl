@@ -10,6 +10,7 @@
 @prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . #Class
 @prefix continuant: <http://purl.obolibrary.org/obo/BFO_0000002> .  #Class
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
 @prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . #Class
 @prefix one-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000038> . #Class
 @prefix zero-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000148> . #Class
@@ -27,20 +28,15 @@
 
 <https://w3id.org/pmd/co/test/shape/temporal_region> rdf:type owl:Ontology .
 
-ex:annealing_1 a process: .
-ex:heat_treatment_1 a process: .
-ex:period_of_annealing_1 a temporal_interval: .
-ex:period_of_heat_treatment_1 a temporal_interval: . 
-ex:furnace_operation_life a temporal_interval: .
-ex:furnace_1 a object: .
-ex:start a temporal_instant: .
-ex:end a temporal_instant: .
+ex:the_ingots_annealing_process a process: .
+ex:temp_intvl_of_the_ingots_annealing a temporal_interval: .
+ex:the_furnace a object: .
+ex:the_dual_ingot_and_portion_of_steel a ingot: .
+ex:annealing_start a temporal_instant: .
+ex:annealing_end a temporal_instant: .
 
-ex:annealing_1 occupies_temporal_region: ex:period_of_annealing_1 . 
-ex:heat_treatment_1 occupies_temporal_region: ex:period_of_heat_treatment_1 .
-ex:period_of_heat_treatment_1 has_first_instant: ex:start . 
-ex:period_of_heat_treatment_1 has_last_instant: ex:end .
-ex:period_of_annealing_1 proper_temporal_part_of: ex:period_of_heat_treatment_1 .
-ex:period_of_heat_treatment_1 temporal_part_of: ex:furnace_operation_life .
-ex:furnace_1 exists_at: ex:furnace_operation_life .
-ex:furnace_1 participates_in: ex:annealing_1 .
+ex:the_ingots_annealing_process occupies_temporal_region: ex:temp_intvl_of_the_ingots_annealing . 
+ex:temp_intvl_of_the_ingots_annealing has_first_instant: ex:annealing_start . 
+ex:temp_intvl_of_the_ingots_annealing has_last_instant: ex:annealing_end .
+ex:the_furnace participates_in: ex:the_ingots_annealing_process .
+ex:the_dual_ingot_and_portion_of_steel participates_in: ex:the_ingots_annealing_process .
