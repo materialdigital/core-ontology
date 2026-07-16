@@ -187,8 +187,6 @@ Declaration(Class(pmdco:PMD_0020316))
 Declaration(Class(pmdco:PMD_0020317))
 Declaration(Class(pmdco:PMD_0020318))
 Declaration(Class(pmdco:PMD_0020319))
-Declaration(Class(pmdco:PMD_0020328))
-Declaration(Class(pmdco:PMD_0020329))
 Declaration(Class(pmdco:PMD_0020331))
 Declaration(Class(pmdco:PMD_0020332))
 Declaration(Class(pmdco:PMD_0020333))
@@ -209,6 +207,7 @@ Declaration(Class(pmdco:PMD_0025011))
 Declaration(Class(pmdco:PMD_0025016))
 Declaration(Class(pmdco:PMD_0025017))
 Declaration(Class(pmdco:PMD_0025018))
+Declaration(Class(pmdco:PMD_0025019))
 Declaration(Class(pmdco:PMD_0025997))
 Declaration(Class(pmdco:PMD_0040001))
 Declaration(Class(pmdco:PMD_0050000))
@@ -501,7 +500,7 @@ SymmetricObjectProperty(pmdco:PMD_0020020)
 ObjectPropertyDomain(pmdco:PMD_0020020 obo:BFO_0000040)
 ObjectPropertyRange(pmdco:PMD_0020020 obo:BFO_0000040)
 
-# Object Property: pmdco:PMD_0025013 (verändert die Qualität)
+# Object Property: pmdco:PMD_0025013 (changes quality)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0025013 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0025013 "PERSON: Kamilla Zaripova")
@@ -1283,14 +1282,13 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000950 "DEPRECATED The stimulatin
 
 # Class: pmdco:PMD_0000952 (strength)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000952 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000952 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000952 "Festigkeit"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000952 "strength"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000952 "Die Festigkeit ist eine Materialeigenschaft, die die maximale Belastung beschreibt, der ein Material standhalten kann, bevor es versagt."@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0000952 "is a material property describing the stress before a characteristic (failure-) event occurs."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000952 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000952 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0020258)))
+SubClassOf(pmdco:PMD_0000952 pmdco:PMD_0020335)
+SubClassOf(pmdco:PMD_0000952 ObjectIntersectionOf(ObjectUnionOf(ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0020258) ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000068)) ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020200) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080019)))
 
 # Class: pmdco:PMD_0000953 (structural and chemical decay)
 
@@ -2040,7 +2038,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020209 "Gibt den Wert der Kristal
 AnnotationAssertion(skos:definition pmdco:PMD_0020209 "specifies the value of the crystal slip plane together with the slip direction."@en)
 SubClassOf(pmdco:PMD_0020209 obo:OBI_0001930)
 
-# Class: pmdco:PMD_0020211 (Allotropie eines Elementarkristalls)
+# Class: pmdco:PMD_0020211 (allotropy of an elemental crystal)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020211 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020211 "different structures of a crystal could be linked by a relational property 'allotrope of'"@en)
@@ -2233,17 +2231,6 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020319 "a SDC that is characteris
 EquivalentClasses(pmdco:PMD_0020319 ObjectSomeValuesFrom(obo:RO_0000052 ObjectUnionOf(obo:BFO_0000024 obo:BFO_0000027 obo:BFO_0000030)))
 SubClassOf(pmdco:PMD_0020319 obo:BFO_0000020)
 
-# Class: pmdco:PMD_0020328 (derived specifically dependent continuant)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0020328 "derived specifically dependent continuant"@en)
-EquivalentClasses(pmdco:PMD_0020328 ObjectIntersectionOf(ObjectSomeValuesFrom(pmdco:PMD_0020324 obo:BFO_0000020) ObjectSomeValuesFrom(pmdco:PMD_0020327 obo:BFO_0000001)))
-SubClassOf(pmdco:PMD_0020328 obo:BFO_0000020)
-
-# Class: pmdco:PMD_0020329 (time-derived specifically dependent continuant)
-
-AnnotationAssertion(rdfs:label pmdco:PMD_0020329 "time-derived specifically dependent continuant"@en)
-EquivalentClasses(pmdco:PMD_0020329 ObjectIntersectionOf(pmdco:PMD_0020328 ObjectSomeValuesFrom(pmdco:PMD_0020327 obo:BFO_0000202)))
-
 # Class: pmdco:PMD_0020331 (normal stress)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020331 "normal stress"@en)
@@ -2267,8 +2254,9 @@ SubClassOf(pmdco:PMD_0020334 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeVa
 # Class: pmdco:PMD_0020335 (characteristic material property)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020335 "characteristic material property"@en)
-EquivalentClasses(pmdco:PMD_0020335 ObjectIntersectionOf(obo:BFO_0000020 ObjectSomeValuesFrom(obo:BFO_0000054 obo:OBI_0000070) ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000)))
 SubClassOf(pmdco:PMD_0020335 obo:BFO_0000020)
+SubClassOf(pmdco:PMD_0020335 ObjectSomeValuesFrom(obo:BFO_0000054 obo:OBI_0000070))
+SubClassOf(pmdco:PMD_0020335 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000))
 
 # Class: pmdco:PMD_0020336 (tensile force)
 
@@ -2405,6 +2393,10 @@ AnnotationAssertion(skos:definition pmdco:PMD_0025018 "Geometric relational qual
 AnnotationAssertion(skos:definition pmdco:PMD_0025018 "Geometrische Beziehungsqualität ist eine Beziehungsqualität, die die geometrische Beziehung zwischen zwei oder mehr unabhängigen Kontinuen beschreibt."@de)
 AnnotationAssertion(skos:example pmdco:PMD_0025018 "Elongation of a specimen after a tensile step, i.e., the specimen before and after the test. Angle between a rolling direction of a rolled material and the longitudinal side of a specimen."@en)
 SubClassOf(pmdco:PMD_0025018 obo:BFO_0000145)
+
+# Class: pmdco:PMD_0025019 (rate)
+
+SubClassOf(pmdco:PMD_0025019 pmdco:PMD_0000008)
 
 # Class: pmdco:PMD_0025997 (Angabe des Bruchwerts)
 
@@ -2909,7 +2901,8 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0080029 "strain"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080029 "Strain is defined as relative deformation, compared to a reference position configuration"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080029 "Under a tensile load, a polymer film exhibits a strain of 2 % before yielding"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080029 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080029 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020132) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020132)))
+SubClassOf(pmdco:PMD_0080029 pmdco:PMD_0020311)
+SubClassOf(pmdco:PMD_0080029 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020132) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020132)))
 
 # Class: pmdco:PMD_0080030 (technische Dehnung)
 
@@ -2965,6 +2958,9 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080033 "Strain at break is the st
 AnnotationAssertion(skos:example pmdco:PMD_0080033 "Strain at break of a thermoplastic polyurethane specimen measured as 450% under ISO 527 test conditions."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080033 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080033 pmdco:PMD_0080029)
+SubClassOf(pmdco:PMD_0080033 pmdco:PMD_0020335)
+SubClassOf(pmdco:PMD_0080033 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020132) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020132)))
+SubClassOf(pmdco:PMD_0080033 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0020339))
 
 # Class: pmdco:PMD_0080034 (elastische Deformation)
 
@@ -3889,7 +3885,10 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0080108 "stress"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080108 "Stress is the internal force per unit area a material experiences under external load, commonly described in tensile, compressive, or shear forms"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080108 "A cross-section of a loaded steel column bears a compressive stress of 150 MPa"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080108 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080108 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020200) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080019)))
+SubClassOf(pmdco:PMD_0080108 pmdco:PMD_0020311)
+SubClassOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001))
+SubClassOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020200))
+SubClassOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080019))
 
 # Class: pmdco:PMD_0080109 (engineering stress)
 
@@ -4394,7 +4393,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080150 "Toughness describes the r
 AnnotationAssertion(skos:definition pmdco:PMD_0080150 "Zähigkeit beschreibt die Widerstandsfähigkeit eines Werkstoffs gegen Bruch oder Rissausbreitung, bestimmt durch die Fähigkeit zur Absorption von mechanischer Energie bei Verformung"@de)
 AnnotationAssertion(skos:example pmdco:PMD_0080150 "High-toughness tool steel absorbs 80 J before fracture in a Charpy V-notch test at room temperature"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080150 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080150 pmdco:PMD_0020311)
+SubClassOf(pmdco:PMD_0080150 pmdco:PMD_0020335)
 
 # Class: pmdco:PMD_0080151 (fracture toughness)
 
@@ -4613,7 +4612,7 @@ AnnotationAssertion(skos:altLabel pmdco:PMD_0080171 "yield strength"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080171 "is the stress at which the material has a non-zero plastic strain."@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080171 "The yield strength of mild steel is approximately 250 MPa, beyond which permanent deformation begins"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080171 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080171 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(obo:RO_0000052 ObjectIntersectionOf(pmdco:PMD_0000000 ObjectSomeValuesFrom(obo:RO_0000053 pmdco:PMD_0080035)))))
+SubClassOf(pmdco:PMD_0080171 ObjectIntersectionOf(pmdco:PMD_0000952 ObjectSomeValuesFrom(obo:RO_0000052 ObjectIntersectionOf(pmdco:PMD_0000068 ObjectSomeValuesFrom(obo:RO_0000053 pmdco:PMD_0080035)))))
 
 # Class: pmdco:PMD_0080172 (untere Streckgrenze)
 
