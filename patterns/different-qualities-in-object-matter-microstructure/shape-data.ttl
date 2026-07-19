@@ -1,0 +1,135 @@
+@prefix ex: <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/example/> .
+@prefix pattern: <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/> .
+@prefix : <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/> .
+@base <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix ro: <http://purl.obolibrary.org/obo/RO_> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix obi: <http://purl.obolibrary.org/obo/OBI_> .
+@prefix iao: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix has_disposition: <http://purl.obolibrary.org/obo/RO_0000091> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix ceramic: <https://w3id.org/pmd/co/PMD_0000546> .
+@prefix chemical_composition: <https://w3id.org/pmd/co/PMD_0000551> .
+@prefix mechanical_property: <https://w3id.org/pmd/co/PMD_0000848> .
+@prefix bulk: <https://w3id.org/pmd/co/PMD_0000538> .
+@prefix surface_layer: <https://w3id.org/pmd/co/PMD_0000965> .
+@prefix hardness: <https://w3id.org/pmd/co/PMD_0000773> .
+@prefix crystallite: <https://w3id.org/pmd/co/PMD_0000663> .
+@prefix volume_ratio: <https://w3id.org/pmd/co/PMD_0020104> .
+@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
+@prefix fraction_value_specifcation: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+@prefix has_specifed_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix realized_in: <http://purl.obolibrary.org/obo/BFO_0000054> .
+
+
+ex:Object_pellet_O_and_portion_of_Ceramic_C
+    rdf:type bfo:0000030 ;
+    has_quality: ex:mass_of_pellet ;
+    has_part: ex:portion_of_polycrystalline_ceramic_C , ex:O_bulk , ex:O_surface ;
+    rdfs:label "Object pellet O & portion of Ceramic C" .
+
+ex:mass_of_pellet
+    rdf:type mass: ;
+    rdfs:label "mass of pellet" .
+
+ex:portion_of_polycrystalline_ceramic_C
+    rdf:type ceramic: ;
+    has_quality: ex:composition_of_ceramic_C ;
+    has_disposition: ex:ceramic_C_property ;
+    rdfs:label "portion of polycrystalline ceramic C" .
+
+ex:composition_of_ceramic_C
+    rdf:type chemical_composition: ;
+    rdfs:label "composition of ceramic C" .
+
+ex:ceramic_C_property
+    realized_in: ex:some_proc2 ;
+    rdf:type mechanical_property: ;
+    rdfs:label "ceramic C property" .
+
+ex:O_bulk
+    rdf:type bulk: ;
+    has_disposition: ex:softer_bulk_property ;
+    has_part: ex:B_crystal_form_in_bulk ;
+    rdfs:label "O-bulk" .
+
+ex:O_surface
+    rdf:type surface_layer: ;
+    has_disposition: ex:harder_surface_property ;
+    has_part: ex:B_crystal_form_in_surface ;
+    rdfs:label "O-surface" .
+
+ex:softer_bulk_property
+    realized_in: ex:some_proc4 ;
+    rdf:type hardness: ;
+    rdfs:label "softer bulk property" .
+
+ex:harder_surface_property
+    realized_in: ex:some_proc3 ;
+    rdf:type hardness: ;
+    rdfs:label "harder surface property" .
+
+ex:B_crystal_form_in_bulk
+    rdf:type crystallite: ;
+    has_quality: ex:some_qual5 ;
+    has_disposition: ex:property_of_B_crystal_for_bulk ;
+    rdfs:label "B-crystal-form in bulk" .
+
+ex:B_crystal_form_in_surface
+    rdf:type crystallite: ;
+    has_quality: ex:some_qual6 ;
+    has_disposition: ex:property_of_B_crystal_for_surface ;
+    rdfs:label "B-crystal-form in surface" .
+
+ex:property_of_B_crystal_for_bulk
+    realized_in: ex:some_proc5 ;
+    rdf:type mechanical_property: ;
+    rdfs:label "property of B-crystal" .
+
+ex:property_of_B_crystal_for_surface
+    realized_in: ex:some_proc1 ;
+    rdf:type mechanical_property: ;
+    rdfs:label "property of B-crystal" .
+
+ex:volume_proportion_of_B_crystal_in_bulk
+    rdf:type volume_ratio: ;
+    relational_quality_of: ex:B_crystal_form_in_bulk , ex:O_bulk ;
+    rdfs:label "volume proportion of B-crystal in bulk" .
+
+ex:B_Crys_Vol_fraction_in_bulk
+    rdf:type fraction_value_specifcation: ;
+    specifies_value_of: ex:volume_proportion_of_B_crystal_in_bulk ;
+    has_measurement_unit_label: ex:mass_volume_percentage_for_bulk ;
+    has_specifed_numeric_value: "5"^^xsd:decimal ;
+    rdfs:label "B-Crys.Vol.fraction in bulk" .
+
+ex:mass_volume_percentage_for_bulk
+    rdfs:label "mass volume percentage" .
+
+ex:volume_proportion_of_B_crystal_in_surface
+    rdf:type volume_ratio: ;
+    relational_quality_of: ex:B_crystal_form_in_surface , ex:O_surface ;
+    rdfs:label "volume proportion of B-crystal in surface" .
+
+ex:B_Crys_Vol_fraction_in_surface
+    rdf:type pmd:PMD_0025997 ;
+    specifies_value_of: ex:volume_proportion_of_B_crystal_in_surface ;
+    has_measurement_unit_label: ex:mass_volume_percentage_for_surface ;
+    has_specifed_numeric_value: "80"^^xsd:decimal ;
+    rdfs:label "B-Crys.Vol.fraction in surface" .
+
+ex:mass_volume_percentage_for_surface
+    rdfs:label "mass volume percentage" .
+
