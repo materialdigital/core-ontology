@@ -93,7 +93,6 @@ $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
 		extract --term-file $(IMPORTDIR)/iao_terms.txt  --force true --copy-ontology-annotations true --individuals exclude --intermediates none --method BOT \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
  		remove --term IAO:0000032 --axioms subclass \
- 		rename --mapping OBI:0000011 COB:0000035 	\
  		remove --term-file $(IMPORTDIR)/unwanted.txt  \
  		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 			  --term-file $(IMPORTDIR)/iao_terms.txt \
