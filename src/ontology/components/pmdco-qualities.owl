@@ -20,6 +20,7 @@ Declaration(Class(obo:BFO_0000027))
 Declaration(Class(obo:BFO_0000030))
 Declaration(Class(obo:BFO_0000145))
 Declaration(Class(obo:BFO_0000146))
+Declaration(Class(obo:CHEBI_33250))
 Declaration(Class(obo:CHEBI_59999))
 Declaration(Class(obo:CHEBI_60003))
 Declaration(Class(pmdco:PMD_0000000))
@@ -176,6 +177,7 @@ Declaration(Class(pmdco:PMD_0020243))
 Declaration(Class(pmdco:PMD_0020247))
 Declaration(Class(pmdco:PMD_0020251))
 Declaration(Class(pmdco:PMD_0020258))
+Declaration(Class(pmdco:PMD_0020293))
 Declaration(Class(pmdco:PMD_0020307))
 Declaration(Class(pmdco:PMD_0020308))
 Declaration(Class(pmdco:PMD_0020309))
@@ -198,6 +200,9 @@ Declaration(Class(pmdco:PMD_0020339))
 Declaration(Class(pmdco:PMD_0020347))
 Declaration(Class(pmdco:PMD_0020348))
 Declaration(Class(pmdco:PMD_0020349))
+Declaration(Class(pmdco:PMD_0020351))
+Declaration(Class(pmdco:PMD_0020352))
+Declaration(Class(pmdco:PMD_0020353))
 Declaration(Class(pmdco:PMD_0025001))
 Declaration(Class(pmdco:PMD_0025002))
 Declaration(Class(pmdco:PMD_0025003))
@@ -630,14 +635,12 @@ AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000503 "true"^^xsd:boolean)
 
 # Class: pmdco:PMD_0000505 (acoustic absorption coefficient)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000505 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000505 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000505 "Schallabsorptionskoeffizient"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000505 "acoustic absorption coefficient"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000505 "Der akustische Absorptionskoeffizient ist eine akustische Eigenschaft, die ein Maß dafür darstellt, wie viel Schallenergie von einem Material pro Flächeneinheit absorbiert wird."@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0000505 "The acoustic absorption coefficient is an acoustic property representing a measure of how much sound energy is absorbed by a material per unit area."@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000505 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000505 ObjectIntersectionOf(pmdco:PMD_0000506 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000965)))
+AnnotationAssertion(skos:definition pmdco:PMD_0000505 "an acoustic property representing the ratio of reflected accoustic energy (elastic energy + kinetic energy) to incomming accoustic energy when an accoustic wave meets an interface"@en)
+SubClassOf(pmdco:PMD_0000505 ObjectIntersectionOf(pmdco:PMD_0000506 ObjectSomeValuesFrom(obo:RO_0000052 ObjectIntersectionOf(obo:BFO_0000146 ObjectSomeValuesFrom(obo:RO_0000056 pmdco:PMD_0000517)))))
+SubClassOf(pmdco:PMD_0000505 ObjectIntersectionOf(ObjectSomeValuesFrom(pmdco:PMD_0020256 ObjectIntersectionOf(pmdco:PMD_0020351 pmdco:PMD_0020352)) ObjectSomeValuesFrom(pmdco:PMD_0020257 ObjectIntersectionOf(pmdco:PMD_0020351 pmdco:PMD_0020352))))
 
 # Class: pmdco:PMD_0000506 (akustische Eigenschaft)
 
@@ -663,13 +666,13 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000512 "DEPRECATED eine intensive
 
 # Class: pmdco:PMD_0000517 (akustische Welle)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000517 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000517 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000517 "acoustic wave"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000517 "akustische Welle"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0000517 "a mechanical wave of pressure disturbances that propagates through a medium by local compression and rarefaction"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000517 "eine mechanische Welle von Druckstörungen, die sich durch lokale Kompression und Verdünnung durch ein Medium ausbreitet"@de)
 SubClassOf(pmdco:PMD_0000517 pmdco:PMD_0020215)
+SubClassOf(pmdco:PMD_0000517 ObjectSomeValuesFrom(obo:RO_0002020 pmdco:PMD_0020351))
+SubClassOf(pmdco:PMD_0000517 ObjectSomeValuesFrom(obo:RO_0002020 pmdco:PMD_0020352))
 
 # Class: pmdco:PMD_0000518 (impact)
 
@@ -1037,7 +1040,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0000773 "Härte"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000773 "hardness"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000773 "The hardness is a mechanical property used as a measure of a material's resistance to localized plastic deformation, often tested by indentation or scratch methods."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000773 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0000773 pmdco:PMD_0020335)
+SubClassOf(pmdco:PMD_0000773 ObjectIntersectionOf(pmdco:PMD_0020335 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0020293)))
 
 # Class: pmdco:PMD_0000777 (Wärmekapazität)
 
@@ -1069,7 +1072,7 @@ AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000790 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000790 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:comment pmdco:PMD_0000790 "e.g., air into glass"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0000790 "Brechung"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0000790 "refraction"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0000790 "optical refraction"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000790 "Optical property which describes the bending of light as it passes from one medium into another due to a change in the light’s speed."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0000790 "Optische Eigenschaft, die die Ablenkung des Lichts beim Übergang von einem Medium in ein anderes aufgrund einer Änderung der Lichtgeschwindigkeit beschreibt."@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000790 "true"^^xsd:boolean)
@@ -1312,7 +1315,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000961 "The sublimation point is 
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000961 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000961 pmdco:PMD_0020164)
 
-# Class: pmdco:PMD_0000965 (Oberflächenschicht (Fiat-Objektteil))
+# Class: pmdco:PMD_0000965 (surface layer (fiat object part))
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000965 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000965 "PERSON: Joerg Waitelonis")
@@ -1467,13 +1470,11 @@ SubClassOf(pmdco:PMD_0010025 pmdco:PMD_0020251)
 
 # Class: pmdco:PMD_0010026 (organische Zusammensetzung)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0010026 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0010026 "PERSON: Bernd Bayerlein")
 AnnotationAssertion(rdfs:label pmdco:PMD_0010026 "organic composition"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0010026 "organische Zusammensetzung"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0010026 "A composition characterized by a primary molecular structure of carbon atoms covalently bonded to hydrogen (C-H bonds), typically forming linear, branched, or networked chains."@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0010026 "Eine Zusammensetzung, die durch eine primäre Molekülstruktur aus kovalent an Wasserstoff gebundenen Kohlenstoffatomen (C-H-Bindungen) gekennzeichnet ist und typischerweise lineare, verzweigte oder vernetzte Ketten bildet."@de)
-SubClassOf(pmdco:PMD_0010026 pmdco:PMD_0025001)
+SubClassOf(pmdco:PMD_0010026 pmdco:PMD_0020353)
 
 # Class: pmdco:PMD_0010027 (inorganic composition)
 
@@ -1483,7 +1484,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0010027 "anorganische Zusammensetzung"@
 AnnotationAssertion(rdfs:label pmdco:PMD_0010027 "inorganic composition"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0010027 "Materialzusammensetzung, die auf anderen chemischen Elementen als denen organischer Verbindungen basiert und typischerweise durch ionische oder metallische Bindungen und das Fehlen eines Kohlenstoff-Wasserstoff-Gerüsts ($C-H$) gekennzeichnet ist"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0010027 "material composition based on chemical elements other than those defining organic compounds, typically characterized by ionic or metallic bonding and the absence of a carbon-hydrogen ($C-H$) framework"@en)
-SubClassOf(pmdco:PMD_0010027 pmdco:PMD_0025001)
+SubClassOf(pmdco:PMD_0010027 pmdco:PMD_0020353)
 
 # Class: pmdco:PMD_0010029 (spezifische Festigkeit)
 
@@ -1780,9 +1781,7 @@ AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0020142 <http://openenergy-platfor
 AnnotationAssertion(rdfs:label pmdco:PMD_0020142 "Energie"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020142 "energy"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020142 "an extensive quality of material entities which manifests as a capacity to perform work (such as causing motion or the interaction of molecules)"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020142 "eine umfassende Qualität materieller Einheiten, die sich in der Fähigkeit manifestiert, Arbeit zu verrichten (z. B. Bewegung zu verursachen oder die Wechselwirkung von Molekülen)"@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020142 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0020142 ObjectIntersectionOf(obo:BFO_0000016 ObjectSomeValuesFrom(obo:RO_0000092 pmdco:PMD_0020128)))
 
 # Class: pmdco:PMD_0020148 (extensive quality)
 
@@ -2062,8 +2061,7 @@ SubClassOf(pmdco:PMD_0020212 obo:BFO_0000016)
 
 # Class: pmdco:PMD_0020215 (wave)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020215 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020215 "PERSON: Philipp von Hartrott")
+SubClassOf(pmdco:PMD_0020215 ObjectSomeValuesFrom(obo:RO_0002020 pmdco:PMD_0020142))
 
 # Class: pmdco:PMD_0020216 (Ordnungsmaßstab)
 
@@ -2255,7 +2253,6 @@ SubClassOf(pmdco:PMD_0020334 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeVa
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020335 "characteristic material property"@en)
 SubClassOf(pmdco:PMD_0020335 obo:BFO_0000020)
-SubClassOf(pmdco:PMD_0020335 ObjectSomeValuesFrom(obo:BFO_0000054 obo:OBI_0000070))
 SubClassOf(pmdco:PMD_0020335 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000))
 
 # Class: pmdco:PMD_0020336 (tensile force)
@@ -2287,6 +2284,21 @@ DisjointClasses(pmdco:PMD_0020348 pmdco:PMD_0020349)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020349 "fundamental SDC"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020349 "an SDC that is not based on other SDCs"@en)
 EquivalentClasses(pmdco:PMD_0020349 ObjectIntersectionOf(obo:BFO_0000020 ObjectComplementOf(pmdco:PMD_0020348)))
+
+# Class: pmdco:PMD_0020351 (kinetic energy)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020351 "kinetic energy"@en)
+SubClassOf(pmdco:PMD_0020351 pmdco:PMD_0020142)
+
+# Class: pmdco:PMD_0020352 (elastic energy)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020352 "elastic energy"@en)
+SubClassOf(pmdco:PMD_0020352 pmdco:PMD_0020142)
+
+# Class: pmdco:PMD_0020353 (unclassified property)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020353 "unclassified property"@en)
+SubClassOf(pmdco:PMD_0020353 obo:BFO_0000020)
 
 # Class: pmdco:PMD_0025001 (Zusammensetzung)
 
@@ -2424,16 +2436,16 @@ AnnotationAssertion(skos:example pmdco:PMD_0040001 "A steel rod measures 250 mm 
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0040001 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0040001 pmdco:PMD_0020132)
 
-# Class: pmdco:PMD_0050000 (Bindung)
+# Class: pmdco:PMD_0050000 (atomic bond)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0050000 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0050000 "PERSON: Markus Schilling")
 AnnotationAssertion(rdfs:label pmdco:PMD_0050000 "Bindung"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0050000 "bond"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0050000 "atomic bond"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0050000 "A bond is a relational quality describing the force interaction between atoms."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0050000 "Eine Bindung ist eine relationale Qualität, die die Kraftwechselwirkung zwischen Atomen beschreibt."@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0050000 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0050000 obo:BFO_0000145)
+SubClassOf(pmdco:PMD_0050000 ObjectIntersectionOf(obo:BFO_0000145 ObjectSomeValuesFrom(obo:RO_0000080 obo:CHEBI_33250)))
 
 # Class: pmdco:PMD_0050001 (covalent bond)
 
@@ -2550,18 +2562,13 @@ AnnotationAssertion(owl:deprecated pmdco:PMD_0080000 "true"^^xsd:boolean)
 AnnotationAssertion(skos:definition pmdco:PMD_0080000 "DEPRECATED Acoustic quality pertains to properties related to sound or the science of sound, including aspects like pitch, volume, tone, timbre, echo, absorption, or sound wave propagation"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080000 "DEPRECATED Akustische Qualität bezieht sich auf Eigenschaften, die mit Klang oder der Klangwissenschaft in Zusammenhang stehen, einschließlich Aspekten wie Tonhöhe, Lautstärke, Ton, Klangfarbe, Echo, Absorption oder Schallwellenausbreitung"@de)
 
-# Class: pmdco:PMD_0080001 (electrical quality)
+# Class: pmdco:PMD_0080001 (DEPRECATED electrical quality)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080001 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080001 "Necessary and sufficient conditions for 'electrical quality' have not yet been formalized. The term is defined as a specific subtype of 'physical quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080001 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080001 "electrical quality"@en)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080001 "elektrische Qualität"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080001 "Die elektrische Qualität charakterisiert das Verhalten oder den Zustand einer materiellen Einheit in Bezug auf Elektrizität"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080001 "Electrical quality characterizes a material entity's behavior or state concerning electricity"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0080001 "The semiconductivity of silicon is an electrical quality that determines its behavior in transistors"@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080001 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080001 obo:BFO_0000019)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080001 "DEPRECATED electrical quality"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080001 "DEPRECATED elektrische Qualität"@de)
+AnnotationAssertion(owl:deprecated pmdco:PMD_0080001 "true"^^xsd:boolean)
+AnnotationAssertion(skos:definition pmdco:PMD_0080001 "DEPRECATED Die elektrische Qualität charakterisiert das Verhalten oder den Zustand einer materiellen Einheit in Bezug auf Elektrizität"@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0080001 "DEPRECATED Electrical quality characterizes a material entity's behavior or state concerning electricity"@en)
 
 # Class: pmdco:PMD_0080002 (magnetic quality)
 
@@ -2640,18 +2647,13 @@ AnnotationAssertion(skos:example pmdco:PMD_0080007 "The dose equivalent a patien
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080007 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080007 obo:BFO_0000016)
 
-# Class: pmdco:PMD_0080008 (olfactoric quality)
+# Class: pmdco:PMD_0080008 (DEPRECATED olfactoric quality)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080008 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080008 "Necessary and sufficient conditions for 'olfactoric quality' have not yet been formalized. The term is defined as a specific subtype of 'physical quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080008 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080008 "olfactoric quality"@en)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080008 "olfaktorische Qualität"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080008 "Die olfaktorische Menge bezieht sich auf die qualitativen Eigenschaften einer materiellen Einheit, wie sie vom Duftsystem wahrgenommen werden"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080008 "Olfactoric quantity relates to a material entity's qualitative characteristics as perceived by the scent system"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0080008 "The pungent olfactoric quality of ammonia is detectable at concentrations above 5 ppm"@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080008 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080008 obo:BFO_0000019)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080008 "DEPRECATED olfactoric quality"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080008 "DEPRECATED olfaktorische Qualität"@de)
+AnnotationAssertion(owl:deprecated pmdco:PMD_0080008 "true"^^xsd:boolean)
+AnnotationAssertion(skos:definition pmdco:PMD_0080008 "DEPRECATED Die olfaktorische Menge bezieht sich auf die qualitativen Eigenschaften einer materiellen Einheit, wie sie vom Duftsystem wahrgenommen werden"@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0080008 "DEPRECATED Olfactoric quantity relates to a material entity's qualitative characteristics as perceived by the scent system"@en)
 
 # Class: pmdco:PMD_0080009 (volumetrische Dichte)
 
@@ -2804,18 +2806,12 @@ SubClassOf(pmdco:PMD_0080021 ObjectIntersectionOf(pmdco:PMD_0000506 ObjectSomeVa
 
 # Class: pmdco:PMD_0080022 (elektrische Ladung)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080022 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080022 "Necessary and sufficient conditions for 'electric charge' have not yet been formalized. The term is defined as a specific subtype of 'electrical quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080022 "PERSON: Thomas Hanke")
 AnnotationAssertion(rdfs:label pmdco:PMD_0080022 "electric charge"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080022 "elektrische Ladung"@de)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080022 "electric charge"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080022 "elektrische Ladung"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080022 "Electric charge refers to the physical property of matter causing it to experience a force when placed in an electromagnetic field"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080022 "Elektrische Ladung bezieht sich auf die physikalische Eigenschaft von Materie, die dazu führt, dass sie eine Kraft erfährt, wenn sie in ein elektromagnetisches Feld gebracht wird"@de)
 AnnotationAssertion(skos:example pmdco:PMD_0080022 "A capacitor stores 10 µC of electric charge at a voltage of 5 V"@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080022 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080022 ObjectIntersectionOf(pmdco:PMD_0080001 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
+SubClassOf(pmdco:PMD_0080022 ObjectIntersectionOf(pmdco:PMD_0020312 ObjectSomeValuesFrom(obo:RO_0000080 ObjectUnionOf(obo:BFO_0000027 obo:BFO_0000030))))
 
 # Class: pmdco:PMD_0080023 (elektrische Feldstärke)
 
@@ -2829,7 +2825,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080023 "Die Stärke oder Intensit
 AnnotationAssertion(skos:definition pmdco:PMD_0080023 "Electric field strength, or intensity, refers to the magnitude and direction of the electric field at a point, crucial for determining effects on electric charges near that point"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080023 "Between parallel capacitor plates separated by 1 mm at 100 V, the electric field strength is 1e5 V/m"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080023 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080023 pmdco:PMD_0080001)
+SubClassOf(pmdco:PMD_0080023 pmdco:PMD_0020353)
 
 # Class: pmdco:PMD_0080024 (dielectric strength)
 
@@ -2843,7 +2839,7 @@ AnnotationAssertion(skos:altLabel pmdco:PMD_0080024 "E_ds"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080024 "Dielectric strength is an electrical quality of an insulating material that specifies the maximum electric field intensity the material can sustain without undergoing electrical breakdown"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080024 "Durchschlagsfestigkeit ist eine elektrische Qualität eines Isoliermaterials, die die maximale elektrische Feldstärke angibt, die das Material aushalten kann, ohne einen elektrischen Durchschlag zu erleiden"@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080024 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080024 ObjectIntersectionOf(pmdco:PMD_0080001 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
+SubClassOf(pmdco:PMD_0080024 ObjectIntersectionOf(pmdco:PMD_0020353 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
 
 # Class: pmdco:PMD_0080025 (magnetic flux)
 
@@ -2957,7 +2953,6 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080033 "Bruchdehnung ist die Dehn
 AnnotationAssertion(skos:definition pmdco:PMD_0080033 "Strain at break is the strain of a specimen at the moment of fracture, determined under tensile load according to applicable test standards"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080033 "Strain at break of a thermoplastic polyurethane specimen measured as 450% under ISO 527 test conditions."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080033 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080033 pmdco:PMD_0080029)
 SubClassOf(pmdco:PMD_0080033 pmdco:PMD_0020335)
 SubClassOf(pmdco:PMD_0080033 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020132) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020132)))
 SubClassOf(pmdco:PMD_0080033 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0020339))
@@ -3247,7 +3242,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080054 "Verdampfungsenthalpie ist
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080054 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080054 pmdco:PMD_0080052)
 
-# Class: pmdco:PMD_0080055 (Selbstzündungstemperatur)
+# Class: pmdco:PMD_0080055 (auto-ignition temperature)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080055 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080055 "Necessary and sufficient conditions for 'auto-ignition temperature' have not yet been formalized. The term is defined as a specific subtype of 'thermo dynamic quality'. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions."@en)
@@ -3274,7 +3269,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080056 "Reynolds number is a dime
 AnnotationAssertion(skos:definition pmdco:PMD_0080056 "Reynolds-Zahl ist eine dimensionslose Größe zur Vorhersage von Strömungsmustern in Flüssigkeiten, die das Verhältnis zwischen Trägheits- und Viskosekräften misst"@de)
 AnnotationAssertion(skos:example pmdco:PMD_0080056 "Flow in a 25 mm pipe at 2 m/s has a Reynolds number of about 50000, indicating turbulent regime"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080056 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080056 pmdco:PMD_0080006)
+SubClassOf(pmdco:PMD_0080056 pmdco:PMD_0020316)
 
 # Class: pmdco:PMD_0080057 (Geruch)
 
@@ -3288,7 +3283,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080057 "Geruch ist eine morpholog
 AnnotationAssertion(skos:definition pmdco:PMD_0080057 "Odor is a morphologic quality inhering in a bearer whose molecules are dispersed and perceived by an odorant receptor"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080057 "The characteristic odor of acetic acid is detectable in dilute vinegar solutions"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080057 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080057 pmdco:PMD_0080008)
+SubClassOf(pmdco:PMD_0080057 pmdco:PMD_0020353)
 
 # Class: pmdco:PMD_0080058 (OBSOLETE odorless)
 
@@ -5038,11 +5033,12 @@ SubClassOf(pmdco:PMD_0090001 pmdco:PMD_0000621)
 
 # Class: pmdco:PMD_0090002 (Bandlücke)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0090002 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0090002 "PERSON: thnlrd")
 AnnotationAssertion(rdfs:label pmdco:PMD_0090002 "Bandlücke"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0090002 "band gap"@en)
+AnnotationAssertion(rdfs:seeAlso pmdco:PMD_0090002 "https://en.wikipedia.org/wiki/Valence_and_conduction_bands"^^xsd:anyURI)
 SubClassOf(pmdco:PMD_0090002 ObjectIntersectionOf(obo:BFO_0000019 pmdco:PMD_0020312))
+SubClassOf(pmdco:PMD_0090002 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0020293))
 
 
 ############################
