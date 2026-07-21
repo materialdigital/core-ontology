@@ -37,12 +37,7 @@ Declaration(Class(:PMD_0020113))
 Declaration(Class(:PMD_0020114))
 Declaration(Class(:PMD_0020132))
 Declaration(Class(:PMD_0020142))
-Declaration(Class(:PMD_0020255))
-Declaration(Class(:PMD_0020350))
 Declaration(Class(:PMD_0020353))
-Declaration(Class(:PMD_0020354))
-Declaration(Class(:PMD_0020359))
-Declaration(Class(:PMD_0020360))
 Declaration(Class(:PMD_0020367))
 Declaration(Class(:PMD_0025005))
 Declaration(Class(:PMD_0025007))
@@ -56,6 +51,7 @@ Declaration(ObjectProperty(obo:OBI_0001938))
 Declaration(ObjectProperty(obo:RO_0002082))
 Declaration(ObjectProperty(obo:RO_0002224))
 Declaration(ObjectProperty(obo:RO_0002230))
+Declaration(ObjectProperty(obo:RO_0002328))
 Declaration(ObjectProperty(:PMD_0000004))
 Declaration(ObjectProperty(:PMD_0000009))
 Declaration(ObjectProperty(:PMD_0000069))
@@ -137,6 +133,19 @@ InverseObjectProperties(obo:OBI_0001927 :PMD_0000077)
 
 SubObjectPropertyOf(obo:OBI_0001938 obo:BFO_0000051)
 
+# Object Property: obo:RO_0002328 (functionally related to)
+
+AnnotationAssertion(obo:IAO_0000116 obo:RO_0002328 "This is the soft version of mathematical dependence. We would like to introduce oparator classes later (derivative, quotient, sum, difference, product) with appropriate properties for the terms.
+
+difference === ('has minuend' only entity) and ('has subtrahend' only entity)
+sum === 'has addend' some entity
+product === 'has factor' some entity
+quotient === ('has numerator' only entity) and ('has denominator' only entity)
+derivative === ('has differential numerator' only entity) and ('has differential denominator' only entity)"@en)
+AnnotationAssertion(rdfs:label obo:RO_0002328 "functionally related to"@en)
+AnnotationAssertion(rdfs:seeAlso obo:RO_0002328 obo:RO_0002328)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> obo:RO_0002328 "A grouping relationship for any relationship directly involving a function, or that holds because of a function of one of the related entities."@en)
+
 # Object Property: :PMD_0000004 (is subject of)
 
 AnnotationAssertion(obo:IAO_0000114 :PMD_0000004 obo:IAO_0000122)
@@ -214,47 +223,55 @@ ObjectPropertyRange(:PMD_0020127 obo:BFO_0000020)
 # Object Property: :PMD_0020256 (has numerator)
 
 AnnotationAssertion(rdfs:label :PMD_0020256 "has numerator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020256 "points to a numerator of a quotient"@en)
+SubObjectPropertyOf(:PMD_0020256 obo:RO_0002328)
 FunctionalObjectProperty(:PMD_0020256)
 
 # Object Property: :PMD_0020257 (has denominator)
 
 AnnotationAssertion(rdfs:label :PMD_0020257 "has denominator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020257 "points to a denominator of a quotient"@en)
+SubObjectPropertyOf(:PMD_0020257 obo:RO_0002328)
 FunctionalObjectProperty(:PMD_0020257)
 
 # Object Property: :PMD_0020324 (has differential numerator)
 
 AnnotationAssertion(rdfs:label :PMD_0020324 "has differential numerator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020324 "points to a differential numerator of a differential"@en)
+SubObjectPropertyOf(:PMD_0020324 obo:RO_0002328)
 FunctionalObjectProperty(:PMD_0020324)
 
 # Object Property: :PMD_0020327 (has differential denominator)
 
 AnnotationAssertion(rdfs:comment :PMD_0020327 "TODO: candidate for causality?"@en)
 AnnotationAssertion(rdfs:label :PMD_0020327 "has differential denominator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020327 "points to a denominator of a differential"@en)
+SubObjectPropertyOf(:PMD_0020327 obo:RO_0002328)
 FunctionalObjectProperty(:PMD_0020327)
 
 # Object Property: :PMD_0020355 (has minuend)
 
 AnnotationAssertion(rdfs:label :PMD_0020355 "has minuend"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020355 "points to the minuend of a difference"@en)
-ObjectPropertyDomain(:PMD_0020355 :PMD_0020354)
+SubObjectPropertyOf(:PMD_0020355 obo:RO_0002328)
 
 # Object Property: :PMD_0020356 (has subtrahend)
 
 AnnotationAssertion(rdfs:label :PMD_0020356 "has subtrahend"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020356 "points to the subtrahend of a difference"@en)
-ObjectPropertyDomain(:PMD_0020356 :PMD_0020354)
+SubObjectPropertyOf(:PMD_0020356 obo:RO_0002328)
 
 # Object Property: :PMD_0020357 (has addend)
 
 AnnotationAssertion(rdfs:label :PMD_0020357 "has addend"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020357 "points to an addend of a sum"@en)
-ObjectPropertyDomain(:PMD_0020357 :PMD_0020359)
+SubObjectPropertyOf(:PMD_0020357 obo:RO_0002328)
 
 # Object Property: :PMD_0020358 (has factor)
 
 AnnotationAssertion(rdfs:label :PMD_0020358 "has factor"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020358 "points to a factor of a product (multiplication)"@en)
-ObjectPropertyDomain(:PMD_0020358 :PMD_0020360)
+SubObjectPropertyOf(:PMD_0020358 obo:RO_0002328)
 
 # Object Property: :PMD_0025006 (process attribute of)
 
@@ -502,52 +519,9 @@ AnnotationAssertion(obo:IAO_0000117 :PMD_0020132 "PERSON: Philipp von Hartrott")
 
 SubClassOf(:PMD_0020142 :PMD_0020353)
 
-# Class: :PMD_0020255 (quotient)
-
-AnnotationAssertion(obo:IAO_0000116 :PMD_0020255 "this is a tentative concept and may be deprecated soon"@en)
-AnnotationAssertion(rdfs:label :PMD_0020255 "quotient"@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#comment> :PMD_0020255 "The denominators may be SDCs as well as temporal intervals, thus the class is neither continuant nor occurent."@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020255 "is an entity that links numerator to denominator."@en)
-EquivalentClasses(:PMD_0020255 ObjectIntersectionOf(ObjectAllValuesFrom(:PMD_0020256 obo:BFO_0000001) ObjectAllValuesFrom(:PMD_0020257 obo:BFO_0000001)))
-SubClassOf(:PMD_0020255 obo:BFO_0000001)
-
-# Class: :PMD_0020350 (derivative)
-
-AnnotationAssertion(obo:IAO_0000116 :PMD_0020350 "this is a tentative concept and may be deprecated soon"@en)
-AnnotationAssertion(rdfs:label :PMD_0020350 "derivative"@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#altLabel> :PMD_0020350 "differential quotient"@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#comment> :PMD_0020350 "The differential denominators may be SDCs as well as temporal intervals, thus the class is neither continuant nor occurent."@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020350 "is an entity that links hypothetical (infinitessimal) change of differential numerator to a change of differntial denominator."@en)
-EquivalentClasses(Annotation(rdfs:comment "should be exactly one"@en) :PMD_0020350 ObjectIntersectionOf(ObjectAllValuesFrom(:PMD_0020324 obo:BFO_0000001) ObjectAllValuesFrom(:PMD_0020327 obo:BFO_0000001)))
-SubClassOf(:PMD_0020350 obo:BFO_0000001)
-
-# Class: :PMD_0020354 (difference)
-
-AnnotationAssertion(obo:IAO_0000116 :PMD_0020354 "this is a tentative concept and may be deprecated soon"@en)
-AnnotationAssertion(rdfs:label :PMD_0020354 "difference"@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020354 "the difference of some entities"@en)
-EquivalentClasses(:PMD_0020354 ObjectIntersectionOf(ObjectAllValuesFrom(:PMD_0020355 obo:BFO_0000001) ObjectAllValuesFrom(:PMD_0020356 obo:BFO_0000001)))
-SubClassOf(:PMD_0020354 obo:BFO_0000001)
-
-# Class: :PMD_0020359 (sum)
-
-AnnotationAssertion(obo:IAO_0000116 :PMD_0020359 "this is a tentative concept and may be deprecated soon"@en)
-AnnotationAssertion(rdfs:comment :PMD_0020359 "the sum of some entities"@en)
-AnnotationAssertion(rdfs:label :PMD_0020359 "sum"@en)
-EquivalentClasses(:PMD_0020359 ObjectSomeValuesFrom(:PMD_0020357 obo:BFO_0000001))
-SubClassOf(:PMD_0020359 obo:BFO_0000001)
-
-# Class: :PMD_0020360 (product)
-
-AnnotationAssertion(obo:IAO_0000116 :PMD_0020360 "this is a tentative concept and may be deprecated soon"@en)
-AnnotationAssertion(rdfs:label :PMD_0020360 "product"@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020360 "the product of some entities (multiplication)"@en)
-EquivalentClasses(:PMD_0020360 ObjectSomeValuesFrom(:PMD_0020358 obo:BFO_0000001))
-SubClassOf(:PMD_0020360 obo:BFO_0000001)
-
 # Class: :PMD_0020367 (count)
 
-SubClassOf(:PMD_0020367 :PMD_0020353)
+SubClassOf(:PMD_0020367 obo:BFO_0000019)
 SubClassOf(:PMD_0020367 ObjectAllValuesFrom(obo:RO_0000052 obo:BFO_0000027))
 
 # Class: :PMD_0025005 (3D)
@@ -568,7 +542,7 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_002500
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0025007 "Frequency of electromagnetic wave, Frequency of sound wave."@en)
 SubClassOf(:PMD_0025007 :PMD_0000008)
 
-# Class: :PMD_0025018 (geometrische relationale Qualität)
+# Class: :PMD_0025018 (geometric relational quality)
 
 AnnotationAssertion(obo:IAO_0000114 :PMD_0025018 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 :PMD_0025018 "PERSON: Kamilla Zaripova")
