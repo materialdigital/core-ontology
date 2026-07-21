@@ -6,7 +6,7 @@ Your ODK repositories configuration is managed in `src/ontology/pmdco-odk.yaml`.
 
 
 ```
-sh run.sh make update_repo
+sh run.sh update_repo
 ```
 
 There are a large number of options that can be set to configure your ODK, but we will only discuss a few of them here.
@@ -169,7 +169,7 @@ components:
     - filename: mycomp.owl
 ```
 
-When running `sh run.sh make update_repo`, a new file `src/ontology/components/mycomp.owl` will 
+When running `sh run.sh update_repo`, a new file `src/ontology/components/mycomp.owl` will 
 be created which you can edit as you see fit. Typical ways to edit:
 
 1. Using a ROBOT template to generate the component (see below)

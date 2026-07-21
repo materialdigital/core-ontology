@@ -672,7 +672,7 @@ mirror-nfdicore: | $(TMPDIR)
 .PHONY: mirror-time
 .PRECIOUS: $(MIRRORDIR)/time.owl
 mirror-time: | $(TMPDIR)
-	$(ROBOT) convert -I https://raw.githubusercontent.com/w3c/sdw/gh-pages/time/rdf/time.ttl -o $(TMPDIR)/$@.owl
+	$(ROBOT) convert -I https://github.com/w3c/sdw-time/raw/refs/heads/gh-pages/rdf/time.ttl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)
