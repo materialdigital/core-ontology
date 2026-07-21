@@ -1,0 +1,79 @@
+Prefix(:=<https://w3id.org/pmd/co/components/pmdco-microstructure.owl/>)
+Prefix(obo:=<http://purl.obolibrary.org/obo/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(skos:=<http://www.w3.org/2004/02/skos/core#>)
+Prefix(pmdco:=<https://w3id.org/pmd/co/>)
+Prefix(dcterms:=<http://purl.org/dc/terms/>)
+
+
+Ontology(<https://w3id.org/pmd/co/components/pmdco-microstructure.owl>
+Import(<https://w3id.org/pmd/co/components/pmdco-shared.owl>)
+
+Declaration(Class(pmdco:PMD_0020000))
+Declaration(Class(pmdco:PMD_0020003))
+Declaration(Class(pmdco:PMD_0027001))
+Declaration(Class(pmdco:PMD_0027002))
+Declaration(Class(pmdco:PMD_0027003))
+Declaration(Class(pmdco:PMD_0027004))
+Declaration(Class(pmdco:PMD_0027005))
+Declaration(AnnotationProperty(skos:comment))
+
+
+
+############################
+#   Classes
+############################
+
+# Class: pmdco:PMD_0027001 (lamella)
+
+AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0027001 obo:IAO_0000122)
+AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0027001 "PERSON: PMDco Team")
+AnnotationAssertion(rdfs:label pmdco:PMD_0027001 "lamella"@en)
+AnnotationAssertion(skos:comment pmdco:PMD_0027001 "It may part of a lamellae object oggregate")
+AnnotationAssertion(skos:definition pmdco:PMD_0027001 "lamella is an object that represents a thin, flat, plate-like layer or flake within microstructure."@en)
+SubClassOf(pmdco:PMD_0027001 obo:BFO_0000030)
+SubClassOf(pmdco:PMD_0027001 ObjectIntersectionOf(pmdco:PMD_0020000 pmdco:PMD_0020003))
+DisjointClasses(pmdco:PMD_0027001 pmdco:PMD_0027004)
+
+# Class: pmdco:PMD_0027002 (lamellae)
+
+AnnotationAssertion(obo:IAO_0000112 pmdco:PMD_0027002 "perlite microconstituent has part ferrite lamellae and has part cementite lamellae. Ferrite lamellae has part ferrite lamella"@en)
+AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0027002 obo:IAO_0000122)
+AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0027002 "PERSON: PMDco Team")
+AnnotationAssertion(rdfs:label pmdco:PMD_0027002 "lamellae"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0027002 "lamellae is an object aggregate that is part of some microconstituent and at the same time a single thermodynamic phase"@en)
+AnnotationAssertion(skos:example pmdco:PMD_0027002 "ferrite lamellae in perlite microcontituent"@en)
+SubClassOf(pmdco:PMD_0027002 obo:BFO_0000027)
+SubClassOf(pmdco:PMD_0027002 ObjectAllValuesFrom(obo:RO_0002351 pmdco:PMD_0027001))
+
+# Class: pmdco:PMD_0027003 (average lamella thickness)
+
+AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0027003 obo:IAO_0000122)
+AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0027003 "PERSON: PMDco Team")
+AnnotationAssertion(rdfs:label pmdco:PMD_0027003 "average lamella thickness"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0027003 "average lamella thickness is a quality of lamellae object aggregate which defines the average thickness across all indivudual lamella(s) of a sinlge phase in a microconstituent"@en)
+AnnotationAssertion(skos:example pmdco:PMD_0027003 "average thickness of ferrite lamellae in perlite microscontituent"@en)
+SubClassOf(pmdco:PMD_0027003 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0027003 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0027002) ObjectAllValuesFrom(obo:RO_0000080 pmdco:PMD_0027002)))
+
+# Class: pmdco:PMD_0027004 (lath)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0027004 "lath"@en)
+AnnotationAssertion(skos:comment pmdco:PMD_0027004 "A lath is a crystal of a single phase. e.g., cementite in a crystallite of bainite microcontituent."@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0027004 "Lath is an elongated object and at the same time a crystal and a thermodynamic phase"@en)
+AnnotationAssertion(skos:example pmdco:PMD_0027004 "lath of cementite embedded in ferrite matix in bainite microconstituent"@en)
+SubClassOf(pmdco:PMD_0027004 ObjectIntersectionOf(pmdco:PMD_0020000 pmdco:PMD_0020003))
+
+# Class: pmdco:PMD_0027005 (laths)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0027005 "laths"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0027005 "an object aggregate of multiple lath objects"@en)
+SubClassOf(pmdco:PMD_0027005 obo:BFO_0000027)
+SubClassOf(pmdco:PMD_0027005 ObjectAllValuesFrom(obo:RO_0002351 pmdco:PMD_0027004))
+
+
+)
