@@ -203,6 +203,21 @@ Declaration(Class(pmdco:PMD_0020349))
 Declaration(Class(pmdco:PMD_0020351))
 Declaration(Class(pmdco:PMD_0020352))
 Declaration(Class(pmdco:PMD_0020353))
+Declaration(Class(pmdco:PMD_0020361))
+Declaration(Class(pmdco:PMD_0020364))
+Declaration(Class(pmdco:PMD_0020365))
+Declaration(Class(pmdco:PMD_0020366))
+Declaration(Class(pmdco:PMD_0020369))
+Declaration(Class(pmdco:PMD_0020370))
+Declaration(Class(pmdco:PMD_0020371))
+Declaration(Class(pmdco:PMD_0020372))
+Declaration(Class(pmdco:PMD_0020375))
+Declaration(Class(pmdco:PMD_0020376))
+Declaration(Class(pmdco:PMD_0020377))
+Declaration(Class(pmdco:PMD_0020378))
+Declaration(Class(pmdco:PMD_0020379))
+Declaration(Class(pmdco:PMD_0020380))
+Declaration(Class(pmdco:PMD_0020381))
 Declaration(Class(pmdco:PMD_0025001))
 Declaration(Class(pmdco:PMD_0025002))
 Declaration(Class(pmdco:PMD_0025003))
@@ -462,6 +477,7 @@ Declaration(NamedIndividual(pmdco:PMD_0020293))
 Declaration(NamedIndividual(pmdco:PMD_0020294))
 Declaration(NamedIndividual(pmdco:PMD_0020295))
 Declaration(NamedIndividual(pmdco:PMD_0020296))
+Declaration(NamedIndividual(pmdco:PMD_0020368))
 Declaration(AnnotationProperty(dcterms:created))
 Declaration(AnnotationProperty(dcterms:title))
 Declaration(AnnotationProperty(skos:altLabel))
@@ -543,9 +559,18 @@ AnnotationAssertion(skos:example pmdco:PMD_0025999 "mass proportion m is relatio
 
 
 
+
 ############################
 #   Classes
 ############################
+
+# Class: obo:BFO_0000002 (continuant)
+
+SubClassOf(obo:BFO_0000002 ObjectAllValuesFrom(obo:BFO_0000050 obo:BFO_0000002))
+
+# Class: obo:BFO_0000020 (specifically dependent continuant)
+
+SubClassOf(obo:BFO_0000020 ObjectAllValuesFrom(obo:BFO_0000050 obo:BFO_0000020))
 
 # Class: obo:COB_0000082 (planned process)
 
@@ -929,16 +954,14 @@ AnnotationAssertion(skos:definition pmdco:PMD_0000618 "represents a material's s
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000618 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000618 ObjectIntersectionOf(pmdco:PMD_0020311 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000000) ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020331) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080034)))
 
-# Class: pmdco:PMD_0000619 (elektrisches Potential)
+# Class: pmdco:PMD_0000619 (electric potential)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000619 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000619 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label pmdco:PMD_0000619 "electric potential"@en)
-AnnotationAssertion(rdfs:label pmdco:PMD_0000619 "elektrisches Potential"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0000619 "an extensvie quality describing the amount of work needed to move a unit charge from a reference point to a specific location in an electric field."@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0000619 "eine ausführliche Qualität, die den Arbeitsaufwand beschreibt, der erforderlich ist, um eine Einheitsladung von einem Referenzpunkt zu einem bestimmten Ort in einem elektrischen Feld zu bewegen."@de)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000619 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000619 pmdco:PMD_0080116)
+SubClassOf(pmdco:PMD_0000619 ObjectAllValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080022))
 
 # Class: pmdco:PMD_0000620 (elektrische Leitfähigkeit)
 
@@ -1698,15 +1721,17 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020129 "Ein reversibler Prozess i
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020129 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0020129 obo:BFO_0000015)
 
-# Class: pmdco:PMD_0020130 (Triebkraft einer Phase im System)
+# Class: pmdco:PMD_0020130 (driving force)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0020130 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020130 "PERSON: Philipp von Hartrott")
-AnnotationAssertion(rdfs:label pmdco:PMD_0020130 "Triebkraft einer Phase im System"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0020130 "driving force of phase in system"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020130 "Driving force of phase in a system is a relational quality that inheres between two material entities, the species and the material (system). The driving force is a factor that promotes a physical process or (eletro-)chemical reaction in a material (system) to occur and proceed towards completion. It can be quantified as the gradient of the activity of the participating species.")
+AnnotationAssertion(rdfs:label pmdco:PMD_0020130 "driving force"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020130 "The driving force for a phase transformation or mass transfer is proportional to the difference in chemical potential between phases
+
+Δμ=μα−μβ, with chemical potential μ and phases α and β")
 AnnotationAssertion(skos:example pmdco:PMD_0020130 "For α → β: ΔG = G_β − G_α. If ΔG < 0, the transformation is thermodynamically favorable; many report the driving force as F = −ΔG > 0")
-SubClassOf(pmdco:PMD_0020130 pmdco:PMD_0080116)
+EquivalentClasses(pmdco:PMD_0020130 ObjectIntersectionOf(ObjectAllValuesFrom(pmdco:PMD_0020355 ObjectIntersectionOf(pmdco:PMD_0000553 ObjectAllValuesFrom(obo:RO_0000052 pmdco:PMD_0020000))) ObjectAllValuesFrom(pmdco:PMD_0020356 ObjectIntersectionOf(pmdco:PMD_0000553 ObjectAllValuesFrom(obo:RO_0000052 pmdco:PMD_0020000)))))
+SubClassOf(pmdco:PMD_0020130 pmdco:PMD_0020313)
+SubClassOf(pmdco:PMD_0020130 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0020128))
 
 # Class: pmdco:PMD_0020131 (intensive quality)
 
@@ -2119,7 +2144,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0020237 "Burger-Vektor"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020237 "Burgers vector"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020237 "Qualität einer Versetzung hinsichtlich Menge und Richtung in einem bestimmten Kristalltyp"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0020237 "quality of a dislocation in terms of amount and direction in a specific crystal type"@en)
-SubClassOf(pmdco:PMD_0020237 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0020237 pmdco:PMD_0020335)
 SubClassOf(pmdco:PMD_0020237 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectionOf(pmdco:PMD_0020233 ObjectSomeValuesFrom(obo:RO_0001025 pmdco:PMD_0020003))))
 
 # Class: pmdco:PMD_0020241 (angle of misalignment (crystallography))
@@ -2290,15 +2315,161 @@ EquivalentClasses(pmdco:PMD_0020349 ObjectIntersectionOf(obo:BFO_0000020 ObjectC
 AnnotationAssertion(rdfs:label pmdco:PMD_0020351 "kinetic energy"@en)
 SubClassOf(pmdco:PMD_0020351 pmdco:PMD_0020142)
 
-# Class: pmdco:PMD_0020352 (elastic energy)
+# Class: pmdco:PMD_0020352 (elastic strain energy)
 
-AnnotationAssertion(rdfs:label pmdco:PMD_0020352 "elastic energy"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020352 "elastic strain energy"@en)
 SubClassOf(pmdco:PMD_0020352 pmdco:PMD_0020142)
 
 # Class: pmdco:PMD_0020353 (unclassified property)
 
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020353 "Do not use this class directly. It will be deprecated in future releases.")
 AnnotationAssertion(rdfs:label pmdco:PMD_0020353 "unclassified property"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020353 "a collection of to-be classifed SDCs"@en)
 SubClassOf(pmdco:PMD_0020353 obo:BFO_0000020)
+
+# Class: pmdco:PMD_0020361 (Gibbs energy)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020361 "Gibbs energy"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020361 "G = U + pV - TS
+U - inner energy of system
+T - absolute temperature
+S - entropy
+p - pressure
+V - volume"@en)
+SubClassOf(pmdco:PMD_0020361 pmdco:PMD_0020142)
+SubClassOf(pmdco:PMD_0020361 ObjectIntersectionOf(ObjectIntersectionOf(ObjectSomeValuesFrom(pmdco:PMD_0020355 ObjectIntersectionOf(pmdco:PMD_0020360 ObjectSomeValuesFrom(pmdco:PMD_0020358 pmdco:PMD_0000896) ObjectSomeValuesFrom(pmdco:PMD_0020358 pmdco:PMD_0020150))) ObjectSomeValuesFrom(pmdco:PMD_0020357 ObjectIntersectionOf(pmdco:PMD_0020354 ObjectSomeValuesFrom(pmdco:PMD_0020356 ObjectIntersectionOf(pmdco:PMD_0020360 ObjectSomeValuesFrom(pmdco:PMD_0020358 pmdco:PMD_0000967) ObjectSomeValuesFrom(pmdco:PMD_0020358 pmdco:PMD_0080050)))))) ObjectSomeValuesFrom(pmdco:PMD_0020357 pmdco:PMD_0020151)))
+
+# Class: pmdco:PMD_0020362 (Helmholtz energy)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020362 "Helmholtz energy"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020362 "F = U - TS
+U - inner energy of system
+T - absolute temperature
+S - entropy"@en)
+SubClassOf(pmdco:PMD_0020362 pmdco:PMD_0020142)
+SubClassOf(pmdco:PMD_0020362 ObjectIntersectionOf(ObjectSomeValuesFrom(pmdco:PMD_0020355 pmdco:PMD_0020151) ObjectSomeValuesFrom(pmdco:PMD_0020356 ObjectIntersectionOf(pmdco:PMD_0020360 ObjectSomeValuesFrom(pmdco:PMD_0020358 pmdco:PMD_0000967) ObjectSomeValuesFrom(pmdco:PMD_0020358 pmdco:PMD_0020150)))))
+
+# Class: pmdco:PMD_0020363 (specific energy)
+
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020363 "do not use directly. may get deprecated."@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020363 "specific energy"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020363 "collector class"@en)
+SubClassOf(pmdco:PMD_0020363 pmdco:PMD_0020353)
+SubClassOf(pmdco:PMD_0020363 ObjectIntersectionOf(ObjectSomeValuesFrom(pmdco:PMD_0020256 pmdco:PMD_0020142) ObjectSomeValuesFrom(pmdco:PMD_0020257 obo:BFO_0000001)))
+
+# Class: pmdco:PMD_0020364 (per count)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020364 "per count"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020364 "a quotient with a denominator that has is a count"@en)
+EquivalentClasses(pmdco:PMD_0020364 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020367 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))
+SubClassOf(pmdco:PMD_0020364 pmdco:PMD_0020255)
+
+# Class: pmdco:PMD_0020365 (per volume)
+
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020365 "TODO axiom wrong"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020365 "per volume"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020365 "a quotient where the denominator is a volume"@en)
+EquivalentClasses(pmdco:PMD_0020365 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020150 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))
+SubClassOf(pmdco:PMD_0020365 pmdco:PMD_0020255)
+
+# Class: pmdco:PMD_0020366 (per mass)
+
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020366 "TODO axiom wrong"@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020366 "per mass"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020366 "a quotient where the denominator is the mass of the bearer"@en)
+EquivalentClasses(pmdco:PMD_0020366 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020133 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))
+SubClassOf(pmdco:PMD_0020366 pmdco:PMD_0020255)
+
+# Class: pmdco:PMD_0020367 (count)
+
+AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020367 "OWL cardinality is restricted to xsd:integer type. Avogardo number is integer but larger that the xsd:integer range. Thus 'has member' exactly 'avogadro number' can not be axiomatized."@en)
+AnnotationAssertion(rdfs:label pmdco:PMD_0020367 "count"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020367 "the number of similar objects in an object aggregate"@en)
+
+# Class: pmdco:PMD_0020369 (per mol)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020369 "per mol"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020369 "a per count with the count of Avogadro-number"@en)
+EquivalentClasses(pmdco:PMD_0020369 ObjectAllValuesFrom(pmdco:PMD_0020257 pmdco:PMD_0020370))
+SubClassOf(pmdco:PMD_0020369 pmdco:PMD_0020364)
+
+# Class: pmdco:PMD_0020370 (a mol of entites)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020370 "a mol of entites"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020370 "an object aggregate which Avogadro-number coount members of same type"@en)
+EquivalentClasses(pmdco:PMD_0020370 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020367 ObjectHasValue(pmdco:PMD_0000077 pmdco:PMD_0020368))))
+SubClassOf(pmdco:PMD_0020370 obo:BFO_0000027)
+
+# Class: pmdco:PMD_0020371 (specific molar energy)
+
+SubClassOf(pmdco:PMD_0020371 pmdco:PMD_0020363)
+SubClassOf(pmdco:PMD_0020371 ObjectAllValuesFrom(pmdco:PMD_0020257 pmdco:PMD_0020370))
+
+# Class: pmdco:PMD_0020372 (specific mass energy)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020372 "specific mass energy"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020372 "some energy normalized to the mass of the bearer"@en)
+SubClassOf(pmdco:PMD_0020372 pmdco:PMD_0020363)
+SubClassOf(pmdco:PMD_0020372 ObjectSomeValuesFrom(pmdco:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020133 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))))
+
+# Class: pmdco:PMD_0020373 (specific volume energy)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020373 "specific volume energy"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020373 "some energy normalized to the volume of the bearer"@en)
+SubClassOf(pmdco:PMD_0020373 pmdco:PMD_0020363)
+SubClassOf(pmdco:PMD_0020373 ObjectSomeValuesFrom(pmdco:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020150 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))))
+
+# Class: pmdco:PMD_0020374 (thermal potential)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020374 "thermal potential"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020374 "potential due to temperature"@en)
+SubClassOf(pmdco:PMD_0020374 pmdco:PMD_0080116)
+SubClassOf(pmdco:PMD_0020374 ObjectAllValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0000967))
+
+# Class: pmdco:PMD_0020375 (hydrostatic mechanical potential)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020375 "hydrostatic mechanical potential"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020375 "potential due to hydrostatic elastic strain"@en)
+SubClassOf(pmdco:PMD_0020375 pmdco:PMD_0020381)
+SubClassOf(pmdco:PMD_0020375 ObjectIntersectionOf(ObjectAllValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0000896) ObjectAllValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020150)))
+
+# Class: pmdco:PMD_0020376 (uniaxial strain potential)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020376 "uniaxial strain potential"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020376 "potential due to uniaxial elastic strain"@en)
+SubClassOf(pmdco:PMD_0020376 pmdco:PMD_0020381)
+SubClassOf(pmdco:PMD_0020376 ObjectIntersectionOf(ObjectAllValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020352) ObjectAllValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020379)))
+
+# Class: pmdco:PMD_0020377 (uniaxial stress)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020377 "uniaxial stress"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020377 "a multiaxial stress where only stress in one direction is non-zero"@en)
+SubClassOf(pmdco:PMD_0020377 pmdco:PMD_0020378)
+
+# Class: pmdco:PMD_0020378 (multiaxial stress)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020378 "multiaxial stress"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020378 "a stress in multiple dimensions"@en)
+SubClassOf(pmdco:PMD_0020378 pmdco:PMD_0080108)
+
+# Class: pmdco:PMD_0020379 (uniaxial strain)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020379 "uniaxial strain"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020379 "a multiaxial strain with non-zero components only in one direction"@en)
+SubClassOf(pmdco:PMD_0020379 pmdco:PMD_0020380)
+
+# Class: pmdco:PMD_0020380 (multiaxial strain)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020380 "multiaxial strain"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020380 "the 3D strain as represented by a tensor"@en)
+SubClassOf(pmdco:PMD_0020380 pmdco:PMD_0080029)
+
+# Class: pmdco:PMD_0020381 (multiaxial strain potential)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020381 "multiaxial strain potential"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0020381 "potential due to multiaxial elastic strain"@en)
+SubClassOf(pmdco:PMD_0020381 pmdco:PMD_0080116)
+SubClassOf(pmdco:PMD_0020381 ObjectIntersectionOf(ObjectAllValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020352) ObjectAllValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020380)))
 
 # Class: pmdco:PMD_0025001 (Zusammensetzung)
 
@@ -2312,7 +2483,8 @@ AnnotationAssertion(skos:definition pmdco:PMD_0025001 "Zusammensetzung ist eine 
 AnnotationAssertion(skos:example pmdco:PMD_0025001 "4 vol.% nitric acid solution, Styrene-Butadiene-Styrene (SBS) Block Copolymer with 50 vol.% of both styrene and butadiene"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0025001 "true"^^xsd:boolean)
 AnnotationAssertion(pmdco:PMD_0000064 pmdco:PMD_0025001 "Composition is a collective property of a portion of matter, i.e., the triple portion of matter has quality composition holds. As \"has quality\" is an inverse  functional property, only one instance of portion of matter can have this specific composition. However, proportions describe the relation between the prortion of matter (the whole) and some compound (the part). Thus, the following triples hold: portion of matter has relational quality proportion; portion of matter has part some substance (or whatever is your part); substance has relational quality proportion. \"Has relational quality\" is not inverse functional, i.e., it can point to a single object from 2 distinct subjects."@en)
-SubClassOf(pmdco:PMD_0025001 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0000001)))
+SubClassOf(pmdco:PMD_0025001 obo:BFO_0000019)
+SubClassOf(pmdco:PMD_0025001 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectionOf(pmdco:PMD_0000001 ObjectSomeValuesFrom(obo:BFO_0000051 pmdco:PMD_0000001))))
 
 # Class: pmdco:PMD_0025002 (chemical composition data item)
 
@@ -2395,7 +2567,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0025017 "Der Außendurchmesser ist
 AnnotationAssertion(skos:definition pmdco:PMD_0025017 "Outer diameter is a length of a straight line from one outer surface of an object or space to the other side of its outer surface through the center of an object or space when it has the inside and outside surface."@en)
 SubClassOf(pmdco:PMD_0025017 pmdco:PMD_0050051)
 
-# Class: pmdco:PMD_0025018 (geometrische relationale Qualität)
+# Class: pmdco:PMD_0025018 (geometric relational quality)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0025018 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0025018 "PERSON: Kamilla Zaripova")
@@ -2445,7 +2617,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0050000 "atomic bond"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0050000 "A bond is a relational quality describing the force interaction between atoms."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0050000 "Eine Bindung ist eine relationale Qualität, die die Kraftwechselwirkung zwischen Atomen beschreibt."@de)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0050000 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0050000 ObjectIntersectionOf(obo:BFO_0000145 ObjectSomeValuesFrom(obo:RO_0000080 obo:CHEBI_33250)))
+SubClassOf(pmdco:PMD_0050000 ObjectIntersectionOf(obo:BFO_0000145 ObjectSomeValuesFrom(pmdco:PMD_0025999 obo:CHEBI_33250)))
 
 # Class: pmdco:PMD_0050001 (covalent bond)
 
@@ -2620,19 +2792,14 @@ AnnotationAssertion(skos:example pmdco:PMD_0080005 "The melting point of iron at
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080005 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080005 ObjectIntersectionOf(obo:BFO_0000019 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0020128)))
 
-# Class: pmdco:PMD_0080006 (fluid dynamic quality)
+# Class: pmdco:PMD_0080006 (DEPRECATED fluid dynamic quality)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080006 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080006 "Necessary and sufficient conditions for 'fluid dynamic quality' have not yet been formalized. The term is defined as a specific subtype of 'physical quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080006 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080006 "Strömungsqualität"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080006 "fluid dynamic quality"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080006 "Qualität der Strömungslehre"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080006 "Die dynamische Fluidqualität charakterisiert das Verhalten oder den Zustand einer materiellen Einheit in Bezug auf die Fluidinteraktion"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080006 "Fluid dynamic quality characterizes a material entity's behavior or state in relation to fluidic interaction"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0080006 "The Reynolds number of flow in a pipe is a fluid dynamic quality determining laminar or turbulent regime"@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080006 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080006 obo:BFO_0000019)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080006 "DEPRECATED Strömungsqualität"@de)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080006 "DEPRECATED fluid dynamic quality"@en)
+AnnotationAssertion(rdfs:seeAlso pmdco:PMD_0080006 pmdco:PMD_0020316)
+AnnotationAssertion(owl:deprecated pmdco:PMD_0080006 "true"^^xsd:boolean)
+AnnotationAssertion(skos:definition pmdco:PMD_0080006 "DEPRECATED Die dynamische Fluidqualität charakterisiert das Verhalten oder den Zustand einer materiellen Einheit in Bezug auf die Fluidinteraktion"@de)
+AnnotationAssertion(skos:definition pmdco:PMD_0080006 "DEPRECATED Fluid dynamic quality characterizes a material entity's behavior or state in relation to fluidic interaction"@en)
 
 # Class: pmdco:PMD_0080007 (radiologic disposition)
 
@@ -3167,17 +3334,16 @@ AnnotationAssertion(skos:example pmdco:PMD_0080049 "Glass transition temperature
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080049 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080049 pmdco:PMD_0080048)
 
-# Class: pmdco:PMD_0080050 (Entropie)
+# Class: pmdco:PMD_0080050 (entropy)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080050 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080050 "Necessary and sufficient conditions for 'entropy' have not yet been formalized. The term is defined as a specific subtype of 'energy'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://www.britannica.com/science/entropy-physics."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080050 "PERSON: Thomas Hanke")
-AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0080050 <https://www.britannica.com/science/entropy-physics>)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080050 "Entropie"@de)
+AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080050 "Philipp von Hartrott")
+AnnotationAssertion(rdfs:comment pmdco:PMD_0080050 "SI unit: joules per kelvin (J/K)
+
+Statistical definition (Boltzmann):
+S=k_B ln(W)
+where k_B​ is the Boltzmann constant and W is the number of microstates."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080050 "entropy"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080050 "Die Entropie misst die Wärmeenergie pro Temperatureinheit, die für die Arbeit in einem System nicht zur Verfügung steht und auf molekulare Unordnung oder Zufälligkeit hinweist"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080050 "Entropy measures the thermal energy per unit temperature unavailable for work in a system, indicating molecular disorder or randomness"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0080050 "Melting of ice at 0 C involves an entropy increase of 22 J/(mol·K), driving the phase transition"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0080050 "Entropy is a measure of the disorder or randomness of a system — more precisely, the number of microscopic arrangements (microstates) consistent with the system's macroscopic state."@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080050 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080050 ObjectIntersectionOf(pmdco:PMD_0020142 ObjectSomeValuesFrom(obo:RO_0000092 pmdco:PMD_0020128)))
 
@@ -3198,48 +3364,23 @@ SubClassOf(pmdco:PMD_0080051 pmdco:PMD_0020142)
 
 # Class: pmdco:PMD_0080052 (enthalpy)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080052 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080052 "Necessary and sufficient conditions for 'enthalpy' have not yet been formalized. The term is defined as a specific subtype of 'energy'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://www.britannica.com/science/enthalpy."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080052 "PERSON: Thomas Hanke")
-AnnotationAssertion(obo:IAO_0000119 pmdco:PMD_0080052 <https://www.britannica.com/science/enthalpy>)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080052 "Enthalpie"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080052 "enthalpy"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080052 "Die als H bezeichnete Enthalpie stellt die Summe der inneren Energie und das Produkt aus Druck und Volumen in einem thermodynamischen System dar und ist für Energieberechnungen von entscheidender Bedeutung"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080052 "Enthalpy, denoted as H, represents the sum of internal energy and the product of pressure and volume in a thermodynamic system, crucial for energy calculations"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0080052 "The enthalpy of fusion of aluminum is 397 J/g, energy required to melt it at its melting point"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0080052 "enthalpy H is the sum of internal energy and the product of pressure and volume"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080052 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080052 ObjectIntersectionOf(pmdco:PMD_0020142 ObjectSomeValuesFrom(obo:RO_0000092 pmdco:PMD_0020128)))
+SubClassOf(pmdco:PMD_0080052 pmdco:PMD_0020142)
+SubClassOf(pmdco:PMD_0080052 ObjectIntersectionOf(ObjectSomeValuesFrom(pmdco:PMD_0020357 pmdco:PMD_0020151) ObjectSomeValuesFrom(pmdco:PMD_0020357 ObjectIntersectionOf(pmdco:PMD_0020360 ObjectSomeValuesFrom(pmdco:PMD_0020358 pmdco:PMD_0000896) ObjectSomeValuesFrom(pmdco:PMD_0020358 pmdco:PMD_0020150)))))
 
-# Class: pmdco:PMD_0080053 (heat of fusion)
+# Class: pmdco:PMD_0080053 (melting enthalpy)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080053 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080053 "Necessary and sufficient conditions for 'heat of fusion' have not yet been formalized. The term is defined as a specific subtype of 'enthalpy'. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080053 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080053 "Schmelzenthalpie"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080053 "heat of fusion"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080053 "Schmelzwärme"@de)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080053 "enthalpy of fusion"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080053 "latent heat of melting"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080053 "ΔH_fus"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080053 "Heat of fusion is an enthalpy quality of a substance that specifies the amount of thermal energy required to convert a unit mass from solid to liquid phase at constant temperature and pressure"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080053 "Schmelzenthalpie ist eine Enthalpiequalität eines Stoffes, die die thermische Energie angibt, die benötigt wird, um eine Masseneinheit bei konstanter Temperatur und konstantem Druck von der festen in die flüssige Phase umzuwandeln"@de)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080053 "melting enthalpy"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0080053 "the amount of energy required to convert an entity from solid to liquid aggregtate state at constant temperature and pressure"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080053 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080053 pmdco:PMD_0080052)
 
-# Class: pmdco:PMD_0080054 (Verdampfungsenthalpie)
+# Class: pmdco:PMD_0080054 (enthalpy of vaporization)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080054 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080054 "Necessary and sufficient conditions for 'heat of vaporization' have not yet been formalized. The term is defined as a specific subtype of 'enthalpy'. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080054 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080054 "Verdampfungsenthalpie"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080054 "heat of vaporization"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080054 "Verdampfungswärme"@de)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080054 "enthalpy of vaporization"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080054 "latent heat of vaporization"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080054 "ΔH_vap"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080054 "Heat of vaporization is an enthalpy quality of a substance that specifies the amount of thermal energy required to convert a unit mass from liquid to vapour phase at constant temperature and pressure"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080054 "Verdampfungsenthalpie ist eine Enthalpiequalität eines Stoffes, die die thermische Energie angibt, die benötigt wird, um eine Masseneinheit bei konstanter Temperatur und konstantem Druck von der flüssigen in die gasförmige Phase umzuwandeln"@de)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080054 "true"^^xsd:boolean)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080054 "enthalpy of vaporization"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0080054 "the amount of energy required to convert an entity from liquid to gaseous aggregtate state at constant temperature and pressure"@en)
 SubClassOf(pmdco:PMD_0080054 pmdco:PMD_0080052)
 
 # Class: pmdco:PMD_0080055 (auto-ignition temperature)
@@ -3881,9 +4022,9 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080108 "Stress is the internal fo
 AnnotationAssertion(skos:example pmdco:PMD_0080108 "A cross-section of a loaded steel column bears a compressive stress of 150 MPa"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080108 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080108 pmdco:PMD_0020311)
+SubClassOf(Annotation(rdfs:comment "Mechanical view on stress"@en) pmdco:PMD_0080108 ObjectIntersectionOf(ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020200) ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080019)))
+SubClassOf(Annotation(rdfs:comment "Thermodynamic view on stress"@en) pmdco:PMD_0080108 ObjectIntersectionOf(ObjectAllValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020352) ObjectAllValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020380)))
 SubClassOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(obo:RO_0000052 pmdco:PMD_0000001))
-SubClassOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020200))
-SubClassOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0080019))
 
 # Class: pmdco:PMD_0080109 (engineering stress)
 
@@ -3979,29 +4120,22 @@ SubClassOf(pmdco:PMD_0080115 pmdco:PMD_0080114)
 
 # Class: pmdco:PMD_0080116 (potential)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080116 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080116 "Necessary and sufficient conditions for 'potential' have not yet been formalized. The term is defined as a specific subtype of 'physical relational quality'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080116 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080116 "Potenzial"@de)
+AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080116 "Philipp von Hartrott")
+AnnotationAssertion(rdfs:comment pmdco:PMD_0080116 "Every potential in physics is the same mathematical object — a partial derivative of energy with respect to its conjugate extensive quantity. The differences are only in which extensive quality you're considering."@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080116 "potential"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080116 "Potential describes the capacity of an entity to perform work or transform due to its position or configuration within a system"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080116 "Potenzial beschreibt die Fähigkeit einer Entität, Arbeit zu leisten oder sich aufgrund ihrer Position oder Konfiguration innerhalb eines Systems zu transformieren"@de)
-AnnotationAssertion(skos:example pmdco:PMD_0080116 "The gravitational potential at the top of a 10 m column of water corresponds to a pressure head of 98 kPa"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0080116 "a partial derivative of energy with respect to its conjugate extensive quantity"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080116 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080116 pmdco:PMD_0080069)
+SubClassOf(pmdco:PMD_0080116 pmdco:PMD_0020353)
+SubClassOf(Annotation(rdfs:comment "In field theories (e.g., gravity, electrostatics), the potential becomes a field ϕ(r⃗), and the force is recovered via:
+F=−∇ϕ(r⃗)F
+This is the spatial analogue: instead of asking \"how does energy change per unit carrier added?\", you ask \"how does energy change per unit carrier moved in space?\""@en) pmdco:PMD_0080116 ObjectIntersectionOf(ObjectAllValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020142) ObjectAllValuesFrom(pmdco:PMD_0020327 pmdco:PMD_0020319)))
 
-# Class: pmdco:PMD_0080118 (Massenpotential)
+# Class: pmdco:PMD_0080118 (gravitational potential)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080118 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080118 "Necessary and sufficient conditions for 'mass potential' have not yet been formalized. The term is defined as a specific subtype of 'potential'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080118 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080118 "Massenpotential"@de)
-AnnotationAssertion(rdfs:label pmdco:PMD_0080118 "mass potential"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080118 "Das Massenpotential definiert eine skalare Größe, die die aufgrund der Position, Form oder Konfiguration eines Materials gespeicherte Energie beschreibt"@de)
-AnnotationAssertion(skos:definition pmdco:PMD_0080118 "Mass potential defines a scalar quantity describing energy stored due to a material's position, shape, or configuration"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0080118 "The mass potential of a raised water reservoir drives flow through a turbine at lower elevation"@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080118 "true"^^xsd:boolean)
+AnnotationAssertion(rdfs:label pmdco:PMD_0080118 "gravitational potential"@en)
+AnnotationAssertion(skos:definition pmdco:PMD_0080118 "the potential due to mass"@en)
 SubClassOf(pmdco:PMD_0080118 pmdco:PMD_0080116)
+SubClassOf(pmdco:PMD_0080118 ObjectAllValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020133))
 
 # Class: pmdco:PMD_0080119 (Wärmeübergangskoeffizient)
 
@@ -4461,17 +4595,11 @@ SubClassOf(pmdco:PMD_0080156 ObjectIntersectionOf(pmdco:PMD_0000952 ObjectSomeVa
 
 # Class: pmdco:PMD_0080157 (shear strength)
 
-AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080157 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080157 "Necessary and sufficient conditions for 'shear strength' have not yet been formalized. The term is defined as a specific subtype of 'breaking strength'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
-AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080157 "PERSON: Thomas Hanke")
-AnnotationAssertion(rdfs:label pmdco:PMD_0080157 "Scherfestigkeit"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0080157 "shear strength"@en)
-AnnotationAssertion(skos:altLabel pmdco:PMD_0080157 "shear breaking strength"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0080157 "Scherfestigkeit ist die maximale Scherspannung, die ein Material entlang einer zur aufgebrachten Kraft parallelen Ebene vor dem Versagen widerstehen kann"@de)
 AnnotationAssertion(skos:definition pmdco:PMD_0080157 "Shear strength is the maximum shear stress a material can withstand before failure along a plane parallel to the applied force"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0080157 "Shear strength of a CFRP laminate specimen measured as 85 MPa according to ISO 14130 test conditions."@en)
-AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080157 "true"^^xsd:boolean)
-SubClassOf(pmdco:PMD_0080157 ObjectIntersectionOf(pmdco:PMD_0000952 pmdco:PMD_0020334 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0020339)))
+SubClassOf(pmdco:PMD_0080157 ObjectIntersectionOf(pmdco:PMD_0000952 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0020339)))
+SubClassOf(pmdco:PMD_0080157 ObjectIntersectionOf(pmdco:PMD_0080108 ObjectSomeValuesFrom(pmdco:PMD_0020324 pmdco:PMD_0020333)))
 
 # Class: pmdco:PMD_0080158 (DEPRECATED operational strength)
 
@@ -5037,7 +5165,7 @@ AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0090002 "PERSON: thnlrd")
 AnnotationAssertion(rdfs:label pmdco:PMD_0090002 "Bandlücke"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0090002 "band gap"@en)
 AnnotationAssertion(rdfs:seeAlso pmdco:PMD_0090002 "https://en.wikipedia.org/wiki/Valence_and_conduction_bands"^^xsd:anyURI)
-SubClassOf(pmdco:PMD_0090002 ObjectIntersectionOf(obo:BFO_0000019 pmdco:PMD_0020312))
+SubClassOf(pmdco:PMD_0090002 pmdco:PMD_0020312)
 SubClassOf(pmdco:PMD_0090002 ObjectSomeValuesFrom(obo:RO_0000080 pmdco:PMD_0020293))
 
 
@@ -5355,6 +5483,12 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020242 "no periodic arrangement o
 # Individual: pmdco:PMD_0020296 (suprasolid)
 
 
+# Individual: pmdco:PMD_0020368 (avogadro number)
+
+AnnotationAssertion(rdfs:label pmdco:PMD_0020368 "avogadro number"@en)
+ClassAssertion(obo:OBI_0001931 pmdco:PMD_0020368)
+DataPropertyAssertion(obo:OBI_0001937 pmdco:PMD_0020368 "602214086000000000000000"^^xsd:decimal)
+
 
 SubClassOf(ObjectUnionOf(pmdco:PMD_0000773 pmdco:PMD_0000952) pmdco:PMD_0000848)
 DisjointClasses(pmdco:PMD_0000503 pmdco:PMD_0000591 pmdco:PMD_0000595 pmdco:PMD_0000853 pmdco:PMD_0000896 pmdco:PMD_0000942 pmdco:PMD_0000967 pmdco:PMD_0020112 pmdco:PMD_0025001 pmdco:PMD_0025003 pmdco:PMD_0080597)
@@ -5365,6 +5499,8 @@ DisjointClasses(pmdco:PMD_0020102 pmdco:PMD_0020103 pmdco:PMD_0020104)
 DisjointClasses(pmdco:PMD_0020164 pmdco:PMD_0020167 pmdco:PMD_0020168 pmdco:PMD_0020169)
 DisjointClasses(pmdco:PMD_0020202 pmdco:PMD_0020203 pmdco:PMD_0020204)
 DisjointClasses(pmdco:PMD_0020307 pmdco:PMD_0020308 pmdco:PMD_0020309)
+DisjointClasses(pmdco:PMD_0020364 pmdco:PMD_0020365 pmdco:PMD_0020366)
+DisjointClasses(pmdco:PMD_0020371 pmdco:PMD_0020372 pmdco:PMD_0020373)
 DifferentIndividuals(pmdco:PMD_0020006 pmdco:PMD_0020007 pmdco:PMD_0020008 pmdco:PMD_0020009 pmdco:PMD_0020010 pmdco:PMD_0020011 pmdco:PMD_0020012 pmdco:PMD_0020013 pmdco:PMD_0020014 pmdco:PMD_0020015 pmdco:PMD_0020016 pmdco:PMD_0020017 pmdco:PMD_0020018 pmdco:PMD_0020019)
 DifferentIndividuals(pmdco:PMD_0020117 pmdco:PMD_0020288 pmdco:PMD_0020289 pmdco:PMD_0020290 pmdco:PMD_0020291 pmdco:PMD_0020292 pmdco:PMD_0020294 pmdco:PMD_0020295 pmdco:PMD_0020296)
 SubObjectPropertyOf(ObjectPropertyChain(obo:BFO_0000051 pmdco:PMD_0025998) pmdco:PMD_0025998)
