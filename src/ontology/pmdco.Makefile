@@ -43,6 +43,8 @@ $(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \
 		 remove --term CHEBI:33359 \
 		 remove --term CHEBI:30682 \
 		 remove --term CHEBI:33376 \
+		 remove --term PATO:0000122 \
+		 remove --term PATO:0000918 \
 		 remove --term-file $(IMPORTDIR)/unwanted.txt  \
 		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 		        --term-file $(IMPORTDIR)/obi_terms.txt $(T_IMPORTSEED) \
