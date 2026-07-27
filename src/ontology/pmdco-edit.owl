@@ -85,6 +85,8 @@ Declaration(Class(pmd:PMD_0023022))
 Declaration(Class(pmd:PMD_0023023))
 Declaration(Class(pmd:PMD_0023024))
 Declaration(Class(pmd:PMD_0023025))
+Declaration(Class(pmd:PMD_0023026))
+Declaration(Class(pmd:PMD_0023027))
 Declaration(Class(pmd:PMD_0023035))
 Declaration(Class(pmd:PMD_0023036))
 Declaration(Class(pmd:PMD_0023037))
@@ -93,6 +95,8 @@ Declaration(Class(pmd:PMD_0023039))
 Declaration(Class(pmd:PMD_0023040))
 Declaration(Class(pmd:PMD_0023041))
 Declaration(Class(pmd:PMD_0023043))
+Declaration(Class(pmd:PMD_0023045))
+Declaration(Class(pmd:PMD_0023046))
 Declaration(AnnotationProperty(dcterms:contributor))
 Declaration(AnnotationProperty(dcterms:creator))
 Declaration(AnnotationProperty(dcterms:description))
@@ -120,7 +124,15 @@ SubClassOf(pmd:PMD_0000551 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectio
 
 # Class: pmd:PMD_0000597 (mass density)
 
-SubClassOf(pmd:PMD_0000597 pmd:PMD_0020313)
+SubClassOf(pmd:PMD_0000597 pmd:PMD_0023043)
+
+# Class: pmd:PMD_0000604 (Dielektrizitätskonstante)
+
+SubClassOf(pmd:PMD_0000604 ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0000000))
+
+# Class: pmd:PMD_0000620 (elektrische Leitfähigkeit)
+
+SubClassOf(pmd:PMD_0000620 ObjectSomeValuesFrom(obo:RO_0000092 pmd:PMD_0000000))
 
 # Class: pmd:PMD_0000853 (kristallographische Textur)
 
@@ -130,9 +142,22 @@ SubClassOf(pmd:PMD_0000853 pmd:PMD_0020335)
 
 SubClassOf(pmd:PMD_0000942 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0000001) ObjectSomeValuesFrom(obo:RO_0002328 obo:BFO_0000020) ObjectSomeValuesFrom(obo:RO_0002328 obo:BFO_0000146)))
 
+# Class: pmd:PMD_0010023 (bioactive)
+
+SubClassOf(pmd:PMD_0010023 ObjectSomeValuesFrom(obo:BFO_0000054 obo:GO_0008150))
+
+# Class: pmd:PMD_0020133 (Masse)
+
+SubClassOf(pmd:PMD_0020133 pmd:PMD_0023000)
+
 # Class: pmd:PMD_0020161 (activity (thermodynamic))
 
 SubClassOf(pmd:PMD_0020161 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectionOf(obo:CHEBI_60003 ObjectSomeValuesFrom(obo:RO_0000087 pmd:PMD_0020227) ObjectSomeValuesFrom(obo:RO_0002350 pmd:PMD_0020229))))
+
+# Class: pmd:PMD_0020200 (force)
+
+SubClassOf(pmd:PMD_0020200 pmd:PMD_0020311)
+SubClassOf(pmd:PMD_0020200 ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000030))
 
 # Class: pmd:PMD_0020243 (grain size)
 
@@ -277,6 +302,23 @@ AnnotationAssertion(rdfs:label pmd:PMD_0023025 "material structure or state"@en)
 SubClassOf(pmd:PMD_0023025 pmd:PMD_0020335)
 SubClassOf(pmd:PMD_0023025 ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0000000))
 
+# Class: pmd:PMD_0023026 (spontaneous process)
+
+AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0023026 "disjoint with 'biological process' http://purl.obolibrary.org/obo/GO_0008150'"@en)
+AnnotationAssertion(rdfs:label pmd:PMD_0023026 "spontaneous process"@en)
+AnnotationAssertion(skos:altLabel pmd:PMD_0023026 "a process that occurs due to favorable driving force and overcomming of activatgion energy of the participants"@en)
+AnnotationAssertion(skos:altLabel pmd:PMD_0023026 "naturally occuring process"@en)
+AnnotationAssertion(skos:example pmd:PMD_0023026 "Rusting of iron in moist air"@en)
+SubClassOf(pmd:PMD_0023026 obo:BFO_0000015)
+SubClassOf(pmd:PMD_0023026 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0000057 obo:BFO_0000040) ObjectSomeValuesFrom(pmd:PMD_0000009 pmd:PMD_0020162) ObjectSomeValuesFrom(pmd:PMD_0000009 pmd:PMD_0023027)))
+
+# Class: pmd:PMD_0023027 (driving force)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0023027 "driving force"@en)
+AnnotationAssertion(skos:definition pmd:PMD_0023027 "a process attribute expressed as a potential difference between participants that causes the participants to evolve (by changing their SDCs) towards an equilibrium"@en)
+SubClassOf(pmd:PMD_0023027 pmd:PMD_0000008)
+SubClassOf(pmd:PMD_0023027 ObjectSomeValuesFrom(pmd:PMD_0025006 ObjectIntersectionOf(obo:BFO_0000015 ObjectSomeValuesFrom(obo:RO_0000057 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0080116))))))
+
 # Class: pmd:PMD_0023035 (aggregated SDCs)
 
 AnnotationAssertion(rdfs:label pmd:PMD_0023035 "aggregated SDCs"@en)
@@ -328,6 +370,19 @@ SubClassOf(pmd:PMD_0023043 obo:BFO_0000019)
 SubClassOf(pmd:PMD_0023043 ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0000001))
 DisjointUnion(pmd:PMD_0023043 pmd:PMD_0000597 pmd:PMD_0000896 pmd:PMD_0000967)
 
+# Class: pmd:PMD_0023045 (interface tension)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0023045 "interface tension"@en)
+SubClassOf(pmd:PMD_0023045 pmd:PMD_0020335)
+SubClassOf(pmd:PMD_0023045 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000146 ObjectSomeValuesFrom(obo:RO_0002000 ObjectUnionOf(pmd:PMD_0020289 pmd:PMD_0020290 pmd:PMD_0020293)))))
+
+# Class: pmd:PMD_0023046 (relaxation)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0023046 "relaxation"@en)
+AnnotationAssertion(skos:comment pmd:PMD_0023046 "Often follows an exponential decay: A(t)=A0⋅exp(−t/τ)")
+AnnotationAssertion(skos:definition pmd:PMD_0023046 "a process by which a perturbed physical system returns to its equilibrium state after the disturbance is removed"@en)
+SubClassOf(pmd:PMD_0023046 obo:BFO_0000015)
+
 # Class: pmd:PMD_0027003 (average lamella thickness)
 
 SubClassOf(pmd:PMD_0027003 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectionOf(pmd:PMD_0027002 ObjectSomeValuesFrom(obo:BFO_0000051 ObjectIntersectionOf(pmd:PMD_0027001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0050153 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0020367))))
@@ -340,6 +395,34 @@ SubClassOf(pmd:PMD_0050000 pmd:PMD_0020353)
 
 SubClassOf(pmd:PMD_0080044 pmd:PMD_0000008)
 SubClassOf(pmd:PMD_0080044 ObjectSomeValuesFrom(pmd:PMD_0025006 pmd:PMD_0000513))
+
+# Class: pmd:PMD_0080082 (coefficient of friction)
+
+SubClassOf(pmd:PMD_0080082 ObjectSomeValuesFrom(obo:RO_0000052 ObjectIntersectionOf(obo:BFO_0000146 ObjectSomeValuesFrom(obo:RO_0002000 pmd:PMD_0020293))))
+
+# Class: pmd:PMD_0080085 (Gewichtskraft)
+
+SubClassOf(pmd:PMD_0080085 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000030 ObjectSomeValuesFrom(obo:RO_0000056 ObjectIntersectionOf(obo:BFO_0000015 ObjectSomeValuesFrom(obo:BFO_0000055 pmd:PMD_0080118))))))
+
+# Class: pmd:PMD_0080094 (stress relaxation)
+
+SubClassOf(pmd:PMD_0080094 ObjectSomeValuesFrom(obo:RO_0000052 ObjectIntersectionOf(pmd:PMD_0000000 ObjectSomeValuesFrom(obo:RO_0000056 pmd:PMD_0023046) ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0080108))))
+
+# Class: pmd:PMD_0080095 (Kontaktwinkel)
+
+SubClassOf(pmd:PMD_0080095 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000146 ObjectSomeValuesFrom(obo:RO_0002000 pmd:PMD_0020290) ObjectSomeValuesFrom(obo:RO_0002000 pmd:PMD_0020293))))
+
+# Class: pmd:PMD_0080127 (elektrische Kapazität)
+
+SubClassOf(pmd:PMD_0080127 ObjectSomeValuesFrom(obo:RO_0000080 obo:BFO_0000030))
+
+# Class: pmd:PMD_0080128 (electrical resistance)
+
+SubClassOf(pmd:PMD_0080128 ObjectSomeValuesFrom(obo:RO_0000080 obo:BFO_0000030))
+
+# Class: pmd:PMD_0080129 (electrical conductance)
+
+SubClassOf(pmd:PMD_0080129 ObjectSomeValuesFrom(obo:RO_0000080 obo:BFO_0000030))
 
 
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0001-6772-1943> "Martin Glauer")
