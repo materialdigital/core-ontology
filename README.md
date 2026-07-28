@@ -181,21 +181,25 @@ Please also read our [Contributing guidelines](CONTRIBUTING.md) and [Code of Con
 
 If you use PMDco in your work, please cite the article.
 
-> Markus Schilling, Philipp von Hartrott, Jörg Waitelonis, Thomas Hanke, Henk Birkholz, Hossein Beygi Nasrabadi, Khashayar Razghandi, Kamilla Zaripova, Felix Thonagel, Fabian Neuhaus, Martin Glauer, Lars Vogt, Harald Sack, Lutz Mädler, Bernd Bayerlein, Chris Eberl (2026). **Semantic Modeling in Materials Science and Engineering With Platform MaterialDigital Core Ontology 3.0.** *Advanced Engineering Materials*, (in production). https://doi.org/10.1002/adem.71106
+> Markus Schilling, Philipp von Hartrott, Jörg Waitelonis, Thomas Hanke, Henk Birkholz, Hossein Beygi Nasrabadi, Khashayar Razghandi, Kamilla Zaripova, Felix Thonagel, Fabian Neuhaus, Martin Glauer, Lars Vogt, Harald Sack, Lutz Mädler, Bernd Bayerlein, Chris Eberl (2026). **Semantic Modeling in Materials Science and Engineering With Platform MaterialDigital Core Ontology 3.0.** *Advanced Engineering Materials*. https://doi.org/10.1002/adem.71106
 
 <details>
 <summary><strong>BibTeX</strong></summary>
 
 ```bibtex
 @article{schilling2026pmdco,
-  title   = {Semantic Modeling in Materials Science and Engineering With Platform MaterialDigital Core Ontology 3.0},
-  author  = {Markus Schilling, Philipp von Hartrott, Jörg Waitelonis, Thomas Hanke, Henk Birkholz, Hossein Beygi Nasrabadi, Khashayar Razghandi, Kamilla Zaripova, Felix Thonagel, Fabian Neuhaus, Martin Glauer, Lars Vogt, Harald Sack, Lutz Mädler, Bernd Bayerlein, Chris Eberl},
-  journal = {Advanced Engineering Materials},
-  #volume  = {in production},
-  #pages   = {in production},
-  year    = {2026},
-  doi     = {10.1002/adem.71106}
+author = {Schilling, Markus and von Hartrott, Philipp and Waitelonis, Jörg and Hanke, Thomas and Birkholz, Henk and Nasrabadi, Hossein Beygi and Razghandi, Khashayar and Zaripova, Kamilla and Thonagel, Felix and Neuhaus, Fabian and Glauer, Martin and Vogt, Lars and Sack, Harald and Mädler, Lutz and Bayerlein, Bernd and Eberl, Chris},
+title = {Semantic Modeling in Materials Science and Engineering With Platform MaterialDigital Core Ontology 3.0},
+journal = {Advanced Engineering Materials},
+volume = {n/a},
+number = {n/a},
+pages = {e71106},
+keywords = {knowledge graphs, plattform materialdigital, PMD core ontology, semantic data, semantic modeling},
+doi = {https://doi.org/10.1002/adem.71106},
+url = {https://advanced.onlinelibrary.wiley.com/doi/abs/10.1002/adem.71106},
+eprint = {https://advanced.onlinelibrary.wiley.com/doi/pdf/10.1002/adem.71106},
 }
+
 ```
 
 </details>
