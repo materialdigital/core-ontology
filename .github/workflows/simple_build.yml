@@ -1,0 +1,37 @@
+
+name: Simple Build Ontology
+on:
+  # repository_dispatch:
+  #   types: [trigger-qc]
+  workflow_dispatch:
+
+env:
+  DEFAULT_BRANCH: main
+
+jobs:
+  ontology_qc:
+    # Use latest Ubuntu runner for stability
+    runs-on: ubuntu-latest
+    
+    container: obolibrary/odkfull:v1.6
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+          
+      - name: ODK update
+        run: cd src/ontology && odk.py update
+
+      - name: Build ontology
+        env:
+          ROBOT_ENV: 'ROBOT_JAVA_ARGS=-Xmx6G'
+          DEFAULT_BRANCH: main
+        run: cd src/ontology && make refresh-imports all_assets ROBOT_ENV='ROBOT_JAVA_ARGS=-Xmx6G'
+
+      - name: Commit files # commit the src folder
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "updated ontology"
+          cwd: "." 
+          add: "*.owl *.ttl src/**/* --force" 
+          default_author: github_actions
