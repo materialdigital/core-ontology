@@ -16,6 +16,7 @@ Declaration(Class(obo:OBI_0001930))
 Declaration(Class(:PMD_0000007))
 Declaration(Class(:PMD_0000008))
 Declaration(Class(:PMD_0000068))
+Declaration(Class(:PMD_0000143))
 Declaration(Class(:PMD_0000501))
 Declaration(Class(:PMD_0000502))
 Declaration(Class(:PMD_0000583))
@@ -35,6 +36,10 @@ Declaration(Class(:PMD_0001047))
 Declaration(Class(:PMD_0020113))
 Declaration(Class(:PMD_0020114))
 Declaration(Class(:PMD_0020132))
+Declaration(Class(:PMD_0020142))
+Declaration(Class(:PMD_0020254))
+Declaration(Class(:PMD_0020353))
+Declaration(Class(:PMD_0020367))
 Declaration(Class(:PMD_0025005))
 Declaration(Class(:PMD_0025007))
 Declaration(Class(:PMD_0025018))
@@ -47,6 +52,7 @@ Declaration(ObjectProperty(obo:OBI_0001938))
 Declaration(ObjectProperty(obo:RO_0002082))
 Declaration(ObjectProperty(obo:RO_0002224))
 Declaration(ObjectProperty(obo:RO_0002230))
+Declaration(ObjectProperty(obo:RO_0002328))
 Declaration(ObjectProperty(:PMD_0000004))
 Declaration(ObjectProperty(:PMD_0000009))
 Declaration(ObjectProperty(:PMD_0000069))
@@ -54,11 +60,20 @@ Declaration(ObjectProperty(:PMD_0000070))
 Declaration(ObjectProperty(:PMD_0000077))
 Declaration(ObjectProperty(:PMD_0001026))
 Declaration(ObjectProperty(:PMD_0020127))
+Declaration(ObjectProperty(:PMD_0020256))
+Declaration(ObjectProperty(:PMD_0020257))
+Declaration(ObjectProperty(:PMD_0020324))
+Declaration(ObjectProperty(:PMD_0020327))
+Declaration(ObjectProperty(:PMD_0020355))
+Declaration(ObjectProperty(:PMD_0020356))
+Declaration(ObjectProperty(:PMD_0020357))
+Declaration(ObjectProperty(:PMD_0020358))
 Declaration(ObjectProperty(:PMD_0025006))
 Declaration(ObjectProperty(:PMD_0060001))
 Declaration(ObjectProperty(:PMD_0060002))
 Declaration(DataProperty(:PMD_0000006))
 Declaration(AnnotationProperty(<http://www.w3.org/2004/02/skos/core#altLabel>))
+Declaration(AnnotationProperty(<http://www.w3.org/2004/02/skos/core#comment>))
 Declaration(AnnotationProperty(:PMD_0000060))
 Declaration(AnnotationProperty(:PMD_0000064))
 Declaration(AnnotationProperty(:PMD_0001032))
@@ -118,6 +133,19 @@ InverseObjectProperties(obo:OBI_0001927 :PMD_0000077)
 # Object Property: obo:OBI_0001938 (has value specification)
 
 SubObjectPropertyOf(obo:OBI_0001938 obo:BFO_0000051)
+
+# Object Property: obo:RO_0002328 (functionally related to)
+
+AnnotationAssertion(obo:IAO_0000116 obo:RO_0002328 "This is the soft version of mathematical dependence. We would like to introduce oparator classes later (derivative, quotient, sum, difference, product) with appropriate properties for the terms.
+
+difference === ('has minuend' only entity) and ('has subtrahend' only entity)
+sum === 'has addend' some entity
+product === 'has factor' some entity
+quotient === ('has numerator' only entity) and ('has denominator' only entity)
+derivative === ('has differential numerator' only entity) and ('has differential denominator' only entity)"@en)
+AnnotationAssertion(rdfs:label obo:RO_0002328 "functionally related to"@en)
+AnnotationAssertion(rdfs:seeAlso obo:RO_0002328 obo:RO_0002328)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> obo:RO_0002328 "A grouping relationship for any relationship directly involving a function, or that holds because of a function of one of the related entities."@en)
 
 # Object Property: :PMD_0000004 (is subject of)
 
@@ -193,6 +221,59 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020127 "
 ObjectPropertyDomain(:PMD_0020127 :PMD_0000008)
 ObjectPropertyRange(:PMD_0020127 obo:BFO_0000020)
 
+# Object Property: :PMD_0020256 (has numerator)
+
+AnnotationAssertion(rdfs:label :PMD_0020256 "has numerator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020256 "points to a numerator of a quotient"@en)
+SubObjectPropertyOf(:PMD_0020256 obo:RO_0002328)
+FunctionalObjectProperty(:PMD_0020256)
+
+# Object Property: :PMD_0020257 (has denominator)
+
+AnnotationAssertion(rdfs:label :PMD_0020257 "has denominator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020257 "points to a denominator of a quotient"@en)
+SubObjectPropertyOf(:PMD_0020257 obo:RO_0002328)
+FunctionalObjectProperty(:PMD_0020257)
+
+# Object Property: :PMD_0020324 (has differential numerator)
+
+AnnotationAssertion(rdfs:label :PMD_0020324 "has differential numerator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020324 "points to a differential numerator of a differential"@en)
+SubObjectPropertyOf(:PMD_0020324 obo:RO_0002328)
+FunctionalObjectProperty(:PMD_0020324)
+
+# Object Property: :PMD_0020327 (has differential denominator)
+
+AnnotationAssertion(rdfs:comment :PMD_0020327 "TODO: candidate for causality?"@en)
+AnnotationAssertion(rdfs:label :PMD_0020327 "has differential denominator"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020327 "points to a denominator of a differential"@en)
+SubObjectPropertyOf(:PMD_0020327 obo:RO_0002328)
+FunctionalObjectProperty(:PMD_0020327)
+
+# Object Property: :PMD_0020355 (has minuend)
+
+AnnotationAssertion(rdfs:label :PMD_0020355 "has minuend"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020355 "points to the minuend of a difference"@en)
+SubObjectPropertyOf(:PMD_0020355 obo:RO_0002328)
+
+# Object Property: :PMD_0020356 (has subtrahend)
+
+AnnotationAssertion(rdfs:label :PMD_0020356 "has subtrahend"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020356 "points to the subtrahend of a difference"@en)
+SubObjectPropertyOf(:PMD_0020356 obo:RO_0002328)
+
+# Object Property: :PMD_0020357 (has addend)
+
+AnnotationAssertion(rdfs:label :PMD_0020357 "has addend"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020357 "points to an addend of a sum"@en)
+SubObjectPropertyOf(:PMD_0020357 obo:RO_0002328)
+
+# Object Property: :PMD_0020358 (has factor)
+
+AnnotationAssertion(rdfs:label :PMD_0020358 "has factor"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020358 "points to a factor of a product (multiplication)"@en)
+SubObjectPropertyOf(:PMD_0020358 obo:RO_0002328)
+
 # Object Property: :PMD_0025006 (process attribute of)
 
 AnnotationAssertion(obo:IAO_0000114 :PMD_0025006 obo:IAO_0000122)
@@ -203,6 +284,7 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0025006 "
 
 # Object Property: :PMD_0060001 (represents value of)
 
+AnnotationAssertion(obo:IAO_0000114 :PMD_0060001 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 :PMD_0060001 "PERSON: Hossein Beygi Nasrabadi")
 AnnotationAssertion(obo:IAO_0000233 :PMD_0060001 "https://github.com/materialdigital/core-ontology/issues/105")
 AnnotationAssertion(rdfs:label :PMD_0060001 "represents value of"@en)
@@ -214,6 +296,7 @@ ObjectPropertyRange(:PMD_0060001 ObjectUnionOf(obo:BFO_0000020 :PMD_0000008))
 
 # Object Property: :PMD_0060002 (represented by value)
 
+AnnotationAssertion(obo:IAO_0000114 :PMD_0060002 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 :PMD_0060002 "PERSON: Hossein Beygi Nasrabadi")
 AnnotationAssertion(rdfs:label :PMD_0060002 "represented by value"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0060002 "A relation between a specifically dependent continuant or process attribute and an information content entity which is about.")
@@ -274,6 +357,12 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_000006
 AnnotationAssertion(:PMD_0001032 :PMD_0000068 "https://github.com/materialdigital/core-ontology/issues/185")
 EquivalentClasses(:PMD_0000068 ObjectIntersectionOf(obo:BFO_0000004 ObjectSomeValuesFrom(obo:BFO_0000108 obo:BFO_0000008) ObjectSomeValuesFrom(:PMD_0000070 ObjectIntersectionOf(obo:BFO_0000004 ObjectComplementOf(:PMD_0000068)))))
 
+# Class: :PMD_0000143 (duration)
+
+AnnotationAssertion(rdfs:label :PMD_0000143 "duration"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000143 "a value specification that represents the temporal extent of an occurrent, corresponding to the interval between its beginning and its end; specified in units of time."@en)
+SubClassOf(:PMD_0000143 obo:OBI_0001933)
+
 # Class: :PMD_0000501 (1D)
 
 AnnotationAssertion(obo:IAO_0000114 :PMD_0000501 obo:IAO_0000122)
@@ -305,11 +394,6 @@ AnnotationAssertion(rdfs:label :PMD_0000834 "map"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000834 "A map is a 2D information content entity describing a representation of spatial data or relationships, often used in material science for visualizing properties or distributions."@en)
 AnnotationAssertion(:PMD_0000060 :PMD_0000834 "true"^^xsd:boolean)
 SubClassOf(:PMD_0000834 :PMD_0000502)
-
-# Class: :PMD_0000853 (kristallographische Textur)
-
-AnnotationAssertion(obo:IAO_0000114 :PMD_0000853 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000117 :PMD_0000853 "PERSON: Joerg Waitelonis")
 
 # Class: :PMD_0000885 (pole figure)
 
@@ -417,7 +501,6 @@ AnnotationAssertion(obo:IAO_0000114 :PMD_0020113 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 :PMD_0020113 "PERSON: Philipp von Hartrott")
 AnnotationAssertion(rdfs:label :PMD_0020113 "fluid (object)"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020113 "Fluid (object) is an object that consists of some portion of matter which bears an aggregate state that concretizes a liquid or gaseous aggregate state."@en)
-SubClassOf(:PMD_0020113 obo:BFO_0000030)
 
 # Class: :PMD_0020114 (medium role)
 
@@ -426,12 +509,15 @@ AnnotationAssertion(obo:IAO_0000117 :PMD_0020114 "PERSON: Philipp von Hartrott")
 AnnotationAssertion(rdfs:label :PMD_0020114 "medium role"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020114 "Medium role is a role beared by an object which implies that the object serves as an intermediary for the transmission of something else, like energy, force, or information."@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0020114 "Air in the air cooling process, N2 atmosphere in a furnace cooling process, oil in a quenching process, crystal lattice in a solid state diffusion"@en)
-SubClassOf(:PMD_0020114 obo:BFO_0000023)
+SubClassOf(:PMD_0020114 :PMD_0020254)
 
-# Class: :PMD_0020132 (dimension quality)
+# Class: :PMD_0020142 (energy)
 
-AnnotationAssertion(obo:IAO_0000114 :PMD_0020132 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000117 :PMD_0020132 "PERSON: Philipp von Hartrott")
+SubClassOf(:PMD_0020142 :PMD_0020353)
+
+# Class: :PMD_0020367 (member count)
+
+SubClassOf(:PMD_0020367 ObjectAllValuesFrom(obo:RO_0000080 obo:BFO_0000027))
 
 # Class: :PMD_0025005 (3D)
 
@@ -478,7 +564,35 @@ EquivalentClasses(:PMD_0080205 ObjectIntersectionOf(obo:OBI_0001931 <http://qudt
 
 
 AnnotationAssertion(:PMD_0000064 obo:OBI_0000417 "https://github.com/search?q=repo%3Amaterialdigital%2Fcore-ontology+path%3A%2F%5Epatterns%5C%2F%2F+OBI_0000417&type=code")
-AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0060001 <http://purl.obolibrary.org/obo/IAO_0000122>)
-AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0060002 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000143 "PERSON: Joerg Waitelonis")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000143 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000853 "PERSON: Joerg Waitelonis")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000853 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020132 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020132 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020142 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020142 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020254 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020254 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020256 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020256 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020257 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020257 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020324 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020324 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020327 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020327 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020353 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020353 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020355 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020355 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020356 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020356 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020357 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020357 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020358 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020358 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020367 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020367 <http://purl.obolibrary.org/obo/IAO_0000122>)
 
 )
