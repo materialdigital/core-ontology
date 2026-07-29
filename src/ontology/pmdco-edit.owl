@@ -60,9 +60,14 @@ Annotation(dcterms:license <https://creativecommons.org/licenses/by/4.0/>)
 Annotation(dcterms:title "PMD Core Ontology")
 Annotation(<http://usefulinc.com/ns/doap#repository> <https://github.com/materialdigital/core-ontology>)
 
+Declaration(Class(pmd:PMD_0020254))
+Declaration(Class(pmd:PMD_0020255))
+Declaration(Class(pmd:PMD_0020259))
 Declaration(Class(pmd:PMD_0020260))
 Declaration(Class(pmd:PMD_0020261))
 Declaration(Class(pmd:PMD_0020262))
+Declaration(Class(pmd:PMD_0020263))
+Declaration(Class(pmd:PMD_0020264))
 Declaration(Class(pmd:PMD_0023000))
 Declaration(Class(pmd:PMD_0023002))
 Declaration(Class(pmd:PMD_0023003))
@@ -112,17 +117,43 @@ Declaration(AnnotationProperty(<http://usefulinc.com/ns/doap#repository>))
 
 SubClassOf(obo:BFO_0000145 ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000002))
 
+# Class: obo:CHEBI_74236 (polymerisation monomer)
+
+SubClassOf(obo:CHEBI_74236 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0010033))
+SubClassOf(obo:CHEBI_74236 ObjectSomeValuesFrom(obo:RO_0000081 obo:CHEBI_59999))
+
 # Class: pmd:PMD_0000008 (process attribute)
 
 SubClassOf(pmd:PMD_0000008 ObjectSomeValuesFrom(pmd:PMD_0025006 obo:BFO_0000015))
 
-# Class: pmd:PMD_0000505 (acoustic absorption coefficient)
+# Class: pmd:PMD_0000051 (simulation entity role)
+
+SubClassOf(pmd:PMD_0000051 pmd:PMD_0020264)
+
+# Class: pmd:PMD_0000122 (laminate ply role)
+
+SubClassOf(pmd:PMD_0000122 ObjectSomeValuesFrom(obo:RO_0000081 pmd:PMD_0000000))
+
+# Class: pmd:PMD_0000124 (sandwich sheet role)
+
+SubClassOf(pmd:PMD_0000124 ObjectSomeValuesFrom(obo:RO_0000081 ObjectIntersectionOf(obo:BFO_0000030 ObjectSomeValuesFrom(obo:BFO_0000050 pmd:PMD_0000119))))
+
+# Class: pmd:PMD_0000125 (sandwich core role)
+
+SubClassOf(pmd:PMD_0000125 ObjectSomeValuesFrom(obo:RO_0000081 ObjectIntersectionOf(obo:BFO_0000030 ObjectSomeValuesFrom(obo:BFO_0000050 pmd:PMD_0000119))))
+
+# Class: pmd:PMD_0000505 (Schallabsorptionskoeffizient)
 
 SubClassOf(pmd:PMD_0000505 ObjectSomeValuesFrom(obo:RO_0000052 ObjectIntersectionOf(obo:BFO_0000146 ObjectSomeValuesFrom(obo:RO_0000056 pmd:PMD_0000517))))
 
 # Class: pmd:PMD_0000506 (akustische Eigenschaft)
 
 SubClassOf(pmd:PMD_0000506 ObjectUnionOf(ObjectSomeValuesFrom(obo:BFO_0000054 obo:BFO_0000015) ObjectSomeValuesFrom(obo:RO_0000092 obo:BFO_0000004)))
+
+# Class: pmd:PMD_0000534 (blank role)
+
+SubClassOf(pmd:PMD_0000534 pmd:PMD_0020254)
+SubClassOf(pmd:PMD_0000534 ObjectSomeValuesFrom(obo:RO_0000081 obo:BFO_0000030))
 
 # Class: pmd:PMD_0000551 (chemische Zusammensetzung)
 
@@ -147,6 +178,10 @@ SubClassOf(pmd:PMD_0000592 ObjectSomeValuesFrom(obo:RO_0000079 pmd:PMD_0001998))
 
 SubClassOf(pmd:PMD_0000597 pmd:PMD_0023043)
 
+# Class: pmd:PMD_0000603 (device role)
+
+SubClassOf(pmd:PMD_0000603 ObjectSomeValuesFrom(obo:RO_0000081 pmd:PMD_0000602))
+
 # Class: pmd:PMD_0000604 (Dielektrizitätskonstante)
 
 SubClassOf(pmd:PMD_0000604 ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0000000))
@@ -154,6 +189,11 @@ SubClassOf(pmd:PMD_0000604 ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0000000))
 # Class: pmd:PMD_0000620 (elektrische Leitfähigkeit)
 
 SubClassOf(pmd:PMD_0000620 ObjectSomeValuesFrom(obo:RO_0000092 pmd:PMD_0000000))
+
+# Class: pmd:PMD_0000634 (workflow executor role)
+
+SubClassOf(pmd:PMD_0000634 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0000016))
+SubClassOf(pmd:PMD_0000634 ObjectSomeValuesFrom(obo:RO_0000081 obo:BFO_0000040))
 
 # Class: pmd:PMD_0000781 (heat treatment function)
 
@@ -178,6 +218,10 @@ SubClassOf(pmd:PMD_0000828 ObjectSomeValuesFrom(obo:RO_0000079 pmd:PMD_0000827))
 # Class: pmd:PMD_0000832 (manufacturing function)
 
 SubClassOf(pmd:PMD_0000832 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0000833))
+
+# Class: pmd:PMD_0000845 (matrix role)
+
+SubClassOf(pmd:PMD_0000845 ObjectSomeValuesFrom(obo:RO_0000081 pmd:PMD_0000000))
 
 # Class: pmd:PMD_0000847 (Messfunktion)
 
@@ -219,14 +263,53 @@ SubClassOf(pmd:PMD_0010023 ObjectSomeValuesFrom(obo:RO_0000092 ObjectUnionOf(obo
 SubClassOf(pmd:PMD_0010024 ObjectSomeValuesFrom(obo:BFO_0000054 obo:GO_0008150))
 SubClassOf(pmd:PMD_0010024 ObjectSomeValuesFrom(obo:RO_0000092 ObjectUnionOf(obo:CHEBI_59999 pmd:PMD_0000000)))
 
+# Class: pmd:PMD_0020001 (filler role)
+
+SubClassOf(pmd:PMD_0020001 ObjectSomeValuesFrom(obo:RO_0000081 pmd:PMD_0000000))
+
+# Class: pmd:PMD_0020002 (precipitate role)
+
+SubClassOf(pmd:PMD_0020002 ObjectSomeValuesFrom(obo:RO_0000081 ObjectIntersectionOf(obo:BFO_0000030 ObjectSomeValuesFrom(obo:RO_0001025 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000087 pmd:PMD_0000845))))))
+
+# Class: pmd:PMD_0020025 (obstacle role)
+
+AnnotationAssertion(rdfs:comment pmd:PMD_0020025 "asdfasdf")
+SubClassOf(pmd:PMD_0020025 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0020245))
+SubClassOf(pmd:PMD_0020025 ObjectSomeValuesFrom(obo:RO_0000081 ObjectIntersectionOf(obo:BFO_0000004 ObjectComplementOf(obo:BFO_0000006))))
+
+# Class: pmd:PMD_0020114 (medium role)
+
+SubClassOf(pmd:PMD_0020114 ObjectSomeValuesFrom(obo:RO_0000081 obo:BFO_0000040))
+
 # Class: pmd:PMD_0020133 (Masse)
 
 SubClassOf(pmd:PMD_0020133 pmd:PMD_0023000)
+
+# Class: pmd:PMD_0020144 (product (chemical reaction))
+
+SubClassOf(pmd:PMD_0020144 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0000869))
+SubClassOf(pmd:PMD_0020144 ObjectSomeValuesFrom(obo:RO_0000081 ObjectUnionOf(obo:CHEBI_59999 pmd:PMD_0000000)))
+
+# Class: pmd:PMD_0020145 (educt)
+
+SubClassOf(pmd:PMD_0020145 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0000869))
+SubClassOf(pmd:PMD_0020145 ObjectSomeValuesFrom(obo:RO_0000081 obo:CHEBI_59999))
 
 # Class: pmd:PMD_0020146 (catalytic disposition)
 
 SubClassOf(pmd:PMD_0020146 ObjectSomeValuesFrom(obo:BFO_0000054 ObjectIntersectionOf(pmd:PMD_0000869 ObjectComplementOf(ObjectSomeValuesFrom(pmd:PMD_0025013 ObjectIntersectionOf(pmd:PMD_0025001 ObjectHasSelf(obo:RO_0000080)))))))
 SubClassOf(pmd:PMD_0020146 ObjectSomeValuesFrom(obo:RO_0000092 ObjectUnionOf(obo:CHEBI_59999 pmd:PMD_0000000)))
+
+# Class: pmd:PMD_0020158 (parent phase role)
+
+SubClassOf(pmd:PMD_0020158 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0020136))
+SubClassOf(pmd:PMD_0020158 ObjectSomeValuesFrom(obo:RO_0000081 pmd:PMD_0020000))
+
+# Class: pmd:PMD_0020159 (daughter phase role)
+
+SubClassOf(pmd:PMD_0020159 pmd:PMD_0020313)
+SubClassOf(pmd:PMD_0020159 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0020136))
+SubClassOf(pmd:PMD_0020159 ObjectSomeValuesFrom(obo:RO_0000081 pmd:PMD_0020000))
 
 # Class: pmd:PMD_0020161 (activity (thermodynamic))
 
@@ -242,13 +325,42 @@ SubClassOf(pmd:PMD_0020165 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0020136)
 SubClassOf(pmd:PMD_0020200 pmd:PMD_0020311)
 SubClassOf(pmd:PMD_0020200 ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000030))
 
+# Class: pmd:PMD_0020205 (Defektrolle)
+
+SubClassOf(pmd:PMD_0020205 pmd:PMD_0020335)
+SubClassOf(pmd:PMD_0020205 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0000635))
+SubClassOf(pmd:PMD_0020205 ObjectSomeValuesFrom(obo:RO_0000081 obo:BFO_0000001))
+
 # Class: pmd:PMD_0020212 (polymorphism of crystal)
 
 SubClassOf(pmd:PMD_0020212 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0020136))
 
+# Class: pmd:PMD_0020227 (solute role)
+
+SubClassOf(pmd:PMD_0020227 ObjectSomeValuesFrom(obo:RO_0000081 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:BFO_0000050 pmd:PMD_0020229))))
+
+# Class: pmd:PMD_0020228 (Lösungsmittelrolle)
+
+SubClassOf(pmd:PMD_0020228 ObjectSomeValuesFrom(obo:RO_0000081 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:BFO_0000050 pmd:PMD_0020229))))
+
 # Class: pmd:PMD_0020243 (grain size)
 
 SubClassOf(pmd:PMD_0020243 pmd:PMD_0020335)
+
+# Class: pmd:PMD_0020254 (manufacturing property)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020254 "manufacturing property"@en)
+SubClassOf(pmd:PMD_0020254 obo:BFO_0000020)
+
+# Class: pmd:PMD_0020255 (characterization property)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020255 "characterization property"@en)
+SubClassOf(pmd:PMD_0020255 obo:BFO_0000020)
+
+# Class: pmd:PMD_0020259 (chemical property)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020259 "chemical property"@en)
+SubClassOf(pmd:PMD_0020259 obo:BFO_0000020)
 
 # Class: pmd:PMD_0020260 (specific heat capacity (per mass))
 
@@ -269,13 +381,30 @@ AnnotationAssertion(rdfs:label pmd:PMD_0020262 "volumetric heat capacity"@en)
 SubClassOf(pmd:PMD_0020262 pmd:PMD_0000777)
 SubClassOf(pmd:PMD_0020262 ObjectSomeValuesFrom(obo:RO_0002328 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0020150))))
 
+# Class: pmd:PMD_0020263 (friction)
+
+AnnotationAssertion(rdfs:comment pmd:PMD_0020263 "a process in which two material entities are in contact and relative motion to each other"@en)
+AnnotationAssertion(rdfs:label pmd:PMD_0020263 "friction"@en)
+SubClassOf(pmd:PMD_0020263 obo:BFO_0000015)
+
+# Class: pmd:PMD_0020264 (datatransformation property)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020264 "datatransformation property"@en)
+SubClassOf(pmd:PMD_0020264 obo:BFO_0000020)
+
 # Class: pmd:PMD_0020338 (fusion)
 
-AnnotationAssertion(skos:definition pmd:PMD_0020338 "a process of separating one entity into multiple"@en)
+AnnotationAssertion(skos:definition pmd:PMD_0020338 "a process of joining multiple entities into one"@en)
 
 # Class: pmd:PMD_0020339 (fission)
 
-AnnotationAssertion(skos:definition pmd:PMD_0020339 "a process of joining multiple entities into one"@en)
+AnnotationAssertion(skos:definition pmd:PMD_0020339 "a process of separating one entity into multiple"@en)
+
+# Class: pmd:PMD_0020352 (elastic strain energy)
+
+SubClassOf(pmd:PMD_0020352 pmd:PMD_0020335)
+SubClassOf(pmd:PMD_0020352 ObjectUnionOf(pmd:PMD_0020364 pmd:PMD_0020366 pmd:PMD_0020369))
+SubClassOf(pmd:PMD_0020352 ObjectSomeValuesFrom(obo:RO_0000080 pmd:PMD_0000000))
 
 # Class: pmd:PMD_0020364 (per count property)
 
@@ -296,14 +425,18 @@ SubClassOf(pmd:PMD_0020367 pmd:PMD_0023000)
 
 # Class: pmd:PMD_0020369 (per mol property)
 
-EquivalentClasses(pmd:PMD_0020369 ObjectSomeValuesFrom(obo:RO_0002328 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectHasValue(pmd:PMD_0000077 pmd:PMD_0020368))))))
+EquivalentClasses(pmd:PMD_0020369 ObjectIntersectionOf(pmd:PMD_0023001 ObjectSomeValuesFrom(obo:RO_0002328 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectHasValue(pmd:PMD_0000077 pmd:PMD_0020368)))))))
 SubClassOf(pmd:PMD_0020369 pmd:PMD_0023001)
 
 # Class: pmd:PMD_0023000 (fundamental quality of system)
 
 AnnotationAssertion(rdfs:label pmd:PMD_0023000 "fundamental quality of system"@en)
 SubClassOf(pmd:PMD_0023000 obo:BFO_0000019)
-DisjointUnion(pmd:PMD_0023000 pmd:PMD_0020132 pmd:PMD_0020133 pmd:PMD_0020367)
+DisjointUnion(pmd:PMD_0023000 pmd:PMD_0020132 pmd:PMD_0020133 pmd:PMD_0020142 pmd:PMD_0020367)
+
+# Class: pmd:PMD_0023001 (normalized property)
+
+DisjointUnion(pmd:PMD_0023001 pmd:PMD_0020364 pmd:PMD_0020365 pmd:PMD_0020366)
 
 # Class: pmd:PMD_0023002 (facetted property)
 
@@ -311,9 +444,9 @@ AnnotationAssertion(rdfs:label pmd:PMD_0023002 "facetted property"@en)
 AnnotationAssertion(skos:definition pmd:PMD_0023002 "an specifically dependent continuant that is giving more detail to an other property or about its bearer"@en)
 SubClassOf(pmd:PMD_0023002 obo:BFO_0000020)
 
-# Class: pmd:PMD_0023003 (property of ...)
+# Class: pmd:PMD_0023003 (property by bearer)
 
-AnnotationAssertion(rdfs:label pmd:PMD_0023003 "property of ..."@en)
+AnnotationAssertion(rdfs:label pmd:PMD_0023003 "property by bearer"@en)
 AnnotationAssertion(skos:definition pmd:PMD_0023003 "is a facetted property that indicates the type of its bearer")
 AnnotationAssertion(skos:example pmd:PMD_0023003 "a fluid property is only applicable to fluids.")
 SubClassOf(pmd:PMD_0023003 pmd:PMD_0023002)
@@ -335,7 +468,7 @@ SubClassOf(pmd:PMD_0023007 pmd:PMD_0023003)
 # Class: pmd:PMD_0023009 (length scale property)
 
 AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0023009 "Currently the subclasses are primitive classes because length values in terms of value ranges numeric types are not yet expressed. 
-In future versions we may set the nanoscale to something that has an angstrom value [<1000] or similar.")
+In future versions we may provide equivalent class axioms."@en)
 AnnotationAssertion(rdfs:label pmd:PMD_0023009 "length scale property"@en)
 AnnotationAssertion(skos:definition pmd:PMD_0023009 "a facetted property that indicates the length scale where a property may exist"@en)
 SubClassOf(pmd:PMD_0023009 pmd:PMD_0023002)
@@ -496,6 +629,16 @@ AnnotationAssertion(skos:comment pmd:PMD_0023046 "Often follows an exponential d
 AnnotationAssertion(skos:definition pmd:PMD_0023046 "a process by which a perturbed physical system returns to its equilibrium state after the disturbance is removed"@en)
 SubClassOf(pmd:PMD_0023046 obo:BFO_0000015)
 
+# Class: pmd:PMD_0025026 (lubricant role)
+
+SubClassOf(pmd:PMD_0025026 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0020263))
+SubClassOf(pmd:PMD_0025026 ObjectSomeValuesFrom(obo:RO_0000081 ObjectUnionOf(obo:CHEBI_59999 pmd:PMD_0000000)))
+
+# Class: pmd:PMD_0025029 (reducing agent role)
+
+SubClassOf(pmd:PMD_0025029 ObjectSomeValuesFrom(obo:BFO_0000054 ObjectUnionOf(pmd:PMD_0000869 pmd:PMD_0025028)))
+SubClassOf(pmd:PMD_0025029 ObjectSomeValuesFrom(obo:RO_0000081 pmd:PMD_0000001))
+
 # Class: pmd:PMD_0027003 (average lamella thickness)
 
 SubClassOf(pmd:PMD_0027003 ObjectSomeValuesFrom(obo:RO_0002328 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectionOf(pmd:PMD_0027002 ObjectSomeValuesFrom(obo:BFO_0000051 ObjectIntersectionOf(pmd:PMD_0027001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0050153 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0020367)))))
@@ -541,6 +684,10 @@ SubClassOf(pmd:PMD_0080128 ObjectSomeValuesFrom(obo:RO_0000080 obo:BFO_0000030))
 
 SubClassOf(pmd:PMD_0080129 ObjectSomeValuesFrom(obo:RO_0000080 obo:BFO_0000030))
 
+# Class: pmd:PMD_0090022 (resin role)
+
+SubClassOf(pmd:PMD_0090022 ObjectSomeValuesFrom(obo:RO_0000081 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000056 pmd:PMD_0000833) ObjectSomeValuesFrom(obo:RO_0000087 ObjectUnionOf(obo:BFO_0000023 pmd:PMD_0000845)))))
+
 # Class: pmd:PMD_0200001 (biodegradability)
 
 SubClassOf(pmd:PMD_0200001 ObjectSomeValuesFrom(obo:BFO_0000054 obo:GO_0008150))
@@ -571,7 +718,6 @@ AnnotationAssertion(rdfs:label <https://orcid.org/0000-0003-1649-6832> "Thomas H
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0003-2612-8515> "Kostiantyn Hubaiev")
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0003-4971-3645> "Philipp von Hartrott")
 AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0020005 "Subclasses need to express the normalization basis, e.g. cout per volume or count per mass or volume per volume ..."@en)
-AnnotationAssertion(rdfs:comment pmd:PMD_0020025 "asdfasdf")
 AnnotationAssertion(skos:definition pmd:PMD_0020317 "a 'property of ...' that indicates that its bearer is an object")
 AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0080056 "Might be a process attribute of a viscous fluid flowing (in a channel)"@en)
 )
