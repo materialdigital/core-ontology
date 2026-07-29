@@ -65,7 +65,11 @@ jobs:
                    # this is the good old line for reasoning with hermit;  this line is now replaced by the next line (konclude reasoning)
                    #java -jar robot.jar reason --input merged2.ttl --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" --output shape-data-reasoned.ttl
                    
-                   python koncludix.py Konclude-v0.7.0-1138-Linux-Docker-Compiled-x64-GCC4.8.4-Static-Qt5.12.10/Binaries/Konclude merged2.ttl shape-data-reasoned.ttl
+
+                   echo "skolemizing data"
+                   python skolemize.py merged2.ttl skolemized.ttl
+
+                   python koncludix.py Konclude-v0.7.0-1138-Linux-Docker-Compiled-x64-GCC4.8.4-Static-Qt5.12.10/Binaries/Konclude skolemized.ttl shape-data-reasoned.ttl
 
                    echo "   testing"
                    if [[ -f $SHAPEFILE ]]; then
