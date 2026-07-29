@@ -75,14 +75,15 @@ ex:the_slab_and_material a slab: , material: ;
 
 # GDCs
 ex:the_vickers_test_result a measurement_datum: ;
-    has_value_specification: [
-        a scalar_value_specification: ;
+    is_quality_measurement_of: ex:the_materials_hv5_hardness ;
+    is_about: ex:the_slab_and_material ;
+    has_value_specification: ex:spec_1 .
+
+ex:spec_1 a scalar_value_specification: ;
         has_specified_numeric_value: "245"^^xsd:float ;
         has_measurement_unit_label: hv5_unit: ; 
         specifies_value_of: ex:the_materials_hv5_hardness 
-    ] ;
-    is_quality_measurement_of: ex:the_materials_hv5_hardness ;
-    is_about: ex:the_slab_and_material .
+    .
 
 ex:iso_6507 a directive_information_entity: ;
     label: "ISO 6507" .
@@ -92,13 +93,10 @@ ex:the_vickers_test a assay: ;
     has_specified_input: ex:the_slab_and_material ;
     has_specified_output: ex:the_vickers_test_result ;
     assay_measures_characteristic: ex:the_materials_hv5_hardness ;
-    realizes: [
-        a plan: ;
-        concretizes: ex:iso_6507  
-    ] ,
-        ex:the_evaluant_role_in_the_hv5_test ;
-    achieves_planned_objective: [
-        a objective_specification: ;
-        is_about: ex:the_vickers_test_result 
-    ] ;
-    is_subject_of: ex:iso_6507 .
+    realizes: ex:the_evaluant_role_in_the_hv5_test ;
+    concretizes: ex:iso_6507 ;  # we don't us a plan here anymore; processes can directly concretize their specifications
+    is_subject_of: ex:iso_6507 ;
+    achieves_planned_objective: ex:obj_1  .
+
+ex:obj_1 a objective_specification: ;
+        is_about: ex:the_vickers_test_result .
