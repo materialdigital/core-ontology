@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                f21fb6466e311206258e4626acb95498d16097f5c7c583eab894021c196a1441
+CONFIG_HASH=                8ab6d37ad39b5d3ebbfc9c9ea605371314ef15dbdc4f65b52c6b2b409ff81ca3
 
 
 # ----------------------------------------
@@ -617,8 +617,7 @@ mirror-ro: | $(TMPDIR)
 .PHONY: mirror-iao
 .PRECIOUS: $(MIRRORDIR)/iao.owl
 mirror-iao: | $(TMPDIR)
-	curl -L $(OBOBASE)/iao.owl --create-dirs -o $(TMPDIR)/iao-download.owl --retry 4 --max-time 200 && \
-	$(ROBOT) convert -i $(TMPDIR)/iao-download.owl -o $(TMPDIR)/$@.owl
+	$(ROBOT) convert -I http://purl.obolibrary.org/obo/iao/2026-03-30/iao.owl -o $(TMPDIR)/$@.owl
 
 
 ## ONTOLOGY: obi
