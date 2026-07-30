@@ -39,6 +39,7 @@
                                             "Felix Thonagel" ,
                                             "Gunjan Singh" ,
                                             "Jannis Grundmann" ,
+                                            "Sai Teja Potu" ,
                                             "Yamel Lima Baquero" ,
                                             "Yuan Zheng" ;
                             dcterms:description """The Platform MaterialDigital Core Ontology (PMDco) is a mid-level semantic framework for Materials Science and Engineering (MSE). Aligning with the ISO/IEC 21838-2:2021 standard, PMDco constructed on basis of Basic Formal Ontology (BFO) and reuses several BFO-aligned ontologies like RO, IAO, and OBI. The scope of PMDco follows the fundamental paradigm of MSE (processing, structure, and properties) and encompasses the following domains: 
@@ -15001,6 +15002,31 @@ pmd:PMD_0025024 rdf:type owl:Class ;
                 skos:definition "Growth rate is a process attribute which describes the increase of size of some of the participant in a process over time."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0025025
+pmd:PMD_0025025 rdf:type owl:Class ;
+                rdfs:subClassOf obo:BFO_0000019 ,
+                                pmd:PMD_0023004 ,
+                                pmd:PMD_0023007 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000080 ;
+                                  owl:someValuesFrom [ owl:intersectionOf ( [ owl:intersectionOf ( obo:BFO_0000027
+                                                                                                   pmd:PMD_0000001
+                                                                                                 ) ;
+                                                                              rdf:type owl:Class
+                                                                            ]
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty obo:RO_0002351 ;
+                                                                              owl:someValuesFrom obo:BFO_0000004
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ]
+                                ] ;
+                obo:IAO_0000116 "At the current state, it is not possible to add axioms on the subclasses" ;
+                rdfs:label "range order"@en ;
+                skos:definition "range order is a facetted property that defines the range of ordering of members in a object aggregate"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0025026
 pmd:PMD_0025026 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000017 ,
@@ -15023,7 +15049,11 @@ pmd:PMD_0025026 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025027
 pmd:PMD_0025027 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000000 ;
+                rdfs:subClassOf pmd:PMD_0000000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000086 ;
+                                  owl:someValuesFrom pmd:PMD_0025032
+                                ] ;
                 rdfs:label "crystalline material"@en ;
                 skos:comment "old axiom (material and ('has quality' some ('order scale' and 'specified by value' value 'long range order')))" ;
                 skos:definition "A crystalline material is a material that has a long-range atomic order"@en ;
@@ -15076,12 +15106,39 @@ pmd:PMD_0025029 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025030
 pmd:PMD_0025030 rdf:type owl:Class ;
-                rdfs:subClassOf pmd:PMD_0000000 ;
+                rdfs:subClassOf pmd:PMD_0000000 ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty obo:RO_0000086 ;
+                                  owl:someValuesFrom pmd:PMD_0025031
+                                ] ;
                 rdfs:label "amorphous material"@en ;
                 skos:comment "old axiom (material and ('has quality' some ('order scale' and 'specified by value' value 'short range order')))" ;
                 skos:definition "An amorphous material is a material that has a short-range atomic order"@en ;
                 skos:example "Glass" ;
                 pmd:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/458" .
+
+
+###  https://w3id.org/pmd/co/PMD_0025031
+pmd:PMD_0025031 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0025025 ;
+                rdfs:label "short-range order"@en ;
+                skos:definition "short-range order is a range order characterized by structural organization of members of an object aggregate strictly confined to the nearest neighbours and immediate chemical bonds"@en ;
+                skos:example "Ordering of atoms in amorphous materials"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025032
+pmd:PMD_0025032 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0025025 ;
+                rdfs:label "long-range order"@en ;
+                skos:definition "long-range order is a range order characterized by repeating periodicity across macroscopic distances in an object aggregate"@en ;
+                skos:example "ordering of atoms in a crystalline material"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025033
+pmd:PMD_0025033 rdf:type owl:Class ;
+                rdfs:subClassOf pmd:PMD_0025025 ;
+                rdfs:label "medium-range order"@en ;
+                skos:definition "medium-range order is a range order that characterizes structural organization of members of an object aggregate where small atomic groups link into localized patterns that do not repeat across the whole material"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025997
@@ -18391,8 +18448,8 @@ pmd:PMD_0080107 rdf:type owl:Class ;
 pmd:PMD_0080108 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0020311 ,
                                 pmd:PMD_0023004 ,
-                                _:genid2112 ,
-                                _:genid2118 ,
+                                _:genid2122 ,
+                                _:genid2128 ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty obo:RO_0000052 ;
                                   owl:someValuesFrom pmd:PMD_0000001
@@ -18404,7 +18461,7 @@ pmd:PMD_0080108 rdf:type owl:Class ;
                 skos:example "A cross-section of a loaded steel column bears a compressive stress of 150 MPa"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid2112 owl:intersectionOf ( [ rdf:type owl:Restriction ;
+_:genid2122 owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                     owl:onProperty obo:RO_0002328 ;
                                     owl:someValuesFrom pmd:PMD_0020200
                                   ]
@@ -18415,7 +18472,7 @@ _:genid2112 owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                 ) ;
              rdf:type owl:Class .
 
-_:genid2118 owl:intersectionOf ( [ rdf:type owl:Restriction ;
+_:genid2128 owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                     owl:onProperty obo:RO_0002328 ;
                                     owl:someValuesFrom pmd:PMD_0020352
                                   ]
@@ -18429,14 +18486,14 @@ _:genid2118 owl:intersectionOf ( [ rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0080108 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid2112 ;
+   owl:annotatedTarget _:genid2122 ;
    rdfs:comment "Mechanical view on stress"@en
  ] .
 
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0080108 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid2118 ;
+   owl:annotatedTarget _:genid2128 ;
    rdfs:comment "Thermodynamic view on stress"@en
  ] .
 
@@ -18485,14 +18542,14 @@ pmd:PMD_0080110 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0080111
 pmd:PMD_0080111 rdf:type owl:Class ;
-                rdfs:subClassOf _:genid2127 ;
+                rdfs:subClassOf _:genid2137 ;
                 obo:IAO_0000117 "PERSON: Thomas Hanke" ;
                 rdfs:label "Kriechspannung"@de ,
                            "creep stress"@en ;
                 skos:definition "Creep stress is characterized by strain occurring with time when a constant force is applied to a physical body"@en ;
                 skos:example "A polymer gasket under a creep stress of 5 MPa at 60 C relaxes significantly over 1000 hours"@en .
 
-_:genid2127 owl:intersectionOf ( pmd:PMD_0080108
+_:genid2137 owl:intersectionOf ( pmd:PMD_0080108
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty obo:RO_0002328 ;
                                     owl:someValuesFrom [ owl:intersectionOf ( pmd:PMD_0020200
@@ -18510,7 +18567,7 @@ _:genid2127 owl:intersectionOf ( pmd:PMD_0080108
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0080111 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid2127 ;
+   owl:annotatedTarget _:genid2137 ;
    rdfs:comment "strictly speaking this is just stress sustained over time."@en
  ] .
 
@@ -18583,14 +18640,14 @@ pmd:PMD_0080115 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0080116
 pmd:PMD_0080116 rdf:type owl:Class ;
                 rdfs:subClassOf obo:BFO_0000019 ,
-                                _:genid2137 ;
+                                _:genid2147 ;
                 obo:IAO_0000117 "Philipp von Hartrott" ;
                 rdfs:comment "Every potential in physics is the same mathematical object — a partial derivative of energy with respect to its conjugate extensive quantity. The differences are only in which extensive quality you're considering."@en ;
                 rdfs:label "potential"@en ;
                 skos:definition "a partial derivative of energy with respect to its conjugate extensive quantity"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid2137 owl:intersectionOf ( [ rdf:type owl:Restriction ;
+_:genid2147 owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                     owl:onProperty obo:RO_0002328 ;
                                     owl:someValuesFrom pmd:PMD_0020142
                                   ]
@@ -18604,7 +18661,7 @@ _:genid2137 owl:intersectionOf ( [ rdf:type owl:Restriction ;
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0080116 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid2137 ;
+   owl:annotatedTarget _:genid2147 ;
    rdfs:comment """In field theories (e.g., gravity, electrostatics), the potential becomes a field ϕ(r⃗), and the force is recovered via:
 F=−∇ϕ(r⃗)F
 This is the spatial analogue: instead of asking \"how does energy change per unit carrier added?\", you ask \"how does energy change per unit carrier moved in space?\""""@en
@@ -18884,7 +18941,7 @@ pmd:PMD_0080136 rdf:type owl:Class ;
 ###  https://w3id.org/pmd/co/PMD_0080137
 pmd:PMD_0080137 rdf:type owl:Class ;
                 rdfs:subClassOf pmd:PMD_0023004 ,
-                                _:genid2152 ;
+                                _:genid2162 ;
                 obo:IAO_0000117 "PERSON: Thomas Hanke" ;
                 rdfs:label "Poissonzahl"@de ,
                            "poisson's ratio"@en ;
@@ -18892,7 +18949,7 @@ pmd:PMD_0080137 rdf:type owl:Class ;
                 skos:example "Rubber has a Poisson's ratio close to 0.5, indicating nearly incompressible behavior under loading"@en ;
                 pmd:PMD_0000060 "true"^^xsd:boolean .
 
-_:genid2152 owl:intersectionOf ( pmd:PMD_0020311
+_:genid2162 owl:intersectionOf ( pmd:PMD_0020311
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty obo:RO_0000052 ;
                                     owl:someValuesFrom pmd:PMD_0000000
@@ -18907,7 +18964,7 @@ _:genid2152 owl:intersectionOf ( pmd:PMD_0020311
 [ rdf:type owl:Axiom ;
    owl:annotatedSource pmd:PMD_0080137 ;
    owl:annotatedProperty rdfs:subClassOf ;
-   owl:annotatedTarget _:genid2152 ;
+   owl:annotatedTarget _:genid2162 ;
    rdfs:comment "The two strains should be perpendicular to each other"@en
  ] .
 

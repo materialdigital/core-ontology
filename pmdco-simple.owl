@@ -36,6 +36,7 @@
         <terms:creator>Felix Thonagel</terms:creator>
         <terms:creator>Gunjan Singh</terms:creator>
         <terms:creator>Jannis Grundmann</terms:creator>
+        <terms:creator>Sai Teja Potu</terms:creator>
         <terms:creator>Yamel Lima Baquero</terms:creator>
         <terms:creator>Yuan Zheng</terms:creator>
         <terms:description xml:lang="en">The Platform MaterialDigital Core Ontology (PMDco) is a mid-level semantic framework for Materials Science and Engineering (MSE). Aligning with the ISO/IEC 21838-2:2021 standard, PMDco constructed on basis of Basic Formal Ontology (BFO) and reuses several BFO-aligned ontologies like RO, IAO, and OBI. The scope of PMDco follows the fundamental paradigm of MSE (processing, structure, and properties) and encompasses the following domains: 
@@ -13534,6 +13535,18 @@ In future versions we may provide equivalent class axioms.</obo:IAO_0000116>
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0025025 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025025">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023007"/>
+        <obo:IAO_0000116>At the current state, it is not possible to add axioms on the subclasses</obo:IAO_0000116>
+        <rdfs:label xml:lang="en">range order</rdfs:label>
+        <skos:definition xml:lang="en">range order is a facetted property that defines the range of ordering of members in a object aggregate</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0025026 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025026">
@@ -13554,6 +13567,12 @@ In future versions we may provide equivalent class axioms.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025027">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0025032"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">crystalline material</rdfs:label>
         <skos:comment>old axiom (material and (&apos;has quality&apos; some (&apos;order scale&apos; and &apos;specified by value&apos; value &apos;long range order&apos;)))</skos:comment>
         <skos:definition xml:lang="en">A crystalline material is a material that has a long-range atomic order</skos:definition>
@@ -13627,11 +13646,49 @@ In future versions we may provide equivalent class axioms.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025030">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0025031"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">amorphous material</rdfs:label>
         <skos:comment>old axiom (material and (&apos;has quality&apos; some (&apos;order scale&apos; and &apos;specified by value&apos; value &apos;short range order&apos;)))</skos:comment>
         <skos:definition xml:lang="en">An amorphous material is a material that has a short-range atomic order</skos:definition>
         <skos:example>Glass</skos:example>
         <PMD_0001032>https://github.com/materialdigital/core-ontology/issues/458</PMD_0001032>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025031 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025031">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025025"/>
+        <rdfs:label xml:lang="en">short-range order</rdfs:label>
+        <skos:definition xml:lang="en">short-range order is a range order characterized by structural organization of members of an object aggregate strictly confined to the nearest neighbours and immediate chemical bonds</skos:definition>
+        <skos:example xml:lang="en">Ordering of atoms in amorphous materials</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025032 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025032">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025025"/>
+        <rdfs:label xml:lang="en">long-range order</rdfs:label>
+        <skos:definition xml:lang="en">long-range order is a range order characterized by repeating periodicity across macroscopic distances in an object aggregate</skos:definition>
+        <skos:example xml:lang="en">ordering of atoms in a crystalline material</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025033 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025033">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025025"/>
+        <rdfs:label xml:lang="en">medium-range order</rdfs:label>
+        <skos:definition xml:lang="en">medium-range order is a range order that characterizes structural organization of members of an object aggregate where small atomic groups link into localized patterns that do not repeat across the whole material</skos:definition>
     </owl:Class>
     
 

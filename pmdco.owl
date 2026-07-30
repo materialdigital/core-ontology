@@ -39,6 +39,7 @@
         <dcterms:creator>Felix Thonagel</dcterms:creator>
         <dcterms:creator>Gunjan Singh</dcterms:creator>
         <dcterms:creator>Jannis Grundmann</dcterms:creator>
+        <dcterms:creator>Sai Teja Potu</dcterms:creator>
         <dcterms:creator>Yamel Lima Baquero</dcterms:creator>
         <dcterms:creator>Yuan Zheng</dcterms:creator>
         <dcterms:description xml:lang="en">The Platform MaterialDigital Core Ontology (PMDco) is a mid-level semantic framework for Materials Science and Engineering (MSE). Aligning with the ISO/IEC 21838-2:2021 standard, PMDco constructed on basis of Basic Formal Ontology (BFO) and reuses several BFO-aligned ontologies like RO, IAO, and OBI. The scope of PMDco follows the fundamental paradigm of MSE (processing, structure, and properties) and encompasses the following domains: 
@@ -20060,6 +20061,40 @@ In future versions we may provide equivalent class axioms.</obo:IAO_0000116>
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0025025 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025025">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000019"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023007"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000080"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000027"/>
+                                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000001"/>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002351"/>
+                                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000004"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <obo:IAO_0000116>At the current state, it is not possible to add axioms on the subclasses</obo:IAO_0000116>
+        <rdfs:label xml:lang="en">range order</rdfs:label>
+        <skos:definition xml:lang="en">range order is a facetted property that defines the range of ordering of members in a object aggregate</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0025026 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025026">
@@ -20094,6 +20129,12 @@ In future versions we may provide equivalent class axioms.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025027">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0025032"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">crystalline material</rdfs:label>
         <skos:comment>old axiom (material and (&apos;has quality&apos; some (&apos;order scale&apos; and &apos;specified by value&apos; value &apos;long range order&apos;)))</skos:comment>
         <skos:definition xml:lang="en">A crystalline material is a material that has a long-range atomic order</skos:definition>
@@ -20168,11 +20209,49 @@ In future versions we may provide equivalent class axioms.</obo:IAO_0000116>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025030">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0025031"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:label xml:lang="en">amorphous material</rdfs:label>
         <skos:comment>old axiom (material and (&apos;has quality&apos; some (&apos;order scale&apos; and &apos;specified by value&apos; value &apos;short range order&apos;)))</skos:comment>
         <skos:definition xml:lang="en">An amorphous material is a material that has a short-range atomic order</skos:definition>
         <skos:example>Glass</skos:example>
         <PMD_0001032>https://github.com/materialdigital/core-ontology/issues/458</PMD_0001032>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025031 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025031">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025025"/>
+        <rdfs:label xml:lang="en">short-range order</rdfs:label>
+        <skos:definition xml:lang="en">short-range order is a range order characterized by structural organization of members of an object aggregate strictly confined to the nearest neighbours and immediate chemical bonds</skos:definition>
+        <skos:example xml:lang="en">Ordering of atoms in amorphous materials</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025032 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025032">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025025"/>
+        <rdfs:label xml:lang="en">long-range order</rdfs:label>
+        <skos:definition xml:lang="en">long-range order is a range order characterized by repeating periodicity across macroscopic distances in an object aggregate</skos:definition>
+        <skos:example xml:lang="en">ordering of atoms in a crystalline material</skos:example>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0025033 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025033">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025025"/>
+        <rdfs:label xml:lang="en">medium-range order</rdfs:label>
+        <skos:definition xml:lang="en">medium-range order is a range order that characterizes structural organization of members of an object aggregate where small atomic groups link into localized patterns that do not repeat across the whole material</skos:definition>
     </owl:Class>
     
 
@@ -24538,8 +24617,8 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080108">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020311"/>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
-        <rdfs:subClassOf rdf:nodeID="genid2112"/>
-        <rdfs:subClassOf rdf:nodeID="genid2118"/>
+        <rdfs:subClassOf rdf:nodeID="genid2122"/>
+        <rdfs:subClassOf rdf:nodeID="genid2128"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000052"/>
@@ -24553,7 +24632,7 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
         <skos:example xml:lang="en">A cross-section of a loaded steel column bears a compressive stress of 150 MPa</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid2112">
+    <owl:Class rdf:nodeID="genid2122">
         <owl:intersectionOf rdf:parseType="Collection">
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
@@ -24565,7 +24644,7 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
             </owl:Restriction>
         </owl:intersectionOf>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid2118">
+    <owl:Class rdf:nodeID="genid2128">
         <owl:intersectionOf rdf:parseType="Collection">
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
@@ -24580,13 +24659,13 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080108"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid2112"/>
+        <owl:annotatedTarget rdf:nodeID="genid2122"/>
         <rdfs:comment xml:lang="en">Mechanical view on stress</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080108"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid2118"/>
+        <owl:annotatedTarget rdf:nodeID="genid2128"/>
         <rdfs:comment xml:lang="en">Thermodynamic view on stress</rdfs:comment>
     </owl:Axiom>
     
@@ -24641,14 +24720,14 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <!-- https://w3id.org/pmd/co/PMD_0080111 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080111">
-        <rdfs:subClassOf rdf:nodeID="genid2127"/>
+        <rdfs:subClassOf rdf:nodeID="genid2137"/>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
         <rdfs:label xml:lang="de">Kriechspannung</rdfs:label>
         <rdfs:label xml:lang="en">creep stress</rdfs:label>
         <skos:definition xml:lang="en">Creep stress is characterized by strain occurring with time when a constant force is applied to a physical body</skos:definition>
         <skos:example xml:lang="en">A polymer gasket under a creep stress of 5 MPa at 60 C relaxes significantly over 1000 hours</skos:example>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid2127">
+    <owl:Class rdf:nodeID="genid2137">
         <owl:intersectionOf rdf:parseType="Collection">
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0080108"/>
             <owl:Restriction>
@@ -24670,7 +24749,7 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080111"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid2127"/>
+        <owl:annotatedTarget rdf:nodeID="genid2137"/>
         <rdfs:comment xml:lang="en">strictly speaking this is just stress sustained over time.</rdfs:comment>
     </owl:Axiom>
     
@@ -24759,14 +24838,14 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080116">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000019"/>
-        <rdfs:subClassOf rdf:nodeID="genid2137"/>
+        <rdfs:subClassOf rdf:nodeID="genid2147"/>
         <obo:IAO_0000117>Philipp von Hartrott</obo:IAO_0000117>
         <rdfs:comment xml:lang="en">Every potential in physics is the same mathematical object — a partial derivative of energy with respect to its conjugate extensive quantity. The differences are only in which extensive quality you&apos;re considering.</rdfs:comment>
         <rdfs:label xml:lang="en">potential</rdfs:label>
         <skos:definition xml:lang="en">a partial derivative of energy with respect to its conjugate extensive quantity</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid2137">
+    <owl:Class rdf:nodeID="genid2147">
         <owl:intersectionOf rdf:parseType="Collection">
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
@@ -24781,7 +24860,7 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080116"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid2137"/>
+        <owl:annotatedTarget rdf:nodeID="genid2147"/>
         <rdfs:comment xml:lang="en">In field theories (e.g., gravity, electrostatics), the potential becomes a field ϕ(r⃗), and the force is recovered via:
 F=−∇ϕ(r⃗)F
 This is the spatial analogue: instead of asking &quot;how does energy change per unit carrier added?&quot;, you ask &quot;how does energy change per unit carrier moved in space?&quot;</rdfs:comment>
@@ -25121,7 +25200,7 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080137">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
-        <rdfs:subClassOf rdf:nodeID="genid2152"/>
+        <rdfs:subClassOf rdf:nodeID="genid2162"/>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
         <rdfs:label xml:lang="de">Poissonzahl</rdfs:label>
         <rdfs:label xml:lang="en">poisson&apos;s ratio</rdfs:label>
@@ -25129,7 +25208,7 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
         <skos:example xml:lang="en">Rubber has a Poisson&apos;s ratio close to 0.5, indicating nearly incompressible behavior under loading</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid2152">
+    <owl:Class rdf:nodeID="genid2162">
         <owl:intersectionOf rdf:parseType="Collection">
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020311"/>
             <owl:Restriction>
@@ -25145,7 +25224,7 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080137"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid2152"/>
+        <owl:annotatedTarget rdf:nodeID="genid2162"/>
         <rdfs:comment xml:lang="en">The two strains should be perpendicular to each other</rdfs:comment>
     </owl:Axiom>
     

@@ -36,6 +36,7 @@
                                           "Felix Thonagel" ,
                                           "Gunjan Singh" ,
                                           "Jannis Grundmann" ,
+                                          "Sai Teja Potu" ,
                                           "Yamel Lima Baquero" ,
                                           "Yuan Zheng" ;
                             terms:description """The Platform MaterialDigital Core Ontology (PMDco) is a mid-level semantic framework for Materials Science and Engineering (MSE). Aligning with the ISO/IEC 21838-2:2021 standard, PMDco constructed on basis of Basic Formal Ontology (BFO) and reuses several BFO-aligned ontologies like RO, IAO, and OBI. The scope of PMDco follows the fundamental paradigm of MSE (processing, structure, and properties) and encompasses the following domains: 
@@ -10250,6 +10251,15 @@ co:PMD_0025024 rdf:type owl:Class ;
                skos:definition "Growth rate is a process attribute which describes the increase of size of some of the participant in a process over time."@en .
 
 
+###  https://w3id.org/pmd/co/PMD_0025025
+co:PMD_0025025 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0023004 ,
+                               co:PMD_0023007 ;
+               obo:IAO_0000116 "At the current state, it is not possible to add axioms on the subclasses" ;
+               rdfs:label "range order"@en ;
+               skos:definition "range order is a facetted property that defines the range of ordering of members in a object aggregate"@en .
+
+
 ###  https://w3id.org/pmd/co/PMD_0025026
 co:PMD_0025026 rdf:type owl:Class ;
                rdfs:subClassOf co:PMD_0020335 ,
@@ -10263,7 +10273,11 @@ co:PMD_0025026 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025027
 co:PMD_0025027 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000000 ;
+               rdfs:subClassOf co:PMD_0000000 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:RO_0000086 ;
+                                 owl:someValuesFrom co:PMD_0025032
+                               ] ;
                rdfs:label "crystalline material"@en ;
                skos:comment "old axiom (material and ('has quality' some ('order scale' and 'specified by value' value 'long range order')))" ;
                skos:definition "A crystalline material is a material that has a long-range atomic order"@en ;
@@ -10315,12 +10329,39 @@ co:PMD_0025029 rdf:type owl:Class ;
 
 ###  https://w3id.org/pmd/co/PMD_0025030
 co:PMD_0025030 rdf:type owl:Class ;
-               rdfs:subClassOf co:PMD_0000000 ;
+               rdfs:subClassOf co:PMD_0000000 ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty obo:RO_0000086 ;
+                                 owl:someValuesFrom co:PMD_0025031
+                               ] ;
                rdfs:label "amorphous material"@en ;
                skos:comment "old axiom (material and ('has quality' some ('order scale' and 'specified by value' value 'short range order')))" ;
                skos:definition "An amorphous material is a material that has a short-range atomic order"@en ;
                skos:example "Glass" ;
                co:PMD_0001032 "https://github.com/materialdigital/core-ontology/issues/458" .
+
+
+###  https://w3id.org/pmd/co/PMD_0025031
+co:PMD_0025031 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0025025 ;
+               rdfs:label "short-range order"@en ;
+               skos:definition "short-range order is a range order characterized by structural organization of members of an object aggregate strictly confined to the nearest neighbours and immediate chemical bonds"@en ;
+               skos:example "Ordering of atoms in amorphous materials"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025032
+co:PMD_0025032 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0025025 ;
+               rdfs:label "long-range order"@en ;
+               skos:definition "long-range order is a range order characterized by repeating periodicity across macroscopic distances in an object aggregate"@en ;
+               skos:example "ordering of atoms in a crystalline material"@en .
+
+
+###  https://w3id.org/pmd/co/PMD_0025033
+co:PMD_0025033 rdf:type owl:Class ;
+               rdfs:subClassOf co:PMD_0025025 ;
+               rdfs:label "medium-range order"@en ;
+               skos:definition "medium-range order is a range order that characterizes structural organization of members of an object aggregate where small atomic groups link into localized patterns that do not repeat across the whole material"@en .
 
 
 ###  https://w3id.org/pmd/co/PMD_0025997
