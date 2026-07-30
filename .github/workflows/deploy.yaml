@@ -8,6 +8,47 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+
+    - uses: actions/checkout@v3
+      with:
+        ref: main
+        path: v3.1.0
+    - name: Build HTML for main
+      run: |
+           # generate widoco
+           wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
+           
+           mkdir public
+           mkdir public/3.1.0
+           java -jar widoco.jar -ontFile v3.1.0/pmdco.owl -outFolder public/3.1.0  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/3.1.0/doc           
+           cp public/3.1.0/doc/index-en.html public/3.1.0/doc/index.html
+           cp public/3.1.0/doc/ontology.owl public/3.1.0/doc/ontology.rdf
+           # make it available also at "base" 
+           cp -r public/3.1.0/doc/* public  
+           # make it available also at "3.1.0" 
+           cp -r public/3.1.0/doc/* public/3.1.0
+
+           # generate static docs 
+           pip install markdown2 rdflib pyyaml
+           python v3.1.0/docs/docs_HTML/scripts/run_all.py
+           ls 
+           ls v3.1.0
+           ls v3.1.0/docs/docs_HTML/HTML_Docs/
+    
+           mkdir public/docs
+           mkdir public/3.1.0/docs
+           cp -r v3.1.0/docs/docs_HTML/HTML_Docs/* public/docs/
+           cp -r v3.1.0/docs/docs_HTML/HTML_Docs/* public/3.1.0/docs/
+
+           # AI-agent discovery: publish a root-level llms.txt (llmstxt.org
+           # convention) so agents that probe <site>/llms.txt find the docs.
+           cp v3.1.0/docs/docs_HTML/llms-root.txt public/llms.txt
+           # robots.txt + sitemap.xml at the site root for search/AI crawlers.
+           cp v3.1.0/docs/docs_HTML/robots.txt public/robots.txt
+           cp v3.1.0/docs/docs_HTML/HTML_Docs/sitemap.xml public/sitemap.xml
+
+
     - uses: actions/checkout@v3
       with:
         ref: main
@@ -23,8 +64,10 @@ jobs:
            ls public/3.0.0/doc           
            cp public/3.0.0/doc/index-en.html public/3.0.0/doc/index.html
            cp public/3.0.0/doc/ontology.owl public/3.0.0/doc/ontology.rdf
+           
            # make it available also at "base" 
-           cp -r public/3.0.0/doc/* public  
+           # no, that's not the recent version anymore: cp -r public/3.0.0/doc/* public  
+
            # make it available also at "3.0.0" 
            cp -r public/3.0.0/doc/* public/3.0.0
 
@@ -37,15 +80,15 @@ jobs:
     
            mkdir public/docs
            mkdir public/3.0.0/docs
-           cp -r v3.0.0/docs/docs_HTML/HTML_Docs/* public/docs/
+           #cp -r v3.0.0/docs/docs_HTML/HTML_Docs/* public/docs/
            cp -r v3.0.0/docs/docs_HTML/HTML_Docs/* public/3.0.0/docs/
 
            # AI-agent discovery: publish a root-level llms.txt (llmstxt.org
            # convention) so agents that probe <site>/llms.txt find the docs.
-           cp v3.0.0/docs/docs_HTML/llms-root.txt public/llms.txt
+           #cp v3.0.0/docs/docs_HTML/llms-root.txt public/llms.txt
            # robots.txt + sitemap.xml at the site root for search/AI crawlers.
-           cp v3.0.0/docs/docs_HTML/robots.txt public/robots.txt
-           cp v3.0.0/docs/docs_HTML/HTML_Docs/sitemap.xml public/sitemap.xml
+           #cp v3.0.0/docs/docs_HTML/robots.txt public/robots.txt
+           #cp v3.0.0/docs/docs_HTML/HTML_Docs/sitemap.xml public/sitemap.xml
 
 
     - uses: actions/checkout@v3
