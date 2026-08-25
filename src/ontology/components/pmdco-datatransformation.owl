@@ -52,6 +52,9 @@ Declaration(Class(:PMD_0000964))
 Declaration(Class(:PMD_0001003))
 Declaration(Class(:PMD_0020264))
 Declaration(Class(:PMD_0025012))
+Declaration(Class(:PMD_0025034))
+Declaration(ObjectProperty(:PMD_0025035))
+Declaration(ObjectProperty(:PMD_0025036))
 Declaration(DataProperty(:PMD_0001857))
 Declaration(DataProperty(:PMD_0001877))
 Declaration(AnnotationProperty(<http://purl.org/dc/terms/bibliographicCitation>))
@@ -72,6 +75,25 @@ AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0000128 "h
 AnnotationAssertion(rdfs:label :PMD_0000128 "local identifier"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000128 "name or identifier that denotes a locally defined function, variable or argument in a programming script")
 
+
+############################
+#   Object Properties
+############################
+
+# Object Property: :PMD_0025035 (is quality calculated as)
+
+AnnotationAssertion(rdfs:label :PMD_0025035 "is quality calculated as"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0025035 "inverse of 'is quality calculation of'"@en)
+SubObjectPropertyOf(:PMD_0025035 owl:topObjectProperty)
+InverseObjectProperties(:PMD_0025035 :PMD_0025036)
+
+# Object Property: :PMD_0025036 (is quality calculation of)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0025036 "Similar to \"is quality measurement of\" from IAO but for calculated values."@en)
+AnnotationAssertion(rdfs:label :PMD_0025036 "is quality calculation of"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0025036 "relation between a specifically independent continuant and a calculation datum"@en)
+SubObjectPropertyOf(:PMD_0025036 <http://purl.obolibrary.org/obo/IAO_0000136>)
+ObjectPropertyDomain(:PMD_0025036 :PMD_0025034)
 
 
 ############################
@@ -488,6 +510,11 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_000100
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0001003 "Using clustering algorithms to group similar materials based on their properties (e.g., hardness, elasticity, thermal conductivity) without prior knowledge of the categories. For instance, discovering new categories of alloy compositions that exhibit similar thermal properties."@en)
 SubClassOf(:PMD_0001003 :PMD_0000821)
 
+# Class: :PMD_0020264 (datatransformation property)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020264 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020264 "PERSON: Philipp von Hartrott")
+
 # Class: :PMD_0025012 (analytical calculation)
 
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0025012 <http://purl.obolibrary.org/obo/IAO_0000122>)
@@ -496,8 +523,14 @@ AnnotationAssertion(rdfs:label :PMD_0025012 "analytical calculation"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0025012 "Analytical calculation is a computing process which has value specification or measurement datum as a specified output. It applies a closed-form mathematical expression or formula to a set it specified inputs (value specifications) without requiring stochastic sampling, iterative numerical solving, or data-driven training."@en)
 SubClassOf(:PMD_0025012 :PMD_0000583)
 
+# Class: :PMD_0025034 (calculation datum)
 
-AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0020264 "PERSON: Philipp von Hartrott")
-AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0020264 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(rdfs:label :PMD_0025034 "calculation datum"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0025034 "calculation datum is a data item that is a specified output of the computing process"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0025034 "An average value calculated from 5 measured values of some material property"@en)
+AnnotationAssertion(:PMD_0000064 :PMD_0025034 "The computing process has specified output the calculation datum. The calculation datum is quality calculation of some SDC (i.e., material property). The computing process has triple with \"assay measures characteristic\" with the SDc as object. The latter object property does not have domain contraints, i.e., the subject doesn't have to be assay."@en)
+SubClassOf(:PMD_0025034 <http://purl.obolibrary.org/obo/IAO_0000027>)
+SubClassOf(:PMD_0025034 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/OBI_0000312> :PMD_0000583))
+
 
 )
