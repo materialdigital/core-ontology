@@ -17,10 +17,10 @@
 
 @prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
 @prefix chemical_composition: <https://w3id.org/pmd/co/PMD_0000551> .
-@prefix chemical_composition_specification: <https://w3id.org/pmd/co/PMD_0025002> .
+@prefix chemical_composition_data_item: <https://w3id.org/pmd/co/PMD_0025002> .
 @prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
 @prefix proportion: <https://w3id.org/pmd/co/PMD_0020101> .
-@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> . 
+@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> . #TODO adjust with corresponding new class
 @prefix portion_of_matter: <https://w3id.org/pmd/co/PMD_0000001> . 
 @prefix portion_of_chemical_element: <https://w3id.org/pmd/co/PMD_0020140> . 
 @prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
@@ -28,7 +28,6 @@
 @prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
 
 @prefix quality_of: <http://purl.obolibrary.org/obo/RO_0000080> .
-@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> .
 @prefix has_member: <http://purl.obolibrary.org/obo/RO_0002351> .
 @prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> . 
 @prefix has_relational_quality: <https://w3id.org/pmd/co/PMD_0025998> . 
@@ -58,10 +57,10 @@ ex:chem_comp is_subject_of: ex:chem_comp_spec .
 
 ### Define proportions ###
 ex:mass_proportion_iron a mass_proportion: .
-ex:mass_proportion_iron relational_quality_of: ex:some_iron .
+ex:some_iron has_relational_quality: ex:mass_proportion_iron .
 ex:mass_proportion_iron specified_by_value: ex:fraction_iron .
 ex:mass_proportion_silicon a mass_proportion: .
-ex:mass_proportion_silicon relational_quality_of: ex:some_silicon .
+ex:some_silicon has_relational_quality: ex:mass_proportion_silicon .
 ex:mass_proportion_silicon specified_by_value: ex:fraction_silicon .
 
 ### Define fraction specifcation ###
