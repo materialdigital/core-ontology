@@ -20,13 +20,13 @@ shape:
 
 shape:chemical_composition
     a sh:NodeShape ;
+    sh:description "an instance of chemical composition is a quality of portion of matter and is subject of chemical composition data item." ;
     sh:targetClass  pmd:PMD_0000551 ;  #'Chemical Composition'
     sh:property [            
         sh:path obo:RO_0000080 ; # quality of
-        sh:class pmd:PMD_0000000 ; # material
+        sh:class pmd:PMD_0000001 ; # portion of matter
     ] ;
     sh:property [            
-        #sh:path obo:RO_0000059 ;  # concretizes
         sh:path pmd:PMD_0000004 ;  # is subject of
         # sh:class pmd:PMD_0025002 ; # chemical composition data item
         sh:node shape:chemical_composition_dataitem ;
@@ -36,15 +36,15 @@ shape:chemical_composition
 
 shape:chemical_composition_dataitem
     rdf:type sh:NodeShape ; 
-    sh:description "an instance of chemical composition specification has at least one member instance of fraction value specification. " ;
-    sh:targetClass pmd:PMD_0025002 ; #chemical composition specification
+    sh:description "an instance of chemical composition data item has at least one member instance of fraction value specification. " ;
+    sh:targetClass pmd:PMD_0025002 ; #chemical composition data item
     sh:property [
         sh:path obo:RO_0002351 ; # has member
         sh:node shape:fraction_value_specification ;
         sh:minCount 1 ;
     ] ;
     sh:closed false ;
-    # not closing the shape because of inverse of conctretizes
+    # not closing the shape because of is about being inferred from "is subject of"
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
 shape:proportion 
@@ -54,13 +54,8 @@ shape:proportion
     sh:property [
         sh:path pmd:PMD_0000077 ; #specified by value
         sh:minCount 1 ; 
-        sh:maxCount 1 ; 
+        sh:maxCount 1 ; # tbd if it is still applicable for min/max
         sh:node shape:fraction_value_specification ;
-    ] ;
-    sh:property [
-        sh:path pmd:PMD_0025999 ; # relational quality of
-        sh:minCount 1 ; 
-        sh:class pmd:PMD_0000001 ; # portion of matter TODO:separate between material and chemical elements
     ] ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
@@ -75,7 +70,7 @@ shape:pure_substance_chemical_element
     ] ;
     sh:property [
         sh:path obo:BFO_0000050 ; # part of
-        sh:class pmd:PMD_0000000  ; # material
+        sh:class pmd:PMD_0000001  ; # portion of matter
     ] ;
     
     sh:closed false ;
