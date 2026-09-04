@@ -17,15 +17,15 @@ These are the current imports in PMDCO
 | Import | URL | Type |
 | ------ | --- | ---- |
 | bfo | http://purl.obolibrary.org/obo/bfo/2020/notime/bfo.owl | custom |
-| ro | http://purl.obolibrary.org/obo/ro.owl | custom |
-| iao | http://purl.obolibrary.org/obo/iao.owl | custom |
-| obi | http://purl.obolibrary.org/obo/obi.owl | custom |
+| ro | http://purl.obolibrary.org/obo/ro/releases/2025-12-17/ro.owl | custom |
+| iao | http://purl.obolibrary.org/obo/iao/2026-03-30/iao.owl | custom |
+| obi | http://purl.obolibrary.org/obo/obi/2026-07-27/obi.owl | custom |
 | chebi | https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.obo | custom |
 | stato | http://purl.obolibrary.org/obo/stato.owl | custom |
 | uo | http://purl.obolibrary.org/obo/uo.owl | slme |
 | cob | http://purl.obolibrary.org/obo/cob.owl | custom |
-| nfdicore | https://raw.githubusercontent.com/ISE-FIZKarlsruhe/nfdicore/refs/tags/v3.0.4/nfdicore-base.owl | slme |
-| time | https://raw.githubusercontent.com/w3c/sdw/gh-pages/time/rdf/time.ttl | slme |
+| nfdicore | https://raw.githubusercontent.com/ISE-FIZKarlsruhe/nfdicore/refs/tags/v3.0.5/nfdicore-base.owl | slme |
+| time | https://github.com/w3c/sdw-time/raw/refs/heads/gh-pages/rdf/time.ttl | slme |
 ## Components
 Components, in contrast to imports, are considered full members of the ontology. This means that any axiom in a component is also included in the ontology base - which means it is considered _native_ to the ontology. While this sounds complicated, consider this: conceptually, no component should be part of more than one ontology. If that seems to be the case, we are most likely talking about an import. Components are often not needed for ontologies, but there are some use cases:
 
@@ -46,4 +46,5 @@ These are the components in PMDCO
 | pmdco-devices.owl | None |
 | pmdco-datatransformation.owl | None |
 | pmdco-characterization.owl | None |
+| pmdco-microstructure.owl | None |
 | materials-listing.owl | None |

@@ -18,8 +18,9 @@ Import(<https://w3id.org/pmd/co/components/pmdco-materials.owl>)
 Import(<https://w3id.org/pmd/co/components/pmdco-qualities.owl>)
 
 Declaration(Class(:PMD_0020252))
-Declaration(Class(:PMD_0080597))
 Declaration(ObjectProperty(:PMD_0020021))
+Declaration(ObjectProperty(:PMD_0020321))
+Declaration(ObjectProperty(:PMD_0020322))
 Declaration(AnnotationProperty(obo:IAO_0000114))
 Declaration(AnnotationProperty(obo:IAO_0000117))
 
@@ -31,15 +32,38 @@ Declaration(AnnotationProperty(obo:IAO_0000117))
 
 ObjectPropertyDomain(obo:RO_0000080 ObjectIntersectionOf(obo:BFO_0000019 ObjectComplementOf(obo:BFO_0000145)))
 
-# Object Property: :PMD_0020021 (causally influences)
+# Object Property: :PMD_0020021 (DEPRECATED causally influences)
 
 AnnotationAssertion(obo:IAO_0000114 :PMD_0020021 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 :PMD_0020021 "PERSON: Philipp von Hartrott")
-AnnotationAssertion(rdfs:label :PMD_0020021 "causally influences"@en)
-AnnotationAssertion(skos:definition :PMD_0020021 "An entity (that is bearer of some stimulation role) causally influences another entity (that is bearer of the stimulation target role) in a process iff  the target objects qualites (and/or realizable entities?) are altered in a manner that is significant in the given context/domain of discourse.."@en)
-SubObjectPropertyOf(:PMD_0020021 :PMD_0020020)
-ObjectPropertyDomain(:PMD_0020021 ObjectSomeValuesFrom(obo:RO_0000087 :PMD_0020134))
-ObjectPropertyRange(:PMD_0020021 ObjectSomeValuesFrom(obo:RO_0000087 :PMD_0020135))
+AnnotationAssertion(rdfs:comment :PMD_0020021 "Overlapping with http://purl.obolibrary.org/obo/RO_0002566")
+AnnotationAssertion(rdfs:label :PMD_0020021 "DEPRECATED causally influences"@en)
+AnnotationAssertion(owl:deprecated :PMD_0020021 "true"^^xsd:boolean)
+AnnotationAssertion(skos:definition :PMD_0020021 "DEPRECATED An entity (that is bearer of some stimulation role) causally influences another entity (that is bearer of the stimulation target role) in a process iff  the target objects qualites (and/or realizable entities?) are altered in a manner that is significant in the given context/domain of discourse.."@en)
+
+# Object Property: :PMD_0020321 (is transformed from state)
+
+AnnotationAssertion(obo:IAO_0000114 :PMD_0020321 obo:IAO_0000122)
+AnnotationAssertion(obo:IAO_0000117 :PMD_0020321 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(rdfs:comment :PMD_0020321 "Similar to derives from, except that it is about TQC rather that \"fully\" independent continuants.
+May be seen as a chain 'is state of' o 'has state' in combination with some reference to time of existance."@en)
+AnnotationAssertion(rdfs:label :PMD_0020321 "is transformed from state"@en)
+AnnotationAssertion(skos:definition :PMD_0020321 "a relation of a TQC to another TQC from which it has derived. Both TQC are states of the same IC."@en)
+SubObjectPropertyOf(:PMD_0020321 owl:topObjectProperty)
+TransitiveObjectProperty(:PMD_0020321)
+ObjectPropertyDomain(:PMD_0020321 :PMD_0000068)
+ObjectPropertyRange(:PMD_0020321 :PMD_0000068)
+
+# Object Property: :PMD_0020322 (transforms into state)
+
+AnnotationAssertion(obo:IAO_0000114 :PMD_0020322 obo:IAO_0000122)
+AnnotationAssertion(obo:IAO_0000117 :PMD_0020322 "PERSON: Philipp von Hartrott")
+AnnotationAssertion(rdfs:label :PMD_0020322 "transforms into state"@en)
+AnnotationAssertion(skos:comment :PMD_0020322 "see 'is transformation of state'"@en)
+AnnotationAssertion(skos:definition :PMD_0020322 "a relation of a TQC to another TQC into which it derives."@en)
+SubObjectPropertyOf(:PMD_0020322 owl:topObjectProperty)
+ObjectPropertyDomain(:PMD_0020322 :PMD_0000068)
+ObjectPropertyRange(:PMD_0020322 :PMD_0000068)
 
 
 
@@ -74,7 +98,7 @@ SubClassOf(:PMD_0000611 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0020132))
 
 # Class: :PMD_0000622 (electrical property analyzing process)
 
-SubClassOf(:PMD_0000622 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0000621))
+SubClassOf(:PMD_0000622 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0020312))
 
 # Class: :PMD_0000626 (electron spectroscopy)
 
@@ -96,19 +120,11 @@ SubClassOf(:PMD_0000816 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0000591))
 
 # Class: :PMD_0000829 (Magnetische Elektrische Eigenschaften Analyseverfahren)
 
-SubClassOf(:PMD_0000829 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0000825))
+SubClassOf(:PMD_0000829 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0020312))
 
-# Class: :PMD_0000836 (Massenspektroskopie)
+# Class: :PMD_0000849 (mechanical property analyzing process)
 
-SubClassOf(:PMD_0000836 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0080597))
-
-# Class: :PMD_0000848 (mechanische Eigenschaft)
-
-SubClassOf(:PMD_0000848 ObjectSomeValuesFrom(obo:RO_0000052 :PMD_0000000))
-
-# Class: :PMD_0000849 (Mechanische Eigenschaften Analyseverfahren)
-
-SubClassOf(:PMD_0000849 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0000848))
+SubClassOf(:PMD_0000849 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0020311))
 
 # Class: :PMD_0000878 (optical property analyzing process)
 
@@ -140,22 +156,14 @@ SubClassOf(:PMD_0001017 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0000551))
 
 SubClassOf(:PMD_0001018 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0000551))
 
-# Class: :PMD_0020022 (Korrosion)
+# Class: :PMD_0020022 (corrosion)
 
 SubClassOf(:PMD_0020022 ObjectSomeValuesFrom(:PMD_0025013 ObjectIntersectionOf(:PMD_0000551 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000091 obo:BFO_0000016))))))
-
-# Class: :PMD_0020130 (Triebkraft einer Phase im System)
-
-SubClassOf(:PMD_0020130 obo:BFO_0000145)
 
 # Class: :PMD_0020252 (growth)
 
 AnnotationAssertion(obo:IAO_0000114 :PMD_0020252 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 :PMD_0020252 "PERSON: Philipp von Hartrott")
-
-# Class: :PMD_0025025 (suspension)
-
-SubClassOf(:PMD_0025025 ObjectIntersectionOf(ObjectMinCardinality(1 obo:RO_0002351 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(:PMD_0000512 ObjectSomeValuesFrom(:PMD_0000077 ObjectOneOf(:PMD_0020118 :PMD_0020119)))))) ObjectMinCardinality(1 obo:RO_0002351 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(:PMD_0000512 ObjectHasValue(:PMD_0000077 :PMD_0020117)))))))
 
 # Class: :PMD_0025997 (Angabe des Bruchwerts)
 
@@ -163,12 +171,12 @@ SubClassOf(:PMD_0025997 obo:OBI_0001931)
 SubClassOf(:PMD_0025997 ObjectSomeValuesFrom(obo:OBI_0001927 ObjectIntersectionOf(:PMD_0020101 ObjectSomeValuesFrom(:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:BFO_0000050 obo:BFO_0000040))))))
 SubClassOf(:PMD_0025997 ObjectAllValuesFrom(obo:RO_0002350 :PMD_0020004))
 
-# Class: :PMD_0080597 (vector density fields)
-
-AnnotationAssertion(obo:IAO_0000114 :PMD_0080597 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000117 :PMD_0080597 "PERSON: Thomas Hanke")
-
-
 
 SubObjectPropertyOf(ObjectPropertyChain(:PMD_0025999 obo:BFO_0000050) :PMD_0025999)
+AnnotationAssertion(obo:IAO_0000114 :PMD_0025019 obo:IAO_0000122)
+AnnotationAssertion(obo:IAO_0000116 :PMD_0025019 "Ideally, a temporally qualified continuant must be used as a participant in a process where the qualities of the participant changes.This temporally qualitified continuant has an instance of quality with one on value before the process and another instance of the same quality with another on value after the process."@en)
+AnnotationAssertion(obo:IAO_0000116 :PMD_0025019 "In the axiom, the instance of quality in \"refers to\" triple must be the same instance as in \"has quality\" triple."@en)
+AnnotationAssertion(obo:IAO_0000117 :PMD_0025019 "PERSON: Kamilla Zaripova")
+AnnotationAssertion(rdfs:label :PMD_0025019 "rate"@en)
+AnnotationAssertion(skos:definition :PMD_0025019 "process attribute which describes the change of some quality of some of the participants in a process over time"@en)
 )

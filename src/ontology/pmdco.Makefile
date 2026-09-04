@@ -43,6 +43,9 @@ $(IMPORTDIR)/obi_import.owl: $(MIRRORDIR)/obi.owl $(IMPORTDIR)/obi_terms.txt \
 		 remove --term CHEBI:33359 \
 		 remove --term CHEBI:30682 \
 		 remove --term CHEBI:33376 \
+		 remove --term PATO:0000122 \
+		 remove --term PATO:0000918 \
+		 remove --term CHEBI:25555 \
 		 remove --term-file $(IMPORTDIR)/unwanted.txt  \
 		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 		        --term-file $(IMPORTDIR)/obi_terms.txt $(T_IMPORTSEED) \
@@ -93,7 +96,6 @@ $(IMPORTDIR)/iao_import.owl: $(MIRRORDIR)/iao.owl $(IMPORTDIR)/iao_terms.txt
 		extract --term-file $(IMPORTDIR)/iao_terms.txt  --force true --copy-ontology-annotations true --individuals exclude --intermediates none --method BOT \
 		query --update ../sparql/inject-subset-declaration.ru --update ../sparql/inject-synonymtype-declaration.ru --update ../sparql/postprocess-module.ru \
  		remove --term IAO:0000032 --axioms subclass \
- 		rename --mapping OBI:0000011 COB:0000035 	\
  		remove --term-file $(IMPORTDIR)/unwanted.txt  \
  		remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
 			  --term-file $(IMPORTDIR)/iao_terms.txt \
@@ -128,7 +130,10 @@ $(IMPORTDIR)/uo_import.owl: $(MIRRORDIR)/uo.owl $(IMPORTDIR)/uo_terms.txt
 
 
 $(TEMPLATEDIR)/materials-listing.tsv:
-	curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmflWvRYJEO0K_k9EtLHDTkyIcntG0jW-i9ZNlURUxQET8N9eadI2HdI94hrNMWBcDQAKzE9KWVY6b/pub?gid=0&single=true&output=tsv" -o $@
+	curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmflWvRYJEO0K_k9EtLHDTkyIcntG0jW-i9ZNlURUxQET8N9eadI2HdI94hrNMWBcDQAKzE9KWVY6b/pub?gid=349806212&single=true&output=tsv" -o $@
+#	curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmflWvRYJEO0K_k9EtLHDTkyIcntG0jW-i9ZNlURUxQET8N9eadI2HdI94hrNMWBcDQAKzE9KWVY6b/pub?gid=0&single=true&output=tsv" -o $@
+
+
 
 .PHONY: autoshapes
 autoshapes: 
@@ -154,7 +159,7 @@ $(ONT)-base.owl: $(EDIT_PREPROCESSED) $(OTHER_SRC) $(IMPORT_FILES)
 
 $(ONT)-minimal.owl: 
 	$(ROBOT)  query --input $(ONT).owl --query ../sparql/select-minimal-profile.sparql $(TMPDIR)/minimal_profile.txt && \
-	$(ROBOT)  extract --input $(ONT).owl --term-file $(TMPDIR)/minimal_profile.txt --method BOT --intermediates minimal --output $@
+	$(ROBOT)  extract --input $(ONT).owl --term-file $(TMPDIR)/minimal_profile.txt --method BOT --output $@
 
 
 CITATION="'PMDco: Platform Material Digital Ontology. Version $(VERSION), https://w3id.org/pmd/co/'"
