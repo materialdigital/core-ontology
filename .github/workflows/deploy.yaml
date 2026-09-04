@@ -12,13 +12,17 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: main
-        path: v3.1.0
+        path: v3.1.1
     - name: Build HTML for main
-      env: VERSION = 3.1.0
+      env: 
+        VERSION: 3.1.1
       run: |
+           # install requirements
+           pip install markdown2 rdflib pyyaml
            # generate widoco
            wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
            
+
            mkdir public
            mkdir public/$VERSION
            java -jar widoco.jar -ontFile v$VERSION/pmdco.owl -outFolder public/$VERSION  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
@@ -31,7 +35,6 @@ jobs:
            cp -r public/$VERSION/doc/* public/$VERSION
 
            # generate static docs 
-           pip install markdown2 rdflib pyyaml
            python v$VERSION/docs/docs_HTML/scripts/run_all.py
            ls 
            ls v$VERSION
@@ -49,17 +52,15 @@ jobs:
            cp v$VERSION/docs/docs_HTML/robots.txt public/robots.txt
            cp v$VERSION/docs/docs_HTML/HTML_Docs/sitemap.xml public/sitemap.xml
 
-
     - uses: actions/checkout@v3
       with:
         ref: main
-        path: v3.0.0
+        path: v3.1.0
     - name: Build HTML for main
-      env: VERSION = 3.0.0
+      env: 
+        VERSION: 3.1.0
       run: |
-           # generate widoco
-           wget -O widoco.jar https://github.com/dgarijo/Widoco/releases/download/v1.4.25/widoco-1.4.25-jar-with-dependencies_JDK-11.jar
-           
+          
            #mkdir public
            mkdir public/$VERSION
            java -jar widoco.jar -ontFile v$VERSION/pmdco.owl -outFolder public/$VERSION  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
@@ -74,7 +75,40 @@ jobs:
            cp -r public/$VERSION/doc/* public/$VERSION
 
            # generate static docs 
-           pip install markdown2 rdflib pyyaml
+           python v$VERSION/docs/docs_HTML/scripts/run_all.py
+           ls 
+           ls v$VERSION
+           ls v$VERSION/docs/docs_HTML/HTML_Docs/
+    
+           #mkdir public/docs
+           mkdir public/$VERSION/docs
+           #cp -r v3.0.0/docs/docs_HTML/HTML_Docs/* public/docs/
+           cp -r v$VERSION/docs/docs_HTML/HTML_Docs/* public/$VERSION/docs/
+
+
+    - uses: actions/checkout@v3
+      with:
+        ref: main
+        path: v3.0.0
+    - name: Build HTML for main
+      env: 
+        VERSION: 3.0.0
+      run: |
+          
+           #mkdir public
+           mkdir public/$VERSION
+           java -jar widoco.jar -ontFile v$VERSION/pmdco.owl -outFolder public/$VERSION  -uniteSections -includeAnnotationProperties -lang en-de  -getOntologyMetadata -noPlaceHolderText -rewriteAll -webVowl           
+           ls public/$VERSION/doc           
+           cp public/$VERSION/doc/index-en.html public/$VERSION/doc/index.html
+           cp public/$VERSION/doc/ontology.owl public/$VERSION/doc/ontology.rdf
+           
+           # make it available also at "base" 
+           # no, that's not the recent version anymore: cp -r public/3.0.0/doc/* public  
+
+           # make it available also at "3.0.0" 
+           cp -r public/$VERSION/doc/* public/$VERSION
+
+           # generate static docs 
            python v$VERSION/docs/docs_HTML/scripts/run_all.py
            ls 
            ls v$VERSION
