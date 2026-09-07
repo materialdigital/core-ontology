@@ -17,9 +17,9 @@
 @base <https://w3id.org/pmd/co/> .
 
 <https://w3id.org/pmd/co/> rdf:type owl:Ontology ;
-                            owl:versionIRI <https://w3id.org/pmd/co/3.1.0> ;
-                            dcterms:bibliographicCitation "PMDco: Platform Material Digital Ontology. Version 3.1.0, https://w3id.org/pmd/co/" ;
-                            dcterms:created "2026-07-30" ;
+                            owl:versionIRI <https://w3id.org/pmd/co/3.1.1> ;
+                            dcterms:bibliographicCitation "PMDco: Platform Material Digital Ontology. Version 3.1.1, https://w3id.org/pmd/co/" ;
+                            dcterms:created "2026-09-04" ;
                             dcterms:creator <https://orcid.org/0000-0001-6772-1943> ,
                                             <https://orcid.org/0000-0001-7192-7143> ,
                                             <https://orcid.org/0000-0002-1058-3102> ,
@@ -52,8 +52,8 @@ Documentation: https://materialdigital.github.io/core-ontology/docs/"""@en ;
                             dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
                             dcterms:title "PMD Core Ontology" ;
                             doap:repository <https://github.com/materialdigital/core-ontology> ;
-                            owl:priorVersion <https://w3id.org/pmd/co/3.0.0> ;
-                            owl:versionInfo "3.1.0" .
+                            owl:priorVersion <https://w3id.org/pmd/co/3.1.0> ;
+                            owl:versionInfo "3.1.1" .
 
 #################################################################
 #    Annotation properties
@@ -81,7 +81,10 @@ obo:IAO_0000114 rdf:type owl:AnnotationProperty ;
 obo:IAO_0000115 rdf:type owl:AnnotationProperty ;
                 obo:IAO_0000114 obo:IAO_0000122 ;
                 obo:IAO_0000115 "The official OBI definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ,
-                                "The official definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ;
+                                "The official definition, explaining the meaning of a class or property. Shall be Aristotelian, formalized and normalized. Can be augmented with colloquial definitions."@en ,
+                                "A property representing the English language definitions of what NCI means by the concept. They may also include information about the definition's source and attribution in a form that can easily be interpreted by software." ,
+                                "English language definitions of what NCI means by the concept. These are limited to 1024 characters. They may also include information about the definition's source and attribution in a form that can easily be interpreted by software." ,
+                                "The official definition." ;
                 obo:IAO_0000116 """2012-04-05: 
 Barry Smith
 
@@ -169,15 +172,14 @@ obo:IAO_0000232 rdf:type owl:AnnotationProperty ;
 
 ###  http://purl.obolibrary.org/obo/IAO_0000233
 obo:IAO_0000233 rdf:type owl:AnnotationProperty ;
-                obo:IAO_0000112 "the URI for an OBI Terms ticket at sourceforge, such as https://sourceforge.net/p/obi/obi-terms/772/"@en ,
-                                "the URL for an ontology term tracker issue, such as https://github.com/monarch-initiative/mondo/issues/7588"@en ;
+                obo:IAO_0000112 "the URL for an ontology term tracker issue, such as https://github.com/monarch-initiative/mondo/issues/7588"@en ;
                 obo:IAO_0000114 obo:IAO_0000125 ;
-                obo:IAO_0000115 "A URL for a request or discussion of an ontology term."@en ,
-                                "An IRI or similar locator for a request or discussion of an ontology term."@en ;
+                obo:IAO_0000115 "A URL for a request or discussion of an ontology term."@en ;
                 obo:IAO_0000117 "Person: Jie Zheng, Chris Stoeckert, Alan Ruttenberg"@en ;
                 obo:IAO_0000119 "Person: Jie Zheng, Chris Stoeckert, Alan Ruttenberg"@en ;
                 rdfs:comment "The 'tracker item' can associate a tracker with a specific ontology term."@en ;
-                rdfs:label "term tracker item"@en .
+                rdfs:label "term tracker item"@en ;
+                rdfs:range xsd:anyURI .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0100001
@@ -256,6 +258,7 @@ oboInOwl:hasExactSynonym rdf:type owl:AnnotationProperty ;
 
 ###  http://www.w3.org/2000/01/rdf-schema#label
 rdfs:label rdf:type owl:AnnotationProperty ;
+           obo:IAO_0000115 "A human readable name for this class." ;
            rdfs:label "label"@en ,
                       "label" .
 
@@ -353,7 +356,8 @@ obo:BFO_0000050 rdf:type owl:ObjectProperty ;
                                 """Parthood requires the part and the whole to have compatible classes: only an occurrent can be part of an occurrent; only a process can be part of a process; only a continuant can be part of a continuant; only an independent continuant can be part of an independent continuant; only an immaterial entity can be part of an immaterial entity; only a specifically dependent continuant can be part of a specifically dependent continuant; only a generically dependent continuant can be part of a generically dependent continuant. (This list is not exhaustive.)
 
 A continuant cannot be part of an occurrent: use 'participates in'. An occurrent cannot be part of a continuant: use 'has participant'. A material entity cannot be part of an immaterial entity: use 'has location'. A specifically dependent continuant cannot be part of an independent continuant: use 'inheres in'. An independent continuant cannot be part of a specifically dependent continuant: use 'bearer of'."""@en ;
-                rdfs:label "part of"@en .
+                rdfs:label "part of"@en ,
+                           "part of" .
 
 
 ###  http://purl.obolibrary.org/obo/BFO_0000051
@@ -1645,6 +1649,7 @@ qudt:numericValue rdf:type owl:DatatypeProperty ;
 
 ###  https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001008
 <https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001008> rdf:type owl:DatatypeProperty ;
+                                                      rdfs:range xsd:anyURI ;
                                                       rdfs:label "has url"@en ;
                                                       skos:definition "A relation between an information content entity and its specific url."@en .
 
@@ -2226,8 +2231,7 @@ obo:CHEBI_25016 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_25107
 obo:CHEBI_25107 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "magnesium atom" .
 
 
@@ -2258,8 +2262,7 @@ obo:CHEBI_25805 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_26216
 obo:CHEBI_26216 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "potassium atom" .
 
 
@@ -2309,8 +2312,7 @@ obo:CHEBI_27563 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_27568
 obo:CHEBI_27568 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_25585 ,
+                rdfs:subClassOf obo:CHEBI_25585 ,
                                 obo:CHEBI_33303 ;
                 rdfs:label "selenium atom" .
 
@@ -2324,8 +2326,7 @@ obo:CHEBI_27573 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_27594
 obo:CHEBI_27594 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_25585 ;
+                rdfs:subClassOf obo:CHEBI_25585 ;
                 rdfs:label "carbon atom" .
 
 
@@ -2400,8 +2401,7 @@ obo:CHEBI_29362 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_30145
 obo:CHEBI_30145 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "lithium atom" .
 
 
@@ -2480,8 +2480,7 @@ obo:CHEBI_30513 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_30514
 obo:CHEBI_30514 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "caesium atom" .
 
 
@@ -2519,8 +2518,7 @@ obo:CHEBI_32145 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_32594
 obo:CHEBI_32594 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "barium atom" .
 
 
@@ -2580,8 +2578,7 @@ obo:CHEBI_33319 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_33322
 obo:CHEBI_33322 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "rubidium atom" .
 
 
@@ -2593,15 +2590,13 @@ obo:CHEBI_33323 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_33324
 obo:CHEBI_33324 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "strontium atom" .
 
 
 ###  http://purl.obolibrary.org/obo/CHEBI_33325
 obo:CHEBI_33325 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "radium atom" .
 
 
@@ -2717,8 +2712,7 @@ obo:CHEBI_33363 rdf:type owl:Class ;
 
 ###  http://purl.obolibrary.org/obo/CHEBI_33364
 obo:CHEBI_33364 rdf:type owl:Class ;
-                rdfs:subClassOf obo:CHEBI_23367 ,
-                                obo:CHEBI_33521 ;
+                rdfs:subClassOf obo:CHEBI_33521 ;
                 rdfs:label "platinum" .
 
 
@@ -3203,8 +3197,7 @@ obo:IAO_0000100 rdf:type owl:Class ;
                 obo:IAO_0000116 "2009/10/23 Alan Ruttenberg. The intention is that this term represent collections of like data. So this isn't for, e.g. the whole contents of a cel file, which includes parameters, metadata etc. This is more like java arrays of a certain rather specific type"@en ,
                                 "2014-05-05: Data sets are aggregates and thus must include two or more data items. We have chosen not to add logical axioms to make this restriction." ;
                 obo:IAO_0000119 "group:OBI"@en ;
-                rdfs:label "data set"@en ,
-                           "homogenous data collection"@en .
+                rdfs:label "homogenous data collection"@en .
 
 
 ###  http://purl.obolibrary.org/obo/IAO_0000104
