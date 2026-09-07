@@ -91,6 +91,7 @@ Declaration(Class(pmd:PMD_0020404))
 Declaration(Class(pmd:PMD_0080100))
 Declaration(Class(pmd:PMD_0080101))
 Declaration(Class(pmd:PMD_0080103))
+Declaration(ObjectProperty(obo:RO_0002503))
 Declaration(AnnotationProperty(dcterms:contributor))
 Declaration(AnnotationProperty(dcterms:creator))
 Declaration(AnnotationProperty(dcterms:description))
@@ -119,57 +120,22 @@ SubClassOf(pmd:PMD_0000522 obo:BFO_0000015)
 
 SubClassOf(pmd:PMD_0001035 ObjectUnionOf(ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000142) ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000146)))
 
-# Class: pmd:PMD_0010112 (medical application role)
-
-SubClassOf(pmd:PMD_0010112 ObjectSomeValuesFrom(obo:BFO_0000054 obo:COB_0000082))
-
 # Class: pmd:PMD_0020101 (concentration)
 
-AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0020101 "Concentrations express the ratio between the quantities of a part and the quantities of the whole.
-In contrast to concentrations ratios express the ratio between the quantity of a part and the quantity of the remainder.
-To address the (chemical) composition of an enity, see 'composition'."@en)
-AnnotationAssertion(rdfs:comment pmd:PMD_0020101 "Concentrations can be expressed in terms of three quantifiers:
-
-+-------------------+------------------+-------------------+---------------------+
-|                   | count            | mass              | volume              |
-+-------------------+------------------+-------------------+---------------------+
-| per count         | count per count  | (mass per count)  | (volume per count)  |
-| per mass          | count per mass   | mass per mass     | volume per mass     |
-| per volume        | count per volume | mass per volume   | volume per volume   |
-+-------------------+------------------+-------------------+---------------------+
-
-Mass per count and volume per count are not known to have practical examples but are included for completeness."@en)
-AnnotationAssertion(rdfs:comment pmd:PMD_0020101 "Ratio: 
-A comparison of two or more quantities (a relationship), e.g. 3:2:1 for prosecco, aperol and sparkling water in aperol spritz. There is no stanardized mathematical notation or operators for it.  We do not support it, rather convert it to fractions.
-
-Proportion: 
-A statement that two ratios/fractions are equal (an equation), e.g. 2/3=4/6"@en)
-AnnotationAssertion(rdfs:label pmd:PMD_0020101 "concentration"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020101 "a property describing a quantitative relation between two entites where one entity represents the whole and the other entity represents a part of the whole"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020101 "aperol spritz: 3/6 prosecco, 2/6 aperol, 1/6 sparkling water in vol/vol"@en)
-SubClassOf(pmd:PMD_0020101 ObjectIntersectionOf(ObjectSomeValuesFrom(pmd:PMD_0025999 pmd:PMD_0000001) ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(pmd:PMD_0000001 ObjectSomeValuesFrom(obo:RO_0002350 pmd:PMD_0000001)))))
+AnnotationAssertion(rdfs:comment pmd:PMD_0020101 "Kamilla:
+1.  concentration is a bad name, cause area fraction (texture component or phase on the image) is also relationship between part and the whole.
+2. Number desity (of precipitates) can be the same as count per volume or count per area or count per length. How to deal with that?"@en)
 DisjointUnion(pmd:PMD_0020101 pmd:PMD_0020102 pmd:PMD_0020103 pmd:PMD_0020104 pmd:PMD_0020267 pmd:PMD_0020268 pmd:PMD_0020269 pmd:PMD_0020271 pmd:PMD_0020272 pmd:PMD_0080101)
 
 # Class: pmd:PMD_0020102 (mass fraction)
 
-EquivalentClasses(pmd:PMD_0020102 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020133 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020133 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
 
 # Class: pmd:PMD_0020103 (molar fraction)
 
 AnnotationAssertion(skos:altLabel pmd:PMD_0020103 "count per count"@en)
-EquivalentClasses(pmd:PMD_0020103 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
 
 # Class: pmd:PMD_0020104 (volume fraction)
 
-AnnotationAssertion(skos:altLabel pmd:PMD_0020104 "volume per volume"@en)
-EquivalentClasses(pmd:PMD_0020104 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020150 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020150 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
-
-# Class: pmd:PMD_0020108 (relational property)
-
-AnnotationAssertion(rdfs:label pmd:PMD_0020108 "relational property"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020108 "a facetted property that describes the relation between two  (maybe more) bearers."@en)
-SubClassOf(pmd:PMD_0020108 pmd:PMD_0023002)
-SubClassOf(pmd:PMD_0020108 ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000004))
 
 # Class: pmd:PMD_0020200 (force)
 
@@ -177,8 +143,7 @@ SubClassOf(pmd:PMD_0020200 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0000522)
 
 # Class: pmd:PMD_0020207 (molar amount of entities or substance)
 
-EquivalentClasses(pmd:PMD_0020207 ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectHasValue(pmd:PMD_0000077 pmd:PMD_0020368))))))
-SubClassOf(pmd:PMD_0020207 pmd:PMD_0020353)
+SubClassOf(pmd:PMD_0020207 pmd:PMD_0020101)
 
 # Class: pmd:PMD_0020241 (angle of misalignment (crystallography))
 
@@ -192,68 +157,20 @@ EquivalentClasses(pmd:PMD_0020245 ObjectSomeValuesFrom(obo:RO_0002020 obo:BFO_00
 
 SubClassOf(pmd:PMD_0020263 ObjectSomeValuesFrom(obo:RO_0000057 ObjectIntersectionOf(pmd:PMD_0020293 ObjectSomeValuesFrom(obo:RO_0002002 obo:BFO_0000146) ObjectSomeValuesFrom(pmd:PMD_0025998 pmd:PMD_0020200))))
 
-# Class: pmd:PMD_0020266 (exclusive property)
-
-AnnotationAssertion(rdfs:label pmd:PMD_0020266 "exclusive property"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020266 "a property that belongs exclusively to one entity"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020266 "the mass of an atom"@en)
-EquivalentClasses(pmd:PMD_0020266 ObjectSomeValuesFrom(obo:RO_0000052 obo:BFO_0000001))
-SubClassOf(pmd:PMD_0020266 pmd:PMD_0023002)
-
 # Class: pmd:PMD_0020267 (mass per count)
 
-AnnotationAssertion(rdfs:label pmd:PMD_0020267 "mass per count"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020267 "a relational quality expressing a mass of a part in relation to the the count of the whole"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020267 "no practical example is known."@en)
-EquivalentClasses(pmd:PMD_0020267 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020133 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
 
 # Class: pmd:PMD_0020268 (volume per count)
 
-AnnotationAssertion(rdfs:label pmd:PMD_0020268 "volume per count"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020268 "a relational quality expressing the volume of a part in relation to the count of the whole"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020268 "no practical example is known"@en)
-EquivalentClasses(pmd:PMD_0020268 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020150 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
 
 # Class: pmd:PMD_0020269 (count per mass)
 
-AnnotationAssertion(rdfs:label pmd:PMD_0020269 "count per mass"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020269 "a relational quality expressing a count of a part in relation to the the mass of the whole"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020269 "10e14 fibers in 1 ton of fiber reinforced resin"@en)
-EquivalentClasses(pmd:PMD_0020269 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020133 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
-
-# Class: pmd:PMD_0020270 (part-whole property)
-
-AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0020270 "it is not possible to formulate the equivalent axiom in OWL 2"@en)
-AnnotationAssertion(rdfs:label pmd:PMD_0020270 "part-whole property"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020270 "a relational property between the whole and a part of the whole"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020270 "the mass fraction of the neutrons of an atom"@en)
-SubClassOf(pmd:PMD_0020270 pmd:PMD_0020108)
-SubClassOf(pmd:PMD_0020270 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:BFO_0000050 obo:BFO_0000001))))
-SubClassOf(pmd:PMD_0020270 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:BFO_0000051 obo:BFO_0000001))))
 
 # Class: pmd:PMD_0020271 (volume per mass)
 
-AnnotationAssertion(rdfs:label pmd:PMD_0020271 "volume per mass"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020271 "a relational quality expressing the volume of a part in relation to the mass of the whole"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020271 "the resin volume is 300 l per ton of fiber reinforced composite"@en)
-EquivalentClasses(pmd:PMD_0020271 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020150 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020133 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
 
 # Class: pmd:PMD_0020272 (count per volume)
 
-AnnotationAssertion(rdfs:label pmd:PMD_0020272 "count per volume"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020272 "a relational quality expressing a count of a part in relation to the the volume of the whole"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020272 "10e14 fibers in 1 m3 of fiber reinforced resin"@en)
-EquivalentClasses(pmd:PMD_0020272 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020367 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020150 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
-
-# Class: pmd:PMD_0020273 (emancipated property)
-
-AnnotationAssertion(obo:IAO_0000116 pmd:PMD_0020273 "it is not possible to formulate the equivalent axiom in OWL 2"@en)
-AnnotationAssertion(rdfs:label pmd:PMD_0020273 "emancipated property"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020273 "a relational property between two or more emancipated/autonomous entites"@en)
-AnnotationAssertion(skos:example pmd:PMD_0020273 "the force between two atoms"@en)
-SubClassOf(pmd:PMD_0020273 pmd:PMD_0020108)
-SubClassOf(pmd:PMD_0020273 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000001 ObjectComplementOf(ObjectSomeValuesFrom(obo:BFO_0000050 obo:BFO_0000001)))))
-SubClassOf(pmd:PMD_0020273 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000001 ObjectComplementOf(ObjectSomeValuesFrom(obo:BFO_0000051 obo:BFO_0000001)))))
 
 # Class: pmd:PMD_0020274 (thermodynamic process)
 
@@ -312,14 +229,6 @@ SubClassOf(pmd:PMD_0020282 obo:BFO_0000015)
 AnnotationAssertion(rdfs:label pmd:PMD_0020283 "optical process"@en)
 SubClassOf(pmd:PMD_0020283 obo:BFO_0000015)
 
-# Class: pmd:PMD_0020404 (diffusion medium role)
-
-AnnotationAssertion(rdfs:label pmd:PMD_0020404 "diffusion medium role"@en)
-AnnotationAssertion(skos:definition pmd:PMD_0020404 "role of a portion of matter that is being diffused through in a diffusion process"@en)
-SubClassOf(pmd:PMD_0020404 pmd:PMD_0020335)
-SubClassOf(pmd:PMD_0020404 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0020194))
-SubClassOf(pmd:PMD_0020404 ObjectSomeValuesFrom(obo:RO_0000081 pmd:PMD_0000001))
-
 # Class: pmd:PMD_0023026 (spontaneous process)
 
 
@@ -330,17 +239,11 @@ SubClassOf(pmd:PMD_0080076 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersecti
 
 # Class: pmd:PMD_0080101 (mass concentration)
 
-AnnotationAssertion(skos:altLabel pmd:PMD_0080101 "mass per volume"@en)
-EquivalentClasses(pmd:PMD_0080101 ObjectIntersectionOf(pmd:PMD_0020101 ObjectSomeValuesFrom(pmd:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020133 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmd:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmd:PMD_0020150 ObjectSomeValuesFrom(pmd:PMD_0000077 obo:OBI_0001931)))))))
 
 # Class: pmd:PMD_0080112 (Adhäsion)
 
 SubClassOf(pmd:PMD_0080112 pmd:PMD_0020311)
 SubClassOf(pmd:PMD_0080112 ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000146))
-
-# Class: pmd:PMD_0080133 (durability)
-
-SubClassOf(pmd:PMD_0080133 ObjectSomeValuesFrom(obo:RO_0000092 ObjectIntersectionOf(pmd:PMD_0000000 ObjectSomeValuesFrom(obo:RO_0000056 pmd:PMD_0000635))))
 
 # Class: pmd:PMD_0080134 (Verschleißfestigkeit)
 
@@ -349,11 +252,6 @@ SubClassOf(pmd:PMD_0080134 ObjectSomeValuesFrom(obo:RO_0000092 ObjectIntersectio
 # Class: pmd:PMD_0080135 (Kriechfestigkeit)
 
 SubClassOf(pmd:PMD_0080135 ObjectSomeValuesFrom(obo:RO_0000092 ObjectIntersectionOf(pmd:PMD_0000000 ObjectSomeValuesFrom(obo:RO_0000056 pmd:PMD_0000596) ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0080108))))
-
-# Class: pmd:PMD_0080181 (ductility)
-
-SubClassOf(pmd:PMD_0080181 ObjectSomeValuesFrom(obo:RO_0000092 ObjectIntersectionOf(pmd:PMD_0000000 ObjectSomeValuesFrom(obo:RO_0000056 pmd:PMD_0000596))))
-
 
 
 DisjointClasses(obo:COB_0000082 obo:GO_0008150 pmd:PMD_0023026)
