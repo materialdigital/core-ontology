@@ -57,6 +57,31 @@ shape:proportion
         sh:maxCount 1 ; # tbd if it is still applicable for min/max
         sh:node shape:fraction_value_specification ;
     ] ;
+
+    sh:sparql [
+        rdf:type sh:SPARQLConstraint ;
+        sh:message "The proportion must be a relational quality of a chemical element that is part of the matter towards which this proportion is directed." ;
+        sh:select """
+            PREFIX pmd: <https://w3id.org/pmd/co/>
+            PREFIX obo: <http://purl.obolibrary.org/obo/>
+            PREFIX ro:  <http://purl.obolibrary.org/obo/>
+            PREFIX pmd: <https://w3id.org/pmd/co/>
+
+            SELECT $this
+            WHERE {
+                # 1. Proportion -> relational quality of -> pure substance
+                FILTER NOT EXISTS {
+                    $this pmd:PMD_0020101 ?element .                # relational quality of
+                    ?element a pmd:PMD_0020140 ;                   # portion of pure chemical element
+                             obo:BFO_0000050 ?whole .             # part of
+                    ?whole a pmd:PMD_0000001 .                    # portion of matter
+
+                    # 2. Matter <- inverse(towards) <- $this to validate that it is the right parthood
+                    $this obo:RO_0002503 ?matter .                 # towards 
+                }
+            }
+        """ ;
+    ] ;
     sh:closed false ;
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 

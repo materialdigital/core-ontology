@@ -65,6 +65,33 @@ Annotation(dcterms:license <https://creativecommons.org/licenses/by/4.0/>)
 Annotation(dcterms:title "PMD Core Ontology")
 Annotation(<http://usefulinc.com/ns/doap#repository> <https://github.com/materialdigital/core-ontology>)
 
+Declaration(Class(pmd:PMD_0020101))
+Declaration(Class(pmd:PMD_0020103))
+Declaration(Class(pmd:PMD_0020108))
+Declaration(Class(pmd:PMD_0020266))
+Declaration(Class(pmd:PMD_0020267))
+Declaration(Class(pmd:PMD_0020268))
+Declaration(Class(pmd:PMD_0020269))
+Declaration(Class(pmd:PMD_0020270))
+Declaration(Class(pmd:PMD_0020271))
+Declaration(Class(pmd:PMD_0020272))
+Declaration(Class(pmd:PMD_0020273))
+Declaration(Class(pmd:PMD_0020274))
+Declaration(Class(pmd:PMD_0020275))
+Declaration(Class(pmd:PMD_0020276))
+Declaration(Class(pmd:PMD_0020277))
+Declaration(Class(pmd:PMD_0020278))
+Declaration(Class(pmd:PMD_0020279))
+Declaration(Class(pmd:PMD_0020281))
+Declaration(Class(pmd:PMD_0020282))
+Declaration(Class(pmd:PMD_0020283))
+Declaration(Class(pmd:PMD_0020284))
+Declaration(Class(pmd:PMD_0020403))
+Declaration(Class(pmd:PMD_0020404))
+Declaration(Class(pmd:PMD_0080100))
+Declaration(Class(pmd:PMD_0080101))
+Declaration(Class(pmd:PMD_0080103))
+Declaration(ObjectProperty(obo:RO_0002503))
 Declaration(AnnotationProperty(dcterms:contributor))
 Declaration(AnnotationProperty(dcterms:creator))
 Declaration(AnnotationProperty(dcterms:description))
@@ -73,6 +100,165 @@ Declaration(AnnotationProperty(dcterms:title))
 Declaration(AnnotationProperty(<http://usefulinc.com/ns/doap#repository>))
 
 
+
+
+############################
+#   Classes
+############################
+
+# Class: obo:COB_0000082 (planned process)
+
+
+# Class: obo:GO_0008150 (biological_process)
+
+
+# Class: pmd:PMD_0000522 (mechanical process)
+
+SubClassOf(pmd:PMD_0000522 obo:BFO_0000015)
+
+# Class: pmd:PMD_0001035 (angle)
+
+SubClassOf(pmd:PMD_0001035 ObjectUnionOf(ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000142) ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000146)))
+
+# Class: pmd:PMD_0020101 (concentration)
+
+AnnotationAssertion(rdfs:comment pmd:PMD_0020101 "Kamilla:
+1.  concentration is a bad name, cause area fraction (texture component or phase on the image) is also relationship between part and the whole.
+2. Number desity (of precipitates) can be the same as count per volume or count per area or count per length. How to deal with that?"@en)
+DisjointUnion(pmd:PMD_0020101 pmd:PMD_0020102 pmd:PMD_0020103 pmd:PMD_0020104 pmd:PMD_0020267 pmd:PMD_0020268 pmd:PMD_0020269 pmd:PMD_0020271 pmd:PMD_0020272 pmd:PMD_0080101)
+
+# Class: pmd:PMD_0020102 (mass fraction)
+
+
+# Class: pmd:PMD_0020103 (molar fraction)
+
+AnnotationAssertion(skos:altLabel pmd:PMD_0020103 "count per count"@en)
+
+# Class: pmd:PMD_0020104 (volume fraction)
+
+
+# Class: pmd:PMD_0020200 (force)
+
+SubClassOf(pmd:PMD_0020200 ObjectSomeValuesFrom(obo:BFO_0000054 pmd:PMD_0000522))
+
+# Class: pmd:PMD_0020207 (molar amount of entities or substance)
+
+SubClassOf(pmd:PMD_0020207 pmd:PMD_0020101)
+
+# Class: pmd:PMD_0020241 (angle of misalignment (crystallography))
+
+SubClassOf(pmd:PMD_0020241 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(obo:BFO_0000146 ObjectSomeValuesFrom(obo:BFO_0000050 pmd:PMD_0000663))))
+
+# Class: pmd:PMD_0020245 (transport)
+
+EquivalentClasses(pmd:PMD_0020245 ObjectSomeValuesFrom(obo:RO_0002020 obo:BFO_0000001))
+
+# Class: pmd:PMD_0020263 (friction)
+
+SubClassOf(pmd:PMD_0020263 ObjectSomeValuesFrom(obo:RO_0000057 ObjectIntersectionOf(pmd:PMD_0020293 ObjectSomeValuesFrom(obo:RO_0002002 obo:BFO_0000146) ObjectSomeValuesFrom(pmd:PMD_0025998 pmd:PMD_0020200))))
+
+# Class: pmd:PMD_0020267 (mass per count)
+
+
+# Class: pmd:PMD_0020268 (volume per count)
+
+
+# Class: pmd:PMD_0020269 (count per mass)
+
+
+# Class: pmd:PMD_0020271 (volume per mass)
+
+
+# Class: pmd:PMD_0020272 (count per volume)
+
+
+# Class: pmd:PMD_0020274 (thermodynamic process)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020274 "thermodynamic process"@en)
+EquivalentClasses(pmd:PMD_0020274 ObjectSomeValuesFrom(obo:RO_0000057 pmd:PMD_0020128))
+SubClassOf(pmd:PMD_0020274 obo:BFO_0000015)
+DisjointUnion(pmd:PMD_0020274 pmd:PMD_0020275 pmd:PMD_0020276)
+
+# Class: pmd:PMD_0020275 (isentropic process)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020275 "isentropic process"@en)
+AnnotationAssertion(skos:comment pmd:PMD_0020275 "It involves no dissipation—all energy conversion is reversible and no heat is generated internally due to irreversibilities (in a closed system, it is equivalent to a reversible, adiabatic process)"@en)
+AnnotationAssertion(skos:definition pmd:PMD_0020275 "a process which has a thermodyanamic system as participant where entropy remains constant, ΔS=0"@en)
+AnnotationAssertion(skos:example pmd:PMD_0020275 "perfectly elastic spring-mass oscillator, adiabatic expansion or compression of an ideal gas"@en)
+EquivalentClasses(pmd:PMD_0020275 ObjectSomeValuesFrom(pmd:PMD_0000009 ObjectIntersectionOf(pmd:PMD_0020277 ObjectSomeValuesFrom(pmd:PMD_0000077 ObjectIntersectionOf(obo:OBI_0001931 DataHasValue(obo:OBI_0001937 "0."^^xsd:decimal))))))
+SubClassOf(pmd:PMD_0020275 pmd:PMD_0020274)
+SubClassOf(Annotation(rdfs:comment "Could add a SWRL rule that the difference in entropy between the TQCs is zero"@en) pmd:PMD_0020275 ObjectSomeValuesFrom(obo:RO_0000057 ObjectIntersectionOf(pmd:PMD_0000068 ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0080050))))
+
+# Class: pmd:PMD_0020276 (dissipative process)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020276 "dissipative process"@en)
+AnnotationAssertion(skos:comment pmd:PMD_0020276 "It involves internal entropy generation (irreversibility), meaning part of the ordered energy is irreversibly converted into heat"@en)
+AnnotationAssertion(skos:definition pmd:PMD_0020276 "a process which has a thermodyanamic system as participant where entropy increases, ΔS>0"@en)
+AnnotationAssertion(skos:example pmd:PMD_0020276 "plastic deformation of a metal, frictional sliding, Joule expansion"@en)
+SubClassOf(pmd:PMD_0020276 pmd:PMD_0020274)
+SubClassOf(Annotation(rdfs:comment "Could add a SWRL rule that the difference in entropy between the TQCs is larger than zero"@en) pmd:PMD_0020276 ObjectSomeValuesFrom(obo:RO_0000057 ObjectIntersectionOf(pmd:PMD_0000068 ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0080050))))
+
+# Class: pmd:PMD_0020277 (entropy generation rate)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020277 "entropy generation rate"@en)
+SubClassOf(pmd:PMD_0020277 pmd:PMD_0025019)
+SubClassOf(pmd:PMD_0020277 ObjectSomeValuesFrom(pmd:PMD_0025006 pmd:PMD_0020274))
+
+# Class: pmd:PMD_0020278 (acoustic process)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020278 "acoustic process"@en)
+SubClassOf(pmd:PMD_0020278 obo:BFO_0000015)
+
+# Class: pmd:PMD_0020279 (materials science and engineering process)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020279 "materials science and engineering process"@en)
+SubClassOf(pmd:PMD_0020279 obo:BFO_0000015)
+
+# Class: pmd:PMD_0020281 (electromagnetic process)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020281 "electromagnetic process"@en)
+SubClassOf(pmd:PMD_0020281 obo:BFO_0000015)
+
+# Class: pmd:PMD_0020282 (fluid mechanics process)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020282 "fluid mechanics process"@en)
+SubClassOf(pmd:PMD_0020282 obo:BFO_0000015)
+
+# Class: pmd:PMD_0020283 (optical process)
+
+AnnotationAssertion(rdfs:label pmd:PMD_0020283 "optical process"@en)
+SubClassOf(pmd:PMD_0020283 obo:BFO_0000015)
+
+# Class: pmd:PMD_0023026 (spontaneous process)
+
+
+# Class: pmd:PMD_0080076 (diffusion coefficient)
+
+SubClassOf(pmd:PMD_0080076 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(pmd:PMD_0000001 ObjectSomeValuesFrom(obo:RO_0000087 pmd:PMD_0020403))))
+SubClassOf(pmd:PMD_0080076 ObjectSomeValuesFrom(pmd:PMD_0025999 ObjectIntersectionOf(pmd:PMD_0000001 ObjectSomeValuesFrom(obo:RO_0000087 pmd:PMD_0020404))))
+
+# Class: pmd:PMD_0080101 (mass concentration)
+
+
+# Class: pmd:PMD_0080112 (Adhäsion)
+
+SubClassOf(pmd:PMD_0080112 pmd:PMD_0020311)
+SubClassOf(pmd:PMD_0080112 ObjectSomeValuesFrom(pmd:PMD_0025999 obo:BFO_0000146))
+
+# Class: pmd:PMD_0080134 (Verschleißfestigkeit)
+
+SubClassOf(pmd:PMD_0080134 ObjectSomeValuesFrom(obo:RO_0000092 ObjectIntersectionOf(pmd:PMD_0000000 ObjectSomeValuesFrom(obo:RO_0000056 pmd:PMD_0020263))))
+
+# Class: pmd:PMD_0080135 (Kriechfestigkeit)
+
+SubClassOf(pmd:PMD_0080135 ObjectSomeValuesFrom(obo:RO_0000092 ObjectIntersectionOf(pmd:PMD_0000000 ObjectSomeValuesFrom(obo:RO_0000056 pmd:PMD_0000596) ObjectSomeValuesFrom(obo:RO_0000086 pmd:PMD_0080108))))
+
+
+DisjointClasses(obo:COB_0000082 obo:GO_0008150 pmd:PMD_0023026)
+DisjointClasses(pmd:PMD_0020102 pmd:PMD_0020103 pmd:PMD_0020104 pmd:PMD_0020267 pmd:PMD_0020268 pmd:PMD_0020269 pmd:PMD_0020271 pmd:PMD_0020272 pmd:PMD_0080101)
+DisjointClasses(pmd:PMD_0020102 pmd:PMD_0020103 pmd:PMD_0020267 pmd:PMD_0020268 pmd:PMD_0020269 pmd:PMD_0020271 pmd:PMD_0020272 pmd:PMD_0080101)
+DisjointClasses(pmd:PMD_0020103 pmd:PMD_0020104 pmd:PMD_0020267 pmd:PMD_0020268 pmd:PMD_0020269 pmd:PMD_0020271 pmd:PMD_0020272 pmd:PMD_0080101)
+DisjointClasses(pmd:PMD_0020103 pmd:PMD_0020267 pmd:PMD_0020268 pmd:PMD_0020269 pmd:PMD_0020271 pmd:PMD_0020272 pmd:PMD_0080101)
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0001-6772-1943> "Martin Glauer")
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0001-7192-7143> "Jörg Waitelonis")
 AnnotationAssertion(rdfs:label <https://orcid.org/0000-0002-1058-3102> "Fabian Neuhaus")
