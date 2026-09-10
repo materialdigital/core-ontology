@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>PMDco User Guide - PMD Core Ontology</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/stylesheets/mkdocs_d2_plugin.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "PMDco User Guide";
+        var mkdocs_page_input_path = "PMDco User Guide.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> PMD Core Ontology
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index2/">Welcome</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Introduction%20to%20Ontologies/">Introduction to Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction to PMDco v3.x.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Reused%20ontologies/">Reused Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Ontology_structure2/">Ontology Structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../patterns/">Patterns</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">PMDco User Guide</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-develop-your-application-ontologies-using-pmdco-and-oboodk-best-practices">How to Develop Your Application Ontologies using PMDco and OBO+ODK Best Practices</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-define-the-scope-and-domain-of-the-ontology">1- Define the scope and domain of the ontology</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-decide-on-the-level-of-detail-and-sources-for-terminology-collection">2- Decide on the level of detail and sources for terminology collection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-create-an-odk-based-ontology-repository">3- Create an ODK-based ontology repository</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-collaborative-ontology-development-workflow">4- Collaborative ontology development workflow</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#5-add-your-desired-taxonomy">5- Add your desired taxonomy</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#6-define-a-richer-semantic-model-with-multiple-relationship-types-rules-and-constraints">6- Define a richer semantic model with multiple relationship types, rules, and constraints</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#7-ontology-evaluation-and-testing-workflow">7- Ontology evaluation and testing workflow</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#8-ontology-release-updating-and-versioning-workflow">8- Ontology release, updating, and versioning workflow</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#9-ontology-documentation-and-publishing">9- Ontology documentation and publishing</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#list-of-ontologies-developed-based-on-pmdco-v3xx">List of Ontologies Developed Based on PMDco V3.x.x:</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../versions/">Versions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Who%20We%20Are%20%26%20How%20to%20Join/">Who We Are & How to Join</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../publications/">Publications</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../acknowledgements/">Acknowledgements</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">PMD Core Ontology</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">PMDco User Guide</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="pmdco-user-guide">PMDco User Guide</h1>
+<h2 id="how-to-develop-your-application-ontologies-using-pmdco-and-oboodk-best-practices">How to Develop Your Application Ontologies using PMDco and OBO+ODK Best Practices</h2>
+<p>Although several guidelines and tutorials for ontology development are available (see Ontology Learning Materials for Beginners), we provide here a dedicated list of recommendations for creating application ontologies based on PMDco, making use of PMD guidance, ontology design patterns, OBO principles, and ODK features.</p>
+<h3 id="1-define-the-scope-and-domain-of-the-ontology">1-  Define the scope and domain of the ontology</h3>
+<ul>
+<li>Clearly define the domain (e.g., materials testing, patient data, food production)</li>
+<li>Collaborating with the domain experts, specify he use cases or competency questions the ontology should address</li>
+<li>Determine the target audience (e.g., researchers, software agents, data engineers)</li>
+<li>Formulate a narrow and specific ontology scope according to <a href="https://obofoundry.org/principles/fp-005-delineated-content.html">OBO principles</a>.</li>
+</ul>
+<h3 id="2-decide-on-the-level-of-detail-and-sources-for-terminology-collection">2-  Decide on the level of detail and sources for terminology collection</h3>
+<ul>
+<li>Determine whether the ontology will cover a broad area at a general level or focus on a specific topic in more detail,</li>
+<li>Identify reliable sources for terminology and concepts, such as books, scientific publications, domain experts, and relevant standards,</li>
+<li>Through such resources, identify the essential concepts within your domain,</li>
+<li>Provide accurate labels and clear definitions for each class (e.g., documented in a spreadsheet).</li>
+</ul>
+<h3 id="3-create-an-odk-based-ontology-repository">3-  Create an ODK-based ontology repository</h3>
+<ul>
+<li>If you already know ODK, create a GitHub repository for ontology with a reasonable x.yaml file configuration and importing the latest PMDco version,</li>
+<li>If you don’t know ODK or don’t want to install it, we made a template for you. Simply create your repository following the instructions mentioned in <a href="https://github.com/materialdigital/application-ontology-template">“application-ontology-template”</a>. This template applies the same framework used for PMDco and mirrors PMDco with all its modules.</li>
+</ul>
+<h3 id="4-collaborative-ontology-development-workflow">4-  Collaborative ontology development workflow</h3>
+<ul>
+<li>Any person who wants to contribute to the collaborative development of ontology should clone the ODK repository to the local machine,</li>
+<li>In Protégé, open the editable file: src/ontology/*-edit.owl (Any editor can manage an assigned ID range),</li>
+<li>Edit the ontology, like add classes/properties, update definitions, and organize axioms,</li>
+<li>Save and validate locally,</li>
+<li>Commit your edits and push them to your branch,</li>
+<li>Create a Pull Request, submit a PR with a short summary and justification of your changes,</li>
+<li>Team members review; after approval, the PR is merged.</li>
+</ul>
+<h3 id="5-add-your-desired-taxonomy">5-  Add your desired taxonomy</h3>
+<ul>
+<li>Edit ontology in protégé, </li>
+<li>Create new classes, properties, and individuals according to your terminology lists,</li>
+<li>Structure them hierarchically in alignment with reused top- and mid-level ontologies, where subclasses inherit properties from their superclasses,</li>
+<li>Evaluate other OBO Foundry ontologies (e.g., using <a href="https://ontobee.org/">Ontobee</a>) to check for existing classes and to guide your classification. In the case you want to import entities from other ontologies, please follow the instructions <a href="https://oboacademy.github.io/obook/howto/update-import/">here</a>,</li>
+<li>Following <a href="https://obofoundry.org/principles/fp-007-relations.html">OBO principles</a>, build the ontology primarily by extending the class hierarchy and minimizing the introduction of new object properties.</li>
+<li>Add rich annotations for new entities (such as definitions, references, examples, and editorial notes).</li>
+<li>Include comprehensive ontology annotation metadata (e.g., title, label, description, creators, contributors, version info, previous versions, license, and citation). </li>
+</ul>
+<h3 id="6-define-a-richer-semantic-model-with-multiple-relationship-types-rules-and-constraints">6-  Define a richer semantic model with multiple relationship types, rules, and constraints</h3>
+<ul>
+<li>Define logical axioms and property constraints (e.g., domain and range), </li>
+<li>Use graphical tools (e.g., Ontopanel or Miro) to visually discuss the modeling issues,</li>
+<li>Use our <a href="https://github.com/materialdigital/core-ontology/tree/main/patterns">Ontology Design Patterns</a> as a guideline for the semantic representation of your concepts,</li>
+<li>Look at <a href="https://miro.com/app/board/uXjVLY9FwGU=/">Beginners Guide Miro Board</a> and <a href="https://miro.com/app/board/uXjVNOTPrFo=/">PMDco3 Miro Board</a>, where we created lots of use case modeling examples,</li>
+<li>See other PMDco-based application ontologies (listed below this page) for similar modeling concepts.</li>
+<li>If you still need support for specific modelling issues, please feel free to mention it in our GitHub <a href="https://github.com/ISE-FIZKarlsruhe/mwo/issues">issues</a> or <a href="https://github.com/materialdigital/core-ontology/discussions">discussion forum</a>.</li>
+</ul>
+<h3 id="7-ontology-evaluation-and-testing-workflow">7-  Ontology evaluation and testing workflow</h3>
+<ul>
+<li>Plan regular meetings with both ontology and MSE domain experts in your project to assess the ontology’s structure, resolve modeling issues, and ensure its logical correctness, </li>
+<li>Use ODK evaluation and testing workflows through GitHub Actions Continuous Integration to validate the ontology’s structure, syntax, annotation completeness, and logical consistency,</li>
+<li>Use reasoning tools (e.g., reasoners HermiT and Pellet) to ensure logical and technical consistency and identify potential redundancies,</li>
+<li>Analyzes the ontology for common modeling pitfalls, structural issues, and best-practice violations using tools like OOPS! (Ontology Pitfall Scanner!),</li>
+<li>We will be pleased to invite you to present your ontology in one of our “Ontology Playground meetings” (See Section Who We Are &amp; How to Join)</li>
+</ul>
+<h3 id="8-ontology-release-updating-and-versioning-workflow">8-  Ontology release, updating, and versioning workflow</h3>
+<ul>
+<li>Use ODK automated workflow for the release process, which follows these steps: running the release with ODK, reviewing the output, merging changes into the main branch, and creating a GitHub release. </li>
+<li>Track actively the GitHub issue to gather community feedback, recognize bugs, and identify necessary additions and refinements.</li>
+<li>Implement a curation process to assess and prioritize updates based on community needs.</li>
+<li>Employ the robust versioning system hosted on GitHub to ensure clear tracking of changes over time, management of previous versions, and clear tracking of the ontology’s evolution over time.</li>
+</ul>
+<h3 id="9-ontology-documentation-and-publishing">9-  Ontology documentation and publishing</h3>
+<ul>
+<li>Create detailed documentation, including best practices, examples, and guidelines in your ontology GitHub repository.</li>
+<li>Use <a href="https://github.com/dgarijo/Widoco">Widoco template</a>, a documentation generator for ontologies that automatically produces human-readable HTML documentation including metadata, hierarchies of classes, properties, and annotations,</li>
+<li>If interested, create <a href="https://www.mkdocs.org/">MkDocs</a> documentation (like this repository). </li>
+<li>If you are using <a href="https://github.com/materialdigital/application-ontology-template">“application-ontology-template”</a>, your ontology is automatically documented in <a href="https://obofoundry.org/">obofoundary.org</a>, </li>
+<li>To enhance your ontology accessibility, please also publish your ontology in <a href="https://matportal.org/">MatPortal</a> and <a href="https://dataportal.material-digital.de/">PMD DataPortal</a>.</li>
+</ul>
+<h2 id="list-of-ontologies-developed-based-on-pmdco-v3xx">List of Ontologies Developed Based on PMDco V3.x.x:</h2>
+<ul>
+<li><strong><a href="https://github.com/materialdigital/logistics-application-ontology">Logistic Application Ontology (LOG)</a></strong></li>
+<li><strong><a href="https://github.com/HosseinBeygiNasrabadi/Vickers-testing-application-ontology">Vickers Testing Ontology (VTO)</a></strong></li>
+<li><strong><a href="https://github.com/materialdigital/heat-treatment-application-ontology">Heat Treatment Ontology (HTO)</a></strong></li>
+<li><strong><a href="https://github.com/materialdigital/tensile-test-ontology">Tensile testing Ontology (TTO)</a></strong></li>
+<li><strong><a href="https://github.com/ISE-FIZKarlsruhe/mwo">NFDI MatWerk Ontology (MWO)</a></strong></li>
+<li><strong><a href="https://github.com/HosseinBeygiNasrabadi/Bio-inspired-meta-materials-ontology-bimmo">Bio-inspired Meta Materials Ontology (BiMMO)</a></strong></li>
+<li><strong><a href="https://github.com/HosseinBeygiNasrabadi/Reference-dataset-ontology-rdo">Reference Dataset Ontology for Creep (RDOC)</a></strong></li>
+</ul>
+<p>A <a href="https://github.com/materialdigital/materialdigital1_ontology_collection">collection of application ontologies</a> was also developed by PMD projects, planned to be integrated with PMDco V3.x.x soon! </p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../patterns/" class="btn btn-neutral float-left" title="Patterns"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../versions/" class="btn btn-neutral float-right" title="Versions">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../patterns/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../versions/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
