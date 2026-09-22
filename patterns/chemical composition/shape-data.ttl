@@ -38,6 +38,7 @@
 @prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
 @prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
 @prefix towards: <http://purl.obolibrary.org/obo/RO_0002503> .
+@prefix represented_by_value: <https://w3id.org/pmd/co/PMD_0060002> .
 
 
 ### Define material entities ###
@@ -60,15 +61,15 @@ ex:chem_comp is_subject_of: ex:chem_comp_spec .
 ### Define proportions ###
 ex:mass_fraction_iron a mass_fraction: .
 ex:some_iron has_relational_quality: ex:mass_fraction_iron .
-ex:mass_fraction_iron specified_by_value: ex:value_iron .
+ex:mass_fraction_iron represented_by_value: ex:value_iron .
 ex:mass_fraction_silicon a mass_fraction: .
 ex:some_silicon has_relational_quality: ex:mass_fraction_silicon .
-ex:mass_fraction_silicon specified_by_value: ex:value_silicon .
+ex:mass_fraction_silicon represented_by_value: ex:value_silicon .
 
 
 ### Define towards for validation chains ###
-ex:material_no27_14 towards: ex:mass_fraction_iron .
-ex:material_no27_14 towards: ex:mass_fraction_silicon .
+ex:mass_fraction_iron ex:material_no27_14 towards: ex:material_no27_14 .
+ex:mass_fraction_silicon towards: ex:material_no27_14 .
 
 ### Define fraction specifcation ###
 ex:value_iron a fraction_value_specification: .
