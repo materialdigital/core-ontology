@@ -982,7 +982,7 @@ AnnotationAssertion(pmdco:PMD_0000064 pmdco:PMD_0000551 "Material has quality ch
 SubClassOf(pmdco:PMD_0000551 pmdco:PMD_0025001)
 SubClassOf(pmdco:PMD_0000551 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectionOf(pmdco:PMD_0000000 ObjectSomeValuesFrom(obo:BFO_0000051 pmdco:PMD_0020140))))
 
-# Class: pmdco:PMD_0000553 (chemical potential)
+# Class: pmdco:PMD_0000553 (chemisches Potential)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000553 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000553 "PERSON: Joerg Waitelonis")
@@ -1588,7 +1588,7 @@ AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0000981 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0000981 pmdco:PMD_0020353)
 SubClassOf(pmdco:PMD_0000981 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0000520))
 
-# Class: pmdco:PMD_0000996 (Tripelpunkt)
+# Class: pmdco:PMD_0000996 (triple point)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0000996 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0000996 "PERSON: Joerg Waitelonis")
@@ -1842,9 +1842,10 @@ A statement that two ratios/fractions are equal (an equation), e.g. 2/3=4/6"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020101 "fraction"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020101 "a property describing a quantitative relation between two entites where one entity represents the whole and the other entity represents a part of the whole"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0020101 "aperol spritz: 3/6 prosecco, 2/6 aperol, 1/6 sparkling water in vol/vol"@en)
-SubClassOf(pmdco:PMD_0020101 pmdco:PMD_0020270)
-SubClassOf(pmdco:PMD_0020101 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0002503 ObjectIntersectionOf(pmdco:PMD_0000001 ObjectSomeValuesFrom(obo:BFO_0000051 pmdco:PMD_0000001))) ObjectSomeValuesFrom(pmdco:PMD_0025999 pmdco:PMD_0000001)))
+EquivalentClasses(pmdco:PMD_0020101 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0002503 ObjectIntersectionOf(obo:BFO_0000004 ObjectSomeValuesFrom(obo:BFO_0000050 obo:BFO_0000004))) ObjectSomeValuesFrom(pmdco:PMD_0025999 obo:BFO_0000004)))
+SubClassOf(pmdco:PMD_0020101 pmdco:PMD_0020108)
 SubClassOf(pmdco:PMD_0020101 ObjectSomeValuesFrom(obo:RO_0002328 obo:BFO_0000001))
+DisjointClasses(pmdco:PMD_0020101 pmdco:PMD_0020273)
 
 # Class: pmdco:PMD_0020102 (mass fraction)
 
@@ -2489,15 +2490,13 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020269 "a relational quality expr
 AnnotationAssertion(skos:example pmdco:PMD_0020269 "10e14 fibers in 1 ton of fiber reinforced resin"@en)
 EquivalentClasses(pmdco:PMD_0020269 ObjectIntersectionOf(pmdco:PMD_0020101 ObjectSomeValuesFrom(pmdco:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020367 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmdco:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020133 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931)))))))
 
-# Class: pmdco:PMD_0020270 (part-whole property)
+# Class: pmdco:PMD_0020270 (DEPRECATED part-whole property)
 
-AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0020270 "it is not possible to formulate the equivalent axiom in OWL 2"@en)
-AnnotationAssertion(rdfs:label pmdco:PMD_0020270 "part-whole property"@en)
-AnnotationAssertion(skos:definition pmdco:PMD_0020270 "a relational property between the whole and a part of the whole"@en)
-AnnotationAssertion(skos:example pmdco:PMD_0020270 "the mass fraction of the neutrons of an atom"@en)
-EquivalentClasses(pmdco:PMD_0020270 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0002503 ObjectIntersectionOf(obo:BFO_0000004 ObjectSomeValuesFrom(obo:BFO_0000051 obo:BFO_0000004))) ObjectSomeValuesFrom(pmdco:PMD_0025999 obo:BFO_0000004)))
-SubClassOf(pmdco:PMD_0020270 pmdco:PMD_0020108)
-DisjointClasses(pmdco:PMD_0020270 pmdco:PMD_0020273)
+AnnotationAssertion(rdfs:comment pmdco:PMD_0020270 "Same semantics as of fraction")
+AnnotationAssertion(rdfs:label pmdco:PMD_0020270 "DEPRECATED part-whole property"@en)
+AnnotationAssertion(rdfs:seeAlso pmdco:PMD_0020270 pmdco:PMD_0020101)
+AnnotationAssertion(owl:deprecated pmdco:PMD_0020270 "true"^^xsd:boolean)
+AnnotationAssertion(skos:definition pmdco:PMD_0020270 "DEPRECATED a relational property between the whole and a part of the whole"@en)
 
 # Class: pmdco:PMD_0020271 (volume per mass)
 
@@ -3231,14 +3230,12 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0025036 "area fraction"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0025036 "a relational quality expressing the area of a part in relation to the area of the whole"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0025036 "area fraction of cube texture component on an EBSD image")
 EquivalentClasses(pmdco:PMD_0025036 ObjectIntersectionOf(pmdco:PMD_0020101 ObjectSomeValuesFrom(pmdco:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0080019 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmdco:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0080019 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931)))))))
-SubClassOf(pmdco:PMD_0025036 pmdco:PMD_0020270)
 
 # Class: pmdco:PMD_0025037 (length fraction)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0025037 "length fraction"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0025037 "a relational quality expressing the length of a part in relation to the length of the whole"@en)
 EquivalentClasses(pmdco:PMD_0025037 ObjectIntersectionOf(pmdco:PMD_0020101 ObjectSomeValuesFrom(pmdco:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0080019 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmdco:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0080019 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931)))))))
-SubClassOf(pmdco:PMD_0025037 pmdco:PMD_0020270)
 
 # Class: pmdco:PMD_0025997 (concentration value specification)
 
@@ -3937,7 +3934,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0080054 "enthalpy of vaporization"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080054 "the amount of energy required to convert an entity from liquid to gaseous aggregtate state at constant temperature and pressure"@en)
 SubClassOf(pmdco:PMD_0080054 pmdco:PMD_0080052)
 
-# Class: pmdco:PMD_0080055 (Selbstzündungstemperatur)
+# Class: pmdco:PMD_0080055 (auto-ignition temperature)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080055 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080055 "Necessary and sufficient conditions for 'auto-ignition temperature' have not yet been formalized. The term is defined as a specific subtype of 'thermo dynamic quality'. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions."@en)
@@ -5010,7 +5007,7 @@ AnnotationAssertion(skos:example pmdco:PMD_0080154 "A high-strength bolt grade 1
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080154 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080154 ObjectIntersectionOf(pmdco:PMD_0000952 ObjectSomeValuesFrom(obo:BFO_0000054 pmdco:PMD_0020339) ObjectSomeValuesFrom(obo:RO_0002328 pmdco:PMD_0020336)))
 
-# Class: pmdco:PMD_0080155 (Druckfestigkeit)
+# Class: pmdco:PMD_0080155 (ultimate compressive strength)
 
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0080155 "PERSON: Thomas Hanke")
 AnnotationAssertion(rdfs:label pmdco:PMD_0080155 "Druckfestigkeit"@de)
@@ -5454,7 +5451,7 @@ AnnotationAssertion(skos:example pmdco:PMD_0080196 "The thermal expansion coeffi
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080196 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080196 pmdco:PMD_0020353)
 
-# Class: pmdco:PMD_0080197 (thermischer Volumenausdehnungskoeffizient)
+# Class: pmdco:PMD_0080197 (volumetric thermal expansion coefficient)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080197 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080197 "Necessary and sufficient conditions for 'volumetric thermal expansion coefficient' have not yet been formalized. The term is defined as a specific subtype of 'thermal expansion coefficient'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
@@ -5600,7 +5597,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020007 "Monoklines Bravais-Gitter
 AnnotationAssertion(skos:definition pmdco:PMD_0020007 "monoclinic Bravais lattice with primitive centering (mP), having one 2-fold rotation axis with one oblique angle and two right angles between unit cell axes"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020007 "true"^^xsd:boolean)
 
-# Individual: pmdco:PMD_0020008 (Bravais-Gitter monoklin basiszentriert)
+# Individual: pmdco:PMD_0020008 (OBSOLETE bravais lattice monoclinic base-centered)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020008 "Bravais-Gitter monoklin basiszentriert"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020008 "OBSOLETE bravais lattice monoclinic base-centered"@en)
