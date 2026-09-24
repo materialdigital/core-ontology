@@ -19,7 +19,7 @@
 @prefix chemical_composition: <https://w3id.org/pmd/co/PMD_0000551> .
 @prefix chemical_composition_data_item: <https://w3id.org/pmd/co/PMD_0025002> .
 @prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
-@prefix proportion: <https://w3id.org/pmd/co/PMD_0020101> .
+@prefix fraction: <https://w3id.org/pmd/co/PMD_0020101> .
 @prefix mass_fraction: <https://w3id.org/pmd/co/PMD_0020102> . 
 @prefix portion_of_matter: <https://w3id.org/pmd/co/PMD_0000001> . 
 @prefix portion_of_chemical_element: <https://w3id.org/pmd/co/PMD_0020140> . 
@@ -53,23 +53,25 @@ ex:some_iron part_of: ex:material_no27_14 .
 
 ex:chem_comp a chemical_composition: .
 ex:chem_comp quality_of: ex:material_no27_14 .
-ex:chem_comp_spec a chemical_composition_specification: .
+ex:chem_comp_spec a chemical_composition_data_item: .
 ex:chem_comp_spec has_member: ex:value_iron .
 ex:chem_comp_spec has_member: ex:value_silicon .
 ex:chem_comp is_subject_of: ex:chem_comp_spec .
 
-### Define proportions ###
+### Define fractions (relational qualities) ###
 ex:mass_fraction_iron a mass_fraction: .
-ex:some_iron has_relational_quality: ex:mass_fraction_iron .
+ex:mass_fraction_iron towards: ex:some_iron .
 ex:mass_fraction_iron represented_by_value: ex:value_iron .
+
 ex:mass_fraction_silicon a mass_fraction: .
-ex:some_silicon has_relational_quality: ex:mass_fraction_silicon .
+ex:mass_fraction_silicon towards: ex:some_silicon .
 ex:mass_fraction_silicon represented_by_value: ex:value_silicon .
 
 
 ### Define towards for validation chains ###
-ex:mass_fraction_iron ex:material_no27_14 towards: ex:material_no27_14 .
-ex:mass_fraction_silicon towards: ex:material_no27_14 .
+ex:mass_fraction_silicon relational_quality_of: ex:material_no27_14 .
+ex:mass_fraction_iron relational_quality_of: ex:material_no27_14 .
+
 
 ### Define fraction specifcation ###
 ex:value_iron a fraction_value_specification: .
