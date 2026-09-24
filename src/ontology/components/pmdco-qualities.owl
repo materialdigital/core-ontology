@@ -617,7 +617,7 @@ AnnotationAssertion(owl:deprecated pmdco:PMD_0020020 "true"^^xsd:boolean)
 AnnotationAssertion(skos:definition pmdco:PMD_0020020 "DEPRECATED A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants."@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020020 "DEPRECATED Eine Beziehung zwischen Teilnehmern eines Prozesses, die darauf hinweist, dass einige SDCs der Teilnehmer während des Prozesses aufgrund der Interaktion der Teilnehmer betroffen sind."@de)
 
-# Object Property: pmdco:PMD_0025013 (verändert die Qualität)
+# Object Property: pmdco:PMD_0025013 (changes quality)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0025013 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0025013 "PERSON: Kamilla Zaripova")
@@ -1743,7 +1743,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0020005 "porosity"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020005 "itensive quality embodiying the fraction of the materials (enclosing) spatial region occupied by pores."@en)
 EquivalentClasses(pmdco:PMD_0020005 ObjectIntersectionOf(pmdco:PMD_0020101 ObjectSomeValuesFrom(pmdco:PMD_0020256 ObjectIntersectionOf(pmdco:PMD_0020204 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020150 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmdco:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020150 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931)))))))
 EquivalentClasses(pmdco:PMD_0020005 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0002503 ObjectIntersectionOf(pmdco:PMD_0020204 ObjectSomeValuesFrom(obo:BFO_0000050 obo:BFO_0000004))) ObjectSomeValuesFrom(pmdco:PMD_0025999 obo:BFO_0000004)))
-SubClassOf(pmdco:PMD_0020005 pmdco:PMD_0020335)
+SubClassOf(pmdco:PMD_0020005 pmdco:PMD_0020353)
 
 # Class: pmdco:PMD_0020022 (corrosion)
 
@@ -1827,21 +1827,27 @@ To address the (chemical) composition of an enity, see 'composition'."@en)
 AnnotationAssertion(obo:IAO_0000117 pmdco:PMD_0020101 "PERSON: Philipp von Hartrott")
 AnnotationAssertion(rdfs:comment pmdco:PMD_0020101 "Concentrations can be expressed in terms of three quantifiers:
 
++-------------------+------------------+-------------------+---------------------+---------------------+
+|                   | count            | mass              | volume              | length                  |  area
 +-------------------+------------------+-------------------+---------------------+
-|                   | count            | mass              | volume              |
-+-------------------+------------------+-------------------+---------------------+
-| per count         | count per count  | (mass per count)  | (volume per count)  |
-| per mass          | count per mass   | mass per mass     | volume per mass     |
+| per count         | molar fraction  | -------  |-------  | ------ | ------
+| per mass          | count per mass   | mass per mass     | volume per mass     | ------- | ---------
 | per volume        | count per volume | mass per volume   | volume per volume   |
+| per length         | length number density  |-------  | ------ | length fraction | --------
+| per area          |  area number density  |-------  | ------ | -------- | area fraction
 +-------------------+------------------+-------------------+---------------------+
 
 Mass per count and volume per count are not known to have practical examples but are included for completeness."@en)
+AnnotationAssertion(rdfs:comment pmdco:PMD_0020101 "Kamilla:
+1.  concentration is a bad name, cause area fraction (texture component or phase on the image) is also relationship between part and the whole.
+2. Number desity (of precipitates) can be the same as count per volume or count per area or count per length. How to deal with that?"@en)
 AnnotationAssertion(rdfs:comment pmdco:PMD_0020101 "Ratio: 
 A comparison of two or more quantities (a relationship), e.g. 3:2:1 for prosecco, aperol and sparkling water in aperol spritz. There is no stanardized mathematical notation or operators for it.  We do not support it, rather convert it to fractions.
 
 Proportion: 
 A statement that two ratios/fractions are equal (an equation), e.g. 2/3=4/6"@en)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020101 "fraction"@en)
+AnnotationAssertion(skos:altLabel pmdco:PMD_0020101 "part-whole property"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020101 "a property describing a quantitative relation between two entites where one entity represents the whole and the other entity represents a part of the whole"@en)
 AnnotationAssertion(skos:example pmdco:PMD_0020101 "aperol spritz: 3/6 prosecco, 2/6 aperol, 1/6 sparkling water in vol/vol"@en)
 EquivalentClasses(pmdco:PMD_0020101 ObjectIntersectionOf(ObjectSomeValuesFrom(obo:RO_0002503 ObjectIntersectionOf(obo:BFO_0000004 ObjectSomeValuesFrom(obo:BFO_0000050 obo:BFO_0000004))) ObjectSomeValuesFrom(pmdco:PMD_0025999 obo:BFO_0000004)))
@@ -1860,6 +1866,7 @@ SubClassOf(pmdco:PMD_0020102 pmdco:PMD_0020101)
 # Class: pmdco:PMD_0020103 (molar fraction)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020103 "molar fraction"@en)
+AnnotationAssertion(skos:altLabel pmdco:PMD_0020103 "count per count"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0020103 "Molar fraction is the fraction which quantifies the entities count of the part in relation to the entities count of the whole."@en)
 AnnotationAssertion(skos:example pmdco:PMD_0020103 "The molar fraction of carbon dioxide molecules to average atmosphere air molecules is 420 ppm as of 2022 AD."@en)
 EquivalentClasses(pmdco:PMD_0020103 ObjectIntersectionOf(pmdco:PMD_0020101 ObjectSomeValuesFrom(pmdco:PMD_0020256 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020367 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931))))) ObjectSomeValuesFrom(pmdco:PMD_0020257 ObjectIntersectionOf(obo:BFO_0000001 ObjectSomeValuesFrom(obo:RO_0000086 ObjectIntersectionOf(pmdco:PMD_0020367 ObjectSomeValuesFrom(pmdco:PMD_0000077 obo:OBI_0001931)))))))
@@ -3937,7 +3944,7 @@ AnnotationAssertion(rdfs:label pmdco:PMD_0080054 "enthalpy of vaporization"@en)
 AnnotationAssertion(skos:definition pmdco:PMD_0080054 "the amount of energy required to convert an entity from liquid to gaseous aggregtate state at constant temperature and pressure"@en)
 SubClassOf(pmdco:PMD_0080054 pmdco:PMD_0080052)
 
-# Class: pmdco:PMD_0080055 (auto-ignition temperature)
+# Class: pmdco:PMD_0080055 (Selbstzündungstemperatur)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080055 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080055 "Necessary and sufficient conditions for 'auto-ignition temperature' have not yet been formalized. The term is defined as a specific subtype of 'thermo dynamic quality'. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions."@en)
@@ -5520,7 +5527,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0080202 "Thermoschockbeständigkei
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0080202 "true"^^xsd:boolean)
 SubClassOf(pmdco:PMD_0080202 pmdco:PMD_0020353)
 
-# Class: pmdco:PMD_0080203 (radiation emission capability)
+# Class: pmdco:PMD_0080203 (Strahlungsemissionsfähigkeit)
 
 AnnotationAssertion(obo:IAO_0000114 pmdco:PMD_0080203 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000116 pmdco:PMD_0080203 "Necessary and sufficient conditions for 'radiation emission capability' have not yet been formalized. The term is defined as a specific subtype of 'physical capability'. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions."@en)
@@ -5600,7 +5607,7 @@ AnnotationAssertion(skos:definition pmdco:PMD_0020007 "Monoklines Bravais-Gitter
 AnnotationAssertion(skos:definition pmdco:PMD_0020007 "monoclinic Bravais lattice with primitive centering (mP), having one 2-fold rotation axis with one oblique angle and two right angles between unit cell axes"@en)
 AnnotationAssertion(pmdco:PMD_0000060 pmdco:PMD_0020007 "true"^^xsd:boolean)
 
-# Individual: pmdco:PMD_0020008 (OBSOLETE bravais lattice monoclinic base-centered)
+# Individual: pmdco:PMD_0020008 (Bravais-Gitter monoklin basiszentriert)
 
 AnnotationAssertion(rdfs:label pmdco:PMD_0020008 "Bravais-Gitter monoklin basiszentriert"@de)
 AnnotationAssertion(rdfs:label pmdco:PMD_0020008 "OBSOLETE bravais lattice monoclinic base-centered"@en)
@@ -5909,6 +5916,10 @@ DisjointClasses(pmdco:PMD_0000535 pmdco:PMD_0000851 pmdco:PMD_0000961 pmdco:PMD_
 DisjointClasses(pmdco:PMD_0000553 pmdco:PMD_0000619 pmdco:PMD_0020132 pmdco:PMD_0020133 pmdco:PMD_0020142 pmdco:PMD_0020161)
 DisjointClasses(pmdco:PMD_0000587 pmdco:PMD_0000889 pmdco:PMD_0000953)
 DisjointClasses(pmdco:PMD_0020102 pmdco:PMD_0020103 pmdco:PMD_0020104)
+DisjointClasses(pmdco:PMD_0020102 pmdco:PMD_0020103 pmdco:PMD_0020104 pmdco:PMD_0020267 pmdco:PMD_0020268 pmdco:PMD_0020269 pmdco:PMD_0020271 pmdco:PMD_0020272 pmdco:PMD_0080101)
+DisjointClasses(pmdco:PMD_0020102 pmdco:PMD_0020103 pmdco:PMD_0020267 pmdco:PMD_0020268 pmdco:PMD_0020269 pmdco:PMD_0020271 pmdco:PMD_0020272 pmdco:PMD_0080101)
+DisjointClasses(pmdco:PMD_0020103 pmdco:PMD_0020104 pmdco:PMD_0020267 pmdco:PMD_0020268 pmdco:PMD_0020269 pmdco:PMD_0020271 pmdco:PMD_0020272 pmdco:PMD_0080101)
+DisjointClasses(pmdco:PMD_0020103 pmdco:PMD_0020267 pmdco:PMD_0020268 pmdco:PMD_0020269 pmdco:PMD_0020271 pmdco:PMD_0020272 pmdco:PMD_0080101)
 DisjointClasses(pmdco:PMD_0020164 pmdco:PMD_0020167 pmdco:PMD_0020168 pmdco:PMD_0020169)
 DisjointClasses(pmdco:PMD_0020202 pmdco:PMD_0020203 pmdco:PMD_0020204)
 DisjointClasses(pmdco:PMD_0020260 pmdco:PMD_0020261 pmdco:PMD_0020262)
