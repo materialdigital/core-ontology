@@ -6,14 +6,13 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix shape: <https://w3id.org/pmd/co/shapes/chemical_composition/> .
-@prefix : shape: .
-@base shape: .
+
 
 shape:
   rdf:type owl:Ontology ;
   owl:imports sh: .
   
-#TODO feature, write SPARQL queries to check if, e.g., proportions are correct classes
+#TODO feature, write SPARQL queries to check if, e.g., fractions are correct classes
 #TODO feature write or statements for the fractions being relational qualtities of material and pure chemical elements
 
 # See Frame 351 on Miro, chemical composition (reworked after hackathon 2025)
@@ -47,19 +46,19 @@ shape:chemical_composition_dataitem
     # not closing the shape because of is about being inferred from "is subject of"
     sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
 
-shape:proportion 
+shape:fraction 
     rdf:type sh:NodeShape ; 
-    sh:description "an instance of proportion (mass/molar/volume) concretizes an instance of scalar value specification. " ;
-    sh:targetClass pmd:PMD_0020101 ;  # proportion (mass, volume , molar)
+    sh:description "an instance of fraction (mass/molar/volume) concretizes an instance of scalar value specification. " ;
+    sh:targetClass pmd:PMD_0020101 ;  # fraction (mass, volume , molar)
     sh:property [
         sh:path pmd:PMD_0060002 ; #represented by value (universal OP for SDC --> GDC relations)
-        # removed mix / max count cause the proportion doesn't alsways have to be represented by value
+        # removed mix / max count cause the fraction doesn't alsways have to be represented by value
         sh:node shape:fraction_value_specification ;
     ] ;
 
     sh:sparql [
         rdf:type sh:SPARQLConstraint ;
-        sh:message "The proportion must be a relational quality of a chemical element that is part of the matter towards which this proportion is directed." ;
+        sh:message "The fraction must be towards a chemical element that is part of the matter and a relational quality of this portion of matter." ;
         sh:select """
             PREFIX pmd: <https://w3id.org/pmd/co/>
             PREFIX obo: <http://purl.obolibrary.org/obo/>
@@ -68,15 +67,15 @@ shape:proportion
 
             SELECT $this
             WHERE {
-                # 1. Proportion -> relational quality of -> pure substance
+                # 1. fraction -> towards -> pure substance
                 FILTER NOT EXISTS {
-                    $this pmd:PMD_0020101 ?element .                # relational quality of
+                    $this obo:RO_0002503 ?element .                # towards
                     ?element a pmd:PMD_0020140 ;                   # portion of pure chemical element
                              obo:BFO_0000050 ?whole .             # part of
                     ?whole a pmd:PMD_0000001 .                    # portion of matter
 
-                    # 2. Matter <- inverse(towards) <- $this to validate that it is the right parthood
-                    $this obo:RO_0002503 ?whole .                 # towards 
+                    # 2. fraction --> relational quality of --> whole
+                    $this pmd:PMD_0025999 ?whole .                 # relational quality of 
                 }
             }
         """ ;
@@ -86,11 +85,11 @@ shape:proportion
 
 shape:pure_substance_chemical_element
     rdf:type sh:NodeShape ;
-    sh:description "an instance of pure substance (any chemical element) has relational quality an instance of proportion. " ;
+    sh:description "an instance of pure substance (any chemical element) has relational quality an instance of fraction. " ;
     sh:targetClass pmd:PMD_0020140 ; # portion of single chemical element
     sh:property [
-        sh:path pmd:PMD_0025998 ; # has relational quality
-        sh:node shape:proportion  ;
+        sh:path [ sh:inversePath obo:RO_0002503 ] ; # inverse towards
+        sh:node shape:fraction  ;
     ] ;
     sh:property [
         sh:path obo:BFO_0000050 ; # part of
