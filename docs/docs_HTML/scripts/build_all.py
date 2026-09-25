@@ -185,6 +185,7 @@ except ImportError:
 try:
     from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef, Literal
     from rdflib.namespace import SKOS
+    from rdflib.collection import Collection
     RDFLIB_AVAILABLE = True
 except ImportError:
     RDFLIB_AVAILABLE = False
@@ -7537,24 +7538,33 @@ MD_FILE_RENDERER_RE = re.compile(r"<!--\s*@md_file_renderer\s*:\s*(.+?)\s*-->", 
 SOURCE_CODE_RENDERER_RE = re.compile(r"<!--\s*@source_code_renderer\s*:\s*(.+?)\s*-->", re.IGNORECASE)
 
 
+def iri_prefix(uri: str) -> str:
+    """Short display prefix for an IRI (pmd, bfo, ro, cob, qudt, ...)."""
+    if 'pmd/co/' in uri or '/PMD_' in uri: return 'pmd'
+    # OBO IRIs carry their ontology in the local name: .../obo/BFO_0000015 -> bfo
+    m = re.search(r'/obo/([A-Za-z]+)_\w+$', uri)
+    if m: return m.group(1).lower()
+    for key, pfx in (('nfdi', 'nfdicore'), ('qudt.org', 'qudt'), ('w3.org/2006/time', 'time'),
+                     ('purl.org/dc/terms', 'dcterms'), ('purl.org/dc/elements', 'dc'),
+                     ('w3.org/2004/02/skos', 'skos'), ('w3.org/2000/01/rdf-schema', 'rdfs'),
+                     ('xmlns.com/foaf', 'foaf'), ('schema.org', 'schema'),
+                     ('oboInOwl', 'oboInOwl'), ('w3.org/ns/prov', 'prov'), ('usefulinc.com/ns/doap', 'doap')):
+        if key in uri: return pfx
+    return 'owl'
+
+
 @dataclass
 class OntologyClass:
     """Represents an ontology class with its metadata."""
     uri: str
     label: str = ""
     definition: str = ""
+    in_module: bool = True
     children: List['OntologyClass'] = field(default_factory=list)
     
     @property
     def prefix(self) -> str:
-        uri = self.uri
-        if 'pmd/co/' in uri or '/PMD_' in uri: return 'pmd'
-        elif 'BFO_' in uri: return 'bfo'
-        elif 'RO_' in uri: return 'ro'
-        elif 'IAO_' in uri: return 'iao'
-        elif 'OBI_' in uri: return 'obi'
-        elif 'CHEBI_' in uri: return 'chebi'
-        return 'owl'
+        return iri_prefix(self.uri)
     
     @property
     def display_name(self) -> str:
@@ -7635,7 +7645,8 @@ def parse_owl_functional_syntax(owl_content: str) -> Optional[dict]:
     
     # Extract prefixes
     prefixes = {}
-    for m in re.finditer(r'Prefix\(\s*(\w*)\s*[:=]\s*\<([^>]+)\>\s*\)', owl_content):
+    # Functional syntax writes prefixes as Prefix(obo:=<...>) / Prefix(:=<...>)
+    for m in re.finditer(r'Prefix\(\s*([\w-]*)\s*:=\s*\<([^>]+)\>\s*\)', owl_content):
         prefix = m.group(1)
         iri = m.group(2)
         prefixes[prefix] = iri
@@ -7651,10 +7662,14 @@ def parse_owl_functional_syntax(owl_content: str) -> Optional[dict]:
         return ref
     
     # Parse Declaration(Class(...))
+    declared = set()
     for m in re.finditer(r'Declaration\s*\(\s*Class\s*\(\s*([^)]+)\s*\)\s*\)', owl_content):
         uri = resolve_iri(m.group(1))
+        declared.add(uri)
         if uri and uri not in classes:
             classes[uri] = OntologyClass(uri=uri)
+    deprecated = {resolve_iri(m.group(1)) for m in re.finditer(
+        r'AnnotationAssertion\s*\(\s*owl:deprecated\s+([^)\s]+)\s+"true"', owl_content)}
     
     # Parse SubClassOf
     for m in re.finditer(r'SubClassOf\s*\(\s*([^)\s]+)\s+([^)\s]+)\s*\)', owl_content):
@@ -7668,15 +7683,26 @@ def parse_owl_functional_syntax(owl_content: str) -> Optional[dict]:
             if parent_iri not in classes:
                 classes[parent_iri] = OntologyClass(uri=parent_iri)
     
-    # Parse annotations (labels)
-    for m in re.finditer(r'AnnotationAssertion\s*\(\s*rdfs:label\s+([^)\s]+)\s+"([^"]+)"', owl_content):
+    # Parse annotations (labels); an @en label wins over other languages
+    has_en = set()
+    for m in re.finditer(r'AnnotationAssertion\s*\(\s*rdfs:label\s+([^)\s]+)\s+"([^"]+)"(@[\w-]+)?', owl_content):
         uri = resolve_iri(m.group(1))
-        label = m.group(2)
-        if uri in classes:
-            classes[uri].label = label
-    
+        if uri in classes and uri not in has_en:
+            classes[uri].label = m.group(2)
+            if (m.group(3) or '').lower() == '@en':
+                has_en.add(uri)
+
+    # Definitions (fallback for classes not yet in the released full ontology)
+    for m in re.finditer(r'AnnotationAssertion\s*\(\s*(skos:definition|obo:IAO_0000115|'
+                         r'<http://www\.w3\.org/2004/02/skos/core#definition>|'
+                         r'<http://purl\.obolibrary\.org/obo/IAO_0000115>)\s+([^)\s]+)\s+"((?:[^"\\]|\\.)*)"', owl_content):
+        uri = resolve_iri(m.group(2))
+        if uri in classes and not classes[uri].definition:
+            classes[uri].definition = m.group(3).replace('\\"', '"')
+
     print(f"  Parsed {len(classes)} classes from OWL Functional Syntax")
-    return {'classes': classes, 'child_map': child_map, 'parent_map': parent_map}
+    return {'classes': classes, 'child_map': child_map, 'parent_map': parent_map,
+            'declared': declared, 'deprecated': deprecated}
 
 
 def parse_owl_content(owl_content: str) -> Optional[dict]:
@@ -7767,7 +7793,8 @@ def build_tree(classes: dict, child_map: dict, parent_map: dict) -> List[Ontolog
             return None
         visited.add(uri)
         source = classes[uri]
-        node = OntologyClass(uri=source.uri, label=source.label, definition=source.definition)
+        node = OntologyClass(uri=source.uri, label=source.label, definition=source.definition,
+                             in_module=source.in_module)
         children = sorted(child_map.get(uri, set()), 
                           key=lambda u: classes.get(u, OntologyClass(uri=u)).display_name.lower())
         for child_uri in children:
@@ -7810,7 +7837,7 @@ def count_tree_nodes(roots: List[OntologyClass]) -> int:
     return count
 
 
-def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
+def generate_tree_html(roots: List[OntologyClass], tree_id: str, class_count: Optional[int] = None) -> str:
     """Generate interactive HTML for an ontology class tree.
 
     Creates a collapsible tree view with:
@@ -7827,7 +7854,8 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
     Returns:
         Complete HTML string for the interactive tree component.
     """
-    class_count = count_tree_nodes(roots)
+    if class_count is None:
+        class_count = count_tree_nodes(roots)
     
     def generate_node_html(node: OntologyClass, depth: int) -> str:
         has_children = len(node.children) > 0
@@ -7841,6 +7869,8 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
         node_classes = ['tree-node']
         if has_definition:
             node_classes.append('has-definition')
+        if not node.in_module:
+            node_classes.append('is-context')
         
         data_attrs = f'data-uri="{uri}"'
         if has_definition:
@@ -7877,7 +7907,7 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
             <button class="tree-toolbar-btn tree-expand-all" aria-label="Expand all nodes">Expand All</button>
             <button class="tree-toolbar-btn tree-collapse-all" aria-label="Collapse all nodes">Collapse All</button>
             <input type="text" class="tree-search" id="{tree_id}-search" name="{tree_id}-search" placeholder="Search classes..." aria-label="Search classes">
-            <span class="tree-stats" aria-live="polite">{class_count} classes</span>
+            <span class="tree-stats" aria-live="polite" title="Classes defined in this module. Greyed rows are ancestor classes from other modules, shown for context.">{class_count} classes</span>
         </div>
         <ul class="ontology-tree" role="group">
     ''']
@@ -7918,165 +7948,133 @@ def process_module_indicators(html_content: str) -> str:
         if not parsed:
             return f'<p class="warning">Failed to parse ontology from {html_module.escape(url)}</p>'
         
-        # Enrich classes with labels from full ontology
-        enrich_classes_from_full_ontology(parsed['classes'])
-        
-        roots = build_tree(parsed['classes'], parsed['child_map'], parsed['parent_map'])
+        hierarchy = build_module_hierarchy(parsed, get_full_ontology_data())
+        roots = build_tree(hierarchy['classes'], hierarchy['child_map'], hierarchy['parent_map'])
         if not roots:
             return f'<p class="warning">No classes found in {html_module.escape(url)}</p>'
         
-        tree_html = generate_tree_html(roots, tree_id)
-        print(f"  Generated tree with {count_tree_nodes(roots)} classes")
+        tree_html = generate_tree_html(roots, tree_id, len(hierarchy['members']))
+        print(f"  Generated tree: {len(hierarchy['members'])} module classes, {count_tree_nodes(roots)} nodes")
         return tree_html
     
     return MODULE_INDICATOR_RE.sub(replace_indicator, html_content)
 
 
-# Global cache for full ontology labels
-_FULL_ONTOLOGY_LABELS = None
-_FULL_ONTOLOGY_URL_CACHE = None
+# Global cache for the full ontology (labels, definitions, parents, deprecation)
+_FULL_ONTOLOGY_DATA = None
+
+IAO_DEFINITION = URIRef("http://purl.obolibrary.org/obo/IAO_0000115") if RDFLIB_AVAILABLE else None
 
 
-def load_full_ontology_from_url(url: str) -> dict:
-    """Load all labels from the full ontology via URL.
-    
-    Fetches TTL from URL, parses it, and extracts labels/definitions.
-    Results are cached for subsequent calls.
-    """
-    global _FULL_ONTOLOGY_URL_CACHE
-    
-    if _FULL_ONTOLOGY_URL_CACHE is not None:
-        return _FULL_ONTOLOGY_URL_CACHE
-    
+def _extract_full_ontology(graph) -> dict:
+    """Pull @en labels, definitions, named superclasses and deprecation flags out of a graph."""
+    labels, definitions = {}, {}
+    parents = defaultdict(set)
+    for pred, target in ((RDFS.label, labels), (SKOS.definition, definitions), (IAO_DEFINITION, definitions)):
+        for subj, obj in graph.subject_objects(pred):
+            if not (isinstance(subj, URIRef) and isinstance(obj, Literal)):
+                continue
+            uri = str(subj)
+            # @en wins; an untagged literal only fills a gap
+            if obj.language == 'en' or (obj.language is None and uri not in target):
+                target[uri] = str(obj)
+    for pred in (RDFS.subClassOf, OWL.equivalentClass):
+        for subj, obj in graph.subject_objects(pred):
+            if not isinstance(subj, URIRef):
+                continue
+            if isinstance(obj, URIRef):
+                if pred == RDFS.subClassOf:
+                    parents[str(subj)].add(str(obj))
+                continue
+            # Named operands of an intersection are told superclasses (as Protege shows them):
+            # material SubClassOf (portion of matter and ...) -> material under portion of matter
+            for lst in graph.objects(obj, OWL.intersectionOf):
+                for member in Collection(graph, lst):
+                    if isinstance(member, URIRef) and member != subj:
+                        parents[str(subj)].add(str(member))
+    deprecated = {str(s) for s, o in graph.subject_objects(OWL.deprecated) if str(o).lower() == 'true'}
+    print(f"  Loaded {len(labels)} labels, {len(definitions)} definitions, "
+          f"{len(parents)} subclass sets, {len(deprecated)} deprecated terms")
+    return {'labels': labels, 'definitions': definitions, 'parents': parents, 'deprecated': deprecated}
+
+
+def get_full_ontology_data() -> dict:
+    """Load (once) the full ontology named by navigator.yaml's full_ontology_path (URL or local path)."""
+    global _FULL_ONTOLOGY_DATA
+    if _FULL_ONTOLOGY_DATA is not None:
+        return _FULL_ONTOLOGY_DATA
+    _FULL_ONTOLOGY_DATA = {}
     if not RDFLIB_AVAILABLE:
         print("  Warning: rdflib not available for full ontology parsing")
-        return {}
-    
-    print(f"  Fetching full ontology from URL: {url}")
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "PMDco-Doc-Builder/1.0"})
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            ttl_content = resp.read().decode('utf-8')
-        print(f"  Fetched {len(ttl_content)} bytes")
-        
-        graph = Graph()
-        graph.parse(data=ttl_content, format="turtle")
-        
-        labels = {}
-        definitions = {}
-        
-        # Extract all labels
-        for subj, _, obj in graph.triples((None, RDFS.label, None)):
-            if isinstance(subj, URIRef) and isinstance(obj, Literal):
-                uri = str(subj)
-                lang = obj.language
-                if lang == 'en' or lang is None:
-                    labels[uri] = str(obj)
-        
-        # Extract definitions
-        for subj, _, obj in graph.triples((None, SKOS.definition, None)):
-            if isinstance(subj, URIRef) and isinstance(obj, Literal):
-                uri = str(subj)
-                lang = obj.language
-                if lang == 'en' or lang is None:
-                    definitions[uri] = str(obj)
-        
-        print(f"  Loaded {len(labels)} labels, {len(definitions)} definitions from URL")
-        _FULL_ONTOLOGY_URL_CACHE = {'labels': labels, 'definitions': definitions}
-        return _FULL_ONTOLOGY_URL_CACHE
-    except Exception as e:
-        print(f"  Warning: Failed to load full ontology from URL: {e}")
-        return {}
+        return _FULL_ONTOLOGY_DATA
 
-
-def load_full_ontology_labels(ttl_path: Path) -> dict:
-    """Load all labels from the full ontology TTL file."""
-    global _FULL_ONTOLOGY_LABELS
-    
-    if _FULL_ONTOLOGY_LABELS is not None:
-        return _FULL_ONTOLOGY_LABELS
-    
-    if not ttl_path.exists():
-        print(f"  Warning: Full ontology file not found: {ttl_path}")
-        return {}
-    
-    if not RDFLIB_AVAILABLE:
-        print("  Warning: rdflib not available for full ontology parsing")
-        return {}
-    
-    print(f"  Loading labels from full ontology: {ttl_path.name}")
+    script_dir = Path(__file__).parent
+    path = load_NAVIGATOR_CONFIG(script_dir).get('full_ontology_path', '')
     try:
         graph = Graph()
-        graph.parse(str(ttl_path), format="turtle")
-        
-        labels = {}
-        definitions = {}
-        
-        # Extract all labels
-        for subj, _, obj in graph.triples((None, RDFS.label, None)):
-            if isinstance(subj, URIRef) and isinstance(obj, Literal):
-                uri = str(subj)
-                lang = obj.language
-                if lang == 'en' or lang is None:
-                    labels[uri] = str(obj)
-        
-        # Extract definitions
-        for subj, _, obj in graph.triples((None, SKOS.definition, None)):
-            if isinstance(subj, URIRef) and isinstance(obj, Literal):
-                uri = str(subj)
-                lang = obj.language
-                if lang == 'en' or lang is None:
-                    definitions[uri] = str(obj)
-        
-        print(f"  Loaded {len(labels)} labels, {len(definitions)} definitions")
-        _FULL_ONTOLOGY_LABELS = {'labels': labels, 'definitions': definitions}
-        return _FULL_ONTOLOGY_LABELS
+        if path.startswith(('http://', 'https://')):
+            print(f"  Fetching full ontology from URL: {path}")
+            req = urllib.request.Request(path, headers={"User-Agent": "PMDco-Doc-Builder/1.0"})
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                graph.parse(data=resp.read().decode('utf-8'), format="turtle")
+        else:
+            ttl_path = Path(path) if path else script_dir.parent / "patterns" / "pmdco_full.ttl"
+            if not ttl_path.is_absolute():
+                ttl_path = script_dir.parent / ttl_path
+            if not ttl_path.exists():
+                print(f"  Warning: Full ontology file not found: {ttl_path}")
+                return _FULL_ONTOLOGY_DATA
+            print(f"  Loading full ontology: {ttl_path.name}")
+            graph.parse(str(ttl_path), format="turtle")
+        _FULL_ONTOLOGY_DATA = _extract_full_ontology(graph)
+        _FULL_ONTOLOGY_DATA['graph'] = graph
     except Exception as e:
         print(f"  Warning: Failed to load full ontology: {e}")
-        return {}
+    return _FULL_ONTOLOGY_DATA
 
 
-def enrich_classes_from_full_ontology(classes: dict) -> None:
-    """Enrich classes with labels/definitions from full ontology file.
-    
-    Uses full_ontology_path from navigator.yaml which can be a URL or local path.
+def build_module_hierarchy(parsed: dict, full: dict) -> dict:
+    """Place a module's classes in the full ontology's hierarchy.
+
+    The module file decides *which* classes are shown (its non-deprecated
+    declarations). Labels, definitions and superclasses come from the full
+    ontology, because a module file often holds only part of a class's axioms
+    (e.g. a parent asserted in materials-listing.owl). Superclasses are
+    followed up to the top so every class hangs under its real ancestors;
+    ancestors that are not part of the module are flagged as context.
+    Classes the full ontology does not know yet (unreleased) keep the
+    module's own label and parents.
     """
-    script_dir = Path(__file__).parent
-    config = load_NAVIGATOR_CONFIG(script_dir)
-    
-    # Get full_ontology_path from navigator.yaml
-    full_ontology_path = config.get('full_ontology_path', '')
-    
-    if not full_ontology_path:
-        # Fallback to local file
-        ttl_path = script_dir.parent / "patterns" / "pmdco_full.ttl"
-        full_data = load_full_ontology_labels(ttl_path)
-    elif full_ontology_path.startswith('http://') or full_ontology_path.startswith('https://'):
-        # Fetch from URL
-        full_data = load_full_ontology_from_url(full_ontology_path)
-    else:
-        # Local path
-        ttl_path = Path(full_ontology_path)
-        if not ttl_path.is_absolute():
-            ttl_path = script_dir.parent / full_ontology_path
-        full_data = load_full_ontology_labels(ttl_path)
-    
-    if not full_data:
-        return
-    
-    labels = full_data.get('labels', {})
-    definitions = full_data.get('definitions', {})
-    
-    enriched_count = 0
-    for uri, cls in classes.items():
-        if not cls.label and uri in labels:
-            cls.label = labels[uri]
-            enriched_count += 1
-        if not cls.definition and uri in definitions:
-            cls.definition = definitions[uri]
-    
-    if enriched_count > 0:
-        print(f"  Enriched {enriched_count} classes with labels from full ontology")
+    src = parsed['classes']
+    f_labels = full.get('labels', {})
+    f_defs = full.get('definitions', {})
+    f_parents = full.get('parents', {})
+    deprecated = set(parsed.get('deprecated', ())) | set(full.get('deprecated', ()))
+    declared = parsed.get('declared') or set(src)
+    members = {u for u in declared if u not in deprecated}
+
+    def parents_of(uri):
+        ps = f_parents.get(uri) if uri in f_parents else parsed['parent_map'].get(uri, set())
+        return {p for p in ps if p not in deprecated and p != uri and p != 'http://www.w3.org/2002/07/owl#Thing'}
+
+    classes, child_map, parent_map = {}, defaultdict(set), defaultdict(set)
+    todo = list(members)
+    while todo:
+        uri = todo.pop()
+        if uri in classes:
+            continue
+        own = src.get(uri)
+        classes[uri] = OntologyClass(
+            uri=uri,
+            label=f_labels.get(uri) or (own.label if own else ''),
+            definition=f_defs.get(uri) or (own.definition if own else ''),
+            in_module=uri in members,
+        )
+        for p in parents_of(uri):
+            child_map[p].add(uri)
+            parent_map[uri].add(p)
+            todo.append(p)
+    return {'classes': classes, 'child_map': child_map, 'parent_map': parent_map, 'members': members}
 
 
 # Global cache for properties
