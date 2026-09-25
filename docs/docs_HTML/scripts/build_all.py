@@ -7584,12 +7584,7 @@ class OntologyProperty:
     
     @property
     def prefix(self) -> str:
-        if 'pmd/co/' in self.uri or 'PMD_' in self.uri: return 'pmd'
-        elif 'BFO_' in self.uri: return 'bfo'
-        elif 'RO_' in self.uri: return 'ro'
-        elif 'IAO_' in self.uri: return 'iao'
-        elif 'OBI_' in self.uri: return 'obi'
-        return 'owl'
+        return iri_prefix(self.uri)
     
     @property
     def display_name(self) -> str:
@@ -8113,38 +8108,11 @@ def load_property_data(script_dir: Path) -> Optional[dict]:
         print("  Warning: rdflib not available for property loading")
         return None
     
-    config = load_NAVIGATOR_CONFIG(script_dir)
-    full_ontology_path = config.get('full_ontology_path', '')
-    
+    full = get_full_ontology_data()
+    graph = full.get('graph')
+    if graph is None:
+        return None
     try:
-        graph = Graph()
-        
-        if not full_ontology_path:
-            # Fallback to local file
-            ttl_path = script_dir.parent / "patterns" / "pmdco_full.ttl"
-            if not ttl_path.exists():
-                print(f"  Warning: pmdco_full.ttl not found at {ttl_path}")
-                return None
-            print(f"  Loading properties from: {ttl_path.name}")
-            graph.parse(str(ttl_path), format="turtle")
-        elif full_ontology_path.startswith('http://') or full_ontology_path.startswith('https://'):
-            # Fetch from URL
-            print(f"  Loading properties from URL: {full_ontology_path}")
-            req = urllib.request.Request(full_ontology_path, headers={"User-Agent": "PMDco-Doc-Builder/1.0"})
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                ttl_content = resp.read().decode('utf-8')
-            graph.parse(data=ttl_content, format="turtle")
-        else:
-            # Local path from navigator.yaml
-            ttl_path = Path(full_ontology_path)
-            if not ttl_path.is_absolute():
-                ttl_path = script_dir.parent / full_ontology_path
-            if not ttl_path.exists():
-                print(f"  Warning: Ontology file not found at {ttl_path}")
-                return None
-            print(f"  Loading properties from: {ttl_path.name}")
-            graph.parse(str(ttl_path), format="turtle")
-        
         object_props = {}
         data_props = {}
         annotation_props = {}
@@ -8170,22 +8138,13 @@ def load_property_data(script_dir: Path) -> Optional[dict]:
             if isinstance(s, URIRef) and isinstance(o, URIRef):
                 subprop_relations.append((str(s), str(o)))
         
-        # Extract labels and definitions for all properties
-        all_props = {**object_props, **data_props, **annotation_props}
-        for uri, prop in all_props.items():
-            uri_ref = URIRef(uri)
-            for label in graph.objects(uri_ref, RDFS.label):
-                if isinstance(label, Literal):
-                    lang = label.language
-                    if lang == 'en' or lang is None:
-                        prop.label = str(label)
-                        break
-            for defn in graph.objects(uri_ref, SKOS.definition):
-                if isinstance(defn, Literal):
-                    lang = defn.language
-                    if lang == 'en' or lang is None:
-                        prop.definition = str(defn)
-                        break
+        # Drop deprecated properties; labels (@en first) and definitions come from the shared loader
+        for props in (object_props, data_props, annotation_props):
+            for uri in [u for u in props if u in full['deprecated']]:
+                del props[uri]
+            for uri, prop in props.items():
+                prop.label = full['labels'].get(uri, '')
+                prop.definition = full['definitions'].get(uri, '')
         
         print(f"  Found {len(object_props)} object, {len(data_props)} data, {len(annotation_props)} annotation properties")
         
@@ -8220,7 +8179,9 @@ def build_property_tree(properties: dict, relations: list) -> List[OntologyPrope
     has_parent = set()
     
     for child_uri, parent_uri in relations:
-        if child_uri in properties and parent_uri in properties:
+        # skip self-loops (the ontology asserts 'has part' subPropertyOf 'has part'),
+        # which would otherwise hide the property and its whole subtree
+        if child_uri != parent_uri and child_uri in properties and parent_uri in properties:
             children_map[parent_uri].add(child_uri)
             has_parent.add(child_uri)
     
