@@ -2740,6 +2740,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
             .main-content {
                 padding: var(--spacing-xl);
+                /* keep clear of the fixed TOC, which is still shown in this range */
+                padding-right: calc(var(--toc-width) + var(--spacing-xl) + var(--spacing-lg));
             }
         }
 
