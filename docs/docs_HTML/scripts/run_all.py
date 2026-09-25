@@ -809,6 +809,7 @@ def generate_llms_files(md_dir: Path, config: dict, out_dir: Path,
     ]
 
     full_parts: List[str] = ["# PMD Core Ontology (PMDco) - Full Documentation"]
+    from build_all import process_md_file_renderers, process_source_code_renderers
 
     for section in sections:
         stitle = (section.get('title') or '').strip()
@@ -839,7 +840,12 @@ def generate_llms_files(md_dir: Path, config: dict, out_dir: Path,
                 index_lines.append(f"- [{title}]({url})")
 
             if raw:
-                cleaned = re.sub(r'<!--[\s\S]*?-->', '', raw).strip()
+                # Inline the pattern docs / TTL that the page build injects; stripping
+                # these tags as comments left every pattern section empty.
+                raw = process_md_file_renderers(raw, base_dir=mp.parent)
+                raw = process_source_code_renderers(raw, base_dir=mp.parent)
+                cleaned = re.sub(r'<!--[\s\S]*?-->', '', raw)
+                cleaned = re.sub(r'\n[ \t]*(?:\n[ \t]*){2,}', '\n\n', cleaned).strip()
                 full_parts.append(
                     f"\n\n---\n\n# {title}\n\nSource: {url}\n\n{cleaned}"
                 )
