@@ -6,7 +6,7 @@ Modules in ontology are formally defined, self-contained, and reusable fragments
 
 Furthermore, in ODK-based ontology modularization, modules such as import-edit, shared, and axioms-shared play distinct roles. The import-edit module contains external ontology terms and their logical extensions, supporting controlled editing and updates without manual changes to the imported content. The shared module aggregates terms or patterns that must be reused across different ontology parts, promoting interoperability between collections. The axioms-shared module collects logical axioms that are common and essential for reasoning across modules, ensuring consistency and coordination within the ontology system. As seen in below figure, PMDco is eventually created by unifying all mentioned ontology modules.
 
-<img width="1407" height="384" alt="Screenshot 2025-11-17 at 11 37 59" src="https://github.com/user-attachments/assets/d647e9b7-b0dc-44ea-ba87-7964ae9f7e53" />
+<img width="1407" height="384" alt="PMDco V3.x.x modularization" src="./pmdco-modularization.svg" />
  
 PMDco V3.x.x modularization
 
@@ -19,31 +19,33 @@ The following section provide example concepts related to different ontology mod
 
 ## Classes
 
+The class names below are the ontology's own labels, and each definition is taken from the ontology. The interactive tree at the start of each module lists all classes of that module. Greyed entries are superclasses from other modules, shown for context. The figure after it highlights the main branches, and **bold** marks PMDco classes.
+
 **1. Materials module**
 <!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-materials.owl -->
 This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.
 
-<img width="321" height="527" alt="image" src="https://github.com/user-attachments/assets/4757e92c-9b9b-4509-ad59-a04aa595d008" />
-
+<img alt="Class hierarchy of the PMDco materials module" src="./hierarchy-materials.svg" />
 
 Examples:
 
-``bfo:material entity`` – the main superclass for materials and objects from BFO.
+``bfo:material entity`` – the BFO superclass of all materials and objects: an independent continuant that has some portion of matter as continuant part.
 
-``chebi:chemical entity`` - contains all the periodic elements imported from CHEBI ontology.
+``chebi:chemical entity`` – imported from ChEBI: a physical entity of interest in chemistry, including molecular entities, parts thereof, and chemical substances.
 
-``pmd:Connected Material Entity Aggregate`` – A mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity. <br/>
+``pmd:connected material entity aggregate`` – An object aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity. <br/>
 Examples: the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body.
 
-``pmd:Disonnected Material Entity Aggregate``  – A mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group. <br/> Examples: a heap of stones, a colony of honeybees, a group of synapses.
+``pmd:disconnected material entity aggregate`` – An object aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group. <br/>
+Examples: a heap of stones, a colony of honeybees, a group of synapses.
 
-``pmd:Material`` – A Portion Of Matter that may participate in some Manifacturing Process and whose shape is not relevant for its participation in the Manifacuring Process.
+``pmd:material`` – A portion of matter that may participate in some manufacturing process and whose shape is not relevant for its participation in the manufacturing process.
 
-Some concrete materials definitions:
+Some concrete material definitions:
 
-``pmd:Metal`` - A metal is an engineered material representing a class of materials characterized by high electrical and thermal conductivity, ductility, and metallic bonding.
+``pmd:metal`` – A material characterized by high electrical and thermal conductivity, ductility, and metallic bonding.
 
-``pmd:Ceramics`` - Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.
+``pmd:ceramic`` – A non-metallic, inorganic material characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.
 
 
 **2. Qualities module**
@@ -51,176 +53,167 @@ Some concrete materials definitions:
 
 Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.
 
-<img width="257" height="421" alt="image" src="https://github.com/user-attachments/assets/a6419778-a2dc-46e6-973f-50806c017c95" />
-
+<img alt="Class hierarchy of the PMDco qualities module" src="./hierarchy-qualities.svg" />
 
 Main BFO superclasses:
 
-``bfo:quality`` – A quality is a specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized
+``bfo:quality`` – A specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized.
 
-``bfo:realizable entity`` - A specifically dependent continuant  that inheres in continuant  entities and are not exhibited in full at every time in which it inheres in an entity or group of entities. The exhibition 
-or actualization of a realizable entity is a particular manifestation, functioning or process that occurs under certain circumstances.
+``bfo:realizable entity`` – A specifically dependent continuant that inheres in some independent continuant which is not a spatial region, and which is of a type some instances of which are realized in processes of a correlated type.
 
-Examples from PMD:
+PMDco collects both kinds under one class and then classifies them in two complementary ways:
 
-``pmd:Extensive Quality`` - A quality that inheres in only object or object aggregate or fiat object part or chemical entity and is dependent on the bearers (system-) size.
+``pmd:property`` – A collection class for entities that are either qualities (they represent a state) or realizable entities (they represent a behavior). Its subclasses group properties by domain, e.g. acoustic, chemical, electromagnetic, optical, thermodynamic, manufacturing and characteristic material properties.
 
-  - Examples: 
+``pmd:characteristic material property`` – A property that is commonly associated with the domain of materials science and engineering.
 
-  - ``Pmd:Mass`` - A quality that inheres in an object, object aggregate or fiat object part and affects those in processes where gravitation, acceleration, thermal mass etc are relevant.
+  - Examples:
 
-  - ``Pmd:Energy`` - A quality of material entities which manifests as a capacity to perform work (such as causing motion or the interaction of molecules)
+  - ``pmd:hardness`` – A mechanical property used as a measure of a material's resistance to localized plastic deformation, often tested by indentation or scratch methods.
 
-``pmd:Intensive Quality`` - A qualty that inheres in only portion of matter and thus is independent of the bearers (system-) size.
+  - ``pmd:chemical composition`` (a ``pmd:composition``) – An intensive quality of a portion of matter which describes the types and proportions of pure chemical elements in the portion of matter; it is the subject of some chemical composition data item.
 
-  - Examples: 
+``pmd:facetted property`` – A specifically dependent continuant that gives more detail about another property or about its bearer.
 
-  - ``pmd:Chemical Composition`` - A morphological quality describing the types and proportions of elements or compounds present in a material.
+  - Examples:
 
-  - ``pmd:Defect Density`` - A morphological quality describing the number of defects per unit volume or area in a material, which can affect its mechanical and electronic properties.
+  - ``pmd:extensive property`` – A facetted property that is characteristic of some object, object aggregate or fiat object part and that changes with the bearer's makeup.
 
-``pmd:Behavioral Material Property`` - A material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
+  - ``pmd:intensive property`` – A facetted property that is characteristic of some portion of matter or chemical substance.
 
-  - Examples: 
+``pmd:fundamental quality of system`` – A quality that every system made of demarcated material entities has.
 
-  - ``pmd:Hardness`` – A measure of a material’s resistance to deformation or indentation.
-
-  - ``pmd:Morphological property`` – A material property representing the characteristics of a material's structure, such as shape, size, and distribution of its features.
+  - Example: ``pmd:mass`` – Mass is a fundamental extensive quality.
 
 
-**3. Manufacturing module** 
+**3. Manufacturing module**
 <!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-manufacturing.owl-->
 This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.
 
-<img width="296" height="474" alt="image" src="https://github.com/user-attachments/assets/75559de5-2d35-48e6-bb4b-0488f17ef8b2" />
-
+<img alt="Class hierarchy of the PMDco manufacturing module" src="./hierarchy-manufacturing.svg" />
 
 The superclass for industrial processes:
 
-``pmd:Manufacturing Process`` - A planned process that is driven by the primary intent to transform objectsA manufacturing process is always a transformative process.
+``pmd:manufacturing process`` – A planned process that is driven by the primary intent to transform objects. A manufacturing process is always a transformative process.
 
 More specific examples:
 
-``pmd:Coating`` – A manufacturing process that aims to deposit a permanently adhering layer of a material without a form onto a workpiece, whereby the immediate state of the coating material directly before 
-application is essential.
+``pmd:coating`` – A manufacturing process that aims to deposit a permanently adhering layer of a material without a form onto a workpiece, whereby the immediate state of the coating material directly before application is essential.
 
-``pmd:Forming`` - A manufacturing process that changes the shape of a solid body through plastic deformation while retaining both mass and structural integrity.
+``pmd:forming`` – A manufacturing process that changes the shape of a solid body through plastic deformation while retaining both mass and structural integrity.
 
-``pmd:Joining`` - A manufacturing process that enables the continuous bonding or joining of two or more workpieces with a specific, fixed shape or of such workpieces with a shapeless material, whereby the cohesion 
-is created at specific points and reinforced overall.
+``pmd:joining`` – A manufacturing process that enables the continuous bonding or joining of two or more workpieces with a specific, fixed shape or of such workpieces with a shapeless material, whereby the cohesion is created at specific points and reinforced overall.
 
-**4. Material characterization module** 
+**4. Material characterization module**
 <!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-characterization.owl-->
 Material characterization involves methods and devices used to analyze the physical, mechanical, and chemical properties of materials.
 
-<img width="276" height="443" alt="image" src="https://github.com/user-attachments/assets/f7b3aa6c-ab41-41af-83e1-c83a76dec822" />
-
+<img alt="Class hierarchy of the PMDco characterization module" src="./hierarchy-characterization.svg" />
 
 Main BFO superclass:
 
-``bfo:process`` - p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant
+``bfo:process`` – An occurrent that has some temporal proper part and for some time t has some material entity as participant.
 
 The superclass for characterization processes:
 
-``obi:Assay`` - A planned process that has the objective to produce information about a material entity (the evaluant) by examining it. 
+``obi:assay`` – A planned process that has the objective to produce information about a material entity (the evaluant) by examining it.
 
 More specific examples:
 
-``pmd:Acoustical Property Analyzing Process`` - An assay that measures the acoustic properties of materials by analyzing how sound waves interact with the material. This process involves generating sound waves and observing their reflection, transmission, absorption, or scattering to determine properties such as acoustic impedance, absorption coefficient, and sound speed.
+``pmd:acoustical property analyzing process`` – An assay that measures the acoustic properties of materials by analyzing how sound waves interact with the material. This process involves generating sound waves and observing their reflection, transmission, absorption, or scattering to determine properties such as acoustic impedance, absorption coefficient, and sound speed.
 
-``pmd:Mechanical Property Analyzing Process`` - An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.
+``pmd:mechanical property analyzing process`` – An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.
 
-``pmd:Tensile Testing Process`` – A Mechanical Property Analyzing Process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.
+``pmd:tensile testing process`` – A mechanical property analyzing process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.
 
-**5. Data transformation module** 
+**5. Data transformation module**
 <!--@module_indicator: https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-datatransformation.owl-->
 This category includes processes that involve computational simulations and digital transformations related to material properties and behaviors.
 
-<img width="287" height="460" alt="image" src="https://github.com/user-attachments/assets/4662af0a-cde3-465c-a63a-b573ea20605e" />
+<img alt="Class hierarchy of the PMDco data transformation module" src="./hierarchy-datatransformation.svg" />
 
+``pmd:computing process`` – A process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or engineering goals.
 
-``pmd:Computing Process`` - A planned process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or 
-engineering goals.
+``pmd:simulation process`` – A computing process that models the behavior of a system over time using mathematical or computational techniques.
 
-``pmd:Simulation Process`` - A Computing Process that models the behavior of a system over time using mathematical or computational techniques.
-
-``pmd:Monte Carlo Simulation`` - A Simulation Process that uses random sampling to solve physical and mathematical problems.
+``pmd:monte carlo simulation`` – A simulation process that uses random sampling to solve physical and mathematical problems.
 
 **6. Devices module**
 <!--@module_indicator: https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-devices.owl-->
 This category includes devices performing certain functions in industrial processes.
 
-<img width="351" height="564" alt="image" src="https://github.com/user-attachments/assets/f5063956-e3b6-47f6-ab4e-cff8556d1acc" />
-
+<img alt="Class hierarchy of the PMDco devices module" src="./hierarchy-devices.svg" />
 
 Main BFO superclass:
 
-``bfo:object`` - An object is a material entity which manifests causal unity & is of a type instances of which are maximal relative to the sort of causal unity manifested.
+``bfo:object`` – A material entity which manifests causal unity and is of a type instances of which are maximal relative to the sort of causal unity manifested.
 
 Examples:
 
-``pmd:Device`` - A physical or virtual entity used to perform a specific function or task, often involving measurement, manipulation, or analysis of materials.
+``pmd:device`` – An object that is designed to perform a specific function or task involving measurement, manipulation, processing, or analysis.
 
-``pmd:Furnace`` - An enclosed structure in which heat is produced (as for heating a house or for reducing ore).
+``pmd:furnace`` – A device that generates and contains high-intensity thermal energy within an insulated enclosure.
 
-``pmd:Creep Testing Device`` - A device used to test the creep behavior of materials under constant stress at high temperatures.
+``pmd:creep testing machine`` – A device used to test the creep behavior of materials under constant stress at high temperatures.
 
 
 ## Object Properties
 <!--@property_indicator: object -->
-While most of PMDco object properties are driven from ro, bfo, iao and obi, many object properties also defined to represents more specific MSE relations. A portion of PMDco object properties hierarchy is shown here. As examples, we also introduced some object properties below:
- 
-<img width="329" height="528" alt="image" src="https://github.com/user-attachments/assets/0c384fca-4c65-44ad-9601-7511ed79156a" />
+Most PMDco object properties are reused from BFO, RO, IAO and OBI. PMDco adds its own properties for more specific MSE relations. These are shown in **bold** in the figure below, which shows the top of the object property hierarchy with some branches expanded. The interactive tree above lists every object property. Some examples:
 
+<img alt="Object property hierarchy of PMDco" src="./hierarchy-object-properties.svg" />
 
-``bfo:realizes`` – A relation between a process b and realizable entity c such that c inheres in some d & for all t, if b has participant d then c exists & the type instantiated by b is correlated with the type instantiated by c.
+``bfo:realizes`` – A relation between a process b and a realizable entity c such that c inheres in some d, and for all t, if b has participant d then c exists, and the type instantiated by b is correlated with the type instantiated by c.
 
 ``ro:concretizes`` – A relationship between a specifically dependent continuant or process and a generically dependent continuant, in which the generically dependent continuant depends on some independent continuant in virtue of the fact that the specifically dependent continuant or process also depends on that same independent continuant. Multiple specifically dependent continuants or processes can concretize the same generically dependent continuant.
 
-``iao:denotes`` – A primitive, instance-level, relation obtaining between an information content entity and some portion of reality. Denotation is what happens when someone creates an information content entity E in order to specifically refer to something. The only relation between E and the thing is that E can be used to 'pick out' the thing. This relation connects those two together. Freedictionary.com sense 3: To signify directly; refer to specifically.
+``iao:denotes`` – A primitive, instance-level, relation obtaining between an information content entity and some portion of reality. Denotation is what happens when someone creates an information content entity E in order to specifically refer to something. The only relation between E and the thing is that E can be used to 'pick out' the thing. This relation connects those two together.
 
 ``obi:has value specification`` – A relation between an information content entity and a value specification that specifies its value.
 
-``pmd:consist of`` – A continuant part property that relates Material Entity Aggregates in the direction of smaller length-scale.
+``pmd:has state`` – Relates an anchor continuant to a temporally qualified continuant that represents a specific temporal phase of its existence.
 
-``pmd:intracts with`` – A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants.
+``pmd:changes quality`` – Indicates that a process changes a quality.
 
-``pmd:stimulates`` – A relation between a stimulating process and material property, where there is some material entity that is bearer of the material property and participates in the stimulating process, and the material property comes to be realized in the course of the stimulating process.
+``pmd:responds with`` – The realizable entity must be "stimulated" by some stimulus in order to respond with the response. The bearer of the realizable entity must participate in the stimulation as well as in the response.
 
-Note that PMDco uses specific constraints and rules to ensure logical consistency and facilitate accurate data representation within the ontology:
--	**Property characteristics**: Ontology properties have several key characteristics that define their behavior and impact reasoning. Properties can be functional, meaning each individual has at most one value for a property. They may be inverse functional, so each value points to at most one individual. Properties can also be transitive, allowing chains of relationships to infer new ones, or symmetric, meaning relationships go both ways between individuals. Other characteristics include asymmetric (relationships do not reverse), reflexive (every individual relates to itself), and irreflexive (no individual relates to itself). These characteristics are essential for accurately modeling domain relationships and constraints in ontologies.
--	**Cardinality Constraints**: the number of times a property can be associated with a class. For example, a Manufacturing Process may be constrained to have some material entity as input using the has_specified_input property.
--	**Domain and Range Specifications**: Define the applicable classes for properties. For example, the stimulates property (subproperty of realizes) has a domain of Stimulating Process and a range of Material Property.
+PMDco uses the following constraints and rules to keep the ontology logically consistent and to support accurate data representation:
+-	**Property characteristics**: Characteristics define how a property behaves in reasoning. A property can be functional (each individual has at most one value for it), inverse functional (each value points to at most one individual), transitive (chains of relationships infer new ones), symmetric (the relationship holds in both directions), asymmetric (it never reverses), reflexive (every individual relates to itself) or irreflexive (no individual relates to itself). In PMDco, for example, ``bfo:has part`` and ``bfo:part of`` are transitive, ``ro:simultaneous with`` is symmetric, ``bfo:history of`` is functional and inverse functional, and ``ro:has member`` is irreflexive.
+-	**Restrictions**: Class axioms restrict how a property is used with a class. For example, a ``pmd:manufacturing process`` has specified input *some* ``bfo:object`` or ``bfo:object aggregate`` (an existential restriction), and a ``pmd:elemental crystal`` has member *exactly 1* ``pmd:portion of pure chemical element`` (a cardinality restriction).
+-	**Domain and Range Specifications**: Define the classes a property applies to. For example, ``bfo:realizes`` has the domain ``bfo:process`` and the range ``bfo:realizable entity``, and ``pmd:changes quality`` has the domain ``bfo:process`` and the range ``bfo:quality``.
 
 
 ## Data Properties
 <!--@property_indicator: data -->
-``iao:has measurement value`` –
-
 ``obi:has specified value`` – A relation between a value specification and a literal.
 
-``pmd:has value`` – Data property that relates an information content entity to a literal
+``obi:has specified numeric value`` – A relation between a value specification and a number that quantifies it.
+
+``pmd:has value`` – A data property that relates an information content entity to a literal.
 
 
 ## Annotation properties
+<!--@property_indicator: annotation -->
 PMDco employs annotations to enrich classes and properties with metadata and human readable information, enhancing clarity and usability. This information may be provided in different natural languages (e.g., English and German).
 
 - **Labels** | ***rdfs:label***: Provide human-readable names for ontology elements.
+- **Synonyms** | ***skos:altLabel***: Provide alternative names under which a term is also known.
 - **Comments** | ***rdfs:comment***: Offer detailed descriptions, usage notes, clarifications of definitions, or additional relevant information. They may enhance the understanding of the terms regarded.
-- **Definitions** | ***skos:definition***: Delivers formal, human readable explanations and descriptions of classes and properties. Preferably, [Aristotelian definitions](#aristotelian-definition) are used that support in finding subclass relationships.
+- **Definitions** | ***skos:definition***: Deliver formal, human readable explanations and descriptions of classes and properties. Preferably, [Aristotelian definitions](#aristotelian-definition) are used, which help to find subclass relationships.
 - **Definition Source** | ***obo:IAO_0000119***: If the definition was obtained from a specific source (e.g., a well-known work from the field of MSE, a dictionary, or a URI/URL), this is specified as definition source, also citing the original document.
 
-As examples, the annotation for ``pmd:Material`` class and ``ro:has quality`` object property are shown in below figures:
+As examples, the figures below show the annotations of the ``pmd:material`` class and of the ``ro:has quality`` object property:
 
-<img width="467" height="279" alt="image" src="https://github.com/user-attachments/assets/3a4c1d14-1282-4944-b36b-d9838830984c" />
+<img alt="Annotations of the class material" src="./annotations-material.svg" />
 
-<img width="464" height="201" alt="image" src="https://github.com/user-attachments/assets/33e1629b-7a65-4c44-a360-9d018a542918" />
+<img alt="Annotations of the object property has quality" src="./annotations-has-quality.svg" />
 
--	Note that, for providing the definitions in PMDcore ontology we follow the [Aristotelian](https://www.merriam-webster.com/dictionary/Aristotelian) principle. An aristotelian definition typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus), that should be expressed in the concepts defined in the ontology. 
+-	<span id="aristotelian-definition"></span>Note that, for providing the definitions in PMDcore ontology we follow the [Aristotelian](https://www.merriam-webster.com/dictionary/Aristotelian) principle. An Aristotelian definition typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus), which should be expressed in the concepts defined in the ontology.
 
 ## Individuals
-While PMDco serves as a mid-level ontology and may not define specific instances, it provides a framework for users to instantiate individuals pertinent to their domain. Therefore, it mostly does not contain individuals in its pure form. <br/>
-The only individuals present in the PMDco are the ones belonging to the subclasses of a ``pmd:Nature Constant`` class, defined in the Qualities module: <br/>
-``pmd:Aggregate State Value`` - solid, liquid, etc. <br/>
-``pmd:Bravias Lattice (3D)`` - cubic body-centered, monoclinic primitive, etc. <br/>
-``pmd:Metallic Grain Structures`` - austenite, ferrite, etc.
+PMDco is a mid-level ontology. It gives users a framework for creating the individuals relevant to their own domain and contains almost no individuals itself. The few it does contain are:
+
+- ``pmd:avogadro number`` – an ``obi:scalar value specification`` for the Avogadro number.
+- Units reused from UO and QUDT: ``uo:mass percentage``, ``uo:mass volume percentage``, ``uo:mole fraction`` and ``qudt:PER-MOL``.
+
+The individuals of earlier versions (aggregate state values, 3D Bravais lattices and metallic grain structures) are obsolete; see [Term Obsoletion](obsolete-ontology-terms.html).

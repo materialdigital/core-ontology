@@ -155,11 +155,16 @@ jobs:
               )
               comment_id = result.stdout.strip()
               if comment_id and comment_id != "null":
-                  subprocess.run(["gh", "api", f"repos/{repo}/issues/comments/{comment_id}",
-                                  "-X", "PATCH", "-f", f"body={body}"], check=True)
+                  posted = subprocess.run(["gh", "api", f"repos/{repo}/issues/comments/{comment_id}",
+                                           "-X", "PATCH", "-f", f"body={body}"])
               else:
-                  subprocess.run(["gh", "pr", "comment", pr, "--repo", repo,
-                                  "--body", body], check=True)
+                  posted = subprocess.run(["gh", "pr", "comment", pr, "--repo", repo,
+                                           "--body", body])
+              # PRs from forks get a read-only token, so the comment can't be posted;
+              # the report is still in the job summary, and the checks themselves decide pass/fail
+              if posted.returncode != 0:
+                  print("::notice::Could not post the quality report as a PR comment "
+                        "(read-only token on fork PRs). See the job summary for the report.")
           EOF
       - name: Archive violations report
         if: always()
