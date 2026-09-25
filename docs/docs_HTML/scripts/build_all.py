@@ -1693,6 +1693,12 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         .quick-link strong::after { content: ' \2192'; color: var(--color-primary); transition: margin-left .15s; }
         .quick-link:hover strong::after { margin-left: 4px; }
 
+        /* Phones: icon-only header actions so everything fits */
+        @media (max-width: 768px) {
+            .header-logo .logo-subtitle, .header-nav .nav-label, .theme-toggle .theme-label { display: none; }
+            .header-nav { gap: 0.25rem !important; }
+            .header-nav a { padding: 0.5rem !important; }
+        }
 
         .tree-tooltip {
             position: fixed;
@@ -4602,25 +4608,25 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 <line x1="3" x2="21" y1="18" y2="18"></line>
             </svg>
         </button>
-        <a class="header-logo" href="./intro.html">
+        <a class="header-logo" href="./index.html" aria-label="PMD Core Documentation home">
             <img src="./Logo.svg" alt="MaterialDigital Logo" style="height: 36px; width: auto;">
             <span style="display: flex; align-items: baseline; gap: 0.25rem;">
                 <span style="font-weight: 700; background: linear-gradient(135deg, #00a0e3 0%, #0077b3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">PMD</span><span style="font-weight: 600; color: var(--color-text-primary);">Core</span>
-                <span style="font-size: 0.8em; font-weight: 500; color: var(--color-text-muted); margin-left: 0.15rem;">Documentation</span>
+                <span class="logo-subtitle" style="font-size: 0.8em; font-weight: 500; color: var(--color-text-muted); margin-left: 0.15rem;">Documentation</span>
             </span>
         </a>
         <nav class="header-nav" style="display: flex; gap: 0.5rem; align-items: center;">
-            <a href="https://materialdigital.de/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0, 160, 227, 0.1) 0%, rgba(0, 119, 179, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(0, 160, 227, 0.2);">
+            <a href="https://materialdigital.de/" target="_blank" rel="noopener" title="About MaterialDigital" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0, 160, 227, 0.1) 0%, rgba(0, 119, 179, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(0, 160, 227, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20 M12 16v-4 M12 8h.01"></path></svg>
-                About
+                <span class="nav-label">About</span>
             </a>
-            <a href="https://github.com/materialdigital/core-ontology" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(45, 55, 72, 0.1) 0%, rgba(26, 32, 44, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(45, 55, 72, 0.2);">
+            <a href="https://github.com/materialdigital/core-ontology" target="_blank" rel="noopener" title="PMDco on GitHub" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(45, 55, 72, 0.1) 0%, rgba(26, 32, 44, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(45, 55, 72, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                GitHub
+                <span class="nav-label">GitHub</span>
             </a>
-            <a href="https://materialdigital.github.io/core-ontology" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <a href="https://materialdigital.github.io/core-ontology" target="_blank" rel="noopener" title="Widoco reference documentation" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(16, 185, 129, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
-                Widoco
+                <span class="nav-label">Widoco</span>
             </a>
         </nav>
         <button aria-label="Toggle theme" class="theme-toggle">
