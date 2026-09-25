@@ -4518,6 +4518,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 </head>
 
 <body>
+    <script>try{var t=localStorage.getItem('pmd_theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.body.classList.add('theme-dark')}catch(e){}</script>
     <!-- Scroll Progress Indicator -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -5014,20 +5015,19 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             const themeLabel = $('.theme-label');
             const THEME_KEY = 'pmd_theme';
 
+            const themeIcon = $('.theme-icon');
+            const MOON = '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg>';
+            const SUN = '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>';
+            // The button names the theme it switches TO
             const applyTheme = (t) => {
-                if (t === 'dark') {
-                    document.body.classList.add('theme-dark');
-                    if (themeLabel) themeLabel.textContent = 'Dark';
-                } else {
-                    document.body.classList.remove('theme-dark');
-                    if (themeLabel) themeLabel.textContent = 'Light';
-                }
+                const dark = t === 'dark';
+                document.body.classList.toggle('theme-dark', dark);
+                if (themeLabel) themeLabel.textContent = dark ? 'Light' : 'Dark';
+                if (themeIcon) themeIcon.innerHTML = dark ? SUN : MOON;
+                themeBtn?.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
             };
-
-            try {
-                const saved = localStorage.getItem(THEME_KEY);
-                if (saved) applyTheme(saved);
-            } catch (_) { }
+            // the inline script at <body> already picked saved/OS theme; sync the button to it
+            applyTheme(document.body.classList.contains('theme-dark') ? 'dark' : 'light');
 
             if (themeBtn) {
                 themeBtn.addEventListener('click', () => {
