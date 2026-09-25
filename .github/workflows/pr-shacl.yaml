@@ -28,8 +28,32 @@ jobs:
       run: |
            pip install pyshacl
 
+           sudo apt install -y libpcre3
+           sudo apt install -y libqt5core5a libqt5network5 libqt5xml5 libqt5concurrent5 librdf0 libraptor2-0 librasqal3 libxml2 libjemalloc2
+
            curl -L -o robot.jar "https://github.com/ontodev/robot/releases/latest/download/robot.jar"
            #java -jar robot.jar --version
+
+           #retrieve konclude
+           #curl -L -o konklude.zip "https://github.com/konclude/Konclude/releases/download/v0.7.0-1138/Konclude-v0.7.0-1138-Linux-Docker-Compiled-x64-GCC4.8.4-Static-Qt5.12.10.zip" 
+           #curl -L -o konklude.zip "https://github.com/konclude/Konclude/releases/download/v0.7.0-1138/Konclude-v0.7.0-1138-Linux-x64-GCC-Static-Qt5.12.10.zip" 
+           curl -L -o Konclude https://raw.githubusercontent.com/ISE-FIZKarlsruhe/Koncludix/refs/heads/main/Binaries/Konclude-v0.7.0-fiz-09092026-Linux-x64
+           chmod +x Konclude
+
+           #uname -a
+           
+           #unzip konklude.zip
+           # ls 
+           #./Konclude-v0.7.0-1138-Linux-Docker-Compiled-x64-GCC4.8.4-Static-Qt5.12.10/Binaries/Konclude
+           #./Konclude-v0.7.0-1138-Linux-x64-GCC-Static-Qt5.12.10/Binaries/Konclude
+           ./Konclude
+
+           free -h
+
+           # retrieve koncludix
+           #curl -L -o koncludix.py "https://raw.githubusercontent.com/ISE-FIZKarlsruhe/Koncludix/refs/heads/main/koncludix.py"
+           #curl -L -o koncludix.py "https://raw.githubusercontent.com/ISE-FIZKarlsruhe/Koncludix/refs/heads/main/koncludix_with_dataproperty_hierarchy.py"
+
 
            # merge the current EDIT version and all components into one ontology file
            java -jar robot.jar  merge --catalog main/src/ontology/catalog-v001.xml --input main/src/ontology/pmdco-edit.owl --output merged-pmdco.owl
@@ -52,8 +76,17 @@ jobs:
 
                    ## we have to separate the commands, because robot seems not to do reasoning completely on multiple inputs
                    java -jar robot.jar --catalog catalog-v001.xml merge --input merged-pmdco.owl --input "$DATAFILE" remove --select imports --output merged2.ttl
-                   java -jar robot.jar reason --input merged2.ttl --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" --output shape-data-reasoned.ttl
                    
+                   # this is the good old line for reasoning with hermit;  this line is now replaced by the next line (konclude reasoning)
+                   #java -jar robot.jar reason --input merged2.ttl --reasoner hermit --axiom-generators "SubClass EquivalentClass DataPropertyCharacteristic EquivalentDataProperties SubDataProperty ClassAssertion PropertyAssertion EquivalentObjectProperty InverseObjectProperties SubObjectProperty ObjectPropertyRange ObjectPropertyDomain" --output shape-data-reasoned.ttl
+                   
+                   #echo "skolemizing data"
+                   #python main/patterns/skolemize.py merged2.ttl skolemized.ttl
+
+                   #python koncludix.py Konclude-v0.7.0-1138-Linux-Docker-Compiled-x64-GCC4.8.4-Static-Qt5.12.10/Binaries/Konclude skolemized.ttl shape-data-reasoned.ttl
+                   #python koncludix.py Konclude-v0.7.0-1138-Linux-x64-GCC-Static-Qt5.12.10/Binaries/Konclude skolemized.ttl shape-data-reasoned.ttl
+                   ./Konclude materialize -w AUTO -i merged2.ttl -o inferences.ttl
+                   cat merged2.ttl inferences.ttl > shape-data-reasoned.ttl
 
                    echo "   testing"
                    if [[ -f $SHAPEFILE ]]; then

@@ -185,6 +185,7 @@ except ImportError:
 try:
     from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef, Literal
     from rdflib.namespace import SKOS
+    from rdflib.collection import Collection
     RDFLIB_AVAILABLE = True
 except ImportError:
     RDFLIB_AVAILABLE = False
@@ -524,6 +525,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/svg+xml" href="./Logo.svg" />
     <meta content="__PAGE_TITLE__ - PMDco Documentation" name="description" />
     <meta name="keywords" content="PMDco, PMD core ontology, materials science ontology, materials science and engineering, MSE, materials informatics, semantic web, knowledge graph, BFO, SHACL, RDF, OWL, ontology, Platform MaterialDigital" />
     <title>__PAGE_TITLE__ | PMDco Documentation</title>
@@ -1444,109 +1446,259 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
         /* Ontology Tree Styles */
         .ontology-tree-container {
-            background: var(--color-bg-tertiary);
+            --tree-row: 30px;
+            position: relative;
+            background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.04);
             margin: var(--spacing-lg) 0;
-            max-height: 500px;
+            max-height: 520px;
             overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            font-family: var(--font-family);
         }
 
         .ontology-tree {
             list-style: none;
-            padding-left: 0;
             margin: 0;
-            font-family: var(--font-family-mono);
+            padding: 10px 12px 14px;
             font-size: var(--font-size-sm);
+        }
+
+        /* Beat the generic article list rules (.content li: serif, 1.8 line-height) */
+        .ontology-tree-container .ontology-tree li {
+            margin: 0;
+            padding: 0;
+            line-height: 1.4;
+            font-family: var(--font-family);
+            letter-spacing: normal;
         }
 
         .ontology-tree ul {
             list-style: none;
-            padding-left: 20px;
-            margin: 0;
-            border-left: 1px dashed var(--color-border);
-            margin-left: 8px;
+            margin: 0 0 0 13px;
+            padding-left: 12px;
+            border-left: 1px solid var(--color-border);
         }
 
-        .ontology-tree li { margin: 4px 0; position: relative; }
-
         .tree-node {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 8px;
+            gap: 8px;
+            min-height: var(--tree-row);
+            padding: 0 8px 0 4px;
             border-radius: var(--radius-sm);
             cursor: default;
             transition: background var(--transition-fast);
         }
 
         .tree-node:hover { background: var(--color-bg-hover); }
+        .tree-node:hover .tree-label { color: var(--color-primary); }
 
         .tree-toggle {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            padding: 0;
             border: none;
-            background: var(--color-bg-secondary);
+            background: transparent;
             color: var(--color-text-muted);
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 10px;
             flex-shrink: 0;
         }
 
-        .tree-toggle:hover { background: var(--color-primary); color: white; }
-        .tree-toggle.collapsed::before { content: '▶'; }
-        .tree-toggle.expanded::before { content: '▼'; }
-        .tree-toggle-placeholder { width: 18px; height: 18px; flex-shrink: 0; }
-        .tree-prefix { color: var(--color-text-muted); font-size: 0.85em; }
-        .tree-label { color: var(--color-primary-light); font-weight: 500; }
+        .tree-toggle::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-right: 1.75px solid currentColor;
+            border-bottom: 1.75px solid currentColor;
+            transform: translateX(-1px) rotate(-45deg);
+            transition: transform var(--transition-fast);
+        }
+
+        .tree-toggle.expanded::before { transform: translateY(-2px) rotate(45deg); }
+        .tree-toggle:hover { background: var(--color-bg-tertiary); color: var(--color-primary); }
+        .tree-toggle:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+        .tree-toggle-placeholder { width: 20px; height: 20px; flex-shrink: 0; }
+
+        /* Ontology prefix as a small colour-coded badge */
+        .tree-prefix {
+            --pfx: #64748b;
+            flex-shrink: 0;
+            min-width: 44px;
+            padding: 1px 6px;
+            border-radius: 999px;
+            font-family: var(--font-family-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            line-height: 1.5;
+            text-align: center;
+            color: var(--pfx);
+            background: color-mix(in srgb, var(--pfx) 12%, transparent);
+        }
+        .tree-prefix.pfx-pmd { --pfx: #0284c7; }
+        .tree-prefix.pfx-bfo { --pfx: #b45309; }
+        .tree-prefix.pfx-ro, .tree-prefix.pfx-iao, .tree-prefix.pfx-obi, .tree-prefix.pfx-cob { --pfx: #7c3aed; }
+        .tree-prefix.pfx-chebi { --pfx: #15803d; }
+        .tree-prefix.pfx-uo, .tree-prefix.pfx-qudt { --pfx: #be185d; }
+        body.theme-dark .tree-prefix.pfx-pmd { --pfx: #38bdf8; }
+        body.theme-dark .tree-prefix.pfx-bfo { --pfx: #fbbf24; }
+        body.theme-dark .tree-prefix.pfx-ro, body.theme-dark .tree-prefix.pfx-iao,
+        body.theme-dark .tree-prefix.pfx-obi, body.theme-dark .tree-prefix.pfx-cob { --pfx: #a78bfa; }
+        body.theme-dark .tree-prefix.pfx-chebi { --pfx: #4ade80; }
+        body.theme-dark .tree-prefix.pfx-uo, body.theme-dark .tree-prefix.pfx-qudt { --pfx: #f472b6; }
+
+        .tree-label {
+            color: var(--color-text-primary);
+            font-weight: 500;
+            overflow-wrap: anywhere;
+            transition: color var(--transition-fast);
+        }
         .tree-node.has-definition { cursor: help; }
-        .tree-node.has-definition .tree-label { border-bottom: 1px dotted var(--color-text-muted); }
+        /* Ancestors from outside the module: shown for context, de-emphasised (like non-bold entries in Protege) */
+        .tree-node.is-context .tree-label { color: var(--color-text-muted); font-weight: 400; }
+        .tree-node.is-context .tree-prefix { opacity: 0.6; }
         .tree-children { overflow: hidden; transition: max-height 0.2s ease-out; }
         .tree-children.collapsed { max-height: 0 !important; }
 
         .tree-toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 2;
             display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-md);
-            padding-bottom: var(--spacing-sm);
-            border-bottom: 1px solid var(--color-border);
+            gap: 8px;
             flex-wrap: wrap;
             align-items: center;
+            padding: 10px 12px;
+            background: var(--color-bg-tertiary);
+            border-bottom: 1px solid var(--color-border);
         }
 
         .tree-toolbar-btn {
-            padding: 6px 12px;
+            height: 32px;
+            padding: 0 12px;
+            font-family: var(--font-family);
             font-size: var(--font-size-xs);
-            font-weight: 500;
+            font-weight: 600;
             color: var(--color-text-secondary);
-            background: var(--color-bg-secondary);
+            background: var(--color-bg-card);
             border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
+            border-radius: 8px;
             cursor: pointer;
+            transition: color var(--transition-fast), border-color var(--transition-fast);
         }
 
-        .tree-toolbar-btn:hover { color: var(--color-text-primary); border-color: var(--color-primary); }
+        .tree-toolbar-btn:hover { color: var(--color-primary); border-color: var(--color-primary); }
+        .tree-toolbar-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
 
         .tree-search {
             flex: 1;
-            max-width: 250px;
-            padding: 6px 12px;
+            min-width: 160px;
+            max-width: 280px;
+            height: 32px;
+            padding: 0 12px 0 32px;
+            font-family: var(--font-family);
             font-size: var(--font-size-sm);
             color: var(--color-text-primary);
-            background: var(--color-bg-secondary);
+            background: var(--color-bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 10px center / 15px;
             border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
+            border-radius: 8px;
             outline: none;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         }
 
-        .tree-search:focus { border-color: var(--color-primary); }
-        .tree-stats { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-left: auto; }
-        .tree-node.search-match .tree-label { background: rgba(0, 160, 227, 0.3); padding: 0 2px; border-radius: 2px; }
+        .tree-search:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0, 160, 227, 0.15); }
+        .tree-stats {
+            margin-left: auto;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            color: var(--color-text-muted);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            white-space: nowrap;
+        }
+        .tree-node.search-match { background: rgba(250, 204, 21, 0.18); }
+        .tree-node.search-match .tree-label { color: var(--color-text-primary); font-weight: 600; }
+
+        /* Copy button on code blocks */
+        .code-block, .content pre { position: relative; }
+        .code-copy {
+            position: absolute; top: 8px; right: 8px; z-index: 2;
+            display: inline-flex; align-items: center; gap: 6px;
+            height: 28px; padding: 0 10px;
+            font: 600 12px/1 var(--font-family);
+            color: #cbd5e1; background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 7px;
+            cursor: pointer; opacity: 0; transition: opacity .15s, background .15s, color .15s;
+        }
+        body:not(.theme-dark) .code-copy { color: #475569; background: rgba(255, 255, 255, 0.9); border-color: #cbd5e1; }
+        .code-block:hover .code-copy, .content pre:hover .code-copy, .code-copy:focus-visible { opacity: 1; }
+        .code-copy:hover { color: var(--color-primary); }
+        .code-copy.copied { opacity: 1; color: #16a34a; border-color: rgba(22, 163, 74, .5); }
+        @media (hover: none) { .code-copy { opacity: 1; } }
+
+        /* Link-to-section anchors on headings */
+        .content h2[id], .content h3[id] { position: relative; scroll-margin-top: calc(var(--header-height) + 16px); }
+        .heading-anchor {
+            margin-left: 0.4em; padding: 0 0.2em;
+            font-family: var(--font-family); font-size: 0.7em; font-weight: 600;
+            color: var(--color-text-muted); text-decoration: none; border-radius: 4px;
+            opacity: 0; transition: opacity .15s, color .15s;
+        }
+        .content h2:hover .heading-anchor, .content h3:hover .heading-anchor, .heading-anchor:focus-visible { opacity: 1; }
+        .heading-anchor:hover { color: var(--color-primary); }
+        @media (hover: none) { .heading-anchor { display: none; } }
+
+        /* Small confirmation toast */
+        .ui-toast {
+            position: fixed; left: 50%; bottom: 28px; z-index: 2000;
+            transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+            padding: 9px 16px; border-radius: 999px;
+            font: 600 13px/1.2 var(--font-family); color: #fff; background: rgba(15, 23, 42, 0.92);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: opacity .2s, transform .2s;
+        }
+        .ui-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+        /* Edit on GitHub */
+        .page-meta { display: flex; justify-content: flex-end; margin: var(--spacing-md) 0 0; }
+        .edit-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: var(--font-size-sm); font-weight: 500; color: var(--color-text-muted); text-decoration: none;
+            transition: color .15s;
+        }
+        .edit-link:hover { color: var(--color-primary); }
+
+        /* Home: where-to-start cards */
+        .quick-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: var(--spacing-lg) 0 var(--spacing-xl); }
+        .content .quick-links a.quick-link {
+            display: block; padding: 16px 18px; border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border); background: var(--color-bg-card);
+            text-decoration: none; color: var(--color-text-secondary);
+            transition: border-color .15s, transform .15s, box-shadow .15s;
+        }
+        .content .quick-links a.quick-link::after { display: none; }
+        .content .quick-links a.quick-link:hover { border-color: var(--color-primary); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 160, 227, 0.12); }
+        @media (max-width: 600px) { .quick-links { grid-template-columns: 1fr; } }
+        .quick-link strong { display: block; margin-bottom: 4px; font-family: var(--font-family); font-size: 1rem; color: var(--color-text-primary); }
+        .quick-link span { display: block; font-family: var(--font-family); font-size: var(--font-size-sm); line-height: 1.5; }
+        .quick-link strong::after { content: ' \2192'; color: var(--color-primary); transition: margin-left .15s; }
+        .quick-link:hover strong::after { margin-left: 4px; }
+
+        /* Phones: icon-only header actions so everything fits */
+        @media (max-width: 768px) {
+            .header-logo .logo-subtitle, .header-nav .nav-label, .theme-toggle .theme-label { display: none; }
+            .header-nav { gap: 0.25rem !important; }
+            .header-nav a { padding: 0.5rem !important; }
+        }
 
         .tree-tooltip {
             position: fixed;
@@ -1612,7 +1764,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             border: 1px solid var(--color-border);
             border-radius: var(--radius-xl);
             padding: var(--spacing-2xl);
-            backdrop-filter: blur(10px);
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
 
@@ -1639,7 +1790,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            backdrop-filter: blur(8px);
         }
 
         .toc-title {
@@ -1784,7 +1934,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             background: var(--color-primary);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--color-primary);
-            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -2663,6 +2812,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
             .main-content {
                 padding: var(--spacing-xl);
+                /* keep clear of the fixed TOC, which is still shown in this range */
+                padding-right: calc(var(--toc-width) + var(--spacing-xl) + var(--spacing-lg));
             }
         }
 
@@ -2815,18 +2966,11 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 max-height: 350px;
             }
 
-            .tree-toolbar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
+            /* buttons + count on one row, search full width below */
             .tree-search {
+                order: 3;
+                flex-basis: 100%;
                 max-width: none;
-            }
-
-            .tree-stats {
-                margin-left: 0;
-                margin-top: var(--spacing-sm);
             }
         }
 
@@ -3739,10 +3883,10 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
            =========================================== */
 
         /* === GLASSMORPHISM EFFECTS === */
+        /* No backdrop blur on sidebar/TOC - they are near-opaque, and a
+           full-height blur is re-rendered on every scroll frame (scroll lag). */
         .sidebar {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
         }
 
         body.theme-dark .sidebar {
@@ -3761,8 +3905,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
         .toc {
             background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
         }
 
         body.theme-dark .toc {
@@ -3830,20 +3972,15 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             font-size: 1.0625rem;
             line-height: 1.8;
             color: var(--color-text-secondary);
-            /* Justified body with auto-hyphenation to avoid uneven "rivers".
-               Headings/lists stay left-aligned. */
-            text-align: justify;
-            text-justify: inter-word;
-            hyphens: auto;
-            -webkit-hyphens: auto;
-            -ms-hyphens: auto;
+            /* Left-aligned: justified text opens wide gaps between words on narrow screens */
+            text-align: left;
         }
-        /* Don't justify short or structural paragraphs (folder links, etc.) */
-        .content p:last-child, .article-content p:last-child { text-align: left; hyphens: manual; }
+        /* Long URLs wrap instead of pushing the page sideways on phones */
+        .content, .article-content { overflow-wrap: break-word; }
 
         /* === PREMIUM LIST STYLING === */
         /* Exclude ontology-tree from premium list styling */
-        .content ul:not(.ontology-tree), .article-content ul:not(.ontology-tree),
+        .content ul:not(.ontology-tree):not(.tree-children), .article-content ul:not(.ontology-tree):not(.tree-children),
         .content ol, .article-content ol {
             list-style: none;
             padding-left: 0;
@@ -3855,7 +3992,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             counter-reset: list-counter;
         }
 
-        .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
+        .content ul:not(.ontology-tree):not(.tree-children) > li, .article-content ul:not(.ontology-tree):not(.tree-children) > li,
         .content ol > li, .article-content ol > li {
             position: relative;
             padding-left: 1.5em;
@@ -3864,7 +4001,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         }
 
         /* Unordered list bullets (dot) */
-        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before {
+        .content ul:not(.ontology-tree):not(.tree-children) > li::before, .article-content ul:not(.ontology-tree):not(.tree-children) > li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -4210,18 +4347,17 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         @keyframes contentReveal {
             0% {
                 opacity: 0;
-                transform: translateY(30px);
-                filter: blur(4px);
+                transform: translateY(8px);
             }
             100% {
                 opacity: 1;
                 transform: translateY(0);
-                filter: blur(0);
             }
         }
 
+        /* Short and blur-free: a blurred 0.6s entrance on the whole page made every navigation feel slow. */
         .content-wrapper {
-            animation: contentReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: contentReveal 0.2s ease-out forwards;
         }
 
         /* === GRADIENT TEXT FOR BRANDING === */
@@ -4430,28 +4566,30 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         .mermaid-graph-container .graph-viewport { cursor: default; }
         :fullscreen .graph-viewport, :-webkit-full-screen .graph-viewport { max-height: none; height: 100vh; }
         .cy-pop {
-            position: fixed; z-index: 9999; max-width: 280px; pointer-events: auto;
-            background: var(--color-bg-card, #fff); color: var(--color-text-primary, #0f172a);
-            border: 1px solid var(--color-border, #e2e8f0); border-radius: 10px;
-            box-shadow: var(--shadow-lg, 0 18px 44px rgba(15,23,42,.18)); padding: 12px 14px;
-            font-family: var(--font-family, sans-serif); font-size: 13px; opacity: 0; visibility: hidden;
-            transform: translateY(4px); transition: opacity .16s ease, transform .16s ease;
+            position: fixed; z-index: 9999; width: 260px; max-width: calc(100vw - 24px); pointer-events: auto;
+            background: var(--color-bg-secondary, #fff); color: var(--color-text-primary, #0f172a);
+            border: 1px solid var(--color-border, #e2e8f0); border-radius: 6px;
+            box-shadow: 0 4px 14px rgba(15,23,42,.08); padding: 10px 12px;
+            font-family: var(--font-family, sans-serif); font-size: 13px; line-height: 1.4;
+            opacity: 0; visibility: hidden; transition: opacity .12s ease, visibility .12s;
         }
-        .cy-pop.visible { opacity: 1; visibility: visible; transform: none; }
-        .cy-pop-h { font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .cy-pop-badge { font-size: 10.5px; font-weight: 600; color: #fff;
-            background: linear-gradient(135deg, var(--color-primary, #00a0e3), var(--color-primary-dark, #0077b3));
-            padding: 2px 8px; border-radius: 999px; }
-        .cy-pop-uri { margin-top: 6px; font-family: var(--font-family-mono, monospace); font-size: 11px;
-            color: var(--color-text-muted, #475569); word-break: break-all; }
-        .cy-pop-link { display: inline-block; margin-top: 8px; font-weight: 600; font-size: 12px;
-            color: var(--color-primary-dark, #0077b3); text-decoration: none; }
-        .cy-pop-link:hover { text-decoration: underline; }
+        .cy-pop.visible { opacity: 1; visibility: visible; }
+        .cy-pop-h { padding-right: 18px; font-weight: 600; overflow-wrap: anywhere; }
+        .cy-pop-kind { font-size: 12px; color: var(--color-text-muted, #64748b); }
+        .cy-pop-close { position: absolute; top: 6px; right: 6px; border: 0; background: none; padding: 2px 4px;
+            color: var(--color-text-muted, #64748b); font-size: 15px; line-height: 1; cursor: pointer; }
+        .cy-pop-close:hover { color: var(--color-text-primary, #0f172a); }
+        .cy-pop-link { display: flex; gap: 6px; justify-content: space-between; margin-top: 8px; padding-top: 8px;
+            border-top: 1px solid var(--color-border, #e2e8f0); font-size: 12px; color: var(--color-text-muted, #64748b);
+            text-decoration: none; }
+        .cy-pop-link span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .cy-pop-link:hover { color: var(--color-primary, #00a0e3); }
 
 </style>
 </head>
 
 <body>
+    <script>try{var t=localStorage.getItem('pmd_theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.body.classList.add('theme-dark')}catch(e){}</script>
     <!-- Scroll Progress Indicator -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -4470,25 +4608,25 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 <line x1="3" x2="21" y1="18" y2="18"></line>
             </svg>
         </button>
-        <a class="header-logo" href="./intro.html">
+        <a class="header-logo" href="./index.html" aria-label="PMD Core Documentation home">
             <img src="./Logo.svg" alt="MaterialDigital Logo" style="height: 36px; width: auto;">
             <span style="display: flex; align-items: baseline; gap: 0.25rem;">
                 <span style="font-weight: 700; background: linear-gradient(135deg, #00a0e3 0%, #0077b3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">PMD</span><span style="font-weight: 600; color: var(--color-text-primary);">Core</span>
-                <span style="font-size: 0.8em; font-weight: 500; color: var(--color-text-muted); margin-left: 0.15rem;">Documentation</span>
+                <span class="logo-subtitle" style="font-size: 0.8em; font-weight: 500; color: var(--color-text-muted); margin-left: 0.15rem;">Documentation</span>
             </span>
         </a>
         <nav class="header-nav" style="display: flex; gap: 0.5rem; align-items: center;">
-            <a href="https://materialdigital.de/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0, 160, 227, 0.1) 0%, rgba(0, 119, 179, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(0, 160, 227, 0.2);">
+            <a href="https://materialdigital.de/" target="_blank" rel="noopener" title="About MaterialDigital" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0, 160, 227, 0.1) 0%, rgba(0, 119, 179, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(0, 160, 227, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20 M12 16v-4 M12 8h.01"></path></svg>
-                About
+                <span class="nav-label">About</span>
             </a>
-            <a href="https://github.com/materialdigital/core-ontology" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(45, 55, 72, 0.1) 0%, rgba(26, 32, 44, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(45, 55, 72, 0.2);">
+            <a href="https://github.com/materialdigital/core-ontology" target="_blank" rel="noopener" title="PMDco on GitHub" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(45, 55, 72, 0.1) 0%, rgba(26, 32, 44, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(45, 55, 72, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                GitHub
+                <span class="nav-label">GitHub</span>
             </a>
-            <a href="https://materialdigital.github.io/core-ontology" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <a href="https://materialdigital.github.io/core-ontology" target="_blank" rel="noopener" title="Widoco reference documentation" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(16, 185, 129, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
-                Widoco
+                <span class="nav-label">Widoco</span>
             </a>
         </nav>
         <button aria-label="Toggle theme" class="theme-toggle">
@@ -4510,7 +4648,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
             </svg>
             <input class="search-input" id="sidebar-search" name="sidebar-search" placeholder="Search docs..." readonly="" type="text" aria-label="Search documentation" />
-            <span class="search-shortcut">Ctrl+K</span>
+            <span class="search-shortcut" title="Ctrl+K or /">Ctrl+K</span>
         </div>
         __SIDEBAR_HTML__
     </aside>
@@ -4525,6 +4663,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 __ARTICLE_CONTENT__
 
             </article>
+
+            __EDIT_LINK__
 
             __PAGE_NAV__
 
@@ -4596,6 +4736,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
   var nodeData = __NODEDATA_OBJECT__;
   window.__GRAPH_DIAGRAMS__ = GRAPH_DIAGRAMS;
 
+  if (!document.querySelector(".mermaid-graph-container")) return;  // no diagrams: libs are not loaded
   if (typeof cytoscape === "undefined" || typeof ELK === "undefined") {
     console.error("Cytoscape/ELK failed to load"); return;
   }
@@ -4823,14 +4964,19 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
       var kind = d.type || n.data("kind") || "Node";
       var uri = d.uri || n.data("uri") || "";
       var pop = getPop();
-      var html = '<div class="cy-pop-h">' + escapeHtml(label) + '<span class="cy-pop-badge">' + escapeHtml(kind) + '</span></div>';
-      if (uri) html += '<div class="cy-pop-uri">' + escapeHtml(uri) + '</div>' +
-        '<a class="cy-pop-link" href="' + encodeURI(uri) + '" target="_blank" rel="noopener">Open IRI &#8599;</a>';
+      var html = '<button type="button" class="cy-pop-close" aria-label="Close">&times;</button>' +
+        '<div class="cy-pop-h">' + escapeHtml(label).replace(/_/g, "_<wbr>") + '</div>' +
+        '<div class="cy-pop-kind">' + escapeHtml(kind === "Individual" ? "Individual (ABox)" : kind) + '</div>';
+      // ABox example individuals are illustrative and not dereferenceable; only TBox IRIs get a link.
+      if (uri && kind !== "Individual") html += '<a class="cy-pop-link" href="' + encodeURI(uri) + '" target="_blank" rel="noopener" title="' +
+        escapeHtml(uri) + '"><span>' + escapeHtml(uri.replace(/^https?:\/\//, "")) + '</span>&#8599;</a>';
       pop.innerHTML = html;
+      pop.querySelector(".cy-pop-close").addEventListener("click", hidePop);
       var rp = e.renderedPosition || n.renderedPosition();
       var box = self.host.getBoundingClientRect();
-      pop.style.left = Math.min(box.left + rp.x + 12, window.innerWidth - 280) + "px";
-      pop.style.top = (box.top + rp.y + 12) + "px";
+      var x = box.left + rp.x + 12, y = box.top + rp.y + 12;
+      pop.style.left = Math.max(12, Math.min(x, window.innerWidth - pop.offsetWidth - 12)) + "px";
+      pop.style.top = Math.max(12, Math.min(y, window.innerHeight - pop.offsetHeight - 12)) + "px";
       pop.classList.add("visible");
     });
     cy.on("tap", function (e) { if (e.target === cy) hidePop(); });
@@ -4883,10 +5029,20 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
   function escapeHtml(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
 
+  function initOne(c) {
+    try { new CytoViewer(c); } catch (e) { console.error("Viewer init failed", e); }
+  }
+  // Lay out each diagram only when it nears the viewport: ELK runs on the main
+  // thread, so doing all of them at load froze the page for seconds.
   function initAll() {
-    document.querySelectorAll(".mermaid-graph-container").forEach(function (c) {
-      try { new CytoViewer(c); } catch (e) { console.error("Viewer init failed", e); }
-    });
+    var all = document.querySelectorAll(".mermaid-graph-container");
+    if (!("IntersectionObserver" in window)) { all.forEach(initOne); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { io.unobserve(en.target); initOne(en.target); }
+      });
+    }, { rootMargin: "600px 0px" });
+    all.forEach(function (c) { io.observe(c); });
   }
   function start() { (document.fonts ? document.fonts.ready : Promise.resolve()).then(initAll); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
@@ -4932,20 +5088,19 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             const themeLabel = $('.theme-label');
             const THEME_KEY = 'pmd_theme';
 
+            const themeIcon = $('.theme-icon');
+            const MOON = '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg>';
+            const SUN = '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>';
+            // The button names the theme it switches TO
             const applyTheme = (t) => {
-                if (t === 'dark') {
-                    document.body.classList.add('theme-dark');
-                    if (themeLabel) themeLabel.textContent = 'Dark';
-                } else {
-                    document.body.classList.remove('theme-dark');
-                    if (themeLabel) themeLabel.textContent = 'Light';
-                }
+                const dark = t === 'dark';
+                document.body.classList.toggle('theme-dark', dark);
+                if (themeLabel) themeLabel.textContent = dark ? 'Light' : 'Dark';
+                if (themeIcon) themeIcon.innerHTML = dark ? SUN : MOON;
+                themeBtn?.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
             };
-
-            try {
-                const saved = localStorage.getItem(THEME_KEY);
-                if (saved) applyTheme(saved);
-            } catch (_) { }
+            // the inline script at <body> already picked saved/OS theme; sync the button to it
+            applyTheme(document.body.classList.contains('theme-dark') ? 'dark' : 'light');
 
             if (themeBtn) {
                 themeBtn.addEventListener('click', () => {
@@ -5094,6 +5249,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 this.vocab = [];
                 this.trigram = new Map(); // trigram -> Set(token)
                 this.avgLen = 1;
+                this.norm = new Map();   // docId -> { title, body } normalized text
                 this._build();
             }
 
@@ -5137,6 +5293,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                     const id = d.id;
                     const all = `${d.title || ''}\n${d.section || ''}\n${d.content || ''}`;
                     const tokens = this._tokenize(all);
+                    // Normalized once here, not on every keystroke in search().
+                    this.norm.set(id, { title: this._normalizeText(d.title), body: this._normalizeText(`${d.title || ''} ${d.content || ''}`) });
 
                     this.docLen.set(id, tokens.length);
                     totalLen += tokens.length;
@@ -5197,25 +5355,29 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 return prev[lb];
             }
 
-            _expandToken(q) {
-                const token = this._normalizeText(q);
+            // Returns [[indexToken, weight]]: exact match, plus prefix completions
+            // ("shape" -> "shapes", and as-you-type "tens" -> "tensile") at lower
+            // weight; typo-tolerant fuzzy matches only when nothing else matched.
+            _expandToken(token) {
                 if (!token) return [];
+                const out = [];
+                if (this.index.has(token)) out.push([token, 1]);
 
-                // Exact
-                if (this.index.has(token)) return [token];
-
-                // Prefix candidates
-                const pref = [];
-                const maxPref = 40;
-                for (const v of this.vocab) {
-                    if (v.startsWith(token)) {
-                        pref.push(v);
-                        if (pref.length >= maxPref) break;
+                if (token.length >= 3) {
+                    let n = 0;
+                    for (const v of this.vocab) {
+                        if (v !== token && v.startsWith(token)) {
+                            out.push([v, 0.6]);
+                            if (++n >= 40) break;
+                        }
                     }
                 }
-                if (pref.length) return pref;
+                if (out.length) return out;
+                return this._fuzzy(token).map(t => [t, 0.4]);
+            }
 
-                // Fuzzy (trigram intersection + Levenshtein <=2)
+            _fuzzy(token) {
+                // Trigram intersection + Levenshtein <= 2
                 if (token.length < 4) return [];
                 const padded = `  ${token}  `;
                 const candidates = new Map(); // token -> overlap
@@ -5249,81 +5411,69 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 const parts = [];
                 const re = /"([^"]+)"|(\S+)/g;
                 let m;
-                while ((m = re.exec(raw)) !== null) parts.push(m[1] || m[2]);
+                while ((m = re.exec(raw)) !== null) parts.push({ text: m[1] || m[2], quoted: !!m[1] });
 
-                const phrases = parts.filter(p => p.includes(' ') && !p.startsWith('type:') && !p.startsWith('section:'));
-                const tokens = parts.filter(p => !p.includes(' ') && !p.startsWith('type:') && !p.startsWith('section:'));
+                // Optional filters: type:page / type:section, section:<text>
+                const isFilter = p => !p.quoted && /^(type|section):/i.test(p.text);
+                const typeFilter = ((parts.find(p => isFilter(p) && /^type:/i.test(p.text)) || {}).text || '').slice(5).toLowerCase();
+                const sectionFilter = ((parts.find(p => isFilter(p) && /^section:/i.test(p.text)) || {}).text || '').slice(8).toLowerCase();
+                const terms = parts.filter(p => !isFilter(p));
 
-                // Optional filters: type:graph / type:section / type:page, section:<text>
-                const typeFilter = (parts.find(p => p.startsWith('type:')) || '').slice(5).toLowerCase();
-                const sectionFilter = (parts.find(p => p.startsWith('section:')) || '').slice(8).toLowerCase();
+                // Quoted text must appear verbatim; its words still count for scoring.
+                // Tokenizing each part the same way as the index means "BFO_0000015"
+                // becomes the two index tokens "bfo" + "0000015".
+                const phrases = terms.filter(p => p.quoted).map(p => this._normalizeText(p.text)).filter(Boolean);
+                const tokens = Array.from(new Set(terms.flatMap(p => this._tokenize(p.text))));
+                if (!tokens.length) return [];
+                const fullQuery = this._normalizeText(terms.map(p => p.text).join(' '));
 
                 const scores = new Map();
-                const matchedTokens = new Map(); // docId -> Set(tokens)
+                const matched = new Map(); // docId -> Set(query tokens matched)
 
                 for (const qt of tokens) {
-                    const expanded = this._expandToken(qt);
-                    for (const tok of expanded) {
+                    for (const [tok, weight] of this._expandToken(qt)) {
                         const posting = this.index.get(tok);
                         if (!posting) continue;
-
                         const idf = this.idf.get(tok) || 0.1;
                         for (const [docId, tf] of posting.entries()) {
-                            const d = this.docById.get(docId);
-                            if (!d) continue;
-
-                            if (typeFilter && String(d.type || '').toLowerCase() !== typeFilter) continue;
-                            if (sectionFilter && !String(d.section || '').toLowerCase().includes(sectionFilter)) continue;
-
                             const len = this.docLen.get(docId) || 1;
-                            const tfNorm = tf / (0.5 + 0.5 * (len / this.avgLen));
-                            const base = (scores.get(docId) || 0) + (tfNorm * idf);
-                            scores.set(docId, base);
-
-                            let s = matchedTokens.get(docId);
-                            if (!s) { s = new Set(); matchedTokens.set(docId, s); }
+                            // BM25 term saturation, so a long page can't win by repetition alone
+                            const tfNorm = (tf * 2.2) / (tf + 1.2 * (0.25 + 0.75 * (len / this.avgLen)));
+                            scores.set(docId, (scores.get(docId) || 0) + tfNorm * idf * weight);
+                            let s = matched.get(docId);
+                            if (!s) { s = new Set(); matched.set(docId, s); }
                             s.add(qt);
                         }
                     }
                 }
 
-                // Phrase filtering + boost
-                const qLower = this._normalizeText(raw);
                 const results = [];
                 for (const [docId, score0] of scores.entries()) {
                     const d = this.docById.get(docId);
                     if (!d) continue;
+                    if (typeFilter && String(d.type || '').toLowerCase() !== typeFilter) continue;
+                    if (sectionFilter && !String(d.section || '').toLowerCase().includes(sectionFilter)) continue;
 
-                    const normTitle = this._normalizeText(d.title || '');
-                    const normContent = this._normalizeText(d.content || '');
+                    const { title: normTitle, body: normBody } = this.norm.get(docId);
+                    if (phrases.some(ph => !normBody.includes(ph))) continue;
 
-                    let score = score0;
+                    const coverage = matched.get(docId).size / tokens.length;
+                    let score = score0 * coverage * coverage;
+                    if (tokens.length > 1 && normBody.includes(fullQuery)) score *= 2.0;  // words adjacent, in order
+                    if (normTitle === fullQuery) score *= 3.0;
+                    else if (normTitle.includes(fullQuery)) score *= 2.0;
+                    else if (tokens.some(t => normTitle.includes(t))) score *= 1.25;
+                    if (d.type === 'page') score *= 0.85;  // prefer the precise section over its whole page
 
-                    // Title boost
-                    if (qLower && normTitle.includes(qLower)) score *= 2.0;
-                    else {
-                        // partial boost
-                        for (const qt of tokens) {
-                            const nt = this._normalizeText(qt);
-                            if (nt && normTitle.includes(nt)) score *= 1.25;
-                        }
-                    }
-
-                    // Phrase requirement: every phrase must appear in title or content
-                    let ok = true;
-                    for (const ph of phrases) {
-                        const np = this._normalizeText(ph);
-                        if (!np) continue;
-                        if (!normTitle.includes(np) && !normContent.includes(np)) { ok = false; break; }
-                        score *= 1.15;
-                    }
-                    if (!ok) continue;
-
-                    results.push({ doc: d, score, matched: Array.from(matchedTokens.get(docId) || []) });
+                    results.push({ doc: d, score, coverage });
                 }
 
-                results.sort((a, b) => b.score - a.score);
-                return results.slice(0, limit);
+                // If any result contains every query word, drop partial matches (AND semantics);
+                // otherwise fall back to the best partial matches.
+                const complete = results.filter(r => r.coverage === 1);
+                const pool = complete.length ? complete : results;
+                pool.sort((a, b) => b.score - a.score);
+                return pool.slice(0, limit);
             }
         }
 
@@ -5335,28 +5485,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 .replace(/[^a-z0-9\-]/g, '')
                 .replace(/\-+/g, '-')
                 .replace(/^\-+|\-+$/g, '');
-        }
-
-        function extractDotIndexText(dot) {
-            if (!dot) return '';
-            const out = new Set();
-
-            // Node/edge labels
-            const re = /label\s*=\s*"((?:\\.|[^"\\])*)"/g;
-            let m;
-            while ((m = re.exec(dot)) !== null) {
-                const s = m[1].replace(/\\n/g, ' ').replace(/\\\"/g, '"').trim();
-                if (s) out.add(s);
-            }
-
-            // Node IDs in quotes
-            const reId = /"([^"]+)"\s*\[/g;
-            while ((m = reId.exec(dot)) !== null) {
-                const s = m[1].trim();
-                if (s) out.add(s);
-            }
-
-            return Array.from(out).join(' · ');
         }
 
         function buildSearchDocuments() {
@@ -5410,26 +5538,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 });
             });
 
-            // Graph entries (node labels + edge labels + ids)
-            document.querySelectorAll('.mermaid-graph-container').forEach((container) => {
-                const title = container.querySelector('.graph-title')?.textContent?.trim() || 'Graph';
-                const graphId = container.id || '';
-                const key = graphId.startsWith('graph-') ? graphId.slice(6) : graphId;
-                const dot = (typeof dotDiagrams !== 'undefined' && dotDiagrams[key]) ? dotDiagrams[key] : '';
-
-                const graphText = extractDotIndexText(dot);
-                if (!graphText.trim()) return;
-
-                docs.push({
-                    id: `graph:${pagePath}#${graphId || key}`,
-                    type: 'graph',
-                    title,
-                    section: pageTitle,
-                    path: graphId ? `./${pagePath}#${graphId}` : `./${pagePath}`,
-                    content: graphText
-                });
-            });
-
             // Navigation pages from sidebar links
             document.querySelectorAll('.nav-link[href]').forEach((a) => {
                 const t = (a.textContent || '').trim();
@@ -5447,108 +5555,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
             return docs;
         }
-
-        // ---- Cross-page search helpers (site-wide indexing) ----
-        async function mapLimit(items, limit, fn) {
-            const results = new Array(items.length);
-            let idx = 0;
-
-            const workers = new Array(Math.min(limit, items.length)).fill(0).map(async () => {
-                while (true) {
-                    const i = idx++;
-                    if (i >= items.length) break;
-                    results[i] = await fn(items[i], i, items.length);
-                }
-            });
-
-            await Promise.all(workers);
-            return results;
-        }
-
-        function extractDocsFromHtml(htmlText, href) {
-            const docs = [];
-            try {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlText, 'text/html');
-
-                const pageTitle = doc.querySelector('h1')?.textContent?.trim() || doc.title || (href || 'Page');
-                const pagePath = (href || '').split('#')[0].split('/').pop() || href || 'page';
-
-                const article = doc.querySelector('article.content') || doc.querySelector('.content') || doc.body;
-                const pageText = (article?.innerText || '').trim();
-
-                docs.push({
-                    id: `page:${pagePath}`,
-                    type: 'page',
-                    title: pageTitle,
-                    section: 'Pages',
-                    path: href,
-                    content: pageText
-                });
-
-                // Sections (h2/h3 with IDs)
-                const headings = Array.from(doc.querySelectorAll('h2[id], h3[id]'));
-                headings.forEach((h) => {
-                    const title = (h.textContent || '').trim();
-                    if (!title) return;
-
-                    const level = Number(h.tagName.substring(1)) || 6;
-                    const parts = [];
-                    let el = h.nextElementSibling;
-                    while (el) {
-                        if (/^H[1-6]$/.test(el.tagName)) {
-                            const nextLevel = Number(el.tagName.substring(1)) || 6;
-                            if (nextLevel <= level) break;
-                        }
-                        if (el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
-                            parts.push(el.innerText || el.textContent || '');
-                        }
-                        el = el.nextElementSibling;
-                    }
-
-                    const content = parts.join('\n').trim();
-                    const id = `section:${pagePath}#${h.id}`;
-
-                    docs.push({
-                        id,
-                        type: 'section',
-                        title,
-                        section: pageTitle,
-                        path: `${href}#${h.id}`,
-                        content
-                    });
-                });
-
-                // Best-effort DOT indexing if the page embeds dotDiagrams (Graphviz).
-                try {
-                    const m = htmlText.match(/const\s+dotDiagrams\s*=\s*\{([\s\S]*?)\n\s*\};/);
-                    if (m && m[1]) {
-                        const body = m[1];
-                        const re = /"([^"]+)"\s*:\s*`([\s\S]*?)`\s*,?/g;
-                        let mm;
-                        while ((mm = re.exec(body)) !== null) {
-                            const key = mm[1];
-                            const dot = mm[2] || '';
-                            const graphText = extractDotIndexText(dot);
-                            if (!graphText.trim()) continue;
-                            docs.push({
-                                id: `graph:${pagePath}:${key}`,
-                                type: 'graph',
-                                title: `Graph: ${key}`,
-                                section: pageTitle,
-                                path: href,
-                                content: graphText
-                            });
-                        }
-                    }
-                } catch (e) { /* ignore */ }
-
-            } catch (e) {
-                return [];
-            }
-            return docs;
-        }
-
 
         function makeSnippet(text, query, maxLen = 180) {
             if (!text) return '';
@@ -5599,10 +5605,17 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         class Search {
             constructor() {
                 this.selectedIndex = -1;
-                this.docs = buildSearchDocuments();
-                this.engine = new DocSearchEngine(this.docs);
+                this.engine = null;  // built lazily by ensureIndex()
                 this.createModal();
                 this.bindEvents();
+            }
+
+            // Indexing reads the whole page's text and fetches search-index.json, so it
+            // only runs once search is about to be used - not on every page load.
+            ensureIndex() {
+                if (this.engine) return;
+                this.docs = buildSearchDocuments();
+                this.engine = new DocSearchEngine(this.docs);
                 this.bootstrapCrossPageIndex();
             }
 
@@ -5628,13 +5641,24 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 this.resultsContainer = document.getElementById('search-results');
 
                 // Sidebar search input (kept for layout, opens modal)
-                document.getElementById('sidebar-search')?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
+                const sidebarSearch = document.getElementById('sidebar-search');
+                sidebarSearch?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
+                // Warm the index up while the pointer heads for the search box.
+                sidebarSearch?.addEventListener('pointerenter', () => this.ensureIndex(), { once: true });
             }
 
             bindEvents() {
                 document.addEventListener('keydown', (e) => {
                     // Open: Ctrl/Cmd + K
                     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                        e.preventDefault();
+                        this.open();
+                        return;
+                    }
+                    // Open: "/" (docs convention), unless the user is typing
+                    if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey
+                        && !e.target.closest('input, textarea, select, [contenteditable="true"]')
+                        && !this.modal.classList.contains('active')) {
                         e.preventDefault();
                         this.open();
                         return;
@@ -5762,6 +5786,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             }
 
             open() {
+                this.ensureIndex();
                 this.modal.classList.add('active');
                 this.modal.setAttribute('aria-hidden', 'false');
                 this.input.focus();
@@ -5807,9 +5832,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                     for (const entry of searchIndex) {
                         // Combine ALL content sources for comprehensive page-level search
                         const pageContent = [
-                            entry.content || '',           // Full page content (untruncated)
+                            entry.content || '',           // Text before the first heading
                             entry.keywords || '',          // Extracted technical keywords
-                            entry.terms || '',             // All unique terms for exact match
                             // All heading texts and their full content
                             (entry.headings || []).map(h =>
                                 `${h.text} ${h.content || ''} ${h.keywords || ''}`
@@ -5857,11 +5881,10 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                     }
 
                     if (extraDocs.length) {
-                        // Replace current docs with comprehensive cross-page index
-                        // but keep current page's detailed docs for best local search
-                        const byId = new Map(this.docs.map(d => [d.id, d]));
-                        for (const d of extraDocs) byId.set(d.id, d);
-                        this.docs = Array.from(byId.values());
+                        // The site index is built from the rendered pages, so it already
+                        // covers this page; the DOM-scanned docs are only a fallback for
+                        // when the index can't load (and merging them duplicated results).
+                        this.docs = extraDocs;
 
                         // Rebuild the search engine with full content
                         this.engine = new DocSearchEngine(this.docs);
@@ -6326,7 +6349,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 var article = document.querySelector('.content, .article-content');
                 if (article) {
                     var blocks = article.querySelectorAll(
-                        ':scope > h2, :scope > h3, :scope > p, :scope > ul:not(.ontology-tree), :scope > ol, :scope > table, :scope > blockquote, :scope > pre'
+                        ':scope > h2, :scope > h3, :scope > p, :scope > ul:not(.ontology-tree):not(.tree-children), :scope > ol, :scope > table, :scope > blockquote, :scope > pre'
                     );
                     var io = new IntersectionObserver(function (entries) {
                         entries.forEach(function (en) {
@@ -6342,6 +6365,56 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 }
             }
         })();
+    </script>
+    <script>
+    (() => {
+        const toastEl = document.createElement('div');
+        toastEl.className = 'ui-toast'; toastEl.setAttribute('role', 'status'); toastEl.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toastEl);
+        let toastTimer;
+        const toast = (msg) => {
+            toastEl.textContent = msg; toastEl.classList.add('show');
+            clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1600);
+        };
+        const copyText = async (text) => {
+            try { await navigator.clipboard.writeText(text); return true; }
+            catch (_) {  // file:// or older browsers
+                const ta = Object.assign(document.createElement('textarea'), { value: text });
+                ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select();
+                const ok = document.execCommand('copy'); ta.remove(); return ok;
+            }
+        };
+
+        // Copy buttons on code blocks
+        document.querySelectorAll('.content pre').forEach((pre) => {
+            if (!pre.querySelector('code') || pre.closest('.graph-wrapper, .mermaid')) return;
+            const host = pre.parentElement.classList.contains('code-block') ? pre.parentElement : pre;
+            const btn = Object.assign(document.createElement('button'), { type: 'button', className: 'code-copy', textContent: 'Copy' });
+            btn.setAttribute('aria-label', 'Copy code to clipboard');
+            btn.addEventListener('click', async () => {
+                const ok = await copyText(pre.querySelector('code').innerText.replace(/\n$/, ''));
+                btn.textContent = ok ? 'Copied' : 'Press Ctrl+C';
+                btn.classList.toggle('copied', ok);
+                setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1600);
+            });
+            host.appendChild(btn);
+        });
+
+        // "#" link on section headings: copies a direct link to the section
+        document.querySelectorAll('.content h2[id], .content h3[id]').forEach((h) => {
+            const a = Object.assign(document.createElement('a'), { className: 'heading-anchor', href: '#' + h.id, textContent: '#' });
+            a.setAttribute('aria-label', 'Copy link to section: ' + h.textContent.trim());
+            a.addEventListener('click', async (e) => {
+                e.preventDefault();
+                // file:// pages are opaque origins: history.replaceState logs an "Unsafe attempt to load URL" warning there
+                if (location.protocol === 'file:') location.hash = h.id;
+                else history.replaceState(null, '', '#' + h.id);
+                h.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+                toast(await copyText(location.href) ? 'Link to section copied' : 'Link ready in the address bar');
+            });
+            h.appendChild(a);
+        });
+    })();
     </script>
 </body>
 
@@ -7536,6 +7609,7 @@ def build_html(
     html_out = html_out.replace("__PAGE_TITLE__", html_module.escape(page_title))
     html_out = html_out.replace("__PAGE_URL__", html_module.escape(DOCS_BASE_URL + active_page))
     html_out = html_out.replace("__JSONLD__", build_jsonld(page_title, DOCS_BASE_URL + active_page))
+    html_out = finish_page(html_out, active_page, markdown_path)
 
     out_html.write_text(html_out, encoding="utf-8")
 
@@ -7666,24 +7740,33 @@ MD_FILE_RENDERER_RE = re.compile(r"<!--\s*@md_file_renderer\s*:\s*(.+?)\s*-->", 
 SOURCE_CODE_RENDERER_RE = re.compile(r"<!--\s*@source_code_renderer\s*:\s*(.+?)\s*-->", re.IGNORECASE)
 
 
+def iri_prefix(uri: str) -> str:
+    """Short display prefix for an IRI (pmd, bfo, ro, cob, qudt, ...)."""
+    if 'pmd/co/' in uri or '/PMD_' in uri: return 'pmd'
+    # OBO IRIs carry their ontology in the local name: .../obo/BFO_0000015 -> bfo
+    m = re.search(r'/obo/([A-Za-z]+)_\w+$', uri)
+    if m: return m.group(1).lower()
+    for key, pfx in (('nfdi', 'nfdicore'), ('qudt.org', 'qudt'), ('w3.org/2006/time', 'time'),
+                     ('purl.org/dc/terms', 'dcterms'), ('purl.org/dc/elements', 'dc'),
+                     ('w3.org/2004/02/skos', 'skos'), ('w3.org/2000/01/rdf-schema', 'rdfs'),
+                     ('xmlns.com/foaf', 'foaf'), ('schema.org', 'schema'),
+                     ('oboInOwl', 'oboInOwl'), ('w3.org/ns/prov', 'prov'), ('usefulinc.com/ns/doap', 'doap')):
+        if key in uri: return pfx
+    return 'owl'
+
+
 @dataclass
 class OntologyClass:
     """Represents an ontology class with its metadata."""
     uri: str
     label: str = ""
     definition: str = ""
+    in_module: bool = True
     children: List['OntologyClass'] = field(default_factory=list)
     
     @property
     def prefix(self) -> str:
-        uri = self.uri
-        if 'pmd/co/' in uri or '/PMD_' in uri: return 'pmd'
-        elif 'BFO_' in uri: return 'bfo'
-        elif 'RO_' in uri: return 'ro'
-        elif 'IAO_' in uri: return 'iao'
-        elif 'OBI_' in uri: return 'obi'
-        elif 'CHEBI_' in uri: return 'chebi'
-        return 'owl'
+        return iri_prefix(self.uri)
     
     @property
     def display_name(self) -> str:
@@ -7703,12 +7786,7 @@ class OntologyProperty:
     
     @property
     def prefix(self) -> str:
-        if 'pmd/co/' in self.uri or 'PMD_' in self.uri: return 'pmd'
-        elif 'BFO_' in self.uri: return 'bfo'
-        elif 'RO_' in self.uri: return 'ro'
-        elif 'IAO_' in self.uri: return 'iao'
-        elif 'OBI_' in self.uri: return 'obi'
-        return 'owl'
+        return iri_prefix(self.uri)
     
     @property
     def display_name(self) -> str:
@@ -7764,7 +7842,8 @@ def parse_owl_functional_syntax(owl_content: str) -> Optional[dict]:
     
     # Extract prefixes
     prefixes = {}
-    for m in re.finditer(r'Prefix\(\s*(\w*)\s*[:=]\s*\<([^>]+)\>\s*\)', owl_content):
+    # Functional syntax writes prefixes as Prefix(obo:=<...>) / Prefix(:=<...>)
+    for m in re.finditer(r'Prefix\(\s*([\w-]*)\s*:=\s*\<([^>]+)\>\s*\)', owl_content):
         prefix = m.group(1)
         iri = m.group(2)
         prefixes[prefix] = iri
@@ -7780,10 +7859,14 @@ def parse_owl_functional_syntax(owl_content: str) -> Optional[dict]:
         return ref
     
     # Parse Declaration(Class(...))
+    declared = set()
     for m in re.finditer(r'Declaration\s*\(\s*Class\s*\(\s*([^)]+)\s*\)\s*\)', owl_content):
         uri = resolve_iri(m.group(1))
+        declared.add(uri)
         if uri and uri not in classes:
             classes[uri] = OntologyClass(uri=uri)
+    deprecated = {resolve_iri(m.group(1)) for m in re.finditer(
+        r'AnnotationAssertion\s*\(\s*owl:deprecated\s+([^)\s]+)\s+"true"', owl_content)}
     
     # Parse SubClassOf
     for m in re.finditer(r'SubClassOf\s*\(\s*([^)\s]+)\s+([^)\s]+)\s*\)', owl_content):
@@ -7797,15 +7880,26 @@ def parse_owl_functional_syntax(owl_content: str) -> Optional[dict]:
             if parent_iri not in classes:
                 classes[parent_iri] = OntologyClass(uri=parent_iri)
     
-    # Parse annotations (labels)
-    for m in re.finditer(r'AnnotationAssertion\s*\(\s*rdfs:label\s+([^)\s]+)\s+"([^"]+)"', owl_content):
+    # Parse annotations (labels); an @en label wins over other languages
+    has_en = set()
+    for m in re.finditer(r'AnnotationAssertion\s*\(\s*rdfs:label\s+([^)\s]+)\s+"([^"]+)"(@[\w-]+)?', owl_content):
         uri = resolve_iri(m.group(1))
-        label = m.group(2)
-        if uri in classes:
-            classes[uri].label = label
-    
+        if uri in classes and uri not in has_en:
+            classes[uri].label = m.group(2)
+            if (m.group(3) or '').lower() == '@en':
+                has_en.add(uri)
+
+    # Definitions (fallback for classes not yet in the released full ontology)
+    for m in re.finditer(r'AnnotationAssertion\s*\(\s*(skos:definition|obo:IAO_0000115|'
+                         r'<http://www\.w3\.org/2004/02/skos/core#definition>|'
+                         r'<http://purl\.obolibrary\.org/obo/IAO_0000115>)\s+([^)\s]+)\s+"((?:[^"\\]|\\.)*)"', owl_content):
+        uri = resolve_iri(m.group(2))
+        if uri in classes and not classes[uri].definition:
+            classes[uri].definition = m.group(3).replace('\\"', '"')
+
     print(f"  Parsed {len(classes)} classes from OWL Functional Syntax")
-    return {'classes': classes, 'child_map': child_map, 'parent_map': parent_map}
+    return {'classes': classes, 'child_map': child_map, 'parent_map': parent_map,
+            'declared': declared, 'deprecated': deprecated}
 
 
 def parse_owl_content(owl_content: str) -> Optional[dict]:
@@ -7896,7 +7990,8 @@ def build_tree(classes: dict, child_map: dict, parent_map: dict) -> List[Ontolog
             return None
         visited.add(uri)
         source = classes[uri]
-        node = OntologyClass(uri=source.uri, label=source.label, definition=source.definition)
+        node = OntologyClass(uri=source.uri, label=source.label, definition=source.definition,
+                             in_module=source.in_module)
         children = sorted(child_map.get(uri, set()), 
                           key=lambda u: classes.get(u, OntologyClass(uri=u)).display_name.lower())
         for child_uri in children:
@@ -7939,7 +8034,7 @@ def count_tree_nodes(roots: List[OntologyClass]) -> int:
     return count
 
 
-def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
+def generate_tree_html(roots: List[OntologyClass], tree_id: str, class_count: Optional[int] = None) -> str:
     """Generate interactive HTML for an ontology class tree.
 
     Creates a collapsible tree view with:
@@ -7956,7 +8051,8 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
     Returns:
         Complete HTML string for the interactive tree component.
     """
-    class_count = count_tree_nodes(roots)
+    if class_count is None:
+        class_count = count_tree_nodes(roots)
     
     def generate_node_html(node: OntologyClass, depth: int) -> str:
         has_children = len(node.children) > 0
@@ -7970,6 +8066,8 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
         node_classes = ['tree-node']
         if has_definition:
             node_classes.append('has-definition')
+        if not node.in_module:
+            node_classes.append('is-context')
         
         data_attrs = f'data-uri="{uri}"'
         if has_definition:
@@ -7987,7 +8085,7 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
         else:
             html_parts.append('<span class="tree-toggle-placeholder"></span>')
         
-        html_parts.append(f'<span class="tree-prefix">{prefix}:</span>')
+        html_parts.append(f'<span class="tree-prefix pfx-{prefix}">{prefix}</span>')
         html_parts.append(f'<span class="tree-label">{label}</span>')
         html_parts.append('</span>')
         
@@ -8006,7 +8104,7 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str) -> str:
             <button class="tree-toolbar-btn tree-expand-all" aria-label="Expand all nodes">Expand All</button>
             <button class="tree-toolbar-btn tree-collapse-all" aria-label="Collapse all nodes">Collapse All</button>
             <input type="text" class="tree-search" id="{tree_id}-search" name="{tree_id}-search" placeholder="Search classes..." aria-label="Search classes">
-            <span class="tree-stats" aria-live="polite">{class_count} classes</span>
+            <span class="tree-stats" aria-live="polite" title="Classes defined in this module. Greyed rows are ancestor classes from other modules, shown for context.">{class_count} classes</span>
         </div>
         <ul class="ontology-tree" role="group">
     ''']
@@ -8047,165 +8145,133 @@ def process_module_indicators(html_content: str) -> str:
         if not parsed:
             return f'<p class="warning">Failed to parse ontology from {html_module.escape(url)}</p>'
         
-        # Enrich classes with labels from full ontology
-        enrich_classes_from_full_ontology(parsed['classes'])
-        
-        roots = build_tree(parsed['classes'], parsed['child_map'], parsed['parent_map'])
+        hierarchy = build_module_hierarchy(parsed, get_full_ontology_data())
+        roots = build_tree(hierarchy['classes'], hierarchy['child_map'], hierarchy['parent_map'])
         if not roots:
             return f'<p class="warning">No classes found in {html_module.escape(url)}</p>'
         
-        tree_html = generate_tree_html(roots, tree_id)
-        print(f"  Generated tree with {count_tree_nodes(roots)} classes")
+        tree_html = generate_tree_html(roots, tree_id, len(hierarchy['members']))
+        print(f"  Generated tree: {len(hierarchy['members'])} module classes, {count_tree_nodes(roots)} nodes")
         return tree_html
     
     return MODULE_INDICATOR_RE.sub(replace_indicator, html_content)
 
 
-# Global cache for full ontology labels
-_FULL_ONTOLOGY_LABELS = None
-_FULL_ONTOLOGY_URL_CACHE = None
+# Global cache for the full ontology (labels, definitions, parents, deprecation)
+_FULL_ONTOLOGY_DATA = None
+
+IAO_DEFINITION = URIRef("http://purl.obolibrary.org/obo/IAO_0000115") if RDFLIB_AVAILABLE else None
 
 
-def load_full_ontology_from_url(url: str) -> dict:
-    """Load all labels from the full ontology via URL.
-    
-    Fetches TTL from URL, parses it, and extracts labels/definitions.
-    Results are cached for subsequent calls.
-    """
-    global _FULL_ONTOLOGY_URL_CACHE
-    
-    if _FULL_ONTOLOGY_URL_CACHE is not None:
-        return _FULL_ONTOLOGY_URL_CACHE
-    
+def _extract_full_ontology(graph) -> dict:
+    """Pull @en labels, definitions, named superclasses and deprecation flags out of a graph."""
+    labels, definitions = {}, {}
+    parents = defaultdict(set)
+    for pred, target in ((RDFS.label, labels), (SKOS.definition, definitions), (IAO_DEFINITION, definitions)):
+        for subj, obj in graph.subject_objects(pred):
+            if not (isinstance(subj, URIRef) and isinstance(obj, Literal)):
+                continue
+            uri = str(subj)
+            # @en wins; an untagged literal only fills a gap
+            if obj.language == 'en' or (obj.language is None and uri not in target):
+                target[uri] = str(obj)
+    for pred in (RDFS.subClassOf, OWL.equivalentClass):
+        for subj, obj in graph.subject_objects(pred):
+            if not isinstance(subj, URIRef):
+                continue
+            if isinstance(obj, URIRef):
+                if pred == RDFS.subClassOf:
+                    parents[str(subj)].add(str(obj))
+                continue
+            # Named operands of an intersection are told superclasses (as Protege shows them):
+            # material SubClassOf (portion of matter and ...) -> material under portion of matter
+            for lst in graph.objects(obj, OWL.intersectionOf):
+                for member in Collection(graph, lst):
+                    if isinstance(member, URIRef) and member != subj:
+                        parents[str(subj)].add(str(member))
+    deprecated = {str(s) for s, o in graph.subject_objects(OWL.deprecated) if str(o).lower() == 'true'}
+    print(f"  Loaded {len(labels)} labels, {len(definitions)} definitions, "
+          f"{len(parents)} subclass sets, {len(deprecated)} deprecated terms")
+    return {'labels': labels, 'definitions': definitions, 'parents': parents, 'deprecated': deprecated}
+
+
+def get_full_ontology_data() -> dict:
+    """Load (once) the full ontology named by navigator.yaml's full_ontology_path (URL or local path)."""
+    global _FULL_ONTOLOGY_DATA
+    if _FULL_ONTOLOGY_DATA is not None:
+        return _FULL_ONTOLOGY_DATA
+    _FULL_ONTOLOGY_DATA = {}
     if not RDFLIB_AVAILABLE:
         print("  Warning: rdflib not available for full ontology parsing")
-        return {}
-    
-    print(f"  Fetching full ontology from URL: {url}")
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "PMDco-Doc-Builder/1.0"})
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            ttl_content = resp.read().decode('utf-8')
-        print(f"  Fetched {len(ttl_content)} bytes")
-        
-        graph = Graph()
-        graph.parse(data=ttl_content, format="turtle")
-        
-        labels = {}
-        definitions = {}
-        
-        # Extract all labels
-        for subj, _, obj in graph.triples((None, RDFS.label, None)):
-            if isinstance(subj, URIRef) and isinstance(obj, Literal):
-                uri = str(subj)
-                lang = obj.language
-                if lang == 'en' or lang is None:
-                    labels[uri] = str(obj)
-        
-        # Extract definitions
-        for subj, _, obj in graph.triples((None, SKOS.definition, None)):
-            if isinstance(subj, URIRef) and isinstance(obj, Literal):
-                uri = str(subj)
-                lang = obj.language
-                if lang == 'en' or lang is None:
-                    definitions[uri] = str(obj)
-        
-        print(f"  Loaded {len(labels)} labels, {len(definitions)} definitions from URL")
-        _FULL_ONTOLOGY_URL_CACHE = {'labels': labels, 'definitions': definitions}
-        return _FULL_ONTOLOGY_URL_CACHE
-    except Exception as e:
-        print(f"  Warning: Failed to load full ontology from URL: {e}")
-        return {}
+        return _FULL_ONTOLOGY_DATA
 
-
-def load_full_ontology_labels(ttl_path: Path) -> dict:
-    """Load all labels from the full ontology TTL file."""
-    global _FULL_ONTOLOGY_LABELS
-    
-    if _FULL_ONTOLOGY_LABELS is not None:
-        return _FULL_ONTOLOGY_LABELS
-    
-    if not ttl_path.exists():
-        print(f"  Warning: Full ontology file not found: {ttl_path}")
-        return {}
-    
-    if not RDFLIB_AVAILABLE:
-        print("  Warning: rdflib not available for full ontology parsing")
-        return {}
-    
-    print(f"  Loading labels from full ontology: {ttl_path.name}")
+    script_dir = Path(__file__).parent
+    path = load_NAVIGATOR_CONFIG(script_dir).get('full_ontology_path', '')
     try:
         graph = Graph()
-        graph.parse(str(ttl_path), format="turtle")
-        
-        labels = {}
-        definitions = {}
-        
-        # Extract all labels
-        for subj, _, obj in graph.triples((None, RDFS.label, None)):
-            if isinstance(subj, URIRef) and isinstance(obj, Literal):
-                uri = str(subj)
-                lang = obj.language
-                if lang == 'en' or lang is None:
-                    labels[uri] = str(obj)
-        
-        # Extract definitions
-        for subj, _, obj in graph.triples((None, SKOS.definition, None)):
-            if isinstance(subj, URIRef) and isinstance(obj, Literal):
-                uri = str(subj)
-                lang = obj.language
-                if lang == 'en' or lang is None:
-                    definitions[uri] = str(obj)
-        
-        print(f"  Loaded {len(labels)} labels, {len(definitions)} definitions")
-        _FULL_ONTOLOGY_LABELS = {'labels': labels, 'definitions': definitions}
-        return _FULL_ONTOLOGY_LABELS
+        if path.startswith(('http://', 'https://')):
+            print(f"  Fetching full ontology from URL: {path}")
+            req = urllib.request.Request(path, headers={"User-Agent": "PMDco-Doc-Builder/1.0"})
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                graph.parse(data=resp.read().decode('utf-8'), format="turtle")
+        else:
+            ttl_path = Path(path) if path else script_dir.parent / "patterns" / "pmdco_full.ttl"
+            if not ttl_path.is_absolute():
+                ttl_path = script_dir.parent / ttl_path
+            if not ttl_path.exists():
+                print(f"  Warning: Full ontology file not found: {ttl_path}")
+                return _FULL_ONTOLOGY_DATA
+            print(f"  Loading full ontology: {ttl_path.name}")
+            graph.parse(str(ttl_path), format="turtle")
+        _FULL_ONTOLOGY_DATA = _extract_full_ontology(graph)
+        _FULL_ONTOLOGY_DATA['graph'] = graph
     except Exception as e:
         print(f"  Warning: Failed to load full ontology: {e}")
-        return {}
+    return _FULL_ONTOLOGY_DATA
 
 
-def enrich_classes_from_full_ontology(classes: dict) -> None:
-    """Enrich classes with labels/definitions from full ontology file.
-    
-    Uses full_ontology_path from navigator.yaml which can be a URL or local path.
+def build_module_hierarchy(parsed: dict, full: dict) -> dict:
+    """Place a module's classes in the full ontology's hierarchy.
+
+    The module file decides *which* classes are shown (its non-deprecated
+    declarations). Labels, definitions and superclasses come from the full
+    ontology, because a module file often holds only part of a class's axioms
+    (e.g. a parent asserted in materials-listing.owl). Superclasses are
+    followed up to the top so every class hangs under its real ancestors;
+    ancestors that are not part of the module are flagged as context.
+    Classes the full ontology does not know yet (unreleased) keep the
+    module's own label and parents.
     """
-    script_dir = Path(__file__).parent
-    config = load_NAVIGATOR_CONFIG(script_dir)
-    
-    # Get full_ontology_path from navigator.yaml
-    full_ontology_path = config.get('full_ontology_path', '')
-    
-    if not full_ontology_path:
-        # Fallback to local file
-        ttl_path = script_dir.parent / "patterns" / "pmdco_full.ttl"
-        full_data = load_full_ontology_labels(ttl_path)
-    elif full_ontology_path.startswith('http://') or full_ontology_path.startswith('https://'):
-        # Fetch from URL
-        full_data = load_full_ontology_from_url(full_ontology_path)
-    else:
-        # Local path
-        ttl_path = Path(full_ontology_path)
-        if not ttl_path.is_absolute():
-            ttl_path = script_dir.parent / full_ontology_path
-        full_data = load_full_ontology_labels(ttl_path)
-    
-    if not full_data:
-        return
-    
-    labels = full_data.get('labels', {})
-    definitions = full_data.get('definitions', {})
-    
-    enriched_count = 0
-    for uri, cls in classes.items():
-        if not cls.label and uri in labels:
-            cls.label = labels[uri]
-            enriched_count += 1
-        if not cls.definition and uri in definitions:
-            cls.definition = definitions[uri]
-    
-    if enriched_count > 0:
-        print(f"  Enriched {enriched_count} classes with labels from full ontology")
+    src = parsed['classes']
+    f_labels = full.get('labels', {})
+    f_defs = full.get('definitions', {})
+    f_parents = full.get('parents', {})
+    deprecated = set(parsed.get('deprecated', ())) | set(full.get('deprecated', ()))
+    declared = parsed.get('declared') or set(src)
+    members = {u for u in declared if u not in deprecated}
+
+    def parents_of(uri):
+        ps = f_parents.get(uri) if uri in f_parents else parsed['parent_map'].get(uri, set())
+        return {p for p in ps if p not in deprecated and p != uri and p != 'http://www.w3.org/2002/07/owl#Thing'}
+
+    classes, child_map, parent_map = {}, defaultdict(set), defaultdict(set)
+    todo = list(members)
+    while todo:
+        uri = todo.pop()
+        if uri in classes:
+            continue
+        own = src.get(uri)
+        classes[uri] = OntologyClass(
+            uri=uri,
+            label=f_labels.get(uri) or (own.label if own else ''),
+            definition=f_defs.get(uri) or (own.definition if own else ''),
+            in_module=uri in members,
+        )
+        for p in parents_of(uri):
+            child_map[p].add(uri)
+            parent_map[uri].add(p)
+            todo.append(p)
+    return {'classes': classes, 'child_map': child_map, 'parent_map': parent_map, 'members': members}
 
 
 # Global cache for properties
@@ -8244,38 +8310,11 @@ def load_property_data(script_dir: Path) -> Optional[dict]:
         print("  Warning: rdflib not available for property loading")
         return None
     
-    config = load_NAVIGATOR_CONFIG(script_dir)
-    full_ontology_path = config.get('full_ontology_path', '')
-    
+    full = get_full_ontology_data()
+    graph = full.get('graph')
+    if graph is None:
+        return None
     try:
-        graph = Graph()
-        
-        if not full_ontology_path:
-            # Fallback to local file
-            ttl_path = script_dir.parent / "patterns" / "pmdco_full.ttl"
-            if not ttl_path.exists():
-                print(f"  Warning: pmdco_full.ttl not found at {ttl_path}")
-                return None
-            print(f"  Loading properties from: {ttl_path.name}")
-            graph.parse(str(ttl_path), format="turtle")
-        elif full_ontology_path.startswith('http://') or full_ontology_path.startswith('https://'):
-            # Fetch from URL
-            print(f"  Loading properties from URL: {full_ontology_path}")
-            req = urllib.request.Request(full_ontology_path, headers={"User-Agent": "PMDco-Doc-Builder/1.0"})
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                ttl_content = resp.read().decode('utf-8')
-            graph.parse(data=ttl_content, format="turtle")
-        else:
-            # Local path from navigator.yaml
-            ttl_path = Path(full_ontology_path)
-            if not ttl_path.is_absolute():
-                ttl_path = script_dir.parent / full_ontology_path
-            if not ttl_path.exists():
-                print(f"  Warning: Ontology file not found at {ttl_path}")
-                return None
-            print(f"  Loading properties from: {ttl_path.name}")
-            graph.parse(str(ttl_path), format="turtle")
-        
         object_props = {}
         data_props = {}
         annotation_props = {}
@@ -8301,22 +8340,13 @@ def load_property_data(script_dir: Path) -> Optional[dict]:
             if isinstance(s, URIRef) and isinstance(o, URIRef):
                 subprop_relations.append((str(s), str(o)))
         
-        # Extract labels and definitions for all properties
-        all_props = {**object_props, **data_props, **annotation_props}
-        for uri, prop in all_props.items():
-            uri_ref = URIRef(uri)
-            for label in graph.objects(uri_ref, RDFS.label):
-                if isinstance(label, Literal):
-                    lang = label.language
-                    if lang == 'en' or lang is None:
-                        prop.label = str(label)
-                        break
-            for defn in graph.objects(uri_ref, SKOS.definition):
-                if isinstance(defn, Literal):
-                    lang = defn.language
-                    if lang == 'en' or lang is None:
-                        prop.definition = str(defn)
-                        break
+        # Drop deprecated properties; labels (@en first) and definitions come from the shared loader
+        for props in (object_props, data_props, annotation_props):
+            for uri in [u for u in props if u in full['deprecated']]:
+                del props[uri]
+            for uri, prop in props.items():
+                prop.label = full['labels'].get(uri, '')
+                prop.definition = full['definitions'].get(uri, '')
         
         print(f"  Found {len(object_props)} object, {len(data_props)} data, {len(annotation_props)} annotation properties")
         
@@ -8351,7 +8381,9 @@ def build_property_tree(properties: dict, relations: list) -> List[OntologyPrope
     has_parent = set()
     
     for child_uri, parent_uri in relations:
-        if child_uri in properties and parent_uri in properties:
+        # skip self-loops (the ontology asserts 'has part' subPropertyOf 'has part'),
+        # which would otherwise hide the property and its whole subtree
+        if child_uri != parent_uri and child_uri in properties and parent_uri in properties:
             children_map[parent_uri].add(child_uri)
             has_parent.add(child_uri)
     
@@ -8439,7 +8471,7 @@ def generate_property_tree_html(roots: List[OntologyProperty], tree_id: str, tit
         else:
             parts.append('<span class="tree-toggle-placeholder"></span>')
         
-        parts.append(f'<span class="tree-prefix">{prefix}:</span>')
+        parts.append(f'<span class="tree-prefix pfx-{prefix}">{prefix}</span>')
         parts.append(f'<span class="tree-label">{label}</span>')
         parts.append('</span>')
         
@@ -8683,6 +8715,25 @@ def extract_title_from_html(article_html: str) -> str:
     return "Documentation"
 
 
+def finish_page(html_out: str, active_page: str, markdown_path: Path) -> str:
+    """Per-page touches shared by both build paths: 'Edit this page' link, no Home breadcrumb on Home."""
+    repo_root = Path(__file__).resolve().parents[3]
+    try:
+        rel = markdown_path.resolve().relative_to(repo_root).as_posix()
+    except ValueError:
+        rel = None
+    link = ""
+    if rel:
+        url = "https://github.com/materialdigital/core-ontology/edit/main/" + urllib.parse.quote(rel)
+        link = ('<div class="page-meta"><a class="edit-link" href="' + url + '" target="_blank" rel="noopener">'
+                '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">'
+                '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Edit this page on GitHub</a></div>')
+    html_out = html_out.replace("__EDIT_LINK__", link)
+    if active_page == "index.html":
+        html_out = re.sub(r'\s*<nav class="breadcrumbs">.*?</nav>', "", html_out, count=1, flags=re.S)
+    return html_out
+
+
 def build_jsonld(page_title: str, page_url: str) -> str:
     """Build a schema.org JSON-LD ``<script>`` block for a documentation page.
 
@@ -8800,6 +8851,10 @@ def _maybe_refresh_llms(out_dir: Path) -> None:
         md_dir = script_dir.parent.parent  # docs/
         run_all.generate_llms_files(md_dir, config, out_dir, verbose=False)
         run_all.generate_sitemap(md_dir, config, out_dir, verbose=False)
+        # The search index is read from the built pages, so refresh it as well.
+        (out_dir / "search-index.json").write_text(
+            json.dumps(run_all.generate_search_index(md_dir, config, out_dir), ensure_ascii=False),
+            encoding="utf-8")
     except Exception as exc:
         print(f"  Note: could not refresh llms.txt/sitemap.xml: {exc}")
 
@@ -8835,8 +8890,14 @@ def build_page_nav(prev_page: Optional[Tuple[str, str]] = None,
 # Docs mode template - same as patterns but without diagram placeholders
 # Docs mode template - same as patterns but without diagram placeholders by default
 # Manual diagrams can still be embedded and will be processed
+_DIAGRAM_LIBS = '''    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/elkjs@0.9.3/lib/elk.bundled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-svg@0.4.0/cytoscape-svg.js"></script>
+'''
+assert _DIAGRAM_LIBS in TEMPLATE_HTML, "diagram <script> tags changed; update _DIAGRAM_LIBS"
 DOCS_TEMPLATE_HTML = (
     TEMPLATE_HTML
+    .replace(_DIAGRAM_LIBS, "")  # ~2 MB of JS that pages without diagrams never use
     .replace("__DIAGRAMS_OBJECT__", "{}")
     .replace("__NODEDATA_OBJECT__", "{}")
     .replace("__MERMAID_DIAGRAMS_OBJECT__", "{}")
@@ -8966,6 +9027,8 @@ def build_doc_html(
     # Generate dynamic page navigation from navigator.yaml
     page_nav_html = generate_page_nav_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__PAGE_NAV__", page_nav_html)
+
+    html_out = finish_page(html_out, active_page, markdown_path)
 
     # Write output
     out_html.parent.mkdir(parents=True, exist_ok=True)

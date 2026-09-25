@@ -6,6 +6,13 @@ Welcome to the **Platform MaterialDigital Core Ontology (PMDco)**, your gateway 
 
 This documentation is designed to guide you through the ontology's structure, features, and applications, making it easier to incorporate PMDco into your workflows. Whether you're a researcher, developer, or industry professional, we're excited to support your journey toward smarter, more efficient materials science practices.
 
+<div class="quick-links">
+<a class="quick-link" href="intro.html"><strong>Introduction</strong><span>Scope, objectives, key features and competency questions of PMDco.</span></a>
+<a class="quick-link" href="ontology-structure.html"><strong>Ontology Structure</strong><span>Modules, classes and properties, with interactive class trees.</span></a>
+<a class="quick-link" href="patterns.html"><strong>Usage Patterns</strong><span>Reusable modelling patterns with diagrams and SHACL shapes.</span></a>
+<a class="quick-link" href="pmdco-user-guide.html"><strong>User Guide</strong><span>Build your own application ontology on PMDco with OBO/ODK practices.</span></a>
+</div>
+
 ### Ontology metadata
 - Title: Platform Material Digital core ontology
 -	Abbreviation: PMDco

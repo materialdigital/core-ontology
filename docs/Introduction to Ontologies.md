@@ -16,7 +16,7 @@ In the context of digital transformation, ontologies act as a universal language
 The motivation for developing MSE ontologies arises from the increasing demand to organize, integrate, and exploit the rapidly growing volume of heterogeneous data produced across the field. MSE is undergoing a major digital transformation, driven by the need for data-driven innovation, sustainability, and accelerated materials discovery. As an interdisciplinary domain, MSE combines physics, chemistry, and engineering to understand and optimize the relationships between material processing, structure, properties, and performance (PSPP). It spans the full materials lifecycle (from raw material extraction to product design, manufacturing, and end-of-life recycling) and supports key technological sectors including energy, aerospace, electronics, automotive, and healthcare.
  
 
-<img width="468" height="276" alt="image" src="https://github.com/user-attachments/assets/2700f632-dafb-46d4-84de-00e14885e176" />
+<img alt="Materials life cycle connected through PMDco: raw materials, engineered materials, product development, manufacturing, product, operational life, inspection / repair and recycling" src="./pmdco-lifecycle.svg" />
 
 Motivation for the Semantic Representation of Materials Life Cycle via PMDco
 

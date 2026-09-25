@@ -163,7 +163,7 @@ from collections import defaultdict        # Default dictionaries
 
 3. **Full Ontology File** (optional)
    - Location: Configurable via `navigator.yaml`
-   - Default: `https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/pmdco.ttl`
+   - Default: `https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco-full.ttl`
    - Purpose: Enrich classes with labels and definitions
    - Can be local file or remote URL
 
@@ -232,7 +232,7 @@ defaults:
     - compass
     # ... rotating icons for pages without specific icons
 
-full_ontology_path: "https://raw.githubusercontent.com/.../pmdco.ttl"
+full_ontology_path: "https://raw.githubusercontent.com/.../pmdco-full.ttl"
 # Can be URL or local path (relative to navigator.yaml)
 
 icons:

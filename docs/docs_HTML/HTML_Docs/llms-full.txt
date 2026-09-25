@@ -8,11 +8,16 @@ Source: https://materialdigital.github.io/core-ontology/docs/index.html
 
 # PMD Core Ontology (PMDco)
 
-
-
 Welcome to the **Platform MaterialDigital Core Ontology (PMDco)**, your gateway to advancing the digital transformation of Materials Science and Engineering (MSE)! As the field evolves, managing complex workflows, integrating diverse datasets, and achieving semantic interoperability are more critical than ever. PMDco provides a standardized framework to address these challenges, enabling seamless data modeling, enhanced collaboration, and reproducibility across the MSE domain.
 
 This documentation is designed to guide you through the ontology's structure, features, and applications, making it easier to incorporate PMDco into your workflows. Whether you're a researcher, developer, or industry professional, we're excited to support your journey toward smarter, more efficient materials science practices.
+
+<div class="quick-links">
+<a class="quick-link" href="intro.html"><strong>Introduction</strong><span>Scope, objectives, key features and competency questions of PMDco.</span></a>
+<a class="quick-link" href="ontology-structure.html"><strong>Ontology Structure</strong><span>Modules, classes and properties, with interactive class trees.</span></a>
+<a class="quick-link" href="patterns.html"><strong>Usage Patterns</strong><span>Reusable modelling patterns with diagrams and SHACL shapes.</span></a>
+<a class="quick-link" href="pmdco-user-guide.html"><strong>User Guide</strong><span>Build your own application ontology on PMDco with OBO/ODK practices.</span></a>
+</div>
 
 ### Ontology metadata
 - Title: Platform Material Digital core ontology
@@ -39,7 +44,6 @@ Henk Birkholz, Felix Thonagel, Kostiantyn Hubaiev, Jannis Grundmann, Simon Stier
 Source: https://materialdigital.github.io/core-ontology/docs/intro.html
 
 # Introduction to the PMD Ontology (PMDco v3.x.x)  
- 
 
 The **Platform MaterialDigital Core Ontology (PMDco)** is a mid-level ontology specifically developed to support the digital transformation of the Materials Science and Engineering (MSE) domain. With its latest version (v3.x.x), PMDco integrates a modular approach, aligning with the Basic Formal Ontology (BFO) standard to provide a comprehensive and interoperable framework for modeling materials, processes, and data.
 
@@ -51,7 +55,6 @@ The **Platform MaterialDigital Core Ontology (PMDco)** is a mid-level semantic f
 * **Properties:** Specification of material properties and qualities, representing processing-structure-properties dependences.
 
 PMDco also provides general entities required for representing the fundamental MSE topics (e.g., thermodynamics), as well as general semantics for entities commonly required across MSE disciplines (such as devices, roles, functions, and plans).
-
 
 ## Objectives  
 - **Semantic Interoperability**: Facilitates consistent representation and exchange of materials data across domains and applications by bridging gaps between high-level and domain-specific ontologies.  
@@ -70,7 +73,6 @@ PMDco also provides general entities required for representing the fundamental M
 - **Process Chains**: Captures the sequence of interconnected processes, such as transforming a steel sheet into test pieces, performing tensile tests, and analyzing resulting data.  
 - **Data Integration and Analysis**: Supports the transformation of raw data (e.g., time series) into derived material properties like elastic modulus, fostering reproducibility and transparency.  
 - **Device and Function Modeling**: Links devices (e.g., forming machines) to their specifications and roles within processes, ensuring traceability and compliance.
-
 
 ## Competency questions
 To ensure the ontology captures the knowledge we need and supports the right queries, we defined a set of competency questions. These are practical, user-focused questions that the ontology should be able to answer once complete. They guide the development process and later serve as a benchmark to check whether the ontology meets its goals. Examples of these competency questions include:
@@ -117,9 +119,8 @@ In the context of digital transformation, ontologies act as a universal language
 
 ## Motivation for Developing Ontologies in Materials Science and Engineering (MSE)
 The motivation for developing MSE ontologies arises from the increasing demand to organize, integrate, and exploit the rapidly growing volume of heterogeneous data produced across the field. MSE is undergoing a major digital transformation, driven by the need for data-driven innovation, sustainability, and accelerated materials discovery. As an interdisciplinary domain, MSE combines physics, chemistry, and engineering to understand and optimize the relationships between material processing, structure, properties, and performance (PSPP). It spans the full materials lifecycle (from raw material extraction to product design, manufacturing, and end-of-life recycling) and supports key technological sectors including energy, aerospace, electronics, automotive, and healthcare.
- 
 
-<img width="468" height="276" alt="image" src="https://github.com/user-attachments/assets/2700f632-dafb-46d4-84de-00e14885e176" />
+<img alt="Materials life cycle connected through PMDco: raw materials, engineered materials, product development, manufacturing, product, operational life, inspection / repair and recycling" src="./pmdco-lifecycle.svg" />
 
 Motivation for the Semantic Representation of Materials Life Cycle via PMDco
 
@@ -205,13 +206,12 @@ Source: https://materialdigital.github.io/core-ontology/docs/ontology-structure.
 
 # Ontology Structure
 
-
 ## Modularization
 Modules in ontology are formally defined, self-contained, and reusable fragments of an ontology that represent specific conceptual subdomains. They are engineered to support logic-based reasoning, interoperability, and tractable querying, allowing large or complex ontologies to be efficiently developed, understood, and maintained by dividing them into coherent, manageable parts. These modules make it possible to approach ontology engineering in a divide-and-conquer manner, facilitating reuse and integration across different domains and applications. PMDco defines six primary modules central to MSE, naming material, material qualities, material manufacturing, material characterization, data transformation, and devices. 
 
 Furthermore, in ODK-based ontology modularization, modules such as import-edit, shared, and axioms-shared play distinct roles. The import-edit module contains external ontology terms and their logical extensions, supporting controlled editing and updates without manual changes to the imported content. The shared module aggregates terms or patterns that must be reused across different ontology parts, promoting interoperability between collections. The axioms-shared module collects logical axioms that are common and essential for reasoning across modules, ensuring consistency and coordination within the ontology system. As seen in below figure, PMDco is eventually created by unifying all mentioned ontology modules.
 
-<img width="1407" height="384" alt="Screenshot 2025-11-17 at 11 37 59" src="https://github.com/user-attachments/assets/d647e9b7-b0dc-44ea-ba87-7964ae9f7e53" />
+<img width="1407" height="384" alt="PMDco V3.x.x modularization" src="./pmdco-modularization.svg" />
  
 PMDco V3.x.x modularization
 
@@ -221,214 +221,200 @@ The complete list of PMDco classes, object properties, data properties, annotati
 
 The following section provide example concepts related to different ontology modules.
 
-
 ## Classes
+
+The class names below are the ontology's own labels, and each definition is taken from the ontology. The interactive tree at the start of each module lists all classes of that module. Greyed entries are superclasses from other modules, shown for context. The figure after it highlights the main branches, and **bold** marks PMDco classes.
 
 **1. Materials module**
 
 This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.
 
-<img width="321" height="527" alt="image" src="https://github.com/user-attachments/assets/4757e92c-9b9b-4509-ad59-a04aa595d008" />
-
+<img alt="Class hierarchy of the PMDco materials module" src="./hierarchy-materials.svg" />
 
 Examples:
 
-``bfo:material entity`` – the main superclass for materials and objects from BFO.
+``bfo:material entity`` – the BFO superclass of all materials and objects: an independent continuant that has some portion of matter as continuant part.
 
-``chebi:chemical entity`` - contains all the periodic elements imported from CHEBI ontology.
+``chebi:chemical entity`` – imported from ChEBI: a physical entity of interest in chemistry, including molecular entities, parts thereof, and chemical substances.
 
-``pmd:Connected Material Entity Aggregate`` – A mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity. <br/>
+``pmd:connected material entity aggregate`` – An object aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity. <br/>
 Examples: the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body.
 
-``pmd:Disonnected Material Entity Aggregate``  – A mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group. <br/> Examples: a heap of stones, a colony of honeybees, a group of synapses.
+``pmd:disconnected material entity aggregate`` – An object aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group. <br/>
+Examples: a heap of stones, a colony of honeybees, a group of synapses.
 
-``pmd:Material`` – A Portion Of Matter that may participate in some Manifacturing Process and whose shape is not relevant for its participation in the Manifacuring Process.
+``pmd:material`` – A portion of matter that may participate in some manufacturing process and whose shape is not relevant for its participation in the manufacturing process.
 
-Some concrete materials definitions:
+Some concrete material definitions:
 
-``pmd:Metal`` - A metal is an engineered material representing a class of materials characterized by high electrical and thermal conductivity, ductility, and metallic bonding.
+``pmd:metal`` – A material characterized by high electrical and thermal conductivity, ductility, and metallic bonding.
 
-``pmd:Ceramics`` - Ceramics are engineered materials described as non-metallic, inorganic materials characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.
-
+``pmd:ceramic`` – A non-metallic, inorganic material characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.
 
 **2. Qualities module**
 
-
 Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.
 
-<img width="257" height="421" alt="image" src="https://github.com/user-attachments/assets/a6419778-a2dc-46e6-973f-50806c017c95" />
-
+<img alt="Class hierarchy of the PMDco qualities module" src="./hierarchy-qualities.svg" />
 
 Main BFO superclasses:
 
-``bfo:quality`` – A quality is a specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized
+``bfo:quality`` – A specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized.
 
-``bfo:realizable entity`` - A specifically dependent continuant  that inheres in continuant  entities and are not exhibited in full at every time in which it inheres in an entity or group of entities. The exhibition 
-or actualization of a realizable entity is a particular manifestation, functioning or process that occurs under certain circumstances.
+``bfo:realizable entity`` – A specifically dependent continuant that inheres in some independent continuant which is not a spatial region, and which is of a type some instances of which are realized in processes of a correlated type.
 
-Examples from PMD:
+PMDco collects both kinds under one class and then classifies them in two complementary ways:
 
-``pmd:Extensive Quality`` - A quality that inheres in only object or object aggregate or fiat object part or chemical entity and is dependent on the bearers (system-) size.
+``pmd:property`` – A collection class for entities that are either qualities (they represent a state) or realizable entities (they represent a behavior). Its subclasses group properties by domain, e.g. acoustic, chemical, electromagnetic, optical, thermodynamic, manufacturing and characteristic material properties.
 
-  - Examples: 
+``pmd:characteristic material property`` – A property that is commonly associated with the domain of materials science and engineering.
 
-  - ``Pmd:Mass`` - A quality that inheres in an object, object aggregate or fiat object part and affects those in processes where gravitation, acceleration, thermal mass etc are relevant.
+  - Examples:
 
-  - ``Pmd:Energy`` - A quality of material entities which manifests as a capacity to perform work (such as causing motion or the interaction of molecules)
+  - ``pmd:hardness`` – A mechanical property used as a measure of a material's resistance to localized plastic deformation, often tested by indentation or scratch methods.
 
-``pmd:Intensive Quality`` - A qualty that inheres in only portion of matter and thus is independent of the bearers (system-) size.
+  - ``pmd:chemical composition`` (a ``pmd:composition``) – An intensive quality of a portion of matter which describes the types and proportions of pure chemical elements in the portion of matter; it is the subject of some chemical composition data item.
 
-  - Examples: 
+``pmd:facetted property`` – A specifically dependent continuant that gives more detail about another property or about its bearer.
 
-  - ``pmd:Chemical Composition`` - A morphological quality describing the types and proportions of elements or compounds present in a material.
+  - Examples:
 
-  - ``pmd:Defect Density`` - A morphological quality describing the number of defects per unit volume or area in a material, which can affect its mechanical and electronic properties.
+  - ``pmd:extensive property`` – A facetted property that is characteristic of some object, object aggregate or fiat object part and that changes with the bearer's makeup.
 
-``pmd:Behavioral Material Property`` - A material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
+  - ``pmd:intensive property`` – A facetted property that is characteristic of some portion of matter or chemical substance.
 
-  - Examples: 
+``pmd:fundamental quality of system`` – A quality that every system made of demarcated material entities has.
 
-  - ``pmd:Hardness`` – A measure of a material’s resistance to deformation or indentation.
+  - Example: ``pmd:mass`` – Mass is a fundamental extensive quality.
 
-  - ``pmd:Morphological property`` – A material property representing the characteristics of a material's structure, such as shape, size, and distribution of its features.
-
-
-**3. Manufacturing module** 
+**3. Manufacturing module**
 
 This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.
 
-<img width="296" height="474" alt="image" src="https://github.com/user-attachments/assets/75559de5-2d35-48e6-bb4b-0488f17ef8b2" />
-
+<img alt="Class hierarchy of the PMDco manufacturing module" src="./hierarchy-manufacturing.svg" />
 
 The superclass for industrial processes:
 
-``pmd:Manufacturing Process`` - A planned process that is driven by the primary intent to transform objectsA manufacturing process is always a transformative process.
+``pmd:manufacturing process`` – A planned process that is driven by the primary intent to transform objects. A manufacturing process is always a transformative process.
 
 More specific examples:
 
-``pmd:Coating`` – A manufacturing process that aims to deposit a permanently adhering layer of a material without a form onto a workpiece, whereby the immediate state of the coating material directly before 
-application is essential.
+``pmd:coating`` – A manufacturing process that aims to deposit a permanently adhering layer of a material without a form onto a workpiece, whereby the immediate state of the coating material directly before application is essential.
 
-``pmd:Forming`` - A manufacturing process that changes the shape of a solid body through plastic deformation while retaining both mass and structural integrity.
+``pmd:forming`` – A manufacturing process that changes the shape of a solid body through plastic deformation while retaining both mass and structural integrity.
 
-``pmd:Joining`` - A manufacturing process that enables the continuous bonding or joining of two or more workpieces with a specific, fixed shape or of such workpieces with a shapeless material, whereby the cohesion 
-is created at specific points and reinforced overall.
+``pmd:joining`` – A manufacturing process that enables the continuous bonding or joining of two or more workpieces with a specific, fixed shape or of such workpieces with a shapeless material, whereby the cohesion is created at specific points and reinforced overall.
 
-**4. Material characterization module** 
+**4. Material characterization module**
 
 Material characterization involves methods and devices used to analyze the physical, mechanical, and chemical properties of materials.
 
-<img width="276" height="443" alt="image" src="https://github.com/user-attachments/assets/f7b3aa6c-ab41-41af-83e1-c83a76dec822" />
-
+<img alt="Class hierarchy of the PMDco characterization module" src="./hierarchy-characterization.svg" />
 
 Main BFO superclass:
 
-``bfo:process`` - p is a process means p is an occurrent that has some temporal proper part and for some time t, p has some material entity as participant
+``bfo:process`` – An occurrent that has some temporal proper part and for some time t has some material entity as participant.
 
 The superclass for characterization processes:
 
-``obi:Assay`` - A planned process that has the objective to produce information about a material entity (the evaluant) by examining it. 
+``obi:assay`` – A planned process that has the objective to produce information about a material entity (the evaluant) by examining it.
 
 More specific examples:
 
-``pmd:Acoustical Property Analyzing Process`` - An assay that measures the acoustic properties of materials by analyzing how sound waves interact with the material. This process involves generating sound waves and observing their reflection, transmission, absorption, or scattering to determine properties such as acoustic impedance, absorption coefficient, and sound speed.
+``pmd:acoustical property analyzing process`` – An assay that measures the acoustic properties of materials by analyzing how sound waves interact with the material. This process involves generating sound waves and observing their reflection, transmission, absorption, or scattering to determine properties such as acoustic impedance, absorption coefficient, and sound speed.
 
-``pmd:Mechanical Property Analyzing Process`` - An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.
+``pmd:mechanical property analyzing process`` – An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.
 
-``pmd:Tensile Testing Process`` – A Mechanical Property Analyzing Process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.
+``pmd:tensile testing process`` – A mechanical property analyzing process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.
 
-**5. Data transformation module** 
+**5. Data transformation module**
 
 This category includes processes that involve computational simulations and digital transformations related to material properties and behaviors.
 
-<img width="287" height="460" alt="image" src="https://github.com/user-attachments/assets/4662af0a-cde3-465c-a63a-b573ea20605e" />
+<img alt="Class hierarchy of the PMDco data transformation module" src="./hierarchy-datatransformation.svg" />
 
+``pmd:computing process`` – A process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or engineering goals.
 
-``pmd:Computing Process`` - A planned process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or 
-engineering goals.
+``pmd:simulation process`` – A computing process that models the behavior of a system over time using mathematical or computational techniques.
 
-``pmd:Simulation Process`` - A Computing Process that models the behavior of a system over time using mathematical or computational techniques.
-
-``pmd:Monte Carlo Simulation`` - A Simulation Process that uses random sampling to solve physical and mathematical problems.
+``pmd:monte carlo simulation`` – A simulation process that uses random sampling to solve physical and mathematical problems.
 
 **6. Devices module**
 
 This category includes devices performing certain functions in industrial processes.
 
-<img width="351" height="564" alt="image" src="https://github.com/user-attachments/assets/f5063956-e3b6-47f6-ab4e-cff8556d1acc" />
-
+<img alt="Class hierarchy of the PMDco devices module" src="./hierarchy-devices.svg" />
 
 Main BFO superclass:
 
-``bfo:object`` - An object is a material entity which manifests causal unity & is of a type instances of which are maximal relative to the sort of causal unity manifested.
+``bfo:object`` – A material entity which manifests causal unity and is of a type instances of which are maximal relative to the sort of causal unity manifested.
 
 Examples:
 
-``pmd:Device`` - A physical or virtual entity used to perform a specific function or task, often involving measurement, manipulation, or analysis of materials.
+``pmd:device`` – An object that is designed to perform a specific function or task involving measurement, manipulation, processing, or analysis.
 
-``pmd:Furnace`` - An enclosed structure in which heat is produced (as for heating a house or for reducing ore).
+``pmd:furnace`` – A device that generates and contains high-intensity thermal energy within an insulated enclosure.
 
-``pmd:Creep Testing Device`` - A device used to test the creep behavior of materials under constant stress at high temperatures.
-
+``pmd:creep testing machine`` – A device used to test the creep behavior of materials under constant stress at high temperatures.
 
 ## Object Properties
 
-While most of PMDco object properties are driven from ro, bfo, iao and obi, many object properties also defined to represents more specific MSE relations. A portion of PMDco object properties hierarchy is shown here. As examples, we also introduced some object properties below:
- 
-<img width="329" height="528" alt="image" src="https://github.com/user-attachments/assets/0c384fca-4c65-44ad-9601-7511ed79156a" />
+Most PMDco object properties are reused from BFO, RO, IAO and OBI. PMDco adds its own properties for more specific MSE relations. These are shown in **bold** in the figure below, which shows the top of the object property hierarchy with some branches expanded. The interactive tree above lists every object property. Some examples:
 
+<img alt="Object property hierarchy of PMDco" src="./hierarchy-object-properties.svg" />
 
-``bfo:realizes`` – A relation between a process b and realizable entity c such that c inheres in some d & for all t, if b has participant d then c exists & the type instantiated by b is correlated with the type instantiated by c.
+``bfo:realizes`` – A relation between a process b and a realizable entity c such that c inheres in some d, and for all t, if b has participant d then c exists, and the type instantiated by b is correlated with the type instantiated by c.
 
 ``ro:concretizes`` – A relationship between a specifically dependent continuant or process and a generically dependent continuant, in which the generically dependent continuant depends on some independent continuant in virtue of the fact that the specifically dependent continuant or process also depends on that same independent continuant. Multiple specifically dependent continuants or processes can concretize the same generically dependent continuant.
 
-``iao:denotes`` – A primitive, instance-level, relation obtaining between an information content entity and some portion of reality. Denotation is what happens when someone creates an information content entity E in order to specifically refer to something. The only relation between E and the thing is that E can be used to 'pick out' the thing. This relation connects those two together. Freedictionary.com sense 3: To signify directly; refer to specifically.
+``iao:denotes`` – A primitive, instance-level, relation obtaining between an information content entity and some portion of reality. Denotation is what happens when someone creates an information content entity E in order to specifically refer to something. The only relation between E and the thing is that E can be used to 'pick out' the thing. This relation connects those two together.
 
 ``obi:has value specification`` – A relation between an information content entity and a value specification that specifies its value.
 
-``pmd:consist of`` – A continuant part property that relates Material Entity Aggregates in the direction of smaller length-scale.
+``pmd:has state`` – Relates an anchor continuant to a temporally qualified continuant that represents a specific temporal phase of its existence.
 
-``pmd:intracts with`` – A relation between participants of a process indicating that some of the participants SDCs are affected during the process due to the interaction of the participants.
+``pmd:changes quality`` – Indicates that a process changes a quality.
 
-``pmd:stimulates`` – A relation between a stimulating process and material property, where there is some material entity that is bearer of the material property and participates in the stimulating process, and the material property comes to be realized in the course of the stimulating process.
+``pmd:responds with`` – The realizable entity must be "stimulated" by some stimulus in order to respond with the response. The bearer of the realizable entity must participate in the stimulation as well as in the response.
 
-Note that PMDco uses specific constraints and rules to ensure logical consistency and facilitate accurate data representation within the ontology:
--	**Property characteristics**: Ontology properties have several key characteristics that define their behavior and impact reasoning. Properties can be functional, meaning each individual has at most one value for a property. They may be inverse functional, so each value points to at most one individual. Properties can also be transitive, allowing chains of relationships to infer new ones, or symmetric, meaning relationships go both ways between individuals. Other characteristics include asymmetric (relationships do not reverse), reflexive (every individual relates to itself), and irreflexive (no individual relates to itself). These characteristics are essential for accurately modeling domain relationships and constraints in ontologies.
--	**Cardinality Constraints**: the number of times a property can be associated with a class. For example, a Manufacturing Process may be constrained to have some material entity as input using the has_specified_input property.
--	**Domain and Range Specifications**: Define the applicable classes for properties. For example, the stimulates property (subproperty of realizes) has a domain of Stimulating Process and a range of Material Property.
-
+PMDco uses the following constraints and rules to keep the ontology logically consistent and to support accurate data representation:
+-	**Property characteristics**: Characteristics define how a property behaves in reasoning. A property can be functional (each individual has at most one value for it), inverse functional (each value points to at most one individual), transitive (chains of relationships infer new ones), symmetric (the relationship holds in both directions), asymmetric (it never reverses), reflexive (every individual relates to itself) or irreflexive (no individual relates to itself). In PMDco, for example, ``bfo:has part`` and ``bfo:part of`` are transitive, ``ro:simultaneous with`` is symmetric, ``bfo:history of`` is functional and inverse functional, and ``ro:has member`` is irreflexive.
+-	**Restrictions**: Class axioms restrict how a property is used with a class. For example, a ``pmd:manufacturing process`` has specified input *some* ``bfo:object`` or ``bfo:object aggregate`` (an existential restriction), and a ``pmd:elemental crystal`` has member *exactly 1* ``pmd:portion of pure chemical element`` (a cardinality restriction).
+-	**Domain and Range Specifications**: Define the classes a property applies to. For example, ``bfo:realizes`` has the domain ``bfo:process`` and the range ``bfo:realizable entity``, and ``pmd:changes quality`` has the domain ``bfo:process`` and the range ``bfo:quality``.
 
 ## Data Properties
 
-``iao:has measurement value`` –
-
 ``obi:has specified value`` – A relation between a value specification and a literal.
 
-``pmd:has value`` – Data property that relates an information content entity to a literal
+``obi:has specified numeric value`` – A relation between a value specification and a number that quantifies it.
 
+``pmd:has value`` – A data property that relates an information content entity to a literal.
 
 ## Annotation properties
+
 PMDco employs annotations to enrich classes and properties with metadata and human readable information, enhancing clarity and usability. This information may be provided in different natural languages (e.g., English and German).
 
 - **Labels** | ***rdfs:label***: Provide human-readable names for ontology elements.
+- **Synonyms** | ***skos:altLabel***: Provide alternative names under which a term is also known.
 - **Comments** | ***rdfs:comment***: Offer detailed descriptions, usage notes, clarifications of definitions, or additional relevant information. They may enhance the understanding of the terms regarded.
-- **Definitions** | ***skos:definition***: Delivers formal, human readable explanations and descriptions of classes and properties. Preferably, [Aristotelian definitions](#aristotelian-definition) are used that support in finding subclass relationships.
+- **Definitions** | ***skos:definition***: Deliver formal, human readable explanations and descriptions of classes and properties. Preferably, [Aristotelian definitions](#aristotelian-definition) are used, which help to find subclass relationships.
 - **Definition Source** | ***obo:IAO_0000119***: If the definition was obtained from a specific source (e.g., a well-known work from the field of MSE, a dictionary, or a URI/URL), this is specified as definition source, also citing the original document.
 
-As examples, the annotation for ``pmd:Material`` class and ``ro:has quality`` object property are shown in below figures:
+As examples, the figures below show the annotations of the ``pmd:material`` class and of the ``ro:has quality`` object property:
 
-<img width="467" height="279" alt="image" src="https://github.com/user-attachments/assets/3a4c1d14-1282-4944-b36b-d9838830984c" />
+<img alt="Annotations of the class material" src="./annotations-material.svg" />
 
-<img width="464" height="201" alt="image" src="https://github.com/user-attachments/assets/33e1629b-7a65-4c44-a360-9d018a542918" />
+<img alt="Annotations of the object property has quality" src="./annotations-has-quality.svg" />
 
--	Note that, for providing the definitions in PMDcore ontology we follow the [Aristotelian](https://www.merriam-webster.com/dictionary/Aristotelian) principle. An aristotelian definition typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus), that should be expressed in the concepts defined in the ontology. 
+-	<span id="aristotelian-definition"></span>Note that, for providing the definitions in PMDcore ontology we follow the [Aristotelian](https://www.merriam-webster.com/dictionary/Aristotelian) principle. An Aristotelian definition typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus), which should be expressed in the concepts defined in the ontology.
 
 ## Individuals
-While PMDco serves as a mid-level ontology and may not define specific instances, it provides a framework for users to instantiate individuals pertinent to their domain. Therefore, it mostly does not contain individuals in its pure form. <br/>
-The only individuals present in the PMDco are the ones belonging to the subclasses of a ``pmd:Nature Constant`` class, defined in the Qualities module: <br/>
-``pmd:Aggregate State Value`` - solid, liquid, etc. <br/>
-``pmd:Bravias Lattice (3D)`` - cubic body-centered, monoclinic primitive, etc. <br/>
-``pmd:Metallic Grain Structures`` - austenite, ferrite, etc.
+PMDco is a mid-level ontology. It gives users a framework for creating the individuals relevant to their own domain and contains almost no individuals itself. The few it does contain are:
+
+- ``pmd:avogadro number`` – an ``obi:scalar value specification`` for the Avogadro number.
+- Units reused from UO and QUDT: ``uo:mass percentage``, ``uo:mass volume percentage``, ``uo:mole fraction`` and ``qudt:PER-MOL``.
+
+The individuals of earlier versions (aggregate state values, 3D Bravais lattices and metallic grain structures) are obsolete; see [Term Obsoletion](obsolete-ontology-terms.html).
 
 ---
 
@@ -447,16 +433,48 @@ By adopting usage patterns and supporting them with SHACL validation, ontology d
 -    Reusability of proven solutions
 -    Verifiable completeness and data quality of knowledge graphs
 
-
 Each pattern section below includes its purpose, description, relevant properties, visualization, and examples. Together with corresponding SHACL shapes, these patterns provide both semantic guidance and validation mechanisms for reliable knowledge representation.
 
 # Section 1:  The steel ingot story
 To illustrate how usage patterns apply in practice, we follow a single ingot of steel through a part of its life: from casting through rolling to a measurement on a product (a slab) that has been produced from the ingot. We start with the philosophical duality statue/clay problem, demonstrates how the material entities persists or vanish through transformations of form, composition, and properties. By observing the entites at each stage, we see how patterns address recurring modeling challenges: object identity, temporal change, process chains, and measurement contexts. 
 
-
 ## Pattern 1 - Duality of object and material
 
+- **Purpose**: Represents how objects and portions of matter are the same material entity, like a statue that is at the same time a portion of clay. 
+- **Example Use Case**: The example describes an entity that is a material (steel, subsubclass of portion of matter) and at the same time an object (ingot). This duality reflects how different observers see different things in the same material entity. As a material the entity has the qualities of a material, namely the chemical composition. As an ingot it has the quality of an object, namely its mass.  
+Note: types of qualities may be different depending onto whom they belong: objects have extensive qualities (subclass of quality), which scale with the size of the object while portions of matter have intensive qualities (subclass of quality) that are independent of the portions size. 
 
+```turtle
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix pattern: <https://w3id.org/pmd/co/pattern/duality_object_material/> .
+@prefix : <https://w3id.org/pmd/co/pattern/duality_object_material/> .
+@base <https://w3id.org/pmd/co/pattern/duality_object_material/> .
+
+# material entity types
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+@prefix portion_of_steel: <https://w3id.org/pmd/co/PMD_0020096> .
+
+# quality types
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix chemical_composition: <https://w3id.org/pmd/co/PMD_0000551> .
+
+# properties
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+
+ex:my_dual_ingot_and_portion_of_steel a ingot: , portion_of_steel: ;
+            has_quality: ex:my_ingots_mass, ex:my_steels_composition ;
+            has_part: ex:some_portion_of_iron . 
+
+ex:my_ingots_mass a mass: .
+ex:my_steels_composition a chemical_composition: .
+```
 
 (see folder:     [patterns/duality object material/](https://github.com/materialdigital/core-ontology/tree/main/patterns/duality%20object%20material) )
 
@@ -464,24 +482,208 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 
 ## Pattern 2a - Temporal dimensions of a process ...
 
+- **Purpose**: Specify the temporal extend and the temporal boundaries of a process on the time axis. 
+- **Example Use Case**: This example describes a process (annealing of an ingot) that unfolds in a single uninterrupted time interval. The time interval has explicit named start and end instants. Furthermore the process has two specified participants: the furnace and the ingot. 
 
+```turtle
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . #Class
+@prefix continuant: <http://purl.obolibrary.org/obo/BFO_0000002> .  #Class
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . #Class
+@prefix one-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000038> . #Class
+@prefix zero-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000148> . #Class
+@prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
+@prefix temporal_instant: <http://purl.obolibrary.org/obo/BFO_0000203> .
+
+@prefix occupies_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000199> . #ObjectProperty
+@prefix proper_temporal_part_of: <http://purl.obolibrary.org/obo/BFO_0000136> . #ObjectProperty
+@prefix temporal_part_of: <http://purl.obolibrary.org/obo/BFO_0000139> .
+@prefix has_first_instant: <http://purl.obolibrary.org/obo/BFO_0000222> . #ObjectProperty
+@prefix has_last_instant: <http://purl.obolibrary.org/obo/BFO_0000224> . #ObjectProperty
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . #ObjectProperty
+@prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> . 
+
+<https://w3id.org/pmd/co/test/shape/temporal_region> rdf:type owl:Ontology .
+
+ex:the_ingots_annealing_process a process: .
+ex:temp_intvl_of_the_ingots_annealing a temporal_interval: .
+ex:the_furnace a object: .
+ex:the_dual_ingot_and_portion_of_steel a ingot: .
+ex:annealing_start a temporal_instant: .
+ex:annealing_end a temporal_instant: .
+
+ex:the_ingots_annealing_process occupies_temporal_region: ex:temp_intvl_of_the_ingots_annealing . 
+ex:temp_intvl_of_the_ingots_annealing has_first_instant: ex:annealing_start . 
+ex:temp_intvl_of_the_ingots_annealing has_last_instant: ex:annealing_end .
+ex:the_furnace participates_in: ex:the_ingots_annealing_process .
+ex:the_dual_ingot_and_portion_of_steel participates_in: ex:the_ingots_annealing_process .
+
+```
 
 (see folder:     [patterns/temporal region/](https://github.com/materialdigital/core-ontology/tree/main/patterns/temporal%20region) )
 
 ---
 ## Pattern 2b - ... and the participant objects states
 
+- **Purpose**: Describe an entities state at different points in time while the identity of the entity remains.
+- **Example Use Case**: This example is a continuation of the previous one. Now we look at the different microstructures before and after annealing. Typically after casting high alloy steel from a blast furnace the alloying element concentration in an ingot is non-homogenious along its length. The inhomogenity can be expressed with the seggretation factor which expresses the (min/max local) deviation from the average concentration. We express this deviation here as qualities of the microstructure, which in our model is considered a different microstructure before and after annealing due to the difference in seggregation. 
+Note: for visibility the relation of the microstructures to their temporal intervals of existance have been omitted.
 
+```turtle
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix si: <https://si-digital-framework.org/SI#> .
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
 
+<https://w3id.org/pmd/co/test/shape/change_of_quality_with_tqc> rdf:type owl:Ontology .
+
+@prefix man_process: <https://w3id.org/pmd/co/PMD_0000833>  . 
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix size: <https://w3id.org/pmd/co/PMD_0020132> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix statue: <http://example.org/statue> . 
+@prefix has_state: <https://w3id.org/pmd/co/PMD_0000069> .
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix has_input: <http://purl.obolibrary.org/obo/RO_0002233> .
+@prefix has_output: <http://purl.obolibrary.org/obo/RO_0002234> .
+@prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> .
+@prefix length: <https://w3id.org/pmd/co/PMD_0040001> .
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+@prefix microstructure: <https://w3id.org/pmd/co/PMD_0000857> .
+
+# specific quality for this example
+ex:cls_segregation_factor rdfs:subClassOf quality: .
+
+# Define Object (Anchor)
+ex:the_dual_ingot_and_microstructure a ingot: .
+# ...and its variable states:
+ex:the_microstructure_before_annealing a microstructure: , 
+    temporally_qualified_continuant: .
+ex:the_microstructure_after_annealing a microstructure: ,
+    temporally_qualified_continuant: .
+
+# Describe the states with their individual qualites
+ex:segregation_factor_before_annealing a ex:cls_segregation_factor .
+ex:segregation_factor_after_annealing a ex:cls_segregation_factor .
+ex:the_microstructure_before_annealing 
+    is_state_of: ex:the_dual_ingot_and_microstructure ;
+    has_quality: ex:segregation_factor_before_annealing ;
+    exists_at: [
+        a temporal_region:
+    ] .
+
+ex:the_microstructure_after_annealing 
+    is_state_of: ex:the_dual_ingot_and_microstructure ;
+    has_quality: ex:segregation_factor_after_annealing ;
+    exists_at: [
+        a temporal_region:
+    ] .
+
+# Link the states to their anchor and vice versa
+ex:the_dual_ingot_and_microstructure 
+    has_state: ex:the_microstructure_before_annealing ,
+        ex:the_microstructure_after_annealing .
+
+```
 
 (see folder:     [patterns/TQC microstructure of ingot/](https://github.com/materialdigital/core-ontology/tree/main/patterns/TQC%20microstructure%20of%20ingot) )
 
 ---
 
-
 ## Pattern 3 - A process with a chain of subprocesses
 
+**Purpose**: Represent processes, consisting of simultaneous and serial subprocesses.  
+**Example Use Case**: This example describes a hot rolling process that consists of a number of subprocesses (heating, one rolling pass, cooling) that are proper occurent part of the superordinate hot rolling process. The hot rolling process has distinct first (ro:starts with) and last (ro:ends with) subprocesses and the subprocesses precede each other in the specified order.  
+The hot rolling process has a specified input of an ingot which ceases to exist during the process and a specified output of a strand (a very long hot rolled object) which starts to exist during the process.  
+Notes: 
+- What is not being said but could be expressed in addition: the ingots bfo:history process ends with the hot rolling process while the strands bfo:history starts with the hot rolling process. 
+- We have no proper class available for the strand, so we use the next best up the class hierarchy which is bfo:object.
 
+```turtle
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . #Class
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . #ObjectProperty 
+@prefix precedes: <http://purl.obolibrary.org/obo/BFO_0000063> . #ObjectProperty
+@prefix starts_with: <http://purl.obolibrary.org/obo/RO_0002224> . #ObjectProperty
+@prefix ends_with: <http://purl.obolibrary.org/obo/RO_0002230> . #ObjectProperty
+@prefix simultaneous_with: <http://purl.obolibrary.org/obo/RO_0002082> . #ObjectProperty
+@prefix has_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000117> .
+@prefix has_proper_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000118> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+
+<https://w3id.org/pmd/co/test/shape/process_chain> rdf:type owl:Ontology .
+
+ex:the_dual_ingot_and_portion_of_steel a ingot: .
+ex:the_strand a object: .
+
+ex:hot_rolling a process: .
+ex:hot_rolling has_specified_input: ex:the_dual_ingot_and_portion_of_steel .
+ex:hot_rolling has_specified_output: ex:the_strand .
+
+ex:heating a process: .
+ex:rolling_pass a process: .
+ex:deformation a process: .
+ex:cooling a process: .
+
+ex:rolling_specs a directive_information_entity: .
+
+ex:hot_rolling realizes: [
+        a plan: ;
+        concretizes: ex:rolling_specs   
+    ] ;
+    is_subject_of: ex:rolling_specs ;
+    starts_with: ex:heating ;
+    ends_with: ex:cooling ;
+    has_proper_occurrent_part: ex:heating, 
+        ex:rolling_pass, ex:cooling .
+
+ex:heating precedes: ex:rolling_pass .
+ex:rolling_pass precedes: ex:cooling .
+
+ex:rolling_pass simultaneous_with: ex:deformation .
+
+```
 
 (see folder:     [patterns/process chain/](https://github.com/materialdigital/core-ontology/tree/main/patterns/process%20chain) )
 
@@ -489,7 +691,104 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 
 ## Pattern 4 - A manufacturing process with its input and outputs
 
+**Purpose**: Describes the primary inputs and outputs of a process.  
+**Example Use Case**: This example is a continuation of the hot rolling above. After the hot rolling of the ingot, we had obtained a strand. This strand now goes into into a cutting process where it is consumed and where multiple slabs which are output of the cutting process start to exist. The cutting is not performed ad hoc but follows a plan which in turn is based on a plan specification (-document), which may specify dimensions. The cutting does not alter the material, at some level of granularity the strand as well as in both slabs are a state of the material. This is again expressed using TQCs, where the strand and the slabs are temporal occurences of the same material. It is a somewhat inverse situation to the pattern 2b, where one object had different instances of microstructures over time.  
 
+Note:
+- we do not consider "non-primary" inputs which could be e.g. electrical energy nor non primary outputs which could be e.g. crop ends cut from the strand. These "non-primaries" could be connected to the process using [has input](http://purl.obolibrary.org/obo/RO_0002233) and [has output](http://purl.obolibrary.org/obo/RO_0002234).
+
+```turtle
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.com/> .
+@base <https://w3id.org/pmd/co/test> .
+
+@prefix sawing: <https://w3id.org/pmd/co/PMD_0000822> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix coating: <https://w3id.org/pmd/co/PMD_0000563> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> .
+@prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
+@prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
+@prefix is_specified_input_of: <http://purl.obolibrary.org/obo/OBI_0000295> .
+@prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
+@prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> .
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix length: <https://w3id.org/pmd/co/PMD_0040001> .
+
+<https://w3id.org/pmd/co/test> rdf:type owl:Ontology  .
+
+# the anchor
+ex:the_material a material: .
+
+# the temporal regions (autoshape requirement)
+ex:intvl_before_cropping a temporal_interval: .
+ex:intvl_after_cropping a temporal_interval: .
+
+# The participants (and states)
+ex:the_strand a object: ,
+                temporally_qualified_continuant: ;
+        is_subject_of: ex:the_cropping_plan_specification ; # autoshape requirement of the plan specification
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_before_cropping .
+
+ex:slab_1 a slab: ,
+                temporally_qualified_continuant: ;
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_after_cropping ;
+        has_quality: ex:slab_1_length .
+
+ex:slab_1_length a length: ;
+        is_subject_of: ex:the_slabs_length_requirement .
+
+# ex:slab_2 a slab: ,
+#                temporally_qualified_continuant: ;
+#        is_state_of: ex:the_material ;
+#        exists_at: ex:intvl_after_cropping ;
+#        has_quality: [
+#                a length: ;
+#                is_subject_of: ex:the_slabs_length_requirement 
+#        ] .
+
+ex:slab_2 a slab: ,
+                temporally_qualified_continuant: ;
+        is_state_of: ex:the_material ;
+        exists_at: ex:intvl_after_cropping ;
+        has_quality: ex:slab_2_length .
+
+ex:slab_2_length a length: ;
+        is_subject_of: ex:the_slabs_length_requirement .
+
+# the intentions
+ex:the_cropping_plan_specification a plan_specification: ;
+        has_part: ex:the_slabs_length_requirement .
+
+ex:the_slabs_length_requirement a  directive_information_entity: .
+
+ex:the_cropping_plan a plan: ;
+        concretizes: ex:the_cropping_plan_specification .
+
+# the process
+ex:cropping a sawing: ;   
+        has_specified_input: ex:the_strand ;
+        has_specified_output: ex:slab_1 ,
+                ex:slab_2 ;
+        realizes: ex:the_cropping_plan . 
+
+```
 
 (see folder:     [patterns/input and output of processes/](https://github.com/materialdigital/core-ontology/tree/main/patterns/input%20and%20output%20of%20processes) )
 
@@ -497,7 +796,90 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 
 ## Pattern 5 - Realization of a role
 
+- **Purpose**: Represent characteristics of the objects, brought to existence by a specific situation. E.g. a role, which is realized in a process.
+- **Example Use Case**: This example is a continuation of the cutting/cropping above. After the cropping in the last example we had obtained multiple slabs which were the result of a subclass of a manufacturing process. A manufacturing processes characteristic is to have objects or object aggregates as specified input and as specified output. Now we look at an assay. The characteristic of an assay is to have a material entity which bears an evaluant role as specified input and to have some 'data item' which are about this material entity as specified output. Also, the assay has an 'assay measures characteristic' relation to the property of the evaluant that it measures.
 
+```turtle
+
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.com/> .
+@base <https://w3id.org/pmd/co/test> .
+
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix indentation_hardness: <https://w3id.org/pmd/co/PMD_0000789> .
+@prefix planned_process: <http://purl.obolibrary.org/obo/COB_0000035> .
+@prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix tensile_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136>  .
+@prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
+@prefix has_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000117> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix has_some_value_spec: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
+@prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
+@prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
+@prefix objective_specification: <http://purl.obolibrary.org/obo/IAO_0000005> .
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+@prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix value_specification: <http://purl.obolibrary.org/obo/OBI_0001933> . 
+
+<https://w3id.org/pmd/co/test/role> rdf:type owl:Ontology  .
+
+# SDCs
+ex:the_materials_hardness a indentation_hardness: ;
+    is_subject_of: ex:vickers_specification_datum ;
+    has_realization: ex:the_vickers_test ;
+    characteristic_of: ex:the_slab_and_material .
+
+ex:evaluant_role_of_slab a evaluant_role: ;
+    has_realization: ex:the_vickers_test ;
+    characteristic_of: ex:the_slab_and_material .
+
+# objects
+ex:the_slab_and_material a slab: , material: .
+
+# GDCs
+ex:the_vickers_measurement_datum a measurement_datum: ;
+    has_value_specification: ex:the_vickers_svs . 
+
+ex:the_vickers_svs a value_specification: . # HERMIT reasoner shortcomming: if the_vickers_svs was a BNode, the autoshape-required superpoperty has_part would not be inferred.
+
+ex:the_vickers_test_standard a plan_specification: ;
+    has_part: ex:vickers_specification_datum .
+
+# process
+ex:the_vickers_test a assay: ;
+    has_specified_input: ex:the_slab_and_material ;
+    has_specified_output: ex:the_vickers_measurement_datum ;
+    assay_measures_characteristic: ex:the_materials_hardness ;
+    realizes: [
+        a plan: ;
+        concretizes: ex:the_vickers_test_standard 
+    ] , 
+        ex:evaluant_role_of_slab ;
+    is_subject_of: ex:the_vickers_test_standard ;
+    achieves_planned_objective: [
+        a objective_specification: ;
+        is_about: [] # I will have to think about what the objective of the assay is. This is a requirement from the autoshape.
+    ] .
+
+```
 
 (see folder:     [patterns/realizable entity (role)/](https://github.com/materialdigital/core-ontology/tree/main/patterns/realizable%20entity%20(role)) )
 
@@ -506,55 +888,633 @@ To illustrate how usage patterns apply in practice, we follow a single ingot of 
 # Section 2:  FAP (frequently applied patterns)
 Some facts are frequently expressed in the domain of MSE. The propably most frequent statement type is one about the properties of a material. From the ontological point of view there are different types of propreties, which are presented in pattern 6. Another frequent situation is to talk about values that result from a measurements and to talk about values that we consider as specifications, like setpoints. This is addressed in pattern 7. If the values a scalar physical quanitities with magnitude and physical unit, we can express the using pattern 8.
 
-
 ## Pattern 6 - Different types of material properties
+
+**Purpose**: Represent materials, their structure and their (behavioral) properties  
+**Example Use Case**: We split this example into three parts:  
+- first we talk about "fundamental" properties of a material or an object. We call these properties fundamental because they are always present. For a portion of matter, such a fundamental property would be its density. For an object, the correlated fundamental properties would be its volume and its mass. (Remember: if we zoom into a different level of granularity where we dont look at the portion of matter anymore but lets say on a bunch of molecules, these molecules would be perceived as objects and every object would have volume and mass.) 
+- second we talk about "behavoiral" material properties. We call these properties behavioral because they are a manifestation of the materials behavior in a specific circumstance or process. Such a behavioral material property of (a solid) material would be the stress at which it starts straining irreversably (due to some inelastic rearrangement in its structure). For an object, the correlated property would be the force at which it starts deforming irreversably.
+- third we talk about relational properties that we encounter in portions and objects. Portions may have other portions as parts, e.g. a portion of high alloy steel may have a portion of chromium as part. A relational property (beyond the qualitative parthood) between these two portions is that the portion of chromium (which forms a part) has a mass/volume/molar proportion relation to the portion of high alloy steel (which forms the whole). For two objects, a relational property could express the mechanical force excerted from one to the other. 
 
 ## Pattern 6a - fundamental property
 
+```turtle
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+<https://w3id.org/pmd/co/test/shape/qualities_and_properties> rdf:type owl:Ontology .
+
+### Define prefixes ###
+
+# Classes
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> . 
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+@prefix behavioral_material_property: <https://w3id.org/pmd/co/PMD_0000005> .
+@prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
+@prefix melting_point: <https://w3id.org/pmd/co/PMD_0000851> .
+@prefix relational_quality: <http://purl.obolibrary.org/obo/BFO_0000145> .
+@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix gram: <http://purl.obolibrary.org/obo/UO_0000021> . 
+@prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
+@prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
+@prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
+@prefix melting_process: <https://w3id.org/pmd/co/PMD_0000053> .
+@prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> . 
+@prefix stimulating_process: <https://w3id.org/pmd/co/PMD_0000950> .
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
+@prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
+@prefix kilogram: <http://purl.obolibrary.org/obo/UO_0000009> .
+
+# Object properties
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix quality_of: <http://purl.obolibrary.org/obo/RO_0000080> .
+@prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
+@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> .
+@prefix has_participant: <http://purl.obolibrary.org/obo/RO_0000057> .
+@prefix stimulated_by: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix responds_with: <https://w3id.org/pmd/co/PMD_0001029> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
+
+# material entity types
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+@prefix portion_of_steel: <https://w3id.org/pmd/co/PMD_0020096> .
+
+# quality types
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+
+# properties
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+
+ex:my_dual_ingot_and_portion_of_steel a ingot: , portion_of_steel: ;
+            has_quality: ex:my_ingots_mass, ex:my_steels_density ;
+            has_part: ex:some_part . 
+
+ex:my_ingots_mass a mass: ;
+    specified_by_value: [
+        a scalar_value_specification: ;
+        has_specified_numeric_value: "8500"^^xsd:float ;
+        has_measurement_unit_label: kilogram:
+    ] .
+
+ex:my_steels_density a density: ;
+    specified_by_value: [
+        a scalar_value_specification: ;
+        has_specified_numeric_value: "7.85"^^xsd:float ;
+        has_measurement_unit_label: gram_per_cubic_centimetre:
+    ] .
+
+```
 
 ## Pattern 6b - behavoiral property
 
+```turtle
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+<https://w3id.org/pmd/co/test/shape/qualities_and_properties> rdf:type owl:Ontology .
+
+### Define prefixes ###
+
+# Classes
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> . 
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+@prefix behavioral_material_property: <https://w3id.org/pmd/co/PMD_0000005> .
+@prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
+@prefix melting_point: <https://w3id.org/pmd/co/PMD_0000851> .
+@prefix relational_quality: <http://purl.obolibrary.org/obo/BFO_0000145> .
+@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix gram: <http://purl.obolibrary.org/obo/UO_0000021> . 
+@prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
+@prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
+@prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
+@prefix melting_process: <https://w3id.org/pmd/co/PMD_0000053> .
+@prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> . 
+@prefix stimulating_process: <https://w3id.org/pmd/co/PMD_0000950> .
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
+@prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
+@prefix kilogram: <http://purl.obolibrary.org/obo/UO_0000009> .
+@prefix pascal: <http://purl.obolibrary.org/obo/UO_0000110> .
+@prefix yield_strength: <https://w3id.org/pmd/co/PMD_0080171> .
+@prefix mechanical_process: <https://w3id.org/pmd/co/PMD_0000522> .
+
+# Object properties
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix quality_of: <http://purl.obolibrary.org/obo/RO_0000080> .
+@prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
+@prefix has_characteristic: <http://purl.obolibrary.org/obo/RO_0000053> .
+@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> .
+@prefix has_participant: <http://purl.obolibrary.org/obo/RO_0000057> .
+@prefix stimulated_by: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix responds_with: <https://w3id.org/pmd/co/PMD_0001029> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
+@prefix realized_in: <http://purl.obolibrary.org/obo/BFO_0000054> .
+
+# material entity types
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+@prefix portion_of_steel: <https://w3id.org/pmd/co/PMD_0020096> .
+
+# quality types
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+
+# properties
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+
+ex:my_portion_of_steel a portion_of_steel: ;
+            has_characteristic: ex:my_steels_yieldstrength .
+
+ex:my_steels_yieldstrength a yield_strength: ;
+    specified_by_value: [
+        a scalar_value_specification: ;
+        has_specified_numeric_value: "350000000"^^xsd:float ;
+        has_measurement_unit_label: pascal:
+    ] ;
+    realized_in: [
+        a mechanical_process: 
+    ] .
+
+```
 
 ## Pattern 6c - relational property
 
+```turtle
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+<https://w3id.org/pmd/co/test/shape/qualities_and_properties> rdf:type owl:Ontology .
+
+### Define prefixes ###
+
+# Classes
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> . 
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix temporally_qualified_continuant:  <https://w3id.org/pmd/co/PMD_0000068> .
+@prefix portion_of_iron: <https://w3id.org/pmd/co/PMD_0020026> . 
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> .
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+@prefix behavioral_material_property: <https://w3id.org/pmd/co/PMD_0000005> .
+@prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
+@prefix melting_point: <https://w3id.org/pmd/co/PMD_0000851> .
+@prefix relational_quality: <http://purl.obolibrary.org/obo/BFO_0000145> .
+@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix gram: <http://purl.obolibrary.org/obo/UO_0000021> . 
+@prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
+@prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
+@prefix mass_percentage: <http://purl.obolibrary.org/obo/UO_0000163> .
+@prefix melting_process: <https://w3id.org/pmd/co/PMD_0000053> .
+@prefix application_of_heat_flux: <https://w3id.org/pmd/co/PMD_0000520> . 
+@prefix stimulating_process: <https://w3id.org/pmd/co/PMD_0000950> .
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015> .
+@prefix change_of_temperature: <https://w3id.org/pmd/co/PMD_0000549> .
+@prefix kilogram: <http://purl.obolibrary.org/obo/UO_0000009> .
+
+# Object properties
+@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . 
+@prefix is_state_of: <https://w3id.org/pmd/co/PMD_0000070> .
+@prefix quality_of: <http://purl.obolibrary.org/obo/RO_0000080> .
+@prefix characteristic_of: <http://purl.obolibrary.org/obo/RO_0000052> .
+@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> .
+@prefix has_participant: <http://purl.obolibrary.org/obo/RO_0000057> .
+@prefix stimulated_by: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix responds_with: <https://w3id.org/pmd/co/PMD_0001029> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
+
+# material entity types
+@prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
+@prefix portion_of_steel: <https://w3id.org/pmd/co/PMD_0020096> .
+
+# quality types
+@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix density: <https://w3id.org/pmd/co/PMD_0000597> .
+
+# properties
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+
+### Instances ###
+
+# Relational quality
+# A "mass proportion" is a relational quality: unlike an intrinsic quality it
+# does not inhere in a single bearer but holds *between* several material
+# entities. Here it relates a portion of iron to the metal sheet it is part of,
+# and its magnitude is given as 97.7 mass-%.
+ex:metal_sheet a object: .
+
+ex:some_iron a portion_of_iron: .
+
+ex:mass_proportion_iron a mass_proportion: ;
+            relational_quality_of: ex:some_iron , ex:metal_sheet .
+
+ex:fraction_iron a fraction_value_specification: ;
+            has_specified_numeric_value: "97.7"^^xsd:float ;
+            has_measurement_unit_label: mass_percentage: ;
+            specifies_value_of: ex:mass_proportion_iron .
+```
 
 (see folder:     [patterns/material property (quality)/](https://github.com/materialdigital/core-ontology/tree/main/patterns/material%20property%20(quality)) )
 
 ---
 
-
 ## Pattern 7 - Measurement and setpoint.
 
+**Purpose**: Represent different aspects of a measured or a required value of some material property 
+**Example Use Case**:  The first part of the example builds on "pattern 5 - realizable entities and the measurand role realized in an assay". The measurand role is ommitted for clarity in this example and the focus is on the different relations between the measurand and the measurement result. First thing is that we have an assay ex:the_vickers_test that has an object (ex:the_slab_and_material) as specified input and a data item (ex:the_vickers_test_result) as specified output. The ex:the_vickers_test_result has a part - a very specific part denoted by has_value_specification - that represents the physical quanity of the measurement result with a magnitude of 245 and an unit of HV5. This physical quantity also points to the material property that it is about with the relation specifies_value_of. In addtion, the assay relates to the property of ex:the_slab_and_material that it measures using is_quality_measurement_of and the assay also relates in a weak manner to its measurand using  is_about.  
+Additionally we added a realtion stating which directive information entity was concretized by realizing (executing) the plan of the assay: an entity with the label "ISO 6507".  
+The second part of the example specifies a requirement or a setpoint for the value of a property. It is not a lower or upper limit for this requirement (not yet modelled) but a target value. The pattern is very similar to the measurement, with the difference that the subject of the scalar value specification is not a `measument datum` but a `specification datum` and that the quality/SDC in question `concretizes` the `specification datum` instead of `iao:is quality measured as` for measurements.
 
+```turtle
+@prefix : <https://w3id.org/pmd/co/test/shape3/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test/shape3#> .
+@prefix ex: <http://www.example.org#> .
 
+@prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
+@prefix realized_in: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> . 
+@prefix quality_is_specified_as: <http://purl.obolibrary.org/obo/IAO_0000419> . 
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> . 
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039>  .
+@prefix centimeter: <http://purl.obolibrary.org/obo/UO_0000015> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix is_quality_measurement_of: <http://purl.obolibrary.org/obo/IAO_0000221> . 
+@prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . 
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix has_measurement_value: <http://purl.obolibrary.org/obo/IAO_0000004> .
+@prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix indentation_hardness: <https://w3id.org/pmd/co/PMD_0000789> .
+@prefix planned_process: <http://purl.obolibrary.org/obo/COB_0000035> .
+@prefix tensile_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136>  .
+@prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
+@prefix has_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000117> .
+@prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix has_some_value_spec: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
+@prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix vickers_hardness_hv5_iso6507: <https://w3id.org/pmd/co/PMD_0000789> .
+@prefix hv5_unit: <https://w3id.org/pmd/vto/HV5> .
+@prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
+@prefix label: <http://www.w3.org/2000/01/rdf-schema#label> .
+@prefix has_characteristic: <http://purl.obolibrary.org/obo/RO_0000053> .
+@prefix objective_specification: <http://purl.obolibrary.org/obo/IAO_0000005> .
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
 
+<https://w3id.org/pmd/co/test/shape3> rdf:type owl:Ontology  .
 
+# SDCs
+ex:the_materials_hv5_hardness a vickers_hardness_hv5_iso6507: ;
+    realized_in: ex:the_vickers_test .
+ex:the_evaluant_role_in_the_hv5_test a evaluant_role: .
 
+# objects
+ex:the_slab_and_material a slab: , material: ;
+    has_characteristic: ex:the_materials_hv5_hardness ;
+    has_role: ex:the_evaluant_role_in_the_hv5_test .
+
+# GDCs
+ex:the_vickers_test_result a measurement_datum: ;
+    has_value_specification: [
+        a scalar_value_specification: ;
+        has_specified_numeric_value: "245"^^xsd:float ;
+        has_measurement_unit_label: hv5_unit: ; 
+        specifies_value_of: ex:the_materials_hv5_hardness 
+    ] ;
+    is_quality_measurement_of: ex:the_materials_hv5_hardness ;
+    is_about: ex:the_slab_and_material .
+
+ex:iso_6507 a directive_information_entity: ;
+    label: "ISO 6507" .
+
+# process
+ex:the_vickers_test a assay: ;
+    has_specified_input: ex:the_slab_and_material ;
+    has_specified_output: ex:the_vickers_test_result ;
+    assay_measures_characteristic: ex:the_materials_hv5_hardness ;
+    realizes: [
+        a plan: ;
+        concretizes: ex:iso_6507  
+    ] ,
+        ex:the_evaluant_role_in_the_hv5_test ;
+    achieves_planned_objective: [
+        a objective_specification: ;
+        is_about: ex:the_vickers_test_result 
+    ] ;
+    is_subject_of: ex:iso_6507 .
+
+```
+
+```turtle
+@prefix : <https://w3id.org/pmd/co/test/shape3/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test/shape3#> .
+@prefix ex: <http://www.example.org#> .
+
+@prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
+@prefix realized_in: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> . 
+@prefix quality_is_specified_as: <http://purl.obolibrary.org/obo/IAO_0000419> . 
+@prefix material_entity: <http://purl.obolibrary.org/obo/BFO_0000040> . 
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> . 
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> . 
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039>  .
+@prefix centimeter: <http://purl.obolibrary.org/obo/UO_0000015> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix is_quality_measurement_of: <http://purl.obolibrary.org/obo/IAO_0000221> . 
+@prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> . 
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix has_measurement_value: <http://purl.obolibrary.org/obo/IAO_0000004> .
+@prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
+@prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix evaluant_role: <http://purl.obolibrary.org/obo/OBI_0000067> .
+@prefix has_role: <http://purl.obolibrary.org/obo/RO_0000087> .
+@prefix has_realization: <http://purl.obolibrary.org/obo/BFO_0000054> .
+@prefix indentation_hardness: <https://w3id.org/pmd/co/PMD_0000789> .
+@prefix planned_process: <http://purl.obolibrary.org/obo/COB_0000035> .
+@prefix assay: <http://purl.obolibrary.org/obo/OBI_0000070> .
+@prefix tensile_testing_process: <https://w3id.org/pmd/co/PMD_0000638> .
+@prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
+@prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
+@prefix achieves_planned_objective: <http://purl.obolibrary.org/obo/OBI_0000417> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136>  .
+@prefix assay_measures_characteristic: <http://purl.obolibrary.org/obo/RO_0009006> .
+@prefix has_occurrent_part: <http://purl.obolibrary.org/obo/BFO_0000117> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+@prefix measurement_datum: <http://purl.obolibrary.org/obo/IAO_0000109> .
+@prefix specification_datum: <https://w3id.org/pmd/co/PMD_0060009> .
+@prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> . 
+@prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix has_some_value_spec: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> . 
+@prefix slab: <https://w3id.org/pmd/co/PMD_0020176> .
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+@prefix vickers_hardness_hv5_iso6507: <https://w3id.org/pmd/vto/VTO_0000002> .
+@prefix hv5_unit: <https://w3id.org/pmd/vto/HV5> .
+@prefix directive_information_entity: <http://purl.obolibrary.org/obo/IAO_0000033> .
+@prefix label: <http://www.w3.org/2000/01/rdf-schema#label> .
+@prefix has_characteristic: <http://purl.obolibrary.org/obo/RO_0000053> .
+@prefix is_concretized_as: <http://purl.obolibrary.org/obo/RO_0000058> .
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+
+<https://w3id.org/pmd/co/test/shape3> rdf:type owl:Ontology  .
+
+# SDCs
+ex:the_materials_hv5_hardness a vickers_hardness_hv5_iso6507: ;
+    is_subject_of: ex:the_materials_hardness_specification .
+
+# objects
+ex:the_slab_and_material a slab: , material: ;
+    has_characteristic: ex:the_materials_hv5_hardness ;
+    is_subject_of: ex:EN_10088 .
+
+# GDCs
+ex:the_materials_hardness_specification a specification_datum: ;
+    has_value_specification: [
+        a scalar_value_specification: ;
+        has_specified_numeric_value: "210"^^xsd:float ;
+        has_measurement_unit_label: hv5_unit: ; 
+        specifies_value_of: ex:the_materials_hv5_hardness 
+    ] ;
+    is_concretized_as: ex:the_materials_hv5_hardness ;
+    is_about: ex:the_slab_and_material .
+
+ex:EN_10088 a directive_information_entity: ;
+    label: "EN 10088" ;
+    has_part: ex:the_materials_hardness_specification .
+```
 
 (see folder:     [patterns/measurement/](https://github.com/materialdigital/core-ontology/tree/main/patterns/measurement) )
-
 
 ---
 
 ## Pattern 8a - Expressing a (scalar) value with "Scalar Value Specification" ...
 
+- **Purpose**: Represents scalar physical quantities, combining a numerical value and a unit.
+- **Core Properties**: 
+  - `obi:hasSpecifiedNumericValue`
+  - `iao:hasMeasurementUnitLabel`
+  - `iao:MeasurementUnitLabel`
 
+- **Example Use Case**: The example describes a scalar value specification, ex:scalar_value_specification_X, which is assigned a numeric value of 135.0 and linked to a measurement unit represented by the individual ex:unit_X. The numeric value is provided via the OBI property has_specified_numeric_value, while the unit is associated through the IAO property has_measurement_unit_label. The unit individual ex:unit_X is typed as a measurement unit label, but in practice this placeholder unit could be replaced by a formally defined unit from established ontologies such as UO (Units of Measurement Ontology) or QUDT (Quantities, Units, Dimensions, and Types). Together, the triples express that a value of 135.0 is specified in some unit, whether a custom one like ex:unit_X or a standard unit drawn from UO or QUDT.
 
+```turtle
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
 
+<https://w3id.org/pmd/co/test/shape2> rdf:type owl:Ontology .
+
+@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
+@prefix has_specified_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix measurement_unit: <http://purl.obolibrary.org/obo/IAO_0000003> .
+@prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
+@prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> . 
+@prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
+
+ex:the_property a specifically_dependent_continuant: ;
+    specified_by_value: ex:the_scalar_value_specification .
+
+ex:the_scalar_value_specification a scalar_value_specification: ;
+    has_measurement_unit_label: <http://purl.obolibrary.org/obo/UO_0000019> ; # Angstrom
+    has_specified_numeric_value: "42"^^xsd:float .
+```
 
 (see folder:     [patterns/scalar value specification/](https://github.com/materialdigital/core-ontology/tree/main/patterns/scalar%20value%20specification) )
-
 
 ---
 
 ## Pattern 8b - ... and expressing a categorical value 
 
+**Purpose**: Represents how categorical values such as ferrite, face-centered cubic, and liquid are used to specify the values of material characteristics.  
+**Example Use Case**: The example describes materials and the categorical qualities they might possess. In the first example, `ex:fcc_material` is a material that has both a crystal structure and a grain structure. Its crystal structure quality is assigned the categorical value "face-centered cubic", and its grain structure quality is assigned the categorical value "ferrite", which is also explicitly stated to be about this same material. In other words, the material is characterized as having an FCC crystal structure and a ferritic grain structure.  
 
+In the second example, ex:steel_melt is described as a melt that has an aggregate state quality. This quality is given the categorical value "liquid", indicating that the melt is in the liquid state.
 
+```turtle
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex:    <http://www.example.org/#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix obo:    <http://purl.obolibrary.org/obo/> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix shape:   <https://w3id.org/pmd/co/shapes> .
+@base <https://w3id.org/pmd/co/test/shape_categorical_value_specification#> .
 
+<https://w3id.org/pmd/co/test/shape_categorical_value_specification> 
+    rdf:type owl:Ontology .
+
+### Define prefixes ###
+
+# Classes
+@prefix categorical_value_specification: <http://purl.obolibrary.org/obo/OBI_0001930> . 
+@prefix material: <https://w3id.org/pmd/co/PMD_0000000> .
+@prefix melt: <https://w3id.org/pmd/co/PMD_0020139> .
+@prefix entity: <http://purl.obolibrary.org/obo/BFO_0000001> .
+@prefix quality: <http://purl.obolibrary.org/obo/BFO_0000019> . 
+
+@prefix metallic_grain_structure: <https://w3id.org/pmd/co/PMD_0025003> .           # SDC
+@prefix ferrite: <https://w3id.org/pmd/co/PMD_0020100> .                            # Individual
+@prefix metallic_grain_structures: <https://w3id.org/pmd/co/PMD_0020023> .          # Categorical value
+
+@prefix aggregate_state_value: <https://w3id.org/pmd/co/PMD_0020116> .              # Categorical value
+@prefix aggregate_state_liquid: <https://w3id.org/pmd/co/PMD_0020118> .             # Individual
+@prefix aggregate_state: <https://w3id.org/pmd/co/PMD_0000512> .                    # SDC
+
+@prefix crystal_structure: <https://w3id.org/pmd/co/PMD_0000591> .                   # SDC
+@prefix bravais_lattice: <https://w3id.org/pmd/co/PMD_0020099> .                     # Categorical value
+@prefix bravais_lattice_cubic_face_centered: <https://w3id.org/pmd/co/PMD_0020019> . # Individual
+@prefix in_minimal: <https://w3id.org/pmd/co/PMD_0000060> . 
+
+# Object properties
+
+@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+@prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
+
+### Define entities ###
+
+# Example 1
+
+ex:fcc_material a material: ; 
+                has_quality: ex:crystal_structure_quality ,
+                             ex:grain_structure_quality .
+
+ex:crystal_structure_quality a crystal_structure: .
+bravais_lattice_cubic_face_centered: specifies_value_of: ex:crystal_structure_quality .
+
+ex:grain_structure_quality a metallic_grain_structure: .
+ferrite:  specifies_value_of: ex:grain_structure_quality .
+ferrite: is_about: ex:fcc_material .
+
+# Example 2
+ex:steel_melt a melt: ; 
+               has_quality: ex:aggregate_state_quality .
+
+ex:aggregate_state_quality a aggregate_state: ;
+    specified_by_value: aggregate_state_liquid: .
+
+```
 
 (see folder:     [patterns/categorical value specification/](https://github.com/materialdigital/core-ontology/tree/main/patterns/categorical%20value%20specification) )
-
 
 ---
 # Section 3:  the world of computation and simulation
@@ -562,11 +1522,99 @@ Many scientific questions in MSE are addressed using computational materials sci
 
 ## Pattern 9 - Simulation with in- and output
 
+- **Purpose**: Information content entities as input and output of (simulation-)processes.
+- **Example Use Case**: 
+A challenge arises when working with digital data about material entities, as is the case in simulations. Due to our ontological commitment to BFO, roles (like described in the patterns above) can only inhere in independent continuants, because a role is something that is physically realized when its bearer participates in a process. Information Content Entities (ICEs), such as datasets, specifications, or parameter files used in a simulation are generically dependent continuants. They are abstract contents that rely on some physical carrier (e.g., a hard drive) but do not themselves participate physically in a process. Assigning roles directly to ICEs would require the role to inhere in the ICE rather than in a material entity, which violates BFO's ontological constraints.
+To preserve the functionality of roles for informational inputs and outputs, we introduce process boundaries as "input/output assignments". In this pattern, an ICE participates in an input (or output) assignment, which is a dependent entity representing the assignment of that ICE to the process. The assignment itself is then part of the main process. This allows us to capture the role-like semantics of inputs and outputs without violating BFO's constraint that roles must inhere in material entities. Each assignment can be typed  to specify its intended function in the process, while maintaining ontological consistency. 
+For example, in a division calculation process, two numbers considered as ICE serve as inputs through role-like assignments: one as the numerator, and the other as the denominator. Each number participates in an input assignment that is part of the division process, while the resulting quotient participates in an output assignment. This pattern captures the functional roles of inputs and outputs without requiring the numbers themselves to bear roles directly, maintaining ontological consistency.
 
+```turtle
+@prefix : <http://example.org/division#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+@prefix hasParticipant: <http://purl.obolibrary.org/obo/RO_0000057> .
+@prefix partOf: <http://purl.obolibrary.org/obo/BFO_0000050> .
+@prefix InformationContentEntity: <http://purl.obolibrary.org/obo/IAO_0000030> .
+@prefix SimulationProcess: <https://w3id.org/pmd/co/PMD_0000933> .
+@prefix InputAssignment: <https://w3id.org/pmd/co/PMD_0000066> .
+@prefix OutputAssignment: <https://w3id.org/pmd/co/PMD_0000067> .
+@prefix hasSpecifiedValue: <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix isSpecifiedInputOf: <http://purl.obolibrary.org/obo/OBI_0000295> .
+@prefix isSpecifiedOutputOf: <http://purl.obolibrary.org/obo/OBI_0000312> .
+@prefix realizes: <http://purl.obolibrary.org/obo/BFO_0000055> .
+
+############################
+#   CLASS AXIOMS
+############################
+
+:Number rdfs:subClassOf InformationContentEntity: .
+
+:DivisionProcess rdfs:subClassOf SimulationProcess: .
+
+:NumeratorAssignment rdfs:subClassOf 
+        InputAssignment: ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty hasParticipant: ;
+          owl:someValuesFrom :Number ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty partOf: ;
+          owl:someValuesFrom :DivisionProcess ] .
+
+:DenominatorAssignment rdfs:subClassOf 
+        InputAssignment: ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty hasParticipant: ;
+          owl:someValuesFrom :Number ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty partOf: ;
+          owl:someValuesFrom :DivisionProcess ] .
+
+:QuotientAssignment rdfs:subClassOf 
+        OutputAssignment: ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty hasParticipant: ;
+          owl:someValuesFrom :Number ],
+        [ rdf:type owl:Restriction ;
+          owl:onProperty partOf: ;
+          owl:someValuesFrom :DivisionProcess ] .
+
+############################
+#   INDIVIDUALS
+############################
+
+:num1 rdf:type :Number ;
+      hasSpecifiedValue: "10"^^xsd:integer ;
+      isSpecifiedInputOf: :div1 .
+
+:num2 rdf:type :Number ;
+      hasSpecifiedValue: "2"^^xsd:integer ;
+      isSpecifiedInputOf: :div1 .
+
+:quotient1 rdf:type :Number ;
+      hasSpecifiedValue: "5"^^xsd:integer ;
+      isSpecifiedOutputOf: :div1 .
+
+:div1 rdf:type :DivisionProcess ;
+      realizes: :plan1 .
+
+:numerator_assign rdf:type :NumeratorAssignment ;
+    hasParticipant: :num1 ;
+    partOf: :div1 .
+
+:denominator_assign rdf:type :DenominatorAssignment ;
+    hasParticipant: :num2 ;
+    partOf: :div1 .
+
+:quotient_assign rdf:type :QuotientAssignment ;
+    hasParticipant: :quotient1 ;
+    partOf: :div1 .
+
+```
 
 (see folder:     [patterns/simulation inout simple/](https://github.com/materialdigital/core-ontology/tree/main/patterns/simulation%20inout%20simple) )
-
 
 ---
 
@@ -584,11 +1632,9 @@ Source: https://materialdigital.github.io/core-ontology/docs/pmdco-user-guide.ht
 
 # PMDco User Guide 
 
-
 ## How to Develop Your Application Ontologies Using PMDco and OBO+ODK Best Practices
 
 Although several guidelines and tutorials for ontology development are available (see Ontology Learning Materials for Beginners), we provide here a dedicated list of recommendations for creating application ontologies based on PMDco, making use of PMD guidance, ontology design patterns, OBO principles, and ODK features.
-
 
 ### 1-	Define the scope and domain of the ontology
 -	Clearly define the domain (e.g., materials testing, patient data, food production)
@@ -596,18 +1642,15 @@ Although several guidelines and tutorials for ontology development are available
 -	Determine the target audience (e.g., researchers, software agents, data engineers)
 - Formulate a narrow and specific ontology scope according to [OBO principles](https://obofoundry.org/principles/fp-005-delineated-content.html).
 
-
 ### 2-	Decide on the level of detail and sources for terminology collection
 -	Determine whether the ontology will cover a broad area at a general level or focus on a specific topic in more detail,
 -	Identify reliable sources for terminology and concepts, such as books, scientific publications, domain experts, and relevant standards,
 -	Through such resources, identify the essential concepts within your domain,
 -	Provide accurate labels and clear definitions for each class (e.g., documented in a spreadsheet).
 
-
 ### 3-	Create an ODK-based ontology repository
 -	If you already know ODK, create a GitHub repository for ontology with a reasonable x.yaml file configuration and importing the latest PMDco version,
 -	If you don’t know ODK or don’t want to install it, we made a template for you. Simply create your repository following the instructions mentioned in [“application-ontology-template”](https://github.com/materialdigital/application-ontology-template). This template applies the same framework used for PMDco and mirrors PMDco with all its modules.
-
 
 ### 4-	Collaborative ontology development workflow
 -	Any person who wants to contribute to the collaborative development of ontology should clone the ODK repository to the local machine,
@@ -618,7 +1661,6 @@ Although several guidelines and tutorials for ontology development are available
 -	Create a Pull Request, submit a PR with a short summary and justification of your changes,
 -	Team members review; after approval, the PR is merged.
 
-
 ### 5-	Add your desired taxonomy 
 -	Edit ontology in protégé, 
 -	Create new classes, properties, and individuals according to your terminology lists,
@@ -628,14 +1670,12 @@ Although several guidelines and tutorials for ontology development are available
 -	Add rich annotations for new entities (such as definitions, references, examples, and editorial notes).
 -	Include comprehensive ontology annotation metadata (e.g., title, label, description, creators, contributors, version info, previous versions, license, and citation). 
 
-
 ### 6-	Define a richer semantic model with multiple relationship types, rules, and constraints
 -	Define logical axioms and property constraints (e.g., domain and range), 
 -	Use graphical tools (e.g., Ontopanel or Miro) to visually discuss the modeling issues,
 -	Use our [Ontology Design Patterns](https://github.com/materialdigital/core-ontology/tree/main/patterns) as a guideline for the semantic representation of your concepts,
 -	See other PMDco-based application ontologies (listed below this page) for similar modeling concepts.
 -	If you still need support for specific modelling issues, please feel free to mention it in our GitHub [issues](https://github.com/ISE-FIZKarlsruhe/mwo/issues) or [discussion forum](https://github.com/materialdigital/core-ontology/discussions).
-
 
 ### 7-	Ontology evaluation and testing workflow
 -	Plan regular meetings with both ontology and MSE domain experts in your project to assess the ontology’s structure, resolve modeling issues, and ensure its logical correctness, 
@@ -644,13 +1684,11 @@ Although several guidelines and tutorials for ontology development are available
 -	Analyzes the ontology for common modeling pitfalls, structural issues, and best-practice violations using tools like OOPS! (Ontology Pitfall Scanner!),
 -	We will be pleased to invite you to present your ontology in one of our “Ontology Playground meetings” (See Section Who We Are & How to Join)
 
-
 ### 8-	Ontology release, updating, and versioning workflow
 -	Use ODK automated workflow for the release process, which follows these steps: running the release with ODK, reviewing the output, merging changes into the main branch, and creating a GitHub release. 
 -	Track actively the GitHub issue to gather community feedback, recognize bugs, and identify necessary additions and refinements.
 -	Implement a curation process to assess and prioritize updates based on community needs.
 -	Employ the robust versioning system hosted on GitHub to ensure clear tracking of changes over time, management of previous versions, and clear tracking of the ontology’s evolution over time.
-
 
 ### 9-	Ontology documentation and publishing
 -	Create detailed documentation, including best practices, examples, and guidelines in your ontology GitHub repository.
@@ -658,14 +1696,13 @@ Although several guidelines and tutorials for ontology development are available
 -	If you are using [“application-ontology-template”](https://github.com/materialdigital/application-ontology-template), your ontology is automatically documented in [obofoundary.org](https://obofoundry.org/), 
 -	To enhance your ontology accessibility, please also publish your ontology in [MatPortal](https://matportal.org/) and [PMD DataPortal](https://dataportal.material-digital.de/).
 
-
 ## PMDco Workshop
 
 **Hands-on tutorials & learning materials for building your first MSE application ontology**
 
 Looking to get comfortable with ontology development in the MSE domain (especially using PMDco, ODK, design patterns, and our suggested best practices?
 
-Let's participate in our [PMDco workshop]((https://github.com/HosseinBeygiNasrabadi/PMDco-workshop))!
+Let's participate in our [PMDco workshop](https://github.com/HosseinBeygiNasrabadi/PMDco-workshop)!
 
 In this workshop, you’ll find:
 
@@ -703,7 +1740,6 @@ Whether you’re new to semantic technologies or looking to sharpen your ontolog
 * **Tutorial 3:** [GitHub ODK template](https://github.com/materialdigital/application-ontology-template)
 * **Tutorial 4:** [GitHub PMDco Workshop](https://github.com/HosseinBeygiNasrabadi/PMDco-workshop) and [httto.ttl](https://raw.githubusercontent.com/HosseinBeygiNasrabadi/PMDco-workshop/refs/heads/main/httto.ttl)
 
-
 ## List of Ontologies Reusing PMDco V3.x.x:
 -	**[Logistic Application Ontology (LOG)](https://github.com/materialdigital/logistics-application-ontology)**
 * PMDCo application ontology for logistics and supply chain adopted from iof-supplychain-module
@@ -732,7 +1768,6 @@ Source: https://materialdigital.github.io/core-ontology/docs/obsolete-ontology-t
 
 # Obsoleting and deprecating ontology terms
 
-
 Ontologies evolve, terms are revised, split into more detailed terms or deprecated. For proper reusablity of the ontology and traceability of the reason why it was deleted and what is a possible replacement term that should be used instead, the following obsoletion procedure should be followed.
 *(These steps are largely based on the [GO](https://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term) and [ODK](https://ontology-development-kit.readthedocs.io/en/latest/ObsoleteTerm.html) pages for term obsoletion but adopted for the PMDco.)*
 
@@ -740,9 +1775,6 @@ Ontologies evolve, terms are revised, split into more detailed terms or deprecat
 1. Navigate to your local Protégé installation folder and further to '..\conf\deprecation\'
 2. Check whether the file `PMDco.yaml` is present
 	- if not, download it from [here](https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/PMDco.yaml) and move it into the Protégé installation folder
-
-
-	
 
 ## Check the usage of the term
 1. Check where in the ontology the term is used
@@ -789,7 +1821,6 @@ Source: https://materialdigital.github.io/core-ontology/docs/reused-ontologies.h
 
 The PMDco complements and extends several existing ontologies by providing a mid-level framework tailored for the MSE domain. The reused ontologies listed below:
 
-
 ## Basic Formal Ontology (BFO)
 Based on [OBO Foundry principles](https://obofoundry.org/principles/fp-000-summary.html), BFO has served as a formal top-level ontology since its introduction in 2002. Its latest release, [BFO 2020](https://github.com/BFO-ontology/BFO-2020), provides a domain-neutral framework for consistent ontology development and forms the basis of the [ISO/IEC 21838-2:2021](https://www.iso.org/standard/74572.html) standard for semantic interoperability. BFO is widely recognized as a preferred top-level ontology for building domain ontologies due to its philosophically grounded and logically rigorous foundations. Its domain-neutral nature, robust theoretical underpinnings, and modular, hierarchically structured design promote clarity, consistency, extensibility, and long-term maintainability. BFO also supports formal reasoning, enabling automated reasoning tools to validate logical coherence and uncover new insights, making it an effective framework for developing interoperable and semantically precise ontologies across diverse scientific and technical domains. 
 
@@ -799,18 +1830,14 @@ BFO offers a systematic framework for categorizing entities based on their core 
 
 As the backbone of PMDco development, we selected BFO over alternative top-level ontologies because it provides a philosophically grounded, domain-neutral framework with a clear continuant–occurrent distinction, ensuring semantic coherence, interoperability, and long-term stability for building extensible ontologies in MSE. To date, numerous well-established ontologies have been developed based on BFO across diverse domains, demonstrating its broad applicability and compatibility. Building ontologies based on BFO ensures seamless integration with other BFO-aligned resources, enhancing interoperability, reusability, and scalability. This foundation supports interdisciplinary collaboration and fosters the development of robust semantic frameworks for diverse research and application contexts.
 
-
 ## Relation Ontology (RO)
 The [Relation Ontology (RO)](https://github.com/oborel/obo-relations/), also known as the OBO Relation Ontology, is a structured collection of formally defined relationships used to standardize how entities are connected across biological and biomedical ontologies. Developed within the Open Biological and Biomedical Ontology (OBO) Foundry, it provides a shared vocabulary of relational types such as “part of”, “develops from”, or “located in”, which allow consistent representation of spatial, temporal, and functional associations between biological entities. RO serves as a foundation for interoperability and logical reasoning across diverse domains, including anatomy, ecology, and neuroscience, by defining and organizing these relations in the Web Ontology Language (OWL) format.
-
 
 ## Information Artifact Ontology (IAO)
 The [Information Artifact Ontology (IAO)](https://github.com/information-artifact-ontology/IAO) is a domain-neutral ontology designed to represent and classify information entities, such as documents, datasets, images, and digital records. Developed within the OBO Foundry framework, IAO defines the concept of an “information content entity” (ICE) to describe any item that conveys information about some aspect of reality. Its goal is to support the consistent annotation, integration, and analysis of data across fields like biomedicine, informatics, and philosophy of information. Rooted in ontological realism, IAO formalizes how information artifacts relate to what they represent and the media through which they are expressed, enabling interoperability among diverse knowledge systems.
 
-
 ## Chemical Entities of Biological Interest (ChEBI)
 The [Chemical Entities of Biological Interest (ChEBI)](https://www.ebi.ac.uk/chebi/) ontology is a freely available, well-structured classification of molecular entities focused on “small” chemical compounds of biological relevance. Developed by the European Bioinformatics Institute (EMBL-EBI) as part of the OBO Foundry, ChEBI defines molecular entities as any constitutionally or isotopically distinct atom, molecule, ion, radical, complex, or conformer that can exist independently. It provides an ontological framework to describe relationships between these molecular entities and their classes, supporting consistent naming, annotation, and data integration in chemistry and biology. ChEBI follows internationally accepted standards from IUPAC and NC-IUBMB and explicitly excludes genome-encoded macromolecules like nucleic acids and proteins.
-
 
 ## Ontology for Biomedical Investigations (OBI)
 The [Ontology for Biomedical Investigations (OBI)](https://obi-ontology.org/) is a comprehensive ontology developed within the OBO Foundry to provide a standardized representation of all aspects of biological and clinical investigations. It defines thousands of precisely characterized terms describing processes such as experimental design, instrumentation, materials used, data generated, and analytical methods, ensuring consistent annotation and interoperability across diverse scientific domains. OBI integrates and reuses parts of other biomedical ontologies like the Gene Ontology (GO) and ChEBI while maintaining logical consistency and semantic clarity. By modeling the full investigative process (planning, execution, and reporting) OBI enables more effective data sharing, integration, and semantic reasoning in biomedical research.
@@ -823,7 +1850,6 @@ Source: https://materialdigital.github.io/core-ontology/docs/glossary-and-tools.
 
 # Tools and Resources
 
-
 ## The Ontology Development Kit  (ODK)
 
 The PMDco development is made with the help of the ontology development kit (ODK). The ODK is an incredibly great tool to manage your ontology's life cycle. The ODK is:
@@ -834,7 +1860,6 @@ The PMDco development is made with the help of the ontology development kit (ODK
 We thank the ODK team for their outstanding work.
 
 [Link to the ODK repo.](https://github.com/INCATools/ontology-development-kit)
-
 
 ## Ontology Development Guide
 
@@ -851,7 +1876,6 @@ In cooperation with participants in the ([MaterialDigital initiative](https://ww
 
 * [Barry Smith's YouTube channel](https://www.youtube.com/@BarrySmithOntology/playlists)
 
-
 ## Other Initiatives
 
 There are a lot of initiatives working on aspects of and respective tools available to facilitate the digitalization in the field of materials science and engineering (MSE), a selection of which is given here. 
@@ -861,7 +1885,6 @@ There are a lot of initiatives working on aspects of and respective tools availa
     * [NFDI-MatWerk Teaching Material](https://nfdi-matwerk.de/teaching)
     * [NFDI Matwerk Video Selection](https://www.youtube.com/playlist?list=PLwISemJj1M7KZv0iig_6eP5zZqUwD_A69)
 * [EMMO - The Elementary Multiperspective Material Ontology](https://emmo-repo.github.io/)
-
 
 ## Tools for Ontology Development and Maintenance
 
@@ -876,7 +1899,6 @@ There are a lot of initiatives working on aspects of and respective tools availa
 * [RDF Grapher](https://www.ldf.fi/service/rdf-grapher) - RDF grapher is a web service for parsing RDF data and visualizing it as a graph.
 * [OnToology](http://ontoology.linkeddata.es/) - A system to automate part of the collaborative ontology development process. Given a repository with an owl file, OnToology will survey it and produce diagrams, a complete documentation and validation based on common pitfalls. 
 * [ROBOT](http://robot.obolibrary.org/) - ROBOT is a tool for working with Open Biomedical Ontologies. It can be used as a command-line tool or as a library for any language on the Java Virtual Machine.
-    
 
 ## Glossary
 
@@ -897,7 +1919,6 @@ There are a lot of initiatives working on aspects of and respective tools availa
 Source: https://materialdigital.github.io/core-ontology/docs/migration.html
 
 # Migraton from Version 2.x
-
 
 Because PMDco 3.x is based on BFO, the migration is not a simple translation but a re-modeling of the class hierarchy. The safest approach is to relocate each major conceptual block of the old ontology into the appropriate BFO branch and then check whether PMDco 3.x already provides an equivalent class or modeling pattern.
 
@@ -935,7 +1956,6 @@ Any entity with physical existence — devices, instruments, materials, equipmen
 
 Place each of those under the most specific material entity class available in PMDco 3.x. Review object-related properties, since physical entities typically carry qualities, roles, realizable entities which may need adjustment during migration (see ValueObjects below).
 
-
 ### 4. ValueScope, DigitalEntity, and data-like conceptual classes → iao:information content entities (ICE)
  
 PMDco 3.0 consolidates informational and conceptual constructs under the `iao:information content entities` (ICE) hierarchy.
@@ -970,7 +1990,6 @@ In BFO, these must be separated.
 A single old class may need to be split into two or three new ones.
 PMDco 3.x with BFO enforces distinctions that PROV-O did not.
 
-
 ### 6. Relation Migration (common replacements)
 
 * subordinate process → `bfo:has part`
@@ -993,14 +2012,11 @@ Source: https://materialdigital.github.io/core-ontology/docs/versions.html
 
 # Versions and Variants
 
-
 ## Stable Release Versions
 
 The latest version of the ontology can always be found at:
 
-
 [pmdco.owl](https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.owl) and [pmdco.ttl](https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.ttl)
-
 
 ## Variants
 
@@ -1019,16 +2035,13 @@ The **"simple"** artefact only contains a simple existential graph of the terms 
 
 The **"minimal"** artefact only contains a preselected minimal of the terms defined in the ontology. This set is extracted form the full variant and represents a lightweight subset of the ontology that covers the most essential concepts for basic interoperability and implementation. We recommend beginners to start with this artifact when learning about the ontology (See issue [#121](https://github.com/materialdigital/core-ontology/issues/121)).
 
-
 The ontology **"main"** file [pmdco.ttl](https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/pmdco.ttl) contains the full version.
-
 
 ## Editors' Version
 
 Editors of this ontology should use the edit versions of the differenet modules. You can find them in the components folder.
 
 Editors component files: [src/ontology/components](https://github.com/materialdigital/core-ontology/blob/main/src/ontology/components)
-
 
 From the editing main file all release variants are derived by the build workflows.
 
@@ -1041,7 +2054,6 @@ Editors main file: [src/ontology/pmdco-edit.owl](https://github.com/materialdigi
 Source: https://materialdigital.github.io/core-ontology/docs/publications.html
 
 # Publications
-
 
 ## List of PMDco related publications
 
@@ -1068,8 +2080,6 @@ Source: https://materialdigital.github.io/core-ontology/docs/references.html
 
 # References
 
-
-
 * [Resource Description Framework](https://www.w3.org/TR/rdf11-concepts/)
 
 * [RDF Schema](https://www.w3.org/TR/rdf-schema/)
@@ -1090,12 +2100,10 @@ Source: https://materialdigital.github.io/core-ontology/docs/who-we-are.html
 
 # Who We Are & How to Join
 
-
 ## Platform MaterialDigital (PMD)
 [Platform MaterialDigital (PMD)](https://www.materialdigital.de/) is a collaborative digitalization initiative launched in July 2019 with funding from the German Federal Ministry of Education and Research (BMBF). Its primary mission is to establish a virtual materials data space that systematizes the handling of hierarchical, process-dependent materials data while ensuring semantic interoperability across decentralized and diverse servers. Rather than acting as a direct service provider, PMD focuses on developing prototype infrastructures and tool solutions to drive the digital transformation in materials science and engineering. It serves as a networking hub and communication interface (organizing webinars, events, and outreach activities) to connect stakeholders and foster collaboration between academic and industrial partners, ultimately strengthening Germany’s international competitiveness in materials digitalization.
   
 <img width="466" height="294" alt="image" src="https://github.com/user-attachments/assets/2ce81b19-a8c5-458f-a503-948a90dbba43" />
-
 
 ## Semantic interoperability working group
 The [Semantic Interoperability Team](https://www.materialdigital.de/ontologies/) within the Platform MaterialDigital (PMD) plays a key role in ensuring standardized, cross-domain data integration and communication across materials science initiatives. As the platform’s primary semantic backbone, the team is responsible for the development and maintenance of PMDco, the core ontology of PMD.
@@ -1130,7 +2138,6 @@ Our Ontology Playground, organized online every second Friday from 1-2 pm (CET),
 Source: https://materialdigital.github.io/core-ontology/docs/acknowledgements.html
 
 # Acknowledgements
-
 
 The authors thank the Federal Government and the Heads of Government of the Länder for their funding and support within the framework of the [Plattform MaterialDigital](https://www.materialdigital.de/). Funded by the German [Federal Ministry of Research, Technology and Space](https://www.bmftr.bund.de/DE/Home/home_node.html) (BMFTR) through project funding no. 13XP5094.
 

@@ -4,8 +4,77 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/svg+xml" href="./Logo.svg" />
     <meta content="Acknowledgements - PMDco Documentation" name="description" />
+    <meta name="keywords" content="PMDco, PMD core ontology, materials science ontology, materials science and engineering, MSE, materials informatics, semantic web, knowledge graph, BFO, SHACL, RDF, OWL, ontology, Platform MaterialDigital" />
     <title>Acknowledgements | PMDco Documentation</title>
+    <link rel="canonical" href="https://materialdigital.github.io/core-ontology/docs/acknowledgements.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="PMD Core Ontology (PMDco)" />
+    <meta property="og:title" content="Acknowledgements" />
+    <meta property="og:description" content="Acknowledgements - PMD Core Ontology (PMDco): a BFO-aligned ontology for materials science and engineering." />
+    <meta property="og:url" content="https://materialdigital.github.io/core-ontology/docs/acknowledgements.html" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Acknowledgements" />
+    <meta name="twitter:description" content="PMD Core Ontology (PMDco) documentation for materials science and engineering." />
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Acknowledgements",
+  "name": "Acknowledgements",
+  "url": "https://materialdigital.github.io/core-ontology/docs/acknowledgements.html",
+  "inLanguage": "en",
+  "description": "PMD Core Ontology (PMDco) documentation for materials science and engineering.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "PMD Core Ontology (PMDco)",
+    "url": "https://materialdigital.github.io/core-ontology/"
+  },
+  "about": {
+    "@type": "Dataset",
+    "name": "PMD Core Ontology (PMDco)",
+    "description": "A BFO-aligned mid-level ontology for materials science and engineering (MSE).",
+    "url": "https://materialdigital.github.io/core-ontology/",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "keywords": [
+      "materials science ontology",
+      "materials science and engineering",
+      "MSE",
+      "materials informatics",
+      "BFO",
+      "semantic web",
+      "knowledge graph",
+      "SHACL",
+      "RDF",
+      "OWL",
+      "SKOS",
+      "SPARQL",
+      "ontology engineering",
+      "data interoperability",
+      "FAIR data",
+      "open science",
+      "research data management",
+      "scientific metadata",
+      "data integration",
+      "data sharing",
+      "data reuse",
+      "linked data",
+      "knowledge representation",
+      "conceptual modeling",
+      "data standards",
+      "data curation",
+      "data stewardship",
+      "data governance"
+    ]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Platform MaterialDigital (PMD)",
+    "url": "https://materialdigital.de/"
+  }
+}
+</script>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
@@ -913,109 +982,259 @@
 
         /* Ontology Tree Styles */
         .ontology-tree-container {
-            background: var(--color-bg-tertiary);
+            --tree-row: 30px;
+            position: relative;
+            background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.04);
             margin: var(--spacing-lg) 0;
-            max-height: 500px;
+            max-height: 520px;
             overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            font-family: var(--font-family);
         }
 
         .ontology-tree {
             list-style: none;
-            padding-left: 0;
             margin: 0;
-            font-family: var(--font-family-mono);
+            padding: 10px 12px 14px;
             font-size: var(--font-size-sm);
+        }
+
+        /* Beat the generic article list rules (.content li: serif, 1.8 line-height) */
+        .ontology-tree-container .ontology-tree li {
+            margin: 0;
+            padding: 0;
+            line-height: 1.4;
+            font-family: var(--font-family);
+            letter-spacing: normal;
         }
 
         .ontology-tree ul {
             list-style: none;
-            padding-left: 20px;
-            margin: 0;
-            border-left: 1px dashed var(--color-border);
-            margin-left: 8px;
+            margin: 0 0 0 13px;
+            padding-left: 12px;
+            border-left: 1px solid var(--color-border);
         }
 
-        .ontology-tree li { margin: 4px 0; position: relative; }
-
         .tree-node {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 8px;
+            gap: 8px;
+            min-height: var(--tree-row);
+            padding: 0 8px 0 4px;
             border-radius: var(--radius-sm);
             cursor: default;
             transition: background var(--transition-fast);
         }
 
         .tree-node:hover { background: var(--color-bg-hover); }
+        .tree-node:hover .tree-label { color: var(--color-primary); }
 
         .tree-toggle {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            padding: 0;
             border: none;
-            background: var(--color-bg-secondary);
+            background: transparent;
             color: var(--color-text-muted);
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 10px;
             flex-shrink: 0;
         }
 
-        .tree-toggle:hover { background: var(--color-primary); color: white; }
-        .tree-toggle.collapsed::before { content: '▶'; }
-        .tree-toggle.expanded::before { content: '▼'; }
-        .tree-toggle-placeholder { width: 18px; height: 18px; flex-shrink: 0; }
-        .tree-prefix { color: var(--color-text-muted); font-size: 0.85em; }
-        .tree-label { color: var(--color-primary-light); font-weight: 500; }
+        .tree-toggle::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-right: 1.75px solid currentColor;
+            border-bottom: 1.75px solid currentColor;
+            transform: translateX(-1px) rotate(-45deg);
+            transition: transform var(--transition-fast);
+        }
+
+        .tree-toggle.expanded::before { transform: translateY(-2px) rotate(45deg); }
+        .tree-toggle:hover { background: var(--color-bg-tertiary); color: var(--color-primary); }
+        .tree-toggle:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+        .tree-toggle-placeholder { width: 20px; height: 20px; flex-shrink: 0; }
+
+        /* Ontology prefix as a small colour-coded badge */
+        .tree-prefix {
+            --pfx: #64748b;
+            flex-shrink: 0;
+            min-width: 44px;
+            padding: 1px 6px;
+            border-radius: 999px;
+            font-family: var(--font-family-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            line-height: 1.5;
+            text-align: center;
+            color: var(--pfx);
+            background: color-mix(in srgb, var(--pfx) 12%, transparent);
+        }
+        .tree-prefix.pfx-pmd { --pfx: #0284c7; }
+        .tree-prefix.pfx-bfo { --pfx: #b45309; }
+        .tree-prefix.pfx-ro, .tree-prefix.pfx-iao, .tree-prefix.pfx-obi, .tree-prefix.pfx-cob { --pfx: #7c3aed; }
+        .tree-prefix.pfx-chebi { --pfx: #15803d; }
+        .tree-prefix.pfx-uo, .tree-prefix.pfx-qudt { --pfx: #be185d; }
+        body.theme-dark .tree-prefix.pfx-pmd { --pfx: #38bdf8; }
+        body.theme-dark .tree-prefix.pfx-bfo { --pfx: #fbbf24; }
+        body.theme-dark .tree-prefix.pfx-ro, body.theme-dark .tree-prefix.pfx-iao,
+        body.theme-dark .tree-prefix.pfx-obi, body.theme-dark .tree-prefix.pfx-cob { --pfx: #a78bfa; }
+        body.theme-dark .tree-prefix.pfx-chebi { --pfx: #4ade80; }
+        body.theme-dark .tree-prefix.pfx-uo, body.theme-dark .tree-prefix.pfx-qudt { --pfx: #f472b6; }
+
+        .tree-label {
+            color: var(--color-text-primary);
+            font-weight: 500;
+            overflow-wrap: anywhere;
+            transition: color var(--transition-fast);
+        }
         .tree-node.has-definition { cursor: help; }
-        .tree-node.has-definition .tree-label { border-bottom: 1px dotted var(--color-text-muted); }
+        /* Ancestors from outside the module: shown for context, de-emphasised (like non-bold entries in Protege) */
+        .tree-node.is-context .tree-label { color: var(--color-text-muted); font-weight: 400; }
+        .tree-node.is-context .tree-prefix { opacity: 0.6; }
         .tree-children { overflow: hidden; transition: max-height 0.2s ease-out; }
         .tree-children.collapsed { max-height: 0 !important; }
 
         .tree-toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 2;
             display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-md);
-            padding-bottom: var(--spacing-sm);
-            border-bottom: 1px solid var(--color-border);
+            gap: 8px;
             flex-wrap: wrap;
             align-items: center;
+            padding: 10px 12px;
+            background: var(--color-bg-tertiary);
+            border-bottom: 1px solid var(--color-border);
         }
 
         .tree-toolbar-btn {
-            padding: 6px 12px;
+            height: 32px;
+            padding: 0 12px;
+            font-family: var(--font-family);
             font-size: var(--font-size-xs);
-            font-weight: 500;
+            font-weight: 600;
             color: var(--color-text-secondary);
-            background: var(--color-bg-secondary);
+            background: var(--color-bg-card);
             border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
+            border-radius: 8px;
             cursor: pointer;
+            transition: color var(--transition-fast), border-color var(--transition-fast);
         }
 
-        .tree-toolbar-btn:hover { color: var(--color-text-primary); border-color: var(--color-primary); }
+        .tree-toolbar-btn:hover { color: var(--color-primary); border-color: var(--color-primary); }
+        .tree-toolbar-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
 
         .tree-search {
             flex: 1;
-            max-width: 250px;
-            padding: 6px 12px;
+            min-width: 160px;
+            max-width: 280px;
+            height: 32px;
+            padding: 0 12px 0 32px;
+            font-family: var(--font-family);
             font-size: var(--font-size-sm);
             color: var(--color-text-primary);
-            background: var(--color-bg-secondary);
+            background: var(--color-bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 10px center / 15px;
             border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
+            border-radius: 8px;
             outline: none;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         }
 
-        .tree-search:focus { border-color: var(--color-primary); }
-        .tree-stats { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-left: auto; }
-        .tree-node.search-match .tree-label { background: rgba(0, 160, 227, 0.3); padding: 0 2px; border-radius: 2px; }
+        .tree-search:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0, 160, 227, 0.15); }
+        .tree-stats {
+            margin-left: auto;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            color: var(--color-text-muted);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            white-space: nowrap;
+        }
+        .tree-node.search-match { background: rgba(250, 204, 21, 0.18); }
+        .tree-node.search-match .tree-label { color: var(--color-text-primary); font-weight: 600; }
+
+        /* Copy button on code blocks */
+        .code-block, .content pre { position: relative; }
+        .code-copy {
+            position: absolute; top: 8px; right: 8px; z-index: 2;
+            display: inline-flex; align-items: center; gap: 6px;
+            height: 28px; padding: 0 10px;
+            font: 600 12px/1 var(--font-family);
+            color: #cbd5e1; background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 7px;
+            cursor: pointer; opacity: 0; transition: opacity .15s, background .15s, color .15s;
+        }
+        body:not(.theme-dark) .code-copy { color: #475569; background: rgba(255, 255, 255, 0.9); border-color: #cbd5e1; }
+        .code-block:hover .code-copy, .content pre:hover .code-copy, .code-copy:focus-visible { opacity: 1; }
+        .code-copy:hover { color: var(--color-primary); }
+        .code-copy.copied { opacity: 1; color: #16a34a; border-color: rgba(22, 163, 74, .5); }
+        @media (hover: none) { .code-copy { opacity: 1; } }
+
+        /* Link-to-section anchors on headings */
+        .content h2[id], .content h3[id] { position: relative; scroll-margin-top: calc(var(--header-height) + 16px); }
+        .heading-anchor {
+            margin-left: 0.4em; padding: 0 0.2em;
+            font-family: var(--font-family); font-size: 0.7em; font-weight: 600;
+            color: var(--color-text-muted); text-decoration: none; border-radius: 4px;
+            opacity: 0; transition: opacity .15s, color .15s;
+        }
+        .content h2:hover .heading-anchor, .content h3:hover .heading-anchor, .heading-anchor:focus-visible { opacity: 1; }
+        .heading-anchor:hover { color: var(--color-primary); }
+        @media (hover: none) { .heading-anchor { display: none; } }
+
+        /* Small confirmation toast */
+        .ui-toast {
+            position: fixed; left: 50%; bottom: 28px; z-index: 2000;
+            transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+            padding: 9px 16px; border-radius: 999px;
+            font: 600 13px/1.2 var(--font-family); color: #fff; background: rgba(15, 23, 42, 0.92);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: opacity .2s, transform .2s;
+        }
+        .ui-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+        /* Edit on GitHub */
+        .page-meta { display: flex; justify-content: flex-end; margin: var(--spacing-md) 0 0; }
+        .edit-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: var(--font-size-sm); font-weight: 500; color: var(--color-text-muted); text-decoration: none;
+            transition: color .15s;
+        }
+        .edit-link:hover { color: var(--color-primary); }
+
+        /* Home: where-to-start cards */
+        .quick-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: var(--spacing-lg) 0 var(--spacing-xl); }
+        .content .quick-links a.quick-link {
+            display: block; padding: 16px 18px; border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border); background: var(--color-bg-card);
+            text-decoration: none; color: var(--color-text-secondary);
+            transition: border-color .15s, transform .15s, box-shadow .15s;
+        }
+        .content .quick-links a.quick-link::after { display: none; }
+        .content .quick-links a.quick-link:hover { border-color: var(--color-primary); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 160, 227, 0.12); }
+        @media (max-width: 600px) { .quick-links { grid-template-columns: 1fr; } }
+        .quick-link strong { display: block; margin-bottom: 4px; font-family: var(--font-family); font-size: 1rem; color: var(--color-text-primary); }
+        .quick-link span { display: block; font-family: var(--font-family); font-size: var(--font-size-sm); line-height: 1.5; }
+        .quick-link strong::after { content: ' \2192'; color: var(--color-primary); transition: margin-left .15s; }
+        .quick-link:hover strong::after { margin-left: 4px; }
+
+        /* Phones: icon-only header actions so everything fits */
+        @media (max-width: 768px) {
+            .header-logo .logo-subtitle, .header-nav .nav-label, .theme-toggle .theme-label { display: none; }
+            .header-nav { gap: 0.25rem !important; }
+            .header-nav a { padding: 0.5rem !important; }
+        }
 
         .tree-tooltip {
             position: fixed;
@@ -1081,7 +1300,6 @@
             border: 1px solid var(--color-border);
             border-radius: var(--radius-xl);
             padding: var(--spacing-2xl);
-            backdrop-filter: blur(10px);
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
 
@@ -1108,7 +1326,6 @@
             background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            backdrop-filter: blur(8px);
         }
 
         .toc-title {
@@ -1253,7 +1470,6 @@
             background: var(--color-primary);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--color-primary);
-            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -2132,6 +2348,8 @@
 
             .main-content {
                 padding: var(--spacing-xl);
+                /* keep clear of the fixed TOC, which is still shown in this range */
+                padding-right: calc(var(--toc-width) + var(--spacing-xl) + var(--spacing-lg));
             }
         }
 
@@ -2284,18 +2502,11 @@
                 max-height: 350px;
             }
 
-            .tree-toolbar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
+            /* buttons + count on one row, search full width below */
             .tree-search {
+                order: 3;
+                flex-basis: 100%;
                 max-width: none;
-            }
-
-            .tree-stats {
-                margin-left: 0;
-                margin-top: var(--spacing-sm);
             }
         }
 
@@ -3208,10 +3419,10 @@
            =========================================== */
 
         /* === GLASSMORPHISM EFFECTS === */
+        /* No backdrop blur on sidebar/TOC - they are near-opaque, and a
+           full-height blur is re-rendered on every scroll frame (scroll lag). */
         .sidebar {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
         }
 
         body.theme-dark .sidebar {
@@ -3230,8 +3441,6 @@
 
         .toc {
             background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
         }
 
         body.theme-dark .toc {
@@ -3299,20 +3508,15 @@
             font-size: 1.0625rem;
             line-height: 1.8;
             color: var(--color-text-secondary);
-            /* Justified body with auto-hyphenation to avoid uneven "rivers".
-               Headings/lists stay left-aligned. */
-            text-align: justify;
-            text-justify: inter-word;
-            hyphens: auto;
-            -webkit-hyphens: auto;
-            -ms-hyphens: auto;
+            /* Left-aligned: justified text opens wide gaps between words on narrow screens */
+            text-align: left;
         }
-        /* Don't justify short or structural paragraphs (folder links, etc.) */
-        .content p:last-child, .article-content p:last-child { text-align: left; hyphens: manual; }
+        /* Long URLs wrap instead of pushing the page sideways on phones */
+        .content, .article-content { overflow-wrap: break-word; }
 
         /* === PREMIUM LIST STYLING === */
         /* Exclude ontology-tree from premium list styling */
-        .content ul:not(.ontology-tree), .article-content ul:not(.ontology-tree),
+        .content ul:not(.ontology-tree):not(.tree-children), .article-content ul:not(.ontology-tree):not(.tree-children),
         .content ol, .article-content ol {
             list-style: none;
             padding-left: 0;
@@ -3324,7 +3528,7 @@
             counter-reset: list-counter;
         }
 
-        .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
+        .content ul:not(.ontology-tree):not(.tree-children) > li, .article-content ul:not(.ontology-tree):not(.tree-children) > li,
         .content ol > li, .article-content ol > li {
             position: relative;
             padding-left: 1.5em;
@@ -3333,7 +3537,7 @@
         }
 
         /* Unordered list bullets (dot) */
-        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before {
+        .content ul:not(.ontology-tree):not(.tree-children) > li::before, .article-content ul:not(.ontology-tree):not(.tree-children) > li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -3679,18 +3883,17 @@
         @keyframes contentReveal {
             0% {
                 opacity: 0;
-                transform: translateY(30px);
-                filter: blur(4px);
+                transform: translateY(8px);
             }
             100% {
                 opacity: 1;
                 transform: translateY(0);
-                filter: blur(0);
             }
         }
 
+        /* Short and blur-free: a blurred 0.6s entrance on the whole page made every navigation feel slow. */
         .content-wrapper {
-            animation: contentReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: contentReveal 0.2s ease-out forwards;
         }
 
         /* === GRADIENT TEXT FOR BRANDING === */
@@ -3899,28 +4102,30 @@
         .mermaid-graph-container .graph-viewport { cursor: default; }
         :fullscreen .graph-viewport, :-webkit-full-screen .graph-viewport { max-height: none; height: 100vh; }
         .cy-pop {
-            position: fixed; z-index: 9999; max-width: 280px; pointer-events: auto;
-            background: var(--color-bg-card, #fff); color: var(--color-text-primary, #0f172a);
-            border: 1px solid var(--color-border, #e2e8f0); border-radius: 10px;
-            box-shadow: var(--shadow-lg, 0 18px 44px rgba(15,23,42,.18)); padding: 12px 14px;
-            font-family: var(--font-family, sans-serif); font-size: 13px; opacity: 0; visibility: hidden;
-            transform: translateY(4px); transition: opacity .16s ease, transform .16s ease;
+            position: fixed; z-index: 9999; width: 260px; max-width: calc(100vw - 24px); pointer-events: auto;
+            background: var(--color-bg-secondary, #fff); color: var(--color-text-primary, #0f172a);
+            border: 1px solid var(--color-border, #e2e8f0); border-radius: 6px;
+            box-shadow: 0 4px 14px rgba(15,23,42,.08); padding: 10px 12px;
+            font-family: var(--font-family, sans-serif); font-size: 13px; line-height: 1.4;
+            opacity: 0; visibility: hidden; transition: opacity .12s ease, visibility .12s;
         }
-        .cy-pop.visible { opacity: 1; visibility: visible; transform: none; }
-        .cy-pop-h { font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .cy-pop-badge { font-size: 10.5px; font-weight: 600; color: #fff;
-            background: linear-gradient(135deg, var(--color-primary, #00a0e3), var(--color-primary-dark, #0077b3));
-            padding: 2px 8px; border-radius: 999px; }
-        .cy-pop-uri { margin-top: 6px; font-family: var(--font-family-mono, monospace); font-size: 11px;
-            color: var(--color-text-muted, #475569); word-break: break-all; }
-        .cy-pop-link { display: inline-block; margin-top: 8px; font-weight: 600; font-size: 12px;
-            color: var(--color-primary-dark, #0077b3); text-decoration: none; }
-        .cy-pop-link:hover { text-decoration: underline; }
+        .cy-pop.visible { opacity: 1; visibility: visible; }
+        .cy-pop-h { padding-right: 18px; font-weight: 600; overflow-wrap: anywhere; }
+        .cy-pop-kind { font-size: 12px; color: var(--color-text-muted, #64748b); }
+        .cy-pop-close { position: absolute; top: 6px; right: 6px; border: 0; background: none; padding: 2px 4px;
+            color: var(--color-text-muted, #64748b); font-size: 15px; line-height: 1; cursor: pointer; }
+        .cy-pop-close:hover { color: var(--color-text-primary, #0f172a); }
+        .cy-pop-link { display: flex; gap: 6px; justify-content: space-between; margin-top: 8px; padding-top: 8px;
+            border-top: 1px solid var(--color-border, #e2e8f0); font-size: 12px; color: var(--color-text-muted, #64748b);
+            text-decoration: none; }
+        .cy-pop-link span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .cy-pop-link:hover { color: var(--color-primary, #00a0e3); }
 
 </style>
 </head>
 
 <body>
+    <script>try{var t=localStorage.getItem('pmd_theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');if(t==='dark')document.body.classList.add('theme-dark')}catch(e){}</script>
     <!-- Scroll Progress Indicator -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -3939,25 +4144,25 @@
                 <line x1="3" x2="21" y1="18" y2="18"></line>
             </svg>
         </button>
-        <a class="header-logo" href="./intro.html">
+        <a class="header-logo" href="./index.html" aria-label="PMD Core Documentation home">
             <img src="./Logo.svg" alt="MaterialDigital Logo" style="height: 36px; width: auto;">
             <span style="display: flex; align-items: baseline; gap: 0.25rem;">
                 <span style="font-weight: 700; background: linear-gradient(135deg, #00a0e3 0%, #0077b3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">PMD</span><span style="font-weight: 600; color: var(--color-text-primary);">Core</span>
-                <span style="font-size: 0.8em; font-weight: 500; color: var(--color-text-muted); margin-left: 0.15rem;">Documentation</span>
+                <span class="logo-subtitle" style="font-size: 0.8em; font-weight: 500; color: var(--color-text-muted); margin-left: 0.15rem;">Documentation</span>
             </span>
         </a>
         <nav class="header-nav" style="display: flex; gap: 0.5rem; align-items: center;">
-            <a href="https://materialdigital.de/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0, 160, 227, 0.1) 0%, rgba(0, 119, 179, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(0, 160, 227, 0.2);">
+            <a href="https://materialdigital.de/" target="_blank" rel="noopener" title="About MaterialDigital" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0, 160, 227, 0.1) 0%, rgba(0, 119, 179, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(0, 160, 227, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20 M12 16v-4 M12 8h.01"></path></svg>
-                About
+                <span class="nav-label">About</span>
             </a>
-            <a href="https://github.com/materialdigital/core-ontology" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(45, 55, 72, 0.1) 0%, rgba(26, 32, 44, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(45, 55, 72, 0.2);">
+            <a href="https://github.com/materialdigital/core-ontology" target="_blank" rel="noopener" title="PMDco on GitHub" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(45, 55, 72, 0.1) 0%, rgba(26, 32, 44, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(45, 55, 72, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                GitHub
+                <span class="nav-label">GitHub</span>
             </a>
-            <a href="https://materialdigital.github.io/core-ontology" target="_blank" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <a href="https://materialdigital.github.io/core-ontology" target="_blank" rel="noopener" title="Widoco reference documentation" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.08) 100%); color: var(--color-text-primary); font-weight: 500; font-size: 0.875rem; text-decoration: none; transition: all 0.2s ease; border: 1px solid rgba(16, 185, 129, 0.2);">
                 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
-                Widoco
+                <span class="nav-label">Widoco</span>
             </a>
         </nav>
         <button aria-label="Toggle theme" class="theme-toggle">
@@ -3979,7 +4184,7 @@
                 <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
             </svg>
             <input class="search-input" id="sidebar-search" name="sidebar-search" placeholder="Search docs..." readonly="" type="text" aria-label="Search documentation" />
-            <span class="search-shortcut">Ctrl+K</span>
+            <span class="search-shortcut" title="Ctrl+K or /">Ctrl+K</span>
         </div>
         <nav class="nav-sections">
             <div class="nav-section">
@@ -4114,6 +4319,8 @@
 
             </article>
 
+            <div class="page-meta"><a class="edit-link" href="https://github.com/materialdigital/core-ontology/edit/main/docs/acknowledgements.md" target="_blank" rel="noopener"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Edit this page on GitHub</a></div>
+
             <nav class="page-nav">
                 <a class="page-nav-link prev" href="./who-we-are.html">
                     <span class="page-nav-label">&larr; Previous</span>
@@ -4169,9 +4376,6 @@
 
 
     <!-- Cytoscape.js + ELK diagram engine -->
-    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/elkjs@0.9.3/lib/elk.bundled.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/cytoscape-svg@0.4.0/cytoscape-svg.js"></script>
 
 <script>
 /* ============================================================================
@@ -4188,6 +4392,7 @@
   var nodeData = {};
   window.__GRAPH_DIAGRAMS__ = GRAPH_DIAGRAMS;
 
+  if (!document.querySelector(".mermaid-graph-container")) return;  // no diagrams: libs are not loaded
   if (typeof cytoscape === "undefined" || typeof ELK === "undefined") {
     console.error("Cytoscape/ELK failed to load"); return;
   }
@@ -4415,14 +4620,19 @@
       var kind = d.type || n.data("kind") || "Node";
       var uri = d.uri || n.data("uri") || "";
       var pop = getPop();
-      var html = '<div class="cy-pop-h">' + escapeHtml(label) + '<span class="cy-pop-badge">' + escapeHtml(kind) + '</span></div>';
-      if (uri) html += '<div class="cy-pop-uri">' + escapeHtml(uri) + '</div>' +
-        '<a class="cy-pop-link" href="' + encodeURI(uri) + '" target="_blank" rel="noopener">Open IRI &#8599;</a>';
+      var html = '<button type="button" class="cy-pop-close" aria-label="Close">&times;</button>' +
+        '<div class="cy-pop-h">' + escapeHtml(label).replace(/_/g, "_<wbr>") + '</div>' +
+        '<div class="cy-pop-kind">' + escapeHtml(kind === "Individual" ? "Individual (ABox)" : kind) + '</div>';
+      // ABox example individuals are illustrative and not dereferenceable; only TBox IRIs get a link.
+      if (uri && kind !== "Individual") html += '<a class="cy-pop-link" href="' + encodeURI(uri) + '" target="_blank" rel="noopener" title="' +
+        escapeHtml(uri) + '"><span>' + escapeHtml(uri.replace(/^https?:\/\//, "")) + '</span>&#8599;</a>';
       pop.innerHTML = html;
+      pop.querySelector(".cy-pop-close").addEventListener("click", hidePop);
       var rp = e.renderedPosition || n.renderedPosition();
       var box = self.host.getBoundingClientRect();
-      pop.style.left = Math.min(box.left + rp.x + 12, window.innerWidth - 280) + "px";
-      pop.style.top = (box.top + rp.y + 12) + "px";
+      var x = box.left + rp.x + 12, y = box.top + rp.y + 12;
+      pop.style.left = Math.max(12, Math.min(x, window.innerWidth - pop.offsetWidth - 12)) + "px";
+      pop.style.top = Math.max(12, Math.min(y, window.innerHeight - pop.offsetHeight - 12)) + "px";
       pop.classList.add("visible");
     });
     cy.on("tap", function (e) { if (e.target === cy) hidePop(); });
@@ -4475,10 +4685,20 @@
 
   function escapeHtml(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
 
+  function initOne(c) {
+    try { new CytoViewer(c); } catch (e) { console.error("Viewer init failed", e); }
+  }
+  // Lay out each diagram only when it nears the viewport: ELK runs on the main
+  // thread, so doing all of them at load froze the page for seconds.
   function initAll() {
-    document.querySelectorAll(".mermaid-graph-container").forEach(function (c) {
-      try { new CytoViewer(c); } catch (e) { console.error("Viewer init failed", e); }
-    });
+    var all = document.querySelectorAll(".mermaid-graph-container");
+    if (!("IntersectionObserver" in window)) { all.forEach(initOne); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { io.unobserve(en.target); initOne(en.target); }
+      });
+    }, { rootMargin: "600px 0px" });
+    all.forEach(function (c) { io.observe(c); });
   }
   function start() { (document.fonts ? document.fonts.ready : Promise.resolve()).then(initAll); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
@@ -4524,20 +4744,19 @@
             const themeLabel = $('.theme-label');
             const THEME_KEY = 'pmd_theme';
 
+            const themeIcon = $('.theme-icon');
+            const MOON = '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg>';
+            const SUN = '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>';
+            // The button names the theme it switches TO
             const applyTheme = (t) => {
-                if (t === 'dark') {
-                    document.body.classList.add('theme-dark');
-                    if (themeLabel) themeLabel.textContent = 'Dark';
-                } else {
-                    document.body.classList.remove('theme-dark');
-                    if (themeLabel) themeLabel.textContent = 'Light';
-                }
+                const dark = t === 'dark';
+                document.body.classList.toggle('theme-dark', dark);
+                if (themeLabel) themeLabel.textContent = dark ? 'Light' : 'Dark';
+                if (themeIcon) themeIcon.innerHTML = dark ? SUN : MOON;
+                themeBtn?.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
             };
-
-            try {
-                const saved = localStorage.getItem(THEME_KEY);
-                if (saved) applyTheme(saved);
-            } catch (_) { }
+            // the inline script at <body> already picked saved/OS theme; sync the button to it
+            applyTheme(document.body.classList.contains('theme-dark') ? 'dark' : 'light');
 
             if (themeBtn) {
                 themeBtn.addEventListener('click', () => {
@@ -4686,6 +4905,7 @@
                 this.vocab = [];
                 this.trigram = new Map(); // trigram -> Set(token)
                 this.avgLen = 1;
+                this.norm = new Map();   // docId -> { title, body } normalized text
                 this._build();
             }
 
@@ -4729,6 +4949,8 @@
                     const id = d.id;
                     const all = `${d.title || ''}\n${d.section || ''}\n${d.content || ''}`;
                     const tokens = this._tokenize(all);
+                    // Normalized once here, not on every keystroke in search().
+                    this.norm.set(id, { title: this._normalizeText(d.title), body: this._normalizeText(`${d.title || ''} ${d.content || ''}`) });
 
                     this.docLen.set(id, tokens.length);
                     totalLen += tokens.length;
@@ -4789,25 +5011,29 @@
                 return prev[lb];
             }
 
-            _expandToken(q) {
-                const token = this._normalizeText(q);
+            // Returns [[indexToken, weight]]: exact match, plus prefix completions
+            // ("shape" -> "shapes", and as-you-type "tens" -> "tensile") at lower
+            // weight; typo-tolerant fuzzy matches only when nothing else matched.
+            _expandToken(token) {
                 if (!token) return [];
+                const out = [];
+                if (this.index.has(token)) out.push([token, 1]);
 
-                // Exact
-                if (this.index.has(token)) return [token];
-
-                // Prefix candidates
-                const pref = [];
-                const maxPref = 40;
-                for (const v of this.vocab) {
-                    if (v.startsWith(token)) {
-                        pref.push(v);
-                        if (pref.length >= maxPref) break;
+                if (token.length >= 3) {
+                    let n = 0;
+                    for (const v of this.vocab) {
+                        if (v !== token && v.startsWith(token)) {
+                            out.push([v, 0.6]);
+                            if (++n >= 40) break;
+                        }
                     }
                 }
-                if (pref.length) return pref;
+                if (out.length) return out;
+                return this._fuzzy(token).map(t => [t, 0.4]);
+            }
 
-                // Fuzzy (trigram intersection + Levenshtein <=2)
+            _fuzzy(token) {
+                // Trigram intersection + Levenshtein <= 2
                 if (token.length < 4) return [];
                 const padded = `  ${token}  `;
                 const candidates = new Map(); // token -> overlap
@@ -4841,81 +5067,69 @@
                 const parts = [];
                 const re = /"([^"]+)"|(\S+)/g;
                 let m;
-                while ((m = re.exec(raw)) !== null) parts.push(m[1] || m[2]);
+                while ((m = re.exec(raw)) !== null) parts.push({ text: m[1] || m[2], quoted: !!m[1] });
 
-                const phrases = parts.filter(p => p.includes(' ') && !p.startsWith('type:') && !p.startsWith('section:'));
-                const tokens = parts.filter(p => !p.includes(' ') && !p.startsWith('type:') && !p.startsWith('section:'));
+                // Optional filters: type:page / type:section, section:<text>
+                const isFilter = p => !p.quoted && /^(type|section):/i.test(p.text);
+                const typeFilter = ((parts.find(p => isFilter(p) && /^type:/i.test(p.text)) || {}).text || '').slice(5).toLowerCase();
+                const sectionFilter = ((parts.find(p => isFilter(p) && /^section:/i.test(p.text)) || {}).text || '').slice(8).toLowerCase();
+                const terms = parts.filter(p => !isFilter(p));
 
-                // Optional filters: type:graph / type:section / type:page, section:<text>
-                const typeFilter = (parts.find(p => p.startsWith('type:')) || '').slice(5).toLowerCase();
-                const sectionFilter = (parts.find(p => p.startsWith('section:')) || '').slice(8).toLowerCase();
+                // Quoted text must appear verbatim; its words still count for scoring.
+                // Tokenizing each part the same way as the index means "BFO_0000015"
+                // becomes the two index tokens "bfo" + "0000015".
+                const phrases = terms.filter(p => p.quoted).map(p => this._normalizeText(p.text)).filter(Boolean);
+                const tokens = Array.from(new Set(terms.flatMap(p => this._tokenize(p.text))));
+                if (!tokens.length) return [];
+                const fullQuery = this._normalizeText(terms.map(p => p.text).join(' '));
 
                 const scores = new Map();
-                const matchedTokens = new Map(); // docId -> Set(tokens)
+                const matched = new Map(); // docId -> Set(query tokens matched)
 
                 for (const qt of tokens) {
-                    const expanded = this._expandToken(qt);
-                    for (const tok of expanded) {
+                    for (const [tok, weight] of this._expandToken(qt)) {
                         const posting = this.index.get(tok);
                         if (!posting) continue;
-
                         const idf = this.idf.get(tok) || 0.1;
                         for (const [docId, tf] of posting.entries()) {
-                            const d = this.docById.get(docId);
-                            if (!d) continue;
-
-                            if (typeFilter && String(d.type || '').toLowerCase() !== typeFilter) continue;
-                            if (sectionFilter && !String(d.section || '').toLowerCase().includes(sectionFilter)) continue;
-
                             const len = this.docLen.get(docId) || 1;
-                            const tfNorm = tf / (0.5 + 0.5 * (len / this.avgLen));
-                            const base = (scores.get(docId) || 0) + (tfNorm * idf);
-                            scores.set(docId, base);
-
-                            let s = matchedTokens.get(docId);
-                            if (!s) { s = new Set(); matchedTokens.set(docId, s); }
+                            // BM25 term saturation, so a long page can't win by repetition alone
+                            const tfNorm = (tf * 2.2) / (tf + 1.2 * (0.25 + 0.75 * (len / this.avgLen)));
+                            scores.set(docId, (scores.get(docId) || 0) + tfNorm * idf * weight);
+                            let s = matched.get(docId);
+                            if (!s) { s = new Set(); matched.set(docId, s); }
                             s.add(qt);
                         }
                     }
                 }
 
-                // Phrase filtering + boost
-                const qLower = this._normalizeText(raw);
                 const results = [];
                 for (const [docId, score0] of scores.entries()) {
                     const d = this.docById.get(docId);
                     if (!d) continue;
+                    if (typeFilter && String(d.type || '').toLowerCase() !== typeFilter) continue;
+                    if (sectionFilter && !String(d.section || '').toLowerCase().includes(sectionFilter)) continue;
 
-                    const normTitle = this._normalizeText(d.title || '');
-                    const normContent = this._normalizeText(d.content || '');
+                    const { title: normTitle, body: normBody } = this.norm.get(docId);
+                    if (phrases.some(ph => !normBody.includes(ph))) continue;
 
-                    let score = score0;
+                    const coverage = matched.get(docId).size / tokens.length;
+                    let score = score0 * coverage * coverage;
+                    if (tokens.length > 1 && normBody.includes(fullQuery)) score *= 2.0;  // words adjacent, in order
+                    if (normTitle === fullQuery) score *= 3.0;
+                    else if (normTitle.includes(fullQuery)) score *= 2.0;
+                    else if (tokens.some(t => normTitle.includes(t))) score *= 1.25;
+                    if (d.type === 'page') score *= 0.85;  // prefer the precise section over its whole page
 
-                    // Title boost
-                    if (qLower && normTitle.includes(qLower)) score *= 2.0;
-                    else {
-                        // partial boost
-                        for (const qt of tokens) {
-                            const nt = this._normalizeText(qt);
-                            if (nt && normTitle.includes(nt)) score *= 1.25;
-                        }
-                    }
-
-                    // Phrase requirement: every phrase must appear in title or content
-                    let ok = true;
-                    for (const ph of phrases) {
-                        const np = this._normalizeText(ph);
-                        if (!np) continue;
-                        if (!normTitle.includes(np) && !normContent.includes(np)) { ok = false; break; }
-                        score *= 1.15;
-                    }
-                    if (!ok) continue;
-
-                    results.push({ doc: d, score, matched: Array.from(matchedTokens.get(docId) || []) });
+                    results.push({ doc: d, score, coverage });
                 }
 
-                results.sort((a, b) => b.score - a.score);
-                return results.slice(0, limit);
+                // If any result contains every query word, drop partial matches (AND semantics);
+                // otherwise fall back to the best partial matches.
+                const complete = results.filter(r => r.coverage === 1);
+                const pool = complete.length ? complete : results;
+                pool.sort((a, b) => b.score - a.score);
+                return pool.slice(0, limit);
             }
         }
 
@@ -4927,28 +5141,6 @@
                 .replace(/[^a-z0-9\-]/g, '')
                 .replace(/\-+/g, '-')
                 .replace(/^\-+|\-+$/g, '');
-        }
-
-        function extractDotIndexText(dot) {
-            if (!dot) return '';
-            const out = new Set();
-
-            // Node/edge labels
-            const re = /label\s*=\s*"((?:\\.|[^"\\])*)"/g;
-            let m;
-            while ((m = re.exec(dot)) !== null) {
-                const s = m[1].replace(/\\n/g, ' ').replace(/\\\"/g, '"').trim();
-                if (s) out.add(s);
-            }
-
-            // Node IDs in quotes
-            const reId = /"([^"]+)"\s*\[/g;
-            while ((m = reId.exec(dot)) !== null) {
-                const s = m[1].trim();
-                if (s) out.add(s);
-            }
-
-            return Array.from(out).join(' · ');
         }
 
         function buildSearchDocuments() {
@@ -5002,26 +5194,6 @@
                 });
             });
 
-            // Graph entries (node labels + edge labels + ids)
-            document.querySelectorAll('.mermaid-graph-container').forEach((container) => {
-                const title = container.querySelector('.graph-title')?.textContent?.trim() || 'Graph';
-                const graphId = container.id || '';
-                const key = graphId.startsWith('graph-') ? graphId.slice(6) : graphId;
-                const dot = (typeof dotDiagrams !== 'undefined' && dotDiagrams[key]) ? dotDiagrams[key] : '';
-
-                const graphText = extractDotIndexText(dot);
-                if (!graphText.trim()) return;
-
-                docs.push({
-                    id: `graph:${pagePath}#${graphId || key}`,
-                    type: 'graph',
-                    title,
-                    section: pageTitle,
-                    path: graphId ? `./${pagePath}#${graphId}` : `./${pagePath}`,
-                    content: graphText
-                });
-            });
-
             // Navigation pages from sidebar links
             document.querySelectorAll('.nav-link[href]').forEach((a) => {
                 const t = (a.textContent || '').trim();
@@ -5039,108 +5211,6 @@
 
             return docs;
         }
-
-        // ---- Cross-page search helpers (site-wide indexing) ----
-        async function mapLimit(items, limit, fn) {
-            const results = new Array(items.length);
-            let idx = 0;
-
-            const workers = new Array(Math.min(limit, items.length)).fill(0).map(async () => {
-                while (true) {
-                    const i = idx++;
-                    if (i >= items.length) break;
-                    results[i] = await fn(items[i], i, items.length);
-                }
-            });
-
-            await Promise.all(workers);
-            return results;
-        }
-
-        function extractDocsFromHtml(htmlText, href) {
-            const docs = [];
-            try {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlText, 'text/html');
-
-                const pageTitle = doc.querySelector('h1')?.textContent?.trim() || doc.title || (href || 'Page');
-                const pagePath = (href || '').split('#')[0].split('/').pop() || href || 'page';
-
-                const article = doc.querySelector('article.content') || doc.querySelector('.content') || doc.body;
-                const pageText = (article?.innerText || '').trim();
-
-                docs.push({
-                    id: `page:${pagePath}`,
-                    type: 'page',
-                    title: pageTitle,
-                    section: 'Pages',
-                    path: href,
-                    content: pageText
-                });
-
-                // Sections (h2/h3 with IDs)
-                const headings = Array.from(doc.querySelectorAll('h2[id], h3[id]'));
-                headings.forEach((h) => {
-                    const title = (h.textContent || '').trim();
-                    if (!title) return;
-
-                    const level = Number(h.tagName.substring(1)) || 6;
-                    const parts = [];
-                    let el = h.nextElementSibling;
-                    while (el) {
-                        if (/^H[1-6]$/.test(el.tagName)) {
-                            const nextLevel = Number(el.tagName.substring(1)) || 6;
-                            if (nextLevel <= level) break;
-                        }
-                        if (el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
-                            parts.push(el.innerText || el.textContent || '');
-                        }
-                        el = el.nextElementSibling;
-                    }
-
-                    const content = parts.join('\n').trim();
-                    const id = `section:${pagePath}#${h.id}`;
-
-                    docs.push({
-                        id,
-                        type: 'section',
-                        title,
-                        section: pageTitle,
-                        path: `${href}#${h.id}`,
-                        content
-                    });
-                });
-
-                // Best-effort DOT indexing if the page embeds dotDiagrams (Graphviz).
-                try {
-                    const m = htmlText.match(/const\s+dotDiagrams\s*=\s*\{([\s\S]*?)\n\s*\};/);
-                    if (m && m[1]) {
-                        const body = m[1];
-                        const re = /"([^"]+)"\s*:\s*`([\s\S]*?)`\s*,?/g;
-                        let mm;
-                        while ((mm = re.exec(body)) !== null) {
-                            const key = mm[1];
-                            const dot = mm[2] || '';
-                            const graphText = extractDotIndexText(dot);
-                            if (!graphText.trim()) continue;
-                            docs.push({
-                                id: `graph:${pagePath}:${key}`,
-                                type: 'graph',
-                                title: `Graph: ${key}`,
-                                section: pageTitle,
-                                path: href,
-                                content: graphText
-                            });
-                        }
-                    }
-                } catch (e) { /* ignore */ }
-
-            } catch (e) {
-                return [];
-            }
-            return docs;
-        }
-
 
         function makeSnippet(text, query, maxLen = 180) {
             if (!text) return '';
@@ -5191,10 +5261,17 @@
         class Search {
             constructor() {
                 this.selectedIndex = -1;
-                this.docs = buildSearchDocuments();
-                this.engine = new DocSearchEngine(this.docs);
+                this.engine = null;  // built lazily by ensureIndex()
                 this.createModal();
                 this.bindEvents();
+            }
+
+            // Indexing reads the whole page's text and fetches search-index.json, so it
+            // only runs once search is about to be used - not on every page load.
+            ensureIndex() {
+                if (this.engine) return;
+                this.docs = buildSearchDocuments();
+                this.engine = new DocSearchEngine(this.docs);
                 this.bootstrapCrossPageIndex();
             }
 
@@ -5220,13 +5297,24 @@
                 this.resultsContainer = document.getElementById('search-results');
 
                 // Sidebar search input (kept for layout, opens modal)
-                document.getElementById('sidebar-search')?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
+                const sidebarSearch = document.getElementById('sidebar-search');
+                sidebarSearch?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
+                // Warm the index up while the pointer heads for the search box.
+                sidebarSearch?.addEventListener('pointerenter', () => this.ensureIndex(), { once: true });
             }
 
             bindEvents() {
                 document.addEventListener('keydown', (e) => {
                     // Open: Ctrl/Cmd + K
                     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                        e.preventDefault();
+                        this.open();
+                        return;
+                    }
+                    // Open: "/" (docs convention), unless the user is typing
+                    if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey
+                        && !e.target.closest('input, textarea, select, [contenteditable="true"]')
+                        && !this.modal.classList.contains('active')) {
                         e.preventDefault();
                         this.open();
                         return;
@@ -5354,6 +5442,7 @@
             }
 
             open() {
+                this.ensureIndex();
                 this.modal.classList.add('active');
                 this.modal.setAttribute('aria-hidden', 'false');
                 this.input.focus();
@@ -5399,9 +5488,8 @@
                     for (const entry of searchIndex) {
                         // Combine ALL content sources for comprehensive page-level search
                         const pageContent = [
-                            entry.content || '',           // Full page content (untruncated)
+                            entry.content || '',           // Text before the first heading
                             entry.keywords || '',          // Extracted technical keywords
-                            entry.terms || '',             // All unique terms for exact match
                             // All heading texts and their full content
                             (entry.headings || []).map(h =>
                                 `${h.text} ${h.content || ''} ${h.keywords || ''}`
@@ -5449,11 +5537,10 @@
                     }
 
                     if (extraDocs.length) {
-                        // Replace current docs with comprehensive cross-page index
-                        // but keep current page's detailed docs for best local search
-                        const byId = new Map(this.docs.map(d => [d.id, d]));
-                        for (const d of extraDocs) byId.set(d.id, d);
-                        this.docs = Array.from(byId.values());
+                        // The site index is built from the rendered pages, so it already
+                        // covers this page; the DOM-scanned docs are only a fallback for
+                        // when the index can't load (and merging them duplicated results).
+                        this.docs = extraDocs;
 
                         // Rebuild the search engine with full content
                         this.engine = new DocSearchEngine(this.docs);
@@ -5918,7 +6005,7 @@
                 var article = document.querySelector('.content, .article-content');
                 if (article) {
                     var blocks = article.querySelectorAll(
-                        ':scope > h2, :scope > h3, :scope > p, :scope > ul:not(.ontology-tree), :scope > ol, :scope > table, :scope > blockquote, :scope > pre'
+                        ':scope > h2, :scope > h3, :scope > p, :scope > ul:not(.ontology-tree):not(.tree-children), :scope > ol, :scope > table, :scope > blockquote, :scope > pre'
                     );
                     var io = new IntersectionObserver(function (entries) {
                         entries.forEach(function (en) {
@@ -5934,6 +6021,56 @@
                 }
             }
         })();
+    </script>
+    <script>
+    (() => {
+        const toastEl = document.createElement('div');
+        toastEl.className = 'ui-toast'; toastEl.setAttribute('role', 'status'); toastEl.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toastEl);
+        let toastTimer;
+        const toast = (msg) => {
+            toastEl.textContent = msg; toastEl.classList.add('show');
+            clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1600);
+        };
+        const copyText = async (text) => {
+            try { await navigator.clipboard.writeText(text); return true; }
+            catch (_) {  // file:// or older browsers
+                const ta = Object.assign(document.createElement('textarea'), { value: text });
+                ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select();
+                const ok = document.execCommand('copy'); ta.remove(); return ok;
+            }
+        };
+
+        // Copy buttons on code blocks
+        document.querySelectorAll('.content pre').forEach((pre) => {
+            if (!pre.querySelector('code') || pre.closest('.graph-wrapper, .mermaid')) return;
+            const host = pre.parentElement.classList.contains('code-block') ? pre.parentElement : pre;
+            const btn = Object.assign(document.createElement('button'), { type: 'button', className: 'code-copy', textContent: 'Copy' });
+            btn.setAttribute('aria-label', 'Copy code to clipboard');
+            btn.addEventListener('click', async () => {
+                const ok = await copyText(pre.querySelector('code').innerText.replace(/\n$/, ''));
+                btn.textContent = ok ? 'Copied' : 'Press Ctrl+C';
+                btn.classList.toggle('copied', ok);
+                setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1600);
+            });
+            host.appendChild(btn);
+        });
+
+        // "#" link on section headings: copies a direct link to the section
+        document.querySelectorAll('.content h2[id], .content h3[id]').forEach((h) => {
+            const a = Object.assign(document.createElement('a'), { className: 'heading-anchor', href: '#' + h.id, textContent: '#' });
+            a.setAttribute('aria-label', 'Copy link to section: ' + h.textContent.trim());
+            a.addEventListener('click', async (e) => {
+                e.preventDefault();
+                // file:// pages are opaque origins: history.replaceState logs an "Unsafe attempt to load URL" warning there
+                if (location.protocol === 'file:') location.hash = h.id;
+                else history.replaceState(null, '', '#' + h.id);
+                h.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+                toast(await copyText(location.href) ? 'Link to section copied' : 'Link ready in the address bar');
+            });
+            h.appendChild(a);
+        });
+    })();
     </script>
 </body>
 

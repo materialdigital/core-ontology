@@ -87,6 +87,7 @@ import re
 import shutil
 import subprocess
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -131,9 +132,9 @@ def copy_assets(src_dir: Path, out_dir: Path, verbose: bool = False) -> None:
         >>> copy_assets(Path("docs"), Path("output"), verbose=True)
           Copied asset: Logo.svg
     """
-    # List of static assets to copy
-    # Add new assets here as needed (e.g., favicon.ico, custom fonts)
-    assets = ['Logo.svg']
+    # Static assets to copy: every SVG in docs/ (logo, figures such as
+    # pmdco-modularization.svg and the hierarchy-*.svg from make_ontology_figures.py)
+    assets = sorted(p.name for p in src_dir.glob('*.svg'))
 
     for asset in assets:
         src = src_dir / asset
@@ -308,6 +309,17 @@ def build_all(
         print(f"Pages to build: {len(pages_to_build)}")
         print("=" * 60)
 
+    # Regenerate the ontology figures (docs/*.svg) from the same ontology as the
+    # class trees, so they follow every ontology change; a failure keeps the old files
+    if verbose:
+        print("Generating ontology figures...")
+    try:
+        sys.path.insert(0, str(Path(__file__).parent))
+        import make_ontology_figures
+        make_ontology_figures.generate(make_ontology_figures.default_source())
+    except Exception as exc:
+        print(f"  Warning: ontology figures not regenerated ({exc}); keeping the existing files")
+
     # Copy static assets to output directory
     if verbose:
         print("Copying assets...")
@@ -383,7 +395,8 @@ def build_all(
                 print(f"         [ERROR] Error: {e}")
 
     # Generate cross-page search index
-    if results['success'] and verbose:
+    # Always regenerate: a quiet build must not leave a stale index behind.
+    if results['success']:
         print(f"\n" + "-" * 60)
         print("Generating search index...")
         print("-" * 60)
@@ -426,8 +439,114 @@ def build_all(
 # SEARCH INDEX GENERATION
 # =============================================================================
 
+class _RenderedArticle(HTMLParser):
+    """Split a built page's ``<article class="content">`` into heading sections.
+
+    Indexing the rendered HTML (not the markdown source) means everything the
+    build injects - pattern descriptions, TTL code, ontology class trees - is
+    searchable, and heading slugs are the real element ids.
+    """
+
+    SKIP = {"script", "style", "button", "svg", "noscript", "template", "select"}
+    HEADINGS = {"h1": 1, "h2": 2, "h3": 3, "h4": 4}
+
+    def __init__(self, diagram_labels: Dict[str, str]):
+        super().__init__(convert_charrefs=True)
+        self.diagram_labels = diagram_labels
+        self.inside = False       # between <article class="content"> and </article>
+        self.skip_tag, self.skip_n = None, 0
+        self.heading = None       # [level, id, text parts] while inside a heading
+        self.sections = [{"level": 0, "slug": "", "text": "", "parts": []}]
+
+    def _emit(self, text: str) -> None:
+        self.sections[-1]["parts"].append(text)
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if not self.inside:
+            self.inside = tag == "article" and "content" in (a.get("class") or "").split()
+            return
+        if self.skip_tag:
+            if tag == self.skip_tag:
+                self.skip_n += 1
+            return
+        if tag in self.SKIP:
+            self.skip_tag, self.skip_n = tag, 1
+            return
+        if tag in self.HEADINGS and a.get("id"):
+            self.heading = [self.HEADINGS[tag], a["id"], []]
+            return
+        # Ontology tree nodes keep their definition and IRI in attributes.
+        if a.get("data-definition"):
+            self._emit(" " + a["data-definition"] + " ")
+        if a.get("data-uri"):
+            self._emit(" " + re.split(r"[/#]", a["data-uri"].rstrip("/#"))[-1] + " ")
+        # Pattern diagrams are drawn from JS data; index their node labels here.
+        cid = a.get("id") or ""
+        if cid.startswith("graph-") and cid[6:] in self.diagram_labels:
+            self._emit(" " + self.diagram_labels[cid[6:]] + " ")
+        self._emit(" ")
+
+    def handle_startendtag(self, tag, attrs):
+        if self.inside and not self.skip_tag:
+            self._emit(" ")
+
+    def handle_endtag(self, tag):
+        if not self.inside:
+            return
+        if tag == "article":
+            self.inside = False
+            return
+        if self.skip_tag:
+            if tag == self.skip_tag:
+                self.skip_n -= 1
+                if self.skip_n == 0:
+                    self.skip_tag = None
+            return
+        if self.heading and tag in self.HEADINGS:
+            level, slug, parts = self.heading
+            self.heading = None
+            self.sections.append({"level": level, "slug": slug,
+                                  "text": re.sub(r"\s+", " ", "".join(parts)).strip(), "parts": []})
+        self._emit(" ")
+
+    def handle_data(self, data):
+        if not self.inside or self.skip_tag:
+            return
+        if self.heading:
+            self.heading[2].append(data)
+        else:
+            self._emit(data)
+
+
+def _diagram_labels(html: str) -> Dict[str, str]:
+    """Map diagram base id -> space-joined node labels from ``GRAPH_DIAGRAMS``.
+
+    build_dot_diagrams_object writes one ``"key": {json},`` entry per line.
+    """
+    labels: Dict[str, str] = {}
+    for key, value in re.findall(r'^\s*"([\w-]+)": (\{"nodes".*\}),$', html, re.M):
+        base = key.split("__")[0]
+        try:
+            names = {n.get("label", "") for n in json.loads(value).get("nodes", [])}
+        except ValueError:
+            continue
+        labels[base] = " ".join(sorted(filter(None, names | set(labels.get(base, "").split()))))
+    return labels
+
+
+def extract_rendered_sections(html: str) -> List[dict]:
+    """Return ``[{level, slug, text, content}]``; entry 0 is the text before the first heading."""
+    p = _RenderedArticle(_diagram_labels(html))
+    p.feed(html)
+    p.close()
+    for s in p.sections:
+        s["content"] = re.sub(r"\s+", " ", "".join(s.pop("parts"))).strip()
+    return p.sections
+
+
 def generate_search_index(md_dir: Path, config: dict, out_dir: Path) -> List[dict]:
-    """Generate a comprehensive FULL-TEXT search index from all markdown files.
+    """Generate a comprehensive FULL-TEXT search index from the built HTML pages.
 
     This function creates a complete, untruncated search index that enables
     sophisticated cross-page search functionality. Unlike basic search systems,
@@ -470,56 +589,6 @@ def generate_search_index(md_dir: Path, config: dict, out_dir: Path) -> List[dic
         comprehensive documentation), but enables true full-text search
         across all documentation content.
     """
-
-    def clean_markdown(text: str) -> str:
-        """Remove markdown syntax while preserving all searchable text.
-
-        This function cleans markdown formatting while retaining:
-        - All text content including code
-        - Technical terms and identifiers
-        - Punctuation-separated compound terms
-
-        Args:
-            text: Raw markdown text.
-
-        Returns:
-            Clean text optimized for full-text search indexing.
-        """
-        # Extract and preserve code block content (important for technical docs)
-        code_blocks = re.findall(r'```(?:\w+)?\n([\s\S]*?)```', text)
-        code_content = ' '.join(code_blocks)
-
-        # Remove fenced code block markers but keep inline structure
-        text = re.sub(r'```(?:\w+)?\n[\s\S]*?```', ' [code] ', text)
-
-        # Keep inline code content
-        text = re.sub(r'`([^`]+)`', r' \1 ', text)
-
-        # Convert links to text - keep both link text and URL for searchability
-        text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 \2', text)
-
-        # Remove HTML comments and special tags
-        text = re.sub(r'<!--[\s\S]*?-->', '', text)
-        text = re.sub(r'<[^>]+>', ' ', text)
-
-        # Remove markdown formatting but keep content
-        text = re.sub(r'^#{1,6}\s+', '', text, flags=re.MULTILINE)
-        text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)
-        text = re.sub(r'\*([^*]+)\*', r'\1', text)
-        text = re.sub(r'__([^_]+)__', r'\1', text)
-        text = re.sub(r'_([^_]+)_', r'\1', text)
-        text = re.sub(r'~~([^~]+)~~', r'\1', text)
-
-        # Clean special chars but keep useful punctuation
-        text = re.sub(r'[>\[\]|]', ' ', text)
-
-        # Add code content back
-        text = text + ' ' + code_content
-
-        # Normalize whitespace (single spaces only)
-        text = re.sub(r'\s+', ' ', text).strip()
-
-        return text
 
     def extract_keywords(text: str, title: str = '') -> str:
         """Extract important keywords and technical terms for search boosting.
@@ -596,24 +665,6 @@ def generate_search_index(md_dir: Path, config: dict, out_dir: Path) -> List[dic
 
         return ' '.join(sorted(keywords))
 
-    def extract_all_terms(text: str) -> str:
-        """Extract all unique meaningful terms from text for comprehensive indexing.
-
-        Creates a deduplicated list of all words and terms that appear in the text,
-        useful for exact-match searches.
-
-        Args:
-            text: The text to process.
-
-        Returns:
-            Space-separated string of unique terms.
-        """
-        # Extract all word-like tokens
-        words = re.findall(r'\b[a-zA-Z][a-zA-Z0-9_]*\b', text)
-        # Filter very short words and deduplicate
-        unique_words = set(w.lower() for w in words if len(w) > 2)
-        return ' '.join(sorted(unique_words))
-
     index = []
     total_content_size = 0
     total_sections = 0
@@ -630,67 +681,44 @@ def generate_search_index(md_dir: Path, config: dict, out_dir: Path) -> List[dic
             if not md_name or not href:
                 continue
 
-            md_path = md_dir / md_name
-            if not md_path.exists():
+            # Index the BUILT page, so build-time content (remote pattern docs,
+            # TTL code, ontology trees, diagram labels) is searchable too.
+            html_path = out_dir / href
+            if not html_path.exists():
+                print(f"  Warning: {href} not built; left out of the search index")
                 continue
 
             try:
-                raw_content = md_path.read_text(encoding='utf-8')
+                sections = extract_rendered_sections(html_path.read_text(encoding='utf-8'))
 
-                # Extract headings with their FULL section content (NO TRUNCATION)
                 headings = []
-                heading_pattern = re.compile(r'^(#{1,6})\s+(.+)$', re.MULTILINE)
-                matches = list(heading_pattern.finditer(raw_content))
-
-                for i, match in enumerate(matches):
-                    heading_level = len(match.group(1))
-                    heading_text = match.group(2).strip()
-
-                    # Create URL-safe slug from heading text
-                    slug = re.sub(r'[^\w\s-]', '', heading_text.lower())
-                    slug = re.sub(r'[-\s]+', '-', slug).strip('-')
-
-                    # Extract FULL content between this heading and the next
-                    start_pos = match.end()
-                    end_pos = matches[i + 1].start() if i + 1 < len(matches) else len(raw_content)
-                    section_content = raw_content[start_pos:end_pos].strip()
-
-                    # Clean section content - NO TRUNCATION for full-text search
-                    clean_section = clean_markdown(section_content)
-
-                    # Extract section-specific keywords
-                    section_keywords = extract_keywords(section_content, heading_text)
-
+                for s in sections[1:]:
                     headings.append({
-                        'text': heading_text,
-                        'slug': slug,
-                        'level': heading_level,
-                        'content': clean_section,  # FULL content, no truncation
-                        'keywords': section_keywords
+                        'text': s['text'],
+                        'slug': s['slug'],
+                        'level': s['level'],
+                        'content': s['content'],
+                        'keywords': extract_keywords(s['content'], s['text'])
                     })
                     total_sections += 1
 
-                # Clean FULL page content for comprehensive indexing
-                clean_content = clean_markdown(raw_content)
+                full_text = ' '.join(f"{s['text']} {s['content']}" for s in sections)
+                keywords = extract_keywords(full_text, title)
 
-                # Extract comprehensive keywords from full content
-                keywords = extract_keywords(raw_content, title)
-
-                # Extract all unique terms for exact-match capability
-                all_terms = extract_all_terms(clean_content)
-
-                # Add page entry with COMPLETE content
+                # 'content' holds only the text before the first heading; the
+                # search client adds each heading's content itself, so storing
+                # the whole page here would index every word twice.
+                clean_content = sections[0]['content']
                 page_entry = {
                     'title': title,
                     'href': href,
                     'section': section_title,
-                    'content': clean_content,  # FULL content, no truncation
+                    'content': clean_content,
                     'keywords': keywords,
-                    'terms': all_terms,  # All unique terms for exact matching
                     'headings': headings,
                     'type': 'page',
                     'headingCount': len(headings),
-                    'wordCount': len(clean_content.split())
+                    'wordCount': len(full_text.split())
                 }
 
                 index.append(page_entry)
@@ -792,6 +820,7 @@ def generate_llms_files(md_dir: Path, config: dict, out_dir: Path,
     ]
 
     full_parts: List[str] = ["# PMD Core Ontology (PMDco) - Full Documentation"]
+    from build_all import process_md_file_renderers, process_source_code_renderers
 
     for section in sections:
         stitle = (section.get('title') or '').strip()
@@ -822,7 +851,12 @@ def generate_llms_files(md_dir: Path, config: dict, out_dir: Path,
                 index_lines.append(f"- [{title}]({url})")
 
             if raw:
-                cleaned = re.sub(r'<!--[\s\S]*?-->', '', raw).strip()
+                # Inline the pattern docs / TTL that the page build injects; stripping
+                # these tags as comments left every pattern section empty.
+                raw = process_md_file_renderers(raw, base_dir=mp.parent)
+                raw = process_source_code_renderers(raw, base_dir=mp.parent)
+                cleaned = re.sub(r'<!--[\s\S]*?-->', '', raw)
+                cleaned = re.sub(r'\n[ \t]*(?:\n[ \t]*){2,}', '\n\n', cleaned).strip()
                 full_parts.append(
                     f"\n\n---\n\n# {title}\n\nSource: {url}\n\n{cleaned}"
                 )
