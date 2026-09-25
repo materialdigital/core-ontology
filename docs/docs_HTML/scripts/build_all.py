@@ -3900,16 +3900,11 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             font-size: 1.0625rem;
             line-height: 1.8;
             color: var(--color-text-secondary);
-            /* Justified body with auto-hyphenation to avoid uneven "rivers".
-               Headings/lists stay left-aligned. */
-            text-align: justify;
-            text-justify: inter-word;
-            hyphens: auto;
-            -webkit-hyphens: auto;
-            -ms-hyphens: auto;
+            /* Left-aligned: justified text opens wide gaps between words on narrow screens */
+            text-align: left;
         }
-        /* Don't justify short or structural paragraphs (folder links, etc.) */
-        .content p:last-child, .article-content p:last-child { text-align: left; hyphens: manual; }
+        /* Long URLs wrap instead of pushing the page sideways on phones */
+        .content, .article-content { overflow-wrap: break-word; }
 
         /* === PREMIUM LIST STYLING === */
         /* Exclude ontology-tree from premium list styling */
