@@ -4577,7 +4577,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
             </svg>
             <input class="search-input" id="sidebar-search" name="sidebar-search" placeholder="Search docs..." readonly="" type="text" aria-label="Search documentation" />
-            <span class="search-shortcut">Ctrl+K</span>
+            <span class="search-shortcut" title="Ctrl+K or /">Ctrl+K</span>
         </div>
         __SIDEBAR_HTML__
     </aside>
@@ -5578,6 +5578,14 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 document.addEventListener('keydown', (e) => {
                     // Open: Ctrl/Cmd + K
                     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                        e.preventDefault();
+                        this.open();
+                        return;
+                    }
+                    // Open: "/" (docs convention), unless the user is typing
+                    if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey
+                        && !e.target.closest('input, textarea, select, [contenteditable="true"]')
+                        && !this.modal.classList.contains('active')) {
                         e.preventDefault();
                         this.open();
                         return;
