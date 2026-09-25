@@ -1445,109 +1445,188 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
         /* Ontology Tree Styles */
         .ontology-tree-container {
-            background: var(--color-bg-tertiary);
+            --tree-row: 30px;
+            position: relative;
+            background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.04);
             margin: var(--spacing-lg) 0;
-            max-height: 500px;
+            max-height: 520px;
             overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            font-family: var(--font-family);
         }
 
         .ontology-tree {
             list-style: none;
-            padding-left: 0;
             margin: 0;
-            font-family: var(--font-family-mono);
+            padding: 10px 12px 14px;
             font-size: var(--font-size-sm);
+        }
+
+        /* Beat the generic article list rules (.content li: serif, 1.8 line-height) */
+        .ontology-tree-container .ontology-tree li {
+            margin: 0;
+            padding: 0;
+            line-height: 1.4;
+            font-family: var(--font-family);
+            letter-spacing: normal;
         }
 
         .ontology-tree ul {
             list-style: none;
-            padding-left: 20px;
-            margin: 0;
-            border-left: 1px dashed var(--color-border);
-            margin-left: 8px;
+            margin: 0 0 0 13px;
+            padding-left: 12px;
+            border-left: 1px solid var(--color-border);
         }
 
-        .ontology-tree li { margin: 4px 0; position: relative; }
-
         .tree-node {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 8px;
+            gap: 8px;
+            min-height: var(--tree-row);
+            padding: 0 8px 0 4px;
             border-radius: var(--radius-sm);
             cursor: default;
             transition: background var(--transition-fast);
         }
 
         .tree-node:hover { background: var(--color-bg-hover); }
+        .tree-node:hover .tree-label { color: var(--color-primary); }
 
         .tree-toggle {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            padding: 0;
             border: none;
-            background: var(--color-bg-secondary);
+            background: transparent;
             color: var(--color-text-muted);
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 10px;
             flex-shrink: 0;
         }
 
-        .tree-toggle:hover { background: var(--color-primary); color: white; }
-        .tree-toggle.collapsed::before { content: '▶'; }
-        .tree-toggle.expanded::before { content: '▼'; }
-        .tree-toggle-placeholder { width: 18px; height: 18px; flex-shrink: 0; }
-        .tree-prefix { color: var(--color-text-muted); font-size: 0.85em; }
-        .tree-label { color: var(--color-primary-light); font-weight: 500; }
+        .tree-toggle::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-right: 1.75px solid currentColor;
+            border-bottom: 1.75px solid currentColor;
+            transform: translateX(-1px) rotate(-45deg);
+            transition: transform var(--transition-fast);
+        }
+
+        .tree-toggle.expanded::before { transform: translateY(-2px) rotate(45deg); }
+        .tree-toggle:hover { background: var(--color-bg-tertiary); color: var(--color-primary); }
+        .tree-toggle:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+        .tree-toggle-placeholder { width: 20px; height: 20px; flex-shrink: 0; }
+
+        /* Ontology prefix as a small colour-coded badge */
+        .tree-prefix {
+            --pfx: #64748b;
+            flex-shrink: 0;
+            min-width: 44px;
+            padding: 1px 6px;
+            border-radius: 999px;
+            font-family: var(--font-family-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            line-height: 1.5;
+            text-align: center;
+            color: var(--pfx);
+            background: color-mix(in srgb, var(--pfx) 12%, transparent);
+        }
+        .tree-prefix.pfx-pmd { --pfx: #0284c7; }
+        .tree-prefix.pfx-bfo { --pfx: #b45309; }
+        .tree-prefix.pfx-ro, .tree-prefix.pfx-iao, .tree-prefix.pfx-obi, .tree-prefix.pfx-cob { --pfx: #7c3aed; }
+        .tree-prefix.pfx-chebi { --pfx: #15803d; }
+        .tree-prefix.pfx-uo, .tree-prefix.pfx-qudt { --pfx: #be185d; }
+        body.theme-dark .tree-prefix.pfx-pmd { --pfx: #38bdf8; }
+        body.theme-dark .tree-prefix.pfx-bfo { --pfx: #fbbf24; }
+        body.theme-dark .tree-prefix.pfx-ro, body.theme-dark .tree-prefix.pfx-iao,
+        body.theme-dark .tree-prefix.pfx-obi, body.theme-dark .tree-prefix.pfx-cob { --pfx: #a78bfa; }
+        body.theme-dark .tree-prefix.pfx-chebi { --pfx: #4ade80; }
+        body.theme-dark .tree-prefix.pfx-uo, body.theme-dark .tree-prefix.pfx-qudt { --pfx: #f472b6; }
+
+        .tree-label {
+            color: var(--color-text-primary);
+            font-weight: 500;
+            overflow-wrap: anywhere;
+            transition: color var(--transition-fast);
+        }
         .tree-node.has-definition { cursor: help; }
-        .tree-node.has-definition .tree-label { border-bottom: 1px dotted var(--color-text-muted); }
+        /* Ancestors from outside the module: shown for context, de-emphasised (like non-bold entries in Protege) */
+        .tree-node.is-context .tree-label { color: var(--color-text-muted); font-weight: 400; }
+        .tree-node.is-context .tree-prefix { opacity: 0.6; }
         .tree-children { overflow: hidden; transition: max-height 0.2s ease-out; }
         .tree-children.collapsed { max-height: 0 !important; }
 
         .tree-toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 2;
             display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-md);
-            padding-bottom: var(--spacing-sm);
-            border-bottom: 1px solid var(--color-border);
+            gap: 8px;
             flex-wrap: wrap;
             align-items: center;
+            padding: 10px 12px;
+            background: var(--color-bg-tertiary);
+            border-bottom: 1px solid var(--color-border);
         }
 
         .tree-toolbar-btn {
-            padding: 6px 12px;
+            height: 32px;
+            padding: 0 12px;
+            font-family: var(--font-family);
             font-size: var(--font-size-xs);
-            font-weight: 500;
+            font-weight: 600;
             color: var(--color-text-secondary);
-            background: var(--color-bg-secondary);
+            background: var(--color-bg-card);
             border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
+            border-radius: 8px;
             cursor: pointer;
+            transition: color var(--transition-fast), border-color var(--transition-fast);
         }
 
-        .tree-toolbar-btn:hover { color: var(--color-text-primary); border-color: var(--color-primary); }
+        .tree-toolbar-btn:hover { color: var(--color-primary); border-color: var(--color-primary); }
+        .tree-toolbar-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
 
         .tree-search {
             flex: 1;
-            max-width: 250px;
-            padding: 6px 12px;
+            min-width: 160px;
+            max-width: 280px;
+            height: 32px;
+            padding: 0 12px 0 32px;
+            font-family: var(--font-family);
             font-size: var(--font-size-sm);
             color: var(--color-text-primary);
-            background: var(--color-bg-secondary);
+            background: var(--color-bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 10px center / 15px;
             border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
+            border-radius: 8px;
             outline: none;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         }
 
-        .tree-search:focus { border-color: var(--color-primary); }
-        .tree-stats { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-left: auto; }
-        .tree-node.search-match .tree-label { background: rgba(0, 160, 227, 0.3); padding: 0 2px; border-radius: 2px; }
+        .tree-search:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0, 160, 227, 0.15); }
+        .tree-stats {
+            margin-left: auto;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            color: var(--color-text-muted);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            white-space: nowrap;
+        }
+        .tree-node.search-match { background: rgba(250, 204, 21, 0.18); }
+        .tree-node.search-match .tree-label { color: var(--color-text-primary); font-weight: 600; }
+
 
         .tree-tooltip {
             position: fixed;
@@ -2813,18 +2892,11 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 max-height: 350px;
             }
 
-            .tree-toolbar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
+            /* buttons + count on one row, search full width below */
             .tree-search {
+                order: 3;
+                flex-basis: 100%;
                 max-width: none;
-            }
-
-            .tree-stats {
-                margin-left: 0;
-                margin-top: var(--spacing-sm);
             }
         }
 
@@ -3839,7 +3911,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
         /* === PREMIUM LIST STYLING === */
         /* Exclude ontology-tree from premium list styling */
-        .content ul:not(.ontology-tree), .article-content ul:not(.ontology-tree),
+        .content ul:not(.ontology-tree):not(.tree-children), .article-content ul:not(.ontology-tree):not(.tree-children),
         .content ol, .article-content ol {
             list-style: none;
             padding-left: 0;
@@ -3851,7 +3923,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             counter-reset: list-counter;
         }
 
-        .content ul:not(.ontology-tree) > li, .article-content ul:not(.ontology-tree) > li,
+        .content ul:not(.ontology-tree):not(.tree-children) > li, .article-content ul:not(.ontology-tree):not(.tree-children) > li,
         .content ol > li, .article-content ol > li {
             position: relative;
             padding-left: 1.5em;
@@ -3860,7 +3932,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         }
 
         /* Unordered list bullets (dot) */
-        .content ul:not(.ontology-tree) > li::before, .article-content ul:not(.ontology-tree) > li::before {
+        .content ul:not(.ontology-tree):not(.tree-children) > li::before, .article-content ul:not(.ontology-tree):not(.tree-children) > li::before {
             content: '';
             position: absolute;
             left: 0;
@@ -6198,7 +6270,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 var article = document.querySelector('.content, .article-content');
                 if (article) {
                     var blocks = article.querySelectorAll(
-                        ':scope > h2, :scope > h3, :scope > p, :scope > ul:not(.ontology-tree), :scope > ol, :scope > table, :scope > blockquote, :scope > pre'
+                        ':scope > h2, :scope > h3, :scope > p, :scope > ul:not(.ontology-tree):not(.tree-children), :scope > ol, :scope > table, :scope > blockquote, :scope > pre'
                     );
                     var io = new IntersectionObserver(function (entries) {
                         entries.forEach(function (en) {
@@ -7883,7 +7955,7 @@ def generate_tree_html(roots: List[OntologyClass], tree_id: str, class_count: Op
         else:
             html_parts.append('<span class="tree-toggle-placeholder"></span>')
         
-        html_parts.append(f'<span class="tree-prefix">{prefix}:</span>')
+        html_parts.append(f'<span class="tree-prefix pfx-{prefix}">{prefix}</span>')
         html_parts.append(f'<span class="tree-label">{label}</span>')
         html_parts.append('</span>')
         
@@ -8269,7 +8341,7 @@ def generate_property_tree_html(roots: List[OntologyProperty], tree_id: str, tit
         else:
             parts.append('<span class="tree-toggle-placeholder"></span>')
         
-        parts.append(f'<span class="tree-prefix">{prefix}:</span>')
+        parts.append(f'<span class="tree-prefix pfx-{prefix}">{prefix}</span>')
         parts.append(f'<span class="tree-label">{label}</span>')
         parts.append('</span>')
         
