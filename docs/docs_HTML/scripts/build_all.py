@@ -1628,6 +1628,55 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         .tree-node.search-match { background: rgba(250, 204, 21, 0.18); }
         .tree-node.search-match .tree-label { color: var(--color-text-primary); font-weight: 600; }
 
+        /* Copy button on code blocks */
+        .code-block, .content pre { position: relative; }
+        .code-copy {
+            position: absolute; top: 8px; right: 8px; z-index: 2;
+            display: inline-flex; align-items: center; gap: 6px;
+            height: 28px; padding: 0 10px;
+            font: 600 12px/1 var(--font-family);
+            color: #cbd5e1; background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 7px;
+            cursor: pointer; opacity: 0; transition: opacity .15s, background .15s, color .15s;
+        }
+        body:not(.theme-dark) .code-copy { color: #475569; background: rgba(255, 255, 255, 0.9); border-color: #cbd5e1; }
+        .code-block:hover .code-copy, .content pre:hover .code-copy, .code-copy:focus-visible { opacity: 1; }
+        .code-copy:hover { color: var(--color-primary); }
+        .code-copy.copied { opacity: 1; color: #16a34a; border-color: rgba(22, 163, 74, .5); }
+        @media (hover: none) { .code-copy { opacity: 1; } }
+
+        /* Link-to-section anchors on headings */
+        .content h2[id], .content h3[id] { position: relative; scroll-margin-top: calc(var(--header-height) + 16px); }
+        .heading-anchor {
+            margin-left: 0.4em; padding: 0 0.2em;
+            font-family: var(--font-family); font-size: 0.7em; font-weight: 600;
+            color: var(--color-text-muted); text-decoration: none; border-radius: 4px;
+            opacity: 0; transition: opacity .15s, color .15s;
+        }
+        .content h2:hover .heading-anchor, .content h3:hover .heading-anchor, .heading-anchor:focus-visible { opacity: 1; }
+        .heading-anchor:hover { color: var(--color-primary); }
+        @media (hover: none) { .heading-anchor { display: none; } }
+
+        /* Small confirmation toast */
+        .ui-toast {
+            position: fixed; left: 50%; bottom: 28px; z-index: 2000;
+            transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+            padding: 9px 16px; border-radius: 999px;
+            font: 600 13px/1.2 var(--font-family); color: #fff; background: rgba(15, 23, 42, 0.92);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: opacity .2s, transform .2s;
+        }
+        .ui-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+        /* Edit on GitHub */
+        .page-meta { display: flex; justify-content: flex-end; margin: var(--spacing-md) 0 0; }
+        .edit-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: var(--font-size-sm); font-weight: 500; color: var(--color-text-muted); text-decoration: none;
+            transition: color .15s;
+        }
+        .edit-link:hover { color: var(--color-primary); }
+
 
         .tree-tooltip {
             position: fixed;
@@ -4593,6 +4642,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
             </article>
 
+            __EDIT_LINK__
+
             __PAGE_NAV__
 
             <footer class="footer">
@@ -6293,6 +6344,56 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             }
         })();
     </script>
+    <script>
+    (() => {
+        const toastEl = document.createElement('div');
+        toastEl.className = 'ui-toast'; toastEl.setAttribute('role', 'status'); toastEl.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toastEl);
+        let toastTimer;
+        const toast = (msg) => {
+            toastEl.textContent = msg; toastEl.classList.add('show');
+            clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1600);
+        };
+        const copyText = async (text) => {
+            try { await navigator.clipboard.writeText(text); return true; }
+            catch (_) {  // file:// or older browsers
+                const ta = Object.assign(document.createElement('textarea'), { value: text });
+                ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select();
+                const ok = document.execCommand('copy'); ta.remove(); return ok;
+            }
+        };
+
+        // Copy buttons on code blocks
+        document.querySelectorAll('.content pre').forEach((pre) => {
+            if (!pre.querySelector('code') || pre.closest('.graph-wrapper, .mermaid')) return;
+            const host = pre.parentElement.classList.contains('code-block') ? pre.parentElement : pre;
+            const btn = Object.assign(document.createElement('button'), { type: 'button', className: 'code-copy', textContent: 'Copy' });
+            btn.setAttribute('aria-label', 'Copy code to clipboard');
+            btn.addEventListener('click', async () => {
+                const ok = await copyText(pre.querySelector('code').innerText.replace(/\n$/, ''));
+                btn.textContent = ok ? 'Copied' : 'Press Ctrl+C';
+                btn.classList.toggle('copied', ok);
+                setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1600);
+            });
+            host.appendChild(btn);
+        });
+
+        // "#" link on section headings: copies a direct link to the section
+        document.querySelectorAll('.content h2[id], .content h3[id]').forEach((h) => {
+            const a = Object.assign(document.createElement('a'), { className: 'heading-anchor', href: '#' + h.id, textContent: '#' });
+            a.setAttribute('aria-label', 'Copy link to section: ' + h.textContent.trim());
+            a.addEventListener('click', async (e) => {
+                e.preventDefault();
+                // file:// pages are opaque origins: history.replaceState logs an "Unsafe attempt to load URL" warning there
+                if (location.protocol === 'file:') location.hash = h.id;
+                else history.replaceState(null, '', '#' + h.id);
+                h.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+                toast(await copyText(location.href) ? 'Link to section copied' : 'Link ready in the address bar');
+            });
+            h.appendChild(a);
+        });
+    })();
+    </script>
 </body>
 
 </html>'''
@@ -7486,6 +7587,7 @@ def build_html(
     html_out = html_out.replace("__PAGE_TITLE__", html_module.escape(page_title))
     html_out = html_out.replace("__PAGE_URL__", html_module.escape(DOCS_BASE_URL + active_page))
     html_out = html_out.replace("__JSONLD__", build_jsonld(page_title, DOCS_BASE_URL + active_page))
+    html_out = finish_page(html_out, active_page, markdown_path)
 
     out_html.write_text(html_out, encoding="utf-8")
 
@@ -8591,6 +8693,25 @@ def extract_title_from_html(article_html: str) -> str:
     return "Documentation"
 
 
+def finish_page(html_out: str, active_page: str, markdown_path: Path) -> str:
+    """Per-page touches shared by both build paths: 'Edit this page' link, no Home breadcrumb on Home."""
+    repo_root = Path(__file__).resolve().parents[3]
+    try:
+        rel = markdown_path.resolve().relative_to(repo_root).as_posix()
+    except ValueError:
+        rel = None
+    link = ""
+    if rel:
+        url = "https://github.com/materialdigital/core-ontology/edit/main/" + urllib.parse.quote(rel)
+        link = ('<div class="page-meta"><a class="edit-link" href="' + url + '" target="_blank" rel="noopener">'
+                '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">'
+                '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Edit this page on GitHub</a></div>')
+    html_out = html_out.replace("__EDIT_LINK__", link)
+    if active_page == "index.html":
+        html_out = re.sub(r'\s*<nav class="breadcrumbs">.*?</nav>', "", html_out, count=1, flags=re.S)
+    return html_out
+
+
 def build_jsonld(page_title: str, page_url: str) -> str:
     """Build a schema.org JSON-LD ``<script>`` block for a documentation page.
 
@@ -8884,6 +9005,8 @@ def build_doc_html(
     # Generate dynamic page navigation from navigator.yaml
     page_nav_html = generate_page_nav_html(active_page=active_page, script_dir=Path(__file__).parent)
     html_out = html_out.replace("__PAGE_NAV__", page_nav_html)
+
+    html_out = finish_page(html_out, active_page, markdown_path)
 
     # Write output
     out_html.parent.mkdir(parents=True, exist_ok=True)
