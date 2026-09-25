@@ -1677,6 +1677,22 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         }
         .edit-link:hover { color: var(--color-primary); }
 
+        /* Home: where-to-start cards */
+        .quick-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: var(--spacing-lg) 0 var(--spacing-xl); }
+        .content .quick-links a.quick-link {
+            display: block; padding: 16px 18px; border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border); background: var(--color-bg-card);
+            text-decoration: none; color: var(--color-text-secondary);
+            transition: border-color .15s, transform .15s, box-shadow .15s;
+        }
+        .content .quick-links a.quick-link::after { display: none; }
+        .content .quick-links a.quick-link:hover { border-color: var(--color-primary); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 160, 227, 0.12); }
+        @media (max-width: 600px) { .quick-links { grid-template-columns: 1fr; } }
+        .quick-link strong { display: block; margin-bottom: 4px; font-family: var(--font-family); font-size: 1rem; color: var(--color-text-primary); }
+        .quick-link span { display: block; font-family: var(--font-family); font-size: var(--font-size-sm); line-height: 1.5; }
+        .quick-link strong::after { content: ' \2192'; color: var(--color-primary); transition: margin-left .15s; }
+        .quick-link:hover strong::after { margin-left: 4px; }
+
 
         .tree-tooltip {
             position: fixed;
