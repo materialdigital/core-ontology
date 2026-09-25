@@ -81,7 +81,7 @@ Although several guidelines and tutorials for ontology development are available
 
 Looking to get comfortable with ontology development in the MSE domain (especially using PMDco, ODK, design patterns, and our suggested best practices?
 
-Let's participate in our [PMDco workshop]((https://github.com/HosseinBeygiNasrabadi/PMDco-workshop))!
+Let's participate in our [PMDco workshop](https://github.com/HosseinBeygiNasrabadi/PMDco-workshop)!
 
 In this workshop, you’ll find:
 
