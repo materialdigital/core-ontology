@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Ontology Structure - PMD Core Ontology</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/stylesheets/mkdocs_d2_plugin.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Ontology Structure";
+        var mkdocs_page_input_path = "Ontology_structure2.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> PMD Core Ontology
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Welcome</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Introduction%20to%20Ontologies/">Introduction to Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction to PMDco v3.x.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Reused%20ontologies/">Reused Ontologies</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Ontology Structure</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#modularization">Modularization</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#object-properties">Object Properties</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#data-properties">Data Properties</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#annotation-properties">Annotation properties</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#individuals">Individuals</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../patterns/">Patterns</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../PMDco%20User%20Guide/">PMDco User Guide</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../versions/">Versions and Variants</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../migration/">Migration from 2.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Who%20We%20Are%20%26%20How%20to%20Join/">Who We Are & How to Join</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../publications/">Publications</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../acknowledgements/">Acknowledgements</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">PMD Core Ontology</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Ontology Structure</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ontology-structure">Ontology Structure</h1>
+<!--@Document_indicator: Text,links -->
+
+<h2 id="modularization">Modularization</h2>
+<p>Modules in ontology are formally defined, self-contained, and reusable fragments of an ontology that represent specific conceptual subdomains. They are engineered to support logic-based reasoning, interoperability, and tractable querying, allowing large or complex ontologies to be efficiently developed, understood, and maintained by dividing them into coherent, manageable parts. These modules make it possible to approach ontology engineering in a divide-and-conquer manner, facilitating reuse and integration across different domains and applications. PMDco defines six primary modules central to MSE, naming material, material qualities, material manufacturing, material characterization, data transformation, and devices. </p>
+<p>Furthermore, in ODK-based ontology modularization, modules such as import-edit, shared, and axioms-shared play distinct roles. The import-edit module contains external ontology terms and their logical extensions, supporting controlled editing and updates without manual changes to the imported content. The shared module aggregates terms or patterns that must be reused across different ontology parts, promoting interoperability between collections. The axioms-shared module collects logical axioms that are common and essential for reasoning across modules, ensuring consistency and coordination within the ontology system. As seen in below figure, PMDco is eventually created by unifying all mentioned ontology modules.</p>
+<p><img width="1407" height="384" alt="PMDco V3.x.x modularization" src="./pmdco-modularization.svg" /></p>
+<p>PMDco V3.x.x modularization</p>
+<p>In a modularized ontology, key concepts such as classes and object properties are organized into distinct modules that capture specific domains or subdomains. Each module contains related classes, which denote the core concepts of the domain, along with their corresponding object properties, which describe relationships between these concepts and other entities. This structure allows for targeted development and maintenance, where groups of interrelated classes and properties can be managed, reused, and evolved independently while supporting interoperability through well-defined module boundaries. </p>
+<p>The complete list of PMDco classes, object properties, data properties, annotation properties and individuals can be found in the <a href="https://materialdigital.github.io/core-ontology/">Widoco</a> documentation page. </p>
+<p>The following section provide example concepts related to different ontology modules.</p>
+<h2 id="classes">Classes</h2>
+<p>The class names below are the ontology's own labels, and each definition is taken from the ontology. The interactive tree at the start of each module lists all classes of that module. Greyed entries are superclasses from other modules, shown for context. The figure after it highlights the main branches, and <strong>bold</strong> marks PMDco classes.</p>
+<p><strong>1. Materials module</strong></p>
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-materials.owl -->
+<p>This category includes fundamental entities that represent physical materials, independent of their shape, and their compositional relationships.</p>
+<p><img alt="Class hierarchy of the PMDco materials module" src="./hierarchy-materials.svg" /></p>
+<p>Examples:</p>
+<p><code>bfo:material entity</code> – the BFO superclass of all materials and objects: an independent continuant that has some portion of matter as continuant part.</p>
+<p><code>chebi:chemical entity</code> – imported from ChEBI: a physical entity of interest in chemistry, including molecular entities, parts thereof, and chemical substances.</p>
+<p><code>pmd:connected material entity aggregate</code> – An object aggregate that is a mereological sum of separate material entities, which adhere to one another through chemical bonds or physical junctions that go beyond gravity. <br/>
+Examples: the atoms of a molecule, the molecules forming the membrane of a cell, the epidermis in a human body.</p>
+<p><code>pmd:disconnected material entity aggregate</code> – An object aggregate that is a mereological sum of scattered (i.e. spatially separated) material entities, which do not adhere to one another through chemical bonds or physical junctions but, instead, relate to one another merely on grounds of metric proximity. The material entities are separated from one another through space or through other material entities that do not belong to the group. <br/>
+Examples: a heap of stones, a colony of honeybees, a group of synapses.</p>
+<p><code>pmd:material</code> – A portion of matter that may participate in some manufacturing process and whose shape is not relevant for its participation in the manufacturing process.</p>
+<p>Some concrete material definitions:</p>
+<p><code>pmd:metal</code> – A material characterized by high electrical and thermal conductivity, ductility, and metallic bonding.</p>
+<p><code>pmd:ceramic</code> – A non-metallic, inorganic material characterized by high hardness, brittleness, and heat resistance, commonly used in engineering applications.</p>
+<p><strong>2. Qualities module</strong></p>
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-qualities.owl-->
+
+<p>Material qualities define the intrinsic and extrinsic properties of materials that determine their behavior and usability in various applications.</p>
+<p><img alt="Class hierarchy of the PMDco qualities module" src="./hierarchy-qualities.svg" /></p>
+<p>Main BFO superclasses:</p>
+<p><code>bfo:quality</code> – A specifically dependent continuant that, in contrast to roles and dispositions, does not require any further process in order to be realized.</p>
+<p><code>bfo:realizable entity</code> – A specifically dependent continuant that inheres in some independent continuant which is not a spatial region, and which is of a type some instances of which are realized in processes of a correlated type.</p>
+<p>PMDco collects both kinds under one class and then classifies them in two complementary ways:</p>
+<p><code>pmd:property</code> – A collection class for entities that are either qualities (they represent a state) or realizable entities (they represent a behavior). Its subclasses group properties by domain, e.g. acoustic, chemical, electromagnetic, optical, thermodynamic, manufacturing and characteristic material properties.</p>
+<p><code>pmd:characteristic material property</code> – A property that is commonly associated with the domain of materials science and engineering.</p>
+<ul>
+<li>
+<p>Examples:</p>
+</li>
+<li>
+<p><code>pmd:hardness</code> – A mechanical property used as a measure of a material's resistance to localized plastic deformation, often tested by indentation or scratch methods.</p>
+</li>
+<li>
+<p><code>pmd:chemical composition</code> (a <code>pmd:composition</code>) – An intensive quality of a portion of matter which describes the types and proportions of pure chemical elements in the portion of matter; it is the subject of some chemical composition data item.</p>
+</li>
+</ul>
+<p><code>pmd:facetted property</code> – A specifically dependent continuant that gives more detail about another property or about its bearer.</p>
+<ul>
+<li>
+<p>Examples:</p>
+</li>
+<li>
+<p><code>pmd:extensive property</code> – A facetted property that is characteristic of some object, object aggregate or fiat object part and that changes with the bearer's makeup.</p>
+</li>
+<li>
+<p><code>pmd:intensive property</code> – A facetted property that is characteristic of some portion of matter or chemical substance.</p>
+</li>
+</ul>
+<p><code>pmd:fundamental quality of system</code> – A quality that every system made of demarcated material entities has.</p>
+<ul>
+<li>Example: <code>pmd:mass</code> – Mass is a fundamental extensive quality.</li>
+</ul>
+<p><strong>3. Manufacturing module</strong></p>
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-manufacturing.owl-->
+<p>This category encompasses various processes and devices involved in the transformation of raw materials into finished products or components.</p>
+<p><img alt="Class hierarchy of the PMDco manufacturing module" src="./hierarchy-manufacturing.svg" /></p>
+<p>The superclass for industrial processes:</p>
+<p><code>pmd:manufacturing process</code> – A planned process that is driven by the primary intent to transform objects. A manufacturing process is always a transformative process.</p>
+<p>More specific examples:</p>
+<p><code>pmd:coating</code> – A manufacturing process that aims to deposit a permanently adhering layer of a material without a form onto a workpiece, whereby the immediate state of the coating material directly before application is essential.</p>
+<p><code>pmd:forming</code> – A manufacturing process that changes the shape of a solid body through plastic deformation while retaining both mass and structural integrity.</p>
+<p><code>pmd:joining</code> – A manufacturing process that enables the continuous bonding or joining of two or more workpieces with a specific, fixed shape or of such workpieces with a shapeless material, whereby the cohesion is created at specific points and reinforced overall.</p>
+<p><strong>4. Material characterization module</strong></p>
+<!--@module_indicator:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-characterization.owl-->
+<p>Material characterization involves methods and devices used to analyze the physical, mechanical, and chemical properties of materials.</p>
+<p><img alt="Class hierarchy of the PMDco characterization module" src="./hierarchy-characterization.svg" /></p>
+<p>Main BFO superclass:</p>
+<p><code>bfo:process</code> – An occurrent that has some temporal proper part and for some time t has some material entity as participant.</p>
+<p>The superclass for characterization processes:</p>
+<p><code>obi:assay</code> – A planned process that has the objective to produce information about a material entity (the evaluant) by examining it.</p>
+<p>More specific examples:</p>
+<p><code>pmd:acoustical property analyzing process</code> – An assay that measures the acoustic properties of materials by analyzing how sound waves interact with the material. This process involves generating sound waves and observing their reflection, transmission, absorption, or scattering to determine properties such as acoustic impedance, absorption coefficient, and sound speed.</p>
+<p><code>pmd:mechanical property analyzing process</code> – An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.</p>
+<p><code>pmd:tensile testing process</code> – A mechanical property analyzing process that determines a material's response to tensile forces, measuring its tensile strength, elongation, and Young's modulus.</p>
+<p><strong>5. Data transformation module</strong></p>
+<!--@module_indicator: https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-datatransformation.owl-->
+<p>This category includes processes that involve computational simulations and digital transformations related to material properties and behaviors.</p>
+<p><img alt="Class hierarchy of the PMDco data transformation module" src="./hierarchy-datatransformation.svg" /></p>
+<p><code>pmd:computing process</code> – A process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or engineering goals.</p>
+<p><code>pmd:simulation process</code> – A computing process that models the behavior of a system over time using mathematical or computational techniques.</p>
+<p><code>pmd:monte carlo simulation</code> – A simulation process that uses random sampling to solve physical and mathematical problems.</p>
+<p><strong>6. Devices module</strong></p>
+<!--@module_indicator: https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/components/pmdco-devices.owl-->
+<p>This category includes devices performing certain functions in industrial processes.</p>
+<p><img alt="Class hierarchy of the PMDco devices module" src="./hierarchy-devices.svg" /></p>
+<p>Main BFO superclass:</p>
+<p><code>bfo:object</code> – A material entity which manifests causal unity and is of a type instances of which are maximal relative to the sort of causal unity manifested.</p>
+<p>Examples:</p>
+<p><code>pmd:device</code> – An object that is designed to perform a specific function or task involving measurement, manipulation, processing, or analysis.</p>
+<p><code>pmd:furnace</code> – A device that generates and contains high-intensity thermal energy within an insulated enclosure.</p>
+<p><code>pmd:creep testing machine</code> – A device used to test the creep behavior of materials under constant stress at high temperatures.</p>
+<h2 id="object-properties">Object Properties</h2>
+<!--@property_indicator: object -->
+<p>Most PMDco object properties are reused from BFO, RO, IAO and OBI. PMDco adds its own properties for more specific MSE relations. These are shown in <strong>bold</strong> in the figure below, which shows the top of the object property hierarchy with some branches expanded. The interactive tree above lists every object property. Some examples:</p>
+<p><img alt="Object property hierarchy of PMDco" src="./hierarchy-object-properties.svg" /></p>
+<p><code>bfo:realizes</code> – A relation between a process b and a realizable entity c such that c inheres in some d, and for all t, if b has participant d then c exists, and the type instantiated by b is correlated with the type instantiated by c.</p>
+<p><code>ro:concretizes</code> – A relationship between a specifically dependent continuant or process and a generically dependent continuant, in which the generically dependent continuant depends on some independent continuant in virtue of the fact that the specifically dependent continuant or process also depends on that same independent continuant. Multiple specifically dependent continuants or processes can concretize the same generically dependent continuant.</p>
+<p><code>iao:denotes</code> – A primitive, instance-level, relation obtaining between an information content entity and some portion of reality. Denotation is what happens when someone creates an information content entity E in order to specifically refer to something. The only relation between E and the thing is that E can be used to 'pick out' the thing. This relation connects those two together.</p>
+<p><code>obi:has value specification</code> – A relation between an information content entity and a value specification that specifies its value.</p>
+<p><code>pmd:has state</code> – Relates an anchor continuant to a temporally qualified continuant that represents a specific temporal phase of its existence.</p>
+<p><code>pmd:changes quality</code> – Indicates that a process changes a quality.</p>
+<p><code>pmd:responds with</code> – The realizable entity must be "stimulated" by some stimulus in order to respond with the response. The bearer of the realizable entity must participate in the stimulation as well as in the response.</p>
+<p>PMDco uses the following constraints and rules to keep the ontology logically consistent and to support accurate data representation:
+-   <strong>Property characteristics</strong>: Characteristics define how a property behaves in reasoning. A property can be functional (each individual has at most one value for it), inverse functional (each value points to at most one individual), transitive (chains of relationships infer new ones), symmetric (the relationship holds in both directions), asymmetric (it never reverses), reflexive (every individual relates to itself) or irreflexive (no individual relates to itself). In PMDco, for example, <code>bfo:has part</code> and <code>bfo:part of</code> are transitive, <code>ro:simultaneous with</code> is symmetric, <code>bfo:history of</code> is functional and inverse functional, and <code>ro:has member</code> is irreflexive.
+-   <strong>Restrictions</strong>: Class axioms restrict how a property is used with a class. For example, a <code>pmd:manufacturing process</code> has specified input <em>some</em> <code>bfo:object</code> or <code>bfo:object aggregate</code> (an existential restriction), and a <code>pmd:elemental crystal</code> has member <em>exactly 1</em> <code>pmd:portion of pure chemical element</code> (a cardinality restriction).
+-   <strong>Domain and Range Specifications</strong>: Define the classes a property applies to. For example, <code>bfo:realizes</code> has the domain <code>bfo:process</code> and the range <code>bfo:realizable entity</code>, and <code>pmd:changes quality</code> has the domain <code>bfo:process</code> and the range <code>bfo:quality</code>.</p>
+<h2 id="data-properties">Data Properties</h2>
+<!--@property_indicator: data -->
+<p><code>obi:has specified value</code> – A relation between a value specification and a literal.</p>
+<p><code>obi:has specified numeric value</code> – A relation between a value specification and a number that quantifies it.</p>
+<p><code>pmd:has value</code> – A data property that relates an information content entity to a literal.</p>
+<h2 id="annotation-properties">Annotation properties</h2>
+<!--@property_indicator: annotation -->
+<p>PMDco employs annotations to enrich classes and properties with metadata and human readable information, enhancing clarity and usability. This information may be provided in different natural languages (e.g., English and German).</p>
+<ul>
+<li><strong>Labels</strong> | <strong><em>rdfs:label</em></strong>: Provide human-readable names for ontology elements.</li>
+<li><strong>Synonyms</strong> | <strong><em>skos:altLabel</em></strong>: Provide alternative names under which a term is also known.</li>
+<li><strong>Comments</strong> | <strong><em>rdfs:comment</em></strong>: Offer detailed descriptions, usage notes, clarifications of definitions, or additional relevant information. They may enhance the understanding of the terms regarded.</li>
+<li><strong>Definitions</strong> | <strong><em>skos:definition</em></strong>: Deliver formal, human readable explanations and descriptions of classes and properties. Preferably, <a href="#aristotelian-definition">Aristotelian definitions</a> are used, which help to find subclass relationships.</li>
+<li><strong>Definition Source</strong> | <strong><em>obo:IAO_0000119</em></strong>: If the definition was obtained from a specific source (e.g., a well-known work from the field of MSE, a dictionary, or a URI/URL), this is specified as definition source, also citing the original document.</li>
+</ul>
+<p>As examples, the figures below show the annotations of the <code>pmd:material</code> class and of the <code>ro:has quality</code> object property:</p>
+<p><img alt="Annotations of the class material" src="./annotations-material.svg" /></p>
+<p><img alt="Annotations of the object property has quality" src="./annotations-has-quality.svg" /></p>
+<ul>
+<li><span id="aristotelian-definition"></span>Note that, for providing the definitions in PMDcore ontology we follow the <a href="https://www.merriam-webster.com/dictionary/Aristotelian">Aristotelian</a> principle. An Aristotelian definition typically refers to defining something by its genus (general category) and differentia (specific characteristics that distinguish it from other members of the same genus), which should be expressed in the concepts defined in the ontology.</li>
+</ul>
+<h2 id="individuals">Individuals</h2>
+<p>PMDco is a mid-level ontology. It gives users a framework for creating the individuals relevant to their own domain and contains almost no individuals itself. The few it does contain are:</p>
+<ul>
+<li><code>pmd:avogadro number</code> – an <code>obi:scalar value specification</code> for the Avogadro number.</li>
+<li>Units reused from UO and QUDT: <code>uo:mass percentage</code>, <code>uo:mass volume percentage</code>, <code>uo:mole fraction</code> and <code>qudt:PER-MOL</code>.</li>
+</ul>
+<p>The individuals of earlier versions (aggregate state values, 3D Bravais lattices and metallic grain structures) are obsolete; see <a href="obsolete-ontology-terms.html">Term Obsoletion</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Reused%20ontologies/" class="btn btn-neutral float-left" title="Reused Ontologies"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../patterns/" class="btn btn-neutral float-right" title="Patterns">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Reused%20ontologies/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../patterns/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
