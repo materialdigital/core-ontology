@@ -1612,7 +1612,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             border: 1px solid var(--color-border);
             border-radius: var(--radius-xl);
             padding: var(--spacing-2xl);
-            backdrop-filter: blur(10px);
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
 
@@ -1639,7 +1638,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            backdrop-filter: blur(8px);
         }
 
         .toc-title {
@@ -1784,7 +1782,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             background: var(--color-primary);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--color-primary);
-            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -3739,10 +3736,10 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
            =========================================== */
 
         /* === GLASSMORPHISM EFFECTS === */
+        /* No backdrop blur on sidebar/TOC - they are near-opaque, and a
+           full-height blur is re-rendered on every scroll frame (scroll lag). */
         .sidebar {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
         }
 
         body.theme-dark .sidebar {
@@ -3761,8 +3758,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
         .toc {
             background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
         }
 
         body.theme-dark .toc {
@@ -4210,18 +4205,17 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         @keyframes contentReveal {
             0% {
                 opacity: 0;
-                transform: translateY(30px);
-                filter: blur(4px);
+                transform: translateY(8px);
             }
             100% {
                 opacity: 1;
                 transform: translateY(0);
-                filter: blur(0);
             }
         }
 
+        /* Short and blur-free: a blurred 0.6s entrance on the whole page made every navigation feel slow. */
         .content-wrapper {
-            animation: contentReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: contentReveal 0.2s ease-out forwards;
         }
 
         /* === GRADIENT TEXT FOR BRANDING === */
@@ -4596,6 +4590,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
   var nodeData = __NODEDATA_OBJECT__;
   window.__GRAPH_DIAGRAMS__ = GRAPH_DIAGRAMS;
 
+  if (!document.querySelector(".mermaid-graph-container")) return;  // no diagrams: libs are not loaded
   if (typeof cytoscape === "undefined" || typeof ELK === "undefined") {
     console.error("Cytoscape/ELK failed to load"); return;
   }
@@ -4883,10 +4878,20 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
   function escapeHtml(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
 
+  function initOne(c) {
+    try { new CytoViewer(c); } catch (e) { console.error("Viewer init failed", e); }
+  }
+  // Lay out each diagram only when it nears the viewport: ELK runs on the main
+  // thread, so doing all of them at load froze the page for seconds.
   function initAll() {
-    document.querySelectorAll(".mermaid-graph-container").forEach(function (c) {
-      try { new CytoViewer(c); } catch (e) { console.error("Viewer init failed", e); }
-    });
+    var all = document.querySelectorAll(".mermaid-graph-container");
+    if (!("IntersectionObserver" in window)) { all.forEach(initOne); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { io.unobserve(en.target); initOne(en.target); }
+      });
+    }, { rootMargin: "600px 0px" });
+    all.forEach(function (c) { io.observe(c); });
   }
   function start() { (document.fonts ? document.fonts.ready : Promise.resolve()).then(initAll); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
@@ -8699,8 +8704,14 @@ def build_page_nav(prev_page: Optional[Tuple[str, str]] = None,
 # Docs mode template - same as patterns but without diagram placeholders
 # Docs mode template - same as patterns but without diagram placeholders by default
 # Manual diagrams can still be embedded and will be processed
+_DIAGRAM_LIBS = '''    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/elkjs@0.9.3/lib/elk.bundled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-svg@0.4.0/cytoscape-svg.js"></script>
+'''
+assert _DIAGRAM_LIBS in TEMPLATE_HTML, "diagram <script> tags changed; update _DIAGRAM_LIBS"
 DOCS_TEMPLATE_HTML = (
     TEMPLATE_HTML
+    .replace(_DIAGRAM_LIBS, "")  # ~2 MB of JS that pages without diagrams never use
     .replace("__DIAGRAMS_OBJECT__", "{}")
     .replace("__NODEDATA_OBJECT__", "{}")
     .replace("__MERMAID_DIAGRAMS_OBJECT__", "{}")
