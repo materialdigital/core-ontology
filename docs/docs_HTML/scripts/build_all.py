@@ -525,6 +525,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/svg+xml" href="./Logo.svg" />
     <meta content="__PAGE_TITLE__ - PMDco Documentation" name="description" />
     <meta name="keywords" content="PMDco, PMD core ontology, materials science ontology, materials science and engineering, MSE, materials informatics, semantic web, knowledge graph, BFO, SHACL, RDF, OWL, ontology, Platform MaterialDigital" />
     <title>__PAGE_TITLE__ | PMDco Documentation</title>
