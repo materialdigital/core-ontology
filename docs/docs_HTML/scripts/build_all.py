@@ -5094,6 +5094,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 this.vocab = [];
                 this.trigram = new Map(); // trigram -> Set(token)
                 this.avgLen = 1;
+                this.norm = new Map();   // docId -> { title, body } normalized text
                 this._build();
             }
 
@@ -5137,6 +5138,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                     const id = d.id;
                     const all = `${d.title || ''}\n${d.section || ''}\n${d.content || ''}`;
                     const tokens = this._tokenize(all);
+                    // Normalized once here, not on every keystroke in search().
+                    this.norm.set(id, { title: this._normalizeText(d.title), body: this._normalizeText(`${d.title || ''} ${d.content || ''}`) });
 
                     this.docLen.set(id, tokens.length);
                     totalLen += tokens.length;
@@ -5197,25 +5200,29 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 return prev[lb];
             }
 
-            _expandToken(q) {
-                const token = this._normalizeText(q);
+            // Returns [[indexToken, weight]]: exact match, plus prefix completions
+            // ("shape" -> "shapes", and as-you-type "tens" -> "tensile") at lower
+            // weight; typo-tolerant fuzzy matches only when nothing else matched.
+            _expandToken(token) {
                 if (!token) return [];
+                const out = [];
+                if (this.index.has(token)) out.push([token, 1]);
 
-                // Exact
-                if (this.index.has(token)) return [token];
-
-                // Prefix candidates
-                const pref = [];
-                const maxPref = 40;
-                for (const v of this.vocab) {
-                    if (v.startsWith(token)) {
-                        pref.push(v);
-                        if (pref.length >= maxPref) break;
+                if (token.length >= 3) {
+                    let n = 0;
+                    for (const v of this.vocab) {
+                        if (v !== token && v.startsWith(token)) {
+                            out.push([v, 0.6]);
+                            if (++n >= 40) break;
+                        }
                     }
                 }
-                if (pref.length) return pref;
+                if (out.length) return out;
+                return this._fuzzy(token).map(t => [t, 0.4]);
+            }
 
-                // Fuzzy (trigram intersection + Levenshtein <=2)
+            _fuzzy(token) {
+                // Trigram intersection + Levenshtein <= 2
                 if (token.length < 4) return [];
                 const padded = `  ${token}  `;
                 const candidates = new Map(); // token -> overlap
@@ -5249,81 +5256,69 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 const parts = [];
                 const re = /"([^"]+)"|(\S+)/g;
                 let m;
-                while ((m = re.exec(raw)) !== null) parts.push(m[1] || m[2]);
+                while ((m = re.exec(raw)) !== null) parts.push({ text: m[1] || m[2], quoted: !!m[1] });
 
-                const phrases = parts.filter(p => p.includes(' ') && !p.startsWith('type:') && !p.startsWith('section:'));
-                const tokens = parts.filter(p => !p.includes(' ') && !p.startsWith('type:') && !p.startsWith('section:'));
+                // Optional filters: type:page / type:section, section:<text>
+                const isFilter = p => !p.quoted && /^(type|section):/i.test(p.text);
+                const typeFilter = ((parts.find(p => isFilter(p) && /^type:/i.test(p.text)) || {}).text || '').slice(5).toLowerCase();
+                const sectionFilter = ((parts.find(p => isFilter(p) && /^section:/i.test(p.text)) || {}).text || '').slice(8).toLowerCase();
+                const terms = parts.filter(p => !isFilter(p));
 
-                // Optional filters: type:graph / type:section / type:page, section:<text>
-                const typeFilter = (parts.find(p => p.startsWith('type:')) || '').slice(5).toLowerCase();
-                const sectionFilter = (parts.find(p => p.startsWith('section:')) || '').slice(8).toLowerCase();
+                // Quoted text must appear verbatim; its words still count for scoring.
+                // Tokenizing each part the same way as the index means "BFO_0000015"
+                // becomes the two index tokens "bfo" + "0000015".
+                const phrases = terms.filter(p => p.quoted).map(p => this._normalizeText(p.text)).filter(Boolean);
+                const tokens = Array.from(new Set(terms.flatMap(p => this._tokenize(p.text))));
+                if (!tokens.length) return [];
+                const fullQuery = this._normalizeText(terms.map(p => p.text).join(' '));
 
                 const scores = new Map();
-                const matchedTokens = new Map(); // docId -> Set(tokens)
+                const matched = new Map(); // docId -> Set(query tokens matched)
 
                 for (const qt of tokens) {
-                    const expanded = this._expandToken(qt);
-                    for (const tok of expanded) {
+                    for (const [tok, weight] of this._expandToken(qt)) {
                         const posting = this.index.get(tok);
                         if (!posting) continue;
-
                         const idf = this.idf.get(tok) || 0.1;
                         for (const [docId, tf] of posting.entries()) {
-                            const d = this.docById.get(docId);
-                            if (!d) continue;
-
-                            if (typeFilter && String(d.type || '').toLowerCase() !== typeFilter) continue;
-                            if (sectionFilter && !String(d.section || '').toLowerCase().includes(sectionFilter)) continue;
-
                             const len = this.docLen.get(docId) || 1;
-                            const tfNorm = tf / (0.5 + 0.5 * (len / this.avgLen));
-                            const base = (scores.get(docId) || 0) + (tfNorm * idf);
-                            scores.set(docId, base);
-
-                            let s = matchedTokens.get(docId);
-                            if (!s) { s = new Set(); matchedTokens.set(docId, s); }
+                            // BM25 term saturation, so a long page can't win by repetition alone
+                            const tfNorm = (tf * 2.2) / (tf + 1.2 * (0.25 + 0.75 * (len / this.avgLen)));
+                            scores.set(docId, (scores.get(docId) || 0) + tfNorm * idf * weight);
+                            let s = matched.get(docId);
+                            if (!s) { s = new Set(); matched.set(docId, s); }
                             s.add(qt);
                         }
                     }
                 }
 
-                // Phrase filtering + boost
-                const qLower = this._normalizeText(raw);
                 const results = [];
                 for (const [docId, score0] of scores.entries()) {
                     const d = this.docById.get(docId);
                     if (!d) continue;
+                    if (typeFilter && String(d.type || '').toLowerCase() !== typeFilter) continue;
+                    if (sectionFilter && !String(d.section || '').toLowerCase().includes(sectionFilter)) continue;
 
-                    const normTitle = this._normalizeText(d.title || '');
-                    const normContent = this._normalizeText(d.content || '');
+                    const { title: normTitle, body: normBody } = this.norm.get(docId);
+                    if (phrases.some(ph => !normBody.includes(ph))) continue;
 
-                    let score = score0;
+                    const coverage = matched.get(docId).size / tokens.length;
+                    let score = score0 * coverage * coverage;
+                    if (tokens.length > 1 && normBody.includes(fullQuery)) score *= 2.0;  // words adjacent, in order
+                    if (normTitle === fullQuery) score *= 3.0;
+                    else if (normTitle.includes(fullQuery)) score *= 2.0;
+                    else if (tokens.some(t => normTitle.includes(t))) score *= 1.25;
+                    if (d.type === 'page') score *= 0.85;  // prefer the precise section over its whole page
 
-                    // Title boost
-                    if (qLower && normTitle.includes(qLower)) score *= 2.0;
-                    else {
-                        // partial boost
-                        for (const qt of tokens) {
-                            const nt = this._normalizeText(qt);
-                            if (nt && normTitle.includes(nt)) score *= 1.25;
-                        }
-                    }
-
-                    // Phrase requirement: every phrase must appear in title or content
-                    let ok = true;
-                    for (const ph of phrases) {
-                        const np = this._normalizeText(ph);
-                        if (!np) continue;
-                        if (!normTitle.includes(np) && !normContent.includes(np)) { ok = false; break; }
-                        score *= 1.15;
-                    }
-                    if (!ok) continue;
-
-                    results.push({ doc: d, score, matched: Array.from(matchedTokens.get(docId) || []) });
+                    results.push({ doc: d, score, coverage });
                 }
 
-                results.sort((a, b) => b.score - a.score);
-                return results.slice(0, limit);
+                // If any result contains every query word, drop partial matches (AND semantics);
+                // otherwise fall back to the best partial matches.
+                const complete = results.filter(r => r.coverage === 1);
+                const pool = complete.length ? complete : results;
+                pool.sort((a, b) => b.score - a.score);
+                return pool.slice(0, limit);
             }
         }
 
@@ -5335,28 +5330,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 .replace(/[^a-z0-9\-]/g, '')
                 .replace(/\-+/g, '-')
                 .replace(/^\-+|\-+$/g, '');
-        }
-
-        function extractDotIndexText(dot) {
-            if (!dot) return '';
-            const out = new Set();
-
-            // Node/edge labels
-            const re = /label\s*=\s*"((?:\\.|[^"\\])*)"/g;
-            let m;
-            while ((m = re.exec(dot)) !== null) {
-                const s = m[1].replace(/\\n/g, ' ').replace(/\\\"/g, '"').trim();
-                if (s) out.add(s);
-            }
-
-            // Node IDs in quotes
-            const reId = /"([^"]+)"\s*\[/g;
-            while ((m = reId.exec(dot)) !== null) {
-                const s = m[1].trim();
-                if (s) out.add(s);
-            }
-
-            return Array.from(out).join(' · ');
         }
 
         function buildSearchDocuments() {
@@ -5410,26 +5383,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 });
             });
 
-            // Graph entries (node labels + edge labels + ids)
-            document.querySelectorAll('.mermaid-graph-container').forEach((container) => {
-                const title = container.querySelector('.graph-title')?.textContent?.trim() || 'Graph';
-                const graphId = container.id || '';
-                const key = graphId.startsWith('graph-') ? graphId.slice(6) : graphId;
-                const dot = (typeof dotDiagrams !== 'undefined' && dotDiagrams[key]) ? dotDiagrams[key] : '';
-
-                const graphText = extractDotIndexText(dot);
-                if (!graphText.trim()) return;
-
-                docs.push({
-                    id: `graph:${pagePath}#${graphId || key}`,
-                    type: 'graph',
-                    title,
-                    section: pageTitle,
-                    path: graphId ? `./${pagePath}#${graphId}` : `./${pagePath}`,
-                    content: graphText
-                });
-            });
-
             // Navigation pages from sidebar links
             document.querySelectorAll('.nav-link[href]').forEach((a) => {
                 const t = (a.textContent || '').trim();
@@ -5447,108 +5400,6 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
 
             return docs;
         }
-
-        // ---- Cross-page search helpers (site-wide indexing) ----
-        async function mapLimit(items, limit, fn) {
-            const results = new Array(items.length);
-            let idx = 0;
-
-            const workers = new Array(Math.min(limit, items.length)).fill(0).map(async () => {
-                while (true) {
-                    const i = idx++;
-                    if (i >= items.length) break;
-                    results[i] = await fn(items[i], i, items.length);
-                }
-            });
-
-            await Promise.all(workers);
-            return results;
-        }
-
-        function extractDocsFromHtml(htmlText, href) {
-            const docs = [];
-            try {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlText, 'text/html');
-
-                const pageTitle = doc.querySelector('h1')?.textContent?.trim() || doc.title || (href || 'Page');
-                const pagePath = (href || '').split('#')[0].split('/').pop() || href || 'page';
-
-                const article = doc.querySelector('article.content') || doc.querySelector('.content') || doc.body;
-                const pageText = (article?.innerText || '').trim();
-
-                docs.push({
-                    id: `page:${pagePath}`,
-                    type: 'page',
-                    title: pageTitle,
-                    section: 'Pages',
-                    path: href,
-                    content: pageText
-                });
-
-                // Sections (h2/h3 with IDs)
-                const headings = Array.from(doc.querySelectorAll('h2[id], h3[id]'));
-                headings.forEach((h) => {
-                    const title = (h.textContent || '').trim();
-                    if (!title) return;
-
-                    const level = Number(h.tagName.substring(1)) || 6;
-                    const parts = [];
-                    let el = h.nextElementSibling;
-                    while (el) {
-                        if (/^H[1-6]$/.test(el.tagName)) {
-                            const nextLevel = Number(el.tagName.substring(1)) || 6;
-                            if (nextLevel <= level) break;
-                        }
-                        if (el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
-                            parts.push(el.innerText || el.textContent || '');
-                        }
-                        el = el.nextElementSibling;
-                    }
-
-                    const content = parts.join('\n').trim();
-                    const id = `section:${pagePath}#${h.id}`;
-
-                    docs.push({
-                        id,
-                        type: 'section',
-                        title,
-                        section: pageTitle,
-                        path: `${href}#${h.id}`,
-                        content
-                    });
-                });
-
-                // Best-effort DOT indexing if the page embeds dotDiagrams (Graphviz).
-                try {
-                    const m = htmlText.match(/const\s+dotDiagrams\s*=\s*\{([\s\S]*?)\n\s*\};/);
-                    if (m && m[1]) {
-                        const body = m[1];
-                        const re = /"([^"]+)"\s*:\s*`([\s\S]*?)`\s*,?/g;
-                        let mm;
-                        while ((mm = re.exec(body)) !== null) {
-                            const key = mm[1];
-                            const dot = mm[2] || '';
-                            const graphText = extractDotIndexText(dot);
-                            if (!graphText.trim()) continue;
-                            docs.push({
-                                id: `graph:${pagePath}:${key}`,
-                                type: 'graph',
-                                title: `Graph: ${key}`,
-                                section: pageTitle,
-                                path: href,
-                                content: graphText
-                            });
-                        }
-                    }
-                } catch (e) { /* ignore */ }
-
-            } catch (e) {
-                return [];
-            }
-            return docs;
-        }
-
 
         function makeSnippet(text, query, maxLen = 180) {
             if (!text) return '';
@@ -5599,10 +5450,17 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         class Search {
             constructor() {
                 this.selectedIndex = -1;
-                this.docs = buildSearchDocuments();
-                this.engine = new DocSearchEngine(this.docs);
+                this.engine = null;  // built lazily by ensureIndex()
                 this.createModal();
                 this.bindEvents();
+            }
+
+            // Indexing reads the whole page's text and fetches search-index.json, so it
+            // only runs once search is about to be used - not on every page load.
+            ensureIndex() {
+                if (this.engine) return;
+                this.docs = buildSearchDocuments();
+                this.engine = new DocSearchEngine(this.docs);
                 this.bootstrapCrossPageIndex();
             }
 
@@ -5628,7 +5486,10 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                 this.resultsContainer = document.getElementById('search-results');
 
                 // Sidebar search input (kept for layout, opens modal)
-                document.getElementById('sidebar-search')?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
+                const sidebarSearch = document.getElementById('sidebar-search');
+                sidebarSearch?.addEventListener('click', (e) => { e.preventDefault(); this.open(); });
+                // Warm the index up while the pointer heads for the search box.
+                sidebarSearch?.addEventListener('pointerenter', () => this.ensureIndex(), { once: true });
             }
 
             bindEvents() {
@@ -5762,6 +5623,7 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
             }
 
             open() {
+                this.ensureIndex();
                 this.modal.classList.add('active');
                 this.modal.setAttribute('aria-hidden', 'false');
                 this.input.focus();
@@ -5807,9 +5669,8 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                     for (const entry of searchIndex) {
                         // Combine ALL content sources for comprehensive page-level search
                         const pageContent = [
-                            entry.content || '',           // Full page content (untruncated)
+                            entry.content || '',           // Text before the first heading
                             entry.keywords || '',          // Extracted technical keywords
-                            entry.terms || '',             // All unique terms for exact match
                             // All heading texts and their full content
                             (entry.headings || []).map(h =>
                                 `${h.text} ${h.content || ''} ${h.keywords || ''}`
@@ -5857,11 +5718,10 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
                     }
 
                     if (extraDocs.length) {
-                        // Replace current docs with comprehensive cross-page index
-                        // but keep current page's detailed docs for best local search
-                        const byId = new Map(this.docs.map(d => [d.id, d]));
-                        for (const d of extraDocs) byId.set(d.id, d);
-                        this.docs = Array.from(byId.values());
+                        // The site index is built from the rendered pages, so it already
+                        // covers this page; the DOM-scanned docs are only a fallback for
+                        // when the index can't load (and merging them duplicated results).
+                        this.docs = extraDocs;
 
                         // Rebuild the search engine with full content
                         this.engine = new DocSearchEngine(this.docs);
@@ -8800,6 +8660,10 @@ def _maybe_refresh_llms(out_dir: Path) -> None:
         md_dir = script_dir.parent.parent  # docs/
         run_all.generate_llms_files(md_dir, config, out_dir, verbose=False)
         run_all.generate_sitemap(md_dir, config, out_dir, verbose=False)
+        # The search index is read from the built pages, so refresh it as well.
+        (out_dir / "search-index.json").write_text(
+            json.dumps(run_all.generate_search_index(md_dir, config, out_dir), ensure_ascii=False),
+            encoding="utf-8")
     except Exception as exc:
         print(f"  Note: could not refresh llms.txt/sitemap.xml: {exc}")
 
