@@ -279,18 +279,25 @@ ANNOTATION_ORDER = ["label", "definition", "skos:definition", "comment", "altLab
 
 
 def render_annotations(onto, name, kind):
-    """Protege-like 'Annotations: X' panel listing every literal annotation of the entity."""
+    """Protege-like 'Annotations: X' panel listing every annotation of the entity, in every language.
+
+    Text values show their language/datatype; term values (e.g. has curation status) show the term's label.
+    """
     u = onto.by_label.get(name.lower())
     if u is None:
         raise ValueError(f"unknown or deprecated term: '{name}'")
     items = []
     for p, o in onto.g.predicate_objects(u):
-        if not isinstance(o, Literal) or p in (RDF.type,):
+        if isinstance(o, Literal):
+            meta = (f"[language: {o.language}]" if o.language
+                    else f"[type: {qname(o.datatype).replace('XMLSchema#', 'xsd:')}]" if o.datatype else "")
+            value = str(o).strip()
+        elif isinstance(o, URIRef) and (p, RDF.type, OWL.AnnotationProperty) in onto.g:
+            meta, value = "", onto.label(o)
+        else:
             continue
         pname = onto.label(p) if (p, RDFS.label, None) in onto.g else qname(p)
-        meta = (f"[language: {o.language}]" if o.language
-                else f"[type: {qname(o.datatype).replace('XMLSchema#', 'xsd:')}]" if o.datatype else "")
-        items.append((pname, meta, str(o).strip()))
+        items.append((pname, meta, value))
     rank = lambda it: (ANNOTATION_ORDER.index(it[0]) if it[0] in ANNOTATION_ORDER else len(ANNOTATION_ORDER),
                        it[0].lower(), it[1] != "[language: en]", it[1], it[2])
     items.sort(key=rank)
