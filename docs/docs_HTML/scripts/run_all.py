@@ -132,9 +132,9 @@ def copy_assets(src_dir: Path, out_dir: Path, verbose: bool = False) -> None:
         >>> copy_assets(Path("docs"), Path("output"), verbose=True)
           Copied asset: Logo.svg
     """
-    # List of static assets to copy
-    # Add new assets here as needed (e.g., favicon.ico, custom fonts)
-    assets = ['Logo.svg']
+    # Static assets to copy: every SVG in docs/ (logo, figures such as
+    # pmdco-modularization.svg and the hierarchy-*.svg from make_ontology_figures.py)
+    assets = sorted(p.name for p in src_dir.glob('*.svg'))
 
     for asset in assets:
         src = src_dir / asset
@@ -308,6 +308,17 @@ def build_all(
         print(f"HTML output: {out_dir}")
         print(f"Pages to build: {len(pages_to_build)}")
         print("=" * 60)
+
+    # Regenerate the ontology figures (docs/*.svg) from the same ontology as the
+    # class trees, so they follow every ontology change; a failure keeps the old files
+    if verbose:
+        print("Generating ontology figures...")
+    try:
+        sys.path.insert(0, str(Path(__file__).parent))
+        import make_ontology_figures
+        make_ontology_figures.generate(make_ontology_figures.default_source())
+    except Exception as exc:
+        print(f"  Warning: ontology figures not regenerated ({exc}); keeping the existing files")
 
     # Copy static assets to output directory
     if verbose:
