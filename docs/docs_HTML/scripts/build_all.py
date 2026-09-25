@@ -4424,23 +4424,24 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
         .mermaid-graph-container .graph-viewport { cursor: default; }
         :fullscreen .graph-viewport, :-webkit-full-screen .graph-viewport { max-height: none; height: 100vh; }
         .cy-pop {
-            position: fixed; z-index: 9999; max-width: 280px; pointer-events: auto;
-            background: var(--color-bg-card, #fff); color: var(--color-text-primary, #0f172a);
-            border: 1px solid var(--color-border, #e2e8f0); border-radius: 10px;
-            box-shadow: var(--shadow-lg, 0 18px 44px rgba(15,23,42,.18)); padding: 12px 14px;
-            font-family: var(--font-family, sans-serif); font-size: 13px; opacity: 0; visibility: hidden;
-            transform: translateY(4px); transition: opacity .16s ease, transform .16s ease;
+            position: fixed; z-index: 9999; width: 260px; max-width: calc(100vw - 24px); pointer-events: auto;
+            background: var(--color-bg-secondary, #fff); color: var(--color-text-primary, #0f172a);
+            border: 1px solid var(--color-border, #e2e8f0); border-radius: 6px;
+            box-shadow: 0 4px 14px rgba(15,23,42,.08); padding: 10px 12px;
+            font-family: var(--font-family, sans-serif); font-size: 13px; line-height: 1.4;
+            opacity: 0; visibility: hidden; transition: opacity .12s ease, visibility .12s;
         }
-        .cy-pop.visible { opacity: 1; visibility: visible; transform: none; }
-        .cy-pop-h { font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .cy-pop-badge { font-size: 10.5px; font-weight: 600; color: #fff;
-            background: linear-gradient(135deg, var(--color-primary, #00a0e3), var(--color-primary-dark, #0077b3));
-            padding: 2px 8px; border-radius: 999px; }
-        .cy-pop-uri { margin-top: 6px; font-family: var(--font-family-mono, monospace); font-size: 11px;
-            color: var(--color-text-muted, #475569); word-break: break-all; }
-        .cy-pop-link { display: inline-block; margin-top: 8px; font-weight: 600; font-size: 12px;
-            color: var(--color-primary-dark, #0077b3); text-decoration: none; }
-        .cy-pop-link:hover { text-decoration: underline; }
+        .cy-pop.visible { opacity: 1; visibility: visible; }
+        .cy-pop-h { padding-right: 18px; font-weight: 600; overflow-wrap: anywhere; }
+        .cy-pop-kind { font-size: 12px; color: var(--color-text-muted, #64748b); }
+        .cy-pop-close { position: absolute; top: 6px; right: 6px; border: 0; background: none; padding: 2px 4px;
+            color: var(--color-text-muted, #64748b); font-size: 15px; line-height: 1; cursor: pointer; }
+        .cy-pop-close:hover { color: var(--color-text-primary, #0f172a); }
+        .cy-pop-link { display: flex; gap: 6px; justify-content: space-between; margin-top: 8px; padding-top: 8px;
+            border-top: 1px solid var(--color-border, #e2e8f0); font-size: 12px; color: var(--color-text-muted, #64748b);
+            text-decoration: none; }
+        .cy-pop-link span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .cy-pop-link:hover { color: var(--color-primary, #00a0e3); }
 
 </style>
 </head>
@@ -4818,14 +4819,19 @@ TEMPLATE_HTML = r'''<!DOCTYPE html>
       var kind = d.type || n.data("kind") || "Node";
       var uri = d.uri || n.data("uri") || "";
       var pop = getPop();
-      var html = '<div class="cy-pop-h">' + escapeHtml(label) + '<span class="cy-pop-badge">' + escapeHtml(kind) + '</span></div>';
-      if (uri) html += '<div class="cy-pop-uri">' + escapeHtml(uri) + '</div>' +
-        '<a class="cy-pop-link" href="' + encodeURI(uri) + '" target="_blank" rel="noopener">Open IRI &#8599;</a>';
+      var html = '<button type="button" class="cy-pop-close" aria-label="Close">&times;</button>' +
+        '<div class="cy-pop-h">' + escapeHtml(label).replace(/_/g, "_<wbr>") + '</div>' +
+        '<div class="cy-pop-kind">' + escapeHtml(kind === "Individual" ? "Individual (ABox)" : kind) + '</div>';
+      // ABox example individuals are illustrative and not dereferenceable; only TBox IRIs get a link.
+      if (uri && kind !== "Individual") html += '<a class="cy-pop-link" href="' + encodeURI(uri) + '" target="_blank" rel="noopener" title="' +
+        escapeHtml(uri) + '"><span>' + escapeHtml(uri.replace(/^https?:\/\//, "")) + '</span>&#8599;</a>';
       pop.innerHTML = html;
+      pop.querySelector(".cy-pop-close").addEventListener("click", hidePop);
       var rp = e.renderedPosition || n.renderedPosition();
       var box = self.host.getBoundingClientRect();
-      pop.style.left = Math.min(box.left + rp.x + 12, window.innerWidth - 280) + "px";
-      pop.style.top = (box.top + rp.y + 12) + "px";
+      var x = box.left + rp.x + 12, y = box.top + rp.y + 12;
+      pop.style.left = Math.max(12, Math.min(x, window.innerWidth - pop.offsetWidth - 12)) + "px";
+      pop.style.top = Math.max(12, Math.min(y, window.innerHeight - pop.offsetHeight - 12)) + "px";
       pop.classList.add("visible");
     });
     cy.on("tap", function (e) { if (e.target === cy) hidePop(); });
