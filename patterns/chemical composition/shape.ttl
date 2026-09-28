@@ -63,15 +63,14 @@ shape:fraction
             PREFIX pmd: <https://w3id.org/pmd/co/>
             PREFIX obo: <http://purl.obolibrary.org/obo/>
             PREFIX ro:  <http://purl.obolibrary.org/obo/>
-            PREFIX pmd: <https://w3id.org/pmd/co/>
 
             SELECT $this
             WHERE {
                 # 1. fraction -> towards -> pure substance
                 FILTER NOT EXISTS {
-                    $this obo:RO_0002503 ?element .                # towards
+                    $this <http://purl.obolibrary.org/obo/RO_0002503> ?element .                # towards
                     ?element a pmd:PMD_0020140 ;                   # portion of pure chemical element
-                             obo:BFO_0000050 ?whole .             # part of
+                             <http://purl.obolibrary.org/obo/BFO_0000050> ?whole .             # part of
                     ?whole a pmd:PMD_0000001 .                    # portion of matter
 
                     # 2. fraction --> relational quality of --> whole
