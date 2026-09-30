@@ -1,0 +1,35 @@
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+# Classes
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . 
+@prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
+@prefix temporal_instant: <http://purl.obolibrary.org/obo/BFO_0000203> .
+
+# ObjectProperties
+@prefix occupies_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000199> . 
+@prefix has_first_instant: <http://purl.obolibrary.org/obo/BFO_0000222> .
+@prefix has_last_instant: <http://purl.obolibrary.org/obo/BFO_0000224> .
+
+# Data properties
+@prefix inXSDDateTimeStamp: <http://www.w3.org/2006/time#inXSDDateTimeStamp> .
+
+<https://w3id.org/pmd/co/test/shape/time_start_and_endpoint> rdf:type owl:Ontology .
+
+ex:process_one a process: ;
+    occupies_temporal_region: ex:process_ones_temporal_interval .
+
+ex:process_ones_temporal_interval a temporal_interval: ;
+    has_first_instant: ex:instant_start ;
+    has_last_instant: ex:instant_end .
+
+ex:instant_start a temporal_instant: ;
+    inXSDDateTimeStamp: "2022-01-01T12:00:00+01:00"^^xsd:DateTimeStamp .
+ex:instant_end   a temporal_instant: ;
+    inXSDDateTimeStamp: "2022-01-01T13:15:59+01:00"^^xsd:DateTimeStamp .
