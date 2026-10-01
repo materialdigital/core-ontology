@@ -40,6 +40,7 @@ Declaration(Class(:PMD_0020142))
 Declaration(Class(:PMD_0020254))
 Declaration(Class(:PMD_0020353))
 Declaration(Class(:PMD_0020367))
+Declaration(Class(:PMD_0020415))
 Declaration(Class(:PMD_0025005))
 Declaration(Class(:PMD_0025007))
 Declaration(Class(:PMD_0025018))
@@ -394,8 +395,10 @@ EquivalentClasses(:PMD_0000068 ObjectIntersectionOf(obo:BFO_0000004 ObjectSomeVa
 AnnotationAssertion(obo:IAO_0000114 :PMD_0000143 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 :PMD_0000143 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label :PMD_0000143 "duration"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#altLabel> :PMD_0000143 "temporal interval specification"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000143 "a value specification that represents the temporal extent of an occurrent, corresponding to the interval between its beginning and its end; specified in units of time."@en)
 SubClassOf(:PMD_0000143 obo:OBI_0001933)
+SubClassOf(Annotation(rdfs:comment "could be equivalent class") :PMD_0000143 ObjectSomeValuesFrom(obo:OBI_0001927 obo:BFO_0000202))
 
 # Class: :PMD_0000501 (1D)
 
@@ -508,14 +511,14 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_000104
 AnnotationAssertion(:PMD_0001032 :PMD_0001042 <https://github.com/materialdigital/core-ontology/issues/278>)
 SubClassOf(:PMD_0001042 obo:COB_0000082)
 
-# Class: :PMD_0001044 (date value specification)
+# Class: :PMD_0001044 (DEPRECATED date value specification)
 
-AnnotationAssertion(obo:IAO_0000114 :PMD_0001044 obo:IAO_0000122)
-AnnotationAssertion(obo:IAO_0000117 :PMD_0001044 "PERSON: Joerg Waitelonis")
-AnnotationAssertion(rdfs:label :PMD_0001044 "date value specification"@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0001044 "A datum that represents a date or time interval associated with another specification.")
-AnnotationAssertion(:PMD_0001032 :PMD_0001044 <https://github.com/materialdigital/core-ontology/issues/278>)
-SubClassOf(:PMD_0001044 obo:OBI_0001933)
+AnnotationAssertion(rdfs:comment :PMD_0001044 "ambigous wrt time span vs time point. Use 'pmd:duration' or 'pmd:timepoint' instead")
+AnnotationAssertion(rdfs:label :PMD_0001044 "DEPRECATED date value specification"@en)
+AnnotationAssertion(rdfs:seeAlso :PMD_0001044 :PMD_0000143)
+AnnotationAssertion(rdfs:seeAlso :PMD_0001044 :PMD_0020415)
+AnnotationAssertion(owl:deprecated :PMD_0001044 "true"^^xsd:boolean)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0001044 "DEPRECATED A datum that represents a date or time interval associated with another specification.")
 
 # Class: :PMD_0001046 (Tiefe)
 
@@ -576,6 +579,15 @@ AnnotationAssertion(obo:IAO_0000117 :PMD_0020353 "PERSON: Philipp von Hartrott")
 AnnotationAssertion(obo:IAO_0000114 :PMD_0020367 obo:IAO_0000122)
 AnnotationAssertion(obo:IAO_0000117 :PMD_0020367 "PERSON: Philipp von Hartrott")
 SubClassOf(:PMD_0020367 ObjectAllValuesFrom(obo:RO_0000080 obo:BFO_0000027))
+
+# Class: :PMD_0020415 (timepoint)
+
+AnnotationAssertion(rdfs:comment :PMD_0020415 "Preferably expressed in UTC using time:inXSDDateTimeStamp.")
+AnnotationAssertion(rdfs:label :PMD_0020415 "timepoint"@en)
+AnnotationAssertion(rdfs:seeAlso :PMD_0020415 "https://en.wikipedia.org/wiki/Coordinated_Universal_Time")
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0020415 "a value specification of a point in time with respect to a reference time system, which defines the reference point."@en)
+SubClassOf(:PMD_0020415 obo:OBI_0001933)
+SubClassOf(Annotation(rdfs:comment "Could be equivalent class") :PMD_0020415 ObjectSomeValuesFrom(obo:OBI_0001927 obo:BFO_0000203))
 
 # Class: :PMD_0025005 (3D)
 
