@@ -157,6 +157,50 @@ Some facts are frequently expressed in the domain of MSE. The propably most freq
 
 (see folder:     [patterns/categorical value specification/](https://github.com/materialdigital/core-ontology/tree/main/patterns/categorical%20value%20specification) )
 
+---
+
+## Pattern 8c - A measured duration of a process 
+<!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20measured%20duration/pattern.md-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20measured%20duration/shape-data.ttl-->
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20measured%20duration/shape-data.ttl-->
+
+
+(see folder:     [patterns/categorical value specification/](https://github.com/materialdigital/core-ontology/tree/main/patterns/time%20measured%20duration) )
+
+---
+
+## Pattern 8d - A duration as setpoint for a process 
+<!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20setpoint%20duration/pattern.md-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20setpoint%20duration/shape-data.ttl-->
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20setpoint%20duration/shape-data.ttl-->
+
+
+(see folder:     [patterns/categorical value specification/](https://github.com/materialdigital/core-ontology/tree/main/patterns/time%20setpoint%20duration) )
+
+---
+
+## Pattern 8e - A start- and endpoint of a process without further provenance information
+<!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20start-%20and%20endpoint/pattern.md-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20start-%20and%20endpoint/shape-data.ttl-->
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20start-%20and%20endpoint/shape-data.ttl-->
+
+
+(see folder:     [patterns/categorical value specification/](https://github.com/materialdigital/core-ontology/tree/main/patterns/time%20start-%20and%20endpoint) )
+
+---
+
+## Pattern 8f - A timepoint as setpoint for the start of a process
+<!--@md_file_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20setpoint%20startinstant/pattern.md-->
+<!--@Graphviz_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20setpoint%20startinstant/shape-data.ttl-->
+<!--@source_code_renderer:https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/patterns/time%20setpoint%20startinstant/shape-data.ttl-->
+
+
+(see folder:     [patterns/categorical value specification/](https://github.com/materialdigital/core-ontology/tree/main/patterns/time%20setpoint%20startinstant) )
+
+A word on `bfo:existsAt` vs. `bfo:occupies temporal` region:  
+- occupiesTemporalRegion is functional and thus defines the identity of the related process.
+- existsAt of processes is a form of overlapping co-existance without implications about the type of overlap.
+- existsAt of continuants should probably be thought of in terms of the bfo:history of the continuant. Unfortunately bfo:has history has a domain of bfo:material entity. This makes it difficult for immaterial entities to existsAt some process (crack exitsAt crack grows is not possible).
 
 ---
 # Section 3:  the world of computation and simulation

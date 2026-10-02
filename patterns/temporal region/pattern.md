@@ -1,2 +1,2 @@
 - **Purpose**: Specify the temporal extend and the temporal boundaries of a process on the time axis. 
-- **Example Use Case**: This example describes a process (annealing of an ingot) that unfolds in a single uninterrupted time interval. The time interval has explicit named start and end instants. Furthermore the process has two specified participants: the furnace and the ingot. 
+- **Example Use Case**: This example describes a process (annealing of an ingot) that unfolds in a single uninterrupted time interval. The time interval has an explicit named start. The process starts with the "point_of_thermal_ingress" boundary. (Furthermore the process has two specified participants: the furnace and the ingot.)
