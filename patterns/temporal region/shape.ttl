@@ -1,0 +1,45 @@
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix shape: <https://w3id.org/pmd/co/shapes/temporal_region/> .
+@prefix : shape: .
+@base shape: .
+
+shape:
+  rdf:type owl:Ontology ;
+  owl:imports sh: .
+  
+# See "frame time 15" to "frame time 19" on Miro: https://miro.com/app/board/uXjVNOTPrFo=/?moveToWidget=3458764674757039214&cot=14
+
+shape:temporal_region
+    a sh:NodeShape ;
+    sh:targetClass obo:BFO_0000008  ;  #Temporal region
+    sh:property [            
+        sh:path [ sh:inversePath obo:BFO_0000199 ]; # inverse occupies temporal region
+        sh:or (
+            [ sh:class obo:BFO_0000015 ]      # process
+            [ sh:class obo:BFO_0000035 ]      # process boundary
+        ) ;
+        sh:maxCount 1 ; 
+        sh:message "A temporal region must be occupied by exactly one process or process boundary. (obo:BFO_0000199 is functional)" ;
+    ] ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
+
+
+shape:one_dimensional_temporal_region
+    a sh:NodeShape ;
+    sh:targetClass obo:BFO_0000038  ;  #One dimensional temporal region
+    sh:property [            
+        sh:path [ sh:inversePath obo:BFO_0000199 ]; # inverse occupies temporal region
+        sh:class obo:BFO_0000015 ; # process
+        sh:minCount 1 ; 
+        sh:maxCount 1 ; 
+        sh:message "A one dimensional interval must be occupied by exactly one process. (obo:BFO_0000199 is functional)" ;
+    ] ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type owl:topDataProperty owl:topObjectProperty ) .
