@@ -1,0 +1,48 @@
+@prefix : <https://w3id.org/pmd/co/test#> .
+@prefix ex: <https://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/pmd/co/test#> .
+
+# Classes
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . 
+@prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
+@prefix temporal_instant: <http://purl.obolibrary.org/obo/BFO_0000203> .
+@prefix timepoint: <https://w3id.org/pmd/co/PMD_0020415> .
+@prefix specification_datum: <https://w3id.org/pmd/co/PMD_0060009> .
+@prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
+
+# ObjectProperties
+@prefix occupies_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000199> . 
+@prefix has_first_instant: <http://purl.obolibrary.org/obo/BFO_0000222> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
+@prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
+
+# Data properties
+@prefix has_specified_value: <http://purl.obolibrary.org/obo/OBI_0002135> .
+@prefix has_timestamp: <http://www.w3.org/2006/time#inXSDDateTimeStamp> .
+
+<https://w3id.org/pmd/co/test/shape/time_setpoint_startinstant> rdf:type owl:Ontology .
+
+ex:process_one a process: ;
+    occupies_temporal_region: ex:process_ones_temporal_interval .
+
+ex:process_ones_temporal_interval a temporal_interval: ;
+    has_first_instant: ex:process_ones_temporal_startpoint .
+
+ex:process_ones_temporal_startpoint a temporal_instant: ;
+    specified_by_value: ex:timepoint .
+
+ex:timepoint a timepoint: ;
+    has_timestamp: "2000-01-01T00:00:00+00:00"^^xsd:dateTimeStamp . 
+
+ex:my_plan_specification a plan_specification: ;
+     has_part: [
+        a specification_datum: ;
+        has_value_specification: ex:timepoint 
+    ] .
+
