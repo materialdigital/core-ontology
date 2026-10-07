@@ -68,3 +68,5 @@
 - **Note on OWL expressivity**: The axiom uses nested existential restrictions with object property chains. ELK (EL profile reasoner) does not classify the individual correctly; Konclude (OWL 2 DL) and HermiT do handle the TBox correctly. For ABox individual classification use Konclude or HermiT in materialize/full-ABox mode, not ROBOT `reason` (which only adds TBox inferences by default).
 
 alternative Visualization using [visgraph](https://thhanke.github.io/visgraph/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/feat/mass-fraction-relational-quality-pattern/patterns/mass%20fraction%20relational%20quality/shape-data.ttl)
+
+Open in [Ontosphere](https://thhanke.github.io/ontosphere/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/feat/mass-fraction-relational-quality-pattern/patterns/mass%20fraction%20relational%20quality/shape-data.ttl)
