@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>IOF Qualities ↔ PMDco Mapping Documentation - PMD Core Ontology</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/stylesheets/mkdocs_d2_plugin.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "IOF Qualities \u2194 PMDco Mapping Documentation";
+        var mkdocs_page_input_path = "iof-pmdco-mapping.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> PMD Core Ontology
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Welcome</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Introduction%20to%20Ontologies/">Introduction to Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction to PMDco v3.x.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Reused%20ontologies/">Reused Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Ontology_structure2/">Ontology Structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../patterns/">Patterns</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../PMDco%20User%20Guide/">PMDco User Guide</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../versions/">Versions and Variants</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../migration/">Migration from 2.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Who%20We%20Are%20%26%20How%20to%20Join/">Who We Are & How to Join</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../publications/">Publications</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../acknowledgements/">Acknowledgements</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">PMD Core Ontology</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">IOF Qualities ↔ PMDco Mapping Documentation</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="iof-qualities-pmdco-mapping-documentation">IOF Qualities ↔ PMDco Mapping Documentation</h1>
+<h2 id="purpose">Purpose</h2>
+<p>This document maps concepts between the IOF Qualities Library and PMDco to guide the migration of IOF quality hierarchies into the PMDco ontology. PMDco already exported a number of terms into IOF (annotated with <code>iof-av:adaptedFrom</code>). Now we want to sync the other way: adopting IOF's cleaner hierarchical groupers and new terms back into PMDco, while handling the ontology stack differences carefully.</p>
+<hr />
+<h2 id="1-ontology-stack-differences">1. Ontology Stack Differences</h2>
+<h3 id="bfo-version">BFO Version</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>IOF Qualities</th>
+<th>PMDco</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BFO version</td>
+<td>BFO 2020</td>
+<td>BFO 2020 (no-time)</td>
+</tr>
+<tr>
+<td>BFO namespace</td>
+<td><code>http://purl.obolibrary.org/obo/BFO_...</code></td>
+<td><code>http://purl.obolibrary.org/obo/BFO_...</code> (same)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Both use BFO 2020 with the same IRIs — no BFO mismatch. The earlier concern about "BFO2 vs BFO2020" does not apply to IRIs, but IOF uses additional IOF Core wrapper classes.</p>
+<h3 id="property-mapping">Property Mapping</h3>
+<table>
+<thead>
+<tr>
+<th>IOF Property</th>
+<th>IRI</th>
+<th>PMDco Equivalent</th>
+<th>IRI</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>has quality</td>
+<td><code>iof-core:hasQuality</code></td>
+<td>has quality</td>
+<td><code>RO_0000086</code></td>
+<td>IOF Core wraps RO; same semantics</td>
+</tr>
+<tr>
+<td>quality of</td>
+<td><code>iof-core:qualityOf</code></td>
+<td>quality of</td>
+<td><code>RO_0000080</code></td>
+<td>inverse of has quality</td>
+</tr>
+<tr>
+<td>has process characteristic</td>
+<td><code>iof-core:hasProcessCharacteristic</code></td>
+<td>has process attribute</td>
+<td><code>pmdco:PMD_0000009</code></td>
+<td>PMDco uses "attribute"; IOF uses "characteristic"</td>
+</tr>
+<tr>
+<td>process characteristic of</td>
+<td><code>iof-core:processCharacteristicOf</code></td>
+<td>process attribute of</td>
+<td><code>pmdco:PMD_0025006</code></td>
+<td>inverse</td>
+</tr>
+<tr>
+<td>has participant</td>
+<td><code>obo:BFO_0000057</code></td>
+<td>has participant</td>
+<td><code>RO_0000057</code></td>
+<td>same OBO IRI — direct match</td>
+</tr>
+<tr>
+<td>has realization</td>
+<td><code>obo:BFO_0000054</code></td>
+<td>has realization</td>
+<td><code>obo:BFO_0000054</code></td>
+<td>same OBO IRI — direct match</td>
+</tr>
+<tr>
+<td>realizes</td>
+<td><code>obo:BFO_0000055</code></td>
+<td>realizes</td>
+<td><code>obo:BFO_0000055</code></td>
+<td>same OBO IRI — direct match</td>
+</tr>
+<tr>
+<td>part of</td>
+<td><code>obo:BFO_0000050</code></td>
+<td>part of</td>
+<td><code>obo:BFO_0000050</code></td>
+<td>same OBO IRI — direct match</td>
+</tr>
+</tbody>
+</table>
+<h3 id="annotation-property-mapping">Annotation Property Mapping</h3>
+<table>
+<thead>
+<tr>
+<th>IOF Annotation</th>
+<th>IRI</th>
+<th>PMDco Equivalent</th>
+<th>IRI</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>natural language definition</td>
+<td><code>iof-av:naturalLanguageDefinition</code></td>
+<td>definition</td>
+<td><code>obo:IAO_0000115</code></td>
+<td>Use IAO_0000115 in PMDco</td>
+</tr>
+<tr>
+<td>adapted from</td>
+<td><code>iof-av:adaptedFrom</code></td>
+<td>definition source</td>
+<td><code>obo:IAO_0000119</code></td>
+<td>Different semantics: adaptedFrom = attribution; IAO_0000119 = source citation. Use IAO_0000119 for the link back to IOF</td>
+</tr>
+<tr>
+<td>is primitive</td>
+<td><code>iof-av:isPrimitive</code></td>
+<td>editor note</td>
+<td><code>obo:IAO_0000116</code></td>
+<td>No direct PMDco equivalent; annotate primitives with editor note</td>
+</tr>
+<tr>
+<td>first order logic definition</td>
+<td><code>iof-av:firstOrderLogicDefinition</code></td>
+<td>editor note</td>
+<td><code>obo:IAO_0000116</code></td>
+<td>No direct equivalent; include in editor note if desired</td>
+</tr>
+<tr>
+<td>maturity</td>
+<td><code>iof-av:maturity</code></td>
+<td>—</td>
+<td>—</td>
+<td>No equivalent in PMDco</td>
+</tr>
+<tr>
+<td>skos:example</td>
+<td><code>skos:example</code></td>
+<td>skos:example</td>
+<td><code>skos:example</code></td>
+<td>Direct match</td>
+</tr>
+<tr>
+<td>skos:altLabel</td>
+<td><code>skos:altLabel</code></td>
+<td>skos:altLabel</td>
+<td><code>skos:altLabel</code></td>
+<td>Direct match</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-key-iof-classes-not-present-in-pmdco-candidates-for-migration">2. Key IOF Classes Not Present in PMDco (Candidates for Migration)</h2>
+<h3 id="21-from-qualitiesrdf-iof-base-qualities">2.1 From <code>Qualities.rdf</code> (IOF Base Qualities)</h3>
+<table>
+<thead>
+<tr>
+<th>IOF Class</th>
+<th>IRI</th>
+<th>Parent in IOF</th>
+<th>PMDco Status</th>
+<th>Migration Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DimensionQuality</td>
+<td><code>...Qualities/DimensionQuality</code></td>
+<td><code>BFO_0000019</code> (Quality)</td>
+<td>Missing</td>
+<td><strong>Add</strong> as new quality grouper</td>
+</tr>
+<tr>
+<td>SpatialRelationalQuality</td>
+<td><code>...Qualities/SpatialRelationalQuality</code></td>
+<td><code>BFO_0000145</code> (Relational Quality)</td>
+<td>Missing</td>
+<td><strong>Add</strong> as relational quality subtype</td>
+</tr>
+<tr>
+<td>Action</td>
+<td><code>...Qualities/Action</code></td>
+<td><code>BFO_0000015</code> (Process)</td>
+<td>Partial match: PMD_0000950 (StimulatingProcess)</td>
+<td><strong>Evaluate</strong> — PMDco's StimulatingProcess has different axioms; needs comparison</td>
+</tr>
+<tr>
+<td>Reaction</td>
+<td><code>...Qualities/Reaction</code></td>
+<td><code>BFO_0000015</code> (Process)</td>
+<td>Missing</td>
+<td><strong>Add</strong> if adopting Action; linked via <code>triggers/isTriggeredBy</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-from-qualities-physicalrdf-grouper-classes">2.2 From <code>Qualities-Physical.rdf</code> — Grouper Classes</h3>
+<p>These are the <strong>organizational root classes</strong> of the IOF physical quality hierarchy. PMDco has corresponding <em>disposition</em> hierarchies (under Material Property) but lacks these quality groupers.</p>
+<table>
+<thead>
+<tr>
+<th>IOF Class</th>
+<th>IRI</th>
+<th>Parent in IOF</th>
+<th>PMDco Disposition Analog</th>
+<th>PMDco Quality Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PhysicalQuality</td>
+<td><code>...Qualities-Physical/PhysicalQuality</code></td>
+<td><code>BFO_0000019</code></td>
+<td>(none — disposition root is PMD_0000005)</td>
+<td><strong>Add</strong> as top quality grouper</td>
+</tr>
+<tr>
+<td>ThermoDynamicQuality</td>
+<td><code>...Qualities-Physical/ThermoDynamicQuality</code></td>
+<td>PhysicalQuality</td>
+<td>PMD_0000967 (Temperature, leaf)</td>
+<td><strong>Add</strong> as grouper</td>
+</tr>
+<tr>
+<td>AcousticQuality</td>
+<td><code>...Qualities-Physical/AcousticQuality</code></td>
+<td>PhysicalQuality</td>
+<td>PMD_0000506 (Acoustic Property, disposition)</td>
+<td><strong>Add</strong> — distinct from disposition</td>
+</tr>
+<tr>
+<td>ElectricalQuality</td>
+<td><code>...Qualities-Physical/ElectricalQuality</code></td>
+<td>PhysicalQuality</td>
+<td>PMD_0000621 (Electrical Property, disposition)</td>
+<td><strong>Add</strong> — distinct from disposition</td>
+</tr>
+<tr>
+<td>MagneticQuality</td>
+<td><code>...Qualities-Physical/MagneticQuality</code></td>
+<td>PhysicalQuality</td>
+<td>PMD_0000825 (Magnetic Property, disposition)</td>
+<td><strong>Add</strong> — distinct from disposition</td>
+</tr>
+<tr>
+<td>MechanicalQuality</td>
+<td><code>...Qualities-Physical/MechanicalQuality</code></td>
+<td>PhysicalQuality</td>
+<td>PMD_0000848 (Mechanical Property, disposition)</td>
+<td><strong>Add</strong> — distinct from disposition</td>
+</tr>
+<tr>
+<td>OpticalQuality</td>
+<td><code>...Qualities-Physical/OpticalQuality</code></td>
+<td>PhysicalQuality</td>
+<td>PMD_0000877 (Optical Property, disposition)</td>
+<td><strong>Add</strong> — distinct from disposition</td>
+</tr>
+<tr>
+<td>FluidDynamicQuality</td>
+<td><code>...Qualities-Physical/FluidDynamicQuality</code></td>
+<td>PhysicalQuality</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>OlfactoricQuantity</td>
+<td><code>...Qualities-Physical/OlfactoricQuantity</code></td>
+<td>PhysicalQuality</td>
+<td>(none)</td>
+<td><strong>Add</strong> (low priority)</td>
+</tr>
+<tr>
+<td>RadiologicQuality</td>
+<td><code>...Qualities-Physical/RadiologicQuality</code></td>
+<td>PhysicalQuality</td>
+<td>(none)</td>
+<td><strong>Add</strong> (low priority)</td>
+</tr>
+<tr>
+<td>SurfaceRoughness</td>
+<td><code>...Qualities-Physical/SurfaceRoughness</code></td>
+<td>PhysicalQuality</td>
+<td>(none as quality)</td>
+<td><strong>Add</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-from-qualities-physicalrdf-physicalprocesscharacteristic-sub-tree">2.3 From <code>Qualities-Physical.rdf</code> — PhysicalProcessCharacteristic Sub-tree</h3>
+<p>IOF introduces <code>PhysicalProcessCharacteristic</code> as a subclass of <code>iof-core:ProcessCharacteristic</code>. PMDco uses "process attribute" (<code>PMD_0000009</code>) as a <em>relation</em>, not as a <em>class</em>.</p>
+<table>
+<thead>
+<tr>
+<th>IOF Class</th>
+<th>IRI</th>
+<th>Parent</th>
+<th>PMDco Equivalent</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PhysicalProcessCharacteristic</td>
+<td><code>...Qualities-Physical/PhysicalProcessCharacteristic</code></td>
+<td><code>iof-core:ProcessCharacteristic</code></td>
+<td>Missing class</td>
+<td><strong>Add</strong> — introduce ProcessCharacteristic concept in PMDco</td>
+</tr>
+<tr>
+<td>ElectricCurrent</td>
+<td><code>...Qualities-Physical/ElectricCurrent</code></td>
+<td>PhysicalProcessCharacteristic</td>
+<td>(none as process char.)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>ForceRate</td>
+<td><code>...Qualities-Physical/ForceRate</code></td>
+<td>PhysicalProcessCharacteristic</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>Frequency</td>
+<td><code>...Qualities-Physical/Frequency</code></td>
+<td>PhysicalProcessCharacteristic</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>MassFlowRate</td>
+<td><code>...Qualities-Physical/MassFlowRate</code></td>
+<td>PhysicalProcessCharacteristic</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>MechanicalImpulse</td>
+<td><code>...Qualities-Physical/MechanicalImpulse</code></td>
+<td>PhysicalProcessCharacteristic</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>RadiantEnergyFlux</td>
+<td><code>...Qualities-Physical/RadiantEnergyFlux</code></td>
+<td>PhysicalProcessCharacteristic</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>Speed</td>
+<td><code>...Qualities-Physical/Speed</code></td>
+<td>PhysicalProcessCharacteristic</td>
+<td>(none as process char.)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>TemperatureProfile</td>
+<td><code>...Qualities-Physical/TemperatureProfile</code></td>
+<td>PhysicalProcessCharacteristic</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="24-from-qualities-measurementperformancerdf">2.4 From <code>Qualities-MeasurementPerformance.rdf</code></h3>
+<table>
+<thead>
+<tr>
+<th>IOF Class</th>
+<th>IRI</th>
+<th>Parent</th>
+<th>PMDco Equivalent</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PerformanceQuality</td>
+<td><code>...MeasurementPerformance/PerformanceQuality</code></td>
+<td><code>BFO_0000019</code></td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>MeasurementRelationalQuality</td>
+<td><code>...MeasurementPerformance/MeasurementRelationalQuality</code></td>
+<td><code>BFO_0000145</code></td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>DynamicRange</td>
+<td><code>...MeasurementPerformance/DynamicRange</code></td>
+<td>MeasurementRelationalQuality</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>WorkingRange</td>
+<td><code>...MeasurementPerformance/WorkingRange</code></td>
+<td>DynamicRange</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>CalibrationRange</td>
+<td><code>...MeasurementPerformance/CalibrationRange</code></td>
+<td>DynamicRange</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>Precision</td>
+<td><code>...MeasurementPerformance/Precision</code></td>
+<td>MeasurementRelationalQuality</td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+<tr>
+<td>DataAcquisitionRate</td>
+<td><code>...MeasurementPerformance/DataAcquisitionRate</code></td>
+<td><code>iof-core:ProcessCharacteristic</code></td>
+<td>(none)</td>
+<td><strong>Add</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-iof-terms-adapted-from-pmdco-already-in-pmdco-reverse-mapping">3. IOF Terms Adapted From PMDco (Already in PMDco — Reverse Mapping)</h2>
+<p>These IOF terms were derived from PMDco and already exist there. The goal is to ensure the PMDco terms are placed under the correct IOF grouper when adopted.</p>
+<h3 id="from-qualities-physicalrdf-33-terms">From <code>Qualities-Physical.rdf</code> (33 terms)</h3>
+<table>
+<thead>
+<tr>
+<th>IOF Label</th>
+<th>IOF IRI</th>
+<th>PMDco IRI</th>
+<th>PMDco Parent (current)</th>
+<th>Target IOF Grouper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>acoustic absorption coefficient</td>
+<td><code>...Physical/AcousticAbsorptionCoefficient</code></td>
+<td>PMD_0000505</td>
+<td>PMD_0000506 (Acoustic Property / disposition)</td>
+<td>AcousticQuality</td>
+</tr>
+<tr>
+<td>activity (thermodynamic)</td>
+<td><code>...Physical/ActivityThermodynamic</code></td>
+<td>PMD_0020161</td>
+<td>BFO_0000145 (Relational Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>aggregate state</td>
+<td><code>...Physical/AggregateState</code></td>
+<td>PMD_0000512</td>
+<td>BFO_0000019 (Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>band gap</td>
+<td><code>...Physical/BandGap</code></td>
+<td>PMD_0090002</td>
+<td>PMD_0000621 (Electrical Property)</td>
+<td>ElectricalQuality</td>
+</tr>
+<tr>
+<td>boiling point</td>
+<td><code>...Physical/BoilingPoint</code></td>
+<td>PMD_0000535</td>
+<td>BFO_0000145 (Relational Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>Brinell hardness</td>
+<td><code>...Physical/BrinellHardness</code></td>
+<td>PMD_0000537</td>
+<td>PMD_0000789 (Indentation Hardness)</td>
+<td>MechanicalQuality</td>
+</tr>
+<tr>
+<td>chemical potential</td>
+<td><code>...Physical/ChemicalPotential</code></td>
+<td>PMD_0000553</td>
+<td>BFO_0000145 (Relational Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>density</td>
+<td><code>...Physical/Density</code></td>
+<td>PMD_0000597</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>PhysicalQuality (or MechanicalQuality)</td>
+</tr>
+<tr>
+<td>dielectric constant</td>
+<td><code>...Physical/DielectricConstant</code></td>
+<td>PMD_0000604</td>
+<td>PMD_0000621 (Electrical Property)</td>
+<td>ElectricalQuality</td>
+</tr>
+<tr>
+<td>dispersion</td>
+<td><code>...Physical/Dispersion</code></td>
+<td>PMD_0020247</td>
+<td>PMD_0000877 (Optical Property)</td>
+<td>OpticalQuality</td>
+</tr>
+<tr>
+<td>driving force of phase in system</td>
+<td><code>...Physical/DrivingForceOfPhaseInSystem</code></td>
+<td>PMD_0020130</td>
+<td>BFO_0000145 (Relational Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>elastic modulus</td>
+<td><code>...Physical/ElasticModulus</code></td>
+<td>PMD_0000618</td>
+<td>PMD_0000848 (Mechanical Property)</td>
+<td>MechanicalQuality</td>
+</tr>
+<tr>
+<td>electrical conductivity</td>
+<td><code>...Physical/ElectricalConductivity</code></td>
+<td>PMD_0000620</td>
+<td>PMD_0000621 (Electrical Property)</td>
+<td>ElectricalQuality</td>
+</tr>
+<tr>
+<td>energy</td>
+<td><code>...Physical/Energy</code></td>
+<td>PMD_0020142</td>
+<td>PMD_0020148 (Extensive Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>hardenable</td>
+<td><code>...Physical/Hardenable</code></td>
+<td>PMD_0010013</td>
+<td>(capability-like)</td>
+<td>— (disposition, not quality)</td>
+</tr>
+<tr>
+<td>heat capacity</td>
+<td><code>...Physical/HeatCapacity</code></td>
+<td>PMD_0000777</td>
+<td>PMD_0000981 (Thermal Property)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>interatomic interaction energy</td>
+<td><code>...Physical/InteratomicInteractionEnergy</code></td>
+<td>PMD_0020155</td>
+<td>PMD_0020148 (Extensive Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>internal energy</td>
+<td><code>...Physical/InternalEnergy</code></td>
+<td>PMD_0020151</td>
+<td>PMD_0020148 (Extensive Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>melting point</td>
+<td><code>...Physical/MeltingPoint</code></td>
+<td>PMD_0000851</td>
+<td>BFO_0000145 (Relational Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>Mohs hardness</td>
+<td><code>...Physical/MohsHardness</code></td>
+<td>PMD_0000861</td>
+<td>PMD_0000924 (Scratch Hardness)</td>
+<td>MechanicalQuality</td>
+</tr>
+<tr>
+<td>pressure</td>
+<td><code>...Physical/Pressure</code></td>
+<td>PMD_0000896</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>MechanicalQuality or ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>rebound hardness</td>
+<td><code>...Physical/ReboundHardness</code></td>
+<td>PMD_0000910</td>
+<td>PMD_0000773 (Hardness)</td>
+<td>MechanicalQuality</td>
+</tr>
+<tr>
+<td>reflectivity</td>
+<td><code>...Physical/Reflectivity</code></td>
+<td>PMD_0000911</td>
+<td>PMD_0000877 (Optical Property)</td>
+<td>OpticalQuality</td>
+</tr>
+<tr>
+<td>refraction</td>
+<td><code>...Physical/Refraction</code></td>
+<td>PMD_0000790</td>
+<td>PMD_0000877 (Optical Property)</td>
+<td>OpticalQuality</td>
+</tr>
+<tr>
+<td>semiconductivity</td>
+<td><code>...Physical/Semiconductivity</code></td>
+<td>PMD_0090001</td>
+<td>PMD_0000621 (Electrical Property)</td>
+<td>ElectricalQuality</td>
+</tr>
+<tr>
+<td>specific surface area</td>
+<td><code>...Physical/SpecificSurfaceArea</code></td>
+<td>PMD_0000942</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>PhysicalQuality</td>
+</tr>
+<tr>
+<td>speed of sound</td>
+<td><code>...Physical/SpeedOfSound</code></td>
+<td>PMD_0000947</td>
+<td>PMD_0000506 (Acoustic Property)</td>
+<td>AcousticQuality</td>
+</tr>
+<tr>
+<td>stiffness</td>
+<td><code>...Physical/Stiffness</code></td>
+<td>PMD_0000949</td>
+<td>PMD_0000848 (Mechanical Property)</td>
+<td>MechanicalQuality</td>
+</tr>
+<tr>
+<td>strength</td>
+<td><code>...Physical/Strength</code></td>
+<td>PMD_0000952</td>
+<td>PMD_0000848 (Mechanical Property)</td>
+<td>MechanicalQuality</td>
+</tr>
+<tr>
+<td>sublimation point</td>
+<td><code>...Physical/SublimationPoint</code></td>
+<td>PMD_0000961</td>
+<td>BFO_0000145 (Relational Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>superconducting</td>
+<td><code>...Physical/Superconducting</code></td>
+<td>PMD_0000111</td>
+<td>(capability-like)</td>
+<td>— (disposition, not quality)</td>
+</tr>
+<tr>
+<td>thermal conductivity</td>
+<td><code>...Physical/ThermalConductivity</code></td>
+<td>PMD_0000978</td>
+<td>PMD_0000981 (Thermal Property)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+<tr>
+<td>triple point</td>
+<td><code>...Physical/TriplePoint</code></td>
+<td>PMD_0000996</td>
+<td>BFO_0000145 (Relational Quality)</td>
+<td>ThermoDynamicQuality</td>
+</tr>
+</tbody>
+</table>
+<h3 id="from-qualities-materialstructurerdf-11-quality-terms-3-capability-terms">From <code>Qualities-MaterialStructure.rdf</code> (11 quality terms + 3 capability terms)</h3>
+<table>
+<thead>
+<tr>
+<th>IOF Label</th>
+<th>IOF IRI</th>
+<th>PMDco IRI</th>
+<th>PMDco Parent (current)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>crystal structure</td>
+<td><code>...MaterialStructure/CrystalStructure</code></td>
+<td>PMD_0000591</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already in PMDco correctly</td>
+</tr>
+<tr>
+<td>crystallographic texture</td>
+<td><code>...MaterialStructure/CrystallographicTexture</code></td>
+<td>PMD_0000853</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>defect density</td>
+<td><code>...MaterialStructure/DefectDensity</code></td>
+<td>PMD_0000595</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>grain size</td>
+<td><code>...MaterialStructure/GrainSize</code></td>
+<td>PMD_0020243</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>ASTM grain size</td>
+<td><code>...MaterialStructure/ASTMGrainSize</code></td>
+<td>PMD_0000503</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>grain size distribution</td>
+<td><code>...MaterialStructure/GrainSizeDistribution</code></td>
+<td>PMD_0020112</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>metallic grain structure</td>
+<td><code>...MaterialStructure/MetallicGrainStructure</code></td>
+<td>PMD_0025003</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>order scale</td>
+<td><code>...MaterialStructure/OrderScale</code></td>
+<td>PMD_0020220</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>angle of misalignment</td>
+<td><code>...MaterialStructure/AngleOfMisalignment</code></td>
+<td>PMD_0020241</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>Burgers vector</td>
+<td><code>...MaterialStructure/BurgersVector</code></td>
+<td>PMD_0020237</td>
+<td>PMD_0020131 (Intensive Quality)</td>
+<td>already correct</td>
+</tr>
+<tr>
+<td>polymorphism of crystal</td>
+<td><code>...MaterialStructure/PolymorphismOfCrystal</code></td>
+<td>PMD_0020212</td>
+<td>PMD_0000016 (Disposition)</td>
+<td>capability in IOF</td>
+</tr>
+<tr>
+<td>allotropy of elemental crystal</td>
+<td><code>...MaterialStructure/AllotropyOfAnElementalCrystal</code></td>
+<td>PMD_0020211</td>
+<td>PMD_0000016 (Disposition)</td>
+<td>capability in IOF</td>
+</tr>
+<tr>
+<td>disposition of a phase to transform</td>
+<td><code>...MaterialStructure/DispositionOfAPhaseToTransform</code></td>
+<td>PMD_0020165</td>
+<td>PMD_0000016 (Disposition)</td>
+<td>capability in IOF</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-critical-design-decision-quality-vs-disposition">4. Critical Design Decision: Quality vs. Disposition</h2>
+<p>The most important structural difference between IOF and PMDco:</p>
+<p><strong>IOF</strong> classifies many quantifiable material attributes (hardness, conductivity, modulus) directly as <strong>qualities</strong> (<code>BFO_0000019</code>), within <code>PhysicalQuality &gt; MechanicalQuality</code>, etc.</p>
+<p><strong>PMDco</strong> currently classifies these as <strong>dispositions</strong> (<code>BFO_0000016</code>) under <code>MaterialProperty (PMD_0000005)</code>, where:
+- <code>MaterialProperty</code> = "disposition realized in compatible process, grounded in intensive qualities"
+- This is intentional: the <em>property</em> is the material's <em>tendency</em> to exhibit behavior, not the measurement result</p>
+<p><strong>Consequence:</strong>
+- <code>PMD_0000505</code> (Acoustic Absorption Coefficient) is a subclass of <code>PMD_0000506</code> (Acoustic Property) which is a subclass of <code>BFO_0000016</code> (Disposition)
+- IOF's <code>AcousticAbsorptionCoefficient</code> is a subclass of <code>AcousticQuality</code> which is a subclass of <code>BFO_0000019</code> (Quality)</p>
+<p><strong>Resolution Options:</strong></p>
+<p><strong>Option A — Strict separation (recommended):</strong> Introduce IOF quality groupers as NEW classes alongside existing disposition hierarchy. The groupers (<code>PhysicalQuality</code>, <code>AcousticQuality</code>, etc.) serve as quality-level anchors. Existing PMDco terms under MaterialProperty STAY as dispositions. New QUALITY versions of those concepts (when needed) go under the new groupers. Cross-reference with <code>obo:IAO_0000119</code>.</p>
+<p><strong>Option B — Relocation:</strong> Move existing PMDco terms that are genuinely qualities (not just dispositions) out from under MaterialProperty and under the new IOF quality groupers. This is a breaking change but more ontologically correct.</p>
+<p><strong>Option C — Multiple inheritance:</strong> Make existing PMDco disposition terms ALSO subclasses of the appropriate IOF quality grouper where they genuinely represent both. This is permissible in OWL but risks confusion.</p>
+<p>The recommendation is <strong>Option A</strong> for now, with a clear annotation pointing from each new quality grouper to the related disposition class in PMDco notes.</p>
+<hr />
+<h2 id="5-processcharacteristic-a-new-concept-for-pmdco">5. ProcessCharacteristic: A New Concept for PMDco</h2>
+<p>IOF Core defines <code>ProcessCharacteristic</code> as a <strong>Continuant</strong> that summarizes an attribute of a process over its entire duration. PMDco currently lacks this class — it has a <em>relation</em> <code>PMD_0000009</code> (has process attribute) but no corresponding <em>class</em> for the attribute itself.</p>
+<p><strong>Mapping:</strong></p>
+<table>
+<thead>
+<tr>
+<th>IOF</th>
+<th>PMDco (proposed)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>iof-core:ProcessCharacteristic</code></td>
+<td>New class <code>PMD_NEW</code> (ProcessCharacteristic)</td>
+<td>subClassOf BFO_0000002 (Continuant) — analogous to IOF</td>
+</tr>
+<tr>
+<td><code>iof-core:hasProcessCharacteristic</code></td>
+<td><code>PMD_0000009</code> (has process attribute)</td>
+<td>Already exists — use as equivalent; annotate</td>
+</tr>
+<tr>
+<td><code>iof-core:processCharacteristicOf</code></td>
+<td><code>PMD_0025006</code> (process attribute of)</td>
+<td>Already exists</td>
+</tr>
+<tr>
+<td><code>PhysicalProcessCharacteristic</code></td>
+<td>New class <code>PMD_NEW</code></td>
+<td>subClassOf new ProcessCharacteristic</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-proposed-migration-hierarchy-for-pmdco">6. Proposed Migration Hierarchy for PMDco</h2>
+<div class="highlight"><pre><span></span><code>BFO_0000019 (Quality)
+└── [NEW] PhysicalQuality  (adopted from IOF)
+    ├── DimensionQuality  (adopted from IOF Qualities base)
+    │   └── Length  (adopted from IOF)
+    ├── ThermoDynamicQuality  (adopted from IOF)
+    │   ├── PMD_0000512 (Aggregate State) — relocate from direct BFO_0000019
+    │   ├── PMD_0000967 (Temperature) — relocate from IntensiveQuality
+    │   ├── PMD_0000851 (Melting Point) — relocate from BFO_0000145
+    │   ├── PMD_0000535 (Boiling Point) — relocate from BFO_0000145
+    │   ├── PMD_0000961 (Sublimation Point) — relocate from BFO_0000145
+    │   ├── PMD_0000996 (Triple Point) — relocate from BFO_0000145
+    │   ├── PMD_0000553 (Chemical Potential) — relocate from BFO_0000145
+    │   ├── PMD_0020130 (Driving Force of Phase) — relocate from BFO_0000145
+    │   ├── PMD_0020161 (Activity Thermodynamic) — stays under relational quality
+    │   ├── PMD_0000777 (Heat Capacity) — relocate from Thermal Property
+    │   ├── PMD_0000978 (Thermal Conductivity) — relocate from Thermal Property
+    │   ├── PMD_0020142 (Energy) — relocate from ExtensiveQuality
+    │   ├── PMD_0020151 (Internal Energy) — stays under ExtensiveQuality
+    │   └── PMD_0020155 (Interatomic Interaction Energy) — stays under ExtensiveQuality
+    ├── AcousticQuality  (adopted from IOF)
+    │   ├── PMD_0000505 (Acoustic Absorption Coefficient) — CURRENTLY under disposition!
+    │   └── PMD_0000947 (Speed of Sound) — CURRENTLY under disposition!
+    ├── ElectricalQuality  (adopted from IOF)
+    │   ├── PMD_0000620 (Electrical Conductivity) — CURRENTLY under disposition!
+    │   ├── PMD_0000604 (Dielectric Constant) — CURRENTLY under disposition!
+    │   ├── PMD_0090001 (Semiconductivity) — CURRENTLY under disposition!
+    │   └── PMD_0090002 (Band Gap) — CURRENTLY under disposition!
+    ├── MagneticQuality  (adopted from IOF)
+    │   └── [existing PMD magnetic terms from PMD_0000825 subtree]
+    ├── MechanicalQuality  (adopted from IOF)
+    │   ├── PMD_0000618 (Elastic Modulus) — CURRENTLY under disposition!
+    │   ├── PMD_0000949 (Stiffness) — CURRENTLY under disposition!
+    │   ├── PMD_0000952 (Strength) — CURRENTLY under disposition!
+    │   ├── PMD_0000773 (Hardness) — CURRENTLY under disposition!
+    │   │   ├── PMD_0000789 (Indentation Hardness)
+    │   │   │   └── PMD_0000537 (Brinell Hardness)
+    │   │   ├── PMD_0000910 (Rebound Hardness)
+    │   │   └── PMD_0000924 (Scratch Hardness)
+    │   │       └── PMD_0000861 (Mohs Hardness)
+    │   └── PMD_0000896 (Pressure) — CURRENTLY under IntensiveQuality
+    ├── OpticalQuality  (adopted from IOF)
+    │   ├── PMD_0000911 (Reflectivity) — CURRENTLY under disposition!
+    │   ├── PMD_0000790 (Refraction) — CURRENTLY under disposition!
+    │   └── PMD_0020247 (Dispersion) — CURRENTLY under disposition!
+    ├── FluidDynamicQuality  (adopted from IOF, new)
+    │   └── [Viscosity and subtypes — new from IOF]
+    ├── SurfaceRoughness  (adopted from IOF, new)
+    ├── PMD_0000597 (Density) — stays under IntensiveQuality or move here
+    └── PMD_0000942 (Specific Surface Area) — stays under IntensiveQuality or move here
+
+BFO_0000145 (Relational Quality)
+├── [NEW] SpatialRelationalQuality  (adopted from IOF)
+├── [NEW] MeasurementRelationalQuality  (adopted from IOF)
+│   ├── [NEW] DynamicRange
+│   │   ├── [NEW] WorkingRange
+│   │   └── [NEW] CalibrationRange
+│   └── [NEW] Precision
+└── PMD_0025998 (has relational quality) — already exists as object property
+
+BFO_0000002 (Continuant)
+└── [NEW] ProcessCharacteristic  (concept adopted from IOF Core)
+    └── [NEW] PhysicalProcessCharacteristic  (adopted from IOF)
+        ├── [NEW] ElectricCurrent
+        ├── [NEW] ForceRate
+        ├── [NEW] Frequency
+        ├── [NEW] MassFlowRate
+        ├── [NEW] MechanicalImpulse
+        ├── [NEW] RadiantEnergyFlux
+        ├── [NEW] Speed
+        └── [NEW] TemperatureProfile
+
+BFO_0000019 (Quality)
+└── [NEW] PerformanceQuality  (adopted from MeasurementPerformance, new)
+
+PMD_0000005 (Material Property / Disposition) [KEEP AS IS]
+├── PMD_0000506 (Acoustic Property) [KEEP]
+├── PMD_0000621 (Electrical Property) [KEEP]
+├── PMD_0000825 (Magnetic Property) [KEEP]
+├── PMD_0000848 (Mechanical Property) [KEEP]
+├── PMD_0000877 (Optical Property) [KEEP]
+└── PMD_0000981 (Thermal Property) [KEEP]
+</code></pre></div>
+<p><strong>Terms marked "CURRENTLY under disposition!"</strong> require the most careful migration decision (see Section 4, Option A/B/C).</p>
+<hr />
+<h2 id="7-open-questions-decisions-needed">7. Open Questions / Decisions Needed</h2>
+<ol>
+<li>
+<p><strong>Quality vs. Disposition relocation</strong> (Section 4): Which option? Relocating terms marked "CURRENTLY under disposition" is a breaking change. Option A (parallel hierarchies) is safer but creates redundancy.</p>
+</li>
+<li>
+<p><strong>ProcessCharacteristic class</strong>: Should PMDco introduce this as a new concept or reuse/rename the existing <code>PMD_0000009</code> object property's range? The IOF class is a Continuant subtype.</p>
+</li>
+<li>
+<p><strong>Action/Reaction</strong>: IOF's <code>Action</code> partially overlaps with PMDco's <code>PMD_0000950</code> (Stimulating Process) and <code>PMD_0001028/PMD_0001029</code> (in response to / responds with). Direct adoption or explicit cross-reference?</p>
+</li>
+<li>
+<p><strong>IOF-only terms</strong> (FluidDynamicQuality, Viscosity, OlfactoricQuantity, RadiologicQuality, MeasurementPerformance terms): These are entirely new — add all or prioritize MSE-relevant ones?</p>
+</li>
+<li>
+<p><strong>IRI assignment</strong>: New PMDco terms need fresh <code>PMD_XXXXXXX</code> IRIs. What number range to use? (Existing ranges: 0000xxx, 0010xxx, 0020xxx, 0025xxx, 004xxxx, 005xxxx, 009xxxx)</p>
+</li>
+<li>
+<p><strong>Back-reference annotation</strong>: When adopting an IOF term into PMDco, annotate with <code>obo:IAO_0000119</code> pointing to the IOF IRI? Or introduce a custom annotation like <code>adaptedFrom</code> mirroring IOF's approach?</p>
+</li>
+</ol>
+<hr />
+<h2 id="8-iof-terms-in-physical-qualities-not-yet-in-pmdco-new-leaf-terms">8. IOF Terms in Physical Qualities Not Yet in PMDco (New Leaf Terms)</h2>
+<p>Beyond the groupers, these leaf terms appear in IOF Physical that are NOT in PMDco:</p>
+<table>
+<thead>
+<tr>
+<th>IOF Label</th>
+<th>IOF IRI</th>
+<th>IOF Parent</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>length</td>
+<td><code>...Physical/Length</code></td>
+<td>DimensionQuality</td>
+<td>High</td>
+</tr>
+<tr>
+<td>surface roughness</td>
+<td><code>...Physical/SurfaceRoughness</code></td>
+<td>PhysicalQuality</td>
+<td>High</td>
+</tr>
+<tr>
+<td>viscosity</td>
+<td><code>...Physical/Viscosity</code></td>
+<td>FluidDynamicQuality</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>dynamic viscosity</td>
+<td><code>...Physical/DynamicViscosity</code></td>
+<td>Viscosity</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>glass transition temperature</td>
+<td><code>...Physical/GlassTransitionTemperature</code></td>
+<td>DuctileBrittleTransitionTemperature</td>
+<td>High</td>
+</tr>
+<tr>
+<td>ductile-brittle transition temperature</td>
+<td><code>...Physical/DuctileBrittleTransitionTemperature</code></td>
+<td>ThermoDynamicQuality</td>
+<td>High</td>
+</tr>
+<tr>
+<td>linear thermal expansion coefficient</td>
+<td><code>...Physical/LinearThermalExpansionCoefficient</code></td>
+<td>ThermalExpansionCoefficient</td>
+<td>High</td>
+</tr>
+<tr>
+<td>thermal expansion coefficient</td>
+<td><code>...Physical/ThermalExpansionCoefficient</code></td>
+<td>ThermoDynamicQuality</td>
+<td>High</td>
+</tr>
+<tr>
+<td>dynamic range</td>
+<td><code>...MeasurementPerformance/DynamicRange</code></td>
+<td>MeasurementRelationalQuality</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>precision</td>
+<td><code>...MeasurementPerformance/Precision</code></td>
+<td>MeasurementRelationalQuality</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>data acquisition rate</td>
+<td><code>...MeasurementPerformance/DataAcquisitionRate</code></td>
+<td>ProcessCharacteristic</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
+<p><em>(Full enumeration of all 261 Physical quality classes pending — only MSE-relevant subset shown here)</em></p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
