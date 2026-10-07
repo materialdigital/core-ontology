@@ -33,6 +33,8 @@
 @prefix length: <https://w3id.org/pmd/co/PMD_0040001> .
 @prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
 @prefix microstructure: <https://w3id.org/pmd/co/PMD_0000857> .
+@prefix transforms_into_state: <https://w3id.org/pmd/co/PMD_0020322> .
+@prefix is_transformed_from_state: <https://w3id.org/pmd/co/PMD_0020321> .
 
 # specific quality for this example
 ex:cls_segregation_factor rdfs:subClassOf quality: .
@@ -51,6 +53,7 @@ ex:segregation_factor_after_annealing a ex:cls_segregation_factor .
 ex:the_microstructure_before_annealing 
     is_state_of: ex:the_dual_ingot_and_microstructure ;
     has_quality: ex:segregation_factor_before_annealing ;
+    transforms_into_state: ex:the_microstructure_after_annealing ;
     exists_at: [
         a temporal_region:
     ] .
@@ -58,6 +61,7 @@ ex:the_microstructure_before_annealing
 ex:the_microstructure_after_annealing 
     is_state_of: ex:the_dual_ingot_and_microstructure ;
     has_quality: ex:segregation_factor_after_annealing ;
+    is_transformed_from_state: ex:the_microstructure_before_annealing ;
     exists_at: [
         a temporal_region:
     ] .

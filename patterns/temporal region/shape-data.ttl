@@ -7,36 +7,33 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <https://w3id.org/pmd/co/test#> .
 
-@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . #Class
-@prefix continuant: <http://purl.obolibrary.org/obo/BFO_0000002> .  #Class
+# Classes
+@prefix process: <http://purl.obolibrary.org/obo/BFO_0000015>  . 
+@prefix process_boundary: <http://purl.obolibrary.org/obo/BFO_0000035> . 
 @prefix object: <http://purl.obolibrary.org/obo/BFO_0000030> .
 @prefix ingot: <https://w3id.org/pmd/co/PMD_0020170> .
-@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . #Class
-@prefix one-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000038> . #Class
-@prefix zero-dimensional_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000148> . #Class
+@prefix temporal_region: <http://purl.obolibrary.org/obo/BFO_0000008> . 
 @prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
 @prefix temporal_instant: <http://purl.obolibrary.org/obo/BFO_0000203> .
-
-@prefix occupies_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000199> . #ObjectProperty
-@prefix proper_temporal_part_of: <http://purl.obolibrary.org/obo/BFO_0000136> . #ObjectProperty
-@prefix temporal_part_of: <http://purl.obolibrary.org/obo/BFO_0000139> .
-@prefix has_first_instant: <http://purl.obolibrary.org/obo/BFO_0000222> . #ObjectProperty
-@prefix has_last_instant: <http://purl.obolibrary.org/obo/BFO_0000224> . #ObjectProperty
-@prefix exists_at: <http://purl.obolibrary.org/obo/BFO_0000108> . #ObjectProperty
+# ObjectProperties
+@prefix occupies_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000199> . 
+@prefix has_first_instant: <http://purl.obolibrary.org/obo/BFO_0000222> . 
+@prefix starts_with: <http://purl.obolibrary.org/obo/RO_0002224> .
 @prefix participates_in: <http://purl.obolibrary.org/obo/RO_0000056> . 
 
 
 <https://w3id.org/pmd/co/test/shape/temporal_region> rdf:type owl:Ontology .
 
 ex:the_ingots_annealing_process a process: .
+ex:point_of_thermal_ingress a process_boundary: .
 ex:temp_intvl_of_the_ingots_annealing a temporal_interval: .
 ex:the_furnace a object: .
 ex:the_dual_ingot_and_portion_of_steel a ingot: .
-ex:annealing_start a temporal_instant: .
-ex:annealing_end a temporal_instant: .
+ex:instant_annealing_start a temporal_instant: .
 
-ex:the_ingots_annealing_process occupies_temporal_region: ex:temp_intvl_of_the_ingots_annealing . 
-ex:temp_intvl_of_the_ingots_annealing has_first_instant: ex:annealing_start . 
-ex:temp_intvl_of_the_ingots_annealing has_last_instant: ex:annealing_end .
+ex:the_ingots_annealing_process occupies_temporal_region: ex:temp_intvl_of_the_ingots_annealing ;
+    starts_with: ex:point_of_thermal_ingress .
+ex:point_of_thermal_ingress occupies_temporal_region: ex:instant_annealing_start .
+ex:temp_intvl_of_the_ingots_annealing has_first_instant: ex:instant_annealing_start . 
 ex:the_furnace participates_in: ex:the_ingots_annealing_process .
 ex:the_dual_ingot_and_portion_of_steel participates_in: ex:the_ingots_annealing_process .
