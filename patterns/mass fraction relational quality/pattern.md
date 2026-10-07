@@ -23,7 +23,21 @@
 
   After reasoning, `massFractionRQ` is classified as `pmd:PMD_0020102` (mass proportion).
 
-  Verified with Konclude (WASM via rdf-reasoner-konclude CLI, materialize mode).
+- **Verification results**:
+
+  | Reasoner | Mode | `massFractionRQ rdf:type PMD_0020102` |
+  |---|---|---|
+  | Konclude WASM (rdf-reasoner-konclude CLI) | materialize | ✅ inferred |
+  | Konclude native (Docker `konclude/konclude`) | realization | ✅ inferred |
+  | HermiT via ROBOT `reason` | TBox only | ➖ not applicable (TBox-only mode does not classify individuals) |
+  | ELK via ROBOT `reason` | TBox only | ➖ not applicable (EL profile; also TBox-only) |
+
+  To reproduce with Konclude WASM:
+  ```bash
+  # merge pmdco-base.ttl + shape-data.ttl into NTriples, then:
+  node dist/cli.js -i merged.nt -m materialize -f nt | grep "massFractionRQ"
+  # → <…massFractionRQ> rdf:type <…PMD_0020102>
+  ```
 
 - **What needs to change in pmdco-base.ttl**:
 
