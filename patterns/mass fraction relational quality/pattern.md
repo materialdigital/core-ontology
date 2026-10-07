@@ -63,7 +63,22 @@
 
   Classification stays **asserted**: when data is created, the modeller explicitly types the RQ as `pmd:PMD_0020102`. The axiom guards against incorrect assertions but does not classify from scratch.
 
-  **What would make EquivalentTo safe**: A tight sufficient condition requires linking the RQ to the *value* it quantifies — a fraction value specification with a mass/mass unit. This is achievable via the fraction value specification pattern already in PMDCO but is not yet modelled here.
+  **5. Value specification approach (safe EquivalentTo — not yet adopted)**
+
+  Link the RQ to a fraction value specification whose unit is a mass/mass unit. No mole fraction or volume fraction can satisfy this because their value specifications carry different units (mol/mol, m³/m³).
+
+  ```manchester
+  'mass proportion' EquivalentTo:
+      'proportion'
+      and ('relational quality of' some
+          (entity and ('has quality' some mass)
+           and ('part of' some (entity and ('has quality' some mass)))))
+      and ('specified by value' some
+          ('fraction value specification'
+           and ('has measurement unit label' some 'mass fraction unit')))
+  ```
+
+  Requires a class `mass fraction unit` covering all mass/mass units (%, kg/kg, g/g …). `UO_0000163` (mass percentage) is one instance. Once such a class exists in PMDCO or QUDT the commented-out axiom in `shape-data.ttl` can be activated. The ABox example already includes the full value specification chain (`massFractionRQ → specified_by_value → fractionValueSpec → unit: UO_0000163`).
 
 - **What needs to change in pmdco-base.ttl**:
 

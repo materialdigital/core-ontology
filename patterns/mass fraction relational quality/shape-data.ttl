@@ -7,49 +7,43 @@
 @prefix ex:    <http://example.org/massfraction#> .
 
 ### Prefixes for readability ###
-@prefix proportion:             <https://w3id.org/pmd/co/PMD_0020101> .
-@prefix mass_proportion:        <https://w3id.org/pmd/co/PMD_0020102> .
-@prefix mass:                   <https://w3id.org/pmd/co/PMD_0020133> .
-@prefix relational_quality_of:  <https://w3id.org/pmd/co/PMD_0025999> .
-@prefix has_relational_quality: <https://w3id.org/pmd/co/PMD_0025998> .
-@prefix quality_of:             <http://purl.obolibrary.org/obo/RO_0000080> .
-@prefix has_quality:            <http://purl.obolibrary.org/obo/RO_0000086> .
-@prefix part_of:                <http://purl.obolibrary.org/obo/BFO_0000050> .
-@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix proportion:                   <https://w3id.org/pmd/co/PMD_0020101> .
+@prefix mass_proportion:              <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix mass:                         <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix relational_quality_of:        <https://w3id.org/pmd/co/PMD_0025999> .
+@prefix has_relational_quality:       <https://w3id.org/pmd/co/PMD_0025998> .
+@prefix quality_of:                   <http://purl.obolibrary.org/obo/RO_0000080> .
+@prefix has_quality:                  <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix part_of:                      <http://purl.obolibrary.org/obo/BFO_0000050> .
+@prefix independent_continuant:       <http://purl.obolibrary.org/obo/BFO_0000004> .
+@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix specified_by_value:           <https://w3id.org/pmd/co/PMD_0000077> .
+@prefix has_numeric_value:            <http://purl.obolibrary.org/obo/OBI_0001937> .
+@prefix has_unit:                     <http://purl.obolibrary.org/obo/IAO_0000039> .
+@prefix mass_percentage:              <http://purl.obolibrary.org/obo/UO_0000163> .
 
 # ── Ontology declaration ──────────────────────────────────────────────────────
 <http://example.org/massfraction> a owl:Ontology ;
     rdfs:label "Mass Fraction Relational Quality — example pattern" ;
-    rdfs:comment "Demonstrates the mass proportion (PMD_0020102) pattern. Load together with pmdco (full or base) for OWL reasoning." .
+    rdfs:comment "Load together with pmdco (full or base) for OWL reasoning. See pattern.md for design rationale." .
 
-# ── Needed: declare has_quality as inverse of quality_of ─────────────────────
-# pmdco-base.ttl declares RO_0000086 only as owl:ObjectProperty without inverseOf.
-# This inverse is needed for the reasoner to infer  entity has_quality massQ
-# from  massQ quality_of entity.
+# ── Required: declare has_quality as inverse of quality_of ───────────────────
 obo:RO_0000086 owl:inverseOf obo:RO_0000080 .
 
-# ── TBox: NECESSARY condition on mass proportion (PMD_0020102) ────────────────
-#
-# Design decision: SubClassOf (necessary condition), NOT EquivalentTo.
-# See pattern.md for the full rationale.
+# ═══════════════════════════════════════════════════════════════════════════════
+# TBOX — Three axiom design variants as distinct OWL classes
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Variant A: NECESSARY condition only (SubClassOf) — ADOPTED ───────────────
+# Safe: classifies PMD_0020102 instances correctly, no false positives.
+# Classification of instances must be asserted by the modeller.
 #
 # Manchester syntax:
 #   'mass proportion' SubClassOf:
 #       'proportion'
 #       and ('relational quality of' some
-#           (entity
-#            and ('has quality' some mass)
-#            and ('part of' some
-#                (entity
-#                 and ('has quality' some mass)))))
-#
-# The RQ attaches to the PART entity (an independent continuant), not to
-# the mass quality.  The second bearer (the whole entity) is reached via
-# the PMDCO property chain:
-#   relational_quality_of o part_of → relational_quality_of
-# so asserting  massFractionRQ relational_quality_of sugarPortion  +
-#               sugarPortion part_of sugarSolution
-# entails       massFractionRQ relational_quality_of sugarSolution.
+#           (entity and ('has quality' some mass)
+#            and ('part of' some (entity and ('has quality' some mass)))))
 
 pmd:PMD_0020102 rdfs:subClassOf [
     a owl:Class ;
@@ -62,129 +56,201 @@ pmd:PMD_0020102 rdfs:subClassOf [
                 a owl:Class ;
                 owl:intersectionOf (
                     obo:BFO_0000004
-                    [
-                        a owl:Restriction ;
-                        owl:onProperty obo:RO_0000086 ;
-                        owl:someValuesFrom pmd:PMD_0020133
-                    ]
-                    [
-                        a owl:Restriction ;
-                        owl:onProperty obo:BFO_0000050 ;
-                        owl:someValuesFrom [
-                            a owl:Class ;
-                            owl:intersectionOf (
-                                obo:BFO_0000004
-                                [
-                                    a owl:Restriction ;
-                                    owl:onProperty obo:RO_0000086 ;
-                                    owl:someValuesFrom pmd:PMD_0020133
-                                ]
-                            )
-                        ]
-                    ]
+                    [ a owl:Restriction ; owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                    [ a owl:Restriction ; owl:onProperty obo:BFO_0000050 ;
+                      owl:someValuesFrom [
+                          a owl:Class ;
+                          owl:intersectionOf (
+                              obo:BFO_0000004
+                              [ a owl:Restriction ; owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                          ) ] ]
                 )
             ]
         ]
     )
 ] .
 
-# ── ABox: sugar-in-solution example ──────────────────────────────────────────
+# ── Variant B: EquivalentTo entity-centric — DEMONSTRATES FALSE POSITIVES ────
+# Infers mole/volume fraction RQs as mass proportion when bearer entities
+# happen to have mass qualities. Included here to show the problem in the graph.
 #
-# Structure:
+# Expected reasoning result:
+#   ex:moleFractionRQ   rdf:type  ex:MassFractionRQ_EntityEquiv  ← FALSE POSITIVE
+#   ex:volumeFractionRQ rdf:type  ex:MassFractionRQ_EntityEquiv  ← FALSE POSITIVE
+#   ex:massFractionRQ   rdf:type  ex:MassFractionRQ_EntityEquiv  ✓ (correct)
+
+ex:MassFractionRQ_EntityEquiv a owl:Class ;
+    rdfs:subClassOf pmd:PMD_0020101 ;
+    rdfs:label "mass proportion (entity-centric EquivalentTo — false positive design)" ;
+    rdfs:comment "Design variant B from pattern.md. NOT a subClassOf PMD_0020102 — kept separate to isolate false positive propagation. Shows risk of EquivalentTo without value-spec discriminator." ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            pmd:PMD_0020101
+            [
+                a owl:Restriction ;
+                owl:onProperty pmd:PMD_0025999 ;
+                owl:someValuesFrom [
+                    a owl:Class ;
+                    owl:intersectionOf (
+                        obo:BFO_0000004
+                        [ a owl:Restriction ; owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                        [ a owl:Restriction ; owl:onProperty obo:BFO_0000050 ;
+                          owl:someValuesFrom [
+                              a owl:Class ;
+                              owl:intersectionOf (
+                                  obo:BFO_0000004
+                                  [ a owl:Restriction ; owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                              ) ] ]
+                    )
+                ]
+            ]
+        )
+    ] .
+
+# ── Variant C: EquivalentTo with value specification — SAFE SUFFICIENT CONDITION
+# Discriminates by unit: only mass/mass units qualify.
+# No false positives — mole fraction and volume fraction carry different units.
+#
+# Expected reasoning result:
+#   ex:massFractionRQ   rdf:type  ex:MassFractionRQ_ValueEquiv  ✓ (has mass% unit)
+#   ex:moleFractionRQ   NOT classified (no value spec with mass unit)
+#   ex:volumeFractionRQ NOT classified (no value spec with mass unit)
+
+# Local unit class — replace with proper PMDCO/QUDT class once defined
+ex:MassFractionUnit a owl:Class ;
+    rdfs:label "mass fraction unit (local placeholder)" ;
+    rdfs:comment "Covers units expressing mass-per-mass ratios. Pending a proper PMDCO/QUDT class." .
+obo:UO_0000163 a owl:NamedIndividual, ex:MassFractionUnit ;
+    rdfs:label "mass percentage (UO:0000163)" .
+
+ex:MassFractionRQ_ValueEquiv a owl:Class ;
+    rdfs:subClassOf pmd:PMD_0020101 ;
+    rdfs:label "mass proportion (value-spec EquivalentTo — safe design)" ;
+    rdfs:comment "Design variant C from pattern.md. Kept as separate class (subClassOf PMD_0020101, not PMD_0020102) so this pattern can be adopted into PMD_0020102 as an EquivalentTo once a mass fraction unit class exists in PMDCO." ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            pmd:PMD_0020101
+            [
+                a owl:Restriction ;
+                owl:onProperty pmd:PMD_0025999 ;
+                owl:someValuesFrom [
+                    a owl:Class ;
+                    owl:intersectionOf (
+                        obo:BFO_0000004
+                        [ a owl:Restriction ; owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                        [ a owl:Restriction ; owl:onProperty obo:BFO_0000050 ;
+                          owl:someValuesFrom [
+                              a owl:Class ;
+                              owl:intersectionOf (
+                                  obo:BFO_0000004
+                                  [ a owl:Restriction ; owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                              ) ] ]
+                    )
+                ]
+            ]
+            [
+                a owl:Restriction ;
+                owl:onProperty pmd:PMD_0000077 ;
+                owl:someValuesFrom [
+                    a owl:Class ;
+                    owl:intersectionOf (
+                        pmd:PMD_0025997
+                        [ a owl:Restriction ; owl:onProperty obo:IAO_0000039 ; owl:someValuesFrom ex:MassFractionUnit ]
+                    )
+                ]
+            ]
+        )
+    ] .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ABOX — Three scenarios, distinct entities
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Scenario 1: Sugar in solution — correct mass fraction ─────────────────────
 #
 #   sugarPortion ──part_of──► sugarSolution
-#        │                          │
-#   has_quality (RO:0000086)   has_quality (RO:0000086)
-#        │                          │
-#   massOfSugar               massOfSolution   (mass qualities)
-#        ▲
-#        │  relational_quality_of (PMD_0025999)
-#        │  (connects RQ to the PART ENTITY, not the quality)
-#        │
-#   massFractionRQ
-#        asserted type: mass proportion (PMD_0020102)  ← explicit, not inferred
-#        consistency check: satisfies the SubClassOf necessary conditions above
+#       │ has_quality              │ has_quality
+#   massOfSugar               massOfSolution
+#       ▲ relational_quality_of
+#   massFractionRQ (PMD_0020102)
+#       └── specified_by_value ──► sugarMassFractionSpec (20 mass%)
 #
-# By the PMDCO property chain  relational_quality_of o part_of → relational_quality_of
-# the reasoner also infers:
-#   massFractionRQ relational_quality_of sugarSolution   (second bearer)
+# Inferred:
+#   massFractionRQ relational_quality_of sugarSolution  (via property chain)
+#   massFractionRQ rdf:type MassFractionRQ_EntityEquiv  (variant B fires ✓)
+#   massFractionRQ rdf:type MassFractionRQ_ValueEquiv   (variant C fires ✓)
 
-# Independent continuants (entities / objects)
-ex:sugarPortion a owl:NamedIndividual, obo:BFO_0000004 ;
-    rdfs:label "sugar portion (the part)" .
+ex:sugarPortion  a owl:NamedIndividual, obo:BFO_0000004 ; rdfs:label "sugar portion (part)" .
+ex:sugarSolution a owl:NamedIndividual, obo:BFO_0000004 ; rdfs:label "sugar solution (whole)" .
+ex:sugarPortion obo:BFO_0000050 ex:sugarSolution .
 
-ex:sugarSolution a owl:NamedIndividual, obo:BFO_0000004 ;
-    rdfs:label "sugar solution (the whole)" .
+ex:massOfSugar    a owl:NamedIndividual, pmd:PMD_0020133 ; rdfs:label "mass of sugar" .
+ex:sugarPortion   obo:RO_0000086 ex:massOfSugar .
+ex:massOfSolution a owl:NamedIndividual, pmd:PMD_0020133 ; rdfs:label "mass of solution" .
+ex:sugarSolution  obo:RO_0000086 ex:massOfSolution .
 
-ex:sugarPortion obo:BFO_0000050 ex:sugarSolution .   # part of
-
-# Mass quality of the part
-ex:massOfSugar a owl:NamedIndividual, pmd:PMD_0020133 ;
-    rdfs:label "mass of sugar (part)" .
-ex:sugarPortion obo:RO_0000086 ex:massOfSugar .      # has quality
-
-# Mass quality of the whole
-ex:massOfSolution a owl:NamedIndividual, pmd:PMD_0020133 ;
-    rdfs:label "mass of solution (whole)" .
-ex:sugarSolution obo:RO_0000086 ex:massOfSolution .  # has quality
-
-# The relational quality — asserted as mass proportion (PMD_0020102)
-# The type is ASSERTED here; the SubClassOf axiom lets the reasoner
-# verify that the necessary conditions are satisfied.
 ex:massFractionRQ a owl:NamedIndividual, pmd:PMD_0020102 ;
-    rdfs:label "mass fraction relational quality (sugar in solution)" .
-ex:massFractionRQ pmd:PMD_0025999 ex:sugarPortion .  # relational quality of PART ENTITY
+    rdfs:label "mass fraction RQ — sugar in solution (correct)" .
+ex:massFractionRQ pmd:PMD_0025999 ex:sugarPortion .
+ex:massFractionRQ pmd:PMD_0000077 ex:sugarMassFractionSpec .
 
-# ── Counterexample A: mole fraction — same part-whole pair ────────────────────
-# Shows why EquivalentTo would produce a false positive:
-# ironPortion and steelBlock both have mass AND amount-of-substance,
-# so entity-centric EquivalentTo would classify moleFractionRQ as mass proportion.
-# With SubClassOf, this is only a consistency risk if moleFractionRQ were
-# explicitly typed as PMD_0020102 (it is not here).
+ex:sugarMassFractionSpec a owl:NamedIndividual, pmd:PMD_0025997 ;
+    rdfs:label "sugar mass fraction value spec (20 mass%)" .
+ex:sugarMassFractionSpec obo:OBI_0001937 "20.0"^^xsd:float .
+ex:sugarMassFractionSpec obo:IAO_0000039 obo:UO_0000163 .
 
-ex:ironPortion a owl:NamedIndividual, obo:BFO_0000004 ;
-    rdfs:label "iron portion (part of steel block)" .
+# ── Scenario 2: Iron in steel — mole fraction (false positive for variant B) ──
+#
+#   ironPortion ──part_of──► steelBlock
+#       │ has_quality              │ has_quality
+#   massOfIron                massOfSteel
+#       ▲ relational_quality_of
+#   moleFractionRQ (PMD_0020101 only — NOT a mass proportion)
+#   (no value spec → variant C does NOT fire)
+#
+# Inferred:
+#   moleFractionRQ relational_quality_of steelBlock  (via property chain)
+#   moleFractionRQ rdf:type MassFractionRQ_EntityEquiv  ← FALSE POSITIVE (variant B)
+#   moleFractionRQ NOT rdf:type MassFractionRQ_ValueEquiv (variant C safe ✓)
 
-ex:steelBlock a owl:NamedIndividual, obo:BFO_0000004 ;
-    rdfs:label "steel block (whole)" .
+ex:ironPortion a owl:NamedIndividual, obo:BFO_0000004 ; rdfs:label "iron portion (part of steel)" .
+ex:steelBlock  a owl:NamedIndividual, obo:BFO_0000004 ; rdfs:label "steel block (whole)" .
+ex:ironPortion obo:BFO_0000050 ex:steelBlock .
 
-ex:ironPortion obo:BFO_0000050 ex:steelBlock .       # part of
-
-ex:massOfIron a owl:NamedIndividual, pmd:PMD_0020133 ;
-    rdfs:label "mass of iron portion" .
+ex:massOfIron  a owl:NamedIndividual, pmd:PMD_0020133 ; rdfs:label "mass of iron portion" .
 ex:ironPortion obo:RO_0000086 ex:massOfIron .
+ex:massOfSteel a owl:NamedIndividual, pmd:PMD_0020133 ; rdfs:label "mass of steel block" .
+ex:steelBlock  obo:RO_0000086 ex:massOfSteel .
 
-ex:massOfSteel a owl:NamedIndividual, pmd:PMD_0020133 ;
-    rdfs:label "mass of steel block" .
-ex:steelBlock obo:RO_0000086 ex:massOfSteel .
-
-# A mole fraction between the same entities — NOT a mass proportion
-# (not typed as PMD_0020102; only typed as proportion PMD_0020101)
 ex:moleFractionRQ a owl:NamedIndividual, pmd:PMD_0020101 ;
-    rdfs:label "mole fraction relational quality (iron in steel) — NOT a mass proportion" .
+    rdfs:label "mole fraction RQ — iron in steel (NOT a mass proportion)" .
 ex:moleFractionRQ pmd:PMD_0025999 ex:ironPortion .
 
-# ── Counterexample B: volume fraction — different entities, same issue ────────
-# A carbon-fibre bundle in a composite panel. Both have mass.
-# The RQ here is a volume fraction — should not be a mass proportion.
+# ── Scenario 3: Carbon fibre in composite — volume fraction (false positive B) ─
+#
+#   fibrePortion ──part_of──► compositePanel
+#       │ has_quality                │ has_quality
+#   massOfFibre               massOfPanel
+#       ▲ relational_quality_of
+#   volumeFractionRQ (PMD_0020101 only — NOT a mass proportion)
+#   (no value spec → variant C does NOT fire)
+#
+# Inferred:
+#   volumeFractionRQ relational_quality_of compositePanel  (via property chain)
+#   volumeFractionRQ rdf:type MassFractionRQ_EntityEquiv  ← FALSE POSITIVE (variant B)
+#   volumeFractionRQ NOT rdf:type MassFractionRQ_ValueEquiv (variant C safe ✓)
 
-ex:fibrePortion a owl:NamedIndividual, obo:BFO_0000004 ;
-    rdfs:label "carbon fibre bundle (part)" .
+ex:fibrePortion   a owl:NamedIndividual, obo:BFO_0000004 ; rdfs:label "carbon fibre bundle (part)" .
+ex:compositePanel a owl:NamedIndividual, obo:BFO_0000004 ; rdfs:label "composite panel (whole)" .
+ex:fibrePortion obo:BFO_0000050 ex:compositePanel .
 
-ex:compositePanel a owl:NamedIndividual, obo:BFO_0000004 ;
-    rdfs:label "composite panel (whole)" .
-
-ex:fibrePortion obo:BFO_0000050 ex:compositePanel .  # part of
-
-ex:massOfFibre a owl:NamedIndividual, pmd:PMD_0020133 ;
-    rdfs:label "mass of fibre bundle" .
+ex:massOfFibre  a owl:NamedIndividual, pmd:PMD_0020133 ; rdfs:label "mass of fibre bundle" .
 ex:fibrePortion obo:RO_0000086 ex:massOfFibre .
-
-ex:massOfPanel a owl:NamedIndividual, pmd:PMD_0020133 ;
-    rdfs:label "mass of composite panel" .
+ex:massOfPanel  a owl:NamedIndividual, pmd:PMD_0020133 ; rdfs:label "mass of composite panel" .
 ex:compositePanel obo:RO_0000086 ex:massOfPanel .
 
-# Volume fraction RQ — NOT a mass proportion
 ex:volumeFractionRQ a owl:NamedIndividual, pmd:PMD_0020101 ;
-    rdfs:label "volume fraction relational quality (fibre in composite) — NOT a mass proportion" .
+    rdfs:label "volume fraction RQ — fibre in composite (NOT a mass proportion)" .
 ex:volumeFractionRQ pmd:PMD_0025999 ex:fibrePortion .
