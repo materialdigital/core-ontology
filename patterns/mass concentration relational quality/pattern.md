@@ -143,7 +143,13 @@ Tested with branch `119-pattern-for-time-and-duration-representations` which def
 
 Property chain fires: `naclMassConcRQ relational_quality_of salineSolution` inferred.
 
-To reproduce:
+**Ontosphere**: `shape-data.ttl` declares `owl:imports` for the branch pmdco-full. Load directly:
+
+[Open in Ontosphere](https://thhanke.github.io/ontosphere/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/feat/mass-fraction-relational-quality-pattern/patterns/mass%20concentration%20relational%20quality/shape-data.ttl)
+
+Ontosphere follows the import and fetches `PMD_0080101` from branch 119 automatically.
+
+**CLI reproduction**:
 ```bash
 curl -s https://raw.githubusercontent.com/materialdigital/core-ontology/119-pattern-for-time-and-duration-representations/pmdco-full.ttl \
   -o /tmp/pmdco-full-branch.ttl

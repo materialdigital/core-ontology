@@ -296,5 +296,8 @@ node /path/to/rdf-reasoner-konclude/dist/cli.js -i /tmp/merged.nt -m materialize
 
 ## Ontosphere visualization
 
-Load `shape-data.ttl` together with pmdco-full:
-[Open in Ontosphere](https://thhanke.github.io/ontosphere/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/feat/mass-fraction-relational-quality-pattern/patterns/mass%20fraction%20relational%20quality/shape-data.ttl&ontologies=pmdco)
+`shape-data.ttl` includes `owl:imports pmdco-full.ttl` — Ontosphere follows imports automatically. Load the pattern file directly:
+
+[Open in Ontosphere](https://thhanke.github.io/ontosphere/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/feat/mass-fraction-relational-quality-pattern/patterns/mass%20fraction%20relational%20quality/shape-data.ttl)
+
+Ontosphere will fetch pmdco-full from main, then load shape-data.ttl on top and run OWL reasoning. All four variant classes and ABox individuals will appear in the graph.
