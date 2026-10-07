@@ -1,126 +1,300 @@
-- **Purpose**: Express that a relational quality connecting a part entity and a whole entity — both having a mass quality — is a mass proportion (`pmd:PMD_0020102`).
+# Mass Fraction Relational Quality — Design Pattern
 
-- **Description**: A mass proportion (PMD_0020102) is a relational quality (BFO_0000145 via proportion PMD_0020101) that specifically depends on two independent continuants: a part and a whole, both of which bear a mass quality. The pattern encodes this as a **necessary condition** (SubClassOf) on mass proportion. Classification of instances as mass proportion is **asserted explicitly**, not inferred from scratch.
+## Purpose
 
-  The formal necessary-condition axiom (Manchester syntax):
-  ```
-  'mass proportion' SubClassOf:
-      'proportion'
-      and ('relational quality of' some
-          (entity
-           and ('has quality' some mass)
-           and ('part of' some
-               (entity
-                and ('has quality' some mass)))))
-  ```
+Express that a relational quality connecting a part entity and a whole entity — both bearing a mass quality — is a mass proportion (`pmd:PMD_0020102`). Four axiom design variants are documented and tested. The pattern also proposes a new property `quantifies` as the logically sound long-term solution.
 
-  The RQ attaches to the **part entity** (an independent continuant), not to the mass quality. The second bearer (the whole) is covered by the PMDCO property chain `relational_quality_of ∘ part_of → relational_quality_of`.
+---
 
-- **Design decisions and rationale**:
+## Background
 
-  Three axiom designs were considered and rejected before reaching the current form:
+`PMD_0020102` (mass proportion / "Massenanteil") is a `BFO_0000145` relational quality that specifically depends on two independent continuants: a **part** whose mass is measured and a **whole** whose mass is the reference. The mass of the part divided by the mass of the whole gives a dimensionless ratio (%, kg/kg, g/g …).
 
-  **1. Quality-centric approach (rejected: BFO domain/range violation)**
+Key PMDCO terms used:
 
-  Initial idea: anchor the axiom on the mass quality rather than the entity:
-  ```
-  'relational quality of' some
-      (mass and ('quality of' some (entity and ('part of' some ...))))
-  ```
-  Problem: `relational quality of` (PMD_0025999) has range `independent continuant` in BFO/RO. Connecting it to a quality instance violates the domain/range constraint and produces inconsistency when loading full PMDCO with BFO and RO axioms.
+| IRI | Label | Role |
+|---|---|---|
+| `PMD_0020101` | proportion | superclass of mass proportion |
+| `PMD_0020102` | mass proportion | the class to be defined |
+| `PMD_0020133` | mass | quality borne by both entities |
+| `PMD_0020150` | volume | quality for contrast (mass concentration) |
+| `PMD_0025999` | relational quality of | connects RQ → part entity |
+| `PMD_0025998` | has relational quality | inverse; inferred by chain |
+| `PMD_0000077` | specified by value | connects RQ → value spec |
+| `PMD_0025997` | fraction value specification | value spec class |
+| `BFO_0000050` | part of | parthood |
+| `RO_0000086` | has quality | entity → quality |
+| `RO_0000080` | quality of | quality → entity (inverse) |
 
-  **2. Entity-centric EquivalentTo with single bearer (rejected: logically weak)**
+**Property chain in PMDCO:**
+`relational_quality_of ∘ part_of → relational_quality_of`
+→ if `RQ relational_quality_of part` and `part part_of whole`, the reasoner infers `RQ relational_quality_of whole`.
 
-  Anchor on the part entity, use EquivalentTo (sufficient condition):
-  ```
-  'mass proportion' EquivalentTo:
-      'proportion'
-      and ('relational quality of' some
-          (entity and 'has quality' some mass
-           and 'part of' some (entity and 'has quality' some mass)))
-  ```
-  Advantage: correct BFO usage, Konclude classifies `massFractionRQ` as PMD_0020102 (verified).
-  Problem: **false positives**. Under OWL open-world assumption, a mole fraction RQ between the same part-whole pair satisfies all conditions — any material entity has mass. The axiom checks that bearers *have* mass, not that the RQ *quantifies* the ratio of those masses.
+**Note:** `RO_0000086` (has quality) must be declared `owl:inverseOf RO_0000080` in the working file — pmdco-base.ttl omits this. Included in `shape-data.ttl`.
 
-  **3. Two-bearer + mass quality (rejected: same false positive)**
+---
 
-  Intuition: BFO requires a relational quality to specifically depend on exactly two entities. If both bearers have mass quality, is that enough to uniquely identify a mass proportion?
+## Variant A — SubClassOf (necessary condition) ✅ ADOPTED
 
-  Counterexample:
-  ```
-  ex:moleFractionRQ  a proportion ;
-      relational_quality_of  ex:ironPortion .    # ironPortion has mass ✓
-  # chain infers: relational_quality_of ex:steelMaterial  # steelMaterial has mass ✓
-  ex:ironPortion part_of ex:steelMaterial .
-  ```
-  → `moleFractionRQ` falsely classified as mass proportion, even with two bearers both having mass. The entities having mass does not bind the RQ to *measuring* those masses. A mole fraction and a mass fraction can coexist between the same part-whole pair.
+### TBox
 
-  **4. Current approach: SubClassOf (necessary condition only)**
+```turtle
+pmd:PMD_0020102 rdfs:subClassOf [
+    owl:intersectionOf (
+        pmd:PMD_0020101
+        [ owl:onProperty pmd:PMD_0025999 ;
+          owl:someValuesFrom [
+              owl:intersectionOf (
+                  obo:BFO_0000004
+                  [ owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                  [ owl:onProperty obo:BFO_0000050 ;
+                    owl:someValuesFrom [
+                        owl:intersectionOf (
+                            obo:BFO_0000004
+                            [ owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                        ) ] ] ) ] ]
+    )
+] .
+```
 
-  Use the entity-centric axiom as a necessary condition only. This lets the reasoner:
-  - Verify consistency: if something is asserted as mass proportion, it must satisfy the pattern
-  - Entail expected role assertions (second bearer via chain, etc.)
+Manchester syntax:
+```
+'mass proportion' SubClassOf:
+    'proportion'
+    and ('relational quality of' some
+        (entity and ('has quality' some mass)
+         and ('part of' some (entity and ('has quality' some mass)))))
+```
 
-  Classification stays **asserted**: when data is created, the modeller explicitly types the RQ as `pmd:PMD_0020102`. The axiom guards against incorrect assertions but does not classify from scratch.
+### Semantics
 
-  **5. Value specification approach (safe EquivalentTo — not yet adopted)**
+Necessary condition only. If something is asserted as `PMD_0020102`, it **must** satisfy the pattern (consistency check). The reasoner **cannot** infer PMD_0020102 from scratch — classification is asserted by the modeller.
 
-  Link the RQ to a fraction value specification whose unit is a mass/mass unit. No mole fraction or volume fraction can satisfy this because their value specifications carry different units (mol/mol, m³/m³).
+### ABox example
 
-  ```manchester
-  'mass proportion' EquivalentTo:
-      'proportion'
-      and ('relational quality of' some
-          (entity and ('has quality' some mass)
-           and ('part of' some (entity and ('has quality' some mass)))))
-      and ('specified by value' some
-          ('fraction value specification'
-           and ('has measurement unit label' some 'mass fraction unit')))
-  ```
+```turtle
+ex:massFractionRQ  a pmd:PMD_0020102 .                  # asserted
+ex:massFractionRQ  pmd:PMD_0025999  ex:sugarPortion .
+ex:sugarPortion    obo:BFO_0000050  ex:sugarSolution .
+ex:sugarPortion    obo:RO_0000086   ex:massOfSugar .     # mass quality
+ex:sugarSolution   obo:RO_0000086   ex:massOfSolution .  # mass quality
+```
 
-  Requires a class `mass fraction unit` covering all mass/mass units (%, kg/kg, g/g …). `UO_0000163` (mass percentage) is one instance. Once such a class exists in PMDCO or QUDT the commented-out axiom in `shape-data.ttl` can be activated. The ABox example already includes the full value specification chain (`massFractionRQ → specified_by_value → fractionValueSpec → unit: UO_0000163`).
+### Inferred
 
-- **What needs to change in pmdco-base.ttl**:
+```
+massFractionRQ  pmd:PMD_0025999  sugarSolution   (property chain)
+massFractionRQ  rdf:type         PMD_0020101     (superclass)
+massFractionRQ  rdf:type         BFO_0000145     (superclass)
+```
 
-  1. **Add the SubClassOf axiom** on `pmd:PMD_0020102` (the Turtle in `shape-data.ttl` can be merged in).
+### Verdict
 
-  2. **Declare `RO_0000086` as inverse of `RO_0000080`** — pmdco-base.ttl currently only declares `obo:RO_0000086 rdf:type owl:ObjectProperty` without the inverse, so the reasoner cannot infer `has quality` from `quality of` assertions:
-     ```turtle
-     obo:RO_0000086 owl:inverseOf obo:RO_0000080 .
-     ```
+Safe. No false positives. Use until Variant D property is adopted in PMDCO.
 
-- **Verification results**:
+---
 
-  Tested with the entity-centric EquivalentTo design (design 2 above) to confirm the reasoner fires correctly when conditions are met:
+## Variant B — EquivalentTo entity-centric ❌ REJECTED (false positives)
 
-  | Reasoner | Mode | `massFractionRQ rdf:type PMD_0020102` |
-  |---|---|---|
-  | Konclude WASM (rdf-reasoner-konclude CLI) | materialize | ✅ inferred |
-  | Konclude native (Docker `konclude/konclude`) | realization | ✅ inferred |
-  | HermiT via ROBOT `reason` | TBox only | ➖ not applicable (TBox-only mode) |
-  | ELK via ROBOT `reason` | TBox only | ➖ not applicable (EL profile) |
+### TBox
 
-  The current SubClassOf design can be verified for consistency (no false positives on the example) but does not infer PMD_0020102 from scratch — that is by design.
+```turtle
+ex:MassFractionRQ_EntityEquiv owl:equivalentClass [
+    owl:intersectionOf (
+        pmd:PMD_0020101
+        [ owl:onProperty pmd:PMD_0025999 ;
+          owl:someValuesFrom [
+              owl:intersectionOf (
+                  obo:BFO_0000004
+                  [ owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                  [ owl:onProperty obo:BFO_0000050 ;
+                    owl:someValuesFrom [
+                        owl:intersectionOf (
+                            obo:BFO_0000004
+                            [ owl:onProperty obo:RO_0000086 ; owl:someValuesFrom pmd:PMD_0020133 ]
+                        ) ] ] ) ] ]
+    )
+] .
+```
 
-  To reproduce EquivalentTo verification with Konclude WASM:
-  ```bash
-  # merge pmdco-base.ttl + shape-data.ttl into NTriples, then:
-  node dist/cli.js -i merged.nt -m materialize -f nt | grep "massFractionRQ"
-  # → <…massFractionRQ> rdf:type <…PMD_0020102>
-  ```
+### Problem
 
-- **Preferred variant and migration path**:
+Any proportion RQ between two material entities — including mole fraction, volume fraction — satisfies all conditions, because every material entity physically has mass. This is not a user data modelling assumption; it is a necessary physical truth. The EquivalentTo fires for the wrong individuals.
 
-  | Term | Now | Goal |
-  |---|---|---|
-  | Adopted | Variant A — SubClassOf (necessary condition) | Variant C — EquivalentTo with value spec |
-  | Classification | Modeller asserts `PMD_0020102` explicitly | Inferred automatically from unit |
-  | Blocker | — | Needs a `mass fraction unit` class in PMDCO or QUDT |
+### ABox counterexample
 
-  **Current (Variant A):** Use `rdfs:subClassOf` on `PMD_0020102`. Safe and consistent with pmdco-full+BFO+RO. Classification is manual — the modeller asserts the type. The axiom guards against wrong assertions (consistency check) and fires property chains to infer the second bearer.
+```turtle
+ex:moleFractionRQ  a pmd:PMD_0020101 .
+ex:moleFractionRQ  pmd:PMD_0025999  ex:ironPortion .
+ex:ironPortion     obo:BFO_0000050  ex:steelBlock .
+ex:ironPortion     obo:RO_0000086   ex:massOfIron .   # mass — always present
+ex:steelBlock      obo:RO_0000086   ex:massOfSteel .  # mass — always present
+```
 
-  **Goal (Variant C):** Once a class `mass fraction unit` covering all mass/mass units (%, kg/kg, g/g, …) is added to PMDCO or QUDT, replace the SubClassOf with the EquivalentTo from Variant C. This gives fully automatic classification: any proportion RQ whose value specification carries a mass fraction unit will be inferred as `PMD_0020102`. No false positives — mole fraction and volume fraction carry mol/mol and m³/m³ units respectively.
+### Inferred (verified with Konclude)
 
-  **Variant B is not a candidate.** Unit discrimination is the only logically sound sufficient condition. Entity+parthood+mass alone is provably unsound: two distinct RQs (mass fraction and mole fraction) can coexist between the same part-whole pair, both satisfying all entity-level conditions.
+```
+moleFractionRQ  rdf:type  MassFractionRQ_EntityEquiv   ← FALSE POSITIVE
+```
 
-alternative Visualization using [Ontosphere](https://thhanke.github.io/ontosphere/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/feat/mass-fraction-relational-quality-pattern/patterns/mass%20fraction%20relational%20quality/shape-data.ttl&ontologies=pmdco)
+---
+
+## Variant C — EquivalentTo with value specification ✅ SAFE, pending unit class
+
+### TBox
+
+```manchester
+'mass proportion' EquivalentTo:
+    'proportion'
+    and ('relational quality of' some
+        (entity and ('has quality' some mass)
+         and ('part of' some (entity and ('has quality' some mass)))))
+    and ('specified by value' some
+        ('fraction value specification'
+         and ('has measurement unit label' some 'mass fraction unit')))
+```
+
+### ABox example
+
+```turtle
+ex:massFractionRQ  pmd:PMD_0000077  ex:sugarMassFractionSpec .
+ex:sugarMassFractionSpec  a  pmd:PMD_0025997 .
+ex:sugarMassFractionSpec  obo:IAO_0000039  obo:UO_0000163 .  # mass percentage unit
+```
+
+### What is needed
+
+A class `mass fraction unit` covering all mass/mass ratio units (%, kg/kg, g/g …). `UO_0000163` (mass percentage) is one instance. Local placeholder `ex:MassFractionUnit` used in `shape-data.ttl`. Once this class exists in PMDCO or QUDT, this variant can replace Variant A.
+
+### Verdict
+
+Safe — unit discrimination is a logically sound sufficient condition. Blocked only on the missing unit class.
+
+---
+
+## Variant D — EquivalentTo with `quantifies` 🏆 PROPOSED (logically ideal)
+
+### Motivation
+
+Variants B and C work around a deeper gap: there is no property in OWL/BFO/RO/PMDCO connecting a relational quality to the **specific quality instance it measures**. Variants B and C use the bearer entity as a proxy, which loses information. The correct model is:
+
+> A mass proportion RQ **quantifies** a mass quality of the part, and the chain infers it also relates to a mass quality of the whole.
+
+### Proposed property
+
+```turtle
+ex:quantifies  a owl:ObjectProperty ;
+    rdfs:label  "quantifies" ;
+    rdfs:domain obo:BFO_0000145 ;   # relational quality
+    rdfs:range  obo:BFO_0000019 .   # quality
+```
+
+No equivalent property exists in RO, IAO, or PMDCO. Closest candidates checked and ruled out:
+
+| Property | Why it does not fit |
+|---|---|
+| `IAO_0000221` is quality measurement of | domain: measurement datum (not RQ); connects data output → quality |
+| `RO_0009006` assay measures characteristic | domain: assay (process, not RQ) |
+| `RO_0000080` quality of | inverse direction; connects quality → bearer entity |
+
+IAO explicitly noted this gap in the annotation on `IAO_0000221`: *"There are other kinds of measurements that are not of qualities … we will add these as separate properties for the moment"* — never followed through.
+
+### TBox
+
+```turtle
+ex:MassFractionRQ_Quantifies owl:equivalentClass [
+    owl:intersectionOf (
+        pmd:PMD_0020101
+        [ owl:onProperty ex:quantifies ; owl:someValuesFrom pmd:PMD_0020133 ]
+    )
+] .
+```
+
+Manchester syntax:
+```
+'mass proportion' EquivalentTo:
+    'proportion'
+    and (quantifies some mass)
+```
+
+### ABox example
+
+```turtle
+ex:massFractionRQ  ex:quantifies  ex:massOfSugar .      # mass quality → fires ✓
+ex:moleFractionRQ  ex:quantifies  ex:moleOfIron .       # mole quality → no fire ✓
+ex:volumeFractionRQ ex:quantifies ex:volumeOfFibre .    # volume quality → no fire ✓
+```
+
+### Why this is correct
+
+The RQ connects directly to the quality instance it measures. A mole fraction RQ quantifies a mole amount quality — not a mass quality. No ambiguity, no cardinality restrictions needed, no unit class needed.
+
+Note on cardinality: one entity has exactly one mass quality and one volume quality (physically true). This is why cardinality-1 restrictions on quality types are physically correct. However, cardinality alone does not solve discrimination at the ABox level — a mole fraction RQ's bearer entity also has exactly one mass quality. The discrimination requires the **direct quality-to-RQ connection** that `quantifies` provides.
+
+### Parallel definitions enabled by `quantifies`
+
+```manchester
+'mass proportion' EquivalentTo:
+    'proportion' and (quantifies some mass)
+
+'mass concentration' EquivalentTo:
+    'physical relational quality'
+    and (quantifies some mass)
+    and (quantifies some volume)
+
+'molar proportion' EquivalentTo:
+    'proportion' and (quantifies some 'amount of substance')
+
+'volume proportion' EquivalentTo:
+    'proportion' and (quantifies some volume)
+```
+
+Clean, uniform, no false positives, no auxiliary classes needed.
+
+### Verdict
+
+Logically ideal. Requires adopting `quantifies` as a new PMDCO (or RO) property.
+
+---
+
+## Verification (Konclude WASM + pmdco-full)
+
+All four variants tested in one `materialize` step. Expected vs actual results:
+
+| Individual | Variant A (SubClassOf) | Variant B (EntityEquiv) | Variant C (ValueEquiv) | Variant D (Quantifies) |
+|---|---|---|---|---|
+| `massFractionRQ` (PMD_0020102 + mass% spec + quantifies mass) | consistency ✅ | ✅ classified | ✅ classified | ✅ classified |
+| `moleFractionRQ` (PMD_0020101 + quantifies mole) | — | ❌ **FALSE POSITIVE** | ✅ not classified | ✅ not classified |
+| `volumeFractionRQ` (PMD_0020101 + quantifies volume) | — | ❌ **FALSE POSITIVE** | ✅ not classified | ✅ not classified |
+
+Property chain fires for all three: second bearer inferred via `relational_quality_of ∘ part_of`.
+
+To reproduce:
+```bash
+curl -s https://raw.githubusercontent.com/materialdigital/core-ontology/main/pmdco-full.ttl -o /tmp/pmdco-full.ttl
+python3 -c "
+import rdflib
+g = rdflib.ConjunctiveGraph()
+g.parse('/tmp/pmdco-full.ttl', format='turtle')
+g.parse('shape-data.ttl', format='turtle')
+g.serialize('/tmp/merged.nt', format='nt')
+"
+node /path/to/rdf-reasoner-konclude/dist/cli.js -i /tmp/merged.nt -m materialize -f nt \
+  | grep "massfraction#.*type.*MassFraction"
+```
+
+---
+
+## What needs to change in PMDCO
+
+1. **Add Variant A axiom to `PMD_0020102`** — the SubClassOf from this file.
+2. **Declare `RO_0000086 owl:inverseOf RO_0000080`** in pmdco-base.ttl.
+3. **Add `mass fraction unit` class** (covering %, kg/kg, g/g) → enables Variant C EquivalentTo on PMD_0020102.
+4. **Adopt `quantifies` property** (domain: relational quality, range: quality) → enables Variant D, the logically ideal definition. Submit as PMDCO or RO proposal.
+
+---
+
+## Ontosphere visualization
+
+Load `shape-data.ttl` together with pmdco-full:
+[Open in Ontosphere](https://thhanke.github.io/ontosphere/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/feat/mass-fraction-relational-quality-pattern/patterns/mass%20fraction%20relational%20quality/shape-data.ttl&ontologies=pmdco)
