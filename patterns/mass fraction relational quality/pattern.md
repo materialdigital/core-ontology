@@ -109,4 +109,18 @@
   # → <…massFractionRQ> rdf:type <…PMD_0020102>
   ```
 
+- **Preferred variant and migration path**:
+
+  | Term | Now | Goal |
+  |---|---|---|
+  | Adopted | Variant A — SubClassOf (necessary condition) | Variant C — EquivalentTo with value spec |
+  | Classification | Modeller asserts `PMD_0020102` explicitly | Inferred automatically from unit |
+  | Blocker | — | Needs a `mass fraction unit` class in PMDCO or QUDT |
+
+  **Current (Variant A):** Use `rdfs:subClassOf` on `PMD_0020102`. Safe and consistent with pmdco-full+BFO+RO. Classification is manual — the modeller asserts the type. The axiom guards against wrong assertions (consistency check) and fires property chains to infer the second bearer.
+
+  **Goal (Variant C):** Once a class `mass fraction unit` covering all mass/mass units (%, kg/kg, g/g, …) is added to PMDCO or QUDT, replace the SubClassOf with the EquivalentTo from Variant C. This gives fully automatic classification: any proportion RQ whose value specification carries a mass fraction unit will be inferred as `PMD_0020102`. No false positives — mole fraction and volume fraction carry mol/mol and m³/m³ units respectively.
+
+  **Variant B is not a candidate.** Unit discrimination is the only logically sound sufficient condition. Entity+parthood+mass alone is provably unsound: two distinct RQs (mass fraction and mole fraction) can coexist between the same part-whole pair, both satisfying all entity-level conditions.
+
 alternative Visualization using [Ontosphere](https://thhanke.github.io/ontosphere/?rdfUrl=https://raw.githubusercontent.com/materialdigital/core-ontology/feat/mass-fraction-relational-quality-pattern/patterns/mass%20fraction%20relational%20quality/shape-data.ttl&ontologies=pmdco)
