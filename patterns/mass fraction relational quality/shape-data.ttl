@@ -1,0 +1,131 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix obo:   <http://purl.obolibrary.org/obo/> .
+@prefix pmd:   <https://w3id.org/pmd/co/> .
+@prefix ex:    <http://example.org/massfraction#> .
+
+### Prefixes for readability ###
+@prefix proportion:           <https://w3id.org/pmd/co/PMD_0020101> .
+@prefix mass_proportion:      <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix mass:                 <https://w3id.org/pmd/co/PMD_0020133> .
+@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
+@prefix has_relational_quality: <https://w3id.org/pmd/co/PMD_0025998> .
+@prefix quality_of:           <http://purl.obolibrary.org/obo/RO_0000080> .
+@prefix has_quality:          <http://purl.obolibrary.org/obo/RO_0000086> .
+@prefix part_of:              <http://purl.obolibrary.org/obo/BFO_0000050> .
+@prefix independent_continuant: <http://purl.obolibrary.org/obo/BFO_0000004> .
+
+# ── Ontology declaration ──────────────────────────────────────────────────────
+<http://example.org/massfraction> a owl:Ontology ;
+    rdfs:label "Mass Fraction Relational Quality — example pattern" ;
+    rdfs:comment """Demonstrates the mass proportion (PMD_0020102) pattern.
+Load together with pmdco-base.ttl (owl:imports below) for OWL reasoning.
+Verified with Konclude (OWL 2 DL, materialize mode).""" ;
+    owl:imports <https://raw.githubusercontent.com/materialdigital/core-ontology/main/pmdco-base.ttl> .
+
+# ── Required fix: declare has_quality as inverse of quality_of ────────────────
+# pmdco-base.ttl does not declare this inverse; it is needed so the reasoner
+# can infer  entity has_quality massQuality  from  massQuality quality_of entity.
+obo:RO_0000086 owl:inverseOf obo:RO_0000080 .
+
+# ── TBox: equivalence axiom on mass proportion (PMD_0020102) ─────────────────
+#
+# Manchester syntax:
+#   'mass proportion' EquivalentTo:
+#       'proportion'
+#       and ('relational quality of' some
+#           (mass
+#            and ('quality of' some
+#                (entity
+#                 and ('part of' some
+#                     (entity
+#                      and ('has quality' some mass)))))))
+#
+# This axiom is NOT yet in pmdco-base.ttl — it belongs there once agreed upon.
+# It is included here so reasoning over this file + pmdco produces the correct inference.
+
+pmd:PMD_0020102 owl:equivalentClass [
+    a owl:Class ;
+    owl:intersectionOf (
+        pmd:PMD_0020101
+        [
+            a owl:Restriction ;
+            owl:onProperty pmd:PMD_0025999 ;
+            owl:someValuesFrom [
+                a owl:Class ;
+                owl:intersectionOf (
+                    pmd:PMD_0020133
+                    [
+                        a owl:Restriction ;
+                        owl:onProperty obo:RO_0000080 ;
+                        owl:someValuesFrom [
+                            a owl:Class ;
+                            owl:intersectionOf (
+                                obo:BFO_0000004
+                                [
+                                    a owl:Restriction ;
+                                    owl:onProperty obo:BFO_0000050 ;
+                                    owl:someValuesFrom [
+                                        a owl:Class ;
+                                        owl:intersectionOf (
+                                            obo:BFO_0000004
+                                            [
+                                                a owl:Restriction ;
+                                                owl:onProperty obo:RO_0000086 ;
+                                                owl:someValuesFrom pmd:PMD_0020133
+                                            ]
+                                        )
+                                    ]
+                                ]
+                            )
+                        ]
+                    ]
+                )
+            ]
+        ]
+    )
+] .
+
+# ── ABox: sugar-in-solution example ──────────────────────────────────────────
+#
+# Structure:
+#
+#   sugarPortion ──part_of──► sugarSolution
+#        │                          │
+#   quality_of (RO:0000080)    quality_of (RO:0000080)
+#        │                          │
+#   massOfSugar               massOfSolution
+#        ▲
+#        │  relational_quality_of (PMD_0025999)
+#        │
+#   massFractionRQ
+#        asserted type: proportion (PMD_0020101)
+#        inferred type: mass proportion (PMD_0020102)  ← goal
+
+# Independent continuants (entities)
+ex:sugarPortion a owl:NamedIndividual, obo:BFO_0000004 ;
+    rdfs:label "sugar portion (the part)" .
+
+ex:sugarSolution a owl:NamedIndividual, obo:BFO_0000004 ;
+    rdfs:label "sugar solution (the whole)" .
+
+ex:sugarPortion obo:BFO_0000050 ex:sugarSolution .   # part of
+
+# Mass quality of the part
+ex:massOfSugar a owl:NamedIndividual, pmd:PMD_0020133 ;
+    rdfs:label "mass of sugar (part)" .
+ex:massOfSugar obo:RO_0000080 ex:sugarPortion .      # quality of
+
+# Mass quality of the whole
+ex:massOfSolution a owl:NamedIndividual, pmd:PMD_0020133 ;
+    rdfs:label "mass of solution (whole)" .
+ex:massOfSolution obo:RO_0000080 ex:sugarSolution .  # quality of
+
+# The relational quality
+# Asserted as: proportion (PMD_0020101)
+# Inferred as: mass proportion (PMD_0020102)
+ex:massFractionRQ a owl:NamedIndividual, pmd:PMD_0020101 ;
+    rdfs:label "mass fraction relational quality (sugar in solution)" .
+ex:massFractionRQ pmd:PMD_0025999 ex:massOfSugar .   # relational quality of (part's mass)
