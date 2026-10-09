@@ -12,15 +12,36 @@
 @prefix temporal_interval: <http://purl.obolibrary.org/obo/BFO_0000202> .
 @prefix specification_datum: <https://w3id.org/pmd/co/PMD_0060009> .
 @prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> .
+@prefix value_specification: <http://purl.obolibrary.org/obo/OBI_0001933> .
+# A custom class for the specific process type whose duration should be specified. 
+# Here we use the generic "process", but a more suitable subclass is recommended, 
+# e.g. a specific segement of a heat treatment that should be hold for a specified duration.
+ex:class_process_duration_specification a owl:Class ;
+    rdfs:subClassOf value_specification: ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty is_about: ;
+        owl:someValuesFrom [
+            a owl:Class ;
+            owl:intersectionOf (
+                temporal_interval:
+                [
+                    a owl:Restriction ;
+                    owl:onProperty during_which_exists: ;
+                    owl:someValuesFrom process:
+                ]
+            )
+        ]
+    ] .
 
 # ObjectProperties
-@prefix occupies_temporal_region: <http://purl.obolibrary.org/obo/BFO_0000199> . 
-@prefix has_duration: <http://www.w3.org/2006/time#hasDuration> .
-@prefix duration: <https://w3id.org/pmd/co/PMD_0000143> .
-@prefix is_specified_output_of: <http://purl.obolibrary.org/obo/OBI_0000312> .
 @prefix has_value_specification: <http://purl.obolibrary.org/obo/OBI_0001938> .
 @prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000003> .
-@prefix part_of: <http://purl.obolibrary.org/obo/BFO_0000050> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
+@prefix is_about: <http://purl.obolibrary.org/obo/IAO_0000136> .
+@prefix during_which_exists: <http://purl.obolibrary.org/obo/BFO_0000157> .
+@prefix is_subject_of: <https://w3id.org/pmd/co/PMD_0000004> .
+
 
 # Data properties
 @prefix has_specified_value: <http://purl.obolibrary.org/obo/OBI_0002135> .
@@ -30,16 +51,16 @@
 
 <https://w3id.org/pmd/co/test/shape/time_setpoint_duration> rdf:type owl:Ontology .
 
-ex:process_one a process: .
-ex:process_ones_temporal_interval a temporal_interval: .
-ex:process_ones_temporal_interval_duration a duration: .
-ex:specification_datum_1 a specification_datum: ; 
-    part_of: ex:plan_specification_1 ;
-    has_value_specification: ex:process_ones_temporal_interval_duration .
-ex:plan_specification_1 a plan_specification: .
+ex:plan_specification_1 a plan_specification: ;
+    has_part: ex:specification_datum_1 .
 
-ex:process_one occupies_temporal_region: ex:process_ones_temporal_interval .
-ex:process_ones_temporal_interval has_duration: ex:process_ones_temporal_interval_duration .
-ex:process_ones_temporal_interval_duration has_specified_value: "5.0"^^xsd:double ;
+ex:specification_datum_1 a specification_datum: ; 
+    has_value_specification: ex:process_duration_value_specification_1 .
+
+ex:process_duration_value_specification_1 a ex:class_process_duration_specification ;
+    has_specified_value: "5.0"^^xsd:double ;
     has_measurement_unit_label: minute: .
 
+# Optional: if we know the process, we can link to it 
+ex:my_optional_process a process: ;
+    is_subject_of: ex:process_duration_value_specification_1 .

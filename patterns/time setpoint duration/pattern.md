@@ -1,3 +1,14 @@
-**Purpose**: Represent the specified duration of a process and mention that the provenance of the value is a plan specification.
+**Purpose**: Represent the specified duration of a specific type of process and mention that the provenance of the value is a plan specification.
 
-The process itself is a complex entity involving participants, changes and time. It's "time aspect" is a one dimensional temporal region, in this case an uninterrupted one, a temporal interval. The occupies temporal region-relation of the process to the temporal interval is functional, meaning that this is the sole and identity defining temporal interval of the process. The duration of the temporal interval is quantified using a duration, which is a subclass of value specification. By stating that this duration is a "has value specification" (sub-property of has part) of a specification datum, which in turn is a part of a plan specification the provenance of this value specification becomes clear.
+The present pattern is different from the other ones because it does not talk about the entity of interest directly. We talk about a value that "could be about" one (or several) entities.   
+The first step for this is to create a plan specification and as part of it a specification datum `ex:specification_datum_1`. As a second step we create a subclass of `obi:value specification`. This subclass encapsulates some specific type requirements of specified value. In its `owl:equivalentClass` it specifies that it `iao:is about` the entity type that we are interested in. In our case the entity type that we are interested in is a `bfo:temporal interval` `bfo:during_which_exists` a process of specific type. We then instantiate this class and assign it unit and value in the usual manner. Additionally we can link it using `iao:is about` to instances, if we have known instances in our graph.
+The RDF representation may be hard to read. In Manchester syntax:
+```
+Class: ex:class_process_duration_specification
+
+    EquivalentTo:
+        iao:is_about some (bfo:temporal_interval and (bfo:during_which_exists some bfo:process))
+
+    SubClassOf:
+        obi:value_specification
+```
