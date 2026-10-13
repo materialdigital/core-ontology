@@ -128,6 +128,24 @@ $(IMPORTDIR)/uo_import.owl: $(MIRRORDIR)/uo.owl $(IMPORTDIR)/uo_terms.txt
 		 $(ANNOTATE_CONVERT_FILE)
 
 
+$(IMPORTDIR)/envo_import.owl: $(MIRRORDIR)/envo.owl $(IMPORTDIR)/envo_terms.txt 
+	$(ROBOT) annotate --input $< --remove-annotations \
+		 odk:normalize --add-source true \
+		 extract --term-file $(IMPORTDIR)/envo_terms.txt \
+		         --copy-ontology-annotations true --force true \
+		         --individuals exclude \
+		         --method BOT \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term rdfs:label \
+		        --term IAO:0000115 \
+		        --term OMO:0002000 \
+		        --term-file $(IMPORTDIR)/envo_terms.txt $(T_IMPORTSEED) \
+		        --select complement --select annotation-properties \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 repair --merge-axiom-annotations true \
+		 $(ANNOTATE_CONVERT_FILE)
+
 
 $(TEMPLATEDIR)/materials-listing.tsv:
 	curl -L "https://docs.google.com/spreadsheets/d/e/2PACX-1vQmflWvRYJEO0K_k9EtLHDTkyIcntG0jW-i9ZNlURUxQET8N9eadI2HdI94hrNMWBcDQAKzE9KWVY6b/pub?gid=349806212&single=true&output=tsv" -o $@
