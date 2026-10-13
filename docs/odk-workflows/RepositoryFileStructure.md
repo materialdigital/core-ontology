@@ -26,6 +26,7 @@ These are the current imports in PMDCO
 | cob | http://purl.obolibrary.org/obo/cob.owl | custom |
 | nfdicore | https://raw.githubusercontent.com/ISE-FIZKarlsruhe/nfdicore/refs/tags/v3.0.5/nfdicore-base.owl | slme |
 | time | https://github.com/w3c/sdw-time/raw/refs/heads/gh-pages/rdf/time.ttl | slme |
+| envo | https://raw.githubusercontent.com/EnvironmentOntology/envo/v2026-06-26/envo-base.owl | slme |
 ## Components
 Components, in contrast to imports, are considered full members of the ontology. This means that any axiom in a component is also included in the ontology base - which means it is considered _native_ to the ontology. While this sounds complicated, consider this: conceptually, no component should be part of more than one ontology. If that seems to be the case, we are most likely talking about an import. Components are often not needed for ontologies, but there are some use cases:
 
