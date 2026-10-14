@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                6adf75de16ef6c15f7091c04b1427875243313dc21c0f74b122c6351949fc230
+CONFIG_HASH=                ddf36e2a8230a5264e97b39bb8eafa3b07f74928cdc54a2bbe8c97e4fd3a417c
 
 
 # ----------------------------------------
@@ -188,7 +188,7 @@ all_main: $(MAIN_FILES)
 # ----------------------------------------
 
 
-IMPORTS =  bfo ro iao obi chebi stato uo cob nfdicore time
+IMPORTS =  bfo ro iao obi chebi stato uo cob nfdicore time envo
 
 IMPORT_ROOTS = $(patsubst %, $(IMPORTDIR)/%_import, $(IMPORTS))
 IMPORT_OWL_FILES = $(foreach n,$(IMPORT_ROOTS), $(n).owl)
@@ -502,6 +502,25 @@ $(IMPORTDIR)/time_import.owl: $(MIRRORDIR)/time.owl $(IMPORTDIR)/time_terms.txt 
 		 repair --merge-axiom-annotations true \
 		 $(ANNOTATE_CONVERT_FILE)
 
+## Module for ontology: envo (slme)
+$(IMPORTDIR)/envo_import.owl: $(MIRRORDIR)/envo.owl $(IMPORTDIR)/envo_terms.txt $(IMPORTSEED) | all_robot_plugins
+	$(ROBOT) annotate --input $< --remove-annotations \
+		 odk:normalize --add-source true \
+		 extract --term-file $(IMPORTDIR)/envo_terms.txt $(T_IMPORTSEED) \
+		         --copy-ontology-annotations true --force true \
+		         --individuals include \
+		         --method SUBSET \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term rdfs:label \
+		        --term IAO:0000115 \
+		        --term OMO:0002000 \
+		        --term-file $(IMPORTDIR)/envo_terms.txt $(T_IMPORTSEED) \
+		        --select complement --select annotation-properties \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 repair --merge-axiom-annotations true \
+		 $(ANNOTATE_CONVERT_FILE)
+
 endif # IMP=true
 
 .PHONY: refresh-imports
@@ -670,6 +689,13 @@ mirror-nfdicore: | $(TMPDIR)
 .PRECIOUS: $(MIRRORDIR)/time.owl
 mirror-time: | $(TMPDIR)
 	$(ROBOT) convert -I https://github.com/w3c/sdw-time/raw/refs/heads/gh-pages/rdf/time.ttl -o $(TMPDIR)/$@.owl
+
+
+## ONTOLOGY: envo
+.PHONY: mirror-envo
+.PRECIOUS: $(MIRRORDIR)/envo.owl
+mirror-envo: | $(TMPDIR)
+	$(ROBOT) convert -I https://raw.githubusercontent.com/EnvironmentOntology/envo/v2026-06-26/envo-base.owl -o $(TMPDIR)/$@.owl
 
 
 $(MIRRORDIR)/%.owl: mirror-% | $(MIRRORDIR)
