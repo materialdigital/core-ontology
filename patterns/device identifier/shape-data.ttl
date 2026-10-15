@@ -28,11 +28,13 @@
 @prefix plan: <http://purl.obolibrary.org/obo/OBI_0000260> .
 @prefix plan_specification: <http://purl.obolibrary.org/obo/IAO_0000104> . 
 @prefix timepoint: <https://w3id.org/pmd/co/PMD_0020415> .
+@prefix action_specifiction: <http://purl.obolibrary.org/obo/IAO_0000007> .
 
 # Object properties
 @prefix denotes: <http://purl.obolibrary.org/obo/IAO_0000219> .
 @prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
 @prefix concretizes: <http://purl.obolibrary.org/obo/RO_0000059> .
+@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
 
 # Data properties
 @prefix inXSDDateTimeStamp: <http://www.w3.org/2006/time#inXSDDateTimeStamp> .
@@ -46,11 +48,12 @@
          denoted_by: :device1_identifier  .
 
 
-:device1_identifier rdf:type owl:NamedIndividual ,
-                             identifier: ;
-                    has_value: "literal_id_of_device1" .
+:device1_identifier a identifier: ;
+    has_value: "literal_id_of_device1" ;
+    specified_output_of:  :some_process .
 
-:device1_identifier   specified_output_of:  :some_process .
+:some_process a identifier_creating_process: ;
+    realizes: :some_plan .
 
 
 ###  https://w3id.org/pmd/co/test/shape6#device2
@@ -93,11 +96,13 @@
 
 
 :device2_identifier  specified_output_of:  :some_process .
-:some_process a identifier_creating_process: ;
-    realizes: :some_plan .
+
 
 :some_plan a plan: ;
     concretizes: :some_plan_specification .
 
-:some_plan_specification a plan_specification: .
+:some_plan_specification a plan_specification: ;
+    has_part: :some_action_specification .
+
+:some_action_specification a action_specifiction: .
 
