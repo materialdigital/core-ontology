@@ -43,7 +43,7 @@ To learn how to write a good issue [see here](#great-issues).
 Before you write a new request, please consider the following: 
 
 - **Does the term already exist?** Before submitting suggestions for new ontology terms, check whether the term exist, 
-either as a primary term or a synonym term. You can search for your term using [OLS](http://www.ebi.ac.uk/ols/ontologies/pmdco).
+either as a primary term or a synonym term. You can search for your term using [OLS](https://www.ebi.ac.uk/ols4/), [TIB terminology service](https://terminology.tib.eu/ts) or serices from the [ontoportal alliance](https://ontoportal.org/about/). 
 - **Can you provide a definition for the term?** It should be very clear what the term means, and you should be
 able to provide a concise definition, ideally with a scientific reference.
 - **Is the ontology in scope for the term?** Sometimes, it is hard to tell whether a term "belongs" in
