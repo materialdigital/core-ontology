@@ -122,9 +122,26 @@ $(IMPORTDIR)/chebi_import.owl: #$(MIRRORDIR)/chebi.owl
 		      --select complement --select annotation-properties \
 		$(ANNOTATE_CONVERT_FILE); fi
 
-
-$(IMPORTDIR)/uo_import.owl: $(MIRRORDIR)/uo.owl $(IMPORTDIR)/uo_terms.txt 
-	$(ROBOT) filter --input mirror/uo.owl --term-file imports/uo_terms.txt --allow-punning true --select "annotations self parents" \
+## Module for ontology: uo (slme)
+# check, that puns are correctly imported
+$(IMPORTDIR)/uo_import.owl: $(MIRRORDIR)/uo.owl $(IMPORTDIR)/uo_terms.txt  | all_robot_plugins
+	$(ROBOT) annotate --input $< --remove-annotations \
+		 odk:normalize --add-source true \
+		 filter --term-file $(IMPORTDIR)/uo_terms.txt  \
+		         --select "self annotations" \
+		         --allow-punning true \
+		         --signature true \
+		         --axioms all \
+		 reduce --reasoner ELK \
+		 remove $(foreach p, $(ANNOTATION_PROPERTIES), --term $(p)) \
+		        --term rdfs:label \
+		        --term IAO:0000115 \
+		        --term OMO:0002000 \
+		        --term-file $(IMPORTDIR)/uo_terms.txt $(T_IMPORTSEED) \
+		        --select complement --select annotation-properties \
+		 odk:normalize --base-iri https://w3id.org/pmd \
+		               --subset-decls true --synonym-decls true \
+		 repair --merge-axiom-annotations true \
 		 $(ANNOTATE_CONVERT_FILE)
 
 

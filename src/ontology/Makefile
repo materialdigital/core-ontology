@@ -10,7 +10,7 @@
 # More information: https://github.com/INCATools/ontology-development-kit/
 
 # Fingerprint of the configuration file when this Makefile was last generated
-CONFIG_HASH=                ddf36e2a8230a5264e97b39bb8eafa3b07f74928cdc54a2bbe8c97e4fd3a417c
+CONFIG_HASH=                92393a94ec4729cf0b1eddb6752c3bce6f5a942ae7516647e130615642e3b52c
 
 
 # ----------------------------------------
@@ -455,6 +455,12 @@ $(IMPORTDIR)/chebi_import.owl: $(MIRRORDIR)/chebi.owl
 ## Module for ontology: stato (custom)
 $(IMPORTDIR)/stato_import.owl: $(MIRRORDIR)/stato.owl
 	@echo "ERROR: You have configured stato as a custom module;"
+	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
+	@false
+
+## Module for ontology: uo (custom)
+$(IMPORTDIR)/uo_import.owl: $(MIRRORDIR)/uo.owl
+	@echo "ERROR: You have configured uo as a custom module;"
 	@echo "       This rule needs to be overwritten in pmdco.Makefile!"
 	@false
 
