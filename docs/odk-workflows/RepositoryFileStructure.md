@@ -22,7 +22,7 @@ These are the current imports in PMDCO
 | obi | http://purl.obolibrary.org/obo/obi/2026-07-27/obi.owl | custom |
 | chebi | https://ftp.ebi.ac.uk/pub/databases/chebi/ontology/chebi_lite.obo | custom |
 | stato | http://purl.obolibrary.org/obo/stato.owl | custom |
-| uo | http://purl.obolibrary.org/obo/uo.owl | slme |
+| uo | http://purl.obolibrary.org/obo/uo.owl | custom |
 | cob | http://purl.obolibrary.org/obo/cob.owl | custom |
 | nfdicore | https://raw.githubusercontent.com/ISE-FIZKarlsruhe/nfdicore/refs/tags/v3.0.5/nfdicore-base.owl | slme |
 | time | https://github.com/w3c/sdw-time/raw/refs/heads/gh-pages/rdf/time.ttl | slme |

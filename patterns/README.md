@@ -8,7 +8,7 @@ This pattern collection is dedicated to reusable modelling templates: standardiz
 
 By providing SHACL shapes, examples and pattern guidance, the folder supports users in shaping their data, aligning semantic models, and ensuring interoperability.
 
-You can also find some examples in the documentation: [https://materialdigital.github.io/core-ontology/docs/patterns/](https://materialdigital.github.io/core-ontology/docs/patterns/)
+You can also find some examples in the documentation: https://materialdigital.github.io/core-ontology/docs/patterns.html
 
 ## Contents & usage
 
