@@ -17,6 +17,7 @@ Import(<https://w3id.org/pmd/co/components/pmdco-manufacturing.owl>)
 Import(<https://w3id.org/pmd/co/components/pmdco-materials.owl>)
 Import(<https://w3id.org/pmd/co/components/pmdco-qualities.owl>)
 
+Declaration(Class(obo:ENVO_01000665))
 Declaration(Class(:PMD_0020252))
 Declaration(ObjectProperty(:PMD_0020021))
 Declaration(ObjectProperty(:PMD_0020321))
@@ -68,18 +69,6 @@ ObjectPropertyDomain(:PMD_0020322 :PMD_0000068)
 ObjectPropertyRange(:PMD_0020322 :PMD_0000068)
 
 
-############################
-#   Data Properties
-############################
-
-# Data Property: <http://www.w3.org/2006/time#inXSDDateTime> (in XSD Date-Time)
-
-SubDataPropertyOf(<http://www.w3.org/2006/time#inXSDDateTime> :PMD_0000006)
-
-# Data Property: <http://www.w3.org/2006/time#inXSDDateTimeStamp> (en fecha-sello de tiempo XSD)
-
-SubDataPropertyOf(<http://www.w3.org/2006/time#inXSDDateTimeStamp> :PMD_0000006)
-
 
 
 ############################
@@ -89,7 +78,11 @@ SubDataPropertyOf(<http://www.w3.org/2006/time#inXSDDateTimeStamp> :PMD_0000006)
 # Class: obo:COB_0000082 (planned process)
 
 
-# Class: obo:GO_0008150 (biological process)
+# Class: obo:ENVO_01000665 (waste role)
+
+DisjointClasses(obo:ENVO_01000665 ObjectSomeValuesFrom(obo:RO_0000081 :PMD_0000001))
+
+# Class: obo:GO_0008150 (biological_process)
 
 
 # Class: obo:OBI_0000070 (assay)
@@ -171,7 +164,7 @@ SubClassOf(:PMD_0001017 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0000551))
 
 SubClassOf(:PMD_0001018 ObjectSomeValuesFrom(obo:RO_0009006 :PMD_0000551))
 
-# Class: :PMD_0020022 (corrosion)
+# Class: :PMD_0020022 (Korrosion)
 
 SubClassOf(:PMD_0020022 ObjectSomeValuesFrom(:PMD_0025013 ObjectIntersectionOf(:PMD_0000551 ObjectSomeValuesFrom(obo:RO_0000080 ObjectIntersectionOf(obo:BFO_0000040 ObjectSomeValuesFrom(obo:RO_0000091 obo:BFO_0000016))))))
 
@@ -197,14 +190,4 @@ AnnotationAssertion(obo:IAO_0000116 :PMD_0025019 "In the axiom, the instance of 
 AnnotationAssertion(obo:IAO_0000117 :PMD_0025019 "PERSON: Kamilla Zaripova")
 AnnotationAssertion(rdfs:label :PMD_0025019 "rate"@en)
 AnnotationAssertion(skos:definition :PMD_0025019 "process attribute which describes the change of some quality of some of the participants in a process over time"@en)
-# Class: <http://purl.obolibrary.org/obo/ENVO_01000665> (waste role)
-
-DisjointClasses(
-    <http://purl.obolibrary.org/obo/ENVO_01000665>
-    ObjectSomeValuesFrom(
-        <http://purl.obolibrary.org/obo/RO_0000081>
-        <https://w3id.org/pmd/co/PMD_0000001>
-    )
-)
-
 )
