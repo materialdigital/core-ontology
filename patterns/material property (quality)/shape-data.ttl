@@ -28,9 +28,9 @@
 @prefix specifically_dependent_continuant: <http://purl.obolibrary.org/obo/BFO_0000020> .
 @prefix melting_point: <https://w3id.org/pmd/co/PMD_0000851> .
 @prefix relational_quality: <http://purl.obolibrary.org/obo/BFO_0000145> .
-@prefix mass_proportion: <https://w3id.org/pmd/co/PMD_0020102> .
+@prefix mass_fraction: <https://w3id.org/pmd/co/PMD_0020102> .
 @prefix scalar_value_specification: <http://purl.obolibrary.org/obo/OBI_0001931> .
-@prefix fraction_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
+@prefix concentration_value_specification: <https://w3id.org/pmd/co/PMD_0025997> .
 @prefix gram: <http://purl.obolibrary.org/obo/UO_0000021> . 
 @prefix gram_per_cubic_centimetre: <http://purl.obolibrary.org/obo/UO_0000084> .
 @prefix degree_celsius: <http://purl.obolibrary.org/obo/UO_0000027> .
@@ -60,7 +60,7 @@
 @prefix has_specified_input: <http://purl.obolibrary.org/obo/OBI_0000293> .
 @prefix has_specified_output: <http://purl.obolibrary.org/obo/OBI_0000299> .
 @prefix specified_by_value: <https://w3id.org/pmd/co/PMD_0000077> .
-
+@prefix towards: <http://purl.obolibrary.org/obo/RO_0002503> .
 
 ### Instances ###
 
@@ -117,13 +117,14 @@ ex:change_of_temperature_during_melting a change_of_temperature: .
 # Relational quality
 ex:some_iron a portion_of_iron: . 
 
-ex:mass_proportion_iron a mass_proportion: ;
-            relational_quality_of:  ex:some_iron , ex:metal_sheet .
+ex:mass_fraction_iron a mass_fraction: ;
+            relational_quality_of:  ex:metal_sheet ;
+            towards: ex:some_iron .
 
-ex:fraction_iron a fraction_value_specification: ;
+ex:fraction_iron_val_spec a concentration_value_specification: ;
             has_specified_numeric_value: "97.7"^^xsd:float ;
             has_measurement_unit_label: mass_percentage: ; 
-            specifies_value_of: ex:mass_proportion_iron .
+            specifies_value_of: ex:mass_fraction_iron .
 
 
 
