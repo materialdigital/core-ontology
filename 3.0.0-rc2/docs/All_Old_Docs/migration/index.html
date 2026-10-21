@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Migraton from Version 2.x - PMD Core Ontology</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/stylesheets/mkdocs_d2_plugin.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Migraton from Version 2.x";
+        var mkdocs_page_input_path = "All_Old_Docs/migration.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PMD Core Ontology
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Welcome</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../Introduction%20to%20Ontologies/">Introduction to Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../intro/">Introduction to PMDco v3.x.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../Reused%20ontologies/">Reused Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../Ontology_structure2/">Ontology Structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../patterns/">Patterns</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../PMDco%20User%20Guide/">PMDco User Guide</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../versions/">Versions and Variants</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../migration/">Migration from 2.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../Who%20We%20Are%20%26%20How%20to%20Join/">Who We Are & How to Join</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../publications/">Publications</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../acknowledgements/">Acknowledgements</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PMD Core Ontology</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Migraton from Version 2.x</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="migraton-from-version-2x">Migraton from Version 2.x</h1>
+<!--@Document_indicator: Text, links -->
+
+<p>Because PMDco 3.x is based on BFO, the migration is not a simple translation but a re-modeling of the class hierarchy. The safest approach is to relocate each major conceptual block of the old ontology into the appropriate BFO branch and then check whether PMDco 3.x already provides an equivalent class or modeling pattern.</p>
+<p><strong>Before you start:</strong></p>
+<ul>
+<li>Familiarize yourself with the BFO class hierarchy (PMDco 3.x is built on top of it). (PMDco is using the <a href="https://github.com/BFO-ontology/BFO-2020/tree/master/21838-2/owl/profiles/atemporal">atemporal variant of BFO 2020</a>. This variant does not include the BFO2020 temporalized relations.)</li>
+<li>Consult the BFO classifier (<a href="https://keet.wordpress.com/2023/06/29/improved-the-bfo-classifier/">link</a>).</li>
+<li>Review the PROV–BFO mapping (<a href="https://www.nature.com/articles/s41597-025-04580-1">link</a>).</li>
+<li>Understand the most relevant imported ontologies: <a href="https://obofoundry.org/ontology/ro.html">RO (Relation Ontology)</a>, <a href="https://github.com/information-artifact-ontology/IAO/">IAO (Information Artifact Ontology)</a>.</li>
+</ul>
+<h2 id="migration-guidelines">Migration Guidelines</h2>
+<h3 id="1-provactivity-based-classes-bfoprocess">1. prov:Activity based classes → bfo:process</h3>
+<p>In PMDco 2.0.8, many classes modeled under <code>prov:Activity</code> represent processes, workflows, computational steps, material operations, or data transformations.
+In BFO, all such happenings belong under <code>bfo:process.</code></p>
+<p>Move these classes into the <code>bfo:process</code> / <code>bfo:occurrent</code> branch. Anything that “unfolds”, “occurs”, or “executes” in time should be treated as a process.</p>
+<h3 id="2-provagents-humans-organizations-bfoindependent-continuants">2. prov:Agents (humans, organizations) → bfo:independent continuants</h3>
+<p>Agents are no longer modeled as activity performers (as in PROV-O).
+In PMDco 3.x they become <code>bfo:independent continuants</code>:</p>
+<p>Human agents → subclass of <code>Homo sapiens</code> (NCBITaxon_9606), under <code>bfo:material entity</code> .</p>
+<p>Organizations → subclass of <code>obi:organization</code>, under <code>bfo:material entity</code>.</p>
+<p>Exception:
+Software agents are not <code>bfo:independent continuants</code>; they are information artifacts and should be modeled as subclasses of <code>iao:information content entity</code> (below <code>bfo:generically dependent continuant</code>). </p>
+<h3 id="3-objects-samples-devices-bfoindependent-continuants-bfomaterial-entities">3. Objects, Samples, Devices → bfo:independent continuants (bfo:material entities)</h3>
+<p>Any entity with physical existence — devices, instruments, materials, equipment, objects — belongs to the <code>bfo:material entity</code> branch.</p>
+<p>Place each of those under the most specific material entity class available in PMDco 3.x. Review object-related properties, since physical entities typically carry qualities, roles, realizable entities which may need adjustment during migration (see ValueObjects below).</p>
+<h3 id="4-valuescope-digitalentity-and-data-like-conceptual-classes-iaoinformation-content-entities-ice">4. ValueScope, DigitalEntity, and data-like conceptual classes → iao:information content entities (ICE)</h3>
+<p>PMDco 3.0 consolidates informational and conceptual constructs under the <code>iao:information content entities</code> (ICE) hierarchy.</p>
+<p>Classes such as ValueScope, DigitalEntity, and general metadata belong here. Anything that describes or represents information <strong>about</strong> something (instead of being the thing itself) is an <code>iao:information content entity</code>.</p>
+<h3 id="5-valueobjects-split-across-bfoqualities-bforealizable-entities-and-ice">5. ValueObjects → split across bfo:qualities, bfo:realizable entities, and ICE</h3>
+<p>This is one of the most significant conceptual changes.</p>
+<p>Many ValueObject classes in 2.0.8 combine:</p>
+<ul>
+<li>
+<p>qualities (mass, color, resolution, etc.),</p>
+</li>
+<li>
+<p>realizable entities (roles, functions, capabilities, etc.),</p>
+</li>
+<li>
+<p>information content (identifiers, names, codes, descriptions, specifications, etc.).</p>
+</li>
+</ul>
+<p>In BFO, these must be separated.</p>
+<p><strong>Guidelines:</strong></p>
+<ul>
+<li>
+<p>If the ValueObject describes an inherent property of an entity
+    → classify under <code>bfo:quality</code> or <code>pmd:behavioral material property</code> (e.g., size, precision, temperature range).</p>
+</li>
+<li>
+<p>If it describes a capability, role, or function
+→ classify under <code>bfo:disposition</code>, <code>bfo:function</code>, <code>bfo:role</code>.</p>
+</li>
+<li>
+<p>If it represents data, codes, or symbolic values
+→ classify under <code>iao:information content entity</code>.</p>
+</li>
+</ul>
+<p>A single old class may need to be split into two or three new ones.
+PMDco 3.x with BFO enforces distinctions that PROV-O did not.</p>
+<h3 id="6-relation-migration-common-replacements">6. Relation Migration (common replacements)</h3>
+<ul>
+<li>subordinate process → <code>bfo:has part</code></li>
+<li>previous process → <code>bfo:preceded by</code></li>
+<li>has characteristic → select one of <code>ro:characteristic of</code> subproperty (<code>ro:has role</code>, <code>ro:has quality</code>, <code>ro:has function</code>, <code>ro:has disposition</code>)</li>
+<li>composed of → <code>bfo:has part</code></li>
+<li>component → <code>bfo: has part</code></li>
+<li>executes → <code>ro:participates</code> in (do not confuse with <code>stato:executes</code>)</li>
+<li>has role → <code>bfo:has role</code></li>
+<li>relates to → often replaced by <code>iao:is about</code> (if the subject is an ICE)</li>
+</ul>
+<p>--
+These recommendations are not exhaustive, and some cases will not have a clean one-to-one transformation. When in doubt, do not hesitate to contact the PMDco development team — discussing specific modeling questions is often the fastest and safest route to a consistent migration.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
