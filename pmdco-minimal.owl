@@ -11,13 +11,14 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:swrl="http://www.w3.org/2003/11/swrl#"
      xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
-     xmlns:terms="http://purl.org/dc/terms/">
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#">
     <owl:Ontology rdf:about="https://w3id.org/pmd/co/">
-        <owl:versionIRI rdf:resource="https://w3id.org/pmd/co/3.1.1"/>
-        <terms:bibliographicCitation>PMDco: Platform Material Digital Ontology. Version 3.1.1, https://w3id.org/pmd/co/</terms:bibliographicCitation>
-        <terms:created>2026-09-04</terms:created>
-        <owl:priorVersion rdf:resource="https://w3id.org/pmd/co/3.1.0"/>
-        <owl:versionInfo>3.1.1</owl:versionInfo>
+        <owl:versionIRI rdf:resource="https://w3id.org/pmd/co/3.1.2"/>
+        <terms:bibliographicCitation>PMDco: Platform Material Digital Ontology. Version 3.1.2, https://w3id.org/pmd/co/</terms:bibliographicCitation>
+        <terms:created>2026-10-21</terms:created>
+        <owl:priorVersion rdf:resource="https://w3id.org/pmd/co/3.1.1"/>
+        <owl:versionInfo>3.1.2</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -96,6 +97,18 @@
     <!-- http://purl.org/dc/terms/created -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+    
+
+
+    <!-- http://www.geneontology.org/formats/oboInOwl#hasDbXref -->
+
+    <owl:AnnotationProperty rdf:about="http://www.geneontology.org/formats/oboInOwl#hasDbXref"/>
+    
+
+
+    <!-- http://www.geneontology.org/formats/oboInOwl#hasExactSynonym -->
+
+    <owl:AnnotationProperty rdf:about="http://www.geneontology.org/formats/oboInOwl#hasExactSynonym"/>
     
 
 
@@ -273,6 +286,7 @@ A continuant cannot have an occurrent as part: use &apos;participates in&apos;. 
     <!-- http://purl.obolibrary.org/obo/BFO_0000108 -->
 
     <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000108">
+        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000157"/>
         <rdfs:domain rdf:resource="http://purl.obolibrary.org/obo/BFO_0000001"/>
         <rdfs:range rdf:resource="http://purl.obolibrary.org/obo/BFO_0000008"/>
         <rdfs:label xml:lang="en">exists at</rdfs:label>
@@ -314,6 +328,14 @@ A continuant cannot have an occurrent as part: use &apos;participates in&apos;. 
         <owl:annotatedTarget rdf:resource="http://purl.obolibrary.org/obo/BFO_0000050"/>
         <rdfs:comment>&quot;occurrent part of&quot; is not a BFO2020 temporalized relation. It just restricts the domain and range to &quot;occurrent&quot;. That&apos;s why is should be OK to make it sub property of RO &quot;part of&quot;</rdfs:comment>
     </owl:Axiom>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/BFO_0000157 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000157">
+        <rdfs:label>during which exists</rdfs:label>
+    </owl:ObjectProperty>
     
 
 
@@ -469,6 +491,7 @@ every c that is a concretization of g specifically denotes r</obo:IAO_0000116>
         <rdfs:domain rdf:resource="http://purl.obolibrary.org/obo/OBI_0001933"/>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000123"/>
         <obo:IAO_0000115 xml:lang="en">A relation between a value specification and an entity which the specification is about.</obo:IAO_0000115>
+        <obo:IAO_0000116>prefer &apos;represents value of&apos;, if you have I.C.Es in domain, which are not &apos;value specifications&apos;</obo:IAO_0000116>
         <rdfs:label>specifies value of</rdfs:label>
     </owl:ObjectProperty>
     
@@ -851,6 +874,17 @@ derivative === (&apos;has differential numerator&apos; only entity) and (&apos;h
     
 
 
+    <!-- http://purl.obolibrary.org/obo/RO_0002503 -->
+
+    <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/RO_0002503">
+        <obo:IAO_0000115>q towards e2 if and only if q is a relational quality such that q inheres-in some e, and e != e2 and q is dependent on e2</obo:IAO_0000115>
+        <obo:IAO_0000116>This relation is provided in order to support the use of relational qualities such as &apos;concentration of&apos;; for example, the concentration of C in V is a quality that inheres in V, but pertains to C.</obo:IAO_0000116>
+        <obo:IAO_0000119 rdf:resource="http://www.ncbi.nlm.nih.gov/pubmed/20064205"/>
+        <rdfs:label>towards</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://purl.obolibrary.org/obo/RO_0009006 -->
 
     <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/RO_0009006">
@@ -966,6 +1000,26 @@ derivative === (&apos;has differential numerator&apos; only entity) and (&apos;h
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0020127 -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0020127">
+        <rdfs:domain rdf:resource="https://w3id.org/pmd/co/PMD_0000008"/>
+        <rdfs:range rdf:resource="http://purl.obolibrary.org/obo/BFO_0000020"/>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
+        <rdfs:comment xml:lang="en">Despite has characteristic from RO does not have any domain constraints, it is still not possible to directly connect an instance of a process with an instance of a SDC. 
+
+First, SDC is dependent on a IC. As RO does not have &quot;bearer of&quot; object property, the &quot;has characteristic&quot; implies that the domain should be an IC. 
+
+Second, characteristic of is a functional property. Thus, two triples SDC_1 characteristc of IC_1 and SDC_2  characteristc of Process_1 (where IC_1 participates in Process_1), cannot exist simultaneously. 
+An example of such case can be &quot;Temperature of during the annealing process was 1000°C&quot;. Temperature is an SDC of some participant of the annealing, however it is not clear whether it is an SDC of an oven or of a sample in the oven. If we assert triple Annealing--&gt; has characteristic --&gt; Temperature 1000°C, then the correct triple connecting temperature SDC with either oven or specimen cannot exist.</rdfs:comment>
+        <rdfs:label xml:lang="en">refers to</rdfs:label>
+        <skos:definition xml:lang="en">a relation between a process attribute and an SDC of some participant in a process</skos:definition>
+        <skos:example xml:lang="en">a relation to between a process attribute an a SDC of some participant in a process.</skos:example>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0025006 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025006">
@@ -983,15 +1037,11 @@ derivative === (&apos;has differential numerator&apos; only entity) and (&apos;h
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025998">
         <owl:inverseOf rdf:resource="https://w3id.org/pmd/co/PMD_0025999"/>
         <rdfs:domain rdf:resource="http://purl.obolibrary.org/obo/BFO_0000004"/>
-        <rdfs:range rdf:resource="http://purl.obolibrary.org/obo/BFO_0000145"/>
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000051"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025998"/>
-        </owl:propertyChainAxiom>
+        <rdfs:range rdf:resource="https://w3id.org/pmd/co/PMD_0020108"/>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000117>PERSON: Kamilla Zaripova</obo:IAO_0000117>
-        <rdfs:label xml:lang="en">has relational quality</rdfs:label>
-        <rdfs:label xml:lang="de">hat relationale Qualität</rdfs:label>
+        <rdfs:label xml:lang="en">has relational property</rdfs:label>
+        <rdfs:label xml:lang="de">hat relationale Eigenschaft</rdfs:label>
         <skos:definition xml:lang="en">a relation between an independent continuant (the bearer) and a relational quality, in which the quality specifically depends on the bearer for its existence</skos:definition>
         <skos:definition xml:lang="de">eine Beziehung zwischen einem unabhängigen Kontinuum (dem Träger) und einer relationalen Qualität, bei der die Qualität in ihrer Existenz speziell vom Träger abhängt</skos:definition>
         <skos:example xml:lang="en">material has relational quality mass proportion m, and portion of iron has the same relational quality mass proportion m</skos:example>
@@ -1002,16 +1052,12 @@ derivative === (&apos;has differential numerator&apos; only entity) and (&apos;h
     <!-- https://w3id.org/pmd/co/PMD_0025999 -->
 
     <owl:ObjectProperty rdf:about="https://w3id.org/pmd/co/PMD_0025999">
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0025999"/>
-            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000050"/>
-        </owl:propertyChainAxiom>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">The &apos;relational quality of&apos; is more strict that &apos;quality of&apos; from RO, since domain is &apos;relational quality&apos;. The motivtion to introduce an object property for relational qualities is the following:
 RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c. The functionality is relevant for most of the SDC -&gt; IC triples, expect for relational qualities, which per definiton can be simultaneously inherited in &gt;=2 ICs. Thus,  &apos;relational quality of&apos;  has the same intention to connect SDC to IC, however, without cardinality constraints.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Kamilla Zaripova</obo:IAO_0000117>
-        <rdfs:label xml:lang="en">relational quality of</rdfs:label>
-        <rdfs:label xml:lang="de">relationale Qualität von</rdfs:label>
+        <rdfs:label xml:lang="en">relational property of</rdfs:label>
+        <rdfs:label xml:lang="de">relationale Eigenschaft von</rdfs:label>
         <skos:definition xml:lang="en">a relation between a relational quality and an independent continuant (the bearer), in which the quality specifically depends on the bearer for its existence</skos:definition>
         <skos:definition xml:lang="de">eine Beziehung zwischen einer relationalen Qualität und einem unabhängigen Kontinuum (dem Träger), bei der die Existenz der Qualität speziell vom Träger abhängt</skos:definition>
         <skos:example xml:lang="en">mass proportion m is relational qualitiy of material, and the same mass proportion m is relational qualitiy of portion of iron</skos:example>
@@ -1770,7 +1816,7 @@ RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c.
 
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/CHEBI_27998">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33521"/>
-        <rdfs:label>tungsten</rdfs:label>
+        <rdfs:label>tungsten atom</rdfs:label>
     </owl:Class>
     
 
@@ -2107,7 +2153,7 @@ RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c.
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/CHEBI_33363">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33521"/>
         <obo:IAO_0000115>Chemical element (nickel group element atom) with atomic number 46.</obo:IAO_0000115>
-        <rdfs:label>palladium</rdfs:label>
+        <rdfs:label>palladium atom</rdfs:label>
     </owl:Class>
     
 
@@ -2116,7 +2162,7 @@ RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c.
 
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/CHEBI_33364">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33521"/>
-        <rdfs:label>platinum</rdfs:label>
+        <rdfs:label>platinum atom</rdfs:label>
     </owl:Class>
     
 
@@ -2125,7 +2171,7 @@ RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c.
 
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/CHEBI_33369">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33319"/>
-        <rdfs:label>cerium</rdfs:label>
+        <rdfs:label>cerium atom</rdfs:label>
     </owl:Class>
     
 
@@ -2152,7 +2198,7 @@ RO&apos;s &apos;quality of&apos; is functional i.e., a-&gt;b, a-&gt;c =&gt; b=c.
 
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/CHEBI_33379">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33319"/>
-        <rdfs:label>erbium</rdfs:label>
+        <rdfs:label>erbium atom</rdfs:label>
     </owl:Class>
     
 
@@ -2709,6 +2755,100 @@ Request that IAO either clarify these or change definitions not to use them</rdf
     
 
 
+    <!-- http://purl.obolibrary.org/obo/UO_0000000 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/UO_0000000">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/IAO_0000003"/>
+        <obo:IAO_0000115>A unit of measurement is a standardized quantity of a physical quality.</obo:IAO_0000115>
+        <rdfs:label>unit</rdfs:label>
+    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="http://purl.obolibrary.org/obo/UO_0000000"/>
+        <owl:annotatedProperty rdf:resource="http://purl.obolibrary.org/obo/IAO_0000115"/>
+        <owl:annotatedTarget>A unit of measurement is a standardized quantity of a physical quality.</owl:annotatedTarget>
+        <oboInOwl:hasDbXref>Wikipedia:Wikipedia</oboInOwl:hasDbXref>
+    </owl:Axiom>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_0000076 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/UO_0000076">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/UO_0000076"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/UO_1000076"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_0000163 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/UO_0000163">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/UO_0000163"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/UO_1000163"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_0000164 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/UO_0000164">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/UO_0000164"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/UO_0000000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_0000169 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/UO_0000169">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/UO_0000169"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/UO_0000000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_1000076 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/UO_1000076">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/UO_0000000"/>
+        <rdfs:label>mole fraction based unit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_1000163 -->
+
+    <owl:Class rdf:about="http://purl.obolibrary.org/obo/UO_1000163">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/UO_0000000"/>
+        <rdfs:label>mass percentage based unit</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- http://qudt.org/schema/qudt/Unit -->
 
     <owl:Class rdf:about="http://qudt.org/schema/qudt/Unit">
@@ -2811,7 +2951,7 @@ granularity. At these coarser levels, the individual molecules cannot be differe
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000005">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
-        <rdfs:subClassOf rdf:nodeID="genid116"/>
+        <rdfs:subClassOf rdf:nodeID="genid121"/>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000117>PERSON: Joerg Waitelonis</obo:IAO_0000117>
         <rdfs:comment xml:lang="en">A property is a material trait in terms of the kind and magnitude of response to a specific imposed stimulus. Generally, definitions of properties are made independent of material shape and size.
@@ -2827,7 +2967,7 @@ Extensive properties that depend on the object being tested rather than on the p
         <skos:definition xml:lang="en">a disposition of a portion of matter that is realized in a compatible process and whose realization is grounded in the portions intensive qualities</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
-    <owl:Restriction rdf:nodeID="genid116">
+    <owl:Restriction rdf:nodeID="genid121">
         <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000052"/>
         <owl:someValuesFrom>
             <owl:Class>
@@ -2844,7 +2984,7 @@ Extensive properties that depend on the object being tested rather than on the p
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0000005"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid116"/>
+        <owl:annotatedTarget rdf:nodeID="genid121"/>
         <rdfs:comment xml:lang="en">Due to the duality of object and portion of matter this axiom can not be an equivalent class axiom.</rdfs:comment>
     </owl:Axiom>
     
@@ -2992,11 +3132,23 @@ Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subcl
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000143">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0001933"/>
+        <rdfs:subClassOf rdf:nodeID="genid144"/>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000117>PERSON: Joerg Waitelonis</obo:IAO_0000117>
         <rdfs:label xml:lang="en">duration</rdfs:label>
+        <skos:altLabel xml:lang="en">temporal interval specification</skos:altLabel>
         <skos:definition xml:lang="en">a value specification that represents the temporal extent of an occurrent, corresponding to the interval between its beginning and its end; specified in units of time.</skos:definition>
     </owl:Class>
+    <owl:Restriction rdf:nodeID="genid144">
+        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/IAO_0000136"/>
+        <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000202"/>
+    </owl:Restriction>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0000143"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
+        <owl:annotatedTarget rdf:nodeID="genid144"/>
+        <rdfs:comment>could be equivalent class</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -3106,6 +3258,20 @@ Specific rates, e.g., tensile rate, cooling rate, etc. should be added as  subcl
         <rdfs:label xml:lang="en">heat flow</rdfs:label>
         <skos:definition xml:lang="en">is a process in which transfer of thermal energy between or within material entities occurs</skos:definition>
         <skos:definition xml:lang="de">ist ein Prozess, bei dem Wärmeenergie zwischen oder innerhalb materieller Einheiten übertragen wird</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000522 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000522">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000015"/>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Joerg Waitelonis</obo:IAO_0000117>
+        <rdfs:label xml:lang="en">mechanical process</rdfs:label>
+        <rdfs:label xml:lang="de">mechanischer Prozess</rdfs:label>
+        <skos:definition xml:lang="en">is a process in which forces, moments, or imposed displacements to objects or object aggregates occur and/or the equivalent (stresses, strains) to materials or portions of matter</skos:definition>
+        <skos:definition xml:lang="de">ist ein Prozess, bei dem Kräfte, Momente oder auferlegte Verschiebungen auf Objekte oder Objektaggregate und/oder das Äquivalent (Spannungen, Dehnungen) auf Materialien oder Teile der Materie auftreten</skos:definition>
     </owl:Class>
     
 
@@ -3525,6 +3691,21 @@ hard metal composites for abrasive tools</skos:example>
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0000589 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000589">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000849"/>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Joerg Waitelonis</obo:IAO_0000117>
+        <rdfs:label xml:lang="de">Kriechprüfverfahren</rdfs:label>
+        <rdfs:label xml:lang="en">creep testing process</rdfs:label>
+        <skos:definition xml:lang="en">A mechanical property analyzing process that evaluates a material&apos;s deformation over time under constant stress and temperature, determining its creep behavior.</skos:definition>
+        <skos:definition xml:lang="de">Ein Mechanische Eigenschaften Analyseverfahren, das die Verformung eines Materials über die Zeit unter konstanter Belastung und Temperatur bewertet und sein Kriechverhalten bestimmt.</skos:definition>
+        <skos:example xml:lang="en">Creep testing of turbine blades to ensure they can withstand prolonged high temperatures without deforming.</skos:example>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0000591 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000591">
@@ -3612,11 +3793,7 @@ hard metal composites for abrasive tools</skos:example>
                                                         <owl:intersectionOf rdf:parseType="Collection">
                                                             <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000202"/>
                                                             <owl:Restriction>
-                                                                <owl:onProperty>
-                                                                    <rdf:Description>
-                                                                        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000108"/>
-                                                                    </rdf:Description>
-                                                                </owl:onProperty>
+                                                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000157"/>
                                                                 <owl:someValuesFrom>
                                                                     <owl:Class>
                                                                         <owl:intersectionOf rdf:parseType="Collection">
@@ -4514,6 +4691,26 @@ A manufacturing process is always a transformative process.</skos:definition>
         <skos:definition xml:lang="en">A function performed to determine the magnitude, quantity, or extent of a physical property or condition.</skos:definition>
         <skos:definition xml:lang="de">Eine Funktion, die durchgeführt wird, um das Ausmaß, die Menge oder den Zustand einer physikalischen Eigenschaft zu bestimmen.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0000849 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0000849">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0000070"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020311"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Joerg Waitelonis</obo:IAO_0000117>
+        <rdfs:label xml:lang="de">Mechanische Eigenschaften Analyseverfahren</rdfs:label>
+        <rdfs:label xml:lang="en">mechanical property analyzing process</rdfs:label>
+        <skos:definition xml:lang="en">An assay that evaluates the mechanical characteristics of materials, such as strength, hardness, elasticity, and tensile properties, often through tests that measure response to forces and loads.</skos:definition>
+        <skos:definition xml:lang="de">Eine Analyse, die die mechanischen Eigenschaften von Materialien bewertet, wie z.B. Festigkeit, Härte, Elastizität und Zugfestigkeit, oft durch Tests, die die Reaktion auf Kräfte und Lasten messen.</skos:definition>
     </owl:Class>
     
 
@@ -5677,12 +5874,6 @@ A manufacturing process is always a transformative process.</skos:definition>
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020003">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000030"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000591"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
         <rdfs:label xml:lang="en">crystal</rdfs:label>
@@ -7314,69 +7505,80 @@ More elaborate crystal descriptions may be found in http://emmo.info/domain-crys
     <!-- https://w3id.org/pmd/co/PMD_0020101 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020101">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002503"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000004"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000050"/>
+                                        <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000004"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025999"/>
+                        <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000004"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020108"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000001"/>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002503"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000004"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000050"/>
+                                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000004"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <obo:IAO_0000116 xml:lang="en">Concentrations express the ratio between the quantities of a part and the quantities of the whole.
+In contrast to concentrations ratios express the ratio between the quantity of a part and the quantity of the remainder.
+To address the (chemical) composition of an enity, see &apos;composition&apos;.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
-        <rdfs:label xml:lang="de">Anteil</rdfs:label>
-        <rdfs:label xml:lang="en">proportion</rdfs:label>
-        <skos:definition xml:lang="en">A proportion is a relational quality between two entities (the whole and the part) which quantifies the relation between the whole and its part.</skos:definition>
-    </owl:Class>
-    
+        <rdfs:comment xml:lang="en">Concentrations can be expressed in terms of three quantifiers:
 
++-------------------+------------------+-------------------+---------------------+
+---------------------+
+|                   | count            | mass              | volume              |
+ length                  |  area
++-------------------+------------------+-------------------+---------------------+
+| per count         | molar fraction  | -------  |-------  |
+ ------ | ------
+| per mass          | count per mass   | mass per mass     | volume per mass     |
+ ------- | ---------
+| per volume        | count per volume | mass per volume   | volume per volume   |
+| per length         | length number density  |-------  | ------ | length fraction | --------
+| per area          |  area number density  |-------  | ------ | -------- | area fraction
++-------------------+------------------+-------------------+---------------------+
 
-    <!-- https://w3id.org/pmd/co/PMD_0020102 -->
+Mass per count and volume per count are not known to have practical examples but are included for completeness.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Kamilla:
+1.  concentration is a bad name, cause area fraction (texture component or phase on the image) is also relationship between part and the whole.
+2. Number desity (of precipitates) can be the same as count per volume or count per area or count per length. How to deal with that?</rdfs:comment>
+        <rdfs:comment xml:lang="en">Ratio: 
+A comparison of two or more quantities (a relationship), e.g. 3:2:1 for prosecco, aperol and sparkling water in aperol spritz. There is no stanardized mathematical notation or operators for it.  We do not support it, rather convert it to fractions.
 
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020102">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0080069"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;mass ratio&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;material composition&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
-        <rdfs:label xml:lang="de">Massenverhältnis</rdfs:label>
-        <rdfs:label xml:lang="en">mass ratio</rdfs:label>
-        <skos:definition xml:lang="de">Das Massenverhältnis bezeichnet eine relationale Qualität, die einen Massenwert im Verhältnis zu einem anderen ausdrückt und typischerweise eine dimensionslose Zahl ergibt</skos:definition>
-        <skos:definition xml:lang="en">Mass ratio denotes a relational quality expressing one mass value relative to another, typically producing a dimensionless number</skos:definition>
-        <skos:example xml:lang="en">A fiber-reinforced composite has a fiber-to-matrix mass ratio of 60:40</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0020103 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020103">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0080069"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
-        <rdfs:label xml:lang="de">Molverhältnis</rdfs:label>
-        <rdfs:label xml:lang="en">molar ratio</rdfs:label>
-        <skos:altLabel xml:lang="en">molar proportion</skos:altLabel>
-        <skos:definition xml:lang="de">Der Molanteil ist der Anteil, der die Anzahl der Einheiten des Teils im Verhältnis zur Anzahl der Einheiten des Ganzen quantifiziert.</skos:definition>
-        <skos:definition xml:lang="en">Molar proportion is the proportion which quantifies the entities count of the part in relation to the entities count of the whole.</skos:definition>
-        <skos:example xml:lang="en">The molar ratio of hydrogen gas H2 molecules to water H2O molecules is 1/1 in the oxyhydrogen reaction. The molar ratio of oxygen molecules O2 to water molecules is 2/1.
-The molar ratio of carbon dioxide to average atmosphere air is 420 ppm as of 2022 AD.</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0020104 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020104">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0080069"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;volume ratio&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;material composition&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
-        <rdfs:label xml:lang="de">Volumenverhältnis</rdfs:label>
-        <rdfs:label xml:lang="en">volume ratio</rdfs:label>
-        <skos:definition xml:lang="en">Volume ratio represents a relational quality expressing one volume value relative to another, typically resulting in a dimensionless number</skos:definition>
-        <skos:definition xml:lang="de">Volumenverhältnis stellt eine relationale Qualität dar, die einen Volumenwert im Verhältnis zu einem anderen ausdrückt, typischerweise resultierend in einer dimensionslosen Zahl</skos:definition>
-        <skos:example xml:lang="en">A foam material has a pore-to-solid volume ratio of 4:1, indicating 80 % porosity</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+Proportion: 
+A statement that two ratios/fractions are equal (an equation), e.g. 2/3=4/6</rdfs:comment>
+        <rdfs:label xml:lang="en">fraction property</rdfs:label>
+        <skos:altLabel xml:lang="en">part-whole property</skos:altLabel>
+        <skos:definition xml:lang="en">a property describing a quantitative relation between two entites where one entity represents the whole and the other entity represents a part of the whole</skos:definition>
+        <skos:example xml:lang="en">aperol spritz: 3/6 prosecco, 2/6 aperol, 1/6 sparkling water in vol/vol</skos:example>
     </owl:Class>
     
 
@@ -7397,6 +7599,26 @@ The molar ratio of carbon dioxide to average atmosphere air is 420 ppm as of 202
         <skos:altLabel xml:lang="en">Polycrystalline structure</skos:altLabel>
         <skos:definition xml:lang="en">A polycrystal is a connected material entity aggregate that consists of multiple crystal grains joined through crystallographic interfaces.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020108 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020108">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0023002"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025999"/>
+                        <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000004"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">relational property</rdfs:label>
+        <skos:definition xml:lang="en">a facetted property that describes the relation between two  (maybe more) bearers.</skos:definition>
     </owl:Class>
     
 
@@ -7492,6 +7714,8 @@ Depending on the interconnectedness of the pores the foam is open- or closed-cel
                 <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020313"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
         <rdfs:label xml:lang="en">thermodynamic system</rdfs:label>
         <skos:definition xml:lang="en">A thermodynamic system is a material entity whose parts are bearer of thermodynamic properties. A thermodynamic system environs a thermodynamic process by which the thermodynamic properties of the objects of the thermodynamic system change over time.</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
@@ -7617,8 +7841,7 @@ Depending on the interconnectedness of the pores the foam is open- or closed-cel
     <!-- https://w3id.org/pmd/co/PMD_0020142 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020142">
-        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000019"/>
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023000"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000080"/>
@@ -7690,7 +7913,6 @@ Depending on the interconnectedness of the pores the foam is open- or closed-cel
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020151">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020142"/>
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023000"/>
         <owl:disjointWith rdf:resource="https://w3id.org/pmd/co/PMD_0020155"/>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
@@ -7840,8 +8062,15 @@ Activity (a_X) is a relational property between a chemical species X and a non-i
     <!-- https://w3id.org/pmd/co/PMD_0020200 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020200">
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000017"/>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020311"/>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020317"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/BFO_0000054"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000522"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025999"/>
@@ -7956,7 +8185,7 @@ Activity (a_X) is a relational property between a chemical species X and a non-i
     <!-- https://w3id.org/pmd/co/PMD_0020215 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020215">
-        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000015"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020245"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002020"/>
@@ -8142,6 +8371,31 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0020245 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020245">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002020"/>
+                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000001"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000015"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002020"/>
+                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000001"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000116 xml:lang="en">the moved entity is passive, locomotion would be the active counterpart</obo:IAO_0000116>
+        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
+        <rdfs:label xml:lang="en">transport</rdfs:label>
+        <skos:definition xml:lang="en">is a process in which an entity being moved within or accross another entity</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0020254 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020254">
@@ -8186,6 +8440,36 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0020263 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020263">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000522"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000057"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020293"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002002"/>
+                                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000146"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025998"/>
+                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020200"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">friction</rdfs:label>
+        <skos:definition xml:lang="en">a process in which two material entities are in contact and relative motion to each other</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0020265 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020265">
@@ -8193,6 +8477,184 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
         <obo:IAO_0000116 xml:lang="en">Do not use this class directly. Use &apos;qualtiy&apos; or &apos;realizable entity&apos;</obo:IAO_0000116>
         <rdfs:label xml:lang="en">property</rdfs:label>
         <skos:definition xml:lang="en">property is a collection class for entities that are either qualites (represent a state) or realizable entities (represent a behavior)</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020274 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020274">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000057"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020128"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000015"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000057"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020128"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointUnionOf rdf:parseType="Collection">
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020275"/>
+            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020276"/>
+        </owl:disjointUnionOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000428"/>
+        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
+        <rdfs:label xml:lang="en">thermodynamic process</rdfs:label>
+        <skos:definition xml:lang="en">a process that has a participant with thermodynamic properties</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020275 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020275">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000009"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020277"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0001931"/>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/OBI_0001937"/>
+                                                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</owl:hasValue>
+                                            </owl:Restriction>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020274"/>
+        <rdfs:subClassOf rdf:nodeID="genid793"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000009"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020277"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/OBI_0001931"/>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/OBI_0001937"/>
+                                                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</owl:hasValue>
+                                            </owl:Restriction>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
+        <rdfs:label xml:lang="en">isentropic process</rdfs:label>
+        <skos:comment xml:lang="en">It involves no dissipation—all energy conversion is reversible and no heat is generated internally due to irreversibilities (in a closed system, it is equivalent to a reversible, adiabatic process)</skos:comment>
+        <skos:definition xml:lang="en">a process which has a thermodyanamic system as participant where entropy remains constant, ΔS=0</skos:definition>
+        <skos:example xml:lang="en">perfectly elastic spring-mass oscillator, adiabatic expansion or compression of an ideal gas</skos:example>
+    </owl:Class>
+    <owl:Restriction rdf:nodeID="genid793">
+        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000057"/>
+        <owl:someValuesFrom>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000068"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0080050"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0020275"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
+        <owl:annotatedTarget rdf:nodeID="genid793"/>
+        <rdfs:comment xml:lang="en">Could add a SWRL rule that the difference in entropy between the TQCs is zero</rdfs:comment>
+    </owl:Axiom>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020276 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020276">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020274"/>
+        <rdfs:subClassOf rdf:nodeID="genid808"/>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
+        <rdfs:label xml:lang="en">dissipative process</rdfs:label>
+        <skos:comment xml:lang="en">It involves internal entropy generation (irreversibility), meaning part of the ordered energy is irreversibly converted into heat</skos:comment>
+        <skos:definition xml:lang="en">a process which has a thermodyanamic system as participant where entropy increases, ΔS&gt;0</skos:definition>
+        <skos:example xml:lang="en">plastic deformation of a metal, frictional sliding, Joule expansion</skos:example>
+    </owl:Class>
+    <owl:Restriction rdf:nodeID="genid808">
+        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000057"/>
+        <owl:someValuesFrom>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000068"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0080050"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0020276"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
+        <owl:annotatedTarget rdf:nodeID="genid808"/>
+        <rdfs:comment xml:lang="en">Could add a SWRL rule that the difference in entropy between the TQCs is larger than zero</rdfs:comment>
+    </owl:Axiom>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020277 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020277">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025019"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025006"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020274"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
+        <rdfs:label xml:lang="en">entropy generation rate</rdfs:label>
+        <skos:definition xml:lang="en">average amount of generated entropy over a process duration</skos:definition>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/pmd/co/PMD_0020284 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020284">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020265"/>
+        <rdfs:label xml:lang="en">atomistic property</rdfs:label>
+        <skos:definition>a property that is commonly associated with the subdomain of atomistics in materials science and engineering</skos:definition>
     </owl:Class>
     
 
@@ -8709,24 +9171,7 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
     <!-- https://w3id.org/pmd/co/PMD_0020352 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020352">
-        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000019"/>
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020335"/>
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020364"/>
-                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020366"/>
-                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020369"/>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000080"/>
-                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000000"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020142"/>
         <rdfs:label xml:lang="en">elastic strain energy</rdfs:label>
         <skos:definition xml:lang="en">energy stored in elastic deformation</skos:definition>
         <skos:example xml:lang="en">A spring with spring constant k = 200 N/m is compressed by x = 0.1 m and then stores 1J</skos:example>
@@ -8747,175 +9192,6 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0020364 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020364">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0023001"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000001"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020367"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
-                                                        <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/OBI_0001931"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023001"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000001"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                                <owl:someValuesFrom>
-                                    <owl:Class>
-                                        <owl:intersectionOf rdf:parseType="Collection">
-                                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020367"/>
-                                            <owl:Restriction>
-                                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
-                                                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/OBI_0001931"/>
-                                            </owl:Restriction>
-                                        </owl:intersectionOf>
-                                    </owl:Class>
-                                </owl:someValuesFrom>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:label xml:lang="en">per count property</rdfs:label>
-        <skos:definition xml:lang="en">a quotient with a denominator that has is a count</skos:definition>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0020365 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020365">
-        <owl:equivalentClass>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000001"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020150"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023001"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000001"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020150"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020150"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
-                                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/OBI_0001931"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <obo:IAO_0000116 xml:lang="en">TODO axiom wrong</obo:IAO_0000116>
-        <rdfs:label xml:lang="en">per volume property</rdfs:label>
-        <skos:definition xml:lang="en">a quotient where the denominator is a volume</skos:definition>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0020366 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020366">
-        <owl:equivalentClass>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000001"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020133"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023001"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000001"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020133"/>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <obo:IAO_0000116 xml:lang="en">TODO axiom wrong</obo:IAO_0000116>
-        <rdfs:label xml:lang="en">per mass property</rdfs:label>
-        <skos:definition xml:lang="en">a quotient where the denominator is the mass of the bearer</skos:definition>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0020367 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020367">
@@ -8931,73 +9207,6 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
         <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
         <rdfs:label xml:lang="en">member count</rdfs:label>
         <skos:definition xml:lang="en">the number of similar objects in an object aggregate</skos:definition>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0020369 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0020369">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0023001"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000001"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                                        <owl:someValuesFrom>
-                                            <owl:Class>
-                                                <owl:intersectionOf rdf:parseType="Collection">
-                                                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020367"/>
-                                                    <owl:Restriction>
-                                                        <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
-                                                        <owl:hasValue rdf:resource="https://w3id.org/pmd/co/PMD_0020368"/>
-                                                    </owl:Restriction>
-                                                </owl:intersectionOf>
-                                            </owl:Class>
-                                        </owl:someValuesFrom>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020364"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000001"/>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
-                                <owl:someValuesFrom>
-                                    <owl:Class>
-                                        <owl:intersectionOf rdf:parseType="Collection">
-                                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020367"/>
-                                            <owl:Restriction>
-                                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0000077"/>
-                                                <owl:hasValue rdf:resource="https://w3id.org/pmd/co/PMD_0020368"/>
-                                            </owl:Restriction>
-                                        </owl:intersectionOf>
-                                    </owl:Class>
-                                </owl:someValuesFrom>
-                            </owl:Restriction>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:label xml:lang="en">per mol property</rdfs:label>
-        <skos:definition xml:lang="en">a per count with the count of Avogadro-number</skos:definition>
     </owl:Class>
     
 
@@ -9064,30 +9273,11 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020151"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020367"/>
         </owl:disjointUnionOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">TODO: system requires further precision</obo:IAO_0000116>
+        <obo:IAO_0000117>PERSON: Philipp von Hartrott</obo:IAO_0000117>
         <rdfs:label xml:lang="en">fundamental quality of system</rdfs:label>
         <skos:definition xml:lang="en">a quality that is quality of every system made of demarcated materail entites</skos:definition>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0023001 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0023001">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023002"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
-                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000020"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <owl:disjointUnionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020364"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020365"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020366"/>
-        </owl:disjointUnionOf>
-        <rdfs:label xml:lang="en">normalized property</rdfs:label>
-        <skos:definition xml:lang="en">a facetted property that subsumes quotient classes</skos:definition>
     </owl:Class>
     
 
@@ -9532,6 +9722,59 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
     
 
 
+    <!-- https://w3id.org/pmd/co/PMD_0025019 -->
+
+    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025019">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0000008"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0020127"/>
+                        <owl:allValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000019"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025006"/>
+                        <owl:allValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000015"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000057"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <owl:Class>
+                                                        <owl:unionOf rdf:parseType="Collection">
+                                                            <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000004"/>
+                                                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000068"/>
+                                                        </owl:unionOf>
+                                                    </owl:Class>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                                                        <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000019"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:allValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000116 xml:lang="en">Ideally, a temporally qualified continuant must be used as a participant in a process where the qualities of the participant changes.This temporally qualitified continuant has an instance of quality with one on value before the process and another instance of the same quality with another on value after the process.</obo:IAO_0000116>
+        <obo:IAO_0000116 xml:lang="en">In the axiom, the instance of quality in &quot;refers to&quot; triple must be the same instance as in &quot;has quality&quot; triple.</obo:IAO_0000116>
+        <obo:IAO_0000117>PERSON: Kamilla Zaripova</obo:IAO_0000117>
+        <rdfs:label xml:lang="en">rate</rdfs:label>
+        <skos:definition xml:lang="en">process attribute which describes the change of some quality of some of the participants in a process over time</skos:definition>
+    </owl:Class>
+    
+
+
     <!-- https://w3id.org/pmd/co/PMD_0025997 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0025997">
@@ -9568,12 +9811,9 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
                 <owl:allValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020004"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000117>PERSON: Kamilla Zaripova</obo:IAO_0000117>
-        <rdfs:label xml:lang="de">Angabe des Bruchwerts</rdfs:label>
-        <rdfs:label xml:lang="en">fraction value specification</rdfs:label>
-        <skos:definition xml:lang="de">Bei der Bruchwertspezifikation handelt es sich um eine Wertspezifikation, die Informationen über den quantitativen Anteil eines Teils im Verhältnis zu einem angegebenen Ganzen enthält.</skos:definition>
-        <skos:definition xml:lang="en">Fraction value specification is a value specification that contains information about quantitative share of a part relative to a specified whole.</skos:definition>
+        <rdfs:label xml:lang="en">concentration value specification</rdfs:label>
+        <skos:definition xml:lang="en">a value specification that contains information about quantitative share of a part relative to a specified whole.</skos:definition>
         <skos:example xml:lang="en">2.05 wt.% of carbon in steel, 4 vol.% of nitric acid in a solution</skos:example>
     </owl:Class>
     
@@ -9601,7 +9841,7 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
     <!-- https://w3id.org/pmd/co/PMD_0050000 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0050000">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020284"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025999"/>
@@ -9967,23 +10207,6 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0080010 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080010">
-        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000145"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;spatial relational quality&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;BFO_0000145&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <rdfs:label xml:lang="de">räumliche Relationsqualität</rdfs:label>
-        <rdfs:label xml:lang="en">spatial relational quality</rdfs:label>
-        <skos:definition xml:lang="de">Räumliche Beziehungsqualität ist eine Qualität, die einer materiellen Entität aufgrund ihrer räumlichen Beziehung zu einer oder mehreren anderen Entitäten, wie z. B. Position, Ausrichtung oder Entfernung, innewohnt</skos:definition>
-        <skos:definition xml:lang="en">Spatial relational quality is a quality that inheres in a material entity by virtue of its spatial relationship to one or more other entities, such as position, orientation, or distance</skos:definition>
-        <skos:example xml:lang="en">the distance between a bolt and the nearest edge of a steel plate is a spatial relational quality of the bolt</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0080011 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080011">
@@ -10294,7 +10517,7 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
     <!-- https://w3id.org/pmd/co/PMD_0080027 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080027">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020312"/>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;coercivity&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;magnetic quality&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
@@ -10679,6 +10902,8 @@ characterized by frequency, wavelength, and speed</rdfs:comment>
                 </owl:intersectionOf>
             </owl:Class>
         </rdfs:subClassOf>
+        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
+        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
         <obo:IAO_0000117>Philipp von Hartrott</obo:IAO_0000117>
         <rdfs:comment xml:lang="en">SI unit: joules per kelvin (J/K)
 
@@ -10878,27 +11103,10 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0080069 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080069">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;physical relational quality&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;BFO_0000145&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <rdfs:label xml:lang="en">physical relational quality</rdfs:label>
-        <rdfs:label xml:lang="de">physisch relative Qualität</rdfs:label>
-        <skos:definition xml:lang="de">Die physische Beziehungsqualität bezieht sich auf Eigenschaften oder Merkmale einer Entität, die von ihrer Beziehung zu anderen Entitäten abhängig sind</skos:definition>
-        <skos:definition xml:lang="en">Physical relational quality pertains to properties or characteristics of an entity dependent on its relation to other entities</skos:definition>
-        <skos:example xml:lang="en">The coefficient of friction between two surfaces is a physical relational quality inhering in both contacting materials</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0080070 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080070">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0080069"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0025019"/>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;physical rate quality&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;physical relational quality&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000116 xml:lang="en">Rate =(def.) a measure, quantity, or frequency, typically one measured against some other quantity or measure</obo:IAO_0000116>
@@ -11001,25 +11209,6 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0080076 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080076">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;mass diffusivity&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;physical rate quality&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <rdfs:label xml:lang="de">Massendiffusivität</rdfs:label>
-        <rdfs:label xml:lang="en">mass diffusivity</rdfs:label>
-        <skos:altLabel xml:lang="en">D</skos:altLabel>
-        <skos:altLabel xml:lang="de">Diffusionskoeffizient</skos:altLabel>
-        <skos:altLabel xml:lang="en">diffusion coefficient</skos:altLabel>
-        <skos:definition xml:lang="en">Mass diffusivity is a physical rate quality of a material that quantifies the rate at which a diffusing substance moves through it per unit concentration gradient, as described by Fick&apos;s first law</skos:definition>
-        <skos:definition xml:lang="de">Massendiffusivität ist eine physikalische Ratenqualität eines Materials, die die Geschwindigkeit beschreibt, mit der eine diffundierende Substanz pro Konzentrationsgradienten durch das Material transportiert wird, gemäß dem ersten Fickschen Gesetz</skos:definition>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0080077 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080077">
@@ -11117,14 +11306,24 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020311"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000052"/>
+                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025999"/>
                 <owl:someValuesFrom>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
                             <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000146"/>
                             <owl:Restriction>
                                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002000"/>
-                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020293"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020293"/>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025998"/>
+                                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020200"/>
+                                            </owl:Restriction>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
                             </owl:Restriction>
                         </owl:intersectionOf>
                     </owl:Class>
@@ -11132,7 +11331,7 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
             </owl:Restriction>
         </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;coefficient of friction&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;physical relational quality&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions not yet expressed as OWL restrictions.</obo:IAO_0000116>
+        <obo:IAO_0000116 xml:lang="en">Use with caution. Might also be a process attribute.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
         <rdfs:label xml:lang="de">Reibungskoeffizient</rdfs:label>
         <rdfs:label xml:lang="en">coefficient of friction</rdfs:label>
@@ -11351,24 +11550,6 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0080098 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080098">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020102"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;mass mix ratio&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;mass ratio&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://de.wikipedia.org/wiki/Massenverh%C3%A4ltnis.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <obo:IAO_0000119 rdf:resource="https://de.wikipedia.org/wiki/Massenverh%C3%A4ltnis"/>
-        <rdfs:label xml:lang="de">Massenmischungsverhältnis</rdfs:label>
-        <rdfs:label xml:lang="en">mass mix ratio</rdfs:label>
-        <skos:definition xml:lang="de">Das Massenmischungsverhältnis stellt das Verhältnis der Massen zweier Mischungskomponenten dar und liefert eine quantitative Beschreibung der Zusammensetzung</skos:definition>
-        <skos:definition xml:lang="en">mass ratio that represents the ratio of masses of two mixture components, providing a quantitative composition description</skos:definition>
-        <skos:example xml:lang="en">A concrete mix uses a mass mix ratio of cement to aggregate of 1:4 for standard structural applications</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0080099 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080099">
@@ -11381,96 +11562,6 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
         <skos:definition xml:lang="de">Trockenmasse bezeichnet die Masse, nachdem einem Objekt die gesamte Feuchtigkeit entzogen wurde, typischerweise durch geeignete Erhitzungsmethoden in einem Ofen</skos:definition>
         <skos:definition xml:lang="en">mass ratio that represents the mass after removing all humidity from an object, typically using qualified heating methods in an oven</skos:definition>
         <skos:example xml:lang="en">A fiber composite sample has a dry mass of 48.5 g after 24 hours in a drying oven at 80 C</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0080100 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080100">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020102"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;mass fraction&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;mass ratio&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://de.wikipedia.org/wiki/Massenanteil.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <obo:IAO_0000119 rdf:resource="https://de.wikipedia.org/wiki/Massenanteil"/>
-        <rdfs:label xml:lang="de">Massenanteil</rdfs:label>
-        <rdfs:label xml:lang="en">mass fraction</rdfs:label>
-        <skos:definition xml:lang="de">Der Massenanteil beschreibt den relativen Anteil einer Masse an der Gesamtmasse einer Mischung, ein gängiges quantitatives Maß</skos:definition>
-        <skos:definition xml:lang="en">mass ratio that describes the relative proportion of a mass to the total mass of a mixture, a common quantitative measure</skos:definition>
-        <skos:example xml:lang="en">A binary Al-4 wt% Cu alloy has a copper mass fraction of 0.04</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0080101 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080101">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0080069"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;mass concentration&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;material composition&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://de.wikipedia.org/wiki/Massenkonzentration.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <obo:IAO_0000119 rdf:resource="https://de.wikipedia.org/wiki/Massenkonzentration"/>
-        <rdfs:label xml:lang="de">Massenkonzentration</rdfs:label>
-        <rdfs:label xml:lang="en">mass concentration</rdfs:label>
-        <skos:definition xml:lang="de">Die Massenkonzentration verknüpft die Masse einer Mischungskomponente mit dem Gesamtvolumen in einer quantitativen Beschreibung, die häufig in Lösungen verwendet wird</skos:definition>
-        <skos:definition xml:lang="en">Mass concentration links mass of a mixture component to the total volume in quantitative description, frequently used in solutions</skos:definition>
-        <skos:example xml:lang="en">A saline infusion solution has a NaCl mass concentration of 9 g/L</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0080103 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080103">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020104"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;volume concentration&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;volume ratio&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://de.wikipedia.org/wiki/Volumenkonzentration.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <obo:IAO_0000119 rdf:resource="https://de.wikipedia.org/wiki/Volumenkonzentration"/>
-        <rdfs:label xml:lang="de">Volumenkonzentration</rdfs:label>
-        <rdfs:label xml:lang="en">volume concentration</rdfs:label>
-        <skos:definition xml:lang="en">Volume concentration links the volume of a mixture component to the total volume, crucial for quantitative composition description</skos:definition>
-        <skos:definition xml:lang="de">Volumenkonzentration verbindet das Volumen eines Mischbestandteils mit dem Gesamtvolumen, entscheidend für die quantitative Zusammensetzungsbeschreibung</skos:definition>
-        <skos:example xml:lang="en">A paint pigment dispersion has a TiO2 volume concentration of 20 %</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0080104 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080104">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020104"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;volume fraction&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;volume ratio&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://de.wikipedia.org/wiki/Volumenkonzentration.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <obo:IAO_0000119 rdf:resource="https://de.wikipedia.org/wiki/Volumenkonzentration"/>
-        <rdfs:label xml:lang="de">Volumenanteil</rdfs:label>
-        <rdfs:label xml:lang="en">volume fraction</rdfs:label>
-        <skos:definition xml:lang="en">Volume fraction describes the volume of a mixture component relative to the sum of all components&apos; volumes</skos:definition>
-        <skos:definition xml:lang="de">Volumenanteil beschreibt das Volumen eines Mischbestandteils im Verhältnis zur Summe der Volumina aller Bestandteile</skos:definition>
-        <skos:example xml:lang="en">A dual-phase steel contains a martensite volume fraction of 20 %, controlling its strength-ductility balance</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pmd/co/PMD_0080105 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080105">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020104"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;volume mix ratio&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;volume ratio&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://de.wikipedia.org/wiki/Volumenverh%C3%A4ltnis.</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <obo:IAO_0000119 rdf:resource="https://de.wikipedia.org/wiki/Volumenverh%C3%A4ltnis"/>
-        <rdfs:label xml:lang="de">Mischengehaltverhältnis</rdfs:label>
-        <rdfs:label xml:lang="en">volume mix ratio</rdfs:label>
-        <skos:definition xml:lang="de">Mischengehaltverhältnis definiert das Verhältnis der Volumina von zwei Mischbestandteilen zueinander</skos:definition>
-        <skos:definition xml:lang="en">Volume mix ratio defines the ratio of volumes of two mixture components to each other</skos:definition>
-        <skos:example xml:lang="en">An epoxy adhesive is mixed in a volume mix ratio of 2:1 resin to hardener</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
     
@@ -11518,8 +11609,8 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080108">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020311"/>
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
-        <rdfs:subClassOf rdf:nodeID="genid1139"/>
-        <rdfs:subClassOf rdf:nodeID="genid1145"/>
+        <rdfs:subClassOf rdf:nodeID="genid1151"/>
+        <rdfs:subClassOf rdf:nodeID="genid1157"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000052"/>
@@ -11533,7 +11624,7 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
         <skos:example xml:lang="en">A cross-section of a loaded steel column bears a compressive stress of 150 MPa</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid1139">
+    <owl:Class rdf:nodeID="genid1151">
         <owl:intersectionOf rdf:parseType="Collection">
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
@@ -11545,7 +11636,7 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
             </owl:Restriction>
         </owl:intersectionOf>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid1145">
+    <owl:Class rdf:nodeID="genid1157">
         <owl:intersectionOf rdf:parseType="Collection">
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
@@ -11560,13 +11651,13 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080108"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid1139"/>
+        <owl:annotatedTarget rdf:nodeID="genid1151"/>
         <rdfs:comment xml:lang="en">Mechanical view on stress</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080108"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid1145"/>
+        <owl:annotatedTarget rdf:nodeID="genid1157"/>
         <rdfs:comment xml:lang="en">Thermodynamic view on stress</rdfs:comment>
     </owl:Axiom>
     
@@ -11621,7 +11712,14 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <!-- https://w3id.org/pmd/co/PMD_0080112 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080112">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020309"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020311"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/pmd/co/PMD_0025999"/>
+                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000146"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;adhesion&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;pressure&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
@@ -11701,14 +11799,14 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080116">
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000019"/>
-        <rdfs:subClassOf rdf:nodeID="genid1155"/>
+        <rdfs:subClassOf rdf:nodeID="genid1168"/>
         <obo:IAO_0000117>Philipp von Hartrott</obo:IAO_0000117>
         <rdfs:comment xml:lang="en">Every potential in physics is the same mathematical object — a partial derivative of energy with respect to its conjugate extensive quantity. The differences are only in which extensive quality you&apos;re considering.</rdfs:comment>
         <rdfs:label xml:lang="en">potential</rdfs:label>
         <skos:definition xml:lang="en">a partial derivative of energy with respect to its conjugate extensive quantity</skos:definition>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid1155">
+    <owl:Class rdf:nodeID="genid1168">
         <owl:intersectionOf rdf:parseType="Collection">
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
@@ -11723,7 +11821,7 @@ where k_B​ is the Boltzmann constant and W is the number of microstates.</rdfs
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080116"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid1155"/>
+        <owl:annotatedTarget rdf:nodeID="genid1168"/>
         <rdfs:comment xml:lang="en">In field theories (e.g., gravity, electrostatics), the potential becomes a field ϕ(r⃗), and the force is recovered via:
 F=−∇ϕ(r⃗)F
 This is the spatial analogue: instead of asking &quot;how does energy change per unit carrier added?&quot;, you ask &quot;how does energy change per unit carrier moved in space?&quot;</rdfs:comment>
@@ -11964,7 +12062,24 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     <!-- https://w3id.org/pmd/co/PMD_0080133 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080133">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020335"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000092"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000000"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000056"/>
+                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000635"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;durability&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;mechanical capability&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
@@ -11986,6 +12101,22 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080134">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0080133"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000092"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000000"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000056"/>
+                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0020263"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;wear resistance&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;durability&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
@@ -12007,6 +12138,26 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080135">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0080133"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000092"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000000"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000056"/>
+                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000596"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000086"/>
+                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0080108"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;creep resistance&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;durability&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
@@ -12024,30 +12175,11 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     
 
 
-    <!-- https://w3id.org/pmd/co/PMD_0080136 -->
-
-    <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080136">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
-        <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
-        <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;poisson effect&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;mechanical capability&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions. The definition is adapted from: https://en.wikipedia.org/wiki/Poisson%27s_ratio.</obo:IAO_0000116>
-        <obo:IAO_0000116>Was a subclass of &apos;Mechanical Quality&apos;</obo:IAO_0000116>
-        <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
-        <obo:IAO_0000119 rdf:resource="https://en.wikipedia.org/wiki/Poisson%27s_ratio"/>
-        <rdfs:label xml:lang="de">Querkontraktion</rdfs:label>
-        <rdfs:label xml:lang="en">poisson effect</rdfs:label>
-        <skos:definition xml:lang="en">Poisson effect describes deformation perpendicular to the direction of loading, named after Siméon Poisson</skos:definition>
-        <skos:definition xml:lang="de">Querkontraktion beschreibt die Deformation senkrecht zur Belastungsrichtung, benannt nach Siméon Poisson</skos:definition>
-        <skos:example xml:lang="en">A rubber cylinder loaded axially expands radially due to the Poisson effect, with a ratio of about 0.5</skos:example>
-        <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
-    </owl:Class>
-    
-
-
     <!-- https://w3id.org/pmd/co/PMD_0080137 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080137">
         <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
-        <rdfs:subClassOf rdf:nodeID="genid1169"/>
+        <rdfs:subClassOf rdf:nodeID="genid1199"/>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
         <rdfs:label xml:lang="de">Poissonzahl</rdfs:label>
         <rdfs:label xml:lang="en">poisson&apos;s ratio</rdfs:label>
@@ -12055,7 +12187,7 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
         <skos:example xml:lang="en">Rubber has a Poisson&apos;s ratio close to 0.5, indicating nearly incompressible behavior under loading</skos:example>
         <PMD_0000060 rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</PMD_0000060>
     </owl:Class>
-    <owl:Class rdf:nodeID="genid1169">
+    <owl:Class rdf:nodeID="genid1199">
         <owl:intersectionOf rdf:parseType="Collection">
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020311"/>
             <owl:Restriction>
@@ -12071,7 +12203,7 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://w3id.org/pmd/co/PMD_0080137"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
-        <owl:annotatedTarget rdf:nodeID="genid1169"/>
+        <owl:annotatedTarget rdf:nodeID="genid1199"/>
         <rdfs:comment xml:lang="en">The two strains should be perpendicular to each other</rdfs:comment>
     </owl:Axiom>
     
@@ -12141,7 +12273,23 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     <!-- https://w3id.org/pmd/co/PMD_0080144 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080144">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000618"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0009007"/>
+                        <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000589"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0002328"/>
+                <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/BFO_0000008"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;creep modulus&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;viscoelasticity&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
@@ -12149,6 +12297,7 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
         <rdfs:label xml:lang="en">creep modulus</rdfs:label>
         <skos:altLabel xml:lang="de">Kriechmodul</skos:altLabel>
         <skos:altLabel xml:lang="en">creep modulus</skos:altLabel>
+        <skos:comment>HBN: Creep modulus is a time-dependent form of elastic modulus (the ratio of applied stress to the resulting strain) measured under a constant sustained load rather than instantaneous loading. Like a standard elastic modulus, it quantifies a material&apos;s stiffness (resistance to deformation), but because viscoelastic materials continue to strain over time under constant stress, creep modulus decreases as the loading duration increases, unlike true elastic modulus which stays constant.</skos:comment>
         <skos:definition xml:lang="en">Creep modulus measures a material&apos;s viscoelasticity, indicating its ability to deform under stress over time</skos:definition>
         <skos:definition xml:lang="de">Der Kriechmodul ist ein Maß für die Viskoelastizität eines Materials, das seine Fähigkeit zur Verformung unter Belastung im Laufe der Zeit beschreibt</skos:definition>
         <skos:example xml:lang="en">The creep modulus of polyethylene at 50 C and 1 MPa after 1000 hours is 200 MPa</skos:example>
@@ -12686,7 +12835,24 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     <!-- https://w3id.org/pmd/co/PMD_0080180 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080180">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020335"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000092"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000000"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000056"/>
+                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000596"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;brittleness&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;mechanical capability&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
@@ -12707,7 +12873,24 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     <!-- https://w3id.org/pmd/co/PMD_0080181 -->
 
     <owl:Class rdf:about="https://w3id.org/pmd/co/PMD_0080181">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020353"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0020335"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/pmd/co/PMD_0023004"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000092"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0000000"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000056"/>
+                                <owl:someValuesFrom rdf:resource="https://w3id.org/pmd/co/PMD_0000596"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <obo:IAO_0000114 rdf:resource="http://purl.obolibrary.org/obo/IAO_0000122"/>
         <obo:IAO_0000116 xml:lang="en">Necessary and sufficient conditions for &apos;ductility&apos; have not yet been formalized. The term is defined as a specific subtype of &apos;mechanical capability&apos;. Distinguishing criteria are domain-specific and depend on measurement conventions or source terminology not yet expressed as OWL restrictions.</obo:IAO_0000116>
         <obo:IAO_0000117>PERSON: Thomas Hanke</obo:IAO_0000117>
@@ -13119,9 +13302,33 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     
 
 
-    <!-- http://qudt.org/vocab/unit/PER-MOL -->
+    <!-- http://purl.obolibrary.org/obo/UO_0000076 -->
 
-    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/unit/PER-MOL">
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/UO_0000076"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_0000163 -->
+
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/UO_0000163"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_0000164 -->
+
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/UO_0000164"/>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/UO_0000169 -->
+
+    <owl:NamedIndividual rdf:about="http://purl.obolibrary.org/obo/UO_0000169"/>
+    
+
+
+    <!-- http://qudt.org/vocab/unit/MOL -->
+
+    <owl:NamedIndividual rdf:about="http://qudt.org/vocab/unit/MOL">
         <rdf:type rdf:resource="http://qudt.org/schema/qudt/Unit"/>
     </owl:NamedIndividual>
     
@@ -13443,11 +13650,70 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
 
     <owl:NamedIndividual rdf:about="https://w3id.org/pmd/co/PMD_0020368">
         <rdf:type rdf:resource="http://purl.obolibrary.org/obo/OBI_0001931"/>
-        <obo:IAO_0000039 rdf:resource="http://qudt.org/vocab/unit/PER-MOL"/>
+        <obo:IAO_0000039 rdf:resource="http://qudt.org/vocab/unit/MOL"/>
         <obo:OBI_0001937 rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">602214086000000000000000</obo:OBI_0001937>
         <rdfs:label xml:lang="en">avogadro number</rdfs:label>
         <skos:definition xml:lang="en">The Avogadro number</skos:definition>
     </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/UO_0000076">
+        <obo:IAO_0000115>A concentration unit which denotes the number of moles of solute as a proportion of the total number of moles in a solution.</obo:IAO_0000115>
+        <oboInOwl:hasExactSynonym>(x)</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasExactSynonym>chi</oboInOwl:hasExactSynonym>
+        <rdfs:label>mole fraction</rdfs:label>
+    </rdf:Description>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="http://purl.obolibrary.org/obo/UO_0000076"/>
+        <owl:annotatedProperty rdf:resource="http://purl.obolibrary.org/obo/IAO_0000115"/>
+        <owl:annotatedTarget>A concentration unit which denotes the number of moles of solute as a proportion of the total number of moles in a solution.</owl:annotatedTarget>
+        <oboInOwl:hasDbXref>Wikipedia:Wikipedia</oboInOwl:hasDbXref>
+    </owl:Axiom>
+    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/UO_0000163">
+        <obo:IAO_0000115>A dimensionless concentration unit which denotes the mass of a substance in a mixture as a percentage of the mass of the entire mixture.</obo:IAO_0000115>
+        <oboInOwl:hasExactSynonym>w/w</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasExactSynonym>weight-weight percentage</oboInOwl:hasExactSynonym>
+        <rdfs:label>mass percentage</rdfs:label>
+    </rdf:Description>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="http://purl.obolibrary.org/obo/UO_0000163"/>
+        <owl:annotatedProperty rdf:resource="http://purl.obolibrary.org/obo/IAO_0000115"/>
+        <owl:annotatedTarget>A dimensionless concentration unit which denotes the mass of a substance in a mixture as a percentage of the mass of the entire mixture.</owl:annotatedTarget>
+        <oboInOwl:hasDbXref>Wikipedia:Wikipedia</oboInOwl:hasDbXref>
+    </owl:Axiom>
+    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/UO_0000164">
+        <obo:IAO_0000115>A dimensionless concentration unit which denotes the mass of the substance in a mixture as a percentage of the volume of the entire mixture.</obo:IAO_0000115>
+        <oboInOwl:hasExactSynonym>(w/v)</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasExactSynonym>weight-volume percentage</oboInOwl:hasExactSynonym>
+        <rdfs:label>mass volume percentage</rdfs:label>
+    </rdf:Description>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="http://purl.obolibrary.org/obo/UO_0000164"/>
+        <owl:annotatedProperty rdf:resource="http://purl.obolibrary.org/obo/IAO_0000115"/>
+        <owl:annotatedTarget>A dimensionless concentration unit which denotes the mass of the substance in a mixture as a percentage of the volume of the entire mixture.</owl:annotatedTarget>
+        <oboInOwl:hasDbXref>UOC:GVG</oboInOwl:hasDbXref>
+    </owl:Axiom>
+    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/UO_0000169">
+        <obo:IAO_0000115>A dimensionless concentration notation which denotes the amount of a given substance in a total amount of 1,000,000 regardless of the units of measure used as long as they are the same or 1 part in 10^[6].</obo:IAO_0000115>
+        <oboInOwl:hasExactSynonym>10^[-6]</oboInOwl:hasExactSynonym>
+        <oboInOwl:hasExactSynonym>ppm</oboInOwl:hasExactSynonym>
+        <rdfs:label>parts per million</rdfs:label>
+    </rdf:Description>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="http://purl.obolibrary.org/obo/UO_0000169"/>
+        <owl:annotatedProperty rdf:resource="http://purl.obolibrary.org/obo/IAO_0000115"/>
+        <owl:annotatedTarget>A dimensionless concentration notation which denotes the amount of a given substance in a total amount of 1,000,000 regardless of the units of measure used as long as they are the same or 1 part in 10^[6].</owl:annotatedTarget>
+        <oboInOwl:hasDbXref>UOC:GVG</oboInOwl:hasDbXref>
+    </owl:Axiom>
     
 
 
@@ -13515,14 +13781,6 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020102"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020103"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020104"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020202"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020203"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020204"/>
@@ -13548,14 +13806,6 @@ This is the spatial analogue: instead of asking &quot;how does energy change per
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020307"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020308"/>
             <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020309"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020364"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020365"/>
-            <rdf:Description rdf:about="https://w3id.org/pmd/co/PMD_0020366"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
