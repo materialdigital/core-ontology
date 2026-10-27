@@ -1,135 +1,122 @@
-@prefix ex: <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/example/> .
-@prefix pattern: <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/> .
-@prefix : <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/> .
-@base <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/> .
-
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+# PMDco Issue #394 — review-ready ceramic pellet example.
+# Based on PR #426; revised 2026-10-27 to distinguish populations from grains.
+# All numeric values are genuine RDF typed literals, not additional RDF individuals.
+@prefix ex:   <https://w3id.org/pmd/co/pattern/different_qualities_in_object_matter_microstructure/example/> .
+@prefix pmd:  <https://w3id.org/pmd/co/> .
+@prefix obo:  <http://purl.obolibrary.org/obo/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-@prefix pmd: <https://w3id.org/pmd/co/> .
-@prefix ro: <http://purl.obolibrary.org/obo/RO_> .
-@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
-@prefix obi: <http://purl.obolibrary.org/obo/OBI_> .
-@prefix iao: <http://purl.obolibrary.org/obo/IAO_> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-@prefix has_quality: <http://purl.obolibrary.org/obo/RO_0000086> .
-@prefix has_disposition: <http://purl.obolibrary.org/obo/RO_0000091> .
-@prefix has_part: <http://purl.obolibrary.org/obo/BFO_0000051> .
-@prefix mass: <https://w3id.org/pmd/co/PMD_0020133> .
-@prefix ceramic: <https://w3id.org/pmd/co/PMD_0000546> .
-@prefix chemical_composition: <https://w3id.org/pmd/co/PMD_0000551> .
-@prefix mechanical_property: <https://w3id.org/pmd/co/PMD_0000848> .
-@prefix bulk: <https://w3id.org/pmd/co/PMD_0000538> .
-@prefix surface_layer: <https://w3id.org/pmd/co/PMD_0000965> .
-@prefix hardness: <https://w3id.org/pmd/co/PMD_0000773> .
-@prefix crystallite: <https://w3id.org/pmd/co/PMD_0000663> .
-@prefix volume_ratio: <https://w3id.org/pmd/co/PMD_0020104> .
-@prefix relational_quality_of: <https://w3id.org/pmd/co/PMD_0025999> .
-@prefix fraction_value_specifcation: <https://w3id.org/pmd/co/PMD_0025997> .
-@prefix specifies_value_of: <http://purl.obolibrary.org/obo/OBI_0001927> .
-@prefix has_measurement_unit_label: <http://purl.obolibrary.org/obo/IAO_0000039> .
-@prefix has_specifed_numeric_value: <http://purl.obolibrary.org/obo/OBI_0001937> .
-@prefix realized_in: <http://purl.obolibrary.org/obo/BFO_0000054> .
-
-
+# ONE physical pellet, with object and ceramic-material classifications.
+# Global properties are asserted only for this individual; they are NOT copied
+# onto the bulk, surface, or grains.
 ex:Object_pellet_O_and_portion_of_Ceramic_C
-    rdf:type bfo:0000030 ;
-    has_quality: ex:mass_of_pellet ;
-    has_part: ex:portion_of_polycrystalline_ceramic_C , ex:O_bulk , ex:O_surface ;
-    rdfs:label "Object pellet O & portion of Ceramic C" .
+    a obo:BFO_0000030, pmd:PMD_0000546 ;
+    rdfs:label "Ceramic pellet O (object and ceramic material)"@en ;
+    obo:BFO_0000051 ex:O_bulk, ex:O_surface ;
+    obo:RO_0000086 ex:mass_of_pellet, ex:composition_of_ceramic_C ;
+    obo:RO_0000091 ex:ceramic_C_property .
 
-ex:mass_of_pellet
-    rdf:type mass: ;
-    rdfs:label "mass of pellet" .
+ex:mass_of_pellet a pmd:PMD_0020133 ;
+    rdfs:label "Mass of pellet"@en .
+ex:composition_of_ceramic_C a pmd:PMD_0000551 ;
+    rdfs:label "Chemical composition of ceramic pellet"@en .
+ex:ceramic_C_property a pmd:PMD_0000848 ;
+    rdfs:label "Ceramic mechanical property"@en ;
+    obo:BFO_0000054 ex:loadingprocess .
 
-ex:portion_of_polycrystalline_ceramic_C
-    rdf:type ceramic: ;
-    has_quality: ex:composition_of_ceramic_C ;
-    has_disposition: ex:ceramic_C_property ;
-    rdfs:label "portion of polycrystalline ceramic C" .
+# Distinct spatially localized material parts (existing PMDco terms).
+ex:O_bulk a pmd:PMD_0000538, pmd:PMD_0000546 ;
+    rdfs:label "Bulk of pellet O"@en ;
+    obo:BFO_0000051 ex:B_crystallite_population_in_bulk ;
+    obo:RO_0000086 ex:volume_of_bulk ;
+    obo:RO_0000091 ex:softer_bulk_property .
+ex:O_surface a pmd:PMD_0000965, pmd:PMD_0000546 ;
+    rdfs:label "Surface layer of pellet O"@en ;
+    obo:BFO_0000051 ex:B_crystallite_population_in_surface ;
+    obo:RO_0000086 ex:volume_of_surface ;
+    obo:RO_0000091 ex:harder_surface_property .
 
-ex:composition_of_ceramic_C
-    rdf:type chemical_composition: ;
-    rdfs:label "composition of ceramic C" .
+# B-grain populations, rather than ONE grain representing 5% / 80%.
+# BFO object aggregate is a conservative existing category for multiple grains;
+# the materials-science phase identity (B) is described at example level.
+ex:B_crystallite_population_in_bulk a obo:BFO_0000027 ;
+    rdfs:label "B-crystallite population in bulk"@en ;
+    obo:BFO_0000050 ex:O_bulk ;
+    obo:RO_0002351 ex:B_crystal_form_in_bulk ;
+    obo:RO_0000086 ex:volume_of_B_population_in_bulk .
+ex:B_crystallite_population_in_surface a obo:BFO_0000027 ;
+    rdfs:label "B-crystallite population in surface"@en ;
+    obo:BFO_0000050 ex:O_surface ;
+    obo:RO_0002351 ex:B_crystal_form_in_surface ;
+    obo:RO_0000086 ex:volume_of_B_population_in_surface .
 
-ex:ceramic_C_property
-    realized_in: ex:some_proc2 ;
-    rdf:type mechanical_property: ;
-    rdfs:label "ceramic C property" .
+# Representative grains (members of each population), NOT fraction numerators.
+ex:B_crystal_form_in_bulk a pmd:PMD_0000663 ;
+    rdfs:label "Representative B-crystallite in bulk"@en ;
+    obo:RO_0000086 ex:some_qual5 ;
+    obo:RO_0000091 ex:property_of_B_crystal_for_bulk .
+ex:B_crystal_form_in_surface a pmd:PMD_0000663 ;
+    rdfs:label "Representative B-crystallite in surface"@en ;
+    obo:RO_0000086 ex:some_qual6 ;
+    obo:RO_0000091 ex:property_of_B_crystal_for_surface .
+ex:some_qual5 a obo:BFO_0000019 .
+ex:some_qual6 a obo:BFO_0000019 .
 
-ex:O_bulk
-    rdf:type bulk: ;
-    has_disposition: ex:softer_bulk_property ;
-    has_part: ex:B_crystal_form_in_bulk ;
-    rdfs:label "O-bulk" .
+# Explicit volume quality bearers for the numerator and denominator of each
+# volume fraction (see current PMDco PMD_0020104 equivalence axiom).
+ex:volume_of_bulk a pmd:PMD_0020150 ; rdfs:label "Volume of bulk"@en .
+ex:volume_of_surface a pmd:PMD_0020150 ; rdfs:label "Volume of surface"@en .
+ex:volume_of_B_population_in_bulk a pmd:PMD_0020150 ;
+    rdfs:label "Total B-grain volume in bulk"@en .
+ex:volume_of_B_population_in_surface a pmd:PMD_0020150 ;
+    rdfs:label "Total B-grain volume in surface"@en .
 
-ex:O_surface
-    rdf:type surface_layer: ;
-    has_disposition: ex:harder_surface_property ;
-    has_part: ex:B_crystal_form_in_surface ;
-    rdfs:label "O-surface" .
+# TWO relational volume fractions. Each relates the population to its host
+# region and has exactly one explicit numerator and denominator bearer.
+ex:volume_proportion_of_B_crystal_in_bulk a pmd:PMD_0020104 ;
+    rdfs:label "B-grain volume fraction of bulk"@en ;
+    pmd:PMD_0025999 ex:B_crystallite_population_in_bulk, ex:O_bulk ;
+    pmd:PMD_0020256 ex:B_crystallite_population_in_bulk ; # has numerator
+    pmd:PMD_0020257 ex:O_bulk .                         # has denominator
+ex:volume_proportion_of_B_crystal_in_surface a pmd:PMD_0020104 ;
+    rdfs:label "B-grain volume fraction of surface"@en ;
+    pmd:PMD_0025999 ex:B_crystallite_population_in_surface, ex:O_surface ;
+    pmd:PMD_0020256 ex:B_crystallite_population_in_surface ;
+    pmd:PMD_0020257 ex:O_surface .
 
-ex:softer_bulk_property
-    realized_in: ex:some_proc4 ;
-    rdf:type hardness: ;
-    rdfs:label "softer bulk property" .
+# Value specifications are INFORMATION entities. The actual numbers ARE typed
+# RDF literals (5.0 and 80.0), intentionally visible in these static labels.
+# Unit UO_0000165 = volume-volume percentage; do NOT use decimal or mass/volume.
+ex:B_Crys_Vol_fraction_in_bulk a pmd:PMD_0025997 ;
+    rdfs:label "B-grain volume fraction in bulk — 5 vol%"@en ;
+    obo:OBI_0001927 ex:volume_proportion_of_B_crystal_in_bulk ;
+    obo:OBI_0001937 "5.0"^^xsd:double ;
+    obo:IAO_0000039 obo:UO_0000165 .
+ex:B_Crys_Vol_fraction_in_surface a pmd:PMD_0025997 ;
+    rdfs:label "B-grain volume fraction in surface — 80 vol%"@en ;
+    obo:OBI_0001927 ex:volume_proportion_of_B_crystal_in_surface ;
+    obo:OBI_0001937 "80.0"^^xsd:double ;
+    obo:IAO_0000039 obo:UO_0000165 .
 
-ex:harder_surface_property
-    realized_in: ex:some_proc3 ;
-    rdf:type hardness: ;
-    rdfs:label "harder surface property" .
+# Illustrative mechanical dispositions. The 'harder' vs 'softer' ordering and
+# any CAUSAL relationship to B-phase fraction are NOT axiomatized.
+ex:softer_bulk_property a pmd:PMD_0000773 ;
+    rdfs:label "Bulk hardness (qualitatively softer)"@en ;
+    obo:BFO_0000054 ex:some_proc4 .
+ex:harder_surface_property a pmd:PMD_0000773 ;
+    rdfs:label "Surface hardness (qualitatively harder)"@en ;
+    obo:BFO_0000054 ex:some_proc3 .
+ex:property_of_B_crystal_for_bulk a pmd:PMD_0000848 ;
+    rdfs:label "Mechanical property of a representative bulk B-grain"@en ;
+    obo:BFO_0000054 ex:some_proc5 .
+ex:property_of_B_crystal_for_surface a pmd:PMD_0000848 ;
+    rdfs:label "Mechanical property of a representative surface B-grain"@en ;
+    obo:BFO_0000054 ex:some_proc1 .
 
-ex:B_crystal_form_in_bulk
-    rdf:type crystallite: ;
-    has_quality: ex:some_qual5 ;
-    has_disposition: ex:property_of_B_crystal_for_bulk ;
-    rdfs:label "B-crystal-form in bulk" .
-
-ex:B_crystal_form_in_surface
-    rdf:type crystallite: ;
-    has_quality: ex:some_qual6 ;
-    has_disposition: ex:property_of_B_crystal_for_surface ;
-    rdfs:label "B-crystal-form in surface" .
-
-ex:property_of_B_crystal_for_bulk
-    realized_in: ex:some_proc5 ;
-    rdf:type mechanical_property: ;
-    rdfs:label "property of B-crystal" .
-
-ex:property_of_B_crystal_for_surface
-    realized_in: ex:some_proc1 ;
-    rdf:type mechanical_property: ;
-    rdfs:label "property of B-crystal" .
-
-ex:volume_proportion_of_B_crystal_in_bulk
-    rdf:type volume_ratio: ;
-    relational_quality_of: ex:B_crystal_form_in_bulk , ex:O_bulk ;
-    rdfs:label "volume proportion of B-crystal in bulk" .
-
-ex:B_Crys_Vol_fraction_in_bulk
-    rdf:type fraction_value_specifcation: ;
-    specifies_value_of: ex:volume_proportion_of_B_crystal_in_bulk ;
-    has_measurement_unit_label: ex:mass_volume_percentage_for_bulk ;
-    has_specifed_numeric_value: "5"^^xsd:decimal ;
-    rdfs:label "B-Crys.Vol.fraction in bulk" .
-
-ex:mass_volume_percentage_for_bulk
-    rdfs:label "mass volume percentage" .
-
-ex:volume_proportion_of_B_crystal_in_surface
-    rdf:type volume_ratio: ;
-    relational_quality_of: ex:B_crystal_form_in_surface , ex:O_surface ;
-    rdfs:label "volume proportion of B-crystal in surface" .
-
-ex:B_Crys_Vol_fraction_in_surface
-    rdf:type pmd:PMD_0025997 ;
-    specifies_value_of: ex:volume_proportion_of_B_crystal_in_surface ;
-    has_measurement_unit_label: ex:mass_volume_percentage_for_surface ;
-    has_specifed_numeric_value: "80"^^xsd:decimal ;
-    rdfs:label "B-Crys.Vol.fraction in surface" .
-
-ex:mass_volume_percentage_for_surface
-    rdfs:label "mass volume percentage" .
-
+# Typed placeholder processes make realization targets explicit (synthetic).
+ex:loadingprocess a obo:BFO_0000015 .
+ex:some_proc1 a obo:BFO_0000015 .
+ex:some_proc3 a obo:BFO_0000015 .
+ex:some_proc4 a obo:BFO_0000015 .
+ex:some_proc5 a obo:BFO_0000015 .
