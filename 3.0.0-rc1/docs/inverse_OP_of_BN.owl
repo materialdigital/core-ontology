@@ -1,0 +1,46 @@
+@prefix : <http://www.semanticweb.org/caveats/invers_OP_of_BN/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix pmdco: <https://w3id.org/pmd/co/> .
+@prefix ex: <https://example.org/> .
+@base <http://www.semanticweb.org/caveats/invers_OP_of_BN/> .
+
+<http://www.semanticweb.org/caveats/invers_OP_of_BN> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+pmdco:is_subject_of rdf:type owl:ObjectProperty ;
+                                      owl:inverseOf pmdco:is_about ;
+                                      rdfs:label "is_subject_of"@en .
+
+
+pmdco:is_about rdf:type owl:ObjectProperty ;
+                                      rdfs:label "is_about"@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+ex:ic1 
+    rdf:type owl:NamedIndividual ;
+    rdfs:label "ic1"@en ;
+    pmdco:is_subject_of ex:ice1 ;
+    owl:topObjectProperty [
+        rdf:type owl:NamedIndividual ;
+        rdfs:label "ic2"@en ;
+        pmdco:is_subject_of ex:ice2 
+    ] .
+
+
+ex:ice1 rdf:type owl:NamedIndividual ;
+    rdfs:label "ice1"@en .
+
+ex:ice2 rdf:type owl:NamedIndividual ;
+    rdfs:label "ice2"@en .
+
