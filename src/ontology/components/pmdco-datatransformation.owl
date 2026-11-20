@@ -12,6 +12,7 @@ Annotation(<http://purl.org/dc/terms/title> "Platform Material Digital Core Onto
 Annotation(rdfs:comment "Data transformation module of the PMD Core Ontology (PMDco). The scope of this module is the description of processes and methods of transforming materials related data algorithmically, e.g. for simulations."@en)
 
 Declaration(Class(<http://purl.obolibrary.org/obo/BFO_0000035>))
+Declaration(Class(:PMD_0000003))
 Declaration(Class(:PMD_0000010))
 Declaration(Class(:PMD_0000011))
 Declaration(Class(:PMD_0000012))
@@ -19,6 +20,8 @@ Declaration(Class(:PMD_0000013))
 Declaration(Class(:PMD_0000014))
 Declaration(Class(:PMD_0000015))
 Declaration(Class(:PMD_0000016))
+Declaration(Class(:PMD_0000017))
+Declaration(Class(:PMD_0000018))
 Declaration(Class(:PMD_0000051))
 Declaration(Class(:PMD_0000066))
 Declaration(Class(:PMD_0000067))
@@ -56,6 +59,7 @@ Declaration(Class(:PMD_0001003))
 Declaration(Class(:PMD_0020264))
 Declaration(Class(:PMD_0025012))
 Declaration(Class(:PMD_0025035))
+Declaration(Class(:PMD_0080171))
 Declaration(DataProperty(:PMD_0001857))
 Declaration(DataProperty(:PMD_0001877))
 Declaration(AnnotationProperty(<http://purl.org/dc/terms/bibliographicCitation>))
@@ -104,6 +108,19 @@ SubDataPropertyOf(:PMD_0001877 :PMD_0000006)
 ############################
 #   Classes
 ############################
+
+# Class: :PMD_0000003 (orowan method)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0000003 "Orowan model:
+Δτ​=λ Gb​⋅2π2​ln(b2r​)
+Depends on:
+
+    obstacle distance λ, obstacle diamater d")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0000003 "https://github.com/materialdigital/core-ontology/issues/550")
+AnnotationAssertion(rdfs:label :PMD_0000003 "orowan method"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000003 "simulation method specification that ....")
+SubClassOf(:PMD_0000003 :PMD_0000931)
+SubClassOf(:PMD_0000003 ObjectSomeValuesFrom(ObjectInverseOf(<http://purl.obolibrary.org/obo/STATO_0000102>) :PMD_0000018))
 
 # Class: :PMD_0000010 (workflow function)
 
@@ -167,6 +184,17 @@ AnnotationAssertion(rdfs:label :PMD_0000016 "workflow run"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000016 "A computing process that realizes a workflow definition by executing its prescribed workflow nodes in a concrete temporal order, consuming and producing specific data items."@en)
 AnnotationAssertion(:PMD_0001032 :PMD_0000016 "https://github.com/materialdigital/core-ontology/issues/246")
 SubClassOf(:PMD_0000016 ObjectIntersectionOf(:PMD_0000583 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/RO_0000059> :PMD_0000012)))
+
+# Class: :PMD_0000017 (hall-petch method)
+
+AnnotationAssertion(rdfs:label :PMD_0000017 "hall-petch method"@en)
+SubClassOf(:PMD_0000017 :PMD_0000931)
+SubClassOf(:PMD_0000017 ObjectSomeValuesFrom(ObjectInverseOf(<http://purl.obolibrary.org/obo/STATO_0000102>) ObjectIntersectionOf(:PMD_0000933 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/OBI_0000299> ObjectIntersectionOf(:PMD_0025035 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/IAO_0000136> :PMD_0080171))))))
+
+# Class: :PMD_0000018 (orowan simulation process)
+
+AnnotationAssertion(rdfs:label :PMD_0000018 "orowan simulation process"@en)
+SubClassOf(:PMD_0000018 ObjectIntersectionOf(:PMD_0000933 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/OBI_0000299> ObjectIntersectionOf(:PMD_0025035 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/IAO_0000136> :PMD_0080171)))))
 
 # Class: :PMD_0000051 (simulation entity role)
 
@@ -233,6 +261,7 @@ SubClassOf(:PMD_0000123 DataSomeValuesFrom(:PMD_0000006 rdfs:Literal))
 
 # Class: :PMD_0000160 (foreach node)
 
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000160 <http://purl.obolibrary.org/obo/IAO_0000122>)
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000160 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000160 "PERSON: Osamu Waseda")
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0000160 "https://github.com/materialdigital/core-ontology/issues/542")
@@ -242,6 +271,7 @@ SubClassOf(:PMD_0000160 :PMD_0000011)
 
 # Class: :PMD_0000161 (distributor node)
 
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000161 <http://purl.obolibrary.org/obo/IAO_0000122>)
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000161 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000161 "PERSON: Osama Waseda")
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0000161 "https://github.com/materialdigital/core-ontology/issues/542")
@@ -251,11 +281,13 @@ SubClassOf(:PMD_0000161 :PMD_0000011)
 
 # Class: :PMD_0000162 (collector node)
 
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000162 <http://purl.obolibrary.org/obo/IAO_0000122>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000162 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0000162 "https://github.com/materialdigital/core-ontology/issues/542")
 AnnotationAssertion(rdfs:label :PMD_0000162 "collector node"@de)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000162 "workflow node that represents the operation of collecting the outputs of individual task instances"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000162 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000162 "PERSON: Osama Waseda")
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000162 "workflow node that represents the operation of collecting the outputs of individual task instances"@en)
 SubClassOf(:PMD_0000162 :PMD_0000011)
 
 # Class: :PMD_0000504 (ab initio molecular dynamics simulation)
@@ -543,10 +575,5 @@ AnnotationAssertion(:PMD_0000064 :PMD_0025035 "The computing process has specifi
 SubClassOf(:PMD_0025035 <http://purl.obolibrary.org/obo/IAO_0000027>)
 SubClassOf(:PMD_0025035 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/OBI_0000312> :PMD_0000583))
 
-
-AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000160 <http://purl.obolibrary.org/obo/IAO_0000122>)
-AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000161 <http://purl.obolibrary.org/obo/IAO_0000122>)
-AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000162 "PERSON: Joerg Waitelonis")
-AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000162 <http://purl.obolibrary.org/obo/IAO_0000122>)
 
 )
