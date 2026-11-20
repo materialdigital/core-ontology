@@ -134,7 +134,7 @@ This category includes processes that involve computational simulations and digi
 
 ``pmd:computing process`` – A process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or engineering goals.
 
-``pmd:simulation process`` – A computing process that models the behavior of a system over time using mathematical or computational techniques.
+``pmd:simulation process`` – A computing process that models the properties, states, or behavior of a system using mathematical or computational techniques.
 
 ``pmd:monte carlo simulation`` – A simulation process that uses random sampling to solve physical and mathematical problems.
 
