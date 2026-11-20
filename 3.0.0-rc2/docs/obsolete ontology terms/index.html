@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Obsoleting and deprecating ontology terms - PMD Core Ontology</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/stylesheets/mkdocs_d2_plugin.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Obsoleting and deprecating ontology terms";
+        var mkdocs_page_input_path = "obsolete ontology terms.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> PMD Core Ontology
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Welcome</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Introduction%20to%20Ontologies/">Introduction to Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction to PMDco v3.x.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Reused%20ontologies/">Reused Ontologies</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Ontology_structure2/">Ontology Structure</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../patterns/">Patterns</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../PMDco%20User%20Guide/">PMDco User Guide</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../versions/">Versions and Variants</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../migration/">Migration from 2.x</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Who%20We%20Are%20%26%20How%20to%20Join/">Who We Are & How to Join</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../publications/">Publications</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../acknowledgements/">Acknowledgements</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">PMD Core Ontology</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Obsoleting and deprecating ontology terms</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="obsoleting-and-deprecating-ontology-terms">Obsoleting and deprecating ontology terms</h1>
+<!--@Document_indicator: Text,links -->
+
+<p>Ontologies evolve, terms are revised, split into more detailed terms or deprecated. For proper reusablity of the ontology and traceability of the reason why it was deleted and what is a possible replacement term that should be used instead, the following obsoletion procedure should be followed.
+<em>(These steps are largely based on the <a href="https://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term">GO</a> and <a href="https://ontology-development-kit.readthedocs.io/en/latest/ObsoleteTerm.html">ODK</a> pages for term obsoletion but adopted for the PMDco.)</em></p>
+<h2 id="check-for-the-pmdco-deprecation-profile">Check for the PMDco deprecation profile</h2>
+<ol>
+<li>Navigate to your local Protégé installation folder and further to '..\conf\deprecation\'</li>
+<li>Check whether the file <code>PMDco.yaml</code> is present<ul>
+<li>if not, download it from <a href="https://raw.githubusercontent.com/materialdigital/core-ontology/refs/heads/main/src/ontology/PMDco.yaml">here</a> and move it into the Protégé installation folder</li>
+</ul>
+</li>
+</ol>
+<!--- In the future this should be done without the need for users to manually copy files on their machines. The PMDco deprecation profile may be added to the official protege release or be moved into the respective folder when editing the core or application ontologies. For now this shoould suffice.--->
+
+<h2 id="check-the-usage-of-the-term">Check the usage of the term</h2>
+<ol>
+<li>Check where in the ontology the term is used<ul>
+<li>In Protégé, navigate to the term you want to obsolete, go to the <code>Usage</code> tab to see if that ID is used elsewhere.</li>
+<li>If the term is a parent term or used in logical definitions, <strong>create a substitute term</strong> that replaces the obsolete term.</li>
+<li>Is the obsolete term itself is the replacement or in consideration for other obsoleted terms, update these (with a substitute term) or delete them.</li>
+</ul>
+</li>
+<li>Navigate to the term you want to obsolete again</li>
+<li>Right-click on the term and select <code>Deprecate...</code> <strong>or</strong> click the <code>Edit</code>-tab → <code>Deprecrate entity...</code></li>
+<li>Choose the PMDco deprecation profile from the dropdown menu → continue<ul>
+<li>If no PMDco deprecation profile is present, the <code>PMDco.yaml</code> is missing from your Protégé installation folder. Checkout the previous section, then return here.</li>
+</ul>
+</li>
+<li>Give a reason for deprecation from the list below → continue </li>
+<li>(If applicable) Search the substitute term you created earlier, else continue</li>
+<li>If no substitute term was defined, give one or more terms that can be used as an alternative when possible (if applicable) → continue → finish</li>
+</ol>
+<h2 id="reasons-for-deprecation">Reasons for deprecation</h2>
+<p>Copy&amp;paste these into the corresponding dialog during the obsoletion procedure.</p>
+<ul>
+<li>original meaning has split and more specific terms were created</li>
+<li>outside of the scope of the ontology</li>
+<li>an equivalent term was adopted from a different ontology</li>
+<li>term was moved to a different ontology</li>
+<li>unnecessary grouping term</li>
+<li>vague meaning or unclear definition</li>
+<li>overly specific term</li>
+<li>such an entity does not exist</li>
+<li>added in error</li>
+<li>not used</li>
+</ul>
+<h2 id="reasons-when-no-deprecation-procedure-is-needed">Reasons when no deprecation procedure is needed</h2>
+<ul>
+<li>terms created for testing purposes, confined to local machine (not pushed to github)</li>
+<li>terms created in the development version (and pushed to github), that only saw limited use by the creators of the term, so that consensus between the contributors over deprecation can be easily reached/assumed</li>
+</ul>
+<blockquote>
+<p>❗Attention❗</p>
+<p>Once a term is part of a release, the proper deprecation procedure <strong>must</strong> be followed.</p>
+</blockquote>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
