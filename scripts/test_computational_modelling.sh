@@ -5,6 +5,17 @@ set -euo pipefail
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 ROBOT="${ROBOT:-robot}"
 OUT="$(mktemp -d "${TMPDIR:-/tmp}/pmdco-computational-test.XXXXXX")"
+# Set KEEP_ARTIFACTS=1 to retain successful or failed runs for debugging.
+cleanup() {
+  if [[ "${KEEP_ARTIFACTS:-0}" == 1 ]]; then
+    echo "Retained validation artifacts: ${OUT}"
+  else
+    rm -rf -- "${OUT}"
+  fi
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 echo "Validation artifacts: ${OUT}"
 "${ROBOT}" merge --catalog "${REPO}/src/ontology/catalog-v001.xml" \
   --input "${REPO}/src/ontology/pmdco-edit.owl" \
@@ -24,4 +35,12 @@ echo "Validation artifacts: ${OUT}"
   --equivalent-classes-allowed asserted-only --output "${OUT}/reasoned.owl"
 "${ROBOT}" verify --input "${OUT}/reasoned.owl" \
   --queries "${REPO}/src/sparql/computational-modelling-violation.sparql" \
+  --output-dir "${OUT}"
+
+# Competency answers are explicit named data, not anonymous existential fillers.
+"${ROBOT}" query --input "${OUT}/merged.owl" \
+  --query "${REPO}/src/sparql/computational-modelling-competency.sparql" \
+  "${OUT}/competency-asserted.csv"
+"${ROBOT}" verify --input "${OUT}/merged.owl" \
+  --queries "${REPO}/src/sparql/computational-modelling-data-violation.sparql" \
   --output-dir "${OUT}"

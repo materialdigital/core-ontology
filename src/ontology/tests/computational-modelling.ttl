@@ -217,3 +217,108 @@ ex:bareGranularity a owl:NamedIndividual, pmd:PMD_0200012;
     ex:expectedType ex:DescribesModel .
 
 ex:one a owl:NamedIndividual, obo:IAO_0000003; rdfs:label "1" .
+
+# Domain/range probes deliberately have no asserted application types.
+ex:untypedPlan a owl:NamedIndividual;
+    pmd:PMD_0200013 ex:untypedModel;
+    ex:expectedType obo:IAO_0000104, ex:AboutUntypedModel;
+    ex:forbiddenType pmd:PMD_0200011 .
+ex:untypedModel a owl:NamedIndividual; ex:expectedType pmd:PMD_0200009 .
+# A has-value witness tests the superproperty entailment without requiring ROBOT
+# to materialize object-property assertions (its class assertions suffice).
+ex:AboutUntypedModel a owl:Class;
+    owl:equivalentClass [ a owl:Restriction; owl:onProperty obo:IAO_0000136;
+        owl:hasValue ex:untypedModel ] .
+
+# Static single-point evaluation reuses the DFT model and SCF procedure above.
+ex:singlePointRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:singlePointPlan; ex:expectedType pmd:PMD_0000583 .
+ex:singlePointPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    pmd:PMD_0200013 ex:relaxationModel0;
+    obo:BFO_0000051 ex:relaxationMethod0, ex:singlePointObjective .
+ex:singlePointObjective a owl:NamedIndividual, obo:IAO_0000005;
+    rdfs:label "Evaluate total energy at fixed nuclear positions" .
+
+# Dynamic evaluation; physical time evolution belongs to this example only.
+ex:mdRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:mdPlan; ex:expectedType pmd:PMD_0000583 .
+ex:mdPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    pmd:PMD_0200013 ex:interatomicModel;
+    obo:BFO_0000051 ex:verletMethod, ex:mdObjective .
+ex:interatomicModel a owl:NamedIndividual, pmd:PMD_0200009;
+    rdfs:label "Interatomic interaction model" .
+ex:verletMethod a owl:NamedIndividual, pmd:PMD_0200010;
+    rdfs:label "Velocity Verlet integration" .
+ex:mdObjective a owl:NamedIndividual, obo:IAO_0000005;
+    rdfs:label "Investigate atomic trajectories" .
+
+# Coupled DFT+DMFT: distinct models, no new production method classes.
+ex:dftDmftRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:dftDmftPlan; ex:expectedType pmd:PMD_0000583 .
+ex:dftDmftPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    pmd:PMD_0200013 ex:relaxationModel0, ex:dmftModel;
+    obo:BFO_0000051 ex:relaxationMethod0, ex:impurityMethod, ex:dftDmftObjective .
+ex:dmftModel a owl:NamedIndividual, pmd:PMD_0200009;
+    rdfs:label "Dynamical mean-field model of local electronic correlations" .
+ex:impurityMethod a owl:NamedIndividual, pmd:PMD_0200010;
+    rdfs:label "Self-consistent impurity solving" .
+ex:dftDmftObjective a owl:NamedIndividual, obo:IAO_0000005;
+    rdfs:label "Investigate correlated electronic states" .
+[] a owl:AllDifferent; owl:distinctMembers (ex:relaxationModel0 ex:dmftModel) .
+
+# Analytical evaluation, using the strengthening relation discussed in #550.
+ex:hallPetchRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:hallPetchPlan; ex:expectedType pmd:PMD_0000583 .
+ex:hallPetchPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    pmd:PMD_0200013 ex:hallPetchModel;
+    obo:BFO_0000051 ex:algebraicMethod, ex:hallPetchObjective .
+ex:hallPetchModel a owl:NamedIndividual, pmd:PMD_0200009;
+    rdfs:label "Hall-Petch strengthening: delta tau = k_tau / sqrt(d)" .
+ex:algebraicMethod a owl:NamedIndividual, pmd:PMD_0200010;
+    rdfs:label "Algebraic substitution and evaluation" .
+ex:hallPetchObjective a owl:NamedIndividual, obo:IAO_0000005;
+    rdfs:label "Estimate grain-boundary strengthening within the model's validity regime" .
+
+# Training constructs a learned model, without entailing simulation membership.
+ex:trainingRun a owl:NamedIndividual, pmd:PMD_0000583,
+        [ a owl:Class; owl:complementOf pmd:PMD_0000933 ];
+    obo:OBI_0000299 ex:predictionModel0;
+    ex:forbiddenType pmd:PMD_0000933 .
+# Reuse the non-simulation optimization witness, now containing an evaluation.
+ex:optimizationRun obo:BFO_0000051 ex:singlePointRun .
+
+# Actual diffusion occurrence in an actual specimen, not a phenomenon class IRI.
+ex:DiffusionOccurrence a owl:Class; rdfs:subClassOf obo:BFO_0000015 .
+ex:diffusionOccurrence a owl:NamedIndividual, ex:DiffusionOccurrence;
+    obo:RO_0000057 ex:specimen .
+ex:specimen a owl:NamedIndividual, obo:BFO_0000040 .
+ex:diffusionRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:diffusionPlan; ex:expectedType pmd:PMD_0000583 .
+ex:diffusionPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    pmd:PMD_0200013 ex:diffusionModel;
+    obo:BFO_0000051 ex:diffusionMethod, ex:diffusionObjective .
+ex:diffusionModel a owl:NamedIndividual, pmd:PMD_0200009;
+    obo:IAO_0000136 ex:diffusionOccurrence, ex:specimen;
+    rdfs:label "Fickian diffusion model" .
+ex:diffusionMethod a owl:NamedIndividual, pmd:PMD_0200010;
+    rdfs:label "Finite volume solution of the diffusion equation" .
+ex:diffusionObjective a owl:NamedIndividual, obo:IAO_0000005;
+    obo:IAO_0000136 ex:concentration;
+    rdfs:label "Investigate concentration in the specimen" .
+ex:concentration a owl:NamedIndividual, obo:BFO_0000019;
+    obo:RO_0000052 ex:specimen .
+# Hypothetical design: the description exists; no physical specimen is asserted.
+ex:hypotheticalDescription a owl:NamedIndividual, obo:IAO_0000030;
+    rdfs:label "Description of a hypothetical alloy diffusion couple" .
+ex:hypotheticalModel a owl:NamedIndividual, pmd:PMD_0200009;
+    obo:IAO_0000136 ex:hypotheticalDescription .
+# A concept represents a phenomenon type without using a class as an individual.
+ex:diffusionConcept a owl:NamedIndividual, skos:Concept;
+    rdfs:label "Diffusion as a phenomenon category" .
+ex:diffusionModel obo:IAO_0000136 ex:diffusionConcept .
+
+# Legacy plans remain plans, even when explicitly prescribing model evaluation.
+ex:legacyPlan a owl:NamedIndividual, pmd:PMD_0000931;
+    pmd:PMD_0200013 ex:hallPetchModel;
+    ex:expectedType obo:IAO_0000104;
+    ex:forbiddenType pmd:PMD_0200011, pmd:PMD_0200010 .

@@ -1,0 +1,18 @@
+# Run on merged.owl for asserted answers; no inference is needed for these paths.
+PREFIX ex: <https://example.org/pmdco/computational-test/>
+PREFIX pmd: <https://w3id.org/pmd/co/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?kind ?source ?target WHERE {
+{ ?source pmd:PMD_0200013 ?target . BIND("model" AS ?kind) }
+ UNION
+{ ?source obo:BFO_0000051 ?target . ?target a pmd:PMD_0200010 . BIND("method" AS ?kind) }
+ UNION
+{ ?source a pmd:PMD_0200009; obo:IAO_0000136 ?target . BIND("represented" AS ?kind) }
+ UNION
+{ ?source a pmd:PMD_0200009 . ?target obo:IAO_0000136 ?source; obo:OBI_0001938 ?value . BIND("model parameter" AS ?kind) }
+ UNION
+{ ?source a pmd:PMD_0200010 . ?target obo:IAO_0000136 ?source; obo:OBI_0001938 ?value . BIND("numerical setting" AS ?kind) }
+ UNION
+{ ?source a pmd:PMD_0200009 . ?spec obo:OBI_0001927 ?source; a pmd:PMD_0200012; obo:IAO_0000219 ?target . BIND("granularity" AS ?kind) }
+} ORDER BY ?kind ?source ?target

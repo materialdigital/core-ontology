@@ -1,0 +1,39 @@
+# Fixture completeness only: a missing answer is not OWL negation.
+PREFIX ex: <https://example.org/pmdco/computational-test/>
+PREFIX pmd: <https://w3id.org/pmd/co/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?kind ?source ?target WHERE {
+ VALUES (?kind ?source ?target) {
+  ("model" ex:singlePointPlan ex:relaxationModel0)
+  ("model" ex:mdPlan ex:interatomicModel)
+  ("model" ex:dftDmftPlan ex:relaxationModel0)
+  ("model" ex:dftDmftPlan ex:dmftModel)
+  ("model" ex:hallPetchPlan ex:hallPetchModel)
+  ("model" ex:diffusionPlan ex:diffusionModel)
+  ("method" ex:dftDmftPlan ex:impurityMethod)
+  ("method" ex:tensilePlan ex:tensileMethod0)
+  ("represented" ex:diffusionModel ex:diffusionOccurrence)
+  ("represented" ex:diffusionModel ex:specimen)
+  ("represented" ex:hypotheticalModel ex:hypotheticalDescription)
+  ("represented" ex:diffusionModel ex:diffusionConcept)
+  ("model parameter" ex:tensileModel0 ex:poissonRatioDatum)
+  ("numerical setting" ex:tensileMethod1 ex:residualToleranceDatum)
+  ("granularity" ex:coupledModel0 ex:electronic)
+  ("granularity" ex:coupledModel0 ex:continuum)
+  ("granularity" ex:coupledModel1 ex:continuum)
+ }
+ FILTER NOT EXISTS {
+{ FILTER(?kind = "model") ?source pmd:PMD_0200013 ?target . }
+ UNION
+{ FILTER(?kind = "method") ?source obo:BFO_0000051 ?target . ?target a pmd:PMD_0200010 . }
+ UNION
+{ FILTER(?kind = "represented") ?source a pmd:PMD_0200009; obo:IAO_0000136 ?target . }
+ UNION
+{ FILTER(?kind = "model parameter") ?source a pmd:PMD_0200009 . ?target obo:IAO_0000136 ?source; obo:OBI_0001938 ?value . }
+ UNION
+{ FILTER(?kind = "numerical setting") ?source a pmd:PMD_0200010 . ?target obo:IAO_0000136 ?source; obo:OBI_0001938 ?value . }
+ UNION
+{ FILTER(?kind = "granularity") ?source a pmd:PMD_0200009 . ?spec obo:OBI_0001927 ?source; a pmd:PMD_0200012; obo:IAO_0000219 ?target . }
+ }
+}
