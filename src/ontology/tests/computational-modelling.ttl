@@ -1,0 +1,219 @@
+@prefix ex: <https://example.org/pmdco/computational-test/> .
+@prefix pmd: <https://w3id.org/pmd/co/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://example.org/pmdco/computational-test> a owl:Ontology .
+pmd:PMD_0000933 a owl:Class .
+pmd:PMD_0200012 a owl:Class .
+pmd:PMD_0200013 a owl:ObjectProperty .
+pmd:PMD_0000077 a owl:ObjectProperty .
+obo:STATO_0000102 a owl:ObjectProperty .
+obo:BFO_0000051 a owl:ObjectProperty .
+obo:OBI_0001927 a owl:ObjectProperty .
+obo:IAO_0000219 a owl:ObjectProperty .
+pmd:PMD_0200009 a owl:Class .
+pmd:PMD_0200010 a owl:Class .
+pmd:PMD_0200011 a owl:Class .
+skos:Concept a owl:Class .
+skos:ConceptScheme a owl:Class .
+skos:inScheme a owl:ObjectProperty .
+ex:expectedType a owl:AnnotationProperty .
+ex:forbiddenType a owl:AnnotationProperty .
+
+# Model evaluation, optional model/granularity, and coupled computation.
+
+# Finite element discretization does not prescribe a model by itself.
+ex:femRun a owl:NamedIndividual, pmd:PMD_0000583;
+    obo:STATO_0000102 ex:femPlan;
+    ex:expectedType pmd:PMD_0000583;
+    obo:OBI_0000299 ex:femOutput .
+ex:femRun ex:forbiddenType pmd:PMD_0000933 .
+ex:femPlan a owl:NamedIndividual, obo:IAO_0000104;
+    ex:expectedType obo:IAO_0000104;
+    obo:BFO_0000051 ex:femObjective, ex:femMethod0 .
+ex:femObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Investigate represented system" .
+ex:femOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Computed result" .
+ex:femMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "Finite element discretization"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+
+# relaxation
+ex:relaxationRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:relaxationPlan;
+    ex:expectedType pmd:PMD_0000583;
+    obo:OBI_0000299 ex:relaxationOutput .
+ex:relaxationPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    ex:expectedType obo:IAO_0000104;
+    obo:BFO_0000051 ex:relaxationObjective, ex:relaxationMethod0, ex:relaxationMethod1 .
+ex:relaxationObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Determine a locally stable atomic configuration" .
+ex:relaxationOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Relaxed structure" .
+ex:relaxationPlan pmd:PMD_0200013 ex:relaxationModel0 .
+ex:relaxationModel0 a owl:NamedIndividual, pmd:PMD_0200009; rdfs:label "Kohn-Sham DFT with PBE"; ex:expectedType obo:IAO_0000030; ex:forbiddenType obo:BFO_0000015 .
+ex:relaxationModel0 pmd:PMD_0000077 ex:relaxationGranularity0_0 .
+ex:relaxationGranularity0_0 a owl:NamedIndividual, pmd:PMD_0200012; obo:IAO_0000219 ex:electronic; obo:OBI_0001927 ex:relaxationModel0; ex:expectedType obo:OBI_0001930 .
+ex:relaxationMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "SCF"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+ex:relaxationMethod1 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "BFGS"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+
+# tensile
+ex:tensileRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:tensilePlan;
+    ex:expectedType pmd:PMD_0000583;
+    obo:OBI_0000299 ex:tensileOutput .
+ex:tensilePlan a owl:NamedIndividual, pmd:PMD_0200011;
+    ex:expectedType obo:IAO_0000104;
+    obo:BFO_0000051 ex:tensileObjective, ex:tensileMethod0, ex:tensileMethod1 .
+ex:tensileObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Determine mechanical response" .
+ex:tensileOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Stress-strain curve" .
+ex:tensilePlan pmd:PMD_0200013 ex:tensileModel0 .
+ex:tensileModel0 a owl:NamedIndividual, pmd:PMD_0200009; rdfs:label "Elastoplastic constitutive model"; ex:expectedType obo:IAO_0000030; ex:forbiddenType obo:BFO_0000015 .
+ex:tensileModel0 pmd:PMD_0000077 ex:tensileGranularity0_0 .
+ex:tensileGranularity0_0 a owl:NamedIndividual, pmd:PMD_0200012; obo:IAO_0000219 ex:continuum; obo:OBI_0001927 ex:tensileModel0; ex:expectedType obo:OBI_0001930 .
+ex:tensileMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "FEM"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+ex:tensileMethod1 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "Newton-Raphson"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+
+# prediction
+ex:predictionRun a owl:NamedIndividual, pmd:PMD_0000583;
+    obo:STATO_0000102 ex:predictionPlan;
+    ex:expectedType pmd:PMD_0000583;
+    obo:OBI_0000299 ex:predictionOutput .
+ex:predictionRun ex:forbiddenType pmd:PMD_0000933 .
+ex:predictionPlan a owl:NamedIndividual, obo:IAO_0000104;
+    ex:expectedType obo:IAO_0000104;
+    obo:BFO_0000051 ex:predictionObjective, ex:predictionMethod0 .
+ex:predictionObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Predict thermal conductivity" .
+ex:predictionOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Predicted thermal conductivity" .
+ex:predictionPlan pmd:PMD_0200013 ex:predictionModel0 .
+ex:predictionModel0 a owl:NamedIndividual, pmd:PMD_0200009; rdfs:label "Trained random forest"; ex:expectedType obo:IAO_0000030; ex:forbiddenType obo:BFO_0000015 .
+ex:predictionMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "Inference"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+
+# optimization
+ex:optimizationRun a owl:NamedIndividual, pmd:PMD_0000583;
+    obo:STATO_0000102 ex:optimizationPlan;
+    ex:expectedType pmd:PMD_0000583;
+    obo:OBI_0000299 ex:optimizationOutput .
+ex:optimizationRun ex:forbiddenType pmd:PMD_0000933 .
+ex:optimizationPlan a owl:NamedIndividual, obo:IAO_0000104;
+    ex:expectedType obo:IAO_0000104;
+    obo:BFO_0000051 ex:optimizationObjective, ex:optimizationMethod0 .
+ex:optimizationObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Identify promising material compositions" .
+ex:optimizationOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Promising material compositions" .
+ex:optimizationPlan pmd:PMD_0200013 ex:optimizationModel0 .
+ex:optimizationModel0 a owl:NamedIndividual, pmd:PMD_0200009; rdfs:label "Surrogate model"; ex:expectedType obo:IAO_0000030; ex:forbiddenType obo:BFO_0000015 .
+ex:optimizationMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "Acquisition-based optimization"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+
+# optimizationWithoutModel
+ex:optimizationWithoutModelRun a owl:NamedIndividual, pmd:PMD_0000583;
+    obo:STATO_0000102 ex:optimizationWithoutModelPlan;
+    ex:expectedType pmd:PMD_0000583;
+    obo:OBI_0000299 ex:optimizationWithoutModelOutput .
+ex:optimizationWithoutModelRun ex:forbiddenType pmd:PMD_0000933 .
+ex:optimizationWithoutModelPlan a owl:NamedIndividual, obo:IAO_0000104;
+    ex:expectedType obo:IAO_0000104;
+    obo:BFO_0000051 ex:optimizationWithoutModelObjective, ex:optimizationWithoutModelMethod0 .
+ex:optimizationWithoutModelObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Identify promising material compositions" .
+ex:optimizationWithoutModelOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Computed result" .
+ex:optimizationWithoutModelMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "Direct search"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+
+# coupled
+ex:coupledRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:coupledPlan;
+    ex:expectedType pmd:PMD_0000583;
+    obo:OBI_0000299 ex:coupledOutput .
+ex:coupledPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    ex:expectedType obo:IAO_0000104;
+    obo:BFO_0000051 ex:coupledObjective, ex:coupledMethod0, ex:coupledMethod1 .
+ex:coupledObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Determine coupled material response" .
+ex:coupledOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Coupled response" .
+ex:coupledPlan pmd:PMD_0200013 ex:coupledModel0 .
+ex:coupledModel0 a owl:NamedIndividual, pmd:PMD_0200009; rdfs:label "Coupled electronic-continuum representation"; ex:expectedType obo:IAO_0000030; ex:forbiddenType obo:BFO_0000015 .
+ex:coupledModel0 pmd:PMD_0000077 ex:coupledGranularity0_0 .
+ex:coupledGranularity0_0 a owl:NamedIndividual, pmd:PMD_0200012; obo:IAO_0000219 ex:electronic; obo:OBI_0001927 ex:coupledModel0; ex:expectedType obo:OBI_0001930 .
+ex:coupledModel0 pmd:PMD_0000077 ex:coupledGranularity0_1 .
+ex:coupledGranularity0_1 a owl:NamedIndividual, pmd:PMD_0200012; obo:IAO_0000219 ex:continuum; obo:OBI_0001927 ex:coupledModel0; ex:expectedType obo:OBI_0001930 .
+ex:coupledPlan pmd:PMD_0200013 ex:coupledModel1 .
+ex:coupledModel1 a owl:NamedIndividual, pmd:PMD_0200009; rdfs:label "Continuum model"; ex:expectedType obo:IAO_0000030; ex:forbiddenType obo:BFO_0000015 .
+ex:coupledModel1 pmd:PMD_0000077 ex:coupledGranularity1_0 .
+ex:coupledGranularity1_0 a owl:NamedIndividual, pmd:PMD_0200012; obo:IAO_0000219 ex:continuum; obo:OBI_0001927 ex:coupledModel1; ex:expectedType obo:OBI_0001930 .
+ex:coupledMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "Electronic solving"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+ex:coupledMethod1 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "FEM"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
+
+[] a owl:AllDifferent; owl:distinctMembers (ex:coupledModel0 ex:coupledModel1) .
+[] a owl:AllDifferent; owl:distinctMembers (ex:tensileMethod0 ex:tensileMethod1) .
+[] a owl:AllDifferent; owl:distinctMembers (ex:coupledGranularity0_0 ex:coupledGranularity0_1) .
+
+# These restrictions check that a model and its granularity are optional,
+# and that prediction and optimization need not be simulations.
+ex:optimizationRun a [ a owl:Class; owl:complementOf pmd:PMD_0000933 ] .
+ex:optimizationWithoutModelRun a [ a owl:Class; owl:complementOf pmd:PMD_0000933 ] .
+ex:predictionRun a [ a owl:Class; owl:complementOf pmd:PMD_0000933 ] .
+ex:optimizationWithoutModelPlan a [ a owl:Restriction; owl:onProperty pmd:PMD_0200013;
+    owl:maxCardinality "0"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger> ] .
+ex:predictionModel0 a [ a owl:Restriction; owl:onProperty pmd:PMD_0000077;
+    owl:maxQualifiedCardinality "0"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger>;
+    owl:onClass pmd:PMD_0200012 ] .
+
+# Example vocabulary; these categories are not production PMDco terms.
+ex:granularityScheme a owl:NamedIndividual, skos:ConceptScheme;
+    rdfs:label "Example representation granularity scheme" .
+ex:electronic a owl:NamedIndividual, skos:Concept;
+    skos:inScheme ex:granularityScheme; rdfs:label "electronic" .
+ex:continuum a owl:NamedIndividual, skos:Concept;
+    skos:inScheme ex:granularityScheme; rdfs:label "continuum" .
+
+# Learned-model evaluation can also be used as a simulation.
+ex:surrogateSimulation a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:surrogateSimulationPlan .
+ex:surrogateSimulationPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    pmd:PMD_0200013 ex:predictionModel0;
+    obo:BFO_0000051 ex:predictionMethod0, ex:predictionObjective .
+
+# The workflow interface takes a model parameter and a numerical setting.
+# Parameter data identify what is being configured; their values use OBI.
+ex:tensileFunction a owl:NamedIndividual, pmd:PMD_0000010;
+    obo:BFO_0000051 ex:poissonRatioInput, ex:residualToleranceInput .
+ex:poissonRatioInput a owl:NamedIndividual, pmd:PMD_0000014;
+    rdfs:label "Poisson ratio input"; obo:BFO_0000051 ex:poissonRatioDatum;
+    ex:expectedType pmd:PMD_0000013 .
+ex:residualToleranceInput a owl:NamedIndividual, pmd:PMD_0000014;
+    rdfs:label "Relative residual tolerance input"; obo:BFO_0000051 ex:residualToleranceDatum;
+    ex:expectedType pmd:PMD_0000013 .
+ex:poissonRatioDatum a owl:NamedIndividual, obo:IAO_0000027;
+    obo:IAO_0000136 ex:tensileModel0;
+    obo:OBI_0001938 ex:poissonRatioValue .
+ex:residualToleranceDatum a owl:NamedIndividual, obo:IAO_0000027;
+    obo:IAO_0000136 ex:tensileMethod1;
+    obo:OBI_0001938 ex:residualToleranceValue .
+ex:poissonRatioValue a owl:NamedIndividual, obo:OBI_0001931;
+    obo:OBI_0001937 "0.3"^^xsd:decimal; obo:IAO_0000039 ex:one .
+ex:residualToleranceValue a owl:NamedIndividual, obo:OBI_0001931;
+    obo:OBI_0001937 "0.000001"^^xsd:decimal; obo:IAO_0000039 ex:one .
+ex:tensileRun obo:STATO_0000102 ex:tensileFunction;
+    obo:BFO_0000051 ex:poissonRatioAssignment, ex:residualToleranceAssignment .
+ex:poissonRatioAssignment a owl:NamedIndividual, pmd:PMD_0000066;
+    obo:BFO_0000050 ex:tensileRun; obo:RO_0000057 ex:poissonRatioDatum .
+ex:residualToleranceAssignment a owl:NamedIndividual, pmd:PMD_0000066;
+    obo:BFO_0000050 ex:tensileRun; obo:RO_0000057 ex:residualToleranceDatum .
+
+# Bare instances must entail the required relationships without asserted fillers.
+ex:ExecutesSimulationPlan a owl:Class;
+    owl:equivalentClass [ a owl:Restriction; owl:onProperty obo:STATO_0000102;
+        owl:someValuesFrom pmd:PMD_0200011 ] .
+ex:SpecifiesModel a owl:Class;
+    owl:equivalentClass [ a owl:Restriction; owl:onProperty pmd:PMD_0200013;
+        owl:someValuesFrom pmd:PMD_0200009 ] .
+ex:IncludesMethod a owl:Class;
+    owl:equivalentClass [ a owl:Restriction; owl:onProperty obo:BFO_0000051;
+        owl:someValuesFrom pmd:PMD_0200010 ] .
+ex:DescribesModel a owl:Class;
+    owl:equivalentClass [ a owl:Restriction; owl:onProperty obo:OBI_0001927;
+        owl:someValuesFrom pmd:PMD_0200009 ] .
+ex:bareSimulation a owl:NamedIndividual, pmd:PMD_0000933;
+    ex:expectedType ex:ExecutesSimulationPlan .
+ex:barePlan a owl:NamedIndividual, pmd:PMD_0200011;
+    ex:expectedType ex:SpecifiesModel, ex:IncludesMethod .
+ex:bareGranularity a owl:NamedIndividual, pmd:PMD_0200012;
+    ex:expectedType ex:DescribesModel .
+
+ex:one a owl:NamedIndividual, obo:IAO_0000003; rdfs:label "1" .

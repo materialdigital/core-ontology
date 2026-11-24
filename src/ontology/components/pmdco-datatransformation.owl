@@ -56,6 +56,11 @@ Declaration(Class(:PMD_0001003))
 Declaration(Class(:PMD_0020264))
 Declaration(Class(:PMD_0025012))
 Declaration(Class(:PMD_0025035))
+Declaration(Class(:PMD_0200009))
+Declaration(Class(:PMD_0200010))
+Declaration(Class(:PMD_0200011))
+Declaration(Class(:PMD_0200012))
+Declaration(ObjectProperty(:PMD_0200013))
 Declaration(DataProperty(:PMD_0001857))
 Declaration(DataProperty(:PMD_0001877))
 Declaration(AnnotationProperty(<http://purl.org/dc/terms/bibliographicCitation>))
@@ -77,6 +82,17 @@ AnnotationAssertion(rdfs:label :PMD_0000128 "local identifier"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000128 "name or identifier that denotes a locally defined function, variable or argument in a programming script")
 
 
+
+# Object Property: :PMD_0200013 (specifies model for evaluation)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0200013 <http://purl.obolibrary.org/obo/IAO_0000125>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0200013 "PERSON: Esma B. Boydas")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000119> :PMD_0200013 "Original PMDco definition."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0200013 "https://github.com/materialdigital/core-ontology/issues/533")
+AnnotationAssertion(rdfs:label :PMD_0200013 "specifies model for evaluation"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0200013 "A relation between a plan specification and a computational model whose evaluation the plan prescribes."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0200013 "The model need not be part of the plan document. This relation also applies to optimization and other computational plans that prescribe model evaluation."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0200013 "A coupled computation plan specifies both an electronic model and a continuum constitutive model for evaluation."@en)
 
 ############################
 #   Data Properties
@@ -295,8 +311,8 @@ AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0000583 "T
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000583 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label :PMD_0000583 "Rechenprozess"@de)
 AnnotationAssertion(rdfs:label :PMD_0000583 "computing process"@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000583 "A process that involves the systematic use of computational methods and tools to perform simulations, analyses, or data transformations to achieve specific scientific or engineering goals."@en)
-AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000583 "Ein Prozess, der die systematische Verwendung von rechnerischen Methoden und Werkzeugen umfasst, um Simulationen, Analysen oder Datenumwandlungen durchzuführen, um spezifische wissenschaftliche oder technische Ziele zu erreichen."@de)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000583 "A planned process that performs computational operations on information to produce information."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000583 "Ein geplanter Prozess, der rechnerische Operationen an Informationen ausführt, um Informationen zu erzeugen."@de)
 SubClassOf(:PMD_0000583 <http://purl.obolibrary.org/obo/COB_0000035>)
 SubClassOf(:PMD_0000583 ObjectIntersectionOf(ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/OBI_0000293> <http://purl.obolibrary.org/obo/IAO_0000030>) ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/OBI_0000299> <http://purl.obolibrary.org/obo/IAO_0000030>)))
 
@@ -445,6 +461,8 @@ AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_000091
 
 # Class: :PMD_0000931 (simulation method specification)
 
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0000931 "This class includes plans for creating physical models. Use simulation specification (PMD_0200011) for computational model evaluation. Existing instances need review before migration."@en)
+
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000931 <http://purl.obolibrary.org/obo/IAO_0000122>)
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000931 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(rdfs:label :PMD_0000931 "simulation method specification"@en)
@@ -461,6 +479,9 @@ AnnotationAssertion(rdfs:label :PMD_0000933 "simulation process"@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000933 "A computing process that models the properties, states, or behavior of a system using mathematical or computational techniques."@en)
 AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0000933 "Ein Rechenprozess, der die Eigenschaften, Zustände oder das Verhalten eines Systems mit mathematischen oder rechnerischen Techniken modelliert."@de)
 SubClassOf(:PMD_0000933 :PMD_0000583)
+SubClassOf(:PMD_0000933 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/STATO_0000102> :PMD_0200011))
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0000933 "Includes static and dynamic model evaluations. A learned-model evaluation can be a simulation when used to investigate the represented system. Model training and optimization may contain simulation steps without the enclosing process being a simulation."@en)
+
 
 # Class: :PMD_0000951 (stochastic simulation)
 
@@ -525,7 +546,6 @@ AnnotationAssertion(:PMD_0000064 :PMD_0025035 "The computing process has specifi
 SubClassOf(:PMD_0025035 <http://purl.obolibrary.org/obo/IAO_0000027>)
 SubClassOf(:PMD_0025035 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/OBI_0000312> :PMD_0000583))
 
-
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000160 <http://purl.obolibrary.org/obo/IAO_0000122>)
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000161 <http://purl.obolibrary.org/obo/IAO_0000122>)
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000162 "PERSON: Joerg Waitelonis")
@@ -561,5 +581,57 @@ AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0000964 "P
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0000964 <http://purl.obolibrary.org/obo/IAO_0000122>)
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0001003 "PERSON: Joerg Waitelonis")
 AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0001003 <http://purl.obolibrary.org/obo/IAO_0000122>)
+
+
+# Class: :PMD_0200009 (computational model)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0200009 <http://purl.obolibrary.org/obo/IAO_0000125>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0200009 "PERSON: Esma B. Boydas")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000119> :PMD_0200009 "Original PMDco definition."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0200009 "https://github.com/materialdigital/core-ontology/issues/533")
+AnnotationAssertion(rdfs:label :PMD_0200009 "computational model"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0200009 "An information content entity that represents selected characteristics, relationships or behavior of a system in a form suitable for computational evaluation."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0200009 "Includes physics-based and learned models. The model describes the representation being evaluated; the computational method specification describes the procedure used to evaluate it."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0200009 "Kohn-Sham density functional model; interatomic potential; elastoplastic constitutive model; fluid dynamics model; trained random forest."@en)
+SubClassOf(:PMD_0200009 <http://purl.obolibrary.org/obo/IAO_0000030>)
+
+# Class: :PMD_0200010 (computational method specification)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0200010 <http://purl.obolibrary.org/obo/IAO_0000125>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0200010 "PERSON: Esma B. Boydas")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000119> :PMD_0200010 "Original PMDco definition."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0200010 "https://github.com/materialdigital/core-ontology/issues/533")
+AnnotationAssertion(rdfs:label :PMD_0200010 "computational method specification"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0200010 "An action specification that prescribes a procedure for performing a computational operation."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0200010 "Describes a procedure independently of its software implementation or execution."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0200010 "Finite element discretization; Monte Carlo sampling; numerical time integration; self-consistent field iteration; conjugate gradient optimization; machine learning training procedure."@en)
+SubClassOf(:PMD_0200010 <http://purl.obolibrary.org/obo/IAO_0000007>)
+
+# Class: :PMD_0200011 (simulation specification)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0200011 <http://purl.obolibrary.org/obo/IAO_0000125>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0200011 "PERSON: Esma B. Boydas")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000119> :PMD_0200011 "Original PMDco definition."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0200011 "https://github.com/materialdigital/core-ontology/issues/533")
+AnnotationAssertion(rdfs:label :PMD_0200011 "simulation specification"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0200011 "A plan specification that prescribes the evaluation of one or more computational models under specified conditions to investigate the properties, states or behavior of the represented system."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0200011 "Link models with specifies model for evaluation (PMD_0200013). Method and objective specifications are informational parts of the plan, even when stored in separate files. A plan that only prescribes fitting a model or selecting an optimum is not thereby a simulation specification."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0200011 "A tensile simulation plan specifies an elastoplastic model for evaluation and has FEM, Newton-Raphson, and a mechanical-response objective as parts."@en)
+SubClassOf(:PMD_0200011 <http://purl.obolibrary.org/obo/IAO_0000104>)
+SubClassOf(:PMD_0200011 ObjectSomeValuesFrom(:PMD_0200013 :PMD_0200009))
+SubClassOf(:PMD_0200011 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/BFO_0000051> :PMD_0200010))
+
+# Class: :PMD_0200012 (representation granularity specification)
+
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000114> :PMD_0200012 <http://purl.obolibrary.org/obo/IAO_0000125>)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000117> :PMD_0200012 "PERSON: Esma B. Boydas")
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000119> :PMD_0200012 "Original PMDco definition."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000233> :PMD_0200012 "https://github.com/materialdigital/core-ontology/issues/533")
+AnnotationAssertion(rdfs:label :PMD_0200012 "representation granularity specification"@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#definition> :PMD_0200012 "A categorical value specification that assigns a computational model to a representation granularity category within a classification scheme."@en)
+AnnotationAssertion(<http://purl.obolibrary.org/obo/IAO_0000116> :PMD_0200012 "Each specification identifies one category in an application-defined scheme. Link it to the model with specifies value of (OBI_0001927) and to the category with denotes (IAO_0000219). Electronic, atomistic, mesoscopic and continuum are examples, not an exhaustive list. A model may have several specifications or none. Input data granularity, physical dimensions and numerical resolution are separate descriptions."@en)
+AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#example> :PMD_0200012 "A continuum description of a nanoscale object remains continuum when discretized with a finite element mesh. A coupled model may have electronic and continuum descriptions."@en)
+SubClassOf(:PMD_0200012 <http://purl.obolibrary.org/obo/OBI_0001930>)
+SubClassOf(:PMD_0200012 ObjectSomeValuesFrom(<http://purl.obolibrary.org/obo/OBI_0001927> :PMD_0200009))
 
 )
