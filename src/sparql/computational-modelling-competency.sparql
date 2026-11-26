@@ -15,4 +15,8 @@ SELECT DISTINCT ?kind ?source ?target WHERE {
 { ?source a pmd:PMD_0200010 . ?target obo:IAO_0000136 ?source; obo:OBI_0001938 ?value . BIND("numerical setting" AS ?kind) }
  UNION
 { ?source a pmd:PMD_0200009 . ?spec obo:OBI_0001927 ?source; a pmd:PMD_0200012; obo:IAO_0000219 ?target . BIND("granularity" AS ?kind) }
+ UNION
+{ ?source obo:OBI_0000293 ?target . ?target obo:IAO_0000136 ?represented . FILTER NOT EXISTS { ?target a pmd:PMD_0200009 } BIND("system input" AS ?kind) }
+ UNION
+{ ?source a pmd:PMD_0200011; obo:BFO_0000051 ?target . ?target a obo:IAO_0000027; obo:IAO_0000136 ?about; obo:OBI_0001938 ?value . BIND("condition" AS ?kind) }
 } ORDER BY ?kind ?source ?target

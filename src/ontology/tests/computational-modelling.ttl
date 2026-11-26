@@ -322,3 +322,70 @@ ex:legacyPlan a owl:NamedIndividual, pmd:PMD_0000931;
     pmd:PMD_0200013 ex:hallPetchModel;
     ex:expectedType obo:IAO_0000104;
     ex:forbiddenType pmd:PMD_0200011, pmd:PMD_0200010 .
+
+# Model input: the system description is a specified input of the run and is
+# about the represented material; it is not part of the computational model.
+ex:ironSpecimen a owl:NamedIndividual, obo:BFO_0000040; rdfs:label "Iron specimen" .
+ex:relaxationInputStructure a owl:NamedIndividual, obo:IAO_0000030;
+    rdfs:label "Initial bcc Fe atomic structure";
+    obo:IAO_0000136 ex:ironSpecimen;
+    ex:expectedType obo:IAO_0000030;
+    ex:forbiddenType pmd:PMD_0200009 .
+ex:relaxationRun obo:OBI_0000293 ex:relaxationInputStructure .
+
+# Molecular dynamics split into model, procedures, settings and input.
+# Model: classical equations of motion with an interatomic potential (ex:interatomicModel above).
+# Procedures: time integration (ex:verletMethod above) and a thermostat algorithm.
+ex:mdInputStructure a owl:NamedIndividual, obo:IAO_0000030;
+    rdfs:label "bcc Fe supercell";
+    obo:IAO_0000136 ex:ironSpecimen;
+    ex:forbiddenType pmd:PMD_0200009 .
+ex:mdRun obo:OBI_0000293 ex:mdInputStructure .
+ex:noseHooverMethod a owl:NamedIndividual, pmd:PMD_0200010;
+    rdfs:label "Nose-Hoover thermostat";
+    ex:expectedType obo:IAO_0000007 .
+ex:mdPlan obo:BFO_0000051 ex:noseHooverMethod, ex:mdTargetTemperature .
+# Setting: a data item about the procedure specification.
+ex:timeStepDatum a owl:NamedIndividual, obo:IAO_0000027;
+    rdfs:label "Time step";
+    obo:IAO_0000136 ex:verletMethod;
+    obo:OBI_0001938 ex:timeStepValue .
+ex:timeStepValue a owl:NamedIndividual, obo:OBI_0001931;
+    obo:OBI_0001937 "1"^^xsd:decimal; obo:IAO_0000039 ex:femtosecond .
+# Condition: a data item that is part of the plan and is about the system description.
+ex:mdTargetTemperature a owl:NamedIndividual, obo:IAO_0000027;
+    rdfs:label "Target temperature";
+    obo:IAO_0000136 ex:mdInputStructure;
+    obo:OBI_0001938 ex:mdTargetTemperatureValue;
+    ex:forbiddenType pmd:PMD_0200010 .
+ex:mdTargetTemperatureValue a owl:NamedIndividual, obo:OBI_0001931;
+    obo:OBI_0001937 "600"^^xsd:decimal; obo:IAO_0000039 ex:kelvin .
+
+# Metropolis Monte Carlo split the same way.
+ex:mcRun a owl:NamedIndividual, pmd:PMD_0000933;
+    obo:STATO_0000102 ex:mcPlan;
+    obo:OBI_0000293 ex:mcInputStructure;
+    ex:expectedType pmd:PMD_0000583 .
+ex:mcInputStructure a owl:NamedIndividual, obo:IAO_0000030;
+    rdfs:label "Fe-Cr supercell";
+    obo:IAO_0000136 ex:ironSpecimen;
+    ex:forbiddenType pmd:PMD_0200009 .
+ex:mcPlan a owl:NamedIndividual, pmd:PMD_0200011;
+    pmd:PMD_0200013 ex:mcModel;
+    obo:BFO_0000051 ex:metropolisMethod, ex:mcObjective, ex:mcTargetTemperature .
+ex:mcModel a owl:NamedIndividual, pmd:PMD_0200009;
+    rdfs:label "Interatomic energy with Boltzmann statistics" .
+ex:metropolisMethod a owl:NamedIndividual, pmd:PMD_0200010;
+    rdfs:label "Metropolis sampling" .
+ex:mcObjective a owl:NamedIndividual, obo:IAO_0000005;
+    rdfs:label "Investigate equilibrium chemical ordering" .
+ex:mcTargetTemperature a owl:NamedIndividual, obo:IAO_0000027;
+    rdfs:label "Temperature";
+    obo:IAO_0000136 ex:mcInputStructure;
+    obo:OBI_0001938 ex:mcTargetTemperatureValue .
+ex:mcTargetTemperatureValue a owl:NamedIndividual, obo:OBI_0001931;
+    obo:OBI_0001937 "800"^^xsd:decimal; obo:IAO_0000039 ex:kelvin .
+[] a owl:AllDifferent; owl:distinctMembers (ex:verletMethod ex:noseHooverMethod) .
+
+ex:kelvin a owl:NamedIndividual, obo:IAO_0000003; rdfs:label "K" .
+ex:femtosecond a owl:NamedIndividual, obo:IAO_0000003; rdfs:label "fs" .
