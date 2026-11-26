@@ -73,7 +73,7 @@ ex:tensileGranularity0_0 a owl:NamedIndividual, pmd:PMD_0200012; obo:IAO_0000219
 ex:tensileMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "FEM"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
 ex:tensileMethod1 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "Newton-Raphson"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
 
-# prediction
+# Inference benchmark: evaluates a learned model, but not to investigate a represented system.
 ex:predictionRun a owl:NamedIndividual, pmd:PMD_0000583;
     obo:STATO_0000102 ex:predictionPlan;
     ex:expectedType pmd:PMD_0000583;
@@ -82,8 +82,8 @@ ex:predictionRun ex:forbiddenType pmd:PMD_0000933 .
 ex:predictionPlan a owl:NamedIndividual, obo:IAO_0000104;
     ex:expectedType obo:IAO_0000104;
     obo:BFO_0000051 ex:predictionObjective, ex:predictionMethod0 .
-ex:predictionObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Predict thermal conductivity" .
-ex:predictionOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Predicted thermal conductivity" .
+ex:predictionObjective a owl:NamedIndividual, obo:IAO_0000005; rdfs:label "Benchmark inference runtime on test inputs" .
+ex:predictionOutput a owl:NamedIndividual, pmd:PMD_0025035; rdfs:label "Inference runtime on test inputs" .
 ex:predictionPlan pmd:PMD_0200013 ex:predictionModel0 .
 ex:predictionModel0 a owl:NamedIndividual, pmd:PMD_0200009; rdfs:label "Trained random forest"; ex:expectedType obo:IAO_0000030; ex:forbiddenType obo:BFO_0000015 .
 ex:predictionMethod0 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "Inference"; ex:expectedType obo:IAO_0000007; ex:forbiddenType obo:BFO_0000015 .
@@ -144,7 +144,7 @@ ex:coupledMethod1 a owl:NamedIndividual, pmd:PMD_0200010; rdfs:label "FEM"; ex:e
 [] a owl:AllDifferent; owl:distinctMembers (ex:coupledGranularity0_0 ex:coupledGranularity0_1) .
 
 # These restrictions check that a model and its granularity are optional,
-# and that prediction and optimization need not be simulations.
+# and that an inference benchmark and optimization need not be simulations.
 ex:optimizationRun a [ a owl:Class; owl:complementOf pmd:PMD_0000933 ] .
 ex:optimizationWithoutModelRun a [ a owl:Class; owl:complementOf pmd:PMD_0000933 ] .
 ex:predictionRun a [ a owl:Class; owl:complementOf pmd:PMD_0000933 ] .
@@ -162,12 +162,15 @@ ex:electronic a owl:NamedIndividual, skos:Concept;
 ex:continuum a owl:NamedIndividual, skos:Concept;
     skos:inScheme ex:granularityScheme; rdfs:label "continuum" .
 
-# Learned-model evaluation can also be used as a simulation.
+# The same learned model and procedure form a simulation when the objective is to investigate
+# the represented system; whether the model was learned does not decide simulation membership.
 ex:surrogateSimulation a owl:NamedIndividual, pmd:PMD_0000933;
     obo:STATO_0000102 ex:surrogateSimulationPlan .
 ex:surrogateSimulationPlan a owl:NamedIndividual, pmd:PMD_0200011;
     pmd:PMD_0200013 ex:predictionModel0;
-    obo:BFO_0000051 ex:predictionMethod0, ex:predictionObjective .
+    obo:BFO_0000051 ex:predictionMethod0, ex:surrogateObjective .
+ex:surrogateObjective a owl:NamedIndividual, obo:IAO_0000005;
+    rdfs:label "Investigate the thermal conductivity of the represented material" .
 
 # The workflow interface takes a model parameter and a numerical setting.
 # Parameter data identify what is being configured; their values use OBI.
@@ -344,8 +347,8 @@ ex:mdRun obo:OBI_0000293 ex:mdInputStructure .
 ex:noseHooverMethod a owl:NamedIndividual, pmd:PMD_0200010;
     rdfs:label "Nose-Hoover thermostat";
     ex:expectedType obo:IAO_0000007 .
-ex:mdPlan obo:BFO_0000051 ex:noseHooverMethod, ex:mdTargetTemperature .
-# Setting: a data item about the procedure specification.
+ex:mdPlan obo:BFO_0000051 ex:noseHooverMethod, ex:mdTargetTemperature, ex:timeStepDatum .
+# Setting: a data item about the procedure specification it configures and part of the plan that uses it.
 ex:timeStepDatum a owl:NamedIndividual, obo:IAO_0000027;
     rdfs:label "Time step";
     obo:IAO_0000136 ex:verletMethod;
@@ -389,3 +392,16 @@ ex:mcTargetTemperatureValue a owl:NamedIndividual, obo:OBI_0001931;
 
 ex:kelvin a owl:NamedIndividual, obo:IAO_0000003; rdfs:label "K" .
 ex:femtosecond a owl:NamedIndividual, obo:IAO_0000003; rdfs:label "fs" .
+
+# A second plan reuses the same Verlet procedure with another time step. Plan membership
+# keeps the two settings apart; see the negative checks in test_computational_modelling.sh.
+ex:mdPlan2 a owl:NamedIndividual, pmd:PMD_0200011;
+    pmd:PMD_0200013 ex:interatomicModel;
+    obo:BFO_0000051 ex:verletMethod, ex:mdObjective, ex:timeStepDatum2 .
+ex:timeStepDatum2 a owl:NamedIndividual, obo:IAO_0000027;
+    rdfs:label "Time step";
+    obo:IAO_0000136 ex:verletMethod;
+    obo:OBI_0001938 ex:timeStepValue2 .
+ex:timeStepValue2 a owl:NamedIndividual, obo:OBI_0001931;
+    obo:OBI_0001937 "2"^^xsd:decimal; obo:IAO_0000039 ex:femtosecond .
+[] a owl:AllDifferent; owl:distinctMembers (ex:timeStepDatum ex:timeStepDatum2) .

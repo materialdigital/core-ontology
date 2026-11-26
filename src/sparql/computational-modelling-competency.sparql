@@ -1,4 +1,5 @@
 # Run on merged.owl for asserted answers; no inference is needed for these paths.
+# Conditions and plan settings use the same patterns as computational-modelling-data-violation.sparql.
 PREFIX ex: <https://example.org/pmdco/computational-test/>
 PREFIX pmd: <https://w3id.org/pmd/co/>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
@@ -18,5 +19,7 @@ SELECT DISTINCT ?kind ?source ?target WHERE {
  UNION
 { ?source obo:OBI_0000293 ?target . ?target obo:IAO_0000136 ?represented . FILTER NOT EXISTS { ?target a pmd:PMD_0200009 } BIND("system input" AS ?kind) }
  UNION
-{ ?source a pmd:PMD_0200011; obo:BFO_0000051 ?target . ?target a obo:IAO_0000027; obo:IAO_0000136 ?about; obo:OBI_0001938 ?value . BIND("condition" AS ?kind) }
+{ ?source a pmd:PMD_0200011; obo:BFO_0000051 ?target . ?target a obo:IAO_0000027; obo:IAO_0000136 ?about; obo:OBI_0001938 ?value . ?run obo:STATO_0000102 ?source; obo:OBI_0000293 ?about . FILTER NOT EXISTS { ?target obo:IAO_0000136 ?procedure . ?procedure a pmd:PMD_0200010 } BIND("condition" AS ?kind) }
+ UNION
+{ ?source a pmd:PMD_0200011; obo:BFO_0000051 ?target . ?target a obo:IAO_0000027; obo:IAO_0000136 ?procedure; obo:OBI_0001938 ?value . ?procedure a pmd:PMD_0200010 . ?source obo:BFO_0000051 ?procedure . BIND("plan setting" AS ?kind) }
 } ORDER BY ?kind ?source ?target

@@ -31,6 +31,8 @@ SELECT ?kind ?source ?target WHERE {
   ("system input" ex:mcRun ex:mcInputStructure)
   ("condition" ex:mdPlan ex:mdTargetTemperature)
   ("condition" ex:mcPlan ex:mcTargetTemperature)
+  ("plan setting" ex:mdPlan ex:timeStepDatum)
+  ("plan setting" ex:mdPlan2 ex:timeStepDatum2)
  }
  FILTER NOT EXISTS {
 { FILTER(?kind = "model") ?source pmd:PMD_0200013 ?target . }
@@ -47,6 +49,8 @@ SELECT ?kind ?source ?target WHERE {
  UNION
 { FILTER(?kind = "system input") ?source obo:OBI_0000293 ?target . ?target obo:IAO_0000136 ?represented . FILTER NOT EXISTS { ?target a pmd:PMD_0200009 } }
  UNION
-{ FILTER(?kind = "condition") ?source a pmd:PMD_0200011; obo:BFO_0000051 ?target . ?target a obo:IAO_0000027; obo:IAO_0000136 ?about; obo:OBI_0001938 ?value . ?run obo:STATO_0000102 ?source; obo:OBI_0000293 ?about . }
+{ FILTER(?kind = "condition") ?source a pmd:PMD_0200011; obo:BFO_0000051 ?target . ?target a obo:IAO_0000027; obo:IAO_0000136 ?about; obo:OBI_0001938 ?value . ?run obo:STATO_0000102 ?source; obo:OBI_0000293 ?about . FILTER NOT EXISTS { ?target obo:IAO_0000136 ?procedure . ?procedure a pmd:PMD_0200010 } }
+ UNION
+{ FILTER(?kind = "plan setting") ?source a pmd:PMD_0200011; obo:BFO_0000051 ?target . ?target a obo:IAO_0000027; obo:IAO_0000136 ?procedure; obo:OBI_0001938 ?value . ?procedure a pmd:PMD_0200010 . ?source obo:BFO_0000051 ?procedure . }
  }
 }

@@ -44,3 +44,22 @@ echo "Validation artifacts: ${OUT}"
 "${ROBOT}" verify --input "${OUT}/merged.owl" \
   --queries "${REPO}/src/sparql/computational-modelling-data-violation.sparql" \
   --output-dir "${OUT}"
+
+# The data-violation query only finds missing answers. These answers must not appear:
+# a time step is a setting, not a condition, and a setting belongs only to the plan that uses it.
+EX="https://example.org/pmdco/computational-test"
+unexpected=0
+for answer in \
+  "condition,${EX}/mdPlan,${EX}/timeStepDatum" \
+  "condition,${EX}/mdPlan2,${EX}/timeStepDatum2" \
+  "plan setting,${EX}/mdPlan,${EX}/timeStepDatum2" \
+  "plan setting,${EX}/mdPlan2,${EX}/timeStepDatum"; do
+  if tr -d '\r' < "${OUT}/competency-asserted.csv" | grep -Fqx -- "${answer}"; then
+    echo "FAIL unexpected competency answer: ${answer}"
+    unexpected=1
+  fi
+done
+if [[ "${unexpected}" == 1 ]]; then
+  exit 1
+fi
+echo "PASS no unexpected competency answers"
