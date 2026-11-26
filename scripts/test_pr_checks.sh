@@ -97,7 +97,10 @@ if [[ "${SKIP_ODK}" -eq 0 ]]; then
     -v "${REPO}:/work" \
     -w /work/src/ontology \
     "${ODK_IMAGE}" \
-    make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
+    bash -e -c '
+      make IMP=false PAT=false COMP=false MIR=false validate_idranges reason_test sparql_test robot_reports
+      bash /work/scripts/test_computational_modelling.sh
+    '
   echo ""
   echo "Job 1 PASSED"
 fi
